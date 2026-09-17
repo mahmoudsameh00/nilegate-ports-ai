@@ -1,0 +1,178 @@
+vessel_category,laden_ballast,band_order,band_label,band_min_tons,band_max_tons,rate_sdr_per_ton
+Crude Oil Tankers,Laden,1,First 5000 Tons,0,5000.0,9.6
+Crude Oil Tankers,Laden,2,Next 5000 Tons,5000,10000.0,6.8
+Crude Oil Tankers,Laden,3,Next 10000 Tons,10000,20000.0,5.14
+Crude Oil Tankers,Laden,4,Next 20000 Tons,20000,40000.0,2.55
+Crude Oil Tankers,Laden,5,Next 30000 Tons,40000,70000.0,2.2
+Crude Oil Tankers,Laden,6,Next 50000 Tons,70000,120000.0,1.89
+Crude Oil Tankers,Laden,7,The Rest,120000,,1.85
+Crude Oil Tankers,Ballast,1,First 5000 Tons,0,5000.0,8.17
+Crude Oil Tankers,Ballast,2,Next 5000 Tons,5000,10000.0,5.77
+Crude Oil Tankers,Ballast,3,Next 10000 Tons,10000,20000.0,4.38
+Crude Oil Tankers,Ballast,4,Next 20000 Tons,20000,40000.0,2.17
+Crude Oil Tankers,Ballast,5,Next 30000 Tons,40000,70000.0,1.86
+Crude Oil Tankers,Ballast,6,Next 50000 Tons,70000,120000.0,1.61
+Crude Oil Tankers,Ballast,7,The Rest,120000,,1.58
+Petroleum Product Tankers,Laden,1,First 5000 Tons,0,5000.0,9.6
+Petroleum Product Tankers,Laden,2,Next 5000 Tons,5000,10000.0,6.8
+Petroleum Product Tankers,Laden,3,Next 10000 Tons,10000,20000.0,5.14
+Petroleum Product Tankers,Laden,4,Next 20000 Tons,20000,40000.0,3.42
+Petroleum Product Tankers,Laden,5,Next 30000 Tons,40000,70000.0,3.34
+Petroleum Product Tankers,Laden,6,Next 50000 Tons,70000,120000.0,3.01
+Petroleum Product Tankers,Laden,7,The Rest,120000,,2.9
+Petroleum Product Tankers,Ballast,1,First 5000 Tons,0,5000.0,8.17
+Petroleum Product Tankers,Ballast,2,Next 5000 Tons,5000,10000.0,5.77
+Petroleum Product Tankers,Ballast,3,Next 10000 Tons,10000,20000.0,4.38
+Petroleum Product Tankers,Ballast,4,Next 20000 Tons,20000,40000.0,2.17
+Petroleum Product Tankers,Ballast,5,Next 30000 Tons,40000,70000.0,1.86
+Petroleum Product Tankers,Ballast,6,Next 50000 Tons,70000,120000.0,1.61
+Petroleum Product Tankers,Ballast,7,The Rest,120000,,1.58
+Dry Bulk Vessels,Laden,1,First 5000 Tons,0,5000.0,9.65
+Dry Bulk Vessels,Laden,2,Next 5000 Tons,5000,10000.0,7.37
+Dry Bulk Vessels,Laden,3,Next 10000 Tons,10000,20000.0,5.83
+Dry Bulk Vessels,Laden,4,Next 20000 Tons,20000,40000.0,2.13
+Dry Bulk Vessels,Laden,5,Next 30000 Tons,40000,70000.0,1.88
+Dry Bulk Vessels,Laden,6,Next 50000 Tons,70000,120000.0,1.76
+Dry Bulk Vessels,Laden,7,The Rest,120000,,1.69
+Dry Bulk Vessels,Ballast,1,First 5000 Tons,0,5000.0,8.21
+Dry Bulk Vessels,Ballast,2,Next 5000 Tons,5000,10000.0,6.27
+Dry Bulk Vessels,Ballast,3,Next 10000 Tons,10000,20000.0,4.96
+Dry Bulk Vessels,Ballast,4,Next 20000 Tons,20000,40000.0,1.8
+Dry Bulk Vessels,Ballast,5,Next 30000 Tons,40000,70000.0,1.6
+Dry Bulk Vessels,Ballast,6,Next 50000 Tons,70000,120000.0,1.5
+Dry Bulk Vessels,Ballast,7,The Rest,120000,,1.43
+Liquefied Petroleum Gas (LPG) Carriers,Laden,1,First 5000 Tons,0,5000.0,10.09
+Liquefied Petroleum Gas (LPG) Carriers,Laden,2,Next 5000 Tons,5000,10000.0,7.3
+Liquefied Petroleum Gas (LPG) Carriers,Laden,3,Next 10000 Tons,10000,20000.0,5.41
+Liquefied Petroleum Gas (LPG) Carriers,Laden,4,Next 20000 Tons,20000,40000.0,4.39
+Liquefied Petroleum Gas (LPG) Carriers,Laden,5,Next 30000 Tons,40000,70000.0,3.84
+Liquefied Petroleum Gas (LPG) Carriers,Laden,6,Next 50000 Tons,70000,120000.0,3.59
+Liquefied Petroleum Gas (LPG) Carriers,Laden,7,The Rest,120000,,3.59
+Liquefied Petroleum Gas (LPG) Carriers,Ballast,1,First 5000 Tons,0,5000.0,8.58
+Liquefied Petroleum Gas (LPG) Carriers,Ballast,2,Next 5000 Tons,5000,10000.0,6.21
+Liquefied Petroleum Gas (LPG) Carriers,Ballast,3,Next 10000 Tons,10000,20000.0,4.6
+Liquefied Petroleum Gas (LPG) Carriers,Ballast,4,Next 20000 Tons,20000,40000.0,3.74
+Liquefied Petroleum Gas (LPG) Carriers,Ballast,5,Next 30000 Tons,40000,70000.0,3.27
+Liquefied Petroleum Gas (LPG) Carriers,Ballast,6,Next 50000 Tons,70000,120000.0,3.05
+Liquefied Petroleum Gas (LPG) Carriers,Ballast,7,The Rest,120000,,3.05
+Liquefied Natural Gas (LNG) Carriers,Laden,1,First 5000 Tons,0,5000.0,9.06
+Liquefied Natural Gas (LNG) Carriers,Laden,2,Next 5000 Tons,5000,10000.0,7.05
+Liquefied Natural Gas (LNG) Carriers,Laden,3,Next 10000 Tons,10000,20000.0,6.1
+Liquefied Natural Gas (LNG) Carriers,Laden,4,Next 20000 Tons,20000,40000.0,4.72
+Liquefied Natural Gas (LNG) Carriers,Laden,5,Next 30000 Tons,40000,70000.0,4.37
+Liquefied Natural Gas (LNG) Carriers,Laden,6,Next 50000 Tons,70000,120000.0,4.17
+Liquefied Natural Gas (LNG) Carriers,Laden,7,The Rest,120000,,4.06
+Liquefied Natural Gas (LNG) Carriers,Ballast,1,First 5000 Tons,0,5000.0,7.71
+Liquefied Natural Gas (LNG) Carriers,Ballast,2,Next 5000 Tons,5000,10000.0,5.99
+Liquefied Natural Gas (LNG) Carriers,Ballast,3,Next 10000 Tons,10000,20000.0,5.19
+Liquefied Natural Gas (LNG) Carriers,Ballast,4,Next 20000 Tons,20000,40000.0,4.01
+Liquefied Natural Gas (LNG) Carriers,Ballast,5,Next 30000 Tons,40000,70000.0,3.71
+Liquefied Natural Gas (LNG) Carriers,Ballast,6,Next 50000 Tons,70000,120000.0,3.55
+Liquefied Natural Gas (LNG) Carriers,Ballast,7,The Rest,120000,,3.45
+Chemical Tankers & Other Liquid Bulk Tankers,Laden,1,First 5000 Tons,0,5000.0,10.04
+Chemical Tankers & Other Liquid Bulk Tankers,Laden,2,Next 5000 Tons,5000,10000.0,7.76
+Chemical Tankers & Other Liquid Bulk Tankers,Laden,3,Next 10000 Tons,10000,20000.0,6.19
+Chemical Tankers & Other Liquid Bulk Tankers,Laden,4,Next 20000 Tons,20000,40000.0,4.51
+Chemical Tankers & Other Liquid Bulk Tankers,Laden,5,Next 30000 Tons,40000,70000.0,4.03
+Chemical Tankers & Other Liquid Bulk Tankers,Laden,6,Next 50000 Tons,70000,120000.0,3.78
+Chemical Tankers & Other Liquid Bulk Tankers,Laden,7,The Rest,120000,,3.71
+Chemical Tankers & Other Liquid Bulk Tankers,Ballast,1,First 5000 Tons,0,5000.0,8.53
+Chemical Tankers & Other Liquid Bulk Tankers,Ballast,2,Next 5000 Tons,5000,10000.0,6.59
+Chemical Tankers & Other Liquid Bulk Tankers,Ballast,3,Next 10000 Tons,10000,20000.0,5.27
+Chemical Tankers & Other Liquid Bulk Tankers,Ballast,4,Next 20000 Tons,20000,40000.0,3.84
+Chemical Tankers & Other Liquid Bulk Tankers,Ballast,5,Next 30000 Tons,40000,70000.0,3.43
+Chemical Tankers & Other Liquid Bulk Tankers,Ballast,6,Next 50000 Tons,70000,120000.0,3.22
+Chemical Tankers & Other Liquid Bulk Tankers,Ballast,7,The Rest,120000,,3.16
+General Cargo / Multi-Purpose / Heavy Lift Vessels,Laden,1,First 5000 Tons,0,5000.0,9.6
+General Cargo / Multi-Purpose / Heavy Lift Vessels,Laden,2,Next 5000 Tons,5000,10000.0,7.41
+General Cargo / Multi-Purpose / Heavy Lift Vessels,Laden,3,Next 10000 Tons,10000,20000.0,5.16
+General Cargo / Multi-Purpose / Heavy Lift Vessels,Laden,4,Next 20000 Tons,20000,40000.0,3.88
+General Cargo / Multi-Purpose / Heavy Lift Vessels,Laden,5,Next 30000 Tons,40000,70000.0,3.75
+General Cargo / Multi-Purpose / Heavy Lift Vessels,Laden,6,Next 50000 Tons,70000,120000.0,3.69
+General Cargo / Multi-Purpose / Heavy Lift Vessels,Laden,7,The Rest,120000,,3.62
+General Cargo / Multi-Purpose / Heavy Lift Vessels,Ballast,1,First 5000 Tons,0,5000.0,8.17
+General Cargo / Multi-Purpose / Heavy Lift Vessels,Ballast,2,Next 5000 Tons,5000,10000.0,6.3
+General Cargo / Multi-Purpose / Heavy Lift Vessels,Ballast,3,Next 10000 Tons,10000,20000.0,4.39
+General Cargo / Multi-Purpose / Heavy Lift Vessels,Ballast,4,Next 20000 Tons,20000,40000.0,3.29
+General Cargo / Multi-Purpose / Heavy Lift Vessels,Ballast,5,Next 30000 Tons,40000,70000.0,3.2
+General Cargo / Multi-Purpose / Heavy Lift Vessels,Ballast,6,Next 50000 Tons,70000,120000.0,3.14
+General Cargo / Multi-Purpose / Heavy Lift Vessels,Ballast,7,The Rest,120000,,3.07
+Roll-On/Roll-Off (Ro/Ro) Vessels,Laden,1,First 5000 Tons,0,5000.0,9.6
+Roll-On/Roll-Off (Ro/Ro) Vessels,Laden,2,Next 5000 Tons,5000,10000.0,7.14
+Roll-On/Roll-Off (Ro/Ro) Vessels,Laden,3,Next 10000 Tons,10000,20000.0,5.55
+Roll-On/Roll-Off (Ro/Ro) Vessels,Laden,4,Next 20000 Tons,20000,40000.0,4.01
+Roll-On/Roll-Off (Ro/Ro) Vessels,Laden,5,Next 30000 Tons,40000,70000.0,3.75
+Roll-On/Roll-Off (Ro/Ro) Vessels,Laden,6,Next 50000 Tons,70000,120000.0,3.62
+Roll-On/Roll-Off (Ro/Ro) Vessels,Laden,7,The Rest,120000,,3.48
+Roll-On/Roll-Off (Ro/Ro) Vessels,Ballast,1,First 5000 Tons,0,5000.0,8.17
+Roll-On/Roll-Off (Ro/Ro) Vessels,Ballast,2,Next 5000 Tons,5000,10000.0,6.07
+Roll-On/Roll-Off (Ro/Ro) Vessels,Ballast,3,Next 10000 Tons,10000,20000.0,4.73
+Roll-On/Roll-Off (Ro/Ro) Vessels,Ballast,4,Next 20000 Tons,20000,40000.0,3.42
+Roll-On/Roll-Off (Ro/Ro) Vessels,Ballast,5,Next 30000 Tons,40000,70000.0,3.2
+Roll-On/Roll-Off (Ro/Ro) Vessels,Ballast,6,Next 50000 Tons,70000,120000.0,3.07
+Roll-On/Roll-Off (Ro/Ro) Vessels,Ballast,7,The Rest,120000,,2.97
+Vehicles Carriers,Laden,1,First 5000 Tons,0,5000.0,9.6
+Vehicles Carriers,Laden,2,Next 5000 Tons,5000,10000.0,6.59
+Vehicles Carriers,Laden,3,Next 10000 Tons,10000,20000.0,4.93
+Vehicles Carriers,Laden,4,Next 20000 Tons,20000,40000.0,3.52
+Vehicles Carriers,Laden,5,Next 30000 Tons,40000,70000.0,3.32
+Vehicles Carriers,Laden,6,Next 50000 Tons,70000,120000.0,2.62
+Vehicles Carriers,Laden,7,The Rest,120000,,2.5
+Vehicles Carriers,Ballast,1,First 5000 Tons,0,5000.0,8.17
+Vehicles Carriers,Ballast,2,Next 5000 Tons,5000,10000.0,5.61
+Vehicles Carriers,Ballast,3,Next 10000 Tons,10000,20000.0,4.2
+Vehicles Carriers,Ballast,4,Next 20000 Tons,20000,40000.0,3.0
+Vehicles Carriers,Ballast,5,Next 30000 Tons,40000,70000.0,2.83
+Vehicles Carriers,Ballast,6,Next 50000 Tons,70000,120000.0,2.23
+Vehicles Carriers,Ballast,7,The Rest,120000,,2.12
+Cruise Ships,Laden,1,First 5000 Tons,0,5000.0,8.67
+Cruise Ships,Laden,2,Next 5000 Tons,5000,10000.0,6.09
+Cruise Ships,Laden,3,Next 10000 Tons,10000,20000.0,5.02
+Cruise Ships,Laden,4,Next 20000 Tons,20000,40000.0,3.55
+Cruise Ships,Laden,5,Next 30000 Tons,40000,70000.0,3.5
+Cruise Ships,Laden,6,Next 50000 Tons,70000,120000.0,3.39
+Cruise Ships,Laden,7,The Rest,120000,,3.27
+Cruise Ships,Ballast,1,First 5000 Tons,0,5000.0,7.37
+Cruise Ships,Ballast,2,Next 5000 Tons,5000,10000.0,5.18
+Cruise Ships,Ballast,3,Next 10000 Tons,10000,20000.0,4.27
+Cruise Ships,Ballast,4,Next 20000 Tons,20000,40000.0,3.03
+Cruise Ships,Ballast,5,Next 30000 Tons,40000,70000.0,2.97
+Cruise Ships,Ballast,6,Next 50000 Tons,70000,120000.0,2.88
+Cruise Ships,Ballast,7,The Rest,120000,,2.77
+Special Floating Units,Laden,1,First 5000 Tons,0,5000.0,10.42
+Special Floating Units,Laden,2,Next 5000 Tons,5000,10000.0,6.9
+Special Floating Units,Laden,3,Next 10000 Tons,10000,20000.0,6.21
+Special Floating Units,Laden,4,Next 20000 Tons,20000,40000.0,4.4
+Special Floating Units,Laden,5,Next 30000 Tons,40000,70000.0,4.14
+Special Floating Units,Laden,6,Next 50000 Tons,70000,120000.0,3.75
+Special Floating Units,Laden,7,The Rest,120000,,3.62
+Other Vessels,Laden,1,First 5000 Tons,0,5000.0,10.04
+Other Vessels,Laden,2,Next 5000 Tons,5000,10000.0,6.76
+Other Vessels,Laden,3,Next 10000 Tons,10000,20000.0,5.69
+Other Vessels,Laden,4,Next 20000 Tons,20000,40000.0,4.14
+Other Vessels,Laden,5,Next 30000 Tons,40000,70000.0,4.01
+Other Vessels,Laden,6,Next 50000 Tons,70000,120000.0,3.75
+Other Vessels,Laden,7,The Rest,120000,,3.62
+Other Vessels,Ballast,1,First 5000 Tons,0,5000.0,8.53
+Other Vessels,Ballast,2,Next 5000 Tons,5000,10000.0,5.75
+Other Vessels,Ballast,3,Next 10000 Tons,10000,20000.0,4.84
+Other Vessels,Ballast,4,Next 20000 Tons,20000,40000.0,3.52
+Other Vessels,Ballast,5,Next 30000 Tons,40000,70000.0,3.42
+Other Vessels,Ballast,6,Next 50000 Tons,70000,120000.0,3.2
+Other Vessels,Ballast,7,The Rest,120000,,3.07
+Containerships,Laden,1,First 5000 Tons,0,5000.0,9.6
+Containerships,Laden,2,Next 5000 Tons,5000,10000.0,6.59
+Containerships,Laden,3,Next 10000 Tons,10000,20000.0,5.12
+Containerships,Laden,4,Next 20000 Tons,20000,40000.0,3.59
+Containerships,Laden,5,Next 30000 Tons,40000,70000.0,3.32
+Containerships,Laden,6,Next 50000 Tons,70000,120000.0,2.62
+Containerships,Laden,7,Next 60000 Tons,120000,180000.0,2.56
+Containerships,Laden,8,The Rest,180000,,2.5
+Containerships,Ballast,1,First 5000 Tons,0,5000.0,8.17
+Containerships,Ballast,2,Next 5000 Tons,5000,10000.0,5.61
+Containerships,Ballast,3,Next 10000 Tons,10000,20000.0,4.35
+Containerships,Ballast,4,Next 20000 Tons,20000,40000.0,3.05
+Containerships,Ballast,5,Next 30000 Tons,40000,70000.0,2.83
+Containerships,Ballast,6,Next 50000 Tons,70000,120000.0,2.23
+Containerships,Ballast,7,Next 60000 Tons,120000,180000.0,2.19
+Containerships,Ballast,8,The Rest,180000,,2.12

@@ -1,0 +1,21 @@
+# Virtual environment
+.venv/
+
+# Environment variables / secrets
+.env
+.env.*
+!.env.example
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Raw / large datasets
+Data/raw/
+
+# Temporary files
+*.tmp
+*.log
