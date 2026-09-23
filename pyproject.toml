@@ -8,8 +8,11 @@ dependencies = [
     "ipykernel==7.1.0",
     "numpy==2.2.4",
     "pandas==3.0.5",
+    "pillow>=12.3.0",
     "psycopg[binary]==3.3.5",
+    "pyarrow>=25.0.1",
     "pymupdf==1.28.2",
+    "pymupdf4llm>=1.28.2",
     "pypdf==6.18.1",
     "scikit-learn==1.9.1",
 ]

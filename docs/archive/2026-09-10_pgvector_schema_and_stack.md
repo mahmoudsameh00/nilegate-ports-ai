@@ -1,3 +1,9 @@
+> **ARCHIVED — historical record, not a source of truth.**
+> Superseded design: PostgreSQL + pgvector as the single store, MinIO, UUID keys, named sensitivity arrays. Replaced by ADR-001 and ADR-006. Kept as the record of the abandoned approach.
+> Current sources of truth: the project rules, `ARCHITECTURE.md`, `docs/`.
+
+---
+
 # Ports & Logistics Multi-Agent RAG System — Database Schema & Tech Stack
 
 ## 1. الـ Tools والـ Tech Stack

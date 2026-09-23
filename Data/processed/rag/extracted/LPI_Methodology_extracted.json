@@ -1,0 +1,1636 @@
+{
+  "source_file": "LPI_Methodology.pdf",
+  "body_blocks": [
+    {
+      "page_number": 8,
+      "block_index": 1,
+      "x0": 216.0,
+      "y0": 359.31,
+      "x1": 560.26,
+      "y1": 610.38,
+      "text": "This report presents the methodology for the Logistics Performance Indicators 2.0 (LPI 2.0), a data-driven framework developed by the World Bank to measure countries’ trade logistics performance, as well as a user guide. The LPI 2.0 replace the original perception-based Logistics Performance Index used through 2023 with objective indicators derived from large-scale shipment- and vessel-level tracking data. The framework measures logistics performance along two core dimensions—connectivity and time—across maritime, aviation, and postal logistics. Six core indicators are complemented by supplementary indicators that provide greater granularity on maritime operations, postal flows, and transit logistics, with specific attention to the challenges faced by landlocked developing countries. The indicators are constructed from harmonized global datasets obtained from multiple data partners, using standardized definitions and transparent statistical methods to ensure cross-country comparability. The LPI 2.0 are intended as a high-level diagnostic and benchmarking tool to support policy dialogue, comparisons, and analysis of structural logistics performance. While not a substitute for detailed country studies, the LPI 2.0 provide an evidence-based entry point for policy dialogue and reform prioritization in trade facilitation, transport, and logistics.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 8,
+      "block_index": 2,
+      "x0": 90.0,
+      "y0": 256.96,
+      "x1": 211.71,
+      "y1": 296.23,
+      "text": "Abstract",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 9,
+      "block_index": 3,
+      "x0": 54.0,
+      "y0": 472.77,
+      "x1": 303.24,
+      "y1": 504.18,
+      "text": "EXECUTIVE SUMMARY",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 9,
+      "block_index": 4,
+      "x0": 54.0,
+      "y0": 583.31,
+      "x1": 272.25,
+      "y1": 736.38,
+      "text": "This report presents the methodology for the Logistics Performance Indicators 2.0 (LPI 2.0), a new framework developed by the World Bank to measure countries’ trade logistics performance using objective, large-scale supply chain tracking data. The LPI 2.0 replace the perception-based Logistics Performance Index used through 2023 and reflects structural changes in global logistics, including the digitization of supply chains and the growing availability of shipment- and vessel-level data. By moving away from survey-based",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 9,
+      "block_index": 5,
+      "x0": 306.0,
+      "y0": 583.31,
+      "x1": 524.25,
+      "y1": 638.38,
+      "text": "perceptions toward observed logistics outcomes, the LPI 2.0 provide a more stable, comparable, and data-driven basis for assessing logistics performance across economies and over time.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 9,
+      "block_index": 6,
+      "x0": 306.0,
+      "y0": 653.31,
+      "x1": 524.24,
+      "y1": 736.38,
+      "text": "The LPI 2.0 measure logistics performance along two core dimensions—connectivity and time—which together capture key aspects of efficiency and reliability in international supply chains. Connectivity indicators reflect the extent to which economies are directly integrated into global trade",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 10,
+      "block_index": 1,
+      "x0": 90.0,
+      "y0": 93.31,
+      "x1": 308.24,
+      "y1": 246.38,
+      "text": "networks through maritime, aviation, and postal services without reliance on intermediaries. Time indicators measure the speed of logistics processes at critical nodes such as seaports, airports, and postal exchange offices, as well as the dispersion of shipment times, which serves as a proxy for reliability and predictability. Logistics costs are not measured directly; however, selected indicators capture structural features of logistics markets, such as competition and network structure, that are closely associated with cost outcomes.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 10,
+      "block_index": 2,
+      "x0": 90.0,
+      "y0": 261.31,
+      "x1": 308.26,
+      "y1": 456.38,
+      "text": "The framework comprises six core indicators, covering connectivity and time for each of the three logistics modes, complemented by supplementary indicators that provide greater granularity. Supplementary indicators for maritime logistics cover turnaround time, transshipment patterns, lead times, and container movements. Supplementary indicators for postal logistics distinguish between business-to-business and business-to-consumer flows. Recognizing the importance of transit logistics, the LPI 2.0 also include indicators for landlocked developing countries, capturing logistics performance along international corridors, at ports of entry, and at inland clearance facilities.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 10,
+      "block_index": 3,
+      "x0": 90.0,
+      "y0": 471.31,
+      "x1": 308.26,
+      "y1": 540.38,
+      "text": "The LPI 2.0 are constructed using harmonized global datasets obtained from multiple data partners. Maritime connectivity indicators draw on data from maritime data providers covering liner shipping services and deployed capacity.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 10,
+      "block_index": 4,
+      "x0": 342.0,
+      "y0": 93.31,
+      "x1": 560.27,
+      "y1": 330.38,
+      "text": "Container-level indicators on dwell time, lead time, transshipment, and supply chain initiation and termination are derived from tracking data provided by a major global shipping line. Port turnaround time indicators are based on vessel movement data derived from Automatic Identification System signals. Aviation indicators are constructed using air cargo performance data from Cargo iQ based on standardized supply chain milestones. Postal indicators rely on item-level tracking data exchanged among national postal operators through international electronic data interchange systems and collected by the Universal Postal Union. Each dataset is processed using standardized definitions and transparent statistical methods, with data cleaning and aggregation procedures to ensure consistency and cross-country comparability.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 10,
+      "block_index": 5,
+      "x0": 342.0,
+      "y0": 345.31,
+      "x1": 560.26,
+      "y1": 540.38,
+      "text": "This report also provides a user guide that lays out how to interpret and use the LPI 2.0 as a high-level diagnostic and benchmarking tool. It enables policymakers, researchers, and practitioners to identify performance gaps, compare countries with relevant peers, and track structural changes in logistics performance over time. As with the original LPI, the indicators do not identify the underlying causes of performance outcomes and should not be interpreted as a substitute for detailed country diagnostics. Rather, the LPI 2.0 provide an evidence-based entry point for policy dialogue and reform prioritization in trade facilitation, transport, and logistics.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 11,
+      "block_index": 3,
+      "x0": 54.0,
+      "y0": 472.77,
+      "x1": 406.08,
+      "y1": 556.18,
+      "text": "CONCEPTUAL FRAMEWORK OF THE LOGISTICS PERFORMANCE INDICATORS 2.0",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 11,
+      "block_index": 4,
+      "x0": 54.0,
+      "y0": 583.31,
+      "x1": 272.25,
+      "y1": 708.38,
+      "text": "Until 2023 the Logistics Performance Index (LPI) was based on a survey in which logistics professionals rated, on a 1–5 scale, the ease of establishing supply chains with countries they traded with. When the LPI was conceived in the mid-2000s, perception-based data were the only option. Yet survey-based indicators have limitations, including perception bias and large year-on-year fluctuations.",
+      "footnote_refs": [
+        1
+      ]
+    },
+    {
+      "page_number": 11,
+      "block_index": 6,
+      "x0": 306.0,
+      "y0": 583.31,
+      "x1": 524.27,
+      "y1": 708.38,
+      "text": "The Logistics Performance Indicators 2.0 (LPI 2.0) move away from perceptions and rely instead on objective measures derived from large volumes of shipment-level tracking data made available to the World Bank on a confidential basis by global industry and international tracking initiatives. These data provide granular measures of the connectivity and speed of international supply chains worldwide. By drawing on a full year of observed logistics activity,",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 12,
+      "block_index": 1,
+      "x0": 90.0,
+      "y0": 93.31,
+      "x1": 308.25,
+      "y1": 148.38,
+      "text": "the LPI 2.0 offer a more comprehensive view of structural performance and reduces the influence of temporary shocks or short-lived events on the results.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 12,
+      "block_index": 2,
+      "x0": 90.0,
+      "y0": 163.31,
+      "x1": 308.26,
+      "y1": 456.38,
+      "text": "The three core components that define logistics performance are time, reliability, and cost. The LPI 2.0 measure time and reliability and captures features of logistics services that influence cost. They do so through indicators in two areas: connectivity and time. Connectivity refers to the number of economies an economy can directly trade with without having to go through intermediaries and the number and types of services available. Time refers to the time that logistics processes take and their dispersion, which captures the reliability of the logistics processes. Both connectivity and time are measured for different logistics modes. Cost is not directly measured by the LPI 2.0. Two of the supplementary connectivity indicators (number of container liner shipping services serving the ports in an economy and number of maritime shipping alliances serving the ports in an economy) highlight competition within the maritime sector, higher degrees of which tend to be associated with lower logistics costs.",
+      "footnote_refs": [
+        2
+      ]
+    },
+    {
+      "page_number": 12,
+      "block_index": 3,
+      "x0": 90.0,
+      "y0": 471.31,
+      "x1": 308.27,
+      "y1": 596.38,
+      "text": "The LPI 2.0 cover three logistics modes—maritime, aviation, and postal—capturing over 80 percent of global goods trade by value. The digitization of global supply chains means that shipments are now tracked globally in real time. While digitization has reached all transport modes and most logistics services, tracking data are available in a globally uniform format only for maritime, aviation, and postal logistics.",
+      "footnote_refs": [
+        3,
+        4
+      ]
+    },
+    {
+      "page_number": 12,
+      "block_index": 5,
+      "x0": 342.0,
+      "y0": 92.38,
+      "x1": 444.86,
+      "y1": 108.09,
+      "text": "The new indicators",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 12,
+      "block_index": 6,
+      "x0": 342.0,
+      "y0": 121.31,
+      "x1": 560.27,
+      "y1": 316.38,
+      "text": "The indicators that make up the LPI 2.0 measure the connectivity and time of international trade supply chains, including the time shipments spend at key nodes such as seaports and airports. The LPI 2.0 consist of 21 indicators, each reported at the economy level and with different statistical measures. The main findings for 2023 and 2024 are discussed in Connecting to Compete 2025, and data for all indicators are available at https:// lpi.worldbank.org. Going forward, “LPI 2.0” will refer to the LPI editions for 2025 and beyond (with the “I” denoting “Indicators”), whereas “LPI” will refer to the editions for 2023 and earlier (with the “I” denoting “Index”).",
+      "footnote_refs": [
+        5
+      ]
+    },
+    {
+      "page_number": 12,
+      "block_index": 7,
+      "x0": 342.0,
+      "y0": 332.32,
+      "x1": 410.88,
+      "y1": 345.41,
+      "text": "Core indicators",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 12,
+      "block_index": 8,
+      "x0": 342.0,
+      "y0": 359.31,
+      "x1": 560.26,
+      "y1": 596.38,
+      "text": "There are six core indicators in the LPI 2.0, one connectivity indicator and one time indicator for each of the three logistics modes (table 1). The core maritime connectivity indicator is the number of unique economies that are reachable from and that can reach a given economy through direct maritime services operated by liner shipping companies on a predefined rotation. The core aviation connectivity indicator is the average number of economies that are reachable from and that can reach a given economy through direct cargo-carrying air transport services. The core postal connectivity indicator is the average number of economies with inbound and outbound postal connections for parcel and express shipments with a given economy. These shipments are primarily business-to-business (B2B) transactions and are",
+      "footnote_refs": [
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "page_number": 13,
+      "block_index": 3,
+      "x0": 54.0,
+      "y0": 345.31,
+      "x1": 272.25,
+      "y1": 372.38,
+      "text": "thus comparable to maritime container and air cargo shipments, which are purely B2B.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 13,
+      "block_index": 4,
+      "x0": 54.0,
+      "y0": 387.31,
+      "x1": 272.27,
+      "y1": 498.38,
+      "text": "The core time indicators for maritime containerized and air shipments are the average import dwell time at seaports and airports, respectively. Container import dwell time is the time elapsed between the arrival of a full container shipment at a port and its departure from the port (the gate out full event in figure 1) after the cargo has been cleared by customs. Aviation import dwell time is",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 13,
+      "block_index": 5,
+      "x0": 306.0,
+      "y0": 345.31,
+      "x1": 524.27,
+      "y1": 498.38,
+      "text": "the time between the moment the cargo is ready to be picked up from the airport and the moment the cargo is cleared by customs and leaves the airport (events NFD and DLV in figure 2). The rationale for using those events is that the air cargo community uses them as its primary key performance indicators for service commitment. Both events involve carriers and forwarders, as well as ground handling agents. For each importing economy the analysis considers all shipments destined for that economy and calculates the average dwell time",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 14,
+      "block_index": 1,
+      "x0": 90.0,
+      "y0": 345.31,
+      "x1": 308.27,
+      "y1": 400.38,
+      "text": "for shipments across all seaports or airports in the economy. For economies with multiple seaports or airports, this captures average performance across all ports or airports available in the dataset.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 14,
+      "block_index": 2,
+      "x0": 90.0,
+      "y0": 415.31,
+      "x1": 308.27,
+      "y1": 596.38,
+      "text": "The core postal time indicator is B2B postal delivery time, which is the time spent by a B2B postal item (parcel or express shipment) from arrival in the importing economy to first attempted or final delivery. The journey of a postal shipment begins when the shipper hands the shipment over to the postal service in the economy of origin (event EMA in figure 3). After the shipment leaves the exporting economy and potential transiting events, the item arrives at the office of exchange in the destination economy (event EMD). The delivery time indicator starts counting at this event and stops counting at the first attempted or final delivery.",
+      "footnote_refs": [
+        9
+      ]
+    },
+    {
+      "page_number": 14,
+      "block_index": 3,
+      "x0": 90.0,
+      "y0": 611.31,
+      "x1": 308.26,
+      "y1": 652.38,
+      "text": "Import dwell and delivery times capture the efficiency of several components of trade logistics. These components include customs clearance and",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 14,
+      "block_index": 5,
+      "x0": 342.0,
+      "y0": 345.31,
+      "x1": 560.24,
+      "y1": 442.38,
+      "text": "border management; seaport and airport operations (such as terminal operations, cargo handling, and yard management); cargo removal practices; land transport services (including the availability of trucks or other equipment for onward transport); and the quality of transport and logistics infrastructure.",
+      "footnote_refs": [
+        10
+      ]
+    },
+    {
+      "page_number": 14,
+      "block_index": 6,
+      "x0": 342.0,
+      "y0": 458.32,
+      "x1": 459.75,
+      "y1": 471.41,
+      "text": "Supplementary indicators",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 14,
+      "block_index": 7,
+      "x0": 342.0,
+      "y0": 485.31,
+      "x1": 560.24,
+      "y1": 652.38,
+      "text": "While the six core indicators provide a solid overview of an economy’s logistics performance, the LPI 2.0 provide supplementary connectivity and time indicators for maritime and postal logistics to measure performance more precisely (table 2). Two supplementary maritime connectivity indicators—number of direct container liner shipping services servicing the ports in an economy and number of direct container liner shipping alliances servicing the ports in an economy—highlight competition within the sector, higher degrees of which tend to be associated with better performance and lower logistics costs.",
+      "footnote_refs": [
+        11,
+        12
+      ]
+    },
+    {
+      "page_number": 15,
+      "block_index": 3,
+      "x0": 54.0,
+      "y0": 359.31,
+      "x1": 272.26,
+      "y1": 582.38,
+      "text": "Time indicators that supplement the core indicators include ship turnaround time, which measures the time a container ship spends at a port for unloading and loading, excluding waiting time at anchorage outside the port vicinity. Turnaround time is calculated as the difference between the ship’s departure and arrival dates and thus proxies the performance of port operations (including terminal services) for container ships. Turnaround times reflect investment in port capacity and handling equipment, as well as the performance of terminal operations. Ship turnaround time and container dwell time are only loosely related in that the former has some (limited) influence on the latter: Slow handling can contribute to high dwell times but typically only a small part (figure 4).",
+      "footnote_refs": [
+        13
+      ]
+    },
+    {
+      "page_number": 15,
+      "block_index": 4,
+      "x0": 54.0,
+      "y0": 597.31,
+      "x1": 272.28,
+      "y1": 666.38,
+      "text": "Another supplementary time indicator is container export dwell time. This indicator captures the time elapsed between the arrival of a full export container shipment at a port until it is loaded on the vessel (from gate in full to load on board full",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 15,
+      "block_index": 6,
+      "x0": 306.0,
+      "y0": 359.31,
+      "x1": 524.27,
+      "y1": 596.38,
+      "text": "events in figure 1). Export dwell time reflects several constraints that differ from those associated with import dwell time. Controls applied to export shipments typically are mild compared with those applied to imports, even in economies with long import delays. Formalities such as obtaining certificates of origin are processed upstream or independently of the physical supply chain and thus should not affect dwell time. But this documentation is not automated in many economies and may delay containers. Furthermore, export dwell time includes buffer time, voluntary or mandated by the shipping lines (such as 48 hours in advance of ship departure). Factors such as export-import imbalances, distance to port, and frequency of shipping connections may influence private sector strategy and buffer time.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 15,
+      "block_index": 7,
+      "x0": 306.0,
+      "y0": 611.31,
+      "x1": 524.26,
+      "y1": 666.38,
+      "text": "Three other indicators gauge how economies could be affected by their dependence on third-country shipping hubs. These indicators are maritime lead time to import from port of arrival to the destination",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 16,
+      "block_index": 1,
+      "x0": 90.0,
+      "y0": 639.31,
+      "x1": 308.26,
+      "y1": 736.38,
+      "text": "economy, time spent in transshipment, and number of transshipments for import containers. Maritime lead time to import is the average time (across all inbound shipments) between the port of loading in the origin economy and the port of destination in the destination economy (that is, between load on board full and discharge full events in figure 1). Time",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 16,
+      "block_index": 2,
+      "x0": 342.0,
+      "y0": 639.31,
+      "x1": 560.25,
+      "y1": 736.38,
+      "text": "spent in transshipment is defined the same way but for the time spent in transshipment. Number of transshipments is the average number of container transshipments (across all inbound shipments) from the port of loading in the origin economy to the port of destination in the import economy. Figure 5 presents the example of a shipment from",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 17,
+      "block_index": 3,
+      "x0": 54.0,
+      "y0": 569.31,
+      "x1": 272.26,
+      "y1": 638.38,
+      "text": "Surabaya (Indonesia) to Bamako (Mali). The container was transshipped twice (in Singapore and TangerMed, Morocco), spending 6.9 days in transshipment, which contributed to the 53 days of lead time between Surabaya and Dakar (Senegal).",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 17,
+      "block_index": 4,
+      "x0": 54.0,
+      "y0": 653.31,
+      "x1": 272.25,
+      "y1": 736.38,
+      "text": "The LPI 2.0 include two indicators derived from empty container movements. The first is export supply chain initiation, which is the time between an empty container being sent to the exporter to be filled and the full export container being taken in charge by the shipping line at the port or inland",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 17,
+      "block_index": 5,
+      "x0": 306.0,
+      "y0": 569.31,
+      "x1": 524.27,
+      "y1": 736.38,
+      "text": "facility. The second is import supply chain termination, which is the time between the full container being sent to the importer from the last logistics facility (port or inland) and the empty container being returned to the shipping line. Both indicators are the average across all relevant container movements in an economy. Optimizing the movement of empty equipment—whether of trucks or containers—is at the core of supply chain management. So, these indicators reflect logistics efficiency among shippers, consignees, and trucking companies. These indicators can be influenced by site-specific",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 18,
+      "block_index": 1,
+      "x0": 90.0,
+      "y0": 93.31,
+      "x1": 308.25,
+      "y1": 148.38,
+      "text": "conditions such as the location and accessibility of container depots, which may themselves be influenced by policies related to logistics zoning and spatial planning.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 18,
+      "block_index": 2,
+      "x0": 90.0,
+      "y0": 163.31,
+      "x1": 308.27,
+      "y1": 526.38,
+      "text": "Traders in landlocked developing countries (LLDCs) face the additional challenge that their shipments usually have to travel long distances by land and cross land borders. To capture these challenges, the LPI 2.0 include four indicators specific to LLDCs: dwell time at port of arrival for a container destined for an LLDC, corridor lead time from port exit to destination, dwell time at clearance facility in the LLDC, and reference dwell time at port of arrival. Dwell time at port of arrival is the same as container import dwell time but calculated using only import containers destined for an LLDC. Corridor lead time from port exit to destination is the lead time of containers from port of arrival to destination in an LLDC. It provides information on road or rail corridor performance. Dwell time at the clearance facility in the LLDC is similar to container import dwell time but covers the time at an inland clearance facility. Reference dwell time at port of arrival measures import dwell time for containers destined for the coastal economy that is typically used as transit economy for an LLDC. It is a benchmark for the dwell time at port of arrival for a container destined for an LLDC. A comprehensive measure of container import dwell time for LLDCs is the sum",
+      "footnote_refs": [
+        14
+      ]
+    },
+    {
+      "page_number": 18,
+      "block_index": 4,
+      "x0": 342.0,
+      "y0": 93.31,
+      "x1": 560.25,
+      "y1": 120.38,
+      "text": "of the first three indicators, which in the example in figure 5 is 87.5 days.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 18,
+      "block_index": 5,
+      "x0": 342.0,
+      "y0": 135.31,
+      "x1": 560.27,
+      "y1": 288.38,
+      "text": "The supplementary postal logistics indicators are similar to the core indicators but focus on business-to-consumer (B2C) shipments, which are mostly e-commerce orders. B2C and B2B shipments typically face different customs procedures. Historically, B2C shipments (unlike B2B) benefited from de minimis exemptions. Yet in recent years a growing number of countries have reconsidered these exemptions and increased scrutiny of B2C shipments, which has been associated with longer delays.",
+      "footnote_refs": [
+        15,
+        16
+      ]
+    },
+    {
+      "page_number": 18,
+      "block_index": 6,
+      "x0": 342.0,
+      "y0": 303.31,
+      "x1": 560.27,
+      "y1": 526.38,
+      "text": "The dispersion of time across shipments serves as a proxy for reliability—one of the core dimensions of logistics performance. Dispersion is measured using the interquartile range of dwell times for maritime, air, and postal shipments. Dispersion matters because two countries can have the same average container dwell time yet differ markedly in consistency: One may experience both very short and very long delays, while the other has times clustered around the mean. For a given average level of performance, the latter is preferable from a reliability standpoint because it offers greater predictability, enabling shippers to organize their supply chains (including inventories) more efficiently while ensuring products reach their destination when required by end customers.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 19,
+      "block_index": 3,
+      "x0": 54.0,
+      "y0": 472.77,
+      "x1": 211.1,
+      "y1": 504.18,
+      "text": "DATA SOURCE",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 19,
+      "block_index": 4,
+      "x0": 54.0,
+      "y0": 583.31,
+      "x1": 272.26,
+      "y1": 694.38,
+      "text": "Since the launch of the LPI in 2007, digitization has radically changed the ecosystem of supply chains and logistics services. Shippers and consignees can track and locate shipments in transit and at destination through international carriers’ digital tracking systems. To construct the indicators for the LPI 2.0, the World Bank collaborated with global carriers willing to share shipment-level tracking",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 19,
+      "block_index": 6,
+      "x0": 306.0,
+      "y0": 583.31,
+      "x1": 524.24,
+      "y1": 694.38,
+      "text": "data under information-sharing agreements. The data used for the LPI 2.0 come from the following micro logistics datasets: deployment of liner shipping service from MDS Transmodal, air cargo tracking from Cargo iQ (supported by the International Air Transport Association), flow of international letters and parcels from the Universal Postal Union (UPU), granular information on consignment",
+      "footnote_refs": [
+        17
+      ]
+    },
+    {
+      "page_number": 20,
+      "block_index": 1,
+      "x0": 90.0,
+      "y0": 93.31,
+      "x1": 308.24,
+      "y1": 148.7,
+      "text": "activities (container data) from a large global shipping line, and worldwide container ship port calls from an Automatic Identification System data provider (MarineTraffic) (table 3).",
+      "footnote_refs": [
+        18
+      ]
+    },
+    {
+      "page_number": 20,
+      "block_index": 2,
+      "x0": 90.0,
+      "y0": 163.31,
+      "x1": 308.27,
+      "y1": 302.38,
+      "text": "Data from the LPI 2.0 are now available for economies that were rarely included in previous LPI editions because of lack of data (for example, LLDCs, as well as small island states). One limitation on data availability relates to countries that are under embargo or civil strife, as global operators have limited or no presence in the country (the Islamic Republic of Iran, the Russian Federation). The remainder of this section describes the data used, by logistics mode.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 20,
+      "block_index": 3,
+      "x0": 90.0,
+      "y0": 316.38,
+      "x1": 139.76,
+      "y1": 332.09,
+      "text": "Maritime",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 20,
+      "block_index": 4,
+      "x0": 90.0,
+      "y0": 345.31,
+      "x1": 308.24,
+      "y1": 386.38,
+      "text": "The data underlying the container shipping connectivity indicator are from MDS Transmodal’s Containership Databank. MDS Transmodal is a",
+      "footnote_refs": [
+        19
+      ]
+    },
+    {
+      "page_number": 20,
+      "block_index": 6,
+      "x0": 342.0,
+      "y0": 93.31,
+      "x1": 560.27,
+      "y1": 288.38,
+      "text": "consultancy specializing in international freight transport, including shipping, ports, road, rail, logistics, and distribution. It aggregates transport-related data and maintains databases on freight transportation. MDS Transmodal’s Containership Databank includes data on more than 8,000 container ships in service. The dataset provided by MDS Transmodal includes the following indicators: number of services, operators, alliances, and average annual frequency of shipping services. It also includes statistics on the number of deployed ships, ship sizes, and ship ages. The dataset for the 2025 LPI 2.0 covers January 1, 2023, to December 31, 2024.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 20,
+      "block_index": 7,
+      "x0": 342.0,
+      "y0": 303.31,
+      "x1": 560.26,
+      "y1": 386.38,
+      "text": "Container dwell and lead times and supply chain initiation and termination were calculated using data sourced from a major global shipping line. In 2024 the raw dataset included 7.3 million uniquely tracked consignments (container voyages), distributed across 3.8 million containers. These data track",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 21,
+      "block_index": 3,
+      "x0": 54.0,
+      "y0": 93.31,
+      "x1": 272.26,
+      "y1": 162.38,
+      "text": "containers across 1,754 United Nations Codes for Trade and Transport Locations, covering the port of loading (origin port), port of discharge (destination port), and intermediate locations involved in the shipping, export, and import phases.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 21,
+      "block_index": 4,
+      "x0": 54.0,
+      "y0": 177.31,
+      "x1": 272.26,
+      "y1": 344.38,
+      "text": "The turnaround time indicators are based on data from MarineTraffic, a provider of ship tracking data. The LPI 2.0 use the MarineTraffic port call dataset, which is derived from Automatic Identification System messages, enriched with proprietary port and ship data from the International Maritime Organization registry. It includes timestamps for port arrivals and departures, processed through terrestrial and satellite receivers. Turnaround time at ports is calculated using timestamped events of arrivals and departures, defined by geofenced port areas.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 21,
+      "block_index": 5,
+      "x0": 54.0,
+      "y0": 358.38,
+      "x1": 99.67,
+      "y1": 374.09,
+      "text": "Aviation",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 21,
+      "block_index": 6,
+      "x0": 54.0,
+      "y0": 387.31,
+      "x1": 272.27,
+      "y1": 624.38,
+      "text": "The dataset used to calculate the aviation connectivity and time indicators was provided by Cargo iQ, an interest group under the International Air Transport Association. In 2023 Cargo iQ collected data on 12 million airport-to-airport shipments. These records, encompassing information from approximately 650 airports in more than 180 economies accounted for 45 percent of global air freight volume in 2023. To protect commercially sensitive information, only economies where at least three airlines reported data and the two largest airlines (in terms of electronic air waybills per year) accounted for 90 percent or less of the total number of air waybills were included in the LPI 2.0. As a result, 47 economies were excluded in 2023, and 67 economies were excluded in 2024, leaving 137 economies with aviation indicators in 2023 and 121 in 2024.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 21,
+      "block_index": 7,
+      "x0": 306.0,
+      "y0": 92.38,
+      "x1": 340.67,
+      "y1": 108.09,
+      "text": "Postal",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 21,
+      "block_index": 8,
+      "x0": 306.0,
+      "y0": 121.31,
+      "x1": 524.27,
+      "y1": 372.38,
+      "text": "The LPI 2.0 incorporate postal data provided by the UPU. The UPU is a specialized UN agency that coordinates postal policies, standards, and data collection for its 192 members. Cross-border express and parcel shipments (B2B) and e-commerce (B2C) rely heavily on postal parcel services from UPU members and global express operators such as DHL, FedEx, and UPS. UPU members manage two-thirds of cross-border letter and parcel deliveries, providing comprehensive data for more than 190 economies. The UPU maintains technical standards and electronic data interchange message specifications for electronic information exchange between postal services, tracking parcels (up to 30 kilograms, assumed to be B2B exchanges) and express flows (also assumed to be B2B exchanges), as well as letters and small packets (up to 2 kilograms, assumed to be B2C exchanges).",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 21,
+      "block_index": 9,
+      "x0": 306.0,
+      "y0": 387.31,
+      "x1": 524.26,
+      "y1": 624.38,
+      "text": "The UPU has amassed vast quantities of information, with more than 6 billion parcels a year sent domestically and internationally by post and more than 5.5 billion letter-post items exchanged internationally. The dataset used for the LPI 2.0 originated from electronic data interchange protocol records exchanged between postal operators about each tracked postal item circulating in the international postal network. The dataset includes key timestamps defining the movement of a postal item from posting or collection to final delivery. The dataset was constructed for the entire calendar years of 2023 and 2024 separately and included economies with more than 100 observations of each exchange type (B2B and B2C) and with mean and median delivery time at destination exceeding half a day.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 22,
+      "block_index": 1,
+      "x0": 90.0,
+      "y0": 583.31,
+      "x1": 304.9,
+      "y1": 596.38,
+      "text": "The following section is organized by data partner.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 22,
+      "block_index": 2,
+      "x0": 90.0,
+      "y0": 610.38,
+      "x1": 182.33,
+      "y1": 626.09,
+      "text": "MDS Transmodal",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 22,
+      "block_index": 3,
+      "x0": 90.0,
+      "y0": 639.36,
+      "x1": 308.26,
+      "y1": 694.33,
+      "text": "Indicators and statistical measures derived from this data source: number of maritime partner economies, mean number of services, mean number of alliances.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 22,
+      "block_index": 4,
+      "x0": 90.0,
+      "y0": 709.31,
+      "x1": 308.21,
+      "y1": 736.38,
+      "text": "Under MDS Transmodal’s definition, two economies or ports are connected if there is a shipping",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 22,
+      "block_index": 5,
+      "x0": 342.0,
+      "y0": 583.31,
+      "x1": 560.26,
+      "y1": 736.38,
+      "text": "service between them, with connections counted irrespective of port sequence due to the loop nature of shipping services. The bilateral dataset was used to calculate maritime connectivity, representing the number of unique partners an economy is connected with via direct liner shipping service in a given year. Number of services and alliances are derived from unilateral economy data, representing the average number of services across four quarters of each year and the average number of unique alliances operating in the economy across",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 22,
+      "block_index": 6,
+      "x0": 90.0,
+      "y0": 472.77,
+      "x1": 265.75,
+      "y1": 504.18,
+      "text": "METHODOLOGY",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 23,
+      "block_index": 3,
+      "x0": 54.0,
+      "y0": 93.31,
+      "x1": 272.26,
+      "y1": 204.38,
+      "text": "four quarters of each year. The data required three steps to generate the LPI 2.0 maritime connectivity indicators: map International Organization for Standardization three-digit country codes to economy names; split the “Date” column with quarters into two columns, one for quarter and one for year; and aggregate the service number (using averages) by economy and year.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 23,
+      "block_index": 4,
+      "x0": 54.0,
+      "y0": 218.38,
+      "x1": 126.43,
+      "y1": 234.09,
+      "text": "MarineTraffic",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 23,
+      "block_index": 5,
+      "x0": 54.0,
+      "y0": 247.36,
+      "x1": 272.26,
+      "y1": 316.33,
+      "text": "Indicators and statistical measures derived from this data source: mean, median, and interquartile range (25th–75th percentiles) of turnaround time at ports; mean and median twenty-foot equivalent unit–weighted turnaround time at ports.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 23,
+      "block_index": 6,
+      "x0": 54.0,
+      "y0": 331.31,
+      "x1": 272.27,
+      "y1": 652.38,
+      "text": "The LPI 2.0 use the MarineTraffic port call dataset, which is derived from Automatic Identification System messages, enriched with proprietary port and ship data from the International Maritime Organization registry. It includes timestamps for port arrivals and departures, processed through terrestrial and satellite receivers. Turnaround time at ports is calculated using timestamped events of arrivals and departures, defined by geofenced port areas. Geofencing boundaries are established using a proprietary algorithm implemented by the data provider. This algorithm draws convex polygons around identified spatial clusters in Automatic Identification System messages. It uses information such as traffic density and the frequency of transmitted Automatic Identification System signals. It also considers the content of Automatic Identification System positions, including speed, rate of turn, status, and heading. In addition to these voyage messages, static messages, such as identity, type, and size, are also considered. Despite preprocessing implemented by the data provider, the dataset contains some",
+      "footnote_refs": [
+        20
+      ]
+    },
+    {
+      "page_number": 23,
+      "block_index": 8,
+      "x0": 306.0,
+      "y0": 93.31,
+      "x1": 524.25,
+      "y1": 176.38,
+      "text": "erroneous and noisy observations that are inevitable when an imaginary line is drawn on a map aiming to identify and delineate real events. The most frequent error is associated with situations where anchorage areas are located adjacent to port geofenced boundaries.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 23,
+      "block_index": 9,
+      "x0": 306.0,
+      "y0": 191.31,
+      "x1": 524.26,
+      "y1": 400.38,
+      "text": "The dataset underwent cleaning procedures to address duplicate entries and impute missing vessel capacity data using public sources. Only container ships with valid seven-digit International Maritime Organization numbers were retained, resulting in 5,916 unique container ships and 1,951,657 observations. Data processing also involved resolving spurious events, where repeated signals at the same port (such as repeated arrival signals at the same location within one hour) were condensed into single representative events. An ASOF merging procedure linked cleaned arrival and departure events for the same ship at the same port. Irrelevant events were excluded based on duration criteria.",
+      "footnote_refs": [
+        21
+      ]
+    },
+    {
+      "page_number": 23,
+      "block_index": 10,
+      "x0": 306.0,
+      "y0": 415.31,
+      "x1": 524.27,
+      "y1": 652.38,
+      "text": "The data processing steps resulted in a cleaned dataset of port calls, disaggregated by vessel, location, and date. This procedure generated chronologically ordered time series for each port call, detailing arrival and departure dates, vessel identity, and nominal capacity. Turnaround time for each port call is calculated as the difference between departure and arrival timestamps (figure 6). If a series of repeated observations (alternating or same move types) have less than two hours between them, the latest available arrival event was taken as a starting point of the port call and matched with the closest departure event from the same location. Two hours or less is generally not enough to unload or load a container ship. These types of records (short port stays) could be triggered by two types of situations: the vessel is",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 24,
+      "block_index": 1,
+      "x0": 90.0,
+      "y0": 317.31,
+      "x1": 308.26,
+      "y1": 498.38,
+      "text": "waiting to enter the port near the geofenced boundary line (meaning the port call did not happen) or the port call did happen but for purposes other than container loading or unloading (e.g., crew changes, stocking/provisioning, maintenance, repairs). For each port visit in the database lasting more than two hours, turnaround time was computed as the time difference in days between the arrival at port’s geofenced area until the departure from port’s geofenced area. This turnaround time is aggregated at the economy level using statistical measures such as mean, median, and interquartile range.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 24,
+      "block_index": 2,
+      "x0": 90.0,
+      "y0": 513.31,
+      "x1": 308.24,
+      "y1": 582.38,
+      "text": "The weighted version of turnaround time uses the same time concept but is weighted by the overall nominal container vessel capacity, measured in twenty-foot equivalent units, arriving in ports in a given economy using the formula:",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 24,
+      "block_index": 3,
+      "x0": 186.23,
+      "y0": 595.95,
+      "x1": 204.62,
+      "y1": 621.97,
+      "text": "n i = 1",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 24,
+      "block_index": 4,
+      "x0": 185.98,
+      "y0": 595.95,
+      "x1": 225.73,
+      "y1": 621.97,
+      "text": "xi wi n i = 1",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 24,
+      "block_index": 5,
+      "x0": 208.59,
+      "y0": 600.82,
+      "x1": 225.48,
+      "y1": 616.02,
+      "text": "xi wi",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 24,
+      "block_index": 6,
+      "x0": 190.42,
+      "y0": 624.32,
+      "x1": 208.82,
+      "y1": 650.34,
+      "text": "n i = 1",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 24,
+      "block_index": 7,
+      "x0": 213.03,
+      "y0": 629.23,
+      "x1": 221.53,
+      "y1": 644.4,
+      "text": "wi",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 24,
+      "block_index": 8,
+      "x0": 90.0,
+      "y0": 667.31,
+      "x1": 308.27,
+      "y1": 722.38,
+      "text": "where i represents a single port call made in the given location, xi is the turnaround time of the vessel in that location, and wi is the nominal capacity of the vessel in twenty-foot equivalent units.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 24,
+      "block_index": 9,
+      "x0": 342.0,
+      "y0": 316.38,
+      "x1": 478.91,
+      "y1": 332.09,
+      "text": "Major global shipping line",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 24,
+      "block_index": 10,
+      "x0": 342.0,
+      "y0": 345.36,
+      "x1": 560.27,
+      "y1": 554.33,
+      "text": "Indicators and statistical measures derived from this data source: mean, median, and interquartile range (25th–75th percentiles) of container import dwell time; mean, median, and interquartile range (25th–75th percentiles) of container export dwell time; mean and median import supply chain termination; mean and median export supply chain initiation; mean number of transshipments; mean and median lead time to import from port of origin to destination economy; mean time spent in transshipment; mean dwell time at port of arrival for container destined for LLDC; mean corridor lead time from port exit to destination (LLDC); mean dwell time at destination (LLDC); mean reference dwell time at port of arrival (LLDC).",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 24,
+      "block_index": 11,
+      "x0": 342.0,
+      "y0": 569.31,
+      "x1": 560.26,
+      "y1": 722.38,
+      "text": "The container dwell time data in the 2025 LPI 2.0 are based on a dataset made available to the World Bank by a large global shipping line. Each record in the database is uniquely identified by a combination of consignment ID, consignment box, and a timestamp. The consignment box serves as a unique identifier for the container associated with the consignment or its parts, especially when shipped across multiple containers. Although less common, multiple consignments can be placed within a single container. The unit of observation in",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 25,
+      "block_index": 3,
+      "x0": 54.0,
+      "y0": 93.31,
+      "x1": 272.27,
+      "y1": 176.38,
+      "text": "the LPI 2.0 is a container, not a consignment. The timestamp marks the date and time of one of the 70 or more events occurring at various locations such as ports, terminals, depots, quays, or ramps, identified by a United Nations Code for Trade and Transport Locations.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 25,
+      "block_index": 4,
+      "x0": 54.0,
+      "y0": 191.31,
+      "x1": 272.26,
+      "y1": 316.38,
+      "text": "Additional attributes of each record include the container’s status (full or empty) and two “static” locations. These static locations do not change as the consignment progresses through the phases of export, shipping, and import. The port of loading and port of discharge are typically assigned at the start of the voyage and remain the same throughout the consignment’s active tracking period.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 25,
+      "block_index": 5,
+      "x0": 54.0,
+      "y0": 331.31,
+      "x1": 272.26,
+      "y1": 428.38,
+      "text": "Several cleaning and data transformation procedures were applied to the raw container data before the extraction of the relevant events and their subsequent aggregation at the port or economy level. Prior to event type filtering and commercial cycle separation, the following data cleaning procedures were implemented:",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 25,
+      "block_index": 6,
+      "x0": 54.0,
+      "y0": 439.38,
+      "x1": 272.27,
+      "y1": 722.38,
+      "text": "• Filtering out unusual event types such as: • • Containers or consignments with only one observation overall or only one observation in any location (port or inland facility). • • Customs events: full or empty containers seized by authorities on import or export. • • Abandoned cargo events: container for which the customers are not able or willing to collect and leave the carrier to auction or dispose of and not subject to formal seizure from customs authorities. • • Re-export events: when a shipment has arrived at the final point of delivery as per the bill of lading, but instead of being delivered to the consignee, all or part of the import cargo is re-exported in the same unit to a different destination and against a new export booking. • • Events associated with stowage or warehousing and damage.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 25,
+      "block_index": 7,
+      "x0": 306.0,
+      "y0": 89.38,
+      "x1": 524.27,
+      "y1": 414.38,
+      "text": "• Treatment of overlapping voyages. Each year of data was transformed separately applying the same methodology to every partition. The reference date for each voyage was assigned based on the latest event of the observed phase of the voyage. Consignments that were initiated in one year but completed in the following year were identified, and their full voyages were extracted from the main body of the data. This applies to voyages starting in 2022 and ending in 2023 and to voyages starting in 2023 and ending in 2024. These voyages were processed separately using the same methodology as the rest of the dataset. Then, during the port-level aggregation step, the results of this processing were merged with the results for the year corresponding to the latest event in the voyage. This means that voyages that started in 2022 and ended in 2023 are reported in the 2023 data and voyages that started in 2023 and ended in 2024 are reported in the 2024 data. Voyages that started in 2024 and were not complete as of December 31, 2024, were dropped.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 25,
+      "block_index": 8,
+      "x0": 306.0,
+      "y0": 429.31,
+      "x1": 524.27,
+      "y1": 554.38,
+      "text": "For each voyage of a given consignment in a given container, identified by the combination of their unique anonymized identifiers, the raw data were partitioned into phases (commercial cycles), such as export, shipping or transshipment, import, empty container return, and empty container positioning. Commercial cycles (phases) included a variety of events, only a subset of which was deemed relevant to trade logistics.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 25,
+      "block_index": 9,
+      "x0": 306.0,
+      "y0": 569.31,
+      "x1": 524.27,
+      "y1": 722.38,
+      "text": "The first phase of container voyages is empty container positioning (supply chain initiation time), which measures the time between an empty container being sent to the shipper from the depot and its return (full) to the port or an inland facility. The time difference between these events was computed for each individual container and then aggregated to port- and economy-level data using standard statistics (mean, median, and interquartile range). Following supply chain initiation, the container goes through the main export phase,",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 26,
+      "block_index": 1,
+      "x0": 90.0,
+      "y0": 93.31,
+      "x1": 308.25,
+      "y1": 190.38,
+      "text": "then the shipping and transshipment phase (which could involve zero or several transshipments), and ends with the import phase at destination. The last stage of the process is empty container return (i.e., supply chain termination). This measures the time between a container being sent to the consignee and being sent back empty to a depot.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 26,
+      "block_index": 2,
+      "x0": 90.0,
+      "y0": 205.31,
+      "x1": 308.27,
+      "y1": 456.38,
+      "text": "The export, import, and transshipment phases provide direct data inputs to the dwell time, lead time, and transshipments time indicators. Each phase of the container voyage (export, import, shipping) is generated by slicing the individual container voyages into legs consisting of a series of steps of dwell time at the same location or lead time between two different locations. The export phase usually starts from a point where a container is received by the shipping line from the shipper (usually the first event in the sequence) until it is loaded on a vessel at the port of loading or port of origin. The import phase of the container voyage begins with the discharge of a full container from a vessel at the port of discharge or port of destination and ends when the container is sent to the consignee (one of the last events associated with the voyage of a container).",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 26,
+      "block_index": 3,
+      "x0": 90.0,
+      "y0": 471.31,
+      "x1": 308.27,
+      "y1": 652.38,
+      "text": "The longest phase of the container voyage is the shipping (and transshipment) phase, roughly coinciding with its maritime leg. The shipping events are defined as all records of events that happen after the container leaves the port of loading and before it reaches the port of discharge. Lead time is calculated as the time difference between loading of the full container at the port of loading and discharge of the full container at the port of destination. The transshipment time of a voyage is the time the container takes to transship at intermediate port facilities during the shipping phase of the journey.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 26,
+      "block_index": 4,
+      "x0": 90.0,
+      "y0": 666.38,
+      "x1": 136.58,
+      "y1": 682.09,
+      "text": "Cargo iQ",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 26,
+      "block_index": 5,
+      "x0": 90.0,
+      "y0": 695.36,
+      "x1": 308.26,
+      "y1": 736.33,
+      "text": "Indicators and statistical measures derived from this data source: mean, median, and interquartile range (20th–80th percentiles) of aviation import",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 26,
+      "block_index": 6,
+      "x0": 342.0,
+      "y0": 93.36,
+      "x1": 560.22,
+      "y1": 120.33,
+      "text": "dwell time; average number of aviation partner economies.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 26,
+      "block_index": 7,
+      "x0": 342.0,
+      "y0": 135.31,
+      "x1": 560.27,
+      "y1": 330.38,
+      "text": "Cargo iQ, a nonprofit group affiliated with the International Air Transport Association, provided air cargo data for the 2025 LPI 2.0. Cargo iQ’s event recording adheres to a logical sequence of supply chain events. A shipment, typically identified through an electronic airway bill (e-AWB), is tracked from the departure of the flight with cargo (milestone DEP in figure 2) to its arrival (ARR) and subsequent check-in at a warehouse at the destination airport (RCF). This is followed by the notification to the consignee of the freight’s arrival (NFD) and the forwarder or consignee’s collection of the freight from the carrier facility at the destination airport (DLV).",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 26,
+      "block_index": 8,
+      "x0": 342.0,
+      "y0": 345.31,
+      "x1": 560.26,
+      "y1": 512.38,
+      "text": "The indicators generated from the Cargo iQ data are based on the milestones NFD and DLV. These milestones are considered to have the highest compliance levels. The time elapsed between the NFD and DLV events was calculated for each e-AWB recorded in the system at the destination economy, assuming the validity of the time difference (both timestamps had to exist, and the time difference between them had to be positive). This indicator represents the speed at which air cargo shipments move at the destination, akin to import dwell time.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 26,
+      "block_index": 9,
+      "x0": 342.0,
+      "y0": 527.31,
+      "x1": 560.26,
+      "y1": 652.38,
+      "text": "After the time differences for each e-AWB were generated, the means, medians, interquartile range (adjusted to cover the difference between the 20th and 80th percentiles) were calculated for each destination economy. The aviation connectivity indicator is defined as the average number of unique source economy partners for a given economy in a given year and the number of unique destination economy partners over the same time horizon.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 26,
+      "block_index": 10,
+      "x0": 342.0,
+      "y0": 666.38,
+      "x1": 464.21,
+      "y1": 682.09,
+      "text": "Universal Postal Union",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 26,
+      "block_index": 11,
+      "x0": 342.0,
+      "y0": 695.36,
+      "x1": 560.26,
+      "y1": 736.33,
+      "text": "Indicators and statistical measures derived from this data source: mean, median, and interquartile range (20th–80th percentiles) of B2B postal",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 27,
+      "block_index": 3,
+      "x0": 54.0,
+      "y0": 93.36,
+      "x1": 272.26,
+      "y1": 162.33,
+      "text": "delivery time; mean, median, and interquartile range (20th–80th percentiles) of B2C postal delivery time; mean number of B2B postal partner economies; mean number of B2C postal partner economies.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 27,
+      "block_index": 4,
+      "x0": 54.0,
+      "y0": 177.31,
+      "x1": 272.27,
+      "y1": 400.38,
+      "text": "Connectivity indicators of postal logistics are sourced from PREDES messages, which are electronic data interchange messages with information on mail dispatches initiated by the origin economy’s office of exchange to the destination economy’s office of exchange. For a given economy, postal connectivity is an average of two values: the number of unique origin partners from which postal items are received throughout a year and the number of unique partner economies to which postal items are shipped during the same period. In the LPI 2.0 the differentiation between B2B and B2C flows depends on the type of mail item: parcel and express shipment exchanges are attributed to B2B operations, and standard letter-post mail are attributed to B2C operations.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 27,
+      "block_index": 5,
+      "x0": 54.0,
+      "y0": 415.31,
+      "x1": 272.26,
+      "y1": 512.38,
+      "text": "Time indicators are based on the EMSEVT messaging standard of the UPU’s electronic data interchange system, which tracks item-level events and provides granular visibility into postal item movements along export and import supply chains. The messages are exchanged among the postal operators handling each item.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 27,
+      "block_index": 7,
+      "x0": 306.0,
+      "y0": 93.31,
+      "x1": 524.26,
+      "y1": 330.38,
+      "text": "The journey of a postal item begins when a customer places an order and the shipper hands the item to the origin post (event EMA in figure 3). The item is then inducted into the domestic network, arriving at the outward office of exchange (event EMB), and dispatched to the destination office of exchange, marking its departure from the economy of origin (event EMC). After any transit events (EMJ–EMK), the item reaches the destination (event EMD), where it is unloaded and transferred to the destination post. Event EME covers separation of items from their receptacles, retrieval, and customs clearance. The destination post then processes the item within the domestic network and transfers it to the delivery office for final delivery to the customer (event EMI). Unsuccessful delivery attempts are recorded as EMH.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 27,
+      "block_index": 8,
+      "x0": 306.0,
+      "y0": 345.31,
+      "x1": 524.27,
+      "y1": 512.38,
+      "text": "The postal delivery time indicator captures the time between EMD and EMH/I events. Delivery events, rather than dispatching events, exhibit the most consistency and economy coverage due to stricter scrutiny and reporting requirements to facilitate customs and regulatory functions. The postal dataset for the LPI 2.0 was constructed for the entire calendar years of 2023 and 2024 separately and included economies with more than 10 observations for each exchange type (B2B and B2C) on a three-year continuum and with mean and median delivery times at destination exceeding half a day.",
+      "footnote_refs": [
+        22
+      ]
+    },
+    {
+      "page_number": 28,
+      "block_index": 1,
+      "x0": 90.0,
+      "y0": 472.77,
+      "x1": 223.78,
+      "y1": 504.18,
+      "text": "USER GUIDE",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 28,
+      "block_index": 2,
+      "x0": 90.0,
+      "y0": 582.38,
+      "x1": 286.19,
+      "y1": 598.09,
+      "text": "Interpretation and use of the LPI 2.0",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 28,
+      "block_index": 3,
+      "x0": 90.0,
+      "y0": 611.31,
+      "x1": 308.25,
+      "y1": 736.38,
+      "text": "The LPI 2.0 are meant as a high-level diagnostic tool. The indicators capture connectivity and the time cargo spends at different stages of the supply chain, offering a picture of logistics performance but not its underlying causes. They can, however, indicate where closer investigation is warranted. This is similar to the survey-based LPI, although the LPI 2.0 allow for easier comparison across peer countries.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 28,
+      "block_index": 4,
+      "x0": 342.0,
+      "y0": 611.31,
+      "x1": 560.26,
+      "y1": 736.38,
+      "text": "Because of methodological differences, the original LPI and the LPI 2.0 are not directly comparable. Their indicators capture distinct dimensions of logistics performance and therefore require different interpretations. For connectivity indicators in the LPI 2.0, higher values indicate better performance. For time-based indicators, including measures of dispersion, lower values indicate better performance.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 29,
+      "block_index": 3,
+      "x0": 54.0,
+      "y0": 92.38,
+      "x1": 254.09,
+      "y1": 122.09,
+      "text": "How to use the LPI 2.0 to benchmark country performance",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 29,
+      "block_index": 4,
+      "x0": 54.0,
+      "y0": 135.31,
+      "x1": 272.24,
+      "y1": 218.38,
+      "text": "The LPI 2.0 enable benchmarking of performance against regional and income group peers across multiple dimensions because it is based on consistent global data and definitions. Data for all 21 indicators are available at https://lpi.worldbank.org, with options for comparisons across countries and over time.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 29,
+      "block_index": 5,
+      "x0": 54.0,
+      "y0": 233.31,
+      "x1": 272.26,
+      "y1": 400.38,
+      "text": "Figures 7 and 8 show how to benchmark economy performance on the LPI 2.0 using the example of the Arab Republic of Egypt. Egypt’s connectivity compares favorably with that of its regional (Middle East, North Africa, Afghanistan, and Pakistan) and income group (lower middle income) peers—with higher values for all three logistics modes: maritime (more than twice the income group average), aviation (roughly a third more than the regional average and roughly two-thirds more than the income group average), and postal (almost double the income group average).",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 29,
+      "block_index": 6,
+      "x0": 54.0,
+      "y0": 415.31,
+      "x1": 272.27,
+      "y1": 442.38,
+      "text": "Benchmarking does not replace in-depth diagnostics, but it helps focus investigations and reform",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 29,
+      "block_index": 7,
+      "x0": 306.0,
+      "y0": 93.31,
+      "x1": 524.27,
+      "y1": 288.38,
+      "text": "efforts. For instance, while Egypt has excellent connectivity, reflecting the country’s unique position near the Suez Canal, time indicators reveal some weaknesses. At more than two weeks, container import dwell time exceeds that of comparator countries, as do aviation delays (see figure 8). The government is reforming border management to reduce those delays. Conversely, ship turnaround time is shorter than that of peers. Port efficiency can be traced to recent investment and private sector participation in terminal operations. Finally, international B2B postal delivery in Egypt outperforms peers—indicating that performance can be improved for other logistics modes.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 29,
+      "block_index": 8,
+      "x0": 306.0,
+      "y0": 302.38,
+      "x1": 501.9,
+      "y1": 332.09,
+      "text": "Potential interpretation issues with tracking indicators",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 29,
+      "block_index": 9,
+      "x0": 306.0,
+      "y0": 345.31,
+      "x1": 524.24,
+      "y1": 386.38,
+      "text": "The LPI 2.0 provide a wealth of information on supply chain transactions across several modes but is subject to interpretation issues:",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 29,
+      "block_index": 10,
+      "x0": 306.0,
+      "y0": 397.38,
+      "x1": 524.25,
+      "y1": 442.38,
+      "text": "• The tracking data cover the responsibility of international carriers, not logistics by shippers upstream or consignees downstream. Supply",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 30,
+      "block_index": 1,
+      "x0": 102.0,
+      "y0": 93.31,
+      "x1": 308.26,
+      "y1": 162.38,
+      "text": "chain practices vary across the world. Inefficient practices, such as early stripping (unpacking) of containers or compulsory warehousing, may be imperfectly reflected in the indicators, such that delays may be underestimated.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 30,
+      "block_index": 2,
+      "x0": 90.0,
+      "y0": 173.38,
+      "x1": 308.26,
+      "y1": 288.38,
+      "text": "• The concepts used locally to measure dwell time may differ from the definitions used here to ensure global comparability. For instance, in many places, shipments are trucked from port terminals to satellite facilities in the same location. The indicators merge the time spent at all facilities in the same port area, not just port terminals.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 30,
+      "block_index": 3,
+      "x0": 90.0,
+      "y0": 299.38,
+      "x1": 308.24,
+      "y1": 330.38,
+      "text": "• The container dwell time statistics exclude transshipped containers.",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 30,
+      "block_index": 4,
+      "x0": 90.0,
+      "y0": 344.38,
+      "x1": 307.9,
+      "y1": 374.09,
+      "text": "Local data to complement country-level indicators",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 30,
+      "block_index": 5,
+      "x0": 90.0,
+      "y0": 387.31,
+      "x1": 308.22,
+      "y1": 428.38,
+      "text": "In addition to being useful for global benchmarking and identifying outliers, the LPI 2.0 are contextual and may reflect idiosyncratic constraints",
+      "footnote_refs": []
+    },
+    {
+      "page_number": 30,
+      "block_index": 7,
+      "x0": 342.0,
+      "y0": 93.31,
+      "x1": 560.25,
+      "y1": 162.38,
+      "text": "and practices that global datasets cannot capture. In large countries with several gateways (points of entry), performance may vary within the country. The country-level indicators smooth out these subnational differences.",
+      "footnote_refs": [
+        23
+      ]
+    },
+    {
+      "page_number": 30,
+      "block_index": 8,
+      "x0": 342.0,
+      "y0": 177.31,
+      "x1": 560.27,
+      "y1": 428.38,
+      "text": "With growing digitization of supply chains, much data on key public entities is available, covering some of the LPI 2.0 indicators. Customs and port community systems data cover container dwell time with more intermediate time markers than the LPI 2.0. For instance, most countries keep data on ship discharge and exit, as well as date of submission and inspection, or the customs regime. GPS data and truck waybills, which are increasingly computerized, allow for tracking of internal freight movements. Local (country-owned) data expand the LPI 2.0 in two directions. The first allows for deeper drilling into the source of problems—for instance, by breaking container delays into constituent parts. The second allows large economies to eventually create a LPI 2.0 at the state or province level using some of the same techniques applied here to the global data.",
+      "footnote_refs": [
+        24
+      ]
+    }
+  ],
+  "footnotes": [
+    {
+      "page_number": 11,
+      "footnote_number": 1,
+      "block_index": 5,
+      "ref_block_index": 4,
+      "y0": 725.69,
+      "text": "Arvis et al. 2023."
+    },
+    {
+      "page_number": 12,
+      "footnote_number": 2,
+      "block_index": 4,
+      "ref_block_index": 2,
+      "y0": 613.69,
+      "text": "Hummels, Lugovskyy, and Skiba 2009."
+    },
+    {
+      "page_number": 12,
+      "footnote_number": 3,
+      "block_index": 4,
+      "ref_block_index": 3,
+      "y0": 613.69,
+      "text": "About 46 percent of global goods trade by value is moved in maritime containers (Notteboom, Pallis, and Rodrigue 2022), and 33 percent is moved by air (IATA 2025)."
+    },
+    {
+      "page_number": 12,
+      "footnote_number": 4,
+      "block_index": 4,
+      "ref_block_index": 3,
+      "y0": 613.69,
+      "text": "The LPI 2.0 do not cover road and rail logistics because no global sources of data on those movements exist, but they cover container tracking on transport corridors, including some road transport (since the container tracking indicators indicate the quality of inland logistics services, including to landlocked developing countries). While the first-best option would be end-to-end coverage of all shipments through all modes, the current reporting is the best available given the existing data. Future refinements of the LPI 2.0 could include data for other logistics modes."
+    },
+    {
+      "page_number": 12,
+      "footnote_number": 5,
+      "block_index": 4,
+      "ref_block_index": 6,
+      "y0": 613.69,
+      "text": "Arvis et al. 2026."
+    },
+    {
+      "page_number": 12,
+      "footnote_number": 6,
+      "block_index": 4,
+      "ref_block_index": 8,
+      "y0": 613.69,
+      "text": "A liner shipping container service is a scheduled maritime transport service that moves standardized containers along fixed routes between designated ports on a regular and publicly advertised timetable. A direct service is a scheduled service between two economies that may include other stops in between but without a container needing transshipment."
+    },
+    {
+      "page_number": 12,
+      "footnote_number": 7,
+      "block_index": 4,
+      "ref_block_index": 8,
+      "y0": 613.69,
+      "text": "Refers to direct flights."
+    },
+    {
+      "page_number": 12,
+      "footnote_number": 8,
+      "block_index": 4,
+      "ref_block_index": 8,
+      "y0": 613.69,
+      "text": "For a given economy, postal connectivity is the average of two values : the number of unique origin partners from which postal items are received throughout a year and the number of partner economies to which postal items are shipped during the same period."
+    },
+    {
+      "page_number": 14,
+      "footnote_number": 9,
+      "block_index": 4,
+      "ref_block_index": 2,
+      "y0": 669.69,
+      "text": "Because of data limitations, measuring only the time spent at the border is not feasible, so delivery in the destination economy is included, which penalizes large economies relative to small ones. Delivery time is not influenced by the consignee practices but by the performance of the postal service, infrastructure, and geography."
+    },
+    {
+      "page_number": 14,
+      "footnote_number": 10,
+      "block_index": 4,
+      "ref_block_index": 5,
+      "y0": 669.69,
+      "text": "Removal refers to the process in which goods are removed from a warehouse or other location to make them available for the next step in the supply chain."
+    },
+    {
+      "page_number": 14,
+      "footnote_number": 11,
+      "block_index": 4,
+      "ref_block_index": 7,
+      "y0": 669.69,
+      "text": "A maritime alliance (often called a liner shipping alliance) is a formal cooperative arrangement among independent container shipping lines to jointly operate services on major trade routes."
+    },
+    {
+      "page_number": 14,
+      "footnote_number": 12,
+      "block_index": 4,
+      "ref_block_index": 7,
+      "y0": 669.69,
+      "text": "Hummels, Lugovskyy, and Skiba 2009."
+    },
+    {
+      "page_number": 15,
+      "footnote_number": 13,
+      "block_index": 5,
+      "ref_block_index": 3,
+      "y0": 685.69,
+      "text": "Turnaround time is a standard key performance indicator used in the industry and transport economics literature to assess port operations at berth, which depend almost entirely on the port operator. While the time at anchorage can be influenced by port operations and lack of capacity, it is largely affected by carriers’ decisions and, in many ports, by tide. A further reason for not using time at anchorage as a performance indicator is that shipping lines may slow ships in cases of congestion to avoid time at anchorage (in these cases anchorage is fungible with the lead time of the last leg)—a phenomenon visible in the World Bank’s Global Supply Chain Stress Index (World Bank n.d.)."
+    },
+    {
+      "page_number": 18,
+      "footnote_number": 14,
+      "block_index": 3,
+      "ref_block_index": 2,
+      "y0": 653.69,
+      "text": "Corridor lead time does not provide information on the performance of multimodal transfers en route, which are included in dwell time instead of lead time."
+    },
+    {
+      "page_number": 18,
+      "footnote_number": 15,
+      "block_index": 3,
+      "ref_block_index": 5,
+      "y0": 653.69,
+      "text": "The LPI 2.0 differentiate between B2B and B2C flows because they are associated with different mail types. Parcels and express mail are attributed to B2B operations, whereas standard letter-post mail is attributed to B2C operations. Letter-post is used for the majority of e-commerce shipments. International e-commerce is interconnected with postal services: Universal Postal Union members handle about two-thirds of letter-parcel (up to 2 kilograms) deliveries across borders. Universal Postal Union members also manage international express shipments, which account for 5–10 percent of international e-commerce volume, and the rest is delivered by commercial operators (Beretzky et al. 2022)."
+    },
+    {
+      "page_number": 18,
+      "footnote_number": 16,
+      "block_index": 3,
+      "ref_block_index": 5,
+      "y0": 653.69,
+      "text": "The de minimis rule for imports allows low-value shipments to avoid tariffs and customs processing. For imports into the United States, this rule began being phased out in August 2025."
+    },
+    {
+      "page_number": 19,
+      "footnote_number": 17,
+      "block_index": 5,
+      "ref_block_index": 6,
+      "y0": 717.69,
+      "text": "The agreements with the data partners stipulate that the World Bank may report summary statistics on the shipments but not individual shipment data."
+    },
+    {
+      "page_number": 20,
+      "footnote_number": 18,
+      "block_index": 5,
+      "ref_block_index": 1,
+      "y0": 709.69,
+      "text": "The agreement with the data partner for container tracking precludes identifying the shipping line by name."
+    },
+    {
+      "page_number": 20,
+      "footnote_number": 19,
+      "block_index": 5,
+      "ref_block_index": 4,
+      "y0": 709.69,
+      "text": "The same source is used in UN Trade and Development’s Liner Shipping Connectivity Index (https://unctadstat.unctad.org/datacentre /dataviewer/US.LSCI), which combines the count of partners included here with other country-level indicators."
+    },
+    {
+      "page_number": 23,
+      "footnote_number": 20,
+      "block_index": 7,
+      "ref_block_index": 6,
+      "y0": 669.69,
+      "text": "Geofencing is a virtual perimeter or “fence” around a given geographic feature (seaports in the case of the LPI 2.0’s turnaround time)."
+    },
+    {
+      "page_number": 23,
+      "footnote_number": 21,
+      "block_index": 7,
+      "ref_block_index": 9,
+      "y0": 669.69,
+      "text": "For each vessel and each port call, an ASOF merge operation matched arrival records to the departure records with the closest timestamp between the two. For details, see Mudliar (2024). An ASOF merge joins two existing tables together based on matching values from one or multiple columns. It can join using approximate matching and exact matching. For the LPI 2.0 the following ASOF merge was conducted: exact matches for the ship and port identifiers and approximate matching for dates (single closest departure date). Take a sorted arrivals table with each row structured as ship A arriving at port P on date X to be joined to a sorted departures table structured in the same way (ship-port-date). Keeping ship ID and port ID (exact matches), the departures table is joined with the arrivals table such that the timestamp of the departure is the closest single date occurring after the timestamp in the arrivals table."
+    },
+    {
+      "page_number": 27,
+      "footnote_number": 22,
+      "block_index": 6,
+      "ref_block_index": 8,
+      "y0": 725.69,
+      "text": "See Arvis, Ulybina, and Wiederer (2024) for more details on the LPI 2.0 methodology."
+    },
+    {
+      "page_number": 30,
+      "footnote_number": 23,
+      "block_index": 6,
+      "ref_block_index": 7,
+      "y0": 717.69,
+      "text": "Disclosing the raw data used for the LPI 2.0 is not possible because of the legal agreements with data providers."
+    },
+    {
+      "page_number": 30,
+      "footnote_number": 24,
+      "block_index": 6,
+      "ref_block_index": 8,
+      "y0": 717.69,
+      "text": "Arvis, Ulybina, and Wiederer 2024."
+    }
+  ],
+  "structured_units": [
+    {
+      "unit_type": "table_row",
+      "table_number": 1,
+      "row_index": 0,
+      "page_number": 13,
+      "logical_unit": "The six core indicators of the LPI 2.0",
+      "content": "Logistics mode: Maritime\nConnectivity indicators: Number of maritime partner economies: Number of economies accessible through direct liner shipping services.\nTime indicators: Container import dwell time (days): Time spent by containers at the port of entry from arrival (ship unloading) to departure from the port."
+    },
+    {
+      "unit_type": "table_row",
+      "table_number": 1,
+      "row_index": 1,
+      "page_number": 13,
+      "logical_unit": "The six core indicators of the LPI 2.0",
+      "content": "Logistics mode: Aviation\nConnectivity indicators: Number of aviation partner economies: Number of economies accessible through direct air cargo connections.\nTime indicators: Aviation import dwell time (days): Time spent by goods at the airport between the moment the cargo is ready to be picked up by the consignee or their agent from the airport and the moment the cargo is cleared by customs and leaves the airport."
+    },
+    {
+      "unit_type": "table_row",
+      "table_number": 1,
+      "row_index": 2,
+      "page_number": 13,
+      "logical_unit": "The six core indicators of the LPI 2.0",
+      "content": "Logistics mode: Postal\nConnectivity indicators: Number of business-to-business postal partner economies: Number of economies accessible through direct international postal connections for B2B shipments.\nTime indicators: Business-to-business postal delivery time (days): Time spent by a postal item (parcel or express shipment) in the importing economy from arrival at the economy’s office of exchange (postal bureau) to the first attempted or final delivery."
+    },
+    {
+      "unit_type": "table_row",
+      "table_number": 2,
+      "row_index": 0,
+      "page_number": 16,
+      "logical_unit": "Supplementary indicators of the LPI 2.0",
+      "content": "Logistics mode: Maritime\nConnectivity indicators: • Number of services: Number of direct container liner shipping services servicing the ports in an economy. • Number of alliances: Number of direct container liner shipping alliances servicing the ports in an economy. • Number of transshipments: Number of times inbound containers in an economy are transshipped in their journey from the port of loading in the origin economy to the port of destination in the import economy.\nTime indicators: • Container export dwell time (days): Time spent by containers at the port of departure from arrival of full export container to completion of container loading on ship. • Turnaround time at ports (days): Time container ships call at a port, excluding waiting time at anchorage outside the port vicinity. • Time spent in transshipment (days): Time inbound containers in an economy spend in transshipment at intermediate port facilities during the shipping phase of its journey. • Lead time to import from port of origin to destination economy (days): Time spent by containers between loading at the port of origin and discharge at the port of destination. • Export supply chain initiation (days): Time between empty containers being sent to the exporter to be filled and full export containers being taken in charge by the shipping line at the port or inland facility. • Import supply chain termination (days): Time between full containers being sent to the importer from the last logistics facility (port or inland) and empty containers being returned empty to the shipping line. • Dwell time at port of arrival for a container destined for a landlocked developing country (LLDC) (days): Average time spent by containers (destined for an LLDC) at the port of entry from arrival (ship unloading) to departure from the port. • Corridor lead time from port exit to destination (LLDC) (days): Time spent by containers from the port of arrival to the clearance facility in the destination LLDC. • Dwell time at destination (LLDC) (days): Import dwell time at the clearance facility in the destination LLDC. • Reference dwell time at port of arrival (LLDC) (days): Import dwell time at the economy of the port of entry that is used most frequently for LLDC-destined cargo, calculated using only containers destined for the coastal economy."
+    },
+    {
+      "unit_type": "table_row",
+      "table_number": 2,
+      "row_index": 1,
+      "page_number": 16,
+      "logical_unit": "Supplementary indicators of the LPI 2.0",
+      "content": "Logistics mode: Postal\nConnectivity indicators: • Number of business-to-consumer postal partner economies: Number of economies accessible through direct international postal connections for B2C shipments (letters and small packets up to 2 kilograms).\nTime indicators: • Business-to-consumer postal delivery time (days): Time spent by a B2C postal item in the importing economy from arrival at the economy’s office of exchange (postal bureau) to the first attempted or final delivery."
+    },
+    {
+      "unit_type": "table_row",
+      "table_number": 3,
+      "row_index": 0,
+      "page_number": 20,
+      "logical_unit": "Data sources, coverage, and nature of the LPI 2.0",
+      "content": "Source: MarineTraffic\nDescription and coverage: Port calls for all container ships, based on Automatic Identification System data.\nData nature: Location, port arrival, and port departure timestamps of ships and their basic characteristics."
+    },
+    {
+      "unit_type": "table_row",
+      "table_number": 3,
+      "row_index": 1,
+      "page_number": 20,
+      "logical_unit": "Data sources, coverage, and nature of the LPI 2.0",
+      "content": "Source: Major global shipping line\nDescription and coverage: Container tracking data from a large global shipping line.\nData nature: Timestamps of transport events associated with each consignment and container."
+    },
+    {
+      "unit_type": "table_row",
+      "table_number": 3,
+      "row_index": 2,
+      "page_number": 20,
+      "logical_unit": "Data sources, coverage, and nature of the LPI 2.0",
+      "content": "Source: MDS Transmodal\nDescription and coverage: Deployed capacity and information on ship parameters and operators servicing economies by regular containerized liner shipping services.\nData nature: Deployed capacity and the list of economies that are connected to each other through direct liner shipping services."
+    },
+    {
+      "unit_type": "table_row",
+      "table_number": 3,
+      "row_index": 3,
+      "page_number": 20,
+      "logical_unit": "Data sources, coverage, and nature of the LPI 2.0",
+      "content": "Source: Cargo iQ\nDescription and coverage: System of shipment planning and performance monitoring for air cargo, based on definitions of common business processes and milestones.\nData nature: Time difference between notification for readiness and delivery to consignee or agent."
+    },
+    {
+      "unit_type": "table_row",
+      "table_number": 3,
+      "row_index": 4,
+      "page_number": 20,
+      "logical_unit": "Data sources, coverage, and nature of the LPI 2.0",
+      "content": "Source: Universal Postal Union\nDescription and coverage: Data from the express mail service events message category of the electronic data interchange protocol used to track individual express mail service and parcel items, as well as registered, insured, and express letters.\nData nature: Time difference between arrival at inward office of exchange and attempted and final delivery."
+    },
+    {
+      "unit_type": "figure",
+      "figure_number": 1,
+      "page_number": 13,
+      "logical_unit": "Supply chain phases in a maritime container voyage",
+      "content": "The figure illustrates the end-to-end phases of a maritime container supply chain, progressing from supply chain initiation through export, transit (shipping), and import to supply chain termination. On the export side, an empty container is delivered to the shipper, the full container is gated in and loaded on board, and the export dwell-time period is associated with the container's time at the export stage. The container then moves through the transit (shipping) phase before being discharged at the destination port. On the import side, the container is discharged and gated out, and the import dwell-time period is associated with the container's time at the import stage. The container is then transferred onward and the empty container is returned, marking supply chain termination. The figure also shows pickup, loading, and discharge operations along the container journey. Note: Customs clearance for imported containers happens between events Discharge full and Gate out full, except for containers destined for \nlandlocked countries, for which clearance takes place in the final country of destination."
+    },
+    {
+      "unit_type": "figure",
+      "figure_number": 2,
+      "page_number": 14,
+      "logical_unit": "Milestones in the air cargo supply chain",
+      "content": "The figure describes milestones in the air cargo supply chain. For export from origin: FWB means electronic airway bill received from export forwarder; RCS means shipment received from export forwarder (shipper); DEP means shipment loaded on booked flight and flight departure. For import to destination: ARR means arrival of flight with shipment at destination airport; RCF means shipment received from incoming flight and checked into a warehouse; NFD means the consignee or agent is notified that the shipment, including documentation, is ready for pickup and initiation of customs clearance; DLV means handover of shipment to forwarder after customs clearance. The time difference between NFD and DLV milestones constitutes the LPI 2.0 aviation import dwell time indicator. Footnote a: NFD is the notification sent by the carrier to the forwarder or third party that the shipment, including documentation, has arrived and is available for pickup. DLV marks the physical handover of the cargo. Customs inspection for air cargo shipments happens between events NFD and DLV, except for precleared shipments, for which the only processes happening between NFD and DLV are clearing agent payments of charges (e.g., storage, special handling fees, customs charges). Once these are clear and the customs status is clarified, DLV can commence."
+    },
+    {
+      "unit_type": "figure",
+      "figure_number": 3,
+      "page_number": 15,
+      "logical_unit": "The sequence of standardized postal events",
+      "content": "The sequence of standardized postal events. The exporting events are: EMA means posting/collection; EMB means arrival at outward office of exchange; EMC means departure from outward office of exchange. The transit events are: EMJ means arrival at transit office of exchange; EMK means departure from transit office of exchange. The importing events are: EMD means arrival at inward office of exchange; EME means held by import customs; EMF means departure from inward office of exchange; EMG means arrival at delivery office; EMH means attempted/unsuccessful delivery; EMI means final delivery. The elapsed time between EMD and EMH/EMI is the delivery time at destination economy used to create the LPI 2.0 postal delivery indicator."
+    },
+    {
+      "unit_type": "figure",
+      "figure_number": 4,
+      "page_number": 17,
+      "logical_unit": "The relationship between turnaround time and import dwell time",
+      "content": "The figure illustrates the relationship between vessel port turnaround time and container dwell-time measures across a port call. The vessel moves from the previous port call to arrival at the port, followed by unloading of containers at the terminal, loading of containers at the terminal, departure from the port, and the next port call. The vessel's port turnaround time is represented as the interval between the latest arrival at port and the earliest departure from port. Within the same port-call sequence, container import dwell time and container export dwell time represent the corresponding container dwell periods associated with unloading and loading operations at the terminal."
+    },
+    {
+      "unit_type": "worked_example",
+      "figure_number": 5,
+      "page_number": 17,
+      "logical_unit": "Slicing a container voyage into dwell time and lead time observations",
+      "content": "The figure presents a worked example of a container voyage from Surabaya (Indonesia) → Bamako (Mali). On May 28, 12:14 a.m. at Surabaya, Container arrives at port. Export dwell time at Surabaya: 3.6 days. On May 31, 2:12 p.m. at Surabaya, Container loaded on ship. Maritime lead time (including two transshipments): 53 days. On June 3, 2:22 a.m. at Singapore, Container discharged from ship. On June 8, 8:52 p.m. at Singapore, Container loaded on ship. On June 30, 6:18 p.m. at TangerMed, Container discharged from ship. On July 1, 8:16 p.m. at TangerMed, Container loaded on ship. On July 23, 10:49 a.m. at Dakar, Container discharged from ship. Import dwell time at Dakar: 76 days. On October 6, 10:53 p.m. at Dakar, Container transferred to destination. On October 16, 10:00 a.m. at Bamako, Container arrived at destination. Corridor lead time Dakar–Bamako: 9.5 days. On October 18, 10:00 a.m. at Bamako, Container sent to consignee. Import dwell time at destination: 2 days. The example therefore illustrates how the voyage is divided into export dwell time, maritime lead time, import dwell time at Dakar, corridor lead time from Dakar to Bamako, and import dwell time at the final destination. The calculation shown is 76 + 9.5 + 2 = 87.5 days."
+    },
+    {
+      "unit_type": "figure",
+      "figure_number": 6,
+      "page_number": 24,
+      "logical_unit": "Elements of ship turnaround time",
+      "content": "The figure illustrates the elements used to measure ship turnaround time. A ship arrives at the port and later departs from the port, while activities around the port vicinity may include anchoring and waiting inside the port vicinity, anchoring and waiting outside the port vicinity, and pilot on board/tugging. The turnaround-time interval is defined from the latest arrival at port to the earliest departure from port. The figure also indicates that arrivals to and departures from the geofenced area may occur in any sequence or number."
+    },
+    {
+      "unit_id": "AB1",
+      "unit_type": "definitions",
+      "logical_unit": "Abbreviations",
+      "content": "Abbreviations\nB2B: Business-to-business\nB2C: Business-to-consumer\nLLDC: Landlocked developing country\nLPI: Logistics Performance Index (used through 2023)\nLPI 2.0: Logistics Performance Indicators 2.0 (used from 2025 onward)\nUPU: Universal Postal Union",
+      "section": "Abbreviations",
+      "subsection": null,
+      "page_start": 7,
+      "page_end": 7
+    }
+  ]
+}

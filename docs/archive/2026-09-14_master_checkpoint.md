@@ -1,3 +1,9 @@
+> **ARCHIVED — historical record, not a source of truth.**
+> ChatGPT hand-off checkpoint. Its schema and architecture moved to ARCHITECTURE.md, its decisions to docs/decisions.md, and its status to docs/ROADMAP.md. Its status section is out of date (RAG chunking has since started), and `accepted_currencies` was still present in the database when checked on 2026-09-23 (dropped by `db/migrations/001` on 2026-09-23).
+> Current sources of truth: the project rules, `ARCHITECTURE.md`, `docs/`.
+
+---
+
 # Ports & Logistics AI — Master Checkpoint
 
 ## 0. Purpose

@@ -1,3 +1,9 @@
+> **ARCHIVED — historical record, not a source of truth.**
+> First architecture proposal ("Data Analyst Agent" / NileGate), pasted from another assistant session. Its recommendations (pgvector first, DuckDB, Redis, star schema) are PROPOSED only and were not adopted; Qdrant + MongoDB were chosen (ADR-001). Long-term ideas (tool registry, guardrails, evaluation, observability) are tracked in docs/ROADMAP.md.
+> Current sources of truth: the project rules, `ARCHITECTURE.md`, `docs/`.
+
+---
+
 We are starting a production-oriented AI project called: \*\*Data Analyst Agent\*\*…
 
 Worked for 1m 18s

@@ -1,3 +1,9 @@
+> **ARCHIVED — historical record, not a source of truth.**
+> Original source-to-purpose plan. The source roles now live in ARCHITECTURE.md (Data sources). `toll_rates` is `toll_rate_bands` in the real schema.
+> Current sources of truth: the project rules, `ARCHITECTURE.md`, `docs/`.
+
+---
+
 # من الداتا للـ System — دليل الفايدة والمعالجة
 
 هدف الملف ده: كل مصدر بيانات عندنا **هيخدم إيه بالظبط**، **هيتعالج إزاي**، وكل ده بيوصلنا لـ **إيه في الآخر**.

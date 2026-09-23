@@ -1,3 +1,9 @@
+> **ARCHIVED — historical record, not a source of truth.**
+> Early data inventory. Out of date: ports now come from attributed_ports.geojson (ADR-002), the Danish AIS template was dropped, the EDI and FBL gaps are closed, and 23 USCG reports are used (ADR-007). Its lasting decisions are ADR-011 and the RBAC and causal-consistency challenges (docs/ROADMAP.md).
+> Current sources of truth: the project rules, `ARCHITECTURE.md`, `docs/`.
+
+---
+
 # الجرد النهائي — Ports & Logistics RAG MVP
 
 ## 1. الداتا الحقيقية الموجودة فعلاً معانا
