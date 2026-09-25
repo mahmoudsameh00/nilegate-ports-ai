@@ -13,11 +13,11 @@
 > - **Numbering:** Phase 0 setup, 1 inventory, 2 classification, 3 structure (3.1–3.7), 4 structured extraction (4.1–4.8), 5 notes (5.1–5.5), 6 body, 7 paragraphs, 8 sections, 9 units, 10–12 dedup + QA, 13 save, 14–15 chunking, 16–18 schema/save/cross-source, **19 whole-PDF coverage audit (new)**.
 > - **Page classes added:** `abbreviations` (p.7, auxiliary) and `back_cover` (p.30, retrieval, sent to dedup).
 > - **Structure:** the PDF outline is unusable; headings come from fonts. "Core/Supplementary indicators" are level 2; "Data" and the three "Area N" headings are level 3; run-ins "1.1…3.3" are level 4. Tables/figures take the section of their first prose reference (they are floats).
-> - **Figures:** a retrieval-value gate (6 full, 2 caption_only, 2 skip) with number-checked curated descriptions (ADR-020).
+> - **Figures:** a retrieval-value gate (6 full, 1 caption_only, 3 skip) with number-checked curated descriptions (ADR-020); Figure 2.10 skipped because its title contradicts its own plotted data and the prose (step 4.5a).
 > - **Notes:** added step 5.4, manual review of all 33 notes (18 informative, 15 citation-only).
 > - **Dedup:** item-level matching and canonical-source policy (ADR-019); owner decision to remove everything repeated: 18 units suppressed (both tables, 5 abbreviations, 8 Chapter 1 paragraphs), 7 trimmed; no manual-review item left.
 > - **Artifacts:** `LPI_Connecting_to_Compete_{extracted.json, logical_units.json, chunks.parquet}`; the cleaned layer is ONE file holding units, duplicate audit and coverage audit; `chunk_id` prefix `lpi2025_`.
-> - **Result:** 70 chunks; cross-source corpus 199 chunks; 2,189 PDF lines, 0 unaccounted.
+> - **Result:** 69 chunks; cross-source corpus 198 chunks; 2,189 PDF lines, 0 unaccounted; nothing flagged or pending.
 
 ---
 

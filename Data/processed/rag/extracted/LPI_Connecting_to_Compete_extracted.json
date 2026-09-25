@@ -926,81 +926,71 @@
     "figure_number": "2.1",
     "decision": "full",
     "reason": "Prose gives only a general regional pattern ('depending on the mode'); the figure shows the per-mode ranking (e.g. North America first in maritime and postal, South Asia second in maritime) plus printed group sizes (n).",
-    "flag": null,
-    "flag_detail": null,
-    "page_number": 18
+    "page_number": 18,
+    "flag": null
    },
    {
     "figure_number": "2.2",
     "decision": "full",
     "reason": "Printed R² (0.5 maritime, 0.67 postal) and the market-access definition in the note (Harris 1954) are not in the prose.",
-    "flag": null,
-    "flag_detail": null,
-    "page_number": 19
+    "page_number": 19,
+    "flag": null
    },
    {
     "figure_number": "2.3",
     "decision": "full",
     "reason": "Printed shares by number of transshipments (51/37/11/2%) and the fitted line (y = 17.75x + 21.73, R² = 0.459); prose only says 'about half'.",
-    "flag": null,
-    "flag_detail": null,
-    "page_number": 19
+    "page_number": 19,
+    "flag": null
    },
    {
     "figure_number": "2.4",
     "decision": "skip",
     "reason": "Fully covered by prose (dwell > two weeks, SSA/MENA, aviation about half); no printed data values.",
-    "flag": null,
-    "flag_detail": null,
-    "page_number": 20
+    "page_number": 20,
+    "flag": null
    },
    {
     "figure_number": "2.5",
     "decision": "full",
     "reason": "Country-level pattern for 23 LLDCs is not in the prose (Niger and Mongolia longest; port dwell dominates Mongolia, corridor time dominates Niger); note lists LLDCs without data.",
-    "flag": null,
-    "flag_detail": null,
-    "page_number": 21
+    "page_number": 21,
+    "flag": null
    },
    {
     "figure_number": "2.6",
     "decision": "caption_only",
     "reason": "Title states the finding; the note carries unique facts (Hamburg–Santos route, 3,806 voyages, 168 transshipped via Morocco, the Netherlands or Spain).",
-    "flag": null,
-    "flag_detail": null,
-    "page_number": 21
+    "page_number": 21,
+    "flag": null
    },
    {
     "figure_number": "2.7",
     "decision": "full",
     "reason": "Printed slopes (imports y = 1.21x, N = 154; exports y = 0.89x, N = 149); prose gives only the derived '36 percent higher'.",
-    "flag": null,
-    "flag_detail": null,
-    "page_number": 22
+    "page_number": 22,
+    "flag": null
    },
    {
     "figure_number": "2.8",
     "decision": "full",
     "reason": "Percentiles are already in prose (p.21), but the figure adds a distribution shape not stated anywhere: a large mass at the 50+ day mark for Apapa and Algiers.",
-    "flag": null,
-    "flag_detail": null,
-    "page_number": 22
+    "page_number": 22,
+    "flag": null
    },
    {
     "figure_number": "2.9",
     "decision": "skip",
     "reason": "Fully covered by prose (turnaround < 2 days vs 2–6 days; turnaround shorter than dwell time); no printed data values.",
-    "flag": null,
-    "flag_detail": null,
-    "page_number": 23
+    "page_number": 23,
+    "flag": null
    },
    {
     "figure_number": "2.10",
-    "decision": "caption_only",
-    "reason": "Title + N = 173 + note kept verbatim; direction of the B2B/B2C gap not described.",
-    "flag": "source_inconsistency",
-    "flag_detail": "Figure title says B2B delivery times are longer than B2C; prose on p.23 says B2C delivery times are longer than B2B. Both kept verbatim; not adjudicated.",
-    "page_number": 23
+    "decision": "skip",
+    "reason": "The title contradicts both the prose (p.23) and the figure's own plotted data (4.5a: 106 economies above the 45-degree line = B2C longer, 54 below). Keeping the unit would put a misleading statement in the corpus; the correct finding is already in the p.23 prose.",
+    "page_number": 23,
+    "flag": null
    }
   ],
   "elements": [

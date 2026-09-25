@@ -24,7 +24,7 @@ Labels: `DONE`, `IN PROGRESS`, `PARTIAL`, `NEXT`, `PLANNED`, `PROPOSED`, `DEFERR
 | FBL chunking | DONE | 31 chunks |
 | LPI Methodology chunking | DONE | 94 chunks; cross-source concat check = 129 rows |
 | Suez Notes chunking | DONE | 4 chunks |
-| LPI Connecting to Compete chunking | DONE | 70 chunks; 132 units → 114 after dedup against LPI Methodology (18 suppressed, 7 trimmed); cross-source concat = 199 rows; whole-PDF coverage: 2,189 lines, 0 unaccounted |
+| LPI Connecting to Compete chunking | DONE | 69 chunks; 131 units → 113 after dedup against LPI Methodology (18 suppressed, 7 trimmed); cross-source concat = 198 rows; whole-PDF coverage: 2,189 lines, 0 unaccounted; nothing flagged or pending |
 | HbR annual report chunking | NEXT | plan PROPOSED: `docs/plans/HbR_Annual_report_2025_chunking_plan.md` (needs approval) |
 | IMO circular, USCG ×23 chunking | PLANNED | |
 | Embedding model choice | PLANNED | `Data/embeddings/` is empty |
@@ -68,7 +68,6 @@ RAG ingestion order (do not skip ahead): inventory → metadata → extraction �
 ## Known issues
 
 - Git: all work up to 2026-09-25 (chunking notebooks, RAG artifacts, docs) is committed together with the finished LPI Connecting to Compete notebook.
-- LPI Connecting to Compete contradicts itself on B2B vs B2C postal delivery times (Figure 2.10 title vs p.23). Both statements are kept verbatim; the figure unit is flagged `source_inconsistency` (ADR-020).
 - Cleaned-file format differs by source: LPI Connecting to Compete stores `{source, units, duplicate_audit, coverage_audit}`, older sources store a plain list of units. The future ingestion loader must accept both (or the older files are migrated then).
 - `Notebooks/_scratch/` (git-ignored) holds temporary review files (figure renders, a state export, a notebook backup); it can be deleted.
 - The old DB password was committed in notebooks before ADR-015 (local development container only).

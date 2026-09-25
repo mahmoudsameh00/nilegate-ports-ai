@@ -114,8 +114,8 @@ Never delete an entry; supersede it with a new one. Sources for older entries ar
 ## ADR-020 — Vector charts: retrieval-value gate and number-checked curated descriptions
 - **Status:** Accepted (2026-09-25).
 - **Context:** The charts of Connecting to Compete are vector drawings: bar heights and points are not text, and the extracted numbers are mostly axis ticks. Several figures only restate the prose.
-- **Decision:** Every figure passes a value gate reviewed against its render and the surrounding prose: `full` (caption + panels + curated description + note/source), `caption_only`, or `skip` (logged with a reason). Curated descriptions are qualitative and may contain **only numbers printed in the figure's own extracted text** (asserted). The region of every figure, including skipped ones, is recorded so its text never leaks into the body. Source contradictions are kept verbatim and flagged (`source_inconsistency`), not adjudicated.
-- **Consequences:** 6 full, 2 caption-only, 2 skipped figures; descriptions carry `provenance = curated_from_render`.
+- **Decision:** Every figure passes a value gate reviewed against its render and the surrounding prose: `full` (caption + panels + curated description + note/source), `caption_only`, or `skip` (logged with a reason). Curated descriptions are qualitative and may contain **only numbers printed in the figure's own extracted text** (asserted). The region of every figure, including skipped ones, is recorded so its text never leaks into the body. Nothing stays flagged: when a figure contradicts the prose, the figure's own plotted data are read from the vector drawings and decide; a misleading figure is skipped (the correct statement stays in the prose).
+- **Consequences:** 6 full, 1 caption-only, 3 skipped figures (2.4 and 2.9 covered by prose; 2.10 skipped because its title contradicts its own data — about two economies above the 45-degree line for every one below, i.e. B2C slower, as the p.23 prose says; measured in step 4.5a). Descriptions carry `provenance = curated_from_render`.
 
 ---
 

@@ -113,9 +113,9 @@ Chunk files are `Data/processed/rag/chunks/*.parquet` with the unified 16-column
 | FBL_template.pdf (FIATA) | 31 | bill_of_lading_template | Operations | 1 | null |
 | LPI_Methodology.pdf (The World Bank) | 94 | methodology_report | Operations | 1 | 2026 (publication year; data covers 2023–2024) |
 | Transit_Dues_Rates.pdf, Notes only (Suez Canal Authority) | 4 | suez_transit_dues_schedule | Finance | 1 | 2023-01-01 |
-| LPI.pdf, Connecting to Compete 2025 (The World Bank) | 70 | lpi_connecting_to_compete_2025 | Operations | 1 | 2025 (data covers 2023–2024) |
+| LPI.pdf, Connecting to Compete 2025 (The World Bank) | 69 | lpi_connecting_to_compete_2025 | Operations | 1 | 2025 (data covers 2023–2024) |
 
-Unified corpus today: 199 chunks (cross-source check passes; `chunk_id` prefixes `fbl_`/`definitions_`, `lpi_`, `suez_notes_`, `lpi2025_`).
+Unified corpus today: 198 chunks (cross-source check passes; `chunk_id` prefixes `fbl_`/`definitions_`, `lpi_`, `suez_notes_`, `lpi2025_`).
 
 Chunking rules: semantic boundaries first; `MIN_CHUNK_CHARS = 300` (short units are merged with neighbours in the same section); `MAX_CHUNK_CHARS = 2000` is a safety cap, not a target; tables become one chunk per row (bullets may be split); figures become one self-contained description; footnotes are either informative (appended as "Note: …") or citation-only (kept as metadata); dedup happens before chunking (ADR-010), at item level and with a canonical-source policy across documents (ADR-019). Vector charts go through a retrieval-value gate; curated figure descriptions may only contain numbers printed in the figure (ADR-020).
 
