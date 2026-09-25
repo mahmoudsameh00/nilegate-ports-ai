@@ -9,7 +9,7 @@ Never delete an entry; supersede it with a new one. Sources for older entries ar
 - **Status:** Accepted (2026-09-14). Supersedes the single-store design (2026-09-10) and the "pgvector first" proposal (2026-09-13).
 - **Context:** The first design put relational data, JSONB AIS/EDI and vectors (pgvector, 384-dim) in one PostgreSQL instance, with MinIO for raw files. The project is educational and job-oriented and should be ready for a larger corpus.
 - **Decision:** PostgreSQL/PostGIS is the relational system of record and holds document metadata/lineage. MongoDB holds semi-structured data (AIS, EDI). Qdrant owns vector retrieval.
-- **Consequences:** Three stores to run (Docker Compose later). pgvector, the `ais_tracking`/`edi_messages` JSONB tables and MinIO are not used. Raw files stay under `Data/raw/`. Whether object storage ever returns is UNCERTAIN.
+- **Consequences:** Three stores to run (Docker Compose later). pgvector and the `ais_tracking`/`edi_messages` JSONB tables are abandoned. MinIO was dropped silently when the design changed, without a recorded reason; it is now deferred (ADR-018). Raw files stay under `Data/raw/`.
 
 ## ADR-002 — Port reference data and LOCODE as the join key
 - **Status:** Accepted.
@@ -56,6 +56,7 @@ Never delete an entry; supersede it with a new one. Sources for older entries ar
 ## ADR-010 — Deduplicate logical units before chunking
 - **Status:** Accepted (first applied in the LPI Connecting to Compete plan).
 - **Decision:** Detect duplicates at the logical-unit level: normalized hash for exact duplicates, then lexical similarity (TF-IDF / cosine) for near duplicates. Choose the canonical copy by source role. Keep contextual duplicates. When unsure, send to manual review and do not delete. Embeddings are not a dependency of ingestion.
+- **Refined by:** ADR-019 (item-level matching, canonical-source policy, trimming).
 
 ## ADR-011 — Current news comes from a live tool, not the corpus
 - **Status:** Accepted.
@@ -94,6 +95,29 @@ Never delete an entry; supersede it with a new one. Sources for older entries ar
 
 ---
 
-## Rejected / not adopted (history)
-- DuckDB for local analytics, Redis job queue, star schema warehouse layer: PROPOSED in the 2026-09-13 proposal, not adopted.
+## ADR-018 — DuckDB, Redis, a star schema and MinIO are deferred, not rejected
+- **Status:** Deferred (2026-09-23).
+- **Context:** The 2026-09-13 proposal recommended DuckDB for sandboxed analysis, a Redis-backed job queue and a star-schema analytics layer. The 2026-09-10 design used MinIO (S3-compatible object storage) for raw files, and it disappeared from later designs without a recorded reason. None of the four was discussed or rejected on merit; they were simply not needed yet. At current scale (largest table 19,990 rows), with no API, no background jobs, one user and about 30 raw PDFs read directly from `Data/raw/`, each would add a service to run and learn without solving a present problem.
+- **Decision:** Do not add them now. Revisit each at its trigger:
+  - **DuckDB** → agents phase, if the Analytics Agent needs an isolated, read-only analysis sandbox (e.g. querying Parquet/CSV snapshots instead of the live PostgreSQL).
+  - **Redis job queue** (or another queue) → API phase, when ingestion or analysis must run in the background instead of in notebooks.
+  - **Star schema** → Power BI phase. Preferred shape: fact/dimension **views** on top of the existing normalized tables, not a rebuild.
+  - **MinIO / object storage** → API / Docker Compose phase, if several services need shared access to raw files, users upload documents, or document versions must be kept. Until then `Data/raw/` is the raw-file store.
+- **Consequences:** No change to the current stack. When a trigger is reached, the choice becomes a new ADR (adopt or reject, with reasons).
+
+## ADR-019 — Cross-document dedup: item-level matching and a canonical-source policy
+- **Status:** Accepted (2026-09-25). Refines ADR-010; first applied in `LPI_Connecting_to_Compete_chunking.ipynb`.
+- **Context:** Connecting to Compete 2025 repeats large parts of the LPI Methodology report (both indicator tables, most abbreviations, much of its Chapter 1), while also adding findings on the same concepts. Unit-level similarity alone cannot separate "same text" from "same topic, new facts".
+- **Decision:** Compare **items**, not whole units: sentences for prose, indicator definitions for table rows, one line per abbreviation. An item is a duplicate when repeated (difflib ratio ≥ 0.90) or paraphrased (≥ 0.75) without any new content word; candidates are pre-filtered by TF-IDF character n-grams (≥ 0.50), small structured families are compared exhaustively. Only the ingesting source is ever modified. Canonical source by role: the **Methodology** for indicator definitions, methodology and data construction (tables, abbreviations, Chapter 1 of Connecting to Compete); **Connecting to Compete** for findings, figures and the policy framework. Units fully covered are suppressed; units in a Methodology-canonical section that also carry new sentences keep only those sentences; close paraphrases go to manual review. Thresholds, decisions, removed items and all candidate pairs are stored in the cleaned file (`duplicate_audit`).
+- **Consequences:** 18 units suppressed and 7 trimmed for Connecting to Compete; the Methodology corpus is unchanged. A whole-PDF coverage audit proves every removed line has a canonical copy.
+
+## ADR-020 — Vector charts: retrieval-value gate and number-checked curated descriptions
+- **Status:** Accepted (2026-09-25).
+- **Context:** The charts of Connecting to Compete are vector drawings: bar heights and points are not text, and the extracted numbers are mostly axis ticks. Several figures only restate the prose.
+- **Decision:** Every figure passes a value gate reviewed against its render and the surrounding prose: `full` (caption + panels + curated description + note/source), `caption_only`, or `skip` (logged with a reason). Curated descriptions are qualitative and may contain **only numbers printed in the figure's own extracted text** (asserted). The region of every figure, including skipped ones, is recorded so its text never leaks into the body. Source contradictions are kept verbatim and flagged (`source_inconsistency`), not adjudicated.
+- **Consequences:** 6 full, 2 caption-only, 2 skipped figures; descriptions carry `provenance = curated_from_render`.
+
+---
+
+## Dropped (history)
 - Danish Maritime Authority AIS template (`ais_real_sample_template.csv`): dropped. AIS sources are `AISHub sample.json` (type/status diversity) and `NOAA AccessAIS.csv` (movement behaviour).

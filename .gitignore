@@ -19,3 +19,5 @@ Data/raw/
 # Temporary files
 *.tmp
 *.log
+
+Notebooks/_scratch/

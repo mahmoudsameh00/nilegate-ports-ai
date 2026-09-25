@@ -1,5 +1,5 @@
 > **ARCHIVED — historical record, not a source of truth.**
-> First architecture proposal ("Data Analyst Agent" / NileGate), pasted from another assistant session. Its recommendations (pgvector first, DuckDB, Redis, star schema) are PROPOSED only and were not adopted; Qdrant + MongoDB were chosen (ADR-001). Long-term ideas (tool registry, guardrails, evaluation, observability) are tracked in docs/ROADMAP.md.
+> First architecture proposal ("Data Analyst Agent" / NileGate), pasted from another assistant session. Its pgvector-first recommendation was not adopted (Qdrant + MongoDB were chosen, ADR-001). DuckDB, Redis and the star schema are deferred (ADR-018). Long-term ideas (tool registry, guardrails, evaluation, observability) are tracked in docs/ROADMAP.md.
 > Current sources of truth: the project rules, `ARCHITECTURE.md`, `docs/`.
 
 ---

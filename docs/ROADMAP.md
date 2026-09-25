@@ -1,11 +1,11 @@
 # Roadmap & status
 
-Single place for project status. Last updated: 2026-09-23.
-Labels: `DONE`, `IN PROGRESS`, `PARTIAL`, `NEXT`, `PLANNED`, `PROPOSED`, `BLOCKED`.
+Single place for project status. Last updated: 2026-09-25.
+Labels: `DONE`, `IN PROGRESS`, `PARTIAL`, `NEXT`, `PLANNED`, `PROPOSED`, `DEFERRED`, `BLOCKED`.
 
 ## Current phase
 
-**RAG, steps 3–5 (extraction, cleaning, chunking), done per source.** Active item: `Notebooks/LPI_Connecting_to_Compete_chunking.ipynb`, milestone 1 (plan steps 0–3). Setup and page inventory are done; **page classification is next.** Plan: `docs/plans/LPI_Connecting_to_Compete_2025_chunking_plan.md`.
+**RAG, steps 3–5 (extraction, cleaning, chunking), done per source.** Done for 4 sources: FBL, LPI Methodology, Suez Notes and **LPI Connecting to Compete (finished 2026-09-25)**. **Next: `HbR_Annual_report_2025_highlights.pdf`** (new notebook, ADR-008), then the IMO circular, then the 23 USCG reports. Use `Notebooks/LPI_Connecting_to_Compete_chunking.ipynb` as the most complete reference (value gate for figures, item-level dedup, whole-PDF coverage audit, Final Checkpoint markdown); write its plan in `docs/plans/` first and get it approved.
 
 ## Status
 
@@ -24,7 +24,7 @@ Labels: `DONE`, `IN PROGRESS`, `PARTIAL`, `NEXT`, `PLANNED`, `PROPOSED`, `BLOCKE
 | FBL chunking | DONE | 31 chunks |
 | LPI Methodology chunking | DONE | 94 chunks; cross-source concat check = 129 rows |
 | Suez Notes chunking | DONE | 4 chunks |
-| LPI Connecting to Compete chunking | IN PROGRESS | steps 0–1 of 18 |
+| LPI Connecting to Compete chunking | DONE | 70 chunks; 132 units → 114 after dedup against LPI Methodology (18 suppressed, 7 trimmed); cross-source concat = 199 rows; whole-PDF coverage: 2,189 lines, 0 unaccounted |
 | HbR, IMO circular, USCG ×23 chunking | PLANNED | |
 | Embedding model choice | PLANNED | `Data/embeddings/` is empty |
 | Qdrant setup, collection, controlled ingestion, retrieval | PLANNED | |
@@ -43,7 +43,7 @@ RAG ingestion order (do not skip ahead): inventory → metadata → extraction �
 ## Missing work
 
 **Required**
-- Finish LPI Connecting to Compete (steps 2–18), then HbR, IMO and USCG chunking.
+- HbR, IMO and USCG chunking (next: HbR).
 - Fill `documents` rows for every chunked source.
 - Embedding model, Qdrant, retrieval with the RBAC filter.
 
@@ -55,13 +55,21 @@ RAG ingestion order (do not skip ahead): inventory → metadata → extraction �
 - A read-only database role for agents and tools (today only the `postgres` superuser exists).
 - `vessels.vessel_type` ↔ `toll_rate_bands.vessel_category` is a logical link with no constraint (0 mismatches today).
 
+**Deferred (ADR-018): check at the start of each phase**
+- Agents phase → decide on DuckDB as the analysis sandbox.
+- API / Docker Compose phase → decide on a job queue (Redis or other) and on object storage for raw files (MinIO).
+- Power BI phase → decide on star-schema views.
+
 **Blocked**
 - MongoDB collection design → blocked on profiling the AIS/EDI samples.
 - Agents → blocked on retrieval.
 
 ## Known issues
 
-- Git: the recent work (4 chunking notebooks, LPI artifacts, docs reorganisation, `db/`) is not committed yet. The deletion of `rag_pipeline.ipynb` is also uncommitted.
+- Git: all work up to 2026-09-25 (chunking notebooks, RAG artifacts, docs) is committed together with the finished LPI Connecting to Compete notebook.
+- LPI Connecting to Compete contradicts itself on B2B vs B2C postal delivery times (Figure 2.10 title vs p.23). Both statements are kept verbatim; the figure unit is flagged `source_inconsistency` (ADR-020).
+- Cleaned-file format differs by source: LPI Connecting to Compete stores `{source, units, duplicate_audit, coverage_audit}`, older sources store a plain list of units. The future ingestion loader must accept both (or the older files are migrated then).
+- `Notebooks/_scratch/` (git-ignored) holds temporary review files (figure renders, a state export, a notebook backup); it can be deleted.
 - The old DB password was committed in notebooks before ADR-015 (local development container only).
 - `SyntheticGenerator.ipynb` was fixed on 2026-09-23 (paths, `%pip`, currencies, indentation, `rate_sdr_per_ton`, date anchoring, validation cell). Re-running it reproduces employees, vessels and containers exactly (employees confirmed on Windows, 2026-09-23).
 - The notebooks have no automated tests. Validation lives in assertion cells.

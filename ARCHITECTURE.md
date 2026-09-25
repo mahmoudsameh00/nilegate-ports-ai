@@ -1,7 +1,7 @@
 # Architecture — Ports & Logistics AI (NileGate)
 
 Describes the system **as it exists today** and marks everything else explicitly.
-Labels: `IMPLEMENTED`, `PLANNED` (decided, not built), `PROPOSED` (not decided), `ABANDONED`, `UNCERTAIN`.
+Labels: `IMPLEMENTED`, `PLANNED` (decided, not built), `PROPOSED` (not decided), `DEFERRED` (postponed until a trigger), `ABANDONED`, `UNCERTAIN`.
 Decisions are referenced as ADR-NNN (`docs/decisions.md`). Status lives in `docs/ROADMAP.md`.
 
 ---
@@ -29,13 +29,14 @@ Today the system is **data preparation only**: Jupyter notebooks, files under `D
 | PostgreSQL 16.9 + PostGIS 3.5.2 (Docker container `ports-postgres`, image `postgis/postgis:16-3.5`, db `ports_logistics`, port 5432, volume `ports-postgres-data`) | IMPLEMENTED | Schema verified 2026-09-23 (`db/schema_snapshot.sql`). Only the `postgres` superuser exists. Extensions: postgis, postgis_topology, postgis_tiger_geocoder, fuzzystrmatch (the last three ship with the image and are unused). |
 | Structured ETL notebooks (`ExtractPortsAttributes`, `ExtractPortsConnection`, `ExtractTollRates`) | IMPLEMENTED (partly reproducible) | `ExtractTollRates` never ran, and the toll CSV's origin is undocumented. The code that loaded `ports` into the DB is not in the repo. |
 | Synthetic data notebook (`SyntheticGenerator`) | IMPLEMENTED | Faker/random seed 42, hire dates anchored to 2026-09-13. It reproduces employees, vessels and containers exactly (confirmed 2026-09-23) and verifies them against the CSVs (never overwrites). Invoices are rebuilt only to validate the pricing; the DB is canonical (ADR-013). |
-| RAG ingestion notebooks, one per source (ADR-008) | IMPLEMENTED for FBL, LPI Methodology, Suez Notes; IN PROGRESS for LPI Connecting to Compete | PyMuPDF extraction → cleaned logical units → semantic chunks in the 16-column schema |
+| RAG ingestion notebooks, one per source (ADR-008) | IMPLEMENTED for FBL, LPI Methodology, Suez Notes, LPI Connecting to Compete | PyMuPDF extraction → cleaned logical units → (dedup) → semantic chunks in the 16-column schema |
 | `documents` registry table | IMPLEMENTED (empty) | migration 002, ADR-009 |
 | Embedding model, Qdrant | PLANNED | model not chosen |
 | MongoDB (`ais_events`, `edi_messages`) | PLANNED | design only after profiling the samples |
 | Agents, tool layer, API (FastAPI mentioned), auth, audit_log | PLANNED | ADR-012, ADR-014 |
 | Power BI, evaluation harness, observability, Docker Compose | PLANNED / PROPOSED | see ROADMAP |
-| pgvector single store, MinIO, DuckDB, Redis, star schema | ABANDONED / not adopted | ADR-001 |
+| pgvector single store | ABANDONED | ADR-001 |
+| DuckDB, Redis job queue, star schema, MinIO object storage | DEFERRED (revisit in agents / API / Power BI phases) | ADR-018 |
 
 ## 3. Data sources (what each source is for)
 
@@ -47,8 +48,8 @@ Today the system is **data preparation only**: Jupyter notebooks, files under `D
 | `semi-structured/AISHub sample.json` | real | MongoDB (planned) | vessel type / NAVSTAT diversity for the AIS generator |
 | `semi-structured/NOAA AccessAIS.csv` | real | MongoDB (planned) | movement behaviour (speed, heading, stops) |
 | `semi-structured/IFTMIN_D12A_sample.edi` | real template | MongoDB (planned) | EDIFACT structure for the EDI generator |
-| `unstructured/LPI.pdf` (Connecting to Compete 2025, 30 p.) | real | RAG | indicator results, benchmarking, including an Egypt example |
-| `unstructured/LPI_Methodology.pdf` (32 p.) | real | RAG | indicator definitions and methodology |
+| `unstructured/LPI.pdf` (Connecting to Compete 2025, 30 p.) | real | RAG | 2023–24 findings, benchmarking, policy framework |
+| `unstructured/LPI_Methodology.pdf` (32 p.) | real | RAG | indicator definitions and methodology; includes an Egypt example (Figures 7–8, deliberately not extracted) |
 | `unstructured/HbR_Annual_report_2025_highlights.pdf` | real | RAG | port-authority annual report; financial tables treated as level 3 |
 | `unstructured/MSC-MEPC_3-Circ_4-Rev_1.pdf` (IMO) | real | RAG | casualty-reporting fields; schema for synthetic incidents |
 | `unstructured/us_coast_guard_reports/*.pdf` (23) | real | RAG | real incident narratives (ADR-007) |
@@ -112,9 +113,11 @@ Chunk files are `Data/processed/rag/chunks/*.parquet` with the unified 16-column
 | FBL_template.pdf (FIATA) | 31 | bill_of_lading_template | Operations | 1 | null |
 | LPI_Methodology.pdf (The World Bank) | 94 | methodology_report | Operations | 1 | 2026 (publication year; data covers 2023–2024) |
 | Transit_Dues_Rates.pdf, Notes only (Suez Canal Authority) | 4 | suez_transit_dues_schedule | Finance | 1 | 2023-01-01 |
-| LPI.pdf (in progress) | — | lpi_connecting_to_compete_2025 | Operations | 1 | 2025 |
+| LPI.pdf, Connecting to Compete 2025 (The World Bank) | 70 | lpi_connecting_to_compete_2025 | Operations | 1 | 2025 (data covers 2023–2024) |
 
-Chunking rules: semantic boundaries first; `MIN_CHUNK_CHARS = 300` (short units are merged with neighbours in the same section); `MAX_CHUNK_CHARS = 2000` is a safety cap, not a target; tables become one chunk per row (bullets may be split); figures become one self-contained description; footnotes are either informative (appended as "Note: …") or citation-only (kept as metadata); dedup happens before chunking (ADR-010).
+Unified corpus today: 199 chunks (cross-source check passes; `chunk_id` prefixes `fbl_`/`definitions_`, `lpi_`, `suez_notes_`, `lpi2025_`).
+
+Chunking rules: semantic boundaries first; `MIN_CHUNK_CHARS = 300` (short units are merged with neighbours in the same section); `MAX_CHUNK_CHARS = 2000` is a safety cap, not a target; tables become one chunk per row (bullets may be split); figures become one self-contained description; footnotes are either informative (appended as "Note: …") or citation-only (kept as metadata); dedup happens before chunking (ADR-010), at item level and with a canonical-source policy across documents (ADR-019). Vector charts go through a retrieval-value gate; curated figure descriptions may only contain numbers printed in the figure (ADR-020).
 
 ## 6. Main flows
 
@@ -133,6 +136,8 @@ PDF ─► page inventory ─► page classification ─► structure map (headi
     ─► section assignment ─► logical units ─► dedup (ADR-010) ─► chunks ─► 16-col schema
     ─► parquet save ─► reload + validate ─► cross-source schema check
 artifacts: extracted/<stem>_extracted.json · cleaned/<stem>_logical_units.json · chunks/<stem>_chunks.parquet
+LPI Connecting to Compete adds: dedup against the Methodology units, and a whole-PDF line coverage audit;
+its cleaned file is ONE JSON object {source, units, duplicate_audit, coverage_audit}
 ```
 
 **Retrieval (PLANNED):**
@@ -172,6 +177,10 @@ Not declared but referenced: `pdfplumber` (only in the never-run `ExtractTollRat
 | 014 | Keep `documents`, defer `audit_log`, drop `document_chunks`/`reports` |
 | 015 | Credentials from `.env` |
 | 016 | Schema changes only via numbered migrations |
+| 017 | Employees have no active/inactive status |
+| 018 | DuckDB, Redis, star schema, MinIO deferred to agents / API / Power BI phases |
+| 019 | Cross-document dedup at item level with a canonical-source policy (refines 010) |
+| 020 | Vector charts: retrieval-value gate; curated descriptions may use only printed numbers |
 
 ## 10. Open architectural questions
 
@@ -179,4 +188,3 @@ Not declared but referenced: `pdfplumber` (only in the never-run `ExtractTollRat
 2. `document_id` slugs, and whether one row per file version is enough (a new version = new sha256 = new row), or explicit version history is needed.
 3. Whether the proposed CHECK constraints and indexes (ROADMAP → Recommended) should be applied before the agent phase.
 4. Where the shared "event timeline" for causal consistency lives (PostgreSQL table vs generator-only config).
-5. Whether object storage (MinIO/S3) returns for raw files when the corpus grows (UNCERTAIN).
