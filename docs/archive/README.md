@@ -10,6 +10,7 @@ These files are kept for history: decisions, abandoned approaches and how the pr
 | Status, missing work, known issues | `docs/ROADMAP.md` |
 | Decisions (ADR log) | `docs/decisions.md` |
 | Access control mapping | `docs/rbac_mapping.md` |
+| The active implementation plan (one at a time) | `docs/plans/` |
 
 | Archived file | Date | What it was | Why archived |
 |---|---|---|---|
@@ -18,3 +19,4 @@ These files are kept for history: decisions, abandoned approaches and how the pr
 | `2026-09-12_data_purpose_and_processing_plan.md` | 2026-09-12 | What each source is for, first processing plan | Merged into `ARCHITECTURE.md` → Data sources |
 | `2026-09-13_initial_architecture_proposal.md` | 2026-09-13 | Generic "Data Analyst Agent" architecture proposal | Proposal only; the chosen parts are in ADR-001 and ADR-012; the deferred parts are in ADR-018 |
 | `2026-09-14_master_checkpoint.md` | 2026-09-14 | ChatGPT hand-off checkpoint (reviewed version) | Split into `ARCHITECTURE.md`, `docs/decisions.md` and `docs/ROADMAP.md` |
+| `2026-09-25_LPI_Connecting_to_Compete_2025_chunking_plan.md` | 2026-09-25 | Approved plan for `LPI_Connecting_to_Compete_chunking.ipynb`, with its implementation record (deviations) at the top | Implemented and closed; the notebook's Final Checkpoint markdown is the authoritative description; lasting decisions are ADR-019 and ADR-020 |

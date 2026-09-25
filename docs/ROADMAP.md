@@ -5,7 +5,7 @@ Labels: `DONE`, `IN PROGRESS`, `PARTIAL`, `NEXT`, `PLANNED`, `PROPOSED`, `DEFERR
 
 ## Current phase
 
-**RAG, steps 3–5 (extraction, cleaning, chunking), done per source.** Done for 4 sources: FBL, LPI Methodology, Suez Notes and **LPI Connecting to Compete (finished 2026-09-25)**. **Next: `HbR_Annual_report_2025_highlights.pdf`** (new notebook, ADR-008), then the IMO circular, then the 23 USCG reports. Use `Notebooks/LPI_Connecting_to_Compete_chunking.ipynb` as the most complete reference (value gate for figures, item-level dedup, whole-PDF coverage audit, Final Checkpoint markdown); write its plan in `docs/plans/` first and get it approved.
+**RAG, steps 3–5 (extraction, cleaning, chunking), done per source.** Done for 4 sources: FBL, LPI Methodology, Suez Notes and **LPI Connecting to Compete (finished 2026-09-25)**. **Next: `HbR_Annual_report_2025_highlights.pdf`** (new notebook, ADR-008), then the IMO circular, then the 23 USCG reports. Active plan: `docs/plans/HbR_Annual_report_2025_chunking_plan.md` (**Status: PROPOSED — review and approve before any notebook work**). Reference notebook: `Notebooks/LPI_Connecting_to_Compete_chunking.ipynb` (value gate for figures, item-level dedup, whole-PDF coverage audit, Final Checkpoint markdown); its closed plan is in `docs/archive/2026-09-25_LPI_Connecting_to_Compete_2025_chunking_plan.md`.
 
 ## Status
 
@@ -25,7 +25,8 @@ Labels: `DONE`, `IN PROGRESS`, `PARTIAL`, `NEXT`, `PLANNED`, `PROPOSED`, `DEFERR
 | LPI Methodology chunking | DONE | 94 chunks; cross-source concat check = 129 rows |
 | Suez Notes chunking | DONE | 4 chunks |
 | LPI Connecting to Compete chunking | DONE | 70 chunks; 132 units → 114 after dedup against LPI Methodology (18 suppressed, 7 trimmed); cross-source concat = 199 rows; whole-PDF coverage: 2,189 lines, 0 unaccounted |
-| HbR, IMO circular, USCG ×23 chunking | PLANNED | |
+| HbR annual report chunking | NEXT | plan PROPOSED: `docs/plans/HbR_Annual_report_2025_chunking_plan.md` (needs approval) |
+| IMO circular, USCG ×23 chunking | PLANNED | |
 | Embedding model choice | PLANNED | `Data/embeddings/` is empty |
 | Qdrant setup, collection, controlled ingestion, retrieval | PLANNED | |
 | RBAC-filtered retrieval | PLANNED | rule decided (ADR-006) |
