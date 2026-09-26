@@ -1,11 +1,11 @@
 # Roadmap & status
 
-Single place for project status. Last updated: 2026-09-25.
+Single place for project status. Last updated: 2026-09-26.
 Labels: `DONE`, `IN PROGRESS`, `PARTIAL`, `NEXT`, `PLANNED`, `PROPOSED`, `DEFERRED`, `BLOCKED`.
 
 ## Current phase
 
-**RAG, steps 3–5 (extraction, cleaning, chunking), done per source.** Done for 4 sources: FBL, LPI Methodology, Suez Notes and **LPI Connecting to Compete (finished 2026-09-25)**. **Next: `HbR_Annual_report_2025_highlights.pdf`** (new notebook, ADR-008), then the IMO circular, then the 23 USCG reports. Active plan: `docs/plans/HbR_Annual_report_2025_chunking_plan.md` (**Status: PROPOSED — review and approve before any notebook work**). Reference notebook: `Notebooks/LPI_Connecting_to_Compete_chunking.ipynb` (value gate for figures, item-level dedup, whole-PDF coverage audit, Final Checkpoint markdown); its closed plan is in `docs/archive/2026-09-25_LPI_Connecting_to_Compete_2025_chunking_plan.md`.
+**RAG, steps 3–5 (extraction, cleaning, chunking), done per source.** Done for 5 sources: FBL, LPI Methodology, Suez Notes, LPI Connecting to Compete and **HbR annual report 2025 (finished 2026-09-26)**. **Next: `MSC-MEPC_3-Circ_4-Rev_1.pdf`** (IMO circular on casualty reporting; new notebook, ADR-008), then the 23 USCG reports. Active plan: `docs/plans/MSC-MEPC_3-Circ_4-Rev_1_chunking_plan.md` (**Status: PROPOSED — review and approve before any notebook work**). Reference notebooks: `Notebooks/HbR_Annual_report_2025_chunking.ipynb` (per-unit access control, source errata, within-source dedup, coverage audit) and `Notebooks/LPI_Connecting_to_Compete_chunking.ipynb` (notes policy, figure gate); closed plans in `docs/archive/`.
 
 ## Status
 
@@ -25,8 +25,9 @@ Labels: `DONE`, `IN PROGRESS`, `PARTIAL`, `NEXT`, `PLANNED`, `PROPOSED`, `DEFERR
 | LPI Methodology chunking | DONE | 94 chunks; cross-source concat check = 129 rows |
 | Suez Notes chunking | DONE | 4 chunks |
 | LPI Connecting to Compete chunking | DONE | 69 chunks; 131 units → 113 after dedup against LPI Methodology (18 suppressed, 7 trimmed); cross-source concat = 198 rows; whole-PDF coverage: 2,189 lines, 0 unaccounted; nothing flagged or pending |
-| HbR annual report chunking | NEXT | plan PROPOSED: `docs/plans/HbR_Annual_report_2025_chunking_plan.md` (needs approval) |
-| IMO circular, USCG ×23 chunking | PLANNED | |
+| HbR annual report chunking | DONE | 2026-09-26: 352 chunks (347 level 1 / Operations, 5 level 3 / Finance — ADR-021); 602 units → 593 after within-source dedup (9 suppressed, 1 trimmed); 3 source errata excluded (ADR-022); cross-source concat = 550 rows; whole-PDF coverage: 4,151 lines, 0 unaccounted; nothing flagged or pending |
+| IMO circular chunking (`MSC-MEPC_3-Circ_4-Rev_1.pdf`) | NEXT | plan PROPOSED: `docs/plans/MSC-MEPC_3-Circ_4-Rev_1_chunking_plan.md` (needs approval) |
+| USCG ×23 chunking | PLANNED | |
 | Embedding model choice | PLANNED | `Data/embeddings/` is empty |
 | Qdrant setup, collection, controlled ingestion, retrieval | PLANNED | |
 | RBAC-filtered retrieval | PLANNED | rule decided (ADR-006) |
@@ -44,7 +45,7 @@ RAG ingestion order (do not skip ahead): inventory → metadata → extraction �
 ## Missing work
 
 **Required**
-- HbR, IMO and USCG chunking (next: HbR).
+- IMO and USCG chunking (next: the IMO circular).
 - Fill `documents` rows for every chunked source.
 - Embedding model, Qdrant, retrieval with the RBAC filter.
 
@@ -67,11 +68,12 @@ RAG ingestion order (do not skip ahead): inventory → metadata → extraction �
 
 ## Known issues
 
-- Git: all work up to 2026-09-25 (chunking notebooks, RAG artifacts, docs) is committed together with the finished LPI Connecting to Compete notebook.
-- Cleaned-file format differs by source: LPI Connecting to Compete stores `{source, units, duplicate_audit, coverage_audit}`, older sources store a plain list of units. The future ingestion loader must accept both (or the older files are migrated then).
+- Git: all work up to 2026-09-25 is committed; the HbR notebook, its artifacts and the 2026-09-26 docs are to be committed by the owner. `Notebooks/LPI_Connecting_to_Compete_chunking.ipynb` was saved again after the last commit (2026-09-25 22:30) and shows as modified: check before committing it. Seen from the Linux VM, several data files show as modified only because of CRLF line endings (no content change).
+- Cleaned-file format differs by source: LPI Connecting to Compete and HbR store `{source, units, duplicate_audit, coverage_audit}`, older sources store a plain list of units. The future ingestion loader must accept both (or the older files are migrated then).
 - `Notebooks/_scratch/` (git-ignored) holds temporary review files (figure renders, a state export, a notebook backup); it can be deleted.
 - The old DB password was committed in notebooks before ADR-015 (local development container only).
 - `SyntheticGenerator.ipynb` was fixed on 2026-09-23 (paths, `%pip`, currencies, indentation, `rate_sdr_per_ton`, date anchoring, validation cell). Re-running it reproduces employees, vessels and containers exactly (employees confirmed on Windows, 2026-09-23).
 - The notebooks have no automated tests. Validation lives in assertion cells.
+- `sensitivity_level` / `department` now vary within one source (HbR, ADR-021): the future `documents` rows and the Qdrant payload must carry them per chunk; a document-level value is not enough.
 - `toll_rate_bands.csv` extraction method is undocumented. `ExtractTollRates.ipynb` was never executed and `pdfplumber` is not a project dependency.
 - `pymupdf4llm` is a dependency but is not used by any notebook (EXPERIMENTAL).

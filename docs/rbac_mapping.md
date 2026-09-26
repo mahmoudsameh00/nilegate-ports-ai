@@ -60,9 +60,9 @@ External, publicly published sources are level 1. Their owner department is the 
 | `FBL_template.pdf` (FIATA) | 1 | Operations |
 | `Transit_Dues_Rates.pdf`, Notes section only (Suez Canal Authority) | 1 | Finance |
 | `HbR_Annual_report_2025_highlights.pdf`: strategy, ESG, narrative | 1 | Operations |
-| HbR financial statements (balance sheet, income statement) | **3** | Finance |
+| HbR: the Port Authority's own financial results and position — balance sheet and income statement (p.82), the 3.2.2 paragraphs on revenue, operating expenses, EBITDA / net result and gross investments, and the gross-investments chart (p.13) | **3** | Finance |
 
-HbR is deliberately treated as "our internal report" so the corpus contains one document with sections at different levels. Sensitivity is stored per chunk.
+HbR is deliberately treated as "our internal report" so the corpus contains one document with sections at different levels. Sensitivity is stored per chunk. Implemented 2026-09-26 (ADR-021): every unit that mentions money or finance was reviewed; 37 units / 5 chunks are level 3, all others level 1, and no chunk mixes levels.
 
 ## 5. Synthetic company documents (planned)
 
