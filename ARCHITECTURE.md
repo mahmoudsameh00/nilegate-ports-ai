@@ -52,7 +52,7 @@ Today the system is **data preparation only**: Jupyter notebooks, files under `D
 | `unstructured/LPI_Methodology.pdf` (32 p.) | real | RAG | indicator definitions and methodology; includes an Egypt example (Figures 7–8, deliberately not extracted) |
 | `unstructured/HbR_Annual_report_2025_highlights.pdf` (Port of Rotterdam Authority, 85 p.) | real | RAG | port-authority annual report treated as NileGate's internal report: strategy, ESG, governance (level 1); own financial results (level 3, ADR-021) |
 | `unstructured/MSC-MEPC_3-Circ_4-Rev_1.pdf` (IMO, 31 p., 18 Nov 2014) | real | RAG + field catalogue | what must be reported about a marine casualty and which values each field takes; its machine-readable **field catalogue** (extracted file, ADR-023) is the schema for synthetic incidents and the coding vocabulary for the USCG reports |
-| `unstructured/us_coast_guard_reports/*.pdf` (23, 580 p.) | real | RAG + IMO-coded incident profiles (PLANNED) | real incident narratives (ADR-007); one shared ROI template; 4 reports have image-only bodies → OCR (PLANNED, `docs/plans/USCG_ROI_chunking_plan.md`) |
+| `unstructured/us_coast_guard_reports/*.pdf` (23, 580 p.) | real | RAG + IMO-coded incident profiles | real incident narratives (ADR-007); one shared ROI template, one notebook for the corpus (ADR-024); 115 image-only pages OCR'd with RapidOCR (ADR-025); one incident profile per report in the extracted file + one profile chunk per report |
 | `unstructured/FBL_template.pdf` (FIATA) | real template | RAG | bill-of-lading concepts; template for synthetic FBLs |
 | Faker + seeds | synthetic | departments, roles, employees, vessels, containers, invoices | company data anchored to real ports and tariffs |
 | Live web search | live | agent tool (planned) | news, not corpus (ADR-011) |
@@ -116,10 +116,11 @@ Chunk files are `Data/processed/rag/chunks/*.parquet` with the unified 16-column
 | LPI.pdf, Connecting to Compete 2025 (The World Bank) | 69 | lpi_connecting_to_compete_2025 | Operations | 1 | 2025 (data covers 2023–2024) |
 | HbR_Annual_report_2025_highlights.pdf (Port of Rotterdam Authority) | 352 | port_authority_annual_report | Operations (347) / Finance (5) | 1 / 3, **per chunk** (ADR-021) | 2025 |
 | MSC-MEPC_3-Circ_4-Rev_1.pdf (International Maritime Organization (IMO)) | 69 | imo_casualty_reporting_circular | Operations | 1 | 2014-11-18 |
+| 23 × `*_ROI_Redacted.pdf` (United States Coast Guard; one file per report, `filename` per chunk) | 1,609 | uscg_report_of_investigation | Operations | 1 | per report: date of the Commandant's action (YYYY-MM-DD) |
 
-Unified corpus today: 619 chunks (cross-source check passes; `chunk_id` prefixes `fbl_`/`definitions_`, `lpi_`, `suez_notes_`, `lpi2025_`, `hbr2025_`, `imo_mci_`). Levels: 614 level 1, 5 level 3.
+Unified corpus today: 2,228 chunks (cross-source check passes; `chunk_id` prefixes `fbl_`/`definitions_`, `lpi_`, `suez_notes_`, `lpi2025_`, `hbr2025_`, `imo_mci_`, `uscg_`). Levels: 2,223 level 1, 5 level 3.
 
-Chunking rules: semantic boundaries first; `MIN_CHUNK_CHARS = 300` (short units are merged with neighbours in the same section); `MAX_CHUNK_CHARS = 2000` is a safety cap, not a target; tables become one chunk per row in the LPI notebooks, while HbR groups the consecutive short KPI rows of one table into one chunk (header written once, balanced split when a table does not fit); figures, IRO/text boxes and milestone cards become one self-contained chunk; a section made only of short pieces under minor headings becomes one labelled "section block" chunk (HbR credits); no chunk under 50 characters; footnotes are either informative (appended as "Note: …") or citation-only (kept as metadata); dedup happens before chunking (ADR-010), at item level and with a canonical-source policy across documents (ADR-019). Vector charts go through a retrieval-value gate; curated figure descriptions may only contain numbers printed in the figure (ADR-020). Content the document itself contradicts is excluded with evidence (ADR-022). `sensitivity_level` / `department` may be decided per unit, and a chunk never mixes them (ADR-021). Reporting forms (IMO) are chunked along their structure — one chunk per field group, conditional section or option table, the document path (and column names / condition) repeated in every part, carried-down categories written on every option line; the form itself is kept as a machine-readable field catalogue in the extracted file (ADR-023).
+Chunking rules: semantic boundaries first; `MIN_CHUNK_CHARS = 300` (short units are merged with neighbours in the same section); `MAX_CHUNK_CHARS = 2000` is a safety cap, not a target; tables become one chunk per row in the LPI notebooks, while HbR groups the consecutive short KPI rows of one table into one chunk (header written once, balanced split when a table does not fit); figures, IRO/text boxes and milestone cards become one self-contained chunk; a section made only of short pieces under minor headings becomes one labelled "section block" chunk (HbR credits); no chunk under 50 characters; footnotes are either informative (appended as "Note: …") or citation-only (kept as metadata); dedup happens before chunking (ADR-010), at item level and with a canonical-source policy across documents (ADR-019). Vector charts go through a retrieval-value gate; curated figure descriptions may only contain numbers printed in the figure (ADR-020). Content the document itself contradicts is excluded with evidence (ADR-022). `sensitivity_level` / `department` may be decided per unit, and a chunk never mixes them (ADR-021). Template corpora (USCG) are one source with one chunk file (ADR-024); every USCG chunk starts with the header `USCG ROI <vessel> (MISLE <n>, <incident date>) — <section path>`, and chunks follow the content (a vessel or persons table, a numbered finding with its sub-items, the Determination of Cause, a recommendation with its action, a section's figure captions, the incident profile); OCR text carries its provenance to the coverage audit (ADR-025); curated text uses roles, never names (ADR-026). Reporting forms (IMO) are chunked along their structure — one chunk per field group, conditional section or option table, the document path (and column names / condition) repeated in every part, carried-down categories written on every option line; the form itself is kept as a machine-readable field catalogue in the extracted file (ADR-023).
 
 ## 6. Main flows
 
@@ -162,7 +163,7 @@ user ─► employee ─► role ceiling + department ─► Qdrant payload filt
 
 pandas 3.0.5, numpy 2.2.4, geopandas 1.1.4, psycopg[binary] 3.3.5, pymupdf 1.28.2, pymupdf4llm (unused), pypdf 6.18.1, pyarrow, pillow, scikit-learn 1.9.1 (TF-IDF), faker 40.38.0, ipykernel.
 Not declared but referenced: `pdfplumber` (only in the never-run `ExtractTollRates.ipynb`).
-PLANNED (USCG notebook): RapidOCR (`rapidocr` + `onnxruntime`, added with `uv add`; bundled ONNX models, applied to PyMuPDF page renders).
+Added for the USCG notebook (2026-09-26, `uv add`): rapidocr 3.9.2 + onnxruntime 1.30.0 (OCR, ADR-025), scipy 1.18.1 (figure regions on scans), nbconvert 7.17.1 (notebook execution into logs).
 
 ## 9. Major architectural decisions
 
@@ -191,6 +192,9 @@ PLANNED (USCG notebook): RapidOCR (`rapidocr` + `onnxruntime`, added with `uv ad
 | 021 | Access level per logical unit; a chunk never mixes levels or departments |
 | 022 | Source errata: content contradicted by the document itself is excluded with evidence |
 | 023 | Reporting forms: machine-readable field catalogue + structure-following chunks |
+| 024 | A source may be a corpus of same-template documents (refines 008) |
+| 025 | OCR with RapidOCR: cache, provenance, readability gate |
+| 026 | Personal data: report text as published, roles in curated text |
 
 ## 10. Open architectural questions
 

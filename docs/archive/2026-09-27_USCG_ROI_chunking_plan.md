@@ -1,12 +1,45 @@
 # USCG Reports of Investigation (23) — Template-driven Ingestion, Chunking & IMO Coding Plan
 
-**Status: APPROVED (2026-09-26)** — the owner answered §4 on 2026-09-26 (one notebook; **OCR the image-only pages**; chunking chosen per content, no fixed rule; roles instead of names); the other §4 answers are adopted as proposed. Implementation details not fixed here are delegated to the implementing session, which records every decision and deviation in §6 (dated log).
+**Status: IMPLEMENTED (2026-09-27)** — approved 2026-09-26 — the owner answered §4 on 2026-09-26 (one notebook; **OCR the image-only pages**; chunking chosen per content, no fixed rule; roles instead of names); the other §4 answers are adopted as proposed. Implementation details not fixed here are delegated to the implementing session, which records every decision and deviation in §6 (dated log).
 
 **Planned notebook:** `Notebooks/USCG_ROI_chunking.ipynb` (one notebook for the 23 reports — §4.1, approved)
 **Primary input:** `Data/raw/unstructured/us_coast_guard_reports/*_ROI_Redacted.pdf` (23 files, 580 pages, 98 MB; ADR-007)
 **Companion source:** `Notebooks/IMO_MSC-MEPC_3_Circ_4_Rev_1_chunking.ipynb` and its field catalogue (`extracted/IMO_MSC-MEPC_3_Circ_4_Rev_1_extracted.json`, key `field_catalogue`, ADR-023)
 **Reference notebooks:** IMO (rows by baseline, grids from cell borders, numbered-item blocks, balanced splits, coverage audit), HbR (summary dedup policy, errata, access per unit). Closed plans in `docs/archive/`.
 **Governing decisions:** ADR-007, ADR-008, ADR-009, ADR-010/019, ADR-020, ADR-021, ADR-022, ADR-023, `docs/rbac_mapping.md` §4 (USCG = level 1 / Operations).
+
+
+## Implementation record (2026-09-27)
+
+**Status: IMPLEMENTED (2026-09-27).** `Notebooks/USCG_ROI_chunking.ipynb`: 86 cells, Phases 0–20 + Final Checkpoint,
+nbconvert run 0 errors, 17 validation cells passed. The notebook's Final Checkpoint markdown is the authoritative
+description of every step, its problems and their fixes.
+
+**Results.** 23 reports / 580 pages (text 446, image-only 115 OCR'd with RapidOCR, OCR layer 19); 18,999 lines,
+17,471 rows; 116 document parts, 297 vessel/vehicle fields, 41 persons (roles only), 204 caption units (all
+`caption_only`); 93 notes (22 informative / 65 citation-only / 6 redacted), 44 superscripts restored; 3,170 paragraphs;
+3,223 units (incl. 23 incident profiles); Executive Summary: 49 sentences trimmed, 2 units dropped; 0 cross-source
+duplicates; **1,609 chunks** (median 664, max 2,000 characters; 71 whole short pieces below MIN), all level 1 /
+Operations; corpus 619 + 1,609 = **2,228**; coverage 18,999 lines, **0 unaccounted**; 407 profile values traced.
+Artifacts: `extracted/USCG_ROI_extracted.json`, `cleaned/USCG_ROI_logical_units.json`
+(`{source, units, duplicate_audit, coverage_audit}`), `chunks/USCG_ROI_chunks.parquet`, OCR cache
+`ocr_cache/USCG_ROI/` (134 files).
+
+**Deviations from the plan (all recorded in §6).**
+- Phase 12b added: incident profiles built before the save (Phase 13) and traced in Phase 20. Coded: 1.2.2, 1.1.2,
+  ship particulars, 2.4.1–2.4.3 and three reviewed codes (1.2.6 location, 1.2.7 casualty event, 1.2.8 severity);
+  "seriously injured" not coded (reports print "Injured" only); GOOD_GULF location left empty with its reason.
+- Only the Executive Summary is trimmed within a report; the letters' restated recommendations (390 sentences) are
+  kept and recorded in the duplicate audit.
+- Phase 4 corrections made in Phases 5–6: 57 signature rows, SPIRIT List of Figures/Tables → metadata, OCR figure
+  labels, one caption line, a "Copy:" line; `survivor_unspecified` outcome (Phase 4).
+- Personal data: individual owners/operators of 7 reports written as roles in curated text (guarded by an assert
+  that every other printed party is a company or a redacted name); a persons-table Name cell excluded.
+- Figures: ADR-020 gate applied by rule (raster, no text-readable data), not reviewed against renders.
+
+**Lasting decisions → ADRs:** ADR-024 (a source may be a corpus of same-template documents; refines ADR-008),
+ADR-025 (OCR with RapidOCR: dependency, cache, provenance, readability gate), ADR-026 (personal data in public
+reports: text as published, roles in curated text).
 
 ---
 
@@ -166,4 +199,12 @@ Uses: (1) retrieval can answer "which reports were a fall overboard / a collisio
 
 ### 2026-09-26 — §6 log entry: Phase 4 in the notebook (cells 34–42, `af772690`…`5aca65be`), 0 errors, 6 ✅
 - Results (reviewed snapshot, cell 42): 116 parts, 297 vessel/vehicle fields (0 unknown), 41 persons (crew 34 / passenger 5 / other 2), 204 caption units (all `caption_only`), 44 enclosure items (VICAR_602 Executive Summary listed but not in the release), 82 TOC entries all found. Notebook cells 27/28 were stale vs `uscg_cells_C.py` and were synced. Deviations: outcome `survivor_unspecified` added for the memorandum's survivor table; ADR-020 gate applied by rule (raster figures → `caption_only`), not reviewed against renders. Next: Phase 5 (notes) and 6–8.
+
+### 2026-09-27 — §6 log entry: Phases 5–12 in scratch (`uscg_cells_E.py`, `uscg_cells_F.py`), Windows test OK
+- Loop: `run_step.py` + portable state after Phase 4 (`uscg_stub_D.py`), local pre-tests in the assistant's sandbox.
+- Results: 93 notes (22 informative / 65 citation-only / 6 redacted), 44 superscripts restored (ordinals, exponents, ®), 3170 paragraphs, 3200 units after dedup (49 summary sentences trimmed, 2 summary units dropped), 0 cross-source duplicates.
+- Decisions (delegated details): paragraph rules (number / item / label / pitch 1.4× / visible last line; page breaks continue unless the last line ends the paragraph); inline headings and title-only sub-headings joined to the next paragraph; Phase 4 role corrections (57 signature rows, SPIRIT figure lists -> metadata); individual owners/operators in vessel tables written by role; letters' restated recommendations kept (recorded in the duplicate audit, not trimmed) — only the Executive Summary is non-canonical (§4.4).
+
+### 2026-09-27 — §6 log entry: notebook complete (86 cells, Phases 0–20 + Final), nbconvert 0 errors
+- Cell files E–J appended (via `run_step.py sync E`); Windows test chain and full run green. Results and deviations: implementation record at the top. Fixes found by the coverage audit and applied upstream: restored ordinals in figure captions, CUYAHOGA "None / N/A" persons row, QUEEN_OF_THE_WEST period of employment, 3 more individual parties (CUMBERLAND_II, GOOD_GULF, NC3250BW "Owner/Operator").
 

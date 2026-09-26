@@ -47,6 +47,7 @@ Never delete an entry; supersede it with a new one. Sources for older entries ar
 - **Status:** Accepted.
 - **Decision:** Each RAG source has its own notebook (`<Source>_chunking.ipynb`) that writes to `Data/processed/rag/{extracted,cleaned,chunks}`. The earlier combined `Notebooks/rag_pipeline.ipynb` was deleted on purpose.
 - **Consequence:** Cross-source consistency comes from the shared chunk schema (ADR-009) and a cross-source validation step in each notebook.
+- **Refined by:** ADR-024 (2026-09-27) — a source may be a corpus of same-template documents (USCG, 23 reports, one notebook).
 
 ## ADR-009 — Unified 16-column chunk schema; document metadata in PostgreSQL
 - **Status:** Accepted (2026-09-23 for the `documents` table part).
@@ -137,6 +138,24 @@ Never delete an entry; supersede it with a new one. Sources for older entries ar
 - **Context:** The IMO circular MSC-MEPC.3/Circ.4/Rev.1 is a reporting form: 117 fields in 13 groups, 7 conditional sections, 30 option tables with 553 coded options whose categories are often printed once and carried down. Split into fixed-size pieces, a field loses its group and value type and an option its table and category. The same field list is the planned schema for synthetic incidents (ADR-007) and a coding vocabulary for the real USCG reports.
 - **Decision:** (1) The form is extracted into a **machine-readable field catalogue** kept in the source's extracted file (`extracted/<stem>_extracted.json`, key `field_catalogue`: groups, fields with minimum flag / value type / footnote refs / option-table refs, option tables with their options and levels, resolved cross-references). It is a file only — no database table. (2) Chunks follow the form: **one chunk per field group, per conditional section and per option table**, each starting with its document path (and printed column names / condition), repeated in every part; categories carried down are written on every option line; a unit that does not fit is split into the fewest **balanced** parts; field lines, option lines and "If so:" blocks are never cut. (3) Rows are rebuilt by baseline and table columns come from the drawn cell borders; a line merged across a column rule is split by its words.
 - **Consequences:** IMO: 69 chunks, 13 of them below `MIN_CHUNK_CHARS` (whole short tables — a chunk never mixes tables). Later consumers (USCG incident profiles, synthetic incidents, the Analytics Agent) read the catalogue from the extracted file; if it becomes a database table, that is a new migration and ADR.
+
+## ADR-024 — A source may be a corpus of same-template documents (refines ADR-008)
+- **Status:** Accepted (2026-09-27). First applied in `USCG_ROI_chunking.ipynb`.
+- **Context:** The 23 USCG Reports of Investigation are separate PDFs written on one shared template. One notebook per PDF would repeat the same parser 23 times and learn nothing from their common structure.
+- **Decision:** One ingestion notebook per **source**, where a source may be a corpus of documents written on the same template: one extracted, one cleaned and one chunks file for the corpus, `filename` on every chunk, per-document layers inside the extracted file. The format is learned from a **seeded sample**, written once as a reviewed template, every document is **fingerprinted** against it, and only the deviating documents are inspected individually (reviewed deviation list, asserted).
+- **Consequences:** USCG: 1 notebook, 23 reports, 19 reviewed deviations in 11 reports; 1,609 chunks in one file. Future template corpora (e.g. synthetic incident reports) follow the same pattern.
+
+## ADR-025 — OCR with RapidOCR: dependency, cache, provenance and readability gate
+- **Status:** Accepted (2026-09-27). First applied in `USCG_ROI_chunking.ipynb` (owner decisions 2026-09-26: "do OCR", "must install with uv").
+- **Context:** 115 USCG pages have no usable text layer (4 reports are scanned end to end); two reports rely on an old OCR layer. Tesseract needs a system install.
+- **Decision:** `rapidocr` + `onnxruntime` (pinned, added with `uv add`, ONNX models bundled; no system install). Pages are rendered at 300 dpi; OCR lines are converted to PDF coordinates and go through the same row / template logic as native text, each with its recognizer confidence and `provenance` (`ocr`, `ocr_layer`, `native`) kept to the chunk's coverage audit. Every line is kept (`text_score = 0`) and a **readability gate** decides; weak lines are re-read from their own crop; text inside figure regions (found in the page image with text masked out) is `figure_internal`; short weak marks are `ocr_noise`. A per-page **cache** (engine and model versions, dpi, settings) is an artifact owned by the notebook (`Data/processed/rag/ocr_cache/<source>/`). A page that fails the gate is excluded with its reason, never silently. If the engine fails the gate on a new source, stop and ask before another engine.
+- **Consequences:** USCG: 134 cached pages, 4,085 OCR lines + 690 OCR-layer lines; 3,187 OCR lines verified in their chunks (Phase 19). `scipy` was added for the figure-region labelling.
+
+## ADR-026 — Personal data in public reports: text as published, roles in curated text
+- **Status:** Accepted (2026-09-27). Plan decision §4.6 of the USCG notebook.
+- **Context:** The USCG reports are public, redacted releases, yet they still print some names (signers, individual vessel owners, a few persons in the text or tables).
+- **Decision:** Report text is kept as published (level 1 / Operations, `docs/rbac_mapping.md` §4). **Curated text** — chunk headers and paths, table units (vessels, persons), incident profiles and any generated description — uses **roles** ("the operator", "an individual owner (name not kept)"), never names. Signature blocks (name, rank, office) are excluded. Individual owners/operators are a reviewed list, guarded by an assert that every other printed party is a company or a redacted name; a Name column of a persons table is excluded (`pii_excluded` in the coverage audit).
+- **Consequences:** USCG: 57 signature rows corrected to `signature`, 7 reports with individual parties written as roles, 0 names in curated chunks (asserted). Synthetic incidents and future report sources follow the same rule.
 
 ---
 
