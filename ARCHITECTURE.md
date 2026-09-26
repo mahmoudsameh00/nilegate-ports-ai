@@ -27,7 +27,7 @@ Today the system is **data preparation only**: Jupyter notebooks, files under `D
 | Component | State | Details |
 |---|---|---|
 | PostgreSQL 16.9 + PostGIS 3.5.2 (Docker container `ports-postgres`, image `postgis/postgis:16-3.5`, db `ports_logistics`, port 5432, volume `ports-postgres-data`) | IMPLEMENTED | Schema verified 2026-09-23 (`db/schema_snapshot.sql`). Only the `postgres` superuser exists. Extensions: postgis, postgis_topology, postgis_tiger_geocoder, fuzzystrmatch (the last three ship with the image and are unused). |
-| Structured ETL notebooks (`ExtractPortsAttributes`, `ExtractPortsConnection`, `ExtractTollRates`) | IMPLEMENTED (partly reproducible) | `ExtractTollRates` never ran, and the toll CSV's origin is undocumented. The code that loaded `ports` into the DB is not in the repo. |
+| Structured ETL notebooks (`Notebooks/structured/`: `ExtractPortsAttributes`, `ExtractPortsConnection`) | IMPLEMENTED (partly reproducible) | The toll CSV's origin is undocumented (the never-run `ExtractTollRates` probe was deleted 2026-09-27). The code that loaded `ports` into the DB is not in the repo. |
 | Synthetic data notebook (`SyntheticGenerator`) | IMPLEMENTED | Faker/random seed 42, hire dates anchored to 2026-09-13. It reproduces employees, vessels and containers exactly (confirmed 2026-09-23) and verifies them against the CSVs (never overwrites). Invoices are rebuilt only to validate the pricing; the DB is canonical (ADR-013). |
 | RAG ingestion notebooks, one per source (ADR-008) | IMPLEMENTED for FBL, LPI Methodology, Suez Notes, LPI Connecting to Compete, HbR annual report 2025, IMO casualty-reporting circular | PyMuPDF extraction → cleaned logical units → (dedup) → semantic chunks in the 16-column schema |
 | `documents` registry table | IMPLEMENTED (empty) | migration 002, ADR-009 |
@@ -162,7 +162,6 @@ user ─► employee ─► role ceiling + department ─► Qdrant payload filt
 ## 8. Dependencies (`pyproject.toml`, Python 3.13, uv)
 
 pandas 3.0.5, numpy 2.2.4, geopandas 1.1.4, psycopg[binary] 3.3.5, pymupdf 1.28.2, pymupdf4llm (unused), pypdf 6.18.1, pyarrow, pillow, scikit-learn 1.9.1 (TF-IDF), faker 40.38.0, ipykernel.
-Not declared but referenced: `pdfplumber` (only in the never-run `ExtractTollRates.ipynb`).
 Added for the USCG notebook (2026-09-26, `uv add`): rapidocr 3.9.2 + onnxruntime 1.30.0 (OCR, ADR-025), scipy 1.18.1 (figure regions on scans), nbconvert 7.17.1 (notebook execution into logs).
 
 ## 9. Major architectural decisions
@@ -191,7 +190,7 @@ Added for the USCG notebook (2026-09-26, `uv add`): rapidocr 3.9.2 + onnxruntime
 | 020 | Vector charts: retrieval-value gate; curated descriptions may use only printed numbers |
 | 021 | Access level per logical unit; a chunk never mixes levels or departments |
 | 022 | Source errata: content contradicted by the document itself is excluded with evidence |
-| 023 | Reporting forms: machine-readable field catalogue + structure-following chunks |
+| 023 | Reporting forms: machine-readable field catalogue + structure-following chunks (extended 2026-09-27: USCG profiles code printed facts only) |
 | 024 | A source may be a corpus of same-template documents (refines 008) |
 | 025 | OCR with RapidOCR: cache, provenance, readability gate |
 | 026 | Personal data: report text as published, roles in curated text |

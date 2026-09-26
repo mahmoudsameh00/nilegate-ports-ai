@@ -208,3 +208,6 @@ Uses: (1) retrieval can answer "which reports were a fall overboard / a collisio
 ### 2026-09-27 — §6 log entry: notebook complete (86 cells, Phases 0–20 + Final), nbconvert 0 errors
 - Cell files E–J appended (via `run_step.py sync E`); Windows test chain and full run green. Results and deviations: implementation record at the top. Fixes found by the coverage audit and applied upstream: restored ordinals in figure captions, CUYAHOGA "None / N/A" persons row, QUEEN_OF_THE_WEST period of employment, 3 more individual parties (CUMBERLAND_II, GOOD_GULF, NC3250BW "Owner/Operator").
 
+### 2026-09-27 — §6 log entry: open points closed (owner delegated)
+- Letters' restated recommendations: kept by decision (ADR-019 extension). Raster figures: `caption_only` by rule, no render review needed (ADR-020 extension). Incident profiles: printed facts + 3 reviewed codes only; interpretive tables not coded (ADR-023 extension). Notebooks moved to `Notebooks/rag/`; `Notebooks/_scratch/` (cell files, states, logs, renders) deleted.
+
