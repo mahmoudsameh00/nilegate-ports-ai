@@ -29,7 +29,7 @@ Today the system is **data preparation only**: Jupyter notebooks, files under `D
 | PostgreSQL 16.9 + PostGIS 3.5.2 (Docker container `ports-postgres`, image `postgis/postgis:16-3.5`, db `ports_logistics`, port 5432, volume `ports-postgres-data`) | IMPLEMENTED | Schema verified 2026-09-23 (`db/schema_snapshot.sql`). Only the `postgres` superuser exists. Extensions: postgis, postgis_topology, postgis_tiger_geocoder, fuzzystrmatch (the last three ship with the image and are unused). |
 | Structured ETL notebooks (`ExtractPortsAttributes`, `ExtractPortsConnection`, `ExtractTollRates`) | IMPLEMENTED (partly reproducible) | `ExtractTollRates` never ran, and the toll CSV's origin is undocumented. The code that loaded `ports` into the DB is not in the repo. |
 | Synthetic data notebook (`SyntheticGenerator`) | IMPLEMENTED | Faker/random seed 42, hire dates anchored to 2026-09-13. It reproduces employees, vessels and containers exactly (confirmed 2026-09-23) and verifies them against the CSVs (never overwrites). Invoices are rebuilt only to validate the pricing; the DB is canonical (ADR-013). |
-| RAG ingestion notebooks, one per source (ADR-008) | IMPLEMENTED for FBL, LPI Methodology, Suez Notes, LPI Connecting to Compete, HbR annual report 2025 | PyMuPDF extraction → cleaned logical units → (dedup) → semantic chunks in the 16-column schema |
+| RAG ingestion notebooks, one per source (ADR-008) | IMPLEMENTED for FBL, LPI Methodology, Suez Notes, LPI Connecting to Compete, HbR annual report 2025, IMO casualty-reporting circular | PyMuPDF extraction → cleaned logical units → (dedup) → semantic chunks in the 16-column schema |
 | `documents` registry table | IMPLEMENTED (empty) | migration 002, ADR-009 |
 | Embedding model, Qdrant | PLANNED | model not chosen |
 | MongoDB (`ais_events`, `edi_messages`) | PLANNED | design only after profiling the samples |
@@ -51,7 +51,7 @@ Today the system is **data preparation only**: Jupyter notebooks, files under `D
 | `unstructured/LPI.pdf` (Connecting to Compete 2025, 30 p.) | real | RAG | 2023–24 findings, benchmarking, policy framework |
 | `unstructured/LPI_Methodology.pdf` (32 p.) | real | RAG | indicator definitions and methodology; includes an Egypt example (Figures 7–8, deliberately not extracted) |
 | `unstructured/HbR_Annual_report_2025_highlights.pdf` (Port of Rotterdam Authority, 85 p.) | real | RAG | port-authority annual report treated as NileGate's internal report: strategy, ESG, governance (level 1); own financial results (level 3, ADR-021) |
-| `unstructured/MSC-MEPC_3-Circ_4-Rev_1.pdf` (IMO) | real | RAG | casualty-reporting fields; schema for synthetic incidents |
+| `unstructured/MSC-MEPC_3-Circ_4-Rev_1.pdf` (IMO, 31 p., 18 Nov 2014) | real | RAG + field catalogue | what must be reported about a marine casualty and which values each field takes; its machine-readable **field catalogue** (extracted file, ADR-023) is the schema for synthetic incidents and the coding vocabulary for the USCG reports |
 | `unstructured/us_coast_guard_reports/*.pdf` (23) | real | RAG | real incident narratives (ADR-007) |
 | `unstructured/FBL_template.pdf` (FIATA) | real template | RAG | bill-of-lading concepts; template for synthetic FBLs |
 | Faker + seeds | synthetic | departments, roles, employees, vessels, containers, invoices | company data anchored to real ports and tariffs |
@@ -115,10 +115,11 @@ Chunk files are `Data/processed/rag/chunks/*.parquet` with the unified 16-column
 | Transit_Dues_Rates.pdf, Notes only (Suez Canal Authority) | 4 | suez_transit_dues_schedule | Finance | 1 | 2023-01-01 |
 | LPI.pdf, Connecting to Compete 2025 (The World Bank) | 69 | lpi_connecting_to_compete_2025 | Operations | 1 | 2025 (data covers 2023–2024) |
 | HbR_Annual_report_2025_highlights.pdf (Port of Rotterdam Authority) | 352 | port_authority_annual_report | Operations (347) / Finance (5) | 1 / 3, **per chunk** (ADR-021) | 2025 |
+| MSC-MEPC_3-Circ_4-Rev_1.pdf (International Maritime Organization (IMO)) | 69 | imo_casualty_reporting_circular | Operations | 1 | 2014-11-18 |
 
-Unified corpus today: 550 chunks (cross-source check passes; `chunk_id` prefixes `fbl_`/`definitions_`, `lpi_`, `suez_notes_`, `lpi2025_`, `hbr2025_`). Levels: 545 level 1, 5 level 3.
+Unified corpus today: 619 chunks (cross-source check passes; `chunk_id` prefixes `fbl_`/`definitions_`, `lpi_`, `suez_notes_`, `lpi2025_`, `hbr2025_`, `imo_mci_`). Levels: 614 level 1, 5 level 3.
 
-Chunking rules: semantic boundaries first; `MIN_CHUNK_CHARS = 300` (short units are merged with neighbours in the same section); `MAX_CHUNK_CHARS = 2000` is a safety cap, not a target; tables become one chunk per row in the LPI notebooks, while HbR groups the consecutive short KPI rows of one table into one chunk (header written once, balanced split when a table does not fit); figures, IRO/text boxes and milestone cards become one self-contained chunk; a section made only of short pieces under minor headings becomes one labelled "section block" chunk (HbR credits); no chunk under 50 characters; footnotes are either informative (appended as "Note: …") or citation-only (kept as metadata); dedup happens before chunking (ADR-010), at item level and with a canonical-source policy across documents (ADR-019). Vector charts go through a retrieval-value gate; curated figure descriptions may only contain numbers printed in the figure (ADR-020). Content the document itself contradicts is excluded with evidence (ADR-022). `sensitivity_level` / `department` may be decided per unit, and a chunk never mixes them (ADR-021).
+Chunking rules: semantic boundaries first; `MIN_CHUNK_CHARS = 300` (short units are merged with neighbours in the same section); `MAX_CHUNK_CHARS = 2000` is a safety cap, not a target; tables become one chunk per row in the LPI notebooks, while HbR groups the consecutive short KPI rows of one table into one chunk (header written once, balanced split when a table does not fit); figures, IRO/text boxes and milestone cards become one self-contained chunk; a section made only of short pieces under minor headings becomes one labelled "section block" chunk (HbR credits); no chunk under 50 characters; footnotes are either informative (appended as "Note: …") or citation-only (kept as metadata); dedup happens before chunking (ADR-010), at item level and with a canonical-source policy across documents (ADR-019). Vector charts go through a retrieval-value gate; curated figure descriptions may only contain numbers printed in the figure (ADR-020). Content the document itself contradicts is excluded with evidence (ADR-022). `sensitivity_level` / `department` may be decided per unit, and a chunk never mixes them (ADR-021). Reporting forms (IMO) are chunked along their structure — one chunk per field group, conditional section or option table, the document path (and column names / condition) repeated in every part, carried-down categories written on every option line; the form itself is kept as a machine-readable field catalogue in the extracted file (ADR-023).
 
 ## 6. Main flows
 
@@ -141,6 +142,8 @@ LPI Connecting to Compete adds: dedup against the Methodology units, and a whole
 its cleaned file is ONE JSON object {source, units, duplicate_audit, coverage_audit}
 HbR adds: per-unit access decisions (ADR-021), source errata (ADR-022), within-source summary dedup (ADR-019),
 band-aware reading order for full-width graphics; same single cleaned file and coverage audit
+IMO adds: rows rebuilt by baseline, table columns from the drawn cell borders (merged lines split by words),
+the field catalogue (fields, option tables, cross-references) in the extracted file (ADR-023), clause-level errata
 ```
 
 **Retrieval (PLANNED):**
@@ -186,6 +189,7 @@ Not declared but referenced: `pdfplumber` (only in the never-run `ExtractTollRat
 | 020 | Vector charts: retrieval-value gate; curated descriptions may use only printed numbers |
 | 021 | Access level per logical unit; a chunk never mixes levels or departments |
 | 022 | Source errata: content contradicted by the document itself is excluded with evidence |
+| 023 | Reporting forms: machine-readable field catalogue + structure-following chunks |
 
 ## 10. Open architectural questions
 

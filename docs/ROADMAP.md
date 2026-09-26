@@ -1,11 +1,11 @@
 # Roadmap & status
 
-Single place for project status. Last updated: 2026-09-26.
+Single place for project status. Last updated: 2026-09-26 (IMO circular closed).
 Labels: `DONE`, `IN PROGRESS`, `PARTIAL`, `NEXT`, `PLANNED`, `PROPOSED`, `DEFERRED`, `BLOCKED`.
 
 ## Current phase
 
-**RAG, steps 3–5 (extraction, cleaning, chunking), done per source.** Done for 5 sources: FBL, LPI Methodology, Suez Notes, LPI Connecting to Compete and **HbR annual report 2025 (finished 2026-09-26)**. **Next: `MSC-MEPC_3-Circ_4-Rev_1.pdf`** (IMO circular on casualty reporting; new notebook, ADR-008), then the 23 USCG reports. Active plan: `docs/plans/MSC-MEPC_3-Circ_4-Rev_1_chunking_plan.md` (**Status: PROPOSED — review and approve before any notebook work**). Reference notebooks: `Notebooks/HbR_Annual_report_2025_chunking.ipynb` (per-unit access control, source errata, within-source dedup, coverage audit) and `Notebooks/LPI_Connecting_to_Compete_chunking.ipynb` (notes policy, figure gate); closed plans in `docs/archive/`.
+**RAG, steps 3–5 (extraction, cleaning, chunking), done per source.** Done for 6 sources: FBL, LPI Methodology, Suez Notes, LPI Connecting to Compete, HbR annual report 2025 and **the IMO casualty-reporting circular MSC-MEPC.3/Circ.4/Rev.1 (finished 2026-09-26)**. **Next: the 23 USCG Reports of Investigation** (`Data/raw/unstructured/us_coast_guard_reports/`), parsed from a template learned on seeded samples and coded with the IMO field catalogue. Active plan: `docs/plans/USCG_ROI_chunking_plan.md` (**Status: PROPOSED — review §4 and approve before any notebook work**). Reference notebooks: `Notebooks/IMO_MSC-MEPC_3_Circ_4_Rev_1_chunking.ipynb` (rows by baseline, grids from cell borders, field catalogue, balanced splits), `Notebooks/HbR_Annual_report_2025_chunking.ipynb` (per-unit access control, source errata, within-source dedup, coverage audit) and `Notebooks/LPI_Connecting_to_Compete_chunking.ipynb` (notes policy, figure gate); closed plans in `docs/archive/`.
 
 ## Status
 
@@ -26,8 +26,8 @@ Labels: `DONE`, `IN PROGRESS`, `PARTIAL`, `NEXT`, `PLANNED`, `PROPOSED`, `DEFERR
 | Suez Notes chunking | DONE | 4 chunks |
 | LPI Connecting to Compete chunking | DONE | 69 chunks; 131 units → 113 after dedup against LPI Methodology (18 suppressed, 7 trimmed); cross-source concat = 198 rows; whole-PDF coverage: 2,189 lines, 0 unaccounted; nothing flagged or pending |
 | HbR annual report chunking | DONE | 2026-09-26: 352 chunks (347 level 1 / Operations, 5 level 3 / Finance — ADR-021); 602 units → 593 after within-source dedup (9 suppressed, 1 trimmed); 3 source errata excluded (ADR-022); cross-source concat = 550 rows; whole-PDF coverage: 4,151 lines, 0 unaccounted; nothing flagged or pending |
-| IMO circular chunking (`MSC-MEPC_3-Circ_4-Rev_1.pdf`) | NEXT | plan PROPOSED: `docs/plans/MSC-MEPC_3-Circ_4-Rev_1_chunking_plan.md` (needs approval) |
-| USCG ×23 chunking | PLANNED | |
+| IMO circular chunking (`MSC-MEPC_3-Circ_4-Rev_1.pdf`) | DONE | 2026-09-26: 69 chunks (all level 1 / Operations); field catalogue (117 fields, 30 option tables / 553 options) in the extracted file (ADR-023); 689 units, 55 by-design repeats kept, nothing suppressed; 2 source errata excluded (ADR-022, one clause-level) + 1 empty option; cross-source concat = 619 rows; whole-PDF coverage: 2,329 lines, 0 unaccounted; nothing flagged or pending |
+| USCG ×23 chunking + IMO incident profiles | NEXT | plan PROPOSED: `docs/plans/USCG_ROI_chunking_plan.md` (needs approval; open questions: one notebook for 23 reports, the 4 image-only reports / OCR, curated incident-profile chunks, personal names) |
 | Embedding model choice | PLANNED | `Data/embeddings/` is empty |
 | Qdrant setup, collection, controlled ingestion, retrieval | PLANNED | |
 | RBAC-filtered retrieval | PLANNED | rule decided (ADR-006) |
@@ -45,7 +45,7 @@ RAG ingestion order (do not skip ahead): inventory → metadata → extraction �
 ## Missing work
 
 **Required**
-- IMO and USCG chunking (next: the IMO circular).
+- USCG chunking (next; plan PROPOSED).
 - Fill `documents` rows for every chunked source.
 - Embedding model, Qdrant, retrieval with the RBAC filter.
 
@@ -68,7 +68,7 @@ RAG ingestion order (do not skip ahead): inventory → metadata → extraction �
 
 ## Known issues
 
-- Git: all work up to 2026-09-25 is committed; the HbR notebook, its artifacts and the 2026-09-26 docs are to be committed by the owner. `Notebooks/LPI_Connecting_to_Compete_chunking.ipynb` was saved again after the last commit (2026-09-25 22:30) and shows as modified: check before committing it. Seen from the Linux VM, several data files show as modified only because of CRLF line endings (no content change).
+- Git: all work up to the HbR notebook is committed (a470732); the IMO notebook, its artifacts and the 2026-09-26 IMO docs are to be committed by the owner. `Notebooks/LPI_Connecting_to_Compete_chunking.ipynb` was saved again after the last commit (2026-09-25 22:30) and shows as modified: check before committing it. Seen from the Linux VM, several data files show as modified only because of CRLF line endings (no content change).
 - Cleaned-file format differs by source: LPI Connecting to Compete and HbR store `{source, units, duplicate_audit, coverage_audit}`, older sources store a plain list of units. The future ingestion loader must accept both (or the older files are migrated then).
 - `Notebooks/_scratch/` (git-ignored) holds temporary review files (figure renders, a state export, a notebook backup); it can be deleted.
 - The old DB password was committed in notebooks before ADR-015 (local development container only).
@@ -77,3 +77,4 @@ RAG ingestion order (do not skip ahead): inventory → metadata → extraction �
 - `sensitivity_level` / `department` now vary within one source (HbR, ADR-021): the future `documents` rows and the Qdrant payload must carry them per chunk; a document-level value is not enough.
 - `toll_rate_bands.csv` extraction method is undocumented. `ExtractTollRates.ipynb` was never executed and `pdfplumber` is not a project dependency.
 - `pymupdf4llm` is a dependency but is not used by any notebook (EXPERIMENTAL).
+- USCG reports (inventory 2026-09-26): 4 reports have image-only bodies (H20_BELOW, PROWLER_ATTESSA_IV, QUEEN_OF_THE_WEST, UNA_MAS) and 2 rely on an OCR layer (VICAR_602, MERRICK); OCR is not in the stack (decision in the USCG plan §4.2).
