@@ -163,3 +163,7 @@ Uses: (1) retrieval can answer "which reports were a fall overboard / a collisio
 - **Verified scratch state:** cell files `uscg_cells_D1/D2/D3.py` hold Phase 4 draft code; `test_D.log` has no Traceback, but it predates the last D3 edits (persons parser, vessel fixes) → D3 remains untested. State pickles `state/uscg_state_B/C/D.pkl`, `uscg_lines.pkl`, `uscg_rows.pkl`; OCR cache 134 files.
 - **Decisions:** as listed in the previous entry (same date); none added since.
 - **Open issues:** same as the previous entry; the counts quoted there (row roles, parts, lines) come from earlier runs and are not re-verified in this session.
+
+### 2026-09-26 — §6 log entry: Phase 4 in the notebook (cells 34–42, `af772690`…`5aca65be`), 0 errors, 6 ✅
+- Results (reviewed snapshot, cell 42): 116 parts, 297 vessel/vehicle fields (0 unknown), 41 persons (crew 34 / passenger 5 / other 2), 204 caption units (all `caption_only`), 44 enclosure items (VICAR_602 Executive Summary listed but not in the release), 82 TOC entries all found. Notebook cells 27/28 were stale vs `uscg_cells_C.py` and were synced. Deviations: outcome `survivor_unspecified` added for the memorandum's survivor table; ADR-020 gate applied by rule (raster figures → `caption_only`), not reviewed against renders. Next: Phase 5 (notes) and 6–8.
+
