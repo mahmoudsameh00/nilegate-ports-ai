@@ -1,0 +1,550 @@
+{
+ "key": {
+  "report_id": "UNA_MAS",
+  "filename": "UNA_MAS_8231938_ROI_Redacted.pdf",
+  "sha256": "1a2020a9e1b298824fcb61c142865d41c70a5cf6f9d2ad82f12a16e9cec3cda6",
+  "page_number": 5,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    71.7,
+    34.7,
+    160.2,
+    45.5
+   ],
+   "text": "U.S. Department of",
+   "conf": 0.982,
+   "retry": null
+  },
+  {
+   "bbox": [
+    394.9,
+    35.1,
+    460.6,
+    44.3
+   ],
+   "text": "6767 N Basin Ave",
+   "conf": 0.9959,
+   "retry": null
+  },
+  {
+   "bbox": [
+    250.6,
+    35.5,
+    297.2,
+    46.3
+   ],
+   "text": "Commander",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    394.5,
+    43.1,
+    467.4,
+    52.3
+   ],
+   "text": "Portland, OR 97217",
+   "conf": 0.9948,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    44.3,
+    159.8,
+    57.1
+   ],
+   "text": "Homeland Security",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    251.0,
+    45.5,
+    347.8,
+    54.7
+   ],
+   "text": "United States Coast Guard",
+   "conf": 0.9966,
+   "retry": null
+  },
+  {
+   "bbox": [
+    394.9,
+    51.5,
+    459.4,
+    60.7
+   ],
+   "text": "Staff Symbol: spv",
+   "conf": 0.9985,
+   "retry": null
+  },
+  {
+   "bbox": [
+    250.6,
+    54.3,
+    332.3,
+    63.5
+   ],
+   "text": "Sector Columbia River",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    394.5,
+    58.7,
+    478.5,
+    69.1
+   ],
+   "text": "Phone: (206) 815-6521",
+   "conf": 0.9915,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    62.3,
+    143.0,
+    74.2
+   ],
+   "text": "United States",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    394.5,
+    67.1,
+    478.1,
+    77.4
+   ],
+   "text": "Email: pdxio@uscg.mil",
+   "conf": 0.9978,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    72.3,
+    138.3,
+    84.2
+   ],
+   "text": "Coast Guard",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    394.5,
+    99.4,
+    427.9,
+    112.2
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    394.1,
+    111.8,
+    478.9,
+    124.9
+   ],
+   "text": "January 27, 2026",
+   "conf": 0.9806,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.9,
+    151.3,
+    526.7,
+    164.5
+   ],
+   "text": "CAPSIZING OF THE VESSEL UNA MAS (OR854ACS), IN THE PACIFIC OCEAN",
+   "conf": 0.9978,
+   "retry": null
+  },
+  {
+   "bbox": [
+    108.4,
+    165.3,
+    502.0,
+    178.4
+   ],
+   "text": "NEAR GOLD BEACH, OR, WITH LOSS OF LIFE, ON AUGUST 31, 2025.",
+   "conf": 0.9805,
+   "retry": null
+  },
+  {
+   "bbox": [
+    235.5,
+    207.6,
+    375.7,
+    219.2
+   ],
+   "text": "EXECUTIVE SUMMARY",
+   "conf": 0.9962,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    233.9,
+    506.4,
+    249.1
+   ],
+   "text": "On August 31, 2025, at approximately 0650 Pacific Daylight Time (PDT), the UNA MAS",
+   "conf": 0.9919,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    249.1,
+    527.1,
+    262.3
+   ],
+   "text": "departed Gold Beach, OR with three people on board, the Operator, Crewmember 1 (C-1), and",
+   "conf": 0.9934,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    262.7,
+    539.9,
+    275.8
+   ],
+   "text": "Crewmember 2 (C-2), for an offshore commercial tuna fishing trip in the Pacific Ocean. At 1830,",
+   "conf": 0.981,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    276.6,
+    529.5,
+    289.8
+   ],
+   "text": "after the day of fishing up to 52 nautical miles offshore the UNA MAS began its transit back to",
+   "conf": 0.9987,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    289.8,
+    526.3,
+    303.8
+   ],
+   "text": "Gold Beach, OR with the Operator at the helm, C-1 sitting behind the Operator and C-2 sitting",
+   "conf": 0.9987,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    304.6,
+    521.6,
+    316.6
+   ],
+   "text": "across from C-1. The weather began to deteriorate and swells increased. When the vessel was",
+   "conf": 0.9949,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    317.0,
+    502.8,
+    331.7
+   ],
+   "text": "approximately 04 nautical miles offshore of Gold Beach, OR it encountered a large swell,",
+   "conf": 0.9981,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    331.3,
+    521.6,
+    345.7
+   ],
+   "text": "descending port side first. At the same time, a fish tote that had been secured on the starboard",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    345.7,
+    529.9,
+    358.9
+   ],
+   "text": "side behind the seating area where C-1 was sitting broke loose and abruptly shifted to port. The",
+   "conf": 0.9932,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    358.9,
+    538.7,
+    373.2
+   ],
+   "text": "vessel capsized, turning over port side first and began floating upside down. C-1 was thrown into",
+   "conf": 0.9962,
+   "retry": {
+    "text": "vessel capsized, turning over port side first and began floating upside down. C-1 was thrown into",
+    "conf": 0.9962,
+    "first_text": "ve   -  sn    r s o s t s es",
+    "first_conf": 0.7418,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    70.9,
+    373.6,
+    528.7,
+    385.6
+   ],
+   "text": "the water and resurfaced between the dislodged fish tote and the UNA MAS. The Operator and",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    386.8,
+    535.9,
+    400.0
+   ],
+   "text": "C-2 were reported to be trapped under the UNA MAS. C-1 climbed onto the hull where, for first",
+   "conf": 0.9863,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    399.6,
+    509.2,
+    414.4
+   ],
+   "text": "15 to 20 minutes, he heard yelling and banging from under the hull before it fell silent. C-1",
+   "conf": 0.9956,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    414.4,
+    539.9,
+    427.5
+   ],
+   "text": "utilized a cell phone to call for help. Good Samaritans arrived on-scene and rescued C-1 but were",
+   "conf": 0.9915,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    427.1,
+    521.6,
+    442.3
+   ],
+   "text": "unable to locate the Operator or C-2. The Coast Guard, local authorities, and additional Good",
+   "conf": 0.9949,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    441.5,
+    481.7,
+    455.1
+   ],
+   "text": "Samaritans also responded and conducted a search for the Operator and C-2 but were",
+   "conf": 0.989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    455.9,
+    136.7,
+    467.9
+   ],
+   "text": "unsuccessful.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    483.0,
+    532.3,
+    496.6
+   ],
+   "text": "On September 03, 2025, the vessel was towed to shore while still overturned. The Operator was",
+   "conf": 0.9981,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    496.6,
+    505.6,
+    510.2
+   ],
+   "text": "found deceased inside the cabin. The autopsy report later determined the cause of death as",
+   "conf": 0.9949,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    510.6,
+    274.5,
+    524.1
+   ],
+   "text": "asphyxia-drowning. C-2 was never found.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    538.5,
+    528.7,
+    551.7
+   ],
+   "text": "Through its investigation, the Coast Guard determined the initiating event was the capsizing of",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    552.9,
+    530.3,
+    564.9
+   ],
+   "text": "the UNA MAS. Subsequently, all individuals on board entered the water, resulting in one death",
+   "conf": 0.9943,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    566.1,
+    522.8,
+    579.2
+   ],
+   "text": "and one missing (presumed deceased). Causal factors contributing to this incident include: (1)",
+   "conf": 0.9964,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    579.2,
+    531.9,
+    594.0
+   ],
+   "text": "Improper weight capacity that exceeded the manufacturer's recommendation, (2) Securing strap",
+   "conf": 0.9953,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    593.2,
+    539.9,
+    607.2
+   ],
+   "text": "failure resulted in abrupt weight distribution on the vessel, (3) Failure to disengage auto-pilot and",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    607.6,
+    534.3,
+    620.7
+   ],
+   "text": "slow the vessel during rapidly deteriorating weather conditions, (4) Lack of barriers or restraints",
+   "conf": 0.9947,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.7,
+    620.3,
+    532.3,
+    635.1
+   ],
+   "text": "to prevent personnel from entering the water during capsizing, (5) Lack of permanently secured",
+   "conf": 0.9982,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    634.7,
+    539.9,
+    649.1
+   ],
+   "text": "storage to withstand capsizing, (6) Adverse environmental conditions compromised survivability.",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    300.4,
+    728.5,
+    311.6,
+    742.1
+   ],
+   "text": "ii",
+   "conf": 0.9987,
+   "retry": null
+  }
+ ]
+}

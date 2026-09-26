@@ -1,0 +1,704 @@
+{
+ "key": {
+  "report_id": "QUEEN_OF_THE_WEST",
+  "filename": "QUEEN_OF_THE_WEST_4405289_ROI_Redacted.pdf",
+  "sha256": "02f978c36fcbd8ef00493738d66ee13a4079eab5832883de67ba1cacc388cba3",
+  "page_number": 9,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2542,
+  3292
+ ],
+ "lines": [
+  {
+   "bbox": [
+    506.8,
+    27.9,
+    539.0,
+    41.8
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    492.1,
+    40.6,
+    537.8,
+    54.2
+   ],
+   "text": "06May13",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.9,
+    41.0,
+    474.6,
+    52.6
+   ],
+   "text": "LOSS OF LIFE FOLLOWING MAN OVERBOARD FROM P/V QUEEN OF THE WEST",
+   "conf": 0.9957,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.2,
+    67.3,
+    534.6,
+    79.2
+   ],
+   "text": "8. A red warning sign on the port side walkway approaching the stern stated, “Authorized personnel",
+   "conf": 0.9917,
+   "retry": {
+    "text": "8. A red warning sign on the port side walkway approaching the stern stated, “Authorized personnel",
+    "conf": 0.9917,
+    "first_text": " nn, s s  s an s sn   ss sn nn l ",
+    "first_conf": 0.677,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    104.5,
+    79.2,
+    523.1,
+    91.2
+   ],
+   "text": "only beyond this point.\" The starboard side walkway approaching the stern had no such visual",
+   "conf": 0.9871,
+   "retry": null
+  },
+  {
+   "bbox": [
+    103.7,
+    91.2,
+    522.3,
+    103.1
+   ],
+   "text": "warning sign. Furthermore, there was no list of personnel authorized to access the stern on the",
+   "conf": 0.9894,
+   "retry": null
+  },
+  {
+   "bbox": [
+    103.7,
+    103.1,
+    237.1,
+    115.1
+   ],
+   "text": "vessel (or from the company).",
+   "conf": 0.9631,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.6,
+    126.2,
+    531.8,
+    140.2
+   ],
+   "text": "9. Chains with red signs that said \"Employees Only\" protect passengers from approaching the stern",
+   "conf": 0.9853,
+   "retry": null
+  },
+  {
+   "bbox": [
+    103.7,
+    139.0,
+    530.6,
+    151.3
+   ],
+   "text": "on both sides of the main deck. On 07AUG12 and 09OCT12, visiting Coast Guard investigators",
+   "conf": 0.998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    103.3,
+    150.5,
+    527.5,
+    164.1
+   ],
+   "text": "found these protective chains hanging from the bulkhead of the vessel instead of in place across",
+   "conf": 0.9894,
+   "retry": null
+  },
+  {
+   "bbox": [
+    103.7,
+    163.7,
+    208.1,
+    175.6
+   ],
+   "text": "the walkways. Captain",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    256.2,
+    163.7,
+    535.4,
+    175.6
+   ],
+   "text": "stated that policy required the chains to remain attached across",
+   "conf": 0.9976,
+   "retry": null
+  },
+  {
+   "bbox": [
+    103.7,
+    176.0,
+    500.9,
+    187.6
+   ],
+   "text": "the walkways, but that the crew often neglected to put them back in place when they went",
+   "conf": 0.9987,
+   "retry": null
+  },
+  {
+   "bbox": [
+    103.3,
+    188.0,
+    378.1,
+    199.9
+   ],
+   "text": "through. No written policy could be found to support Captain",
+   "conf": 0.9985,
+   "retry": null
+  },
+  {
+   "bbox": [
+    433.3,
+    188.0,
+    479.0,
+    199.9
+   ],
+   "text": "assertion.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.4,
+    210.7,
+    533.8,
+    224.2
+   ],
+   "text": "10. An area of 54 inches between the paddlewheel diagonal support posts and the aftermost bulkhead",
+   "conf": 0.9958,
+   "retry": null
+  },
+  {
+   "bbox": [
+    103.3,
+    223.8,
+    502.8,
+    235.7
+   ],
+   "text": "of the vessel was not protected by a railing or by a chain. This was the location where Mr.",
+   "conf": 0.987,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.5,
+    235.0,
+    533.4,
+    248.9
+   ],
+   "text": "Staples fell in. An additional length of 10 feet on the port side stern was not protected by railings",
+   "conf": 0.9835,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.9,
+    248.1,
+    517.5,
+    260.0
+   ],
+   "text": "or other suitable guards to prevent someone from falling overboard. For additional detail, see",
+   "conf": 0.9939,
+   "retry": null
+  },
+  {
+   "bbox": [
+    103.3,
+    258.8,
+    512.4,
+    272.8
+   ],
+   "text": "Vessel Stern Schematic and Paddlewheel Support Arm Photo on pages 8 and 9, respectively.",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.0,
+    282.7,
+    508.0,
+    296.7
+   ],
+   "text": "11. From December 2010 until May 2011, P/V QUEEN OF THE WEST underwent a complete",
+   "conf": 0.9832,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.5,
+    295.9,
+    532.6,
+    309.0
+   ],
+   "text": "propulsion system modification in which the entire stern was cut away and new bearing supports,",
+   "conf": 0.9879,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.5,
+    307.8,
+    465.5,
+    320.2
+   ],
+   "text": "deck plates, and a cosmetic paddle wheel were installed. MSU Portland Inspector",
+   "conf": 0.9981,
+   "retry": null
+  },
+  {
+   "bbox": [
+    151.3,
+    319.8,
+    400.0,
+    332.5
+   ],
+   "text": "was the lead Coast Guard inspector for the project. Mr.",
+   "conf": 0.9905,
+   "retry": null
+  },
+  {
+   "bbox": [
+    470.7,
+    319.8,
+    508.8,
+    332.5
+   ],
+   "text": "was the",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.9,
+    332.5,
+    286.8,
+    344.5
+   ],
+   "text": "vessel's representative during the project.",
+   "conf": 0.996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.0,
+    355.6,
+    319.3,
+    368.0
+   ],
+   "text": "12. Plans were submitted by the Naval Architect Mr.",
+   "conf": 0.9945,
+   "retry": null
+  },
+  {
+   "bbox": [
+    384.5,
+    355.6,
+    530.6,
+    368.8
+   ],
+   "text": "of Chesapeake Shipbuilding and",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.5,
+    368.4,
+    519.9,
+    380.3
+   ],
+   "text": "approved by Marine Safety Center. The plans did not indicate a railing arrangement, nor were",
+   "conf": 0.9954,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.5,
+    380.3,
+    527.9,
+    392.3
+   ],
+   "text": "there plans for a railing configuration onboard the vessel. The Marine Safety Center will review",
+   "conf": 0.998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    414.7,
+    391.5,
+    517.1,
+    404.6
+   ],
+   "text": "lat MSC, \"the designer",
+   "conf": 0.9552,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.1,
+    392.3,
+    365.4,
+    404.2
+   ],
+   "text": "handrails only if the information is provided. According to",
+   "conf": 0.9948,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.3,
+    403.4,
+    534.2,
+    416.9
+   ],
+   "text": "provides [us] the overall construction of the vessel rather than details which are often left up to an",
+   "conf": 0.9873,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.1,
+    416.1,
+    510.4,
+    428.1
+   ],
+   "text": "outfitting decision: the owner may like the look of one handrail vs. another and that decision",
+   "conf": 0.993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    100.1,
+    425.7,
+    305.4,
+    442.4
+   ],
+   "text": "hasn't been made when construction begins.\"",
+   "conf": 0.9948,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.6,
+    451.6,
+    240.7,
+    464.3
+   ],
+   "text": "13. On 04MAR11, MSU Inspector",
+   "conf": 0.9958,
+   "retry": null
+  },
+  {
+   "bbox": [
+    317.0,
+    452.4,
+    521.5,
+    464.3
+   ],
+   "text": "found the paddlewheel installed and indicated",
+   "conf": 0.9864,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.3,
+    463.5,
+    318.5,
+    477.1
+   ],
+   "text": "that all was satisfactory. During the project, Mr.",
+   "conf": 0.9991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    450.4,
+    464.3,
+    513.2,
+    476.3
+   ],
+   "text": "discussed the",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    367.8,
+    464.7,
+    405.5,
+    475.9
+   ],
+   "text": "and Mr.",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.7,
+    476.7,
+    525.5,
+    488.2
+   ],
+   "text": "railing configuration and decided jointly that certain railings would not be included on the stern.",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.1,
+    488.6,
+    528.7,
+    500.6
+   ],
+   "text": "As river debris frequently lodges in the paddlewheel planks, the risk of this debris getting caught",
+   "conf": 0.9968,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.3,
+    500.2,
+    523.5,
+    512.5
+   ],
+   "text": "in the associated railings outweighed the risk of someone falling overboard from the stern. The",
+   "conf": 0.9867,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.7,
+    511.7,
+    503.2,
+    524.9
+   ],
+   "text": "decision was made to make access to the stern authorized only to engineers working on the",
+   "conf": 0.9935,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.7,
+    524.9,
+    196.2,
+    536.8
+   ],
+   "text": "hydraulic machinery.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.6,
+    548.8,
+    527.1,
+    560.7
+   ],
+   "text": "14. There was an eye-hook on the aftermost railing stanchion. This stanchion was the last stanchion",
+   "conf": 0.9872,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.3,
+    560.7,
+    527.5,
+    573.0
+   ],
+   "text": "of existing railing before the 10 foot unprotected area on the port side stern began. According to",
+   "conf": 0.994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    100.5,
+    571.9,
+    121.5,
+    585.4
+   ],
+   "text": "Mr.",
+   "conf": 0.9947,
+   "retry": null
+  },
+  {
+   "bbox": [
+    193.0,
+    571.9,
+    515.2,
+    585.8
+   ],
+   "text": "the eye-hook was a connection point for a chain that was supposed to be",
+   "conf": 0.9772,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.7,
+    585.0,
+    528.7,
+    596.9
+   ],
+   "text": "designed to keep people away from the stern. The chain was not in place, nor had it ever been in",
+   "conf": 0.994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.3,
+    596.9,
+    151.7,
+    609.3
+   ],
+   "text": "place. Mr.",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    196.2,
+    597.3,
+    527.1,
+    608.9
+   ],
+   "text": "assumed responsibility for not having the chain in place. Even if the chain",
+   "conf": 0.9974,
+   "retry": null
+  },
+  {
+   "bbox": [
+    100.5,
+    608.9,
+    505.6,
+    621.2
+   ],
+   "text": "had been in place on the night of the incident, it would not have prevented Mr. Staples from",
+   "conf": 0.9959,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.3,
+    621.2,
+    351.5,
+    632.8
+   ],
+   "text": "falling overboard, as he did not fall directly off the stern.",
+   "conf": 0.9979,
+   "retry": null
+  },
+  {
+   "bbox": [
+    83.4,
+    643.9,
+    523.9,
+    657.9
+   ],
+   "text": "15. An outdoor flood light was attached to the bulkhead above the machinery for the port engine on",
+   "conf": 0.9976,
+   "retry": null
+  },
+  {
+   "bbox": [
+    100.9,
+    657.1,
+    523.9,
+    669.4
+   ],
+   "text": "the paddlewheel support arm, but witnesses conflicted as to whether the light was on at the time",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.3,
+    669.4,
+    516.7,
+    681.4
+   ],
+   "text": "of the incident. No other evidence exists to determine whether or not it was in operation. The",
+   "conf": 0.9981,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.3,
+    681.4,
+    525.1,
+    693.3
+   ],
+   "text": "light was wired on a separate switch from the rest of the deck lights so that it does not come into",
+   "conf": 0.9967,
+   "retry": null
+  },
+  {
+   "bbox": [
+    100.9,
+    692.5,
+    322.5,
+    705.7
+   ],
+   "text": "operation when the main deck lights are activated.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    293.9,
+    738.3,
+    303.5,
+    750.3
+   ],
+   "text": "4",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

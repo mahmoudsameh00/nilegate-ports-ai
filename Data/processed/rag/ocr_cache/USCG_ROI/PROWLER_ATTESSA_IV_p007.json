@@ -1,0 +1,583 @@
+{
+ "key": {
+  "report_id": "PROWLER_ATTESSA_IV",
+  "filename": "PROWLER_ATTESSA_IV_6572770_ROI_Redacted.pdf",
+  "sha256": "010157c0edf08c5e13cd22197805e3bf59408c4d04b1b047d4c13c51c2410175",
+  "page_number": 7,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    391.7,
+    32.7,
+    481.3,
+    43.1
+   ],
+   "text": "2710 North Harbor Drive",
+   "conf": 0.9854,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.3,
+    33.1,
+    156.6,
+    43.9
+   ],
+   "text": "U.S. Department of",
+   "conf": 0.9771,
+   "retry": null
+  },
+  {
+   "bbox": [
+    247.0,
+    33.5,
+    294.8,
+    44.3
+   ],
+   "text": "Commander",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    391.7,
+    41.1,
+    471.8,
+    51.5
+   ],
+   "text": "San Diego, CA 92101",
+   "conf": 0.9738,
+   "retry": null
+  },
+  {
+   "bbox": [
+    247.0,
+    43.1,
+    313.6,
+    53.5
+   ],
+   "text": "U.S. Coast Guard",
+   "conf": 0.9913,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.9,
+    43.9,
+    155.8,
+    54.7
+   ],
+   "text": "Homeland Security",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    392.1,
+    49.5,
+    457.8,
+    59.5
+   ],
+   "text": "Staff Symbol: spv",
+   "conf": 0.9899,
+   "retry": null
+  },
+  {
+   "bbox": [
+    247.0,
+    52.7,
+    312.8,
+    63.5
+   ],
+   "text": "Sector San Diego",
+   "conf": 0.9957,
+   "retry": null
+  },
+  {
+   "bbox": [
+    391.7,
+    57.1,
+    478.9,
+    67.5
+   ],
+   "text": "Phone:(619) 278-7255",
+   "conf": 0.9833,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.1,
+    61.1,
+    138.3,
+    71.9
+   ],
+   "text": "United States",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    391.7,
+    65.1,
+    467.4,
+    75.4
+   ],
+   "text": "Fax: (619) 278-7235",
+   "conf": 0.9774,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.9,
+    71.5,
+    133.9,
+    82.2
+   ],
+   "text": "Coast Guard",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    391.3,
+    89.4,
+    425.1,
+    103.4
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    391.7,
+    102.2,
+    477.7,
+    115.4
+   ],
+   "text": "October 17,2019",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.7,
+    128.1,
+    516.4,
+    140.1
+   ],
+   "text": "REPORT OF THE INVESTIGATION INTO THE COLLISION BETWEEN THE",
+   "conf": 0.995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    78.9,
+    141.7,
+    524.3,
+    154.9
+   ],
+   "text": "PROWLER (O.N. 294465) AND THE ATTESSA IV (O.N. 9179830) SOUTH OF THE",
+   "conf": 0.9749,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    155.7,
+    493.7,
+    169.3
+   ],
+   "text": "U.S./MEXICO MARITIME BOUNDARY LINE ON OCTOBER 26, 2018",
+   "conf": 0.986,
+   "retry": {
+    "text": "U.S./MEXICO MARITIME BOUNDARY LINE ON OCTOBER 26, 2018",
+    "conf": 0.986,
+    "first_text": "U.SE     E0",
+    "first_conf": 0.567,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    230.3,
+    198.8,
+    374.5,
+    210.4
+   ],
+   "text": "EXECUTIVE SUMMARY:",
+   "conf": 0.9952,
+   "retry": null
+  },
+  {
+   "bbox": [
+    65.3,
+    240.3,
+    537.9,
+    253.5
+   ],
+   "text": "On October 26, 2018, the U.S. Inspected Small Passenger Vessel PROWLER (O.N. 294465) was",
+   "conf": 0.9982,
+   "retry": null
+  },
+  {
+   "bbox": [
+    64.5,
+    254.3,
+    531.1,
+    267.9
+   ],
+   "text": "underway carrying twenty-three passengers and six crewmembers onboard and heading north to",
+   "conf": 0.9975,
+   "retry": null
+  },
+  {
+   "bbox": [
+    64.5,
+    268.3,
+    528.7,
+    281.4
+   ],
+   "text": "San Diego, California after an overnight fishing trip in Mexican waters. At approximately 1800",
+   "conf": 0.9857,
+   "retry": null
+  },
+  {
+   "bbox": [
+    64.9,
+    282.6,
+    501.2,
+    294.6
+   ],
+   "text": "Pacific Standard Time (PST), the mate took over the navigational watch from the vessel's",
+   "conf": 0.994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    63.8,
+    295.0,
+    517.2,
+    310.2
+   ],
+   "text": "master. As the PROWLER passed the northwest side of Isla Coronado Norte, approximately",
+   "conf": 0.9987,
+   "retry": null
+  },
+  {
+   "bbox": [
+    64.5,
+    310.2,
+    529.9,
+    322.9
+   ],
+   "text": "twelve miles off the coast of Mexico, the mate changed course to a heading of 351°true towards",
+   "conf": 0.996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    64.9,
+    324.5,
+    516.4,
+    336.5
+   ],
+   "text": "Mission Bay, California making approximately eleven knots. Their radar was set to six miles",
+   "conf": 0.9966,
+   "retry": null
+  },
+  {
+   "bbox": [
+    64.1,
+    337.3,
+    256.2,
+    351.3
+   ],
+   "text": "with an additional two-mile range ring.",
+   "conf": 0.9914,
+   "retry": null
+  },
+  {
+   "bbox": [
+    64.1,
+    364.5,
+    519.6,
+    379.2
+   ],
+   "text": "At approximately 1800 PST, the Cayman Island flagged yacht ATTESSA IV (O.N. 9179830)",
+   "conf": 0.9928,
+   "retry": null
+  },
+  {
+   "bbox": [
+    64.5,
+    378.8,
+    535.1,
+    392.4
+   ],
+   "text": "departed San Diego Bay, California with nineteen crewmembers onboard headed south to Puerto",
+   "conf": 0.9956,
+   "retry": null
+  },
+  {
+   "bbox": [
+    64.1,
+    392.8,
+    527.5,
+    406.4
+   ],
+   "text": "Vallarta, Mexico. The master had the navigational watch along with one crewmember assigned",
+   "conf": 0.9931,
+   "retry": null
+  },
+  {
+   "bbox": [
+    64.5,
+    407.2,
+    536.7,
+    420.0
+   ],
+   "text": "as lookout. The master ordered the lookout to secure the bosun locker and make his hourly round",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    64.1,
+    420.4,
+    525.1,
+    433.9
+   ],
+   "text": "of the vessel, leaving the master alone on the bridge. The ATTESSA IV was set on a course of",
+   "conf": 0.9938,
+   "retry": null
+  },
+  {
+   "bbox": [
+    63.4,
+    433.9,
+    503.6,
+    448.7
+   ],
+   "text": "213° true making approximately thirteen knots. The ATTESSA IV was equipped with two",
+   "conf": 0.9914,
+   "retry": null
+  },
+  {
+   "bbox": [
+    64.5,
+    448.7,
+    505.6,
+    461.9
+   ],
+   "text": "radars, an X-band radar that was set to eight-miles and an S-band radar set to twelve miles.",
+   "conf": 0.9913,
+   "retry": null
+  },
+  {
+   "bbox": [
+    64.5,
+    476.2,
+    528.7,
+    489.4
+   ],
+   "text": "At approximately 1915 PST, the master of the ATTESSA IV saw a vessel directly ahead with a",
+   "conf": 0.9885,
+   "retry": null
+  },
+  {
+   "bbox": [
+    64.1,
+    490.2,
+    534.3,
+    503.4
+   ],
+   "text": "course and speed that would indicate an imminent collision with the vessel. This vessel was later",
+   "conf": 0.9972,
+   "retry": null
+  },
+  {
+   "bbox": [
+    63.8,
+    503.0,
+    513.6,
+    517.8
+   ],
+   "text": "identified as the PROWLER. The master of the ATTESSA IV put the engines in neutral and",
+   "conf": 0.9939,
+   "retry": null
+  },
+  {
+   "bbox": [
+    63.4,
+    517.0,
+    522.4,
+    531.7
+   ],
+   "text": "made a hard turn to port in an attempt to avoid a collision. The ATTESSA IV's starboard bow",
+   "conf": 0.9832,
+   "retry": null
+  },
+  {
+   "bbox": [
+    64.1,
+    531.3,
+    532.3,
+    544.5
+   ],
+   "text": "collided with the PROWLER's starboard side resulting in a 40-foot tear along the PROWLER'S",
+   "conf": 0.9862,
+   "retry": null
+  },
+  {
+   "bbox": [
+    64.1,
+    545.7,
+    497.2,
+    558.9
+   ],
+   "text": "starboard hull approximately one foot above the waterline. The PROWLER's galley and",
+   "conf": 0.9929,
+   "retry": null
+  },
+  {
+   "bbox": [
+    63.4,
+    558.1,
+    529.5,
+    573.6
+   ],
+   "text": "wheelhouse suffered significant structural damage. The ATTESSA IV sustained minor damage,",
+   "conf": 0.9947,
+   "retry": null
+  },
+  {
+   "bbox": [
+    64.9,
+    574.0,
+    457.4,
+    586.0
+   ],
+   "text": "consisting of scrapes along the starboard side and the stern railing was bent over.",
+   "conf": 0.9913,
+   "retry": null
+  },
+  {
+   "bbox": [
+    63.8,
+    600.0,
+    520.8,
+    614.8
+   ],
+   "text": "United States Coast Guard Sector San Diego was notified of the incident and responded to the",
+   "conf": 0.9874,
+   "retry": null
+  },
+  {
+   "bbox": [
+    63.0,
+    614.0,
+    512.4,
+    628.7
+   ],
+   "text": "scene with multiple assets. One critically injured passenger on the PROWLER was air lifted",
+   "conf": 0.9989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    63.4,
+    627.9,
+    519.2,
+    642.7
+   ],
+   "text": "using a U.S. Coast Guard helicopter. The passenger was pronounced deceased upon arrival at",
+   "conf": 0.9953,
+   "retry": null
+  },
+  {
+   "bbox": [
+    63.4,
+    641.5,
+    534.7,
+    656.7
+   ],
+   "text": "UCSD Medical Center, San Diego. Additionally, two passengers and a crewmember all from the",
+   "conf": 0.9979,
+   "retry": null
+  },
+  {
+   "bbox": [
+    63.4,
+    655.9,
+    520.8,
+    669.4
+   ],
+   "text": "PROWLER were transported by a U.S. Coast Guard small boat to Sector San Diego and on to",
+   "conf": 0.9958,
+   "retry": null
+  },
+  {
+   "bbox": [
+    64.1,
+    670.2,
+    533.5,
+    683.4
+   ],
+   "text": "local hospitals for medical treatment for serious injuries sustained during the collision. The three",
+   "conf": 0.9981,
+   "retry": null
+  },
+  {
+   "bbox": [
+    63.8,
+    683.8,
+    409.2,
+    698.2
+   ],
+   "text": "injuries individuals were discharged from the hospital a few days later.",
+   "conf": 0.9952,
+   "retry": null
+  },
+  {
+   "bbox": [
+    295.2,
+    744.1,
+    306.8,
+    758.5
+   ],
+   "text": "ii",
+   "conf": 0.9981,
+   "retry": null
+  }
+ ]
+}

@@ -1,0 +1,2168 @@
+{
+ "key": {
+  "report_id": "UNA_MAS",
+  "filename": "UNA_MAS_8231938_ROI_Redacted.pdf",
+  "sha256": "1a2020a9e1b298824fcb61c142865d41c70a5cf6f9d2ad82f12a16e9cec3cda6",
+  "page_number": 8,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    110.4,
+    35.9,
+    531.1,
+    51.1
+   ],
+   "text": "tuna fishing trip, during which the vessel operated up to 52 nautical miles west of Gold",
+   "conf": 0.9959,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    51.1,
+    267.8,
+    63.1
+   ],
+   "text": "Beach, OR in the Pacific Ocean.",
+   "conf": 0.979,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    77.8,
+    498.0,
+    91.4
+   ],
+   "text": "4.1.2. At 1830, UNA MAS began its transit back with the Operator at the helm",
+   "conf": 0.9924,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    93.0,
+    514.4,
+    105.0
+   ],
+   "text": "reported to be utilizing the auto-pilot feature but with manual capability to adjust as",
+   "conf": 0.9958,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.6,
+    105.0,
+    519.2,
+    119.8
+   ],
+   "text": "necessary, with C-1 sitting behind the Operator and C-2 sitting across from C-1. The",
+   "conf": 0.9935,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    119.0,
+    512.8,
+    133.7
+   ],
+   "text": "seating arrangement was not fully enclosed, and all occupants were exposed and/or",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    133.3,
+    520.8,
+    147.3
+   ],
+   "text": "partially exposed to open air. The fish tote storage was full, with 01 tote on each side",
+   "conf": 0.9954,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    146.9,
+    537.5,
+    160.9
+   ],
+   "text": "behind the seating area, 01 ice chest in between captain's chair and opposite seat, and 01",
+   "conf": 0.9941,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    161.7,
+    311.6,
+    173.6
+   ],
+   "text": "Reliable kill bag forward of ice the chest.",
+   "conf": 0.9984,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    188.4,
+    512.8,
+    201.6
+   ],
+   "text": "4.1.3. At 2004, C-1 took a video on the UNA MAS as they transited in. The video",
+   "conf": 0.9915,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    202.8,
+    529.1,
+    216.0
+   ],
+   "text": "shows the sunset, C-2 wearing a mustang collar life jacket sitting across from C-1, and",
+   "conf": 0.9908,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    216.0,
+    535.9,
+    230.3
+   ],
+   "text": "part of the back of the vessel with the port fish tote. The vessel was maintaining a plane.",
+   "conf": 0.9969,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    243.9,
+    518.8,
+    257.1
+   ],
+   "text": "4.1.4. At 2015, C-1 and C-2 called their spouses to check-in. No concerns reported.",
+   "conf": 0.9946,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    271.1,
+    538.3,
+    284.6
+   ],
+   "text": "4.1.5. At 2020, the Operator slowed or bumped the throttle on the UNA MAS to a slow",
+   "conf": 0.9865,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    284.6,
+    512.8,
+    299.4
+   ],
+   "text": "speed. Slow speed was reported uncomfortable in the weather conditions. Operator",
+   "conf": 0.9943,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    298.6,
+    525.1,
+    313.0
+   ],
+   "text": "brought UNA MAS back up to a plane, approximately 18-22 knots, with the autopilot",
+   "conf": 0.9919,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    312.6,
+    177.7,
+    327.3
+   ],
+   "text": "still engaged.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    340.5,
+    522.0,
+    353.7
+   ],
+   "text": "4.1.6. At 2039, while transiting a swell, the UNA MAS experienced a port side first",
+   "conf": 0.9957,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    354.1,
+    527.9,
+    367.7
+   ],
+   "text": "descend. Concurrently, the starboard tote behind C-1’s seating area, became dislodged",
+   "conf": 0.9947,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    368.1,
+    361.0,
+    381.6
+   ],
+   "text": "from its securing strap and rapidly migrated to port.",
+   "conf": 0.9923,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    394.8,
+    534.7,
+    409.6
+   ],
+   "text": "4.1.7. At 2040, the UNA MAS experienced a capsizing incident, rolling to port, which",
+   "conf": 0.9957,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    410.4,
+    366.6,
+    422.3
+   ],
+   "text": "caused the Operator, C-1, and C-2 to enter the water.",
+   "conf": 0.9948,
+   "retry": null
+  },
+  {
+   "bbox": [
+    194.4,
+    435.1,
+    200.8,
+    440.3
+   ],
+   "text": "20",
+   "conf": 0.8566,
+   "retry": {
+    "text": "20",
+    "conf": 0.8566,
+    "first_text": "20",
+    "first_conf": 0.7912,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    404.0,
+    435.1,
+    434.3,
+    441.9
+   ],
+   "text": "1 1 Bmakes",
+   "conf": 0.82,
+   "retry": {
+    "text": "1 1 ämaies",
+    "conf": 0.6882,
+    "first_text": "1 1 Bmakes",
+    "first_conf": 0.82,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    166.5,
+    435.5,
+    173.7,
+    442.3
+   ],
+   "text": "27",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    279.3,
+    437.1,
+    286.1,
+    443.9
+   ],
+   "text": "15",
+   "conf": 0.9966,
+   "retry": null
+  },
+  {
+   "bbox": [
+    296.8,
+    437.9,
+    304.4,
+    444.7
+   ],
+   "text": "7",
+   "conf": 0.1329,
+   "retry": {
+    "text": "3",
+    "conf": 0.1052,
+    "first_text": "7",
+    "first_conf": 0.1329,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    234.3,
+    438.7,
+    255.4,
+    447.5
+   ],
+   "text": "124°30",
+   "conf": 0.9944,
+   "retry": null
+  },
+  {
+   "bbox": [
+    117.1,
+    439.5,
+    133.9,
+    455.1
+   ],
+   "text": "★",
+   "conf": 0.8727,
+   "retry": {
+    "text": "★",
+    "conf": 0.8271,
+    "first_text": "★",
+    "first_conf": 0.8727,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    341.5,
+    439.5,
+    370.9,
+    448.3
+   ],
+   "text": "Pyramid Rk",
+   "conf": 0.9952,
+   "retry": null
+  },
+  {
+   "bbox": [
+    431.1,
+    442.3,
+    434.7,
+    446.3
+   ],
+   "text": "3",
+   "conf": 0.998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    273.3,
+    442.7,
+    280.9,
+    449.9
+   ],
+   "text": "10",
+   "conf": 0.9772,
+   "retry": null
+  },
+  {
+   "bbox": [
+    386.5,
+    443.9,
+    389.7,
+    447.5
+   ],
+   "text": "9",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    481.7,
+    444.3,
+    489.3,
+    451.1
+   ],
+   "text": "0",
+   "conf": 0.9498,
+   "retry": {
+    "text": "0",
+    "conf": 0.9498,
+    "first_text": "0",
+    "first_conf": 0.8387,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    261.4,
+    447.1,
+    268.9,
+    453.9
+   ],
+   "text": "14",
+   "conf": 0.999,
+   "retry": {
+    "text": "14",
+    "conf": 0.999,
+    "first_text": "14",
+    "first_conf": 0.9389,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    315.2,
+    447.5,
+    321.1,
+    453.1
+   ],
+   "text": "13",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    365.8,
+    447.5,
+    372.5,
+    454.3
+   ],
+   "text": "te",
+   "conf": 0.7611,
+   "retry": {
+    "text": "3i",
+    "conf": 0.7154,
+    "first_text": "te",
+    "first_conf": 0.7611,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    296.4,
+    449.5,
+    304.0,
+    456.3
+   ],
+   "text": "16",
+   "conf": 0.9741,
+   "retry": null
+  },
+  {
+   "bbox": [
+    247.4,
+    449.9,
+    253.8,
+    455.1
+   ],
+   "text": "20",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.3,
+    451.9,
+    145.0,
+    458.7
+   ],
+   "text": "31",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    363.4,
+    453.9,
+    370.5,
+    460.3
+   ],
+   "text": "41",
+   "conf": 0.974,
+   "retry": null
+  },
+  {
+   "bbox": [
+    216.4,
+    455.1,
+    223.9,
+    461.9
+   ],
+   "text": "27",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    288.1,
+    455.1,
+    295.2,
+    461.5
+   ],
+   "text": "12",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    167.7,
+    458.3,
+    173.7,
+    463.9
+   ],
+   "text": "28",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    425.5,
+    460.7,
+    431.5,
+    466.3
+   ],
+   "text": "31",
+   "conf": 0.9815,
+   "retry": null
+  },
+  {
+   "bbox": [
+    324.3,
+    463.1,
+    330.3,
+    468.3
+   ],
+   "text": "17",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    307.6,
+    463.9,
+    313.2,
+    469.1
+   ],
+   "text": "17",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    293.2,
+    464.3,
+    299.2,
+    469.5
+   ],
+   "text": "12",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    415.2,
+    464.3,
+    420.0,
+    467.9
+   ],
+   "text": "tky",
+   "conf": 0.8663,
+   "retry": {
+    "text": "tky",
+    "conf": 0.8663,
+    "first_text": "n",
+    "first_conf": 0.3936,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    112.8,
+    465.1,
+    125.5,
+    471.0
+   ],
+   "text": "ohod",
+   "conf": 0.7408,
+   "retry": {
+    "text": "ohod",
+    "conf": 0.7408,
+    "first_text": "adod",
+    "first_conf": 0.5615,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    260.2,
+    466.3,
+    267.8,
+    473.4
+   ],
+   "text": "12",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    313.6,
+    467.1,
+    336.3,
+    473.8
+   ],
+   "text": "Bares at HW",
+   "conf": 0.9525,
+   "retry": null
+  },
+  {
+   "bbox": [
+    247.0,
+    467.5,
+    253.8,
+    474.2
+   ],
+   "text": "18",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    489.7,
+    467.5,
+    496.9,
+    473.8
+   ],
+   "text": "O",
+   "conf": 0.5485,
+   "retry": {
+    "text": "O",
+    "conf": 0.5485,
+    "first_text": "O",
+    "first_conf": 0.5043,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    368.2,
+    467.9,
+    374.9,
+    474.6
+   ],
+   "text": "6]",
+   "conf": 0.8256,
+   "retry": {
+    "text": "6]",
+    "conf": 0.6977,
+    "first_text": "6]",
+    "first_conf": 0.8256,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    287.3,
+    468.7,
+    293.2,
+    473.8
+   ],
+   "text": "15",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    384.5,
+    469.5,
+    390.1,
+    475.4
+   ],
+   "text": "71",
+   "conf": 0.8099,
+   "retry": {
+    "text": "71",
+    "conf": 0.714,
+    "first_text": "71",
+    "first_conf": 0.8099,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    302.8,
+    471.8,
+    308.4,
+    477.4
+   ],
+   "text": "13",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    318.8,
+    474.2,
+    324.7,
+    479.8
+   ],
+   "text": "17",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    369.4,
+    475.4,
+    376.1,
+    480.6
+   ],
+   "text": "rky",
+   "conf": 0.9103,
+   "retry": {
+    "text": "my",
+    "conf": 0.7406,
+    "first_text": "rky",
+    "first_conf": 0.9103,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    229.9,
+    475.8,
+    237.5,
+    483.0
+   ],
+   "text": "25",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    262.6,
+    475.8,
+    269.7,
+    482.6
+   ],
+   "text": "12",
+   "conf": 0.9898,
+   "retry": null
+  },
+  {
+   "bbox": [
+    337.5,
+    477.0,
+    343.1,
+    482.6
+   ],
+   "text": "11",
+   "conf": 0.9966,
+   "retry": null
+  },
+  {
+   "bbox": [
+    278.9,
+    480.2,
+    284.9,
+    485.8
+   ],
+   "text": "17",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    287.3,
+    480.2,
+    300.0,
+    484.6
+   ],
+   "text": "Bruaters",
+   "conf": 0.6881,
+   "retry": {
+    "text": "Bruaies",
+    "conf": 0.6644,
+    "first_text": "Bruaters",
+    "first_conf": 0.6881,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    487.7,
+    481.4,
+    494.5,
+    488.2
+   ],
+   "text": "0",
+   "conf": 0.5379,
+   "retry": {
+    "text": "0",
+    "conf": 0.5379,
+    "first_text": "O",
+    "first_conf": 0.4592,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    157.0,
+    484.2,
+    163.8,
+    491.0
+   ],
+   "text": "31",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    311.2,
+    486.2,
+    316.8,
+    491.8
+   ],
+   "text": "12",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    325.5,
+    488.2,
+    331.1,
+    493.8
+   ],
+   "text": "16",
+   "conf": 0.9929,
+   "retry": null
+  },
+  {
+   "bbox": [
+    247.0,
+    489.8,
+    254.2,
+    496.6
+   ],
+   "text": "21",
+   "conf": 0.9985,
+   "retry": null
+  },
+  {
+   "bbox": [
+    503.2,
+    490.2,
+    531.5,
+    498.2
+   ],
+   "text": "Wedderburn",
+   "conf": 0.9987,
+   "retry": null
+  },
+  {
+   "bbox": [
+    479.3,
+    494.2,
+    487.7,
+    503.0
+   ],
+   "text": "0",
+   "conf": 0.9729,
+   "retry": null
+  },
+  {
+   "bbox": [
+    414.8,
+    495.4,
+    421.5,
+    502.2
+   ],
+   "text": "41",
+   "conf": 0.9918,
+   "retry": null
+  },
+  {
+   "bbox": [
+    316.4,
+    497.8,
+    323.1,
+    504.6
+   ],
+   "text": "13",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    286.9,
+    499.0,
+    292.9,
+    504.6
+   ],
+   "text": "17",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    268.5,
+    499.4,
+    274.5,
+    505.0
+   ],
+   "text": "17",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    357.8,
+    499.4,
+    362.2,
+    503.0
+   ],
+   "text": "14",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    503.2,
+    499.8,
+    514.8,
+    504.2
+   ],
+   "text": "TOWER",
+   "conf": 0.9967,
+   "retry": null
+  },
+  {
+   "bbox": [
+    227.9,
+    503.0,
+    235.1,
+    510.2
+   ],
+   "text": "26",
+   "conf": 0.9881,
+   "retry": null
+  },
+  {
+   "bbox": [
+    526.3,
+    503.0,
+    539.5,
+    510.6
+   ],
+   "text": "RO",
+   "conf": 0.8338,
+   "retry": {
+    "text": "RO",
+    "conf": 0.8133,
+    "first_text": "RO",
+    "first_conf": 0.8338,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    298.0,
+    507.0,
+    304.8,
+    513.8
+   ],
+   "text": "15",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    419.2,
+    507.8,
+    441.5,
+    513.0
+   ],
+   "text": "REGULATED",
+   "conf": 0.9991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    256.6,
+    509.8,
+    264.2,
+    516.6
+   ],
+   "text": "23",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    274.5,
+    510.2,
+    281.7,
+    517.0
+   ],
+   "text": "17",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    366.6,
+    511.0,
+    372.1,
+    516.2
+   ],
+   "text": "13",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    322.7,
+    512.2,
+    329.9,
+    518.6
+   ],
+   "text": "15",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    338.3,
+    513.0,
+    344.2,
+    518.2
+   ],
+   "text": "14",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    151.8,
+    515.4,
+    158.6,
+    522.1
+   ],
+   "text": "32",
+   "conf": 0.6334,
+   "retry": {
+    "text": "0",
+    "conf": 0.3757,
+    "first_text": "32",
+    "first_conf": 0.6334,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    418.4,
+    516.2,
+    447.8,
+    520.1
+   ],
+   "text": "1325 (see note A)",
+   "conf": 0.9539,
+   "retry": {
+    "text": "1325 (see note A)",
+    "conf": 0.9539,
+    "first_text": "1325 (see noté A)",
+    "first_conf": 0.924,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    300.4,
+    519.8,
+    306.4,
+    525.3
+   ],
+   "text": "17",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    335.1,
+    522.5,
+    340.7,
+    527.7
+   ],
+   "text": "13",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    380.9,
+    523.3,
+    388.9,
+    530.1
+   ],
+   "text": "10",
+   "conf": 0.9855,
+   "retry": null
+  },
+  {
+   "bbox": [
+    221.9,
+    523.7,
+    227.1,
+    529.3
+   ],
+   "text": "St",
+   "conf": 0.8338,
+   "retry": {
+    "text": "St",
+    "conf": 0.7726,
+    "first_text": "St",
+    "first_conf": 0.8338,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    282.9,
+    524.1,
+    289.7,
+    530.9
+   ],
+   "text": "14",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    248.6,
+    524.9,
+    256.2,
+    532.1
+   ],
+   "text": "25",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    265.0,
+    526.1,
+    271.7,
+    532.9
+   ],
+   "text": "16",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    316.0,
+    526.1,
+    322.7,
+    532.9
+   ],
+   "text": "18",
+   "conf": 0.8905,
+   "retry": {
+    "text": "18",
+    "conf": 0.8905,
+    "first_text": "18",
+    "first_conf": 0.8056,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    362.2,
+    527.3,
+    369.0,
+    534.1
+   ],
+   "text": "12",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    516.8,
+    527.3,
+    529.9,
+    533.3
+   ],
+   "text": "TOMER",
+   "conf": 0.926,
+   "retry": {
+    "text": "TOMER",
+    "conf": 0.926,
+    "first_text": "TOWER",
+    "first_conf": 0.893,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    448.2,
+    528.5,
+    453.4,
+    534.1
+   ],
+   "text": "24",
+   "conf": 0.8674,
+   "retry": {
+    "text": "24",
+    "conf": 0.853,
+    "first_text": "24",
+    "first_conf": 0.8674,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    120.3,
+    529.3,
+    127.1,
+    536.1
+   ],
+   "text": "36",
+   "conf": 0.9991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    300.4,
+    530.1,
+    308.4,
+    536.9
+   ],
+   "text": "10",
+   "conf": 0.9476,
+   "retry": {
+    "text": "10",
+    "conf": 0.9476,
+    "first_text": "0",
+    "first_conf": 0.6239,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    373.3,
+    532.5,
+    380.9,
+    539.3
+   ],
+   "text": "11",
+   "conf": 0.9898,
+   "retry": null
+  },
+  {
+   "bbox": [
+    205.6,
+    532.9,
+    212.8,
+    539.3
+   ],
+   "text": "28",
+   "conf": 0.9853,
+   "retry": null
+  },
+  {
+   "bbox": [
+    228.7,
+    533.3,
+    235.9,
+    539.7
+   ],
+   "text": "27",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    330.7,
+    535.3,
+    336.3,
+    540.5
+   ],
+   "text": "16",
+   "conf": 0.9949,
+   "retry": {
+    "text": "16",
+    "conf": 0.9949,
+    "first_text": "16",
+    "first_conf": 0.801,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    278.1,
+    536.1,
+    285.3,
+    542.9
+   ],
+   "text": "13",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    289.7,
+    536.5,
+    296.8,
+    543.3
+   ],
+   "text": "14",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    312.0,
+    538.1,
+    319.1,
+    545.3
+   ],
+   "text": "21",
+   "conf": 0.9936,
+   "retry": null
+  },
+  {
+   "bbox": [
+    435.9,
+    539.7,
+    441.1,
+    544.5
+   ],
+   "text": "41",
+   "conf": 0.9705,
+   "retry": null
+  },
+  {
+   "bbox": [
+    268.5,
+    540.5,
+    275.7,
+    546.9
+   ],
+   "text": "15",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    179.3,
+    542.9,
+    184.5,
+    547.7
+   ],
+   "text": "29",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    339.9,
+    544.9,
+    347.0,
+    551.7
+   ],
+   "text": "15",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    361.4,
+    545.3,
+    368.2,
+    552.1
+   ],
+   "text": "13",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    513.2,
+    545.7,
+    521.6,
+    554.9
+   ],
+   "text": "0",
+   "conf": 0.9902,
+   "retry": null
+  },
+  {
+   "bbox": [
+    285.7,
+    546.5,
+    293.2,
+    553.3
+   ],
+   "text": "19",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    151.0,
+    547.7,
+    157.8,
+    554.5
+   ],
+   "text": "34",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    311.2,
+    547.7,
+    318.8,
+    554.5
+   ],
+   "text": "17",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    374.5,
+    548.1,
+    381.3,
+    555.3
+   ],
+   "text": "11",
+   "conf": 0.9949,
+   "retry": null
+  },
+  {
+   "bbox": [
+    406.8,
+    548.5,
+    412.4,
+    554.1
+   ],
+   "text": "7",
+   "conf": 0.9889,
+   "retry": {
+    "text": "7",
+    "conf": 0.9889,
+    "first_text": "7i",
+    "first_conf": 0.7006,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    423.5,
+    549.3,
+    429.1,
+    555.3
+   ],
+   "text": "5l",
+   "conf": 0.7274,
+   "retry": {
+    "text": "5l",
+    "conf": 0.717,
+    "first_text": "5l",
+    "first_conf": 0.7274,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    249.8,
+    550.5,
+    255.8,
+    556.1
+   ],
+   "text": "25",
+   "conf": 0.9947,
+   "retry": null
+  },
+  {
+   "bbox": [
+    261.8,
+    550.5,
+    268.9,
+    556.9
+   ],
+   "text": "22",
+   "conf": 0.9971,
+   "retry": {
+    "text": "22",
+    "conf": 0.9971,
+    "first_text": "22",
+    "first_conf": 0.7535,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    296.0,
+    551.7,
+    302.0,
+    556.5
+   ],
+   "text": "16",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.1,
+    554.1,
+    134.7,
+    563.7
+   ],
+   "text": "42°25",
+   "conf": 0.9737,
+   "retry": null
+  },
+  {
+   "bbox": [
+    244.2,
+    558.5,
+    302.8,
+    566.5
+   ],
+   "text": "INITIAL42°24'50.9\"N,",
+   "conf": 0.9945,
+   "retry": null
+  },
+  {
+   "bbox": [
+    356.2,
+    558.5,
+    363.0,
+    565.3
+   ],
+   "text": "13",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    332.3,
+    559.3,
+    338.3,
+    564.9
+   ],
+   "text": "16",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    427.1,
+    561.7,
+    432.7,
+    567.3
+   ],
+   "text": "51",
+   "conf": 0.4498,
+   "retry": {
+    "text": "st",
+    "conf": 0.3421,
+    "first_text": "51",
+    "first_conf": 0.4498,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    530.7,
+    563.7,
+    538.3,
+    571.2
+   ],
+   "text": "@",
+   "conf": 0.3746,
+   "retry": {
+    "text": "@",
+    "conf": 0.3746,
+    "first_text": "@",
+    "first_conf": 0.1512,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    494.9,
+    564.9,
+    521.2,
+    572.8
+   ],
+   "text": "Gold Beach",
+   "conf": 0.9991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    244.2,
+    565.7,
+    285.3,
+    574.8
+   ],
+   "text": "124°30'54.4\"W",
+   "conf": 0.9935,
+   "retry": null
+  },
+  {
+   "bbox": [
+    314.0,
+    570.4,
+    321.5,
+    577.2
+   ],
+   "text": "19",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    368.2,
+    573.6,
+    375.3,
+    580.4
+   ],
+   "text": "12",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    384.9,
+    573.6,
+    392.1,
+    580.0
+   ],
+   "text": "11",
+   "conf": 0.9896,
+   "retry": null
+  },
+  {
+   "bbox": [
+    350.2,
+    574.0,
+    356.2,
+    579.6
+   ],
+   "text": "14",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    142.2,
+    576.4,
+    148.2,
+    582.0
+   ],
+   "text": "38",
+   "conf": 0.9693,
+   "retry": null
+  },
+  {
+   "bbox": [
+    247.8,
+    580.8,
+    255.0,
+    587.6
+   ],
+   "text": "28",
+   "conf": 0.9881,
+   "retry": {
+    "text": "28",
+    "conf": 0.9881,
+    "first_text": "28",
+    "first_conf": 0.8085,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    167.7,
+    584.8,
+    172.9,
+    591.2
+   ],
+   "text": "s",
+   "conf": 0.9127,
+   "retry": {
+    "text": "s",
+    "conf": 0.9127,
+    "first_text": "s",
+    "first_conf": 0.7792,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    112.0,
+    586.0,
+    135.1,
+    595.6
+   ],
+   "text": "DECREASE",
+   "conf": 0.9984,
+   "retry": null
+  },
+  {
+   "bbox": [
+    339.5,
+    587.2,
+    346.6,
+    593.6
+   ],
+   "text": "16",
+   "conf": 0.9971,
+   "retry": null
+  },
+  {
+   "bbox": [
+    365.0,
+    590.0,
+    371.7,
+    596.8
+   ],
+   "text": "13",
+   "conf": 0.9973,
+   "retry": null
+  },
+  {
+   "bbox": [
+    382.5,
+    591.6,
+    388.1,
+    597.2
+   ],
+   "text": "11",
+   "conf": 0.985,
+   "retry": null
+  },
+  {
+   "bbox": [
+    445.9,
+    591.6,
+    450.6,
+    597.2
+   ],
+   "text": "4",
+   "conf": 0.9882,
+   "retry": null
+  },
+  {
+   "bbox": [
+    318.8,
+    592.4,
+    325.9,
+    598.8
+   ],
+   "text": "17",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    461.8,
+    592.8,
+    466.6,
+    598.8
+   ],
+   "text": "2",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    206.8,
+    594.0,
+    212.8,
+    599.6
+   ],
+   "text": "30",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    257.0,
+    598.8,
+    263.0,
+    604.4
+   ],
+   "text": "28",
+   "conf": 0.9991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    454.6,
+    599.6,
+    459.8,
+    604.8
+   ],
+   "text": "2",
+   "conf": 0.995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    234.3,
+    600.0,
+    241.5,
+    606.8
+   ],
+   "text": "29",
+   "conf": 0.9946,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.7,
+    604.0,
+    146.2,
+    611.6
+   ],
+   "text": "39",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    356.6,
+    606.0,
+    362.2,
+    611.6
+   ],
+   "text": "14",
+   "conf": 0.9891,
+   "retry": null
+  },
+  {
+   "bbox": [
+    256.6,
+    608.4,
+    288.9,
+    616.8
+   ],
+   "text": "RECOVERY",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    448.6,
+    612.0,
+    453.8,
+    617.2
+   ],
+   "text": "41",
+   "conf": 0.7473,
+   "retry": {
+    "text": "4",
+    "conf": 0.5075,
+    "first_text": "41",
+    "first_conf": 0.7473,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    328.7,
+    613.2,
+    335.9,
+    620.3
+   ],
+   "text": "13",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    461.0,
+    614.0,
+    468.2,
+    621.5
+   ],
+   "text": "24",
+   "conf": 0.8777,
+   "retry": {
+    "text": "24",
+    "conf": 0.8777,
+    "first_text": "21",
+    "first_conf": 0.7287,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    256.2,
+    616.0,
+    308.0,
+    625.1
+   ],
+   "text": "42°24'N,124°30'W",
+   "conf": 0.9905,
+   "retry": null
+  },
+  {
+   "bbox": [
+    353.8,
+    623.5,
+    359.8,
+    629.1
+   ],
+   "text": "15",
+   "conf": 0.9956,
+   "retry": null
+  },
+  {
+   "bbox": [
+    180.1,
+    623.9,
+    187.7,
+    631.1
+   ],
+   "text": "30",
+   "conf": 0.9936,
+   "retry": null
+  },
+  {
+   "bbox": [
+    207.6,
+    623.9,
+    213.2,
+    629.5
+   ],
+   "text": "25",
+   "conf": 0.9869,
+   "retry": null
+  },
+  {
+   "bbox": [
+    361.4,
+    625.5,
+    406.0,
+    632.3
+   ],
+   "text": "Depths from survey of 2018",
+   "conf": 0.9624,
+   "retry": null
+  },
+  {
+   "bbox": [
+    449.0,
+    626.3,
+    455.4,
+    633.5
+   ],
+   "text": "4",
+   "conf": 0.9976,
+   "retry": {
+    "text": "4",
+    "conf": 0.9976,
+    "first_text": "4]",
+    "first_conf": 0.9234,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    218.7,
+    627.5,
+    224.7,
+    633.1
+   ],
+   "text": "dy",
+   "conf": 0.9806,
+   "retry": null
+  },
+  {
+   "bbox": [
+    287.3,
+    635.9,
+    294.8,
+    643.1
+   ],
+   "text": "23",
+   "conf": 0.9991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    386.1,
+    636.3,
+    392.9,
+    643.1
+   ],
+   "text": "12",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    318.8,
+    637.1,
+    324.7,
+    642.7
+   ],
+   "text": "19",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    337.5,
+    638.3,
+    343.5,
+    643.9
+   ],
+   "text": "18",
+   "conf": 0.9782,
+   "retry": {
+    "text": "18",
+    "conf": 0.9782,
+    "first_text": "18",
+    "first_conf": 0.8775,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    461.0,
+    638.3,
+    466.2,
+    644.3
+   ],
+   "text": "31",
+   "conf": 0.9956,
+   "retry": null
+  },
+  {
+   "bbox": [
+    530.7,
+    641.5,
+    543.5,
+    647.1
+   ],
+   "text": "01000",
+   "conf": 0.9492,
+   "retry": {
+    "text": "01000",
+    "conf": 0.9492,
+    "first_text": "01000",
+    "first_conf": 0.7893,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    125.5,
+    645.9,
+    524.7,
+    656.3
+   ],
+   "text": "Figure 2. Modified chart image of the approximate location of the initial incident location and recovery of C-1. Not to scale.",
+   "conf": 0.9889,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    669.0,
+    523.9,
+    683.8
+   ],
+   "text": "4.1.8. Shortly thereafter, C-1 was pulled below the surface of the water by displaced",
+   "conf": 0.99,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    683.0,
+    488.1,
+    697.8
+   ],
+   "text": "fishing equipment. C-1 had resurfaced between the dislodged fish tote and the",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    697.8,
+    533.5,
+    711.0
+   ],
+   "text": "overturned UNA MAS. He was able to climb onto the hull. C-1 reported hearing voices",
+   "conf": 0.9944,
+   "retry": null
+  },
+  {
+   "bbox": [
+    300.8,
+    729.3,
+    310.4,
+    742.1
+   ],
+   "text": "3",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

@@ -1,0 +1,545 @@
+{
+ "key": {
+  "report_id": "LADY_ELLEN",
+  "filename": "LADY_ELLEN_7965695_ROI_Redacted.pdf",
+  "sha256": "2f2c6a50d58addb5fd93c98b2144a893d2416e1a501617e9cbc8e33ee7fe0a98",
+  "page_number": 6,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    85.3,
+    35.5,
+    515.6,
+    51.5
+   ],
+   "text": "(CG-CVC-3) amend Title 46 CFR Subpart 28.265 and 28.270 to expand requirements for",
+   "conf": 0.9992,
+   "retry": {
+    "text": "(CG-CVC-3) amend Title 46 CFR Subpart 28.265 and 28.270 to expand requirements for",
+    "conf": 0.9992,
+    "first_text": "S s d     s un    (--o)",
+    "first_conf": 0.7757,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    84.9,
+    49.1,
+    547.9,
+    65.9
+   ],
+   "text": "emergency instructions and drills, to include all documented CFVs, regardless of operating area.",
+   "conf": 0.9927,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.5,
+    63.1,
+    525.5,
+    79.8
+   ],
+   "text": "The requirement is currently only applicable to documented vessels that operate beyond the",
+   "conf": 0.9986,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.5,
+    76.6,
+    541.5,
+    93.0
+   ],
+   "text": "boundary lines or with more than 16 individuals on board, or for fish tender vessels engaged in",
+   "conf": 0.9899,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.9,
+    90.6,
+    546.3,
+    107.0
+   ],
+   "text": "the Aleutian trade. Expanding the scope of this requirement will significantly enhance readiness",
+   "conf": 0.9973,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.3,
+    105.0,
+    515.2,
+    121.0
+   ],
+   "text": "and operational efficiency for all commercial fishermen by ensuring consistent procedure",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.9,
+    118.6,
+    534.3,
+    134.5
+   ],
+   "text": "implementation and comprehensive training, ultimately improving survivability and reducing",
+   "conf": 0.9953,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.9,
+    133.3,
+    316.0,
+    148.1
+   ],
+   "text": "recovery times in the event of a man overboard.",
+   "conf": 0.9889,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.8,
+    159.3,
+    533.9,
+    175.6
+   ],
+   "text": "Endorsement: Do Not Concur – The investigation revealed that the master/operator had",
+   "conf": 0.9977,
+   "retry": null
+  },
+  {
+   "bbox": [
+    103.2,
+    173.2,
+    543.1,
+    189.6
+   ],
+   "text": "over 50 years of experience in the CFV industry, while the deceased crewmember had over",
+   "conf": 0.9985,
+   "retry": null
+  },
+  {
+   "bbox": [
+    103.6,
+    187.6,
+    494.9,
+    203.6
+   ],
+   "text": "30 years of experience in the same field. This was a two-man operation with very",
+   "conf": 0.997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    103.6,
+    201.2,
+    499.2,
+    217.2
+   ],
+   "text": "experienced personnel, and the master responded to the man overboard incident in",
+   "conf": 0.9937,
+   "retry": null
+  },
+  {
+   "bbox": [
+    103.2,
+    215.2,
+    442.3,
+    231.1
+   ],
+   "text": "accordance with his extensive experience conducting CFV operations.",
+   "conf": 0.9995,
+   "retry": {
+    "text": "accordance with his extensive experience conducting CFV operations.",
+    "conf": 0.9995,
+    "first_text": "acoone n e e e  e ons",
+    "first_conf": 0.6585,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    103.6,
+    228.7,
+    514.0,
+    245.1
+   ],
+   "text": "The investigation did not identify any emergency procedures or drills that could have",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    104.0,
+    244.3,
+    286.1,
+    258.3
+   ],
+   "text": "changed the outcome of this casualty.",
+   "conf": 0.9988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.5,
+    269.9,
+    534.7,
+    285.8
+   ],
+   "text": "Safety Recommendation 8.1.3: Recommend the Commandant, U.S. Coast Guard amend the",
+   "conf": 0.9945,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.7,
+    283.8,
+    516.4,
+    300.2
+   ],
+   "text": "regulations in 46 CFR Subpart 28.110 to expand requirements by including language that",
+   "conf": 0.9877,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.5,
+    297.0,
+    552.6,
+    314.2
+   ],
+   "text": "specifically mandates the wearing of PFDs for Crewmembers who work on exposed decks or are",
+   "conf": 0.997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.5,
+    311.4,
+    518.4,
+    328.1
+   ],
+   "text": "engaged in fishing operations requiring leaning over the side of the vessel. The regulation",
+   "conf": 0.9981,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.1,
+    324.5,
+    551.0,
+    342.1
+   ],
+   "text": "addresses the number, type, stowage, and size requirements for PFDs and immersion suits, but it",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.5,
+    338.5,
+    534.3,
+    355.3
+   ],
+   "text": "does not address when they shall be worn. Fisherman often neglect wearing a PFD due to the",
+   "conf": 0.9973,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.1,
+    352.5,
+    545.9,
+    369.3
+   ],
+   "text": "potential interference with fishing operations (entanglement or restricted movement), perceived",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.5,
+    366.5,
+    547.5,
+    382.8
+   ],
+   "text": "lack of need for, and discomfort while wearing one. Type V commercial hybrid PFDs and work",
+   "conf": 0.9921,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.5,
+    380.4,
+    553.4,
+    396.8
+   ],
+   "text": "vests are significantly less bulky yet still provide an adequate level of protection should someone",
+   "conf": 0.987,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.1,
+    394.0,
+    548.2,
+    410.8
+   ],
+   "text": "fall overboard while wearing one. Implementing a requirement to wear a Type V hybrid PFD or",
+   "conf": 0.9974,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.9,
+    408.4,
+    539.9,
+    423.5
+   ],
+   "text": "work vest while engaged in operations which involve leaning over or working near the side of",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.3,
+    421.5,
+    538.3,
+    437.9
+   ],
+   "text": "the vessel would immensely enhance survivability and significantly reduce recovery times for",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.3,
+    436.7,
+    327.5,
+    451.1
+   ],
+   "text": "commercial fishermen following a fall overboard.",
+   "conf": 0.9908,
+   "retry": null
+  },
+  {
+   "bbox": [
+    104.8,
+    462.7,
+    523.1,
+    479.0
+   ],
+   "text": "Endorsement: Concur with Intent – Since the incident, the Coast Guard has published",
+   "conf": 0.9903,
+   "retry": null
+  },
+  {
+   "bbox": [
+    104.8,
+    477.4,
+    527.9,
+    493.4
+   ],
+   "text": "the Commercial Fishing Industry Vessels Best Safety Practices Guide, which includes a",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    104.8,
+    492.2,
+    546.7,
+    508.6
+   ],
+   "text": "critical recommendation for wearing activity-appropriate Coast Guard-approved life jackets",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    105.6,
+    507.0,
+    541.1,
+    522.5
+   ],
+   "text": "or buoyant work vests when working over or near water where the risk of drowning exists.",
+   "conf": 0.9935,
+   "retry": null
+  },
+  {
+   "bbox": [
+    105.6,
+    521.7,
+    543.1,
+    536.5
+   ],
+   "text": "This recommendation aligns with similar federal regulations under the Occupational Safety",
+   "conf": 0.9974,
+   "retry": null
+  },
+  {
+   "bbox": [
+    105.2,
+    536.1,
+    539.1,
+    551.3
+   ],
+   "text": "and Health Administration's jurisdiction in 29 CFR § 1926.106. The guidance specifically",
+   "conf": 0.9911,
+   "retry": null
+  },
+  {
+   "bbox": [
+    105.2,
+    550.5,
+    529.1,
+    566.9
+   ],
+   "text": "states: “It is recommended that every person on board the vessel, when on an open deck",
+   "conf": 0.9943,
+   "retry": null
+  },
+  {
+   "bbox": [
+    105.6,
+    565.3,
+    529.9,
+    581.6
+   ],
+   "text": "(especially at night, when alone, when gear is being set/hauled, in bad weather, crossing",
+   "conf": 0.9968,
+   "retry": null
+  },
+  {
+   "bbox": [
+    105.2,
+    579.2,
+    553.8,
+    596.0
+   ],
+   "text": "hazardous bars, or when other hazards exist), wear an activity-appropriate flotation device of",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    105.6,
+    594.4,
+    524.7,
+    610.0
+   ],
+   "text": "sufficient buoyancy to keep the wearer afloat. The device may be in addition to but not",
+   "conf": 0.9938,
+   "retry": null
+  },
+  {
+   "bbox": [
+    105.6,
+    609.2,
+    534.3,
+    624.7
+   ],
+   "text": "replacing the Personal Flotation Devices (PFDs) required by 46 CFR § Part 28. (Use of a",
+   "conf": 0.9842,
+   "retry": null
+  },
+  {
+   "bbox": [
+    105.6,
+    623.1,
+    525.5,
+    639.5
+   ],
+   "text": "non-Coast Guard approved PFD is not a violation as long as the required PFDs are also",
+   "conf": 0.9932,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.4,
+    638.3,
+    517.6,
+    653.5
+   ],
+   "text": "onboard).\" To enhance safety standards and mitigate the risk of drowning incidents, I",
+   "conf": 0.9954,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.4,
+    652.7,
+    512.8,
+    668.6
+   ],
+   "text": "strongly recommend the widespread promulgation of these best practices through all",
+   "conf": 0.9924,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.4,
+    667.5,
+    516.0,
+    682.6
+   ],
+   "text": "available avenues within the Coast Guard's outreach and communication capabilities.",
+   "conf": 0.9956,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.0,
+    681.4,
+    555.0,
+    698.2
+   ],
+   "text": "Specifically, the use of activity-appropriate flotation devices with sufficient buoyancy should",
+   "conf": 0.9947,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.0,
+    695.8,
+    554.6,
+    712.6
+   ],
+   "text": "be emphasized as a critical safety measure for the industry. This effort could include targeted",
+   "conf": 0.9996,
+   "retry": null
+  }
+ ]
+}

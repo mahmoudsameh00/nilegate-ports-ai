@@ -1,0 +1,341 @@
+{
+ "key": {
+  "report_id": "H20_BELOW",
+  "filename": "H20_BELOW_6966090_ROI_Redacted.pdf",
+  "sha256": "f3fcf7689854c086f79383529c2e174af10699e91199f16de6dc34a5f5fcd65c",
+  "page_number": 5,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    389.7,
+    27.5,
+    450.2,
+    39.1
+   ],
+   "text": "1500 15th Street",
+   "conf": 0.9763,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.7,
+    28.3,
+    158.2,
+    39.1
+   ],
+   "text": "U.S. Department of",
+   "conf": 0.9859,
+   "retry": null
+  },
+  {
+   "bbox": [
+    247.0,
+    29.1,
+    377.3,
+    39.9
+   ],
+   "text": "Officer in Charge, Marine Inspection",
+   "conf": 0.9954,
+   "retry": null
+  },
+  {
+   "bbox": [
+    390.1,
+    36.7,
+    452.2,
+    46.3
+   ],
+   "text": "Mobile, Al 36615",
+   "conf": 0.9545,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.9,
+    37.9,
+    157.8,
+    49.5
+   ],
+   "text": "Homeland Security",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    247.0,
+    39.1,
+    344.2,
+    48.3
+   ],
+   "text": "United States Coast Guard",
+   "conf": 0.9981,
+   "retry": null
+  },
+  {
+   "bbox": [
+    389.7,
+    43.9,
+    452.2,
+    55.5
+   ],
+   "text": "Staff Symbol: (s)",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    246.6,
+    48.3,
+    298.4,
+    57.5
+   ],
+   "text": "Sector Mobile",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    390.1,
+    52.7,
+    474.1,
+    63.5
+   ],
+   "text": "Phone: (251)-441-5971",
+   "conf": 0.9858,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.5,
+    55.1,
+    141.0,
+    67.9
+   ],
+   "text": "United States",
+   "conf": 0.9962,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.9,
+    65.9,
+    135.9,
+    76.6
+   ],
+   "text": "Coast Guard",
+   "conf": 0.9971,
+   "retry": null
+  },
+  {
+   "bbox": [
+    389.7,
+    76.6,
+    423.5,
+    90.6
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    389.7,
+    89.4,
+    457.4,
+    102.6
+   ],
+   "text": "03 Mar, 2026",
+   "conf": 0.9594,
+   "retry": null
+  },
+  {
+   "bbox": [
+    82.9,
+    128.9,
+    521.6,
+    140.5
+   ],
+   "text": "LOSS OF LIFE WHILE DIVING FROM THE SMALL PASSENGER VESSEL H2O",
+   "conf": 0.9874,
+   "retry": {
+    "text": "LOSS OF LIFE WHILE DIVING FROM THE SMALL PASSENGER VESSEL H2O",
+    "conf": 0.9874,
+    "first_text": "LOE   E       O",
+    "first_conf": 0.7326,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    92.4,
+    142.9,
+    512.0,
+    154.9
+   ],
+   "text": "BELOW (O.N. 1136903), AT THE USS ORISKANY WRECK DIVE SITE 24 NM",
+   "conf": 0.9836,
+   "retry": null
+  },
+  {
+   "bbox": [
+    158.6,
+    155.7,
+    445.5,
+    169.7
+   ],
+   "text": "SOUTHEAST OF PENSACOLA, FL ON JUNE 1, 2020",
+   "conf": 0.9745,
+   "retry": null
+  },
+  {
+   "bbox": [
+    100.4,
+    197.2,
+    504.4,
+    210.0
+   ],
+   "text": "ENDORSEMENT BY THE OFFICER IN CHARGE, MARINE INSPECTION",
+   "conf": 0.9842,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.5,
+    238.3,
+    500.0,
+    252.7
+   ],
+   "text": "The record and the report of the investigation convened for the subject casualty have been",
+   "conf": 0.9888,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.3,
+    251.5,
+    520.0,
+    267.1
+   ],
+   "text": "reviewed. The record and the report, including the findings of fact, analysis, conclusions, and",
+   "conf": 0.9939,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.3,
+    265.5,
+    524.7,
+    281.0
+   ],
+   "text": "recommendations are approved subject to the following comments. It is recommended that this",
+   "conf": 0.9934,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.1,
+    279.8,
+    261.0,
+    293.0
+   ],
+   "text": "marine casualty investigation be closed.",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    211.2,
+    334.9,
+    296.8,
+    349.3
+   ],
+   "text": "Michael O. Vega",
+   "conf": 0.9948,
+   "retry": null
+  },
+  {
+   "bbox": [
+    212.4,
+    349.3,
+    341.5,
+    362.5
+   ],
+   "text": "Captain, U.S. Coast Guard",
+   "conf": 0.9967,
+   "retry": null
+  },
+  {
+   "bbox": [
+    212.0,
+    362.5,
+    391.7,
+    376.4
+   ],
+   "text": "Officer in Charge, Marine Inspection",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.1,
+    403.6,
+    248.2,
+    419.2
+   ],
+   "text": "Enclosures: (1) Executive Summary",
+   "conf": 0.9915,
+   "retry": null
+  },
+  {
+   "bbox": [
+    131.5,
+    419.2,
+    295.2,
+    432.3
+   ],
+   "text": "(2) Investigating Officer's Report",
+   "conf": 0.996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    298.8,
+    751.3,
+    308.0,
+    764.5
+   ],
+   "text": "1",
+   "conf": 0.9998,
+   "retry": null
+  }
+ ]
+}

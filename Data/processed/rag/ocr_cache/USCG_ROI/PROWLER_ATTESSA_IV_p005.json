@@ -1,0 +1,170 @@
+{
+ "key": {
+  "report_id": "PROWLER_ATTESSA_IV",
+  "filename": "PROWLER_ATTESSA_IV_6572770_ROI_Redacted.pdf",
+  "sha256": "010157c0edf08c5e13cd22197805e3bf59408c4d04b1b047d4c13c51c2410175",
+  "page_number": 5,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    85.7,
+    33.5,
+    481.3,
+    48.3
+   ],
+   "text": "2. The OCMI concurs with the recommendation for Suspension and Revocation",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    103.6,
+    47.5,
+    530.3,
+    62.7
+   ],
+   "text": "proceedings against the credentialed mariner that was in operation of the PROWLER at",
+   "conf": 0.991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    104.8,
+    61.9,
+    207.2,
+    75.0
+   ],
+   "text": "the time of collision.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.7,
+    88.2,
+    516.4,
+    104.2
+   ],
+   "text": "3. The OCMI concurs with the recommendation to close the investigation activity upon",
+   "conf": 0.998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    105.2,
+    104.2,
+    210.8,
+    116.2
+   ],
+   "text": "Commandant review.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.5,
+    130.5,
+    485.7,
+    144.9
+   ],
+   "text": "Action: United States Coast Guard Sector San Diego will initiate Suspension and",
+   "conf": 0.9921,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.3,
+    144.1,
+    501.6,
+    158.9
+   ],
+   "text": "Revocation proceedings against the mate aboard the U.S. Flagged commercial vessel.",
+   "conf": 0.9983,
+   "retry": null
+  },
+  {
+   "bbox": [
+    265.8,
+    212.0,
+    343.9,
+    226.7
+   ],
+   "text": "T.J. BARELLI",
+   "conf": 0.9738,
+   "retry": null
+  },
+  {
+   "bbox": [
+    239.5,
+    227.5,
+    370.1,
+    240.7
+   ],
+   "text": "Captain, U.S. Coast Guard",
+   "conf": 0.9869,
+   "retry": null
+  },
+  {
+   "bbox": [
+    214.0,
+    240.7,
+    395.2,
+    255.1
+   ],
+   "text": "Officer in Charge, Marine Inspection",
+   "conf": 0.9831,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.7,
+    296.6,
+    240.3,
+    311.0
+   ],
+   "text": "Enclosure: Report of Investigation",
+   "conf": 0.9929,
+   "retry": null
+  },
+  {
+   "bbox": [
+    298.0,
+    739.7,
+    309.6,
+    753.7
+   ],
+   "text": "2",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

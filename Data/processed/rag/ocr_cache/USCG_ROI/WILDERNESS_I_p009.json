@@ -1,0 +1,369 @@
+{
+ "key": {
+  "report_id": "WILDERNESS_I",
+  "filename": "WILDERNESS_I_7828267_ROI_Redacted.pdf",
+  "sha256": "e0f98431b9d795e2e25804b66e1de1efa3284a2d53b47fe4a957b9c628e9b902",
+  "page_number": 9,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    115.5,
+    36.7,
+    541.5,
+    49.9
+   ],
+   "text": "4.1.9. At approximately 1800, the airboat LA4094GE got underway from the Ultimate",
+   "conf": 0.9895,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.5,
+    51.1,
+    540.3,
+    64.3
+   ],
+   "text": "Swamp Adventures dock for a swamp tour with an operator and four passengers onboard.",
+   "conf": 0.9945,
+   "retry": null
+  },
+  {
+   "bbox": [
+    116.3,
+    64.7,
+    541.5,
+    77.8
+   ],
+   "text": "The operator headed southbound on the Bayou Segnette main channel. This channel was",
+   "conf": 0.9956,
+   "retry": null
+  },
+  {
+   "bbox": [
+    116.3,
+    78.6,
+    390.1,
+    91.8
+   ],
+   "text": "50 yards wide and provided access to Lake Cataouatche.",
+   "conf": 0.9968,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.1,
+    103.4,
+    541.9,
+    117.8
+   ],
+   "text": "4.1.10. While transiting the Bayou Segnette main channel, the operator of LA4094GE",
+   "conf": 0.9875,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.5,
+    117.8,
+    255.0,
+    130.1
+   ],
+   "text": "did not see the Wilderness I.",
+   "conf": 0.9984,
+   "retry": null
+  },
+  {
+   "bbox": [
+    191.2,
+    327.7,
+    429.1,
+    340.1
+   ],
+   "text": "Figure 3 Picture of Bayou Segnette Main Channel taken after the",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    192.0,
+    339.3,
+    293.6,
+    350.1
+   ],
+   "text": "incident (July 2023/USCG)",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.5,
+    360.5,
+    541.1,
+    373.6
+   ],
+   "text": "4.1.11. At approximately 1810, while heading northbound on Bayou Segnette Main",
+   "conf": 0.9868,
+   "retry": null
+  },
+  {
+   "bbox": [
+    116.3,
+    374.8,
+    467.4,
+    386.8
+   ],
+   "text": "Channel, the Wilderness I allided with tree branches on the eastern bank.",
+   "conf": 0.984,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.1,
+    399.6,
+    541.9,
+    414.0
+   ],
+   "text": "4.1.12. The Wilderness I continued forward for approximately 20 yards and where it then",
+   "conf": 0.9943,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.5,
+    414.0,
+    541.5,
+    427.1
+   ],
+   "text": "allided with a large tree, which stopped the vessel’s forward momentum. The vessel’s",
+   "conf": 0.9891,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.5,
+    427.5,
+    520.4,
+    441.9
+   ],
+   "text": "final resting place was approximately one mile from the Lapalco Boulevard Bridge.",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    300.4,
+    449.5,
+    358.2,
+    461.1
+   ],
+   "text": "Ultimate Swamp",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    309.6,
+    459.5,
+    350.2,
+    469.9
+   ],
+   "text": "Adventures",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    231.5,
+    461.9,
+    250.2,
+    487.0
+   ],
+   "text": "gnette Bid",
+   "conf": 0.771,
+   "retry": {
+    "text": "",
+    "conf": 0.0,
+    "first_text": "gnette Bid",
+    "first_conf": 0.771,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    370.9,
+    473.8,
+    388.1,
+    486.6
+   ],
+   "text": "Otio St",
+   "conf": 0.7846,
+   "retry": {
+    "text": "FOto St",
+    "conf": 0.4293,
+    "first_text": "Otio St",
+    "first_conf": 0.7846,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    353.4,
+    502.6,
+    383.3,
+    513.8
+   ],
+   "text": "Lapalco",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    353.8,
+    511.0,
+    382.5,
+    524.5
+   ],
+   "text": "Bridge",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    265.8,
+    515.8,
+    298.0,
+    534.5
+   ],
+   "text": "Lapalco Bivd",
+   "conf": 0.9904,
+   "retry": null
+  },
+  {
+   "bbox": [
+    252.2,
+    552.1,
+    270.1,
+    559.3
+   ],
+   "text": "Bayou",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    249.0,
+    556.9,
+    272.9,
+    565.3
+   ],
+   "text": "Segnette",
+   "conf": 0.9974,
+   "retry": null
+  },
+  {
+   "bbox": [
+    331.5,
+    558.5,
+    384.9,
+    568.1
+   ],
+   "text": "Bayou Segnette",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    248.2,
+    563.3,
+    274.1,
+    570.0
+   ],
+   "text": "State Park",
+   "conf": 0.9983,
+   "retry": null
+  },
+  {
+   "bbox": [
+    333.5,
+    567.3,
+    382.9,
+    576.4
+   ],
+   "text": "Main Channel",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    329.1,
+    610.8,
+    384.5,
+    620.3
+   ],
+   "text": "Final Crash Site",
+   "conf": 0.9988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    247.8,
+    660.3,
+    308.8,
+    669.8
+   ],
+   "text": "Initial Impact Site",
+   "conf": 0.9912,
+   "retry": null
+  },
+  {
+   "bbox": [
+    233.9,
+    714.6,
+    439.9,
+    726.1
+   ],
+   "text": "Figure 4 Google Earth incident locations (January 2024)",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    301.2,
+    744.5,
+    310.8,
+    756.5
+   ],
+   "text": "4",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

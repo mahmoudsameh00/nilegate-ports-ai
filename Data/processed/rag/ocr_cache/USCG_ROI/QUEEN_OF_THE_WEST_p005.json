@@ -1,0 +1,330 @@
+{
+ "key": {
+  "report_id": "QUEEN_OF_THE_WEST",
+  "filename": "QUEEN_OF_THE_WEST_4405289_ROI_Redacted.pdf",
+  "sha256": "02f978c36fcbd8ef00493738d66ee13a4079eab5832883de67ba1cacc388cba3",
+  "page_number": 5,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    77.3,
+    77.0,
+    165.0,
+    90.2
+   ],
+   "text": "U.S. Department of",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    255.0,
+    80.2,
+    304.8,
+    91.0
+   ],
+   "text": "Commandant",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    402.4,
+    81.4,
+    509.2,
+    93.8
+   ],
+   "text": "U.S. Coast Guard STOP 7501",
+   "conf": 0.9872,
+   "retry": null
+  },
+  {
+   "bbox": [
+    77.3,
+    87.4,
+    164.6,
+    100.2
+   ],
+   "text": "Homeland Security",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    255.0,
+    88.6,
+    350.6,
+    99.0
+   ],
+   "text": "United States Coast Guard",
+   "conf": 0.9989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    402.0,
+    89.0,
+    528.7,
+    101.4
+   ],
+   "text": "2703 Martin Luther King Jr. Ave. SE",
+   "conf": 0.9849,
+   "retry": null
+  },
+  {
+   "bbox": [
+    402.0,
+    97.0,
+    505.2,
+    109.0
+   ],
+   "text": "Washington, DC 20593-7501",
+   "conf": 0.9914,
+   "retry": null
+  },
+  {
+   "bbox": [
+    402.0,
+    105.0,
+    481.3,
+    116.2
+   ],
+   "text": "Staff Symbol: CG-INV",
+   "conf": 0.9953,
+   "retry": null
+  },
+  {
+   "bbox": [
+    76.9,
+    105.4,
+    147.8,
+    118.2
+   ],
+   "text": "United States",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    402.0,
+    112.6,
+    484.9,
+    123.8
+   ],
+   "text": "Phone: (202) 372-1030",
+   "conf": 0.9798,
+   "retry": null
+  },
+  {
+   "bbox": [
+    76.9,
+    114.6,
+    143.0,
+    128.1
+   ],
+   "text": "Coast Guard",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    401.6,
+    120.6,
+    499.6,
+    132.5
+   ],
+   "text": "E-mail: CG-INV1@uscg.mil",
+   "conf": 0.9803,
+   "retry": null
+  },
+  {
+   "bbox": [
+    402.4,
+    141.3,
+    502.8,
+    154.5
+   ],
+   "text": "16732/IIA# 4405289",
+   "conf": 0.9957,
+   "retry": null
+  },
+  {
+   "bbox": [
+    402.0,
+    152.9,
+    483.3,
+    166.5
+   ],
+   "text": "20 October 2022",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    78.9,
+    184.0,
+    527.1,
+    202.0
+   ],
+   "text": "THE LOSS OF LIFE ON THE SMALL PASSENGER VESSEL QUEEN OF THE WEST",
+   "conf": 0.983,
+   "retry": null
+  },
+  {
+   "bbox": [
+    94.0,
+    195.6,
+    512.4,
+    214.8
+   ],
+   "text": "ON THE COLUMBIA RIVER NEAR SANDY ISLAND, WA ÒN AUGUST 7, 2012",
+   "conf": 0.9765,
+   "retry": null
+  },
+  {
+   "bbox": [
+    208.8,
+    232.7,
+    396.8,
+    246.7
+   ],
+   "text": "ACTION BY THE COMMANDANT",
+   "conf": 0.9988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.5,
+    255.1,
+    496.1,
+    274.2
+   ],
+   "text": "The record and the report of the investigation convened for the subject casualty have been",
+   "conf": 0.9971,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.7,
+    267.1,
+    525.5,
+    287.0
+   ],
+   "text": "reviewed. The record and the report, including the findings of fact, analysis, and conclusions are",
+   "conf": 0.9919,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.1,
+    278.6,
+    143.8,
+    293.4
+   ],
+   "text": "hereby closed.",
+   "conf": 0.9985,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.9,
+    302.6,
+    498.8,
+    321.0
+   ],
+   "text": "The investigation's safety recommendations remain under review and consideration by the",
+   "conf": 0.9916,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.7,
+    314.6,
+    490.5,
+    333.3
+   ],
+   "text": "responsible Coast Guard program offices. The response to the recommendations and any",
+   "conf": 0.996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.7,
+    325.7,
+    299.6,
+    342.1
+   ],
+   "text": "resultant actions will be documented separately.",
+   "conf": 0.991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    263.4,
+    383.2,
+    341.5,
+    395.2
+   ],
+   "text": "A. L. FAHRIG)",
+   "conf": 0.9814,
+   "retry": {
+    "text": "A. L. FAHRIG)",
+    "conf": 0.9814,
+    "first_text": "A. L. FAHRIG)",
+    "first_conf": 0.9067,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    226.3,
+    394.8,
+    375.7,
+    409.6
+   ],
+   "text": "Commander, U.S. Coast Guard",
+   "conf": 0.9979,
+   "retry": null
+  },
+  {
+   "bbox": [
+    134.7,
+    407.2,
+    466.6,
+    424.7
+   ],
+   "text": "Acting Chief, Office of Investigations & Casualty Analysis (CG-INV)",
+   "conf": 0.9987,
+   "retry": null
+  }
+ ]
+}

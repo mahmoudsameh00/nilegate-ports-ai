@@ -1,0 +1,253 @@
+{
+ "key": {
+  "report_id": "WILDERNESS_I",
+  "filename": "WILDERNESS_I_7828267_ROI_Redacted.pdf",
+  "sha256": "e0f98431b9d795e2e25804b66e1de1efa3284a2d53b47fe4a957b9c628e9b902",
+  "page_number": 10,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    419.2,
+    121.0,
+    437.9,
+    188.0
+   ],
+   "text": "A8393G",
+   "conf": 0.9204,
+   "retry": {
+    "text": "1",
+    "conf": 0.6537,
+    "first_text": "A8393G",
+    "first_conf": 0.9204,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    132.7,
+    233.5,
+    467.8,
+    245.9
+   ],
+   "text": "Figure 5 Initial impact site (left) and found location of Wilderness I (July 28, 2023/Ultimate",
+   "conf": 0.98,
+   "retry": null
+  },
+  {
+   "bbox": [
+    133.5,
+    245.1,
+    210.0,
+    255.9
+   ],
+   "text": "Swamp Adventures)",
+   "conf": 0.9941,
+   "retry": null
+  },
+  {
+   "bbox": [
+    114.8,
+    264.7,
+    541.9,
+    279.8
+   ],
+   "text": "4.1.13. At 1815, the Ultimate Swamp Adventures’ airboat, Captain Nash’s Wings, was",
+   "conf": 0.9869,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.1,
+    279.0,
+    541.5,
+    293.4
+   ],
+   "text": "completing a swamp tour with 15 passengers onboard when the operator discovered the",
+   "conf": 0.9938,
+   "retry": null
+  },
+  {
+   "bbox": [
+    116.7,
+    293.4,
+    541.5,
+    306.6
+   ],
+   "text": "Wilderness I against a tree, covered in branches. The operator saw that the mechanic was",
+   "conf": 0.9959,
+   "retry": null
+  },
+  {
+   "bbox": [
+    114.8,
+    306.6,
+    541.9,
+    321.4
+   ],
+   "text": "unconscious in his seat. The Captain Nash’s Wings operator noted a large tree branch",
+   "conf": 0.9875,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.9,
+    320.6,
+    541.1,
+    334.5
+   ],
+   "text": "laying across the Wilderness I at the same height as the operator's seat. This large branch",
+   "conf": 0.9835,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.1,
+    334.5,
+    541.5,
+    348.9
+   ],
+   "text": "was in front of the mechanic's chest, not touching him. Additionally, the starboard side",
+   "conf": 0.9932,
+   "retry": null
+  },
+  {
+   "bbox": [
+    114.8,
+    347.3,
+    541.9,
+    362.5
+   ],
+   "text": "of the vessel was against the base of a tree trunk and a blade tip of the propellor was",
+   "conf": 0.9942,
+   "retry": null
+  },
+  {
+   "bbox": [
+    114.4,
+    360.9,
+    154.2,
+    375.6
+   ],
+   "text": "broken.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    160.2,
+    606.4,
+    447.8,
+    618.0
+   ],
+   "text": "Figure 6 Post-incident picture of Wilderness I with branches on and around the",
+   "conf": 0.9909,
+   "retry": null
+  },
+  {
+   "bbox": [
+    159.4,
+    616.8,
+    384.5,
+    629.1
+   ],
+   "text": "operator's seat. (July 28, 2023/ Ultimate Swamp Adventures)",
+   "conf": 0.9857,
+   "retry": null
+  },
+  {
+   "bbox": [
+    114.8,
+    637.5,
+    540.7,
+    652.7
+   ],
+   "text": "4.1.14. The operator of the Captain Nash’s Wings and a passenger, who was an off-duty",
+   "conf": 0.9841,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.5,
+    651.9,
+    540.7,
+    665.9
+   ],
+   "text": "fireman, boarded the Wilderness I to assess the mechanic, who remained unresponsive.",
+   "conf": 0.9953,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.1,
+    665.1,
+    541.1,
+    679.8
+   ],
+   "text": "The mechanic was wearing a hat, shoes, and hearing protection. His head was upright,",
+   "conf": 0.9941,
+   "retry": null
+  },
+  {
+   "bbox": [
+    114.8,
+    679.0,
+    543.1,
+    693.8
+   ],
+   "text": "but his body was slouched over. He had abrasions on his head and arms. The operator of",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.1,
+    692.6,
+    520.0,
+    707.8
+   ],
+   "text": "the Captain Nash’s Wings then called 911 for Emergency Medical Services (EMS).",
+   "conf": 0.9965,
+   "retry": null
+  },
+  {
+   "bbox": [
+    301.2,
+    744.1,
+    310.8,
+    756.5
+   ],
+   "text": "5",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

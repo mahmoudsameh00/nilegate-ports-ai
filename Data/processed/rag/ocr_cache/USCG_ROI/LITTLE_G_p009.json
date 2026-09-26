@@ -1,0 +1,137 @@
+{
+ "key": {
+  "report_id": "LITTLE_G",
+  "filename": "LITTLE_G_7717011_ROI_Redacted.pdf",
+  "sha256": "9bfb88866d75e684135d09cf0c07f8079087bcdf03236273b78edc88199915ac",
+  "page_number": 9,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    303.6,
+    198.8,
+    333.1,
+    242.3
+   ],
+   "text": "AlabamaRiver",
+   "conf": 0.9975,
+   "retry": null
+  },
+  {
+   "bbox": [
+    146.6,
+    317.0,
+    460.6,
+    328.5
+   ],
+   "text": "Figure 5. Aerial view of the LITTLE G and barge position on the Alabama River. (Google Maps)",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    337.7,
+    530.3,
+    353.3
+   ],
+   "text": "4.1.6. At 0400, June 16, 2023, Deckhand 1 awoke and discovered the vessel and barge",
+   "conf": 0.9892,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    352.5,
+    537.1,
+    366.9
+   ],
+   "text": "shifted perpendicular to the bank, with the stern of the LITTLE G now positioned in the",
+   "conf": 0.9887,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    366.1,
+    538.7,
+    380.4
+   ],
+   "text": "center of the river. Deckhand 1 then went back to sleep. The Master was not notified at",
+   "conf": 0.9924,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    379.2,
+    160.6,
+    394.0
+   ],
+   "text": "this time.",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    160.6,
+    679.8,
+    455.0,
+    689.0
+   ],
+   "text": "Figure 6. Aerial view of the LITTLE G and barge shifted in a perpendicular position on the",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    159.8,
+    688.2,
+    264.6,
+    699.4
+   ],
+   "text": "Alabama River. (Google Maps)",
+   "conf": 0.9957,
+   "retry": null
+  },
+  {
+   "bbox": [
+    302.0,
+    744.5,
+    310.0,
+    755.7
+   ],
+   "text": "4",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

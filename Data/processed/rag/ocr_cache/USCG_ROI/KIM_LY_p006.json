@@ -1,0 +1,555 @@
+{
+ "key": {
+  "report_id": "KIM_LY",
+  "filename": "KIM_LY_7867677_ROI_Redacted.pdf",
+  "sha256": "070b37ee21b7addd2d4e5bb6e73f471703fe5b4f25957f0fdf302979229dffcc",
+  "page_number": 6,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    75.7,
+    67.1,
+    164.2,
+    79.4
+   ],
+   "text": "U.S. Department of",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    254.2,
+    70.7,
+    301.2,
+    80.2
+   ],
+   "text": "Commander",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    398.0,
+    70.7,
+    439.9,
+    80.2
+   ],
+   "text": "Valent Hall",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.9,
+    77.4,
+    163.8,
+    89.8
+   ],
+   "text": "Homeland Security",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    397.6,
+    78.2,
+    466.6,
+    89.4
+   ],
+   "text": "249 Glasson Drive",
+   "conf": 0.994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    253.4,
+    79.0,
+    352.2,
+    90.6
+   ],
+   "text": "United States Coast Guard",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    398.0,
+    86.2,
+    490.9,
+    98.2
+   ],
+   "text": "Corpus Christi, TX 78406",
+   "conf": 0.9772,
+   "retry": null
+  },
+  {
+   "bbox": [
+    253.4,
+    88.6,
+    333.1,
+    99.8
+   ],
+   "text": "Sector Corpus Christi",
+   "conf": 0.9969,
+   "retry": null
+  },
+  {
+   "bbox": [
+    397.6,
+    94.2,
+    482.1,
+    105.8
+   ],
+   "text": "Phone: (361) 939-0201",
+   "conf": 0.9848,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.5,
+    95.0,
+    147.0,
+    107.8
+   ],
+   "text": "United States",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    492.9,
+    102.2,
+    533.9,
+    115.8
+   ],
+   "text": "@uscg.mil",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    398.0,
+    103.0,
+    424.3,
+    113.0
+   ],
+   "text": "Email:",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.9,
+    105.0,
+    142.2,
+    117.4
+   ],
+   "text": "Coast Guard",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    398.0,
+    123.4,
+    431.1,
+    136.1
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    396.8,
+    134.5,
+    467.4,
+    148.5
+   ],
+   "text": "June 06, 2025",
+   "conf": 0.996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    79.3,
+    168.1,
+    538.3,
+    186.8
+   ],
+   "text": "LOSS OF LIFE ON THE KIM LY (O.N 588734) WHILE FISHING CORPUS CHRISTI",
+   "conf": 0.9972,
+   "retry": null
+  },
+  {
+   "bbox": [
+    226.7,
+    183.6,
+    390.9,
+    199.2
+   ],
+   "text": "BAY ON FEBRUARY 20, 2024",
+   "conf": 0.9614,
+   "retry": null
+  },
+  {
+   "bbox": [
+    104.8,
+    210.8,
+    512.4,
+    227.9
+   ],
+   "text": "ENDORSEMENT BY THE OFFICER IN CHARGE, MARINE INSPECTION",
+   "conf": 0.9971,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.9,
+    238.3,
+    508.4,
+    256.7
+   ],
+   "text": "The record and the report of the investigation convened for the subject casualty have been",
+   "conf": 0.9788,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.7,
+    252.3,
+    523.9,
+    271.1
+   ],
+   "text": "reviewed. The record and the report, including the findings of fact, analysis, conclusions, and",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.7,
+    266.3,
+    535.5,
+    284.6
+   ],
+   "text": "recommendations are approved subject to the following comments. It is recommended that this",
+   "conf": 0.9986,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.5,
+    279.8,
+    266.6,
+    295.0
+   ],
+   "text": "marine casualty investigation be closed.",
+   "conf": 0.9826,
+   "retry": null
+  },
+  {
+   "bbox": [
+    219.5,
+    308.2,
+    396.0,
+    321.8
+   ],
+   "text": "COMMENTS ON THE REPORT",
+   "conf": 0.9824,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.9,
+    334.5,
+    541.1,
+    352.1
+   ],
+   "text": "1. I extend my deepest condolences to the family and friends of Kim Cui. It is my hope that this",
+   "conf": 0.9947,
+   "retry": null
+  },
+  {
+   "bbox": [
+    89.6,
+    348.9,
+    542.3,
+    366.5
+   ],
+   "text": "investigation will contribute to preventing future tragedies in the realm of commercial fishing",
+   "conf": 0.9947,
+   "retry": null
+  },
+  {
+   "bbox": [
+    90.4,
+    363.3,
+    178.1,
+    376.4
+   ],
+   "text": "vessel operations.",
+   "conf": 0.9978,
+   "retry": null
+  },
+  {
+   "bbox": [
+    157.4,
+    388.8,
+    457.8,
+    403.6
+   ],
+   "text": "ENDORSEMENT/ACTION ON RECOMMENDATIONS",
+   "conf": 0.9969,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.7,
+    415.6,
+    520.0,
+    432.3
+   ],
+   "text": "Safety Recommendation: Recommend that the Commandant of the Coast Guard amend the",
+   "conf": 0.9958,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.7,
+    429.1,
+    515.2,
+    447.1
+   ],
+   "text": "applicability of 46 CFR § 28.200 to include commercial fishing vessels operating inside the",
+   "conf": 0.992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.7,
+    443.1,
+    531.1,
+    460.7
+   ],
+   "text": "boundary line. Currently, the regulation requires suitable guards or covers for rotary machinery",
+   "conf": 0.9957,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.7,
+    456.7,
+    537.9,
+    473.8
+   ],
+   "text": "only on vessels operating beyond the boundary line, leaving a gap in safety standards for vessels",
+   "conf": 0.9872,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.7,
+    470.6,
+    278.1,
+    485.4
+   ],
+   "text": "engaged in nearshore or inland operations.",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    495.8,
+    533.1,
+    514.2
+   ],
+   "text": "The investigation identified that unguarded machinery, specifically winches, posed a direct risk",
+   "conf": 0.9987,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    509.8,
+    522.4,
+    528.5
+   ],
+   "text": "of serious injury or death to crewmembers, regardless of operating location. According to the",
+   "conf": 0.9897,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    523.7,
+    535.1,
+    541.7
+   ],
+   "text": "Centers for Disease Control and Prevention (CDC) article Fatal and Nonfatal Injuries Involving",
+   "conf": 0.9977,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    537.7,
+    527.1,
+    555.3
+   ],
+   "text": "Fishing Vessel Winches — Southern Shrimp Fleet, United States, 2000–2011, entanglement in",
+   "conf": 0.9891,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    551.7,
+    531.1,
+    568.9
+   ],
+   "text": "deck machinery is among the leading causes of traumatic injuries and deaths in the commercial",
+   "conf": 0.9964,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    565.3,
+    532.3,
+    582.4
+   ],
+   "text": "fishing industry. Between 2000 and 2009, 504 U.S. fishermen lost their lives while working; 51",
+   "conf": 0.9939,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    578.4,
+    535.1,
+    596.8
+   ],
+   "text": "of these deaths resulted from onboard injuries, including machinery entanglement. Additionally,",
+   "conf": 0.9983,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    592.4,
+    537.1,
+    610.0
+   ],
+   "text": "the report notes that from 2000 to 2011, the Southern shrimp fleet operating throughout the Gulf",
+   "conf": 0.9944,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    606.0,
+    528.7,
+    623.9
+   ],
+   "text": "of America and along the Atlantic coast from Florida to North Carolina experienced eight fatal",
+   "conf": 0.9967,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    619.9,
+    530.3,
+    637.5
+   ],
+   "text": "and 27 nonfatal winch-related incidents. These statistics clearly demonstrate that the risk posed",
+   "conf": 0.9891,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    633.5,
+    522.0,
+    651.9
+   ],
+   "text": "by unguarded equipment is not limited to offshore operations and persists across all maritime",
+   "conf": 0.9981,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    648.7,
+    141.4,
+    661.5
+   ],
+   "text": "environments.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    675.4,
+    505.6,
+    692.6
+   ],
+   "text": "According to the article Reducing Winch Entanglements with Stationary Guarding, by the",
+   "conf": 0.9909,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.7,
+    688.6,
+    501.2,
+    705.8
+   ],
+   "text": "National Institute for Occupational Safety and Health (NIOSH) in 2011, the Coast Guard",
+   "conf": 0.9916,
+   "retry": null
+  },
+  {
+   "bbox": [
+    300.8,
+    752.9,
+    310.0,
+    765.7
+   ],
+   "text": "1",
+   "conf": 0.9999,
+   "retry": null
+  }
+ ]
+}

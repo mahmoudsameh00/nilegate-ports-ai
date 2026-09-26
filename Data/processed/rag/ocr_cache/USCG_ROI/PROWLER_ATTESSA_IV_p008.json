@@ -1,0 +1,137 @@
+{
+ "key": {
+  "report_id": "PROWLER_ATTESSA_IV",
+  "filename": "PROWLER_ATTESSA_IV_6572770_ROI_Redacted.pdf",
+  "sha256": "010157c0edf08c5e13cd22197805e3bf59408c4d04b1b047d4c13c51c2410175",
+  "page_number": 8,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    77.3,
+    53.1,
+    543.5,
+    67.1
+   ],
+   "text": "A claims specialist was hired by the owner of the PROWLER who determined the vessel to be a",
+   "conf": 0.9954,
+   "retry": null
+  },
+  {
+   "bbox": [
+    77.7,
+    67.9,
+    187.7,
+    79.8
+   ],
+   "text": "total constructive loss.",
+   "conf": 0.9962,
+   "retry": null
+  },
+  {
+   "bbox": [
+    76.5,
+    93.0,
+    514.8,
+    110.2
+   ],
+   "text": "U.S. Coast Guard Marine Casualty Investigators from Sector San Diego initiated a federal",
+   "conf": 0.9897,
+   "retry": null
+  },
+  {
+   "bbox": [
+    76.5,
+    108.2,
+    545.1,
+    123.8
+   ],
+   "text": "investigation to determine cause of the incident. It was determined that the initiating event of the",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    76.9,
+    121.8,
+    516.8,
+    137.7
+   ],
+   "text": "incident was a collision between the vessels. Subsequent events include loss of propulsion,",
+   "conf": 0.9968,
+   "retry": null
+  },
+  {
+   "bbox": [
+    76.5,
+    136.1,
+    541.5,
+    151.3
+   ],
+   "text": "flooding and passenger injuries/death. Casual factors contributing to the casualty include failure",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    76.9,
+    150.5,
+    537.5,
+    164.5
+   ],
+   "text": "on both vessel operators to adhere to International Regulations for Preventing Collisions at Sea",
+   "conf": 0.9898,
+   "retry": null
+  },
+  {
+   "bbox": [
+    77.3,
+    163.3,
+    458.6,
+    179.2
+   ],
+   "text": "1972 (COLREGS) and the identification of potential threats by both operators.",
+   "conf": 0.9936,
+   "retry": null
+  },
+  {
+   "bbox": [
+    301.6,
+    746.1,
+    317.6,
+    762.1
+   ],
+   "text": "iii",
+   "conf": 0.9983,
+   "retry": null
+  }
+ ]
+}

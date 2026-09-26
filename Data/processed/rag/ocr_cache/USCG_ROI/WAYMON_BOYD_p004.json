@@ -1,0 +1,478 @@
+{
+ "key": {
+  "report_id": "WAYMON_BOYD",
+  "filename": "WAYMON_BOYD_7039383_ROI_Redacted.pdf",
+  "sha256": "31e9bb9552ee4986b942f39eb4f6ea294c7d2213bb5c326bd3fde185b05de07b",
+  "page_number": 4,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    71.7,
+    70.7,
+    161.4,
+    82.6
+   ],
+   "text": "U.S. Department of",
+   "conf": 0.9905,
+   "retry": null
+  },
+  {
+   "bbox": [
+    435.9,
+    71.1,
+    528.7,
+    81.4
+   ],
+   "text": "Hale Boggs Federal Bldg.",
+   "conf": 0.9869,
+   "retry": null
+  },
+  {
+   "bbox": [
+    273.7,
+    71.9,
+    319.9,
+    81.4
+   ],
+   "text": "Commander",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    436.3,
+    79.4,
+    508.0,
+    88.6
+   ],
+   "text": "500 Poydras Street",
+   "conf": 0.9925,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    80.6,
+    160.6,
+    93.4
+   ],
+   "text": "Homeland Security",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    273.3,
+    80.6,
+    415.6,
+    91.8
+   ],
+   "text": "Coast Guard Heartland (Eighth) District",
+   "conf": 0.9895,
+   "retry": null
+  },
+  {
+   "bbox": [
+    436.3,
+    87.4,
+    522.8,
+    96.6
+   ],
+   "text": "New Orleans, LA 70130",
+   "conf": 0.9991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    436.3,
+    95.4,
+    497.2,
+    105.0
+   ],
+   "text": "Staff Symbol: dp",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.7,
+    99.8,
+    143.4,
+    110.6
+   ],
+   "text": "United States",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    436.3,
+    103.0,
+    520.4,
+    113.8
+   ],
+   "text": "Phone: (504) 671-2087",
+   "conf": 0.9927,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.1,
+    109.8,
+    138.3,
+    120.6
+   ],
+   "text": "Coast Guard",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    435.9,
+    127.7,
+    469.0,
+    140.5
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    79.3,
+    177.6,
+    533.9,
+    190.8
+   ],
+   "text": "WAYMON BOYD (O.N. 261512) EXPLOSION, FIRE, AND LOSS OF LIFE ON TULE",
+   "conf": 0.9907,
+   "retry": null
+  },
+  {
+   "bbox": [
+    123.9,
+    192.0,
+    487.3,
+    204.0
+   ],
+   "text": "LAKE CHANNEL IN CORPUS CHRISTI, TX ON AUGUST 21, 2020",
+   "conf": 0.9848,
+   "retry": null
+  },
+  {
+   "bbox": [
+    189.7,
+    219.6,
+    422.7,
+    231.5
+   ],
+   "text": "ENDORSEMENT BY THE COMMANDER,",
+   "conf": 0.9984,
+   "retry": null
+  },
+  {
+   "bbox": [
+    190.9,
+    233.1,
+    421.9,
+    244.7
+   ],
+   "text": "COAST GUARD HEARTLAND DISTRICT",
+   "conf": 0.9866,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    274.6,
+    506.0,
+    287.8
+   ],
+   "text": "The record and the report of the investigation convened for the subject casualty have been",
+   "conf": 0.9926,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    287.8,
+    522.0,
+    301.4
+   ],
+   "text": "reviewed. The record and the report, including the findings of fact, analysis, conclusions, and",
+   "conf": 0.9978,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.3,
+    301.4,
+    518.8,
+    315.8
+   ],
+   "text": "recommendations are approved. It is recommended that this marine casualty investigation be",
+   "conf": 0.9985,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    315.4,
+    106.8,
+    328.1
+   ],
+   "text": "closed.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    218.3,
+    357.7,
+    394.1,
+    369.3
+   ],
+   "text": "COMMENTS ON THE REPORT",
+   "conf": 0.9946,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    384.4,
+    513.2,
+    399.2
+   ],
+   "text": "1. The loss of the 5 crew members was a tragic and preventable accident. I offer my sincere",
+   "conf": 0.9943,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    399.6,
+    343.1,
+    411.2
+   ],
+   "text": "condolences to the families of those who lost their lives.",
+   "conf": 0.993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    426.3,
+    523.5,
+    439.9
+   ],
+   "text": "2. The investigation and report contain valuable information which can be used to address the",
+   "conf": 0.9949,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    439.9,
+    525.9,
+    453.9
+   ],
+   "text": "factors that contributed to this marine casualty and prevent similar incidents from occurring in",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    453.9,
+    121.5,
+    466.3
+   ],
+   "text": "the future.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    482.2,
+    535.1,
+    495.4
+   ],
+   "text": "3. The National Transportation Safety Board (NTSB) also conducted a formal investigation into",
+   "conf": 0.9987,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.7,
+    495.0,
+    538.3,
+    510.2
+   ],
+   "text": "this incident. Their report, Hazardous Liquid Pipeline Strike and Subsequent Explosion and Fire",
+   "conf": 0.9974,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    509.4,
+    506.0,
+    522.5
+   ],
+   "text": "aboard Dredging Vessel Waymon Boyd, adopted December 7, 2021, offers valuable event",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    524.1,
+    504.4,
+    536.1
+   ],
+   "text": "analysis and recommendations for the future. I concur with the recommendations made to",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    537.3,
+    525.9,
+    550.5
+   ],
+   "text": "Coastal and Marine Operators (CAMO) by the NTSB to develop: (1) improved safety training",
+   "conf": 0.9976,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    551.3,
+    502.4,
+    564.5
+   ],
+   "text": "materials; (2) processes for obtaining accurate pipeline coordinates; and, (3) guidance for",
+   "conf": 0.9923,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    565.3,
+    276.9,
+    578.4
+   ],
+   "text": "identifying proposed dredging boundaries.",
+   "conf": 0.9953,
+   "retry": null
+  },
+  {
+   "bbox": [
+    181.7,
+    606.8,
+    430.7,
+    618.4
+   ],
+   "text": "ENDORSEMENT ON RECOMMENDATIONS",
+   "conf": 0.9984,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    647.5,
+    529.9,
+    661.1
+   ],
+   "text": "Safety Recommendation 1: To achieve the shared goal in increasing safety and proficiency in",
+   "conf": 0.9956,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    661.9,
+    494.9,
+    675.0
+   ],
+   "text": "dredging operations, it is recommended that the Coast Guard institute requirements that",
+   "conf": 0.9911,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    675.8,
+    510.8,
+    689.0
+   ],
+   "text": "mariners, minimally Barge Captains, Dredge Captains, and Leverman, operating on dredge",
+   "conf": 0.9923,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    689.4,
+    529.1,
+    702.6
+   ],
+   "text": "vessel possess a Coast Guard issued Merchant Mariner Credential (MMC). Current regulations",
+   "conf": 0.992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    703.0,
+    516.8,
+    717.4
+   ],
+   "text": "do not require MMCs for any crewmembers on dredge vessels. This, in turn, creates a latent",
+   "conf": 0.9981,
+   "retry": null
+  },
+  {
+   "bbox": [
+    302.0,
+    750.1,
+    310.0,
+    761.3
+   ],
+   "text": "1",
+   "conf": 0.9999,
+   "retry": null
+  }
+ ]
+}

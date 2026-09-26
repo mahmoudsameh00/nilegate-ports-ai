@@ -1,0 +1,561 @@
+{
+ "key": {
+  "report_id": "LITTLE_G",
+  "filename": "LITTLE_G_7717011_ROI_Redacted.pdf",
+  "sha256": "9bfb88866d75e684135d09cf0c07f8079087bcdf03236273b78edc88199915ac",
+  "page_number": 5,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    392.9,
+    29.5,
+    452.2,
+    39.1
+   ],
+   "text": "1500 15th Street",
+   "conf": 0.9849,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.7,
+    29.9,
+    159.8,
+    40.7
+   ],
+   "text": "U.S. Department of",
+   "conf": 0.9977,
+   "retry": null
+  },
+  {
+   "bbox": [
+    249.8,
+    30.7,
+    378.5,
+    41.1
+   ],
+   "text": "Officer in Charge, Marine Inspection",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    392.5,
+    37.1,
+    453.8,
+    47.5
+   ],
+   "text": "Mobile, Al 36615",
+   "conf": 0.9525,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    40.3,
+    159.0,
+    51.1
+   ],
+   "text": "Homeland Security",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    249.4,
+    40.3,
+    346.2,
+    49.5
+   ],
+   "text": "United States Coast Guard",
+   "conf": 0.9902,
+   "retry": null
+  },
+  {
+   "bbox": [
+    392.9,
+    45.9,
+    462.6,
+    55.1
+   ],
+   "text": "Staff Symbol: (spv)",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    249.4,
+    49.5,
+    300.0,
+    58.7
+   ],
+   "text": "Sector Mobile",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    392.5,
+    53.5,
+    475.7,
+    63.9
+   ],
+   "text": "Phone: (251) 441-5971",
+   "conf": 0.9954,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    57.1,
+    143.0,
+    69.1
+   ],
+   "text": "United States",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    66.7,
+    137.9,
+    79.4
+   ],
+   "text": "Coast Guard",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    392.1,
+    77.8,
+    425.1,
+    90.6
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    393.3,
+    91.0,
+    484.9,
+    101.8
+   ],
+   "text": "18 December 2025",
+   "conf": 0.977,
+   "retry": null
+  },
+  {
+   "bbox": [
+    91.2,
+    135.7,
+    517.2,
+    148.9
+   ],
+   "text": "LOSS OF LIFE ONBOARD THE WORKBOAT LITTLE G (MC 954372) WHILE",
+   "conf": 0.9775,
+   "retry": {
+    "text": "LOSS OF LIFE ONBOARD THE WORKBOAT LITTLE G (MC 954372) WHILE",
+    "conf": 0.9775,
+    "first_text": "TO          ILE",
+    "first_conf": 0.6596,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    81.7,
+    150.5,
+    526.7,
+    162.1
+   ],
+   "text": "TRANSITING THE ALABAMA RIVER NEAR CLAIBORNE, AL ON JUNE 16, 2023",
+   "conf": 0.9793,
+   "retry": null
+  },
+  {
+   "bbox": [
+    235.1,
+    178.0,
+    374.1,
+    189.6
+   ],
+   "text": "EXECUTIVE SUMMARY",
+   "conf": 0.9983,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    206.0,
+    532.3,
+    219.2
+   ],
+   "text": "On the morning of June 14, 2023, the uninspected workboat LITTLE G (MC954372) departed a",
+   "conf": 0.9922,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.7,
+    220.0,
+    527.9,
+    233.1
+   ],
+   "text": "job site near Alabama River mile marker (MM) 122 for a multi-day transport of an uninspected",
+   "conf": 0.9928,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    233.5,
+    524.3,
+    247.1
+   ],
+   "text": "crane barge to the MC Marine shipyard in Chickasaw, AL. During this voyage, the LITTLE G",
+   "conf": 0.9965,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    247.9,
+    533.9,
+    261.1
+   ],
+   "text": "was manned by a Master and two deckhands who were responsible for the safe navigation of the",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    262.3,
+    201.6,
+    274.2
+   ],
+   "text": "vessel and subsequent tow.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    288.6,
+    505.6,
+    303.4
+   ],
+   "text": "On June 15, After two full days of transiting along the Alabama River, the LITTLE G was",
+   "conf": 0.9913,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    303.0,
+    496.5,
+    317.8
+   ],
+   "text": "positioned along the east bank, facing south, for the night. One of the forward spuds was",
+   "conf": 0.9982,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    317.8,
+    517.6,
+    330.9
+   ],
+   "text": "deployed, and the crew retired for the evening. By morning, the crew discovered that the tow",
+   "conf": 0.9976,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.7,
+    331.7,
+    537.9,
+    344.9
+   ],
+   "text": "configuration had shifted overnight, resulting in the LITTLE G and barge sitting perpendicular to",
+   "conf": 0.9977,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    345.7,
+    521.6,
+    358.9
+   ],
+   "text": "the riverbank. To correct this, the Master broke the tow and pushed the LITTLE G against the",
+   "conf": 0.9899,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.7,
+    359.7,
+    532.7,
+    372.8
+   ],
+   "text": "southern side of the barge, rotating the barge clockwise back into alignment along the east bank.",
+   "conf": 0.9939,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    373.2,
+    531.5,
+    387.6
+   ],
+   "text": "Once the tow was realigned, the Master repositioned the LITTLE G against the north end of the",
+   "conf": 0.9936,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    387.2,
+    104.0,
+    401.6
+   ],
+   "text": "barge.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.1,
+    415.6,
+    527.1,
+    428.7
+   ],
+   "text": "While in this position, the LITTLE G began taking on water over the stern at an uncontrollable",
+   "conf": 0.9934,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    429.1,
+    488.1,
+    442.7
+   ],
+   "text": "rate. The Master attempted to maneuver the vessel out of danger, but all efforts proved",
+   "conf": 0.998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.7,
+    442.7,
+    492.1,
+    457.5
+   ],
+   "text": "unsuccessful, and the LITTLE G began to sink. Prior to the wheelhouse becoming fully",
+   "conf": 0.9923,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.7,
+    457.1,
+    535.1,
+    470.6
+   ],
+   "text": "submerged, the Master jumped into the water and reached for a life ring that the deckhands, who",
+   "conf": 0.9952,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.1,
+    471.4,
+    533.5,
+    484.6
+   ],
+   "text": "were situated on the barge, had thrown toward him. As the deckhands began pulling him toward",
+   "conf": 0.9859,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.5,
+    485.8,
+    527.1,
+    499.0
+   ],
+   "text": "the barge, the line separated, and the current forced the Master against the barge before pulling",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.5,
+    500.2,
+    511.6,
+    512.2
+   ],
+   "text": "him underneath it. Near the Master's last known location, the LITTLE G remained partially",
+   "conf": 0.9965,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.5,
+    513.8,
+    518.4,
+    526.9
+   ],
+   "text": "submerged, with its engines still running, for approximately ten minutes before fully sinking.",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.9,
+    541.7,
+    532.3,
+    554.9
+   ],
+   "text": "The Master's body was recovered hours later by first responders approximately 100 yards south",
+   "conf": 0.9957,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.5,
+    554.9,
+    493.3,
+    569.6
+   ],
+   "text": "along the riverbank. A coroner's report revealed the cause of death to be strikes from a",
+   "conf": 0.9871,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    567.7,
+    508.0,
+    584.4
+   ],
+   "text": "propeller. The LITTLE G was discovered underneath the barge. The vessel was eventually",
+   "conf": 0.9944,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.5,
+    583.6,
+    488.5,
+    597.2
+   ],
+   "text": "salvaged and transported back to a company shipyard to undergo repairs, which would",
+   "conf": 0.9929,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.9,
+    597.2,
+    308.8,
+    611.2
+   ],
+   "text": "eventually bring the vessel back into full service.",
+   "conf": 0.9971,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    625.9,
+    508.8,
+    639.1
+   ],
+   "text": "As a result of its investigation, the Coast Guard determined that the initiating event for this",
+   "conf": 0.9951,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.5,
+    639.5,
+    528.7,
+    653.1
+   ],
+   "text": "incident was flooding over the stern of the vessel. The subsequent events that followed were 1)",
+   "conf": 0.9978,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.9,
+    653.5,
+    537.5,
+    667.1
+   ],
+   "text": "the master entering the water, 2) the sinking of the vessel, and 3) the master's loss of life. Causal",
+   "conf": 0.9831,
+   "retry": null
+  },
+  {
+   "bbox": [
+    73.3,
+    668.2,
+    519.6,
+    681.4
+   ],
+   "text": "factors contributing to this casualty were: 1) Improper ship handling, 2) Untimely abandoned",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    73.3,
+    681.4,
+    372.9,
+    695.4
+   ],
+   "text": "ship efforts, and 3) Failure to don a Personal Flotation Device.",
+   "conf": 0.999,
+   "retry": null
+  }
+ ]
+}

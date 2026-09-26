@@ -1,0 +1,177 @@
+{
+ "key": {
+  "report_id": "UNA_MAS",
+  "filename": "UNA_MAS_8231938_ROI_Redacted.pdf",
+  "sha256": "1a2020a9e1b298824fcb61c142865d41c70a5cf6f9d2ad82f12a16e9cec3cda6",
+  "page_number": 1,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    182.1,
+    110.6,
+    524.7,
+    132.1
+   ],
+   "text": "UNITED STATES COAST GUARD",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    134.7,
+    184.0,
+    477.3,
+    200.8
+   ],
+   "text": "REPORT OF THE INVESTIGATION",
+   "conf": 0.9875,
+   "retry": null
+  },
+  {
+   "bbox": [
+    255.4,
+    204.0,
+    357.0,
+    221.2
+   ],
+   "text": "INTO THE",
+   "conf": 0.995,
+   "retry": {
+    "text": "INTO THE",
+    "conf": 0.995,
+    "first_text": "INTO THE",
+    "first_conf": 0.9393,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    117.1,
+    227.9,
+    494.1,
+    245.5
+   ],
+   "text": "CAPSIZING OF THE VESSEL UNA MAS",
+   "conf": 0.9808,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.9,
+    248.3,
+    523.1,
+    268.3
+   ],
+   "text": "(OR854ACS), IN THE PACIFIC OCEAN NEAR",
+   "conf": 0.993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    92.4,
+    271.1,
+    518.8,
+    289.4
+   ],
+   "text": "GOLD BEACH, OR, WITH LOSS OF LIFE, ON",
+   "conf": 0.9554,
+   "retry": null
+  },
+  {
+   "bbox": [
+    216.4,
+    292.6,
+    395.2,
+    309.8
+   ],
+   "text": "AUGUST 31,2025",
+   "conf": 0.9686,
+   "retry": null
+  },
+  {
+   "bbox": [
+    242.2,
+    421.5,
+    345.4,
+    472.2
+   ],
+   "text": "STATESCOASTO",
+   "conf": 0.9001,
+   "retry": {
+    "text": "STATESCOASTO",
+    "conf": 0.9001,
+    "first_text": "STESCOSTY",
+    "first_conf": 0.8628,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    270.9,
+    502.2,
+    311.2,
+    519.4
+   ],
+   "text": "PARATUS",
+   "conf": 0.9996,
+   "retry": {
+    "text": "PARATUS",
+    "conf": 0.9996,
+    "first_text": "PARATUS",
+    "first_conf": 0.7188,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    270.1,
+    519.4,
+    312.4,
+    539.3
+   ],
+   "text": "1790",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    210.0,
+    744.9,
+    401.6,
+    755.3
+   ],
+   "text": "MISLE ACTIVITY NUMBER: 8231938",
+   "conf": 0.9951,
+   "retry": null
+  }
+ ]
+}

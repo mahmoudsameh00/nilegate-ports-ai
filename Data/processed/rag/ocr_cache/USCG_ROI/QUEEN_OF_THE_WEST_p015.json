@@ -1,0 +1,654 @@
+{
+ "key": {
+  "report_id": "QUEEN_OF_THE_WEST",
+  "filename": "QUEEN_OF_THE_WEST_4405289_ROI_Redacted.pdf",
+  "sha256": "02f978c36fcbd8ef00493738d66ee13a4079eab5832883de67ba1cacc388cba3",
+  "page_number": 15,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2534,
+  3292
+ ],
+ "lines": [
+  {
+   "bbox": [
+    504.8,
+    26.7,
+    537.7,
+    40.6
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.9,
+    39.4,
+    473.5,
+    51.8
+   ],
+   "text": "LOSS OF LIFE FOLLOWING MAN OVERBOARD FROM P/V QUEEN OF THE WEST",
+   "conf": 0.9921,
+   "retry": null
+  },
+  {
+   "bbox": [
+    490.6,
+    39.4,
+    536.5,
+    53.0
+   ],
+   "text": "06May13",
+   "conf": 0.9948,
+   "retry": null
+  },
+  {
+   "bbox": [
+    89.1,
+    66.5,
+    517.5,
+    78.5
+   ],
+   "text": "the paddlewheel, who complain to management. Investigators determined that, if the light had in",
+   "conf": 0.9865,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.7,
+    79.2,
+    534.9,
+    91.2
+   ],
+   "text": "fact been left in the off position, Mr. Staples' ability to see the hazards in the immediate environment",
+   "conf": 0.9869,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.7,
+    92.0,
+    531.7,
+    103.9
+   ],
+   "text": "would have been clearly restricted. Witnesses saw him stumble before going over the side. Had the",
+   "conf": 0.9877,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.9,
+    103.9,
+    524.6,
+    117.5
+   ],
+   "text": "light been activated, or had the light been part of the rest of the vessel's deck lighting arrangement,",
+   "conf": 0.9897,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.5,
+    116.7,
+    312.8,
+    130.2
+   ],
+   "text": "Mr. Staples may have avoided tripping in the dark.",
+   "conf": 0.998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.7,
+    143.0,
+    513.5,
+    154.9
+   ],
+   "text": "\"Free-wheeling\" paddlewheel: The river currents around Rainier, OR at the time of the casualty",
+   "conf": 0.9954,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.5,
+    154.9,
+    536.1,
+    168.4
+   ],
+   "text": "were estimated to be around four knots. The swift-moving waters of the Columbia River were strong",
+   "conf": 0.9919,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.9,
+    167.7,
+    529.4,
+    181.2
+   ],
+   "text": "enough to permit the cosmetic paddlewheel to begin turning slowly in a \"forward\" direction. When",
+   "conf": 0.9851,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.1,
+    180.4,
+    530.6,
+    193.9
+   ],
+   "text": "Mr. Staples slipped, witnesses observed him trying to grasp at the wheel for balance. But instead of",
+   "conf": 0.9917,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.3,
+    193.9,
+    531.7,
+    205.9
+   ],
+   "text": "finding purchase, the wheel unbalanced him further until he fell into the water. Furthermore, he was",
+   "conf": 0.9942,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.3,
+    206.7,
+    511.6,
+    218.6
+   ],
+   "text": "observed traveling under the paddlewheel immediately after entering the river, and he may have",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.9,
+    219.4,
+    507.6,
+    231.4
+   ],
+   "text": "become injured. A simple safety mechanism preventing the wheel from \"free-wheeling\" in the",
+   "conf": 0.9867,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.9,
+    232.2,
+    493.7,
+    244.1
+   ],
+   "text": "current may have permitted him to firmly grasp the unmoving wheel and regain his balance.",
+   "conf": 0.9927,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.9,
+    257.3,
+    498.9,
+    269.2
+   ],
+   "text": "Drills and training: According to vessel records, the P/V QUEEN OF THE WEST conducted",
+   "conf": 0.9851,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.5,
+    270.0,
+    511.9,
+    281.9
+   ],
+   "text": "thorough and timely drills, including \"Man Overboard\" drills. Two of the three crewmen in Mr.",
+   "conf": 0.997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.9,
+    282.7,
+    527.0,
+    294.7
+   ],
+   "text": "Staples' presence at the time of his fall overboard knew exactly what steps to take to ensure the rest",
+   "conf": 0.9955,
+   "retry": null
+  },
+  {
+   "bbox": [
+    473.5,
+    294.3,
+    519.9,
+    308.6
+   ],
+   "text": "however,",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.5,
+    295.5,
+    422.5,
+    307.4
+   ],
+   "text": "of the vessel was alerted to a person in the water. Galley staff member, Mr.",
+   "conf": 0.9948,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.3,
+    307.0,
+    501.7,
+    320.6
+   ],
+   "text": "had never been trained to work with the deckhands to recover a man overboard. Investigators",
+   "conf": 0.996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.7,
+    319.4,
+    523.8,
+    333.3
+   ],
+   "text": "discovered that 40% of crewmembers (mostly stewards and galley staff) do not actively participate",
+   "conf": 0.9896,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.3,
+    332.1,
+    518.3,
+    346.1
+   ],
+   "text": "in Man Overboard drills or training: Twelve of thity crewmembers did nothing more than simply",
+   "conf": 0.9985,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.7,
+    346.1,
+    534.5,
+    358.0
+   ],
+   "text": "muster for the drills. The Code of Federal Regulations Subchapter K (46 CFR 122.520) requires that",
+   "conf": 0.9902,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.1,
+    358.4,
+    528.6,
+    370.3
+   ],
+   "text": "\"the master shall conduct drills and instruction to make sure that all crew members are familiar with",
+   "conf": 0.9961,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.9,
+    370.3,
+    503.2,
+    383.9
+   ],
+   "text": "their duties during the recovery of persons who have fallen overboard.\" At the time of the fall",
+   "conf": 0.9854,
+   "retry": null
+  },
+  {
+   "bbox": [
+    204.7,
+    383.1,
+    518.7,
+    396.6
+   ],
+   "text": "(a member of the galley staff without a Man Overboard Watch Station",
+   "conf": 0.9854,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.1,
+    384.3,
+    156.4,
+    396.2
+   ],
+   "text": "overboard, Mr.",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.7,
+    397.0,
+    531.3,
+    409.0
+   ],
+   "text": "Bill position) was physically standing closest to Mr. Staples, and he stated that he did not know what",
+   "conf": 0.9889,
+   "retry": null
+  },
+  {
+   "bbox": [
+    216.2,
+    408.6,
+    255.8,
+    422.1
+   ],
+   "text": "and Mr.",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.3,
+    409.0,
+    177.8,
+    422.1
+   ],
+   "text": "actions to take. Mr.",
+   "conf": 0.998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    286.7,
+    409.4,
+    508.4,
+    421.3
+   ],
+   "text": "had to direct him to stay and monitor Mr. Staples'",
+   "conf": 0.9884,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.7,
+    422.5,
+    190.8,
+    434.5
+   ],
+   "text": "position from the stern.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    108.1,
+    434.9,
+    514.3,
+    446.8
+   ],
+   "text": "Additionally, none of the crew could recall any training on procedures to take if they are the",
+   "conf": 0.9946,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.9,
+    446.8,
+    532.9,
+    460.3
+   ],
+   "text": "individual to fall in the water. Witnesses stated that Mr. Staples appeared to be aware and active, but",
+   "conf": 0.9914,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.5,
+    459.6,
+    530.6,
+    473.1
+   ],
+   "text": "made no attempt to call out for help, make a flotation device using his clothing, or to attempt a swim",
+   "conf": 0.9938,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.3,
+    473.1,
+    519.1,
+    485.0
+   ],
+   "text": "to shore. Brief discussions with experienced vessel crew during scheduled training sessions about",
+   "conf": 0.9893,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.9,
+    484.6,
+    482.3,
+    498.2
+   ],
+   "text": "what to do if a crewmember found him or herself in the water could have been life-saving",
+   "conf": 0.9908,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.1,
+    499.0,
+    210.2,
+    509.7
+   ],
+   "text": "information for Mr. Staples.",
+   "conf": 0.9873,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.3,
+    523.3,
+    479.9,
+    535.2
+   ],
+   "text": "Life rings: The absence of a critical life ring on the port side of the vessel meant that Mr.",
+   "conf": 0.9826,
+   "retry": null
+  },
+  {
+   "bbox": [
+    511.9,
+    524.5,
+    533.7,
+    536.0
+   ],
+   "text": "was",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.9,
+    536.0,
+    530.6,
+    549.2
+   ],
+   "text": "unable to find something to throw to Mr. Staples immediately. An empty life ring bracket only forty",
+   "conf": 0.9908,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.3,
+    548.8,
+    519.5,
+    560.7
+   ],
+   "text": "feet from the stern had once housed a life ring as early as April, 2011. The vessel's crew removed",
+   "conf": 0.9883,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.3,
+    561.5,
+    498.5,
+    573.4
+   ],
+   "text": "the life ring from service after Coast Guard inspectors noted that it was no longer serviceable.",
+   "conf": 0.9876,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.1,
+    573.4,
+    456.1,
+    587.0
+   ],
+   "text": "Because the vessel's Certificate of Inspection required only three life rings, Captain",
+   "conf": 0.9952,
+   "retry": null
+  },
+  {
+   "bbox": [
+    502.8,
+    573.8,
+    533.7,
+    586.6
+   ],
+   "text": "stated",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.3,
+    587.0,
+    500.1,
+    598.9
+   ],
+   "text": "that replacing the life ring was unnecessary. Despite the fact that regulations required the P/V",
+   "conf": 0.992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.7,
+    599.7,
+    521.8,
+    611.7
+   ],
+   "text": "QUEEN OF THE WEST to carry only three life rings, and three were found onboard, investigators",
+   "conf": 0.9986,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.9,
+    612.5,
+    491.8,
+    624.4
+   ],
+   "text": "noted that Mr. Staples' chances for rescue would have been greater if the empty bracket had",
+   "conf": 0.994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.9,
+    625.2,
+    200.3,
+    637.2
+   ],
+   "text": "contained a life ring. Mr.",
+   "conf": 0.9991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    234.4,
+    625.2,
+    510.4,
+    637.2
+   ],
+   "text": "a trained deckhand, could likely have heaved a life ring to Mr.",
+   "conf": 0.9929,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.5,
+    636.8,
+    515.9,
+    650.3
+   ],
+   "text": "Staples as he drifted away from the vessel, if one had been available in the bracket for him to use.",
+   "conf": 0.9987,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.9,
+    650.7,
+    520.3,
+    662.6
+   ],
+   "text": "Instead, the closest life ring was found four decks above at the operating station. By that time, Mr.",
+   "conf": 0.989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.5,
+    662.6,
+    325.5,
+    676.2
+   ],
+   "text": "Staples had drifted too far to reach with a thrown ring.",
+   "conf": 0.9991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    289.0,
+    736.7,
+    306.1,
+    751.5
+   ],
+   "text": "10",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

@@ -1,0 +1,439 @@
+{
+ "key": {
+  "report_id": "PROWLER_ATTESSA_IV",
+  "filename": "PROWLER_ATTESSA_IV_6572770_ROI_Redacted.pdf",
+  "sha256": "010157c0edf08c5e13cd22197805e3bf59408c4d04b1b047d4c13c51c2410175",
+  "page_number": 16,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    46.6,
+    29.1,
+    334.3,
+    46.3
+   ],
+   "text": "COLLISION BETWEEN THE PROWLER (O.N. 294465)",
+   "conf": 0.9824,
+   "retry": null
+  },
+  {
+   "bbox": [
+    474.5,
+    32.3,
+    508.0,
+    46.7
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    46.2,
+    43.9,
+    364.2,
+    59.5
+   ],
+   "text": "AND ATTESSA IV (O.N. 9179830) SOUTH OF U.S./MÉXICO",
+   "conf": 0.9967,
+   "retry": {
+    "text": "AND ATTESSA IV (O.N. 9179830) SOUTH OF U.S./MÉXICO",
+    "conf": 0.9967,
+    "first_text": "AN/  S   ICOAOCO",
+    "first_conf": 0.6552,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    474.5,
+    46.3,
+    565.8,
+    60.7
+   ],
+   "text": "December 3, 2019",
+   "conf": 0.9876,
+   "retry": null
+  },
+  {
+   "bbox": [
+    46.2,
+    57.9,
+    333.9,
+    73.1
+   ],
+   "text": "MARITIME BOUNDARY LINE ON OCTOBER 26,2018",
+   "conf": 0.9994,
+   "retry": {
+    "text": "MARITIME BOUNDARY LINE ON OCTOBER 26,2018",
+    "conf": 0.9994,
+    "first_text": "MAE    018",
+    "first_conf": 0.6596,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    271.7,
+    155.7,
+    284.9,
+    162.1
+   ],
+   "text": "ICTBT",
+   "conf": 0.8132,
+   "retry": {
+    "text": "ICTB7",
+    "conf": 0.6657,
+    "first_text": "ICTBT",
+    "first_conf": 0.8132,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    115.1,
+    364.9,
+    529.5,
+    380.4
+   ],
+   "text": "Above: Photograph of the ATTESSA IV's starboard side operating station taken on October 29, 2019,",
+   "conf": 0.9926,
+   "retry": null
+  },
+  {
+   "bbox": [
+    262.2,
+    378.4,
+    383.3,
+    390.4
+   ],
+   "text": "provided by the Coast Guard.",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    161.8,
+    402.4,
+    482.9,
+    416.0
+   ],
+   "text": "Below: Location of the collision with the vessel tracklines on October 26, 2019",
+   "conf": 0.9983,
+   "retry": null
+  },
+  {
+   "bbox": [
+    261.8,
+    416.8,
+    382.9,
+    428.7
+   ],
+   "text": "provided by the Coast Guard.",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    313.6,
+    445.1,
+    384.1,
+    454.3
+   ],
+   "text": "M/Y ATTESSAIV",
+   "conf": 0.971,
+   "retry": null
+  },
+  {
+   "bbox": [
+    418.8,
+    454.7,
+    433.5,
+    461.1
+   ],
+   "text": "san",
+   "conf": 0.8121,
+   "retry": {
+    "text": "出",
+    "conf": 0.3532,
+    "first_text": "san",
+    "first_conf": 0.8121,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    441.1,
+    455.9,
+    477.3,
+    462.7
+   ],
+   "text": "NatorGity",
+   "conf": 0.7821,
+   "retry": {
+    "text": "NitoniGiy",
+    "conf": 0.6254,
+    "first_text": "NatorGity",
+    "first_conf": 0.7821,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    416.8,
+    459.5,
+    434.7,
+    466.3
+   ],
+   "text": "Diego",
+   "conf": 0.9807,
+   "retry": null
+  },
+  {
+   "bbox": [
+    418.0,
+    463.1,
+    433.1,
+    472.2
+   ],
+   "text": "Bay",
+   "conf": 0.9761,
+   "retry": null
+  },
+  {
+   "bbox": [
+    443.1,
+    526.9,
+    465.8,
+    533.7
+   ],
+   "text": "Imperul",
+   "conf": 0.8554,
+   "retry": {
+    "text": "Imparni",
+    "conf": 0.6443,
+    "first_text": "Imperul",
+    "first_conf": 0.8554,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    445.1,
+    531.7,
+    466.2,
+    538.5
+   ],
+   "text": "rudacn",
+   "conf": 0.5873,
+   "retry": {
+    "text": "Udich",
+    "conf": 0.5379,
+    "first_text": "rudacn",
+    "first_conf": 0.5873,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    244.2,
+    553.7,
+    304.0,
+    563.7
+   ],
+   "text": "32.524, -117.303",
+   "conf": 0.9881,
+   "retry": null
+  },
+  {
+   "bbox": [
+    404.0,
+    558.1,
+    455.8,
+    566.1
+   ],
+   "text": "Fracc Ampl Playas",
+   "conf": 0.9405,
+   "retry": {
+    "text": "Fracc Ampl Playas",
+    "conf": 0.9326,
+    "first_text": "Fracc Ampl Playas",
+    "first_conf": 0.9405,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    414.4,
+    562.9,
+    446.2,
+    570.4
+   ],
+   "text": "de Tiuana",
+   "conf": 0.8354,
+   "retry": {
+    "text": "de Tquana",
+    "conf": 0.8097,
+    "first_text": "de Tiuana",
+    "first_conf": 0.8354,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    429.5,
+    579.2,
+    467.8,
+    588.0
+   ],
+   "text": "Las Cumbres",
+   "conf": 0.9836,
+   "retry": null
+  },
+  {
+   "bbox": [
+    417.6,
+    596.0,
+    456.2,
+    603.6
+   ],
+   "text": "La Ssperana",
+   "conf": 0.581,
+   "retry": {
+    "text": "La Ssperana",
+    "conf": 0.581,
+    "first_text": "eueodsg in",
+    "first_conf": 0.5427,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    457.4,
+    660.7,
+    475.3,
+    667.5
+   ],
+   "text": "Fracc",
+   "conf": 0.965,
+   "retry": null
+  },
+  {
+   "bbox": [
+    453.8,
+    665.9,
+    476.9,
+    671.4
+   ],
+   "text": "Parcelas",
+   "conf": 0.9685,
+   "retry": null
+  },
+  {
+   "bbox": [
+    210.0,
+    666.3,
+    274.5,
+    676.2
+   ],
+   "text": "M/V PROWLER",
+   "conf": 0.9661,
+   "retry": null
+  },
+  {
+   "bbox": [
+    165.8,
+    691.0,
+    193.6,
+    699.0
+   ],
+   "text": "1.50.75 0",
+   "conf": 0.9969,
+   "retry": null
+  },
+  {
+   "bbox": [
+    204.0,
+    692.2,
+    214.8,
+    698.2
+   ],
+   "text": "1.5",
+   "conf": 0.9946,
+   "retry": null
+  },
+  {
+   "bbox": [
+    225.1,
+    692.6,
+    230.7,
+    698.2
+   ],
+   "text": "3",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    240.7,
+    692.6,
+    251.8,
+    698.6
+   ],
+   "text": "4.5",
+   "conf": 0.9697,
+   "retry": null
+  },
+  {
+   "bbox": [
+    264.6,
+    698.2,
+    302.4,
+    705.8
+   ],
+   "text": "Nautical Miles",
+   "conf": 0.9822,
+   "retry": null
+  },
+  {
+   "bbox": [
+    296.0,
+    738.1,
+    304.0,
+    750.1
+   ],
+   "text": "8",
+   "conf": 0.9808,
+   "retry": null
+  }
+ ]
+}

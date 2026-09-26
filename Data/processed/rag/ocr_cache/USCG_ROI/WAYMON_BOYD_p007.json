@@ -1,0 +1,561 @@
+{
+ "key": {
+  "report_id": "WAYMON_BOYD",
+  "filename": "WAYMON_BOYD_7039383_ROI_Redacted.pdf",
+  "sha256": "31e9bb9552ee4986b942f39eb4f6ea294c7d2213bb5c326bd3fde185b05de07b",
+  "page_number": 7,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    74.5,
+    30.7,
+    163.4,
+    41.5
+   ],
+   "text": "U.S. Department of",
+   "conf": 0.9954,
+   "retry": null
+  },
+  {
+   "bbox": [
+    396.0,
+    30.7,
+    438.3,
+    41.5
+   ],
+   "text": "Valent Hall",
+   "conf": 0.9638,
+   "retry": null
+  },
+  {
+   "bbox": [
+    252.6,
+    31.5,
+    300.4,
+    42.3
+   ],
+   "text": "Commander",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    396.4,
+    39.1,
+    465.4,
+    49.5
+   ],
+   "text": "249 Glasson Drive",
+   "conf": 0.9991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    73.7,
+    39.9,
+    162.6,
+    52.7
+   ],
+   "text": "Homeland Security",
+   "conf": 0.991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    252.6,
+    41.5,
+    349.8,
+    50.7
+   ],
+   "text": "United States Coast Guard",
+   "conf": 0.9972,
+   "retry": null
+  },
+  {
+   "bbox": [
+    396.8,
+    47.1,
+    489.7,
+    57.5
+   ],
+   "text": "Corpus Christi, TX 78406",
+   "conf": 0.9988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    252.6,
+    50.3,
+    331.5,
+    60.7
+   ],
+   "text": "Sector Corpus Christi",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    397.2,
+    55.9,
+    476.5,
+    65.1
+   ],
+   "text": "Phone: 361-939-5140",
+   "conf": 0.9819,
+   "retry": null
+  },
+  {
+   "bbox": [
+    73.7,
+    57.5,
+    145.4,
+    70.3
+   ],
+   "text": "United States",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.9,
+    68.7,
+    140.2,
+    79.4
+   ],
+   "text": "Coast Guard",
+   "conf": 0.9988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    396.4,
+    75.8,
+    429.5,
+    88.6
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    395.2,
+    87.4,
+    494.5,
+    101.4
+   ],
+   "text": "November 30, 2023",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    80.5,
+    124.1,
+    535.9,
+    139.3
+   ],
+   "text": "WAYMON BOYD (O.N. 261512) EXPLOSION, FIRE, AND LOSS OF LIFE ON TULE",
+   "conf": 0.9969,
+   "retry": null
+  },
+  {
+   "bbox": [
+    125.5,
+    138.1,
+    489.7,
+    152.5
+   ],
+   "text": "LAKE CHANNEL IN CORPUS CHRISTI, TX ON AUGUST 21, 2020",
+   "conf": 0.9979,
+   "retry": null
+  },
+  {
+   "bbox": [
+    104.4,
+    180.0,
+    511.2,
+    193.2
+   ],
+   "text": "ENDORSEMENT BY THE OFFICER IN CHARGE, MARINE INSPECTION",
+   "conf": 0.9913,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.1,
+    220.8,
+    507.6,
+    236.3
+   ],
+   "text": "The record and the report of the investigation convened for the subject casualty have been",
+   "conf": 0.9924,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.1,
+    235.1,
+    526.3,
+    249.9
+   ],
+   "text": "reviewed. The record and the report, including the findings of fact, analysis, conclusions, and",
+   "conf": 0.995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    248.7,
+    531.9,
+    264.3
+   ],
+   "text": "recommendations are approved subject to the following comments. It is recommended that this",
+   "conf": 0.9956,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.1,
+    263.5,
+    266.2,
+    276.6
+   ],
+   "text": "marine casualty investigation be closed.",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    219.1,
+    290.6,
+    395.6,
+    303.4
+   ],
+   "text": "COMMENTS ON THE REPORT",
+   "conf": 0.9991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.1,
+    317.4,
+    529.1,
+    332.9
+   ],
+   "text": "1. I would like to send my sincerest condolences to the family and friends of Arturo Cavazos,",
+   "conf": 0.9868,
+   "retry": null
+  },
+  {
+   "bbox": [
+    89.2,
+    332.1,
+    522.8,
+    346.1
+   ],
+   "text": "Jose Coca-Avalos, Rafael Espino Garza, Miguel Martinez, and Joel Rivera. My team will",
+   "conf": 0.998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    89.6,
+    345.7,
+    491.7,
+    360.1
+   ],
+   "text": "continue to work toward implementing the recommendations brought about by this",
+   "conf": 0.9967,
+   "retry": null
+  },
+  {
+   "bbox": [
+    89.6,
+    359.7,
+    442.7,
+    373.6
+   ],
+   "text": "investigation to make the waterway safer for all the people who utilize it.",
+   "conf": 0.9982,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    385.2,
+    530.7,
+    399.2
+   ],
+   "text": "2. The investigation and report contain valuable information which can be used to address the",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    89.2,
+    398.8,
+    537.9,
+    413.6
+   ],
+   "text": "chain of events that resulted in loss of life, and to prevent similar incidents from occurring in",
+   "conf": 0.992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    89.2,
+    412.8,
+    141.4,
+    425.1
+   ],
+   "text": "the future.",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    156.6,
+    439.1,
+    456.6,
+    451.5
+   ],
+   "text": "ENDORSEMENT/ACTION ON RECOMMENDATIONS",
+   "conf": 0.9975,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    465.1,
+    530.3,
+    481.0
+   ],
+   "text": "Safety Recommendation 1: To achieve the shared goal in increasing safety and proficiency in",
+   "conf": 0.9978,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.7,
+    479.4,
+    495.3,
+    494.6
+   ],
+   "text": "dredging operations, it is recommended that the Coast Guard institute requirements that",
+   "conf": 0.9922,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    493.8,
+    511.2,
+    508.6
+   ],
+   "text": "mariners, minimally Barge Captains, Dredge Captains, and Leverman, operating on dredge",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.7,
+    507.4,
+    529.5,
+    521.7
+   ],
+   "text": "vessel possess a Coast Guard issued Merchant Mariner Credential (MMC). Current regulations",
+   "conf": 0.9881,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    521.3,
+    516.8,
+    535.3
+   ],
+   "text": "do not require MMCs for any crewmembers on dredge vessels. This, in turn, creates a latent",
+   "conf": 0.9981,
+   "retry": {
+    "text": "do not require MMCs for any crewmembers on dredge vessels. This, in turn, creates a latent",
+    "conf": 0.9981,
+    "first_text": "de  s          s  es e ent",
+    "first_conf": 0.7283,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    71.3,
+    534.9,
+    523.9,
+    549.7
+   ],
+   "text": "unsafe condition that remains dormant until a significant or major marine casualty occurs that",
+   "conf": 0.9962,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    548.9,
+    537.5,
+    563.3
+   ],
+   "text": "brings to light the ineptitude and complacency that exists in the dredging industry. Indeed, in the",
+   "conf": 0.9943,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    562.5,
+    517.2,
+    576.8
+   ],
+   "text": "absence of federal law and regulations requiring a national standard for dredge crewmember",
+   "conf": 0.9959,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    576.0,
+    534.3,
+    591.6
+   ],
+   "text": "competency, we rely on dredge companies to identify critical competency areas and promulgate",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    589.6,
+    499.6,
+    605.2
+   ],
+   "text": "unambiguous policies for crew training. In this case, the Barge Captain, Dredge Captain,",
+   "conf": 0.9974,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    604.0,
+    496.9,
+    618.4
+   ],
+   "text": "Leverman, and other experienced crew were not trained to identify pipelines and how to",
+   "conf": 0.9953,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.7,
+    618.8,
+    521.6,
+    631.9
+   ],
+   "text": "appropriately respond to a potential pipeline strike with emergency shutdown procedures and",
+   "conf": 0.9967,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    631.1,
+    535.1,
+    645.9
+   ],
+   "text": "abandoning ship. While there were a lot of possible ignition sources, an immediate shutdown of",
+   "conf": 0.994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    644.7,
+    537.9,
+    660.3
+   ],
+   "text": "machinery could have limited them and an immediate call to abandon ship once the pipeline was",
+   "conf": 0.9932,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    659.1,
+    516.4,
+    673.4
+   ],
+   "text": "struck could have saved lives. Without proper training to take these steps immediately, crew",
+   "conf": 0.9988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    672.6,
+    523.1,
+    687.0
+   ],
+   "text": "members waste valuable seconds determining what happened and what actions to take, which",
+   "conf": 0.9905,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    687.0,
+    163.0,
+    700.2
+   ],
+   "text": "likely costed lives.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    300.8,
+    752.1,
+    311.2,
+    766.1
+   ],
+   "text": "1",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

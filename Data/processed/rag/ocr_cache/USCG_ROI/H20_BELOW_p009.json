@@ -1,0 +1,434 @@
+{
+ "key": {
+  "report_id": "H20_BELOW",
+  "filename": "H20_BELOW_6966090_ROI_Redacted.pdf",
+  "sha256": "f3fcf7689854c086f79383529c2e174af10699e91199f16de6dc34a5f5fcd65c",
+  "page_number": 9,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    68.9,
+    66.3,
+    247.4,
+    79.8
+   ],
+   "text": "2. Vessel Involved in the Incident",
+   "conf": 0.9713,
+   "retry": null
+  },
+  {
+   "bbox": [
+    160.2,
+    346.5,
+    445.1,
+    357.7
+   ],
+   "text": "Figure 1. H2O BELOW moored at South Wind Marina in Pensacola, FL. Source: Sector",
+   "conf": 0.9912,
+   "retry": null
+  },
+  {
+   "bbox": [
+    160.2,
+    355.7,
+    197.6,
+    366.5
+   ],
+   "text": "Mobile IO",
+   "conf": 0.9932,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.5,
+    377.6,
+    150.2,
+    392.0
+   ],
+   "text": "Official Name:",
+   "conf": 0.9814,
+   "retry": null
+  },
+  {
+   "bbox": [
+    323.9,
+    378.0,
+    396.0,
+    392.0
+   ],
+   "text": "H2O BELOW",
+   "conf": 0.9981,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.1,
+    392.4,
+    187.3,
+    406.4
+   ],
+   "text": "Identification Number:",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    324.7,
+    392.8,
+    458.2,
+    406.8
+   ],
+   "text": "1136903 - Official Number",
+   "conf": 0.9769,
+   "retry": null
+  },
+  {
+   "bbox": [
+    73.7,
+    407.2,
+    103.2,
+    421.9
+   ],
+   "text": "Flag:",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    324.3,
+    408.4,
+    392.1,
+    421.5
+   ],
+   "text": "United States",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.5,
+    421.1,
+    217.1,
+    437.5
+   ],
+   "text": "Vessel Class/Type/Sub-Type",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    323.9,
+    421.9,
+    529.9,
+    436.3
+   ],
+   "text": "Small Passenger Vessel/Commercial Dive",
+   "conf": 0.9881,
+   "retry": null
+  },
+  {
+   "bbox": [
+    323.9,
+    435.5,
+    359.8,
+    449.9
+   ],
+   "text": "Vessel",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.5,
+    449.5,
+    134.7,
+    464.3
+   ],
+   "text": "Build Year:",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    323.5,
+    449.9,
+    352.2,
+    464.7
+   ],
+   "text": "2002",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.1,
+    463.9,
+    154.2,
+    479.8
+   ],
+   "text": "Gross Tonnage:",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    323.9,
+    465.1,
+    367.0,
+    478.6
+   ],
+   "text": "20 GRT",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    73.7,
+    479.0,
+    115.9,
+    494.2
+   ],
+   "text": "Length:",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    323.5,
+    479.0,
+    364.2,
+    494.2
+   ],
+   "text": "36 Feet",
+   "conf": 0.9729,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.5,
+    493.8,
+    142.6,
+    507.0
+   ],
+   "text": "Beam/Width:",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    324.3,
+    494.2,
+    364.2,
+    508.2
+   ],
+   "text": "14 Feet",
+   "conf": 0.9798,
+   "retry": null
+  },
+  {
+   "bbox": [
+    73.7,
+    507.8,
+    107.2,
+    521.7
+   ],
+   "text": "Draft:",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    323.5,
+    507.8,
+    358.2,
+    522.9
+   ],
+   "text": "6 Feet",
+   "conf": 0.9971,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.1,
+    522.9,
+    202.8,
+    537.3
+   ],
+   "text": "Main/Primary Propulsion:",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    323.9,
+    522.9,
+    464.2,
+    538.1
+   ],
+   "text": "Diesel Reduction Propulsion",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.5,
+    537.7,
+    114.4,
+    551.7
+   ],
+   "text": "Owner:",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.1,
+    565.7,
+    124.3,
+    581.6
+   ],
+   "text": "Operator:",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.1,
+    605.6,
+    306.8,
+    620.3
+   ],
+   "text": "3.Deceased, Missing, and/or Injured Persons",
+   "conf": 0.9991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    81.3,
+    633.5,
+    197.2,
+    648.7
+   ],
+   "text": "Relationship to Vessel",
+   "conf": 0.98,
+   "retry": null
+  },
+  {
+   "bbox": [
+    243.4,
+    633.5,
+    267.4,
+    649.1
+   ],
+   "text": "Sex",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    347.4,
+    634.3,
+    373.7,
+    651.1
+   ],
+   "text": "Age",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    455.8,
+    634.3,
+    493.3,
+    649.1
+   ],
+   "text": "Status",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    107.2,
+    672.2,
+    168.5,
+    688.2
+   ],
+   "text": "Passenger 1",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    239.9,
+    673.4,
+    270.5,
+    689.4
+   ],
+   "text": "Male",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    351.8,
+    674.6,
+    369.4,
+    689.4
+   ],
+   "text": "65",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    449.4,
+    675.4,
+    499.2,
+    689.0
+   ],
+   "text": "Deceased",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    298.0,
+    738.1,
+    308.0,
+    751.3
+   ],
+   "text": "2",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

@@ -1,0 +1,192 @@
+{
+ "key": {
+  "report_id": "WAYMON_BOYD",
+  "filename": "WAYMON_BOYD_7039383_ROI_Redacted.pdf",
+  "sha256": "31e9bb9552ee4986b942f39eb4f6ea294c7d2213bb5c326bd3fde185b05de07b",
+  "page_number": 6,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    88.5,
+    87.4,
+    535.1,
+    101.4
+   ],
+   "text": "The recommendation does not account for the lack of effective means to plan for, detect and",
+   "conf": 0.9941,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.5,
+    102.6,
+    525.9,
+    116.2
+   ],
+   "text": "avoid pipelines nor does it provide a specific mechanism to prevent ignition or enable safe",
+   "conf": 0.9987,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.9,
+    118.6,
+    510.0,
+    130.5
+   ],
+   "text": "evacuation as indicated in the Report of Investigation. Rather than increasing oversight",
+   "conf": 0.9943,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.9,
+    132.9,
+    505.6,
+    146.1
+   ],
+   "text": "through 46 CFR Subchapter I, a more specific mitigation strategy resides within those",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.5,
+    148.1,
+    270.1,
+    160.1
+   ],
+   "text": "recommendation made by the NTSB.",
+   "conf": 0.9961,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    177.2,
+    512.4,
+    191.2
+   ],
+   "text": "Administrative Recommendation 1: Recommend Officer in Charge of Marine Inspection",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    192.0,
+    474.5,
+    205.2
+   ],
+   "text": "initiate an investigation involving potential civil penalties involving 33 CFR Part 1.",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.9,
+    219.6,
+    522.4,
+    232.7
+   ],
+   "text": "Endorsement: I concur; the facts and the evidence support an investigation into potential",
+   "conf": 0.9979,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.1,
+    232.7,
+    181.3,
+    247.1
+   ],
+   "text": "acts of negligence.",
+   "conf": 0.9828,
+   "retry": null
+  },
+  {
+   "bbox": [
+    309.6,
+    315.4,
+    440.7,
+    329.3
+   ],
+   "text": "Captain, U.S. Coast Guard",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    310.4,
+    330.1,
+    406.8,
+    342.1
+   ],
+   "text": "Chief of Prevention",
+   "conf": 0.9956,
+   "retry": null
+  },
+  {
+   "bbox": [
+    309.2,
+    343.3,
+    505.6,
+    356.9
+   ],
+   "text": "Coast Guard Heartland (Eighth) District",
+   "conf": 0.9878,
+   "retry": null
+  },
+  {
+   "bbox": [
+    309.6,
+    357.3,
+    374.9,
+    370.9
+   ],
+   "text": "By Direction",
+   "conf": 0.9896,
+   "retry": null
+  },
+  {
+   "bbox": [
+    301.2,
+    758.5,
+    310.8,
+    770.8
+   ],
+   "text": "2",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

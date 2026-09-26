@@ -1,0 +1,456 @@
+{
+ "key": {
+  "report_id": "CUMBERLAND_II",
+  "filename": "CUMBERLAND_II_8126294_ROI_Redacted.pdf",
+  "sha256": "8794152c28321eb2e4a90e86b339751332ecf2a6c5ceb8e3f31973bbba03bc91",
+  "page_number": 4,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    76.9,
+    37.1,
+    154.6,
+    47.5
+   ],
+   "text": "U.S. Department of",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    411.6,
+    37.5,
+    529.9,
+    48.3
+   ],
+   "text": "600 Martin Luther King Jr. Place",
+   "conf": 0.9838,
+   "retry": null
+  },
+  {
+   "bbox": [
+    261.4,
+    39.1,
+    308.4,
+    48.7
+   ],
+   "text": "Commander",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    76.5,
+    45.9,
+    153.4,
+    57.1
+   ],
+   "text": "Homeland Security",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    412.4,
+    45.9,
+    488.5,
+    56.3
+   ],
+   "text": "Louisville, KY 40202",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    261.4,
+    48.3,
+    359.4,
+    58.7
+   ],
+   "text": "United States Coast Guard",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    412.0,
+    53.9,
+    475.3,
+    64.7
+   ],
+   "text": "Staff Symbol: (s)",
+   "conf": 0.9965,
+   "retry": null
+  },
+  {
+   "bbox": [
+    261.0,
+    57.5,
+    330.7,
+    67.9
+   ],
+   "text": "Sector Ohio Valley",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    76.5,
+    61.1,
+    139.5,
+    72.7
+   ],
+   "text": "United States",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    412.0,
+    61.9,
+    492.5,
+    72.3
+   ],
+   "text": "Phone: (502) 779-5300",
+   "conf": 0.9765,
+   "retry": null
+  },
+  {
+   "bbox": [
+    496.9,
+    68.7,
+    537.9,
+    81.8
+   ],
+   "text": "@uscg.mil",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    412.0,
+    69.9,
+    437.9,
+    79.8
+   ],
+   "text": "Email:",
+   "conf": 0.9991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    76.9,
+    70.3,
+    135.5,
+    81.0
+   ],
+   "text": "Coast Guard",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    414.0,
+    100.6,
+    490.9,
+    112.6
+   ],
+   "text": "16732/8126294",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    411.6,
+    113.8,
+    486.1,
+    127.3
+   ],
+   "text": "April 29, 2026",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.9,
+    142.5,
+    536.7,
+    154.9
+   ],
+   "text": "CUMBERLAND II (O.N. 1244371) AND MOTOR VEHICLE (PLATE #1PD5341) ROLL",
+   "conf": 0.9928,
+   "retry": null
+  },
+  {
+   "bbox": [
+    120.3,
+    156.1,
+    492.5,
+    168.1
+   ],
+   "text": "OFF WITH LOSS OF LIFE NEAR CUMBERLAND RIVER MILE 104",
+   "conf": 0.9901,
+   "retry": null
+  },
+  {
+   "bbox": [
+    252.6,
+    169.3,
+    359.8,
+    182.4
+   ],
+   "text": "ON APRIL 25, 2025",
+   "conf": 0.9821,
+   "retry": null
+  },
+  {
+   "bbox": [
+    103.2,
+    204.8,
+    508.8,
+    216.4
+   ],
+   "text": "ENDORSEMENT BY THE OFFICER IN CHARGE, MARINE INSPECTION",
+   "conf": 0.9862,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    236.7,
+    521.2,
+    250.7
+   ],
+   "text": "The Report of Investigation for the subject casualty has been reviewed. The report’s findings,",
+   "conf": 0.9921,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    251.5,
+    521.2,
+    264.7
+   ],
+   "text": "conclusions, and recommendations are approved. It is recommended that this marine casualty",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    264.7,
+    185.7,
+    277.8
+   ],
+   "text": "investigation be closed.",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    217.9,
+    292.6,
+    393.7,
+    304.2
+   ],
+   "text": "COMMENTS ON THE REPORT",
+   "conf": 0.9966,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    319.0,
+    512.8,
+    333.7
+   ],
+   "text": "1. The investigation revealed this preventable fatality was a direct result of the automobile",
+   "conf": 0.9893,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.7,
+    333.3,
+    541.1,
+    347.3
+   ],
+   "text": "operator’s loss of situational awareness and current barrier requirements aboard ferries do not",
+   "conf": 0.9957,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.3,
+    346.9,
+    378.5,
+    361.7
+   ],
+   "text": "require the ability of such barriers to stop a moving vehicle.",
+   "conf": 0.9908,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.7,
+    375.2,
+    487.3,
+    388.4
+   ],
+   "text": "2. The Master and crew of CUMBERLAND IIwere found compliant with applicable",
+   "conf": 0.9923,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.1,
+    389.6,
+    429.5,
+    402.8
+   ],
+   "text": "regulations, and all post casualty drug and alcohol tests were negative.",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.3,
+    415.6,
+    510.8,
+    430.7
+   ],
+   "text": "3. The rescue attempts by nearby vessel crews were admirable and keeping with maritime",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.1,
+    430.7,
+    304.8,
+    443.5
+   ],
+   "text": "assistance at sea, Good Samaritan traditions.",
+   "conf": 0.9856,
+   "retry": null
+  },
+  {
+   "bbox": [
+    180.9,
+    461.5,
+    429.9,
+    473.0
+   ],
+   "text": "ENDORSEMENT ON RECOMMENDATIONS",
+   "conf": 0.9918,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    489.4,
+    541.5,
+    503.0
+   ],
+   "text": "Safety Recommendation: The investigation found no causeto recommend amendments to",
+   "conf": 0.9912,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.7,
+    503.0,
+    403.2,
+    517.8
+   ],
+   "text": "existing U.S. law, regulations, standards or U.S. Coast Guard policy.",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    532.1,
+    186.9,
+    544.1
+   ],
+   "text": "Endorsement: Concur.",
+   "conf": 0.9987,
+   "retry": null
+  },
+  {
+   "bbox": [
+    261.8,
+    592.8,
+    348.6,
+    606.0
+   ],
+   "text": "Randy L. Preston",
+   "conf": 0.9823,
+   "retry": null
+  },
+  {
+   "bbox": [
+    261.4,
+    606.0,
+    392.9,
+    619.9
+   ],
+   "text": "Captain, U.S. Coast Guard",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    261.4,
+    620.3,
+    506.8,
+    633.5
+   ],
+   "text": "Officer in Charge, Marine Inspection, Ohio Valley",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    725.3,
+    337.9,
+    737.3
+   ],
+   "text": "Encl (1): Report of Investigation dated March 19, 2026",
+   "conf": 0.9883,
+   "retry": null
+  }
+ ]
+}

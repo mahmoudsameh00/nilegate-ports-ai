@@ -1,0 +1,500 @@
+{
+ "key": {
+  "report_id": "PROWLER_ATTESSA_IV",
+  "filename": "PROWLER_ATTESSA_IV_6572770_ROI_Redacted.pdf",
+  "sha256": "010157c0edf08c5e13cd22197805e3bf59408c4d04b1b047d4c13c51c2410175",
+  "page_number": 20,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    47.0,
+    28.3,
+    333.1,
+    42.3
+   ],
+   "text": "COLLISION BETWEEN THE PROWLER (O.N. 294465)",
+   "conf": 0.9909,
+   "retry": null
+  },
+  {
+   "bbox": [
+    473.7,
+    28.3,
+    507.2,
+    42.7
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    47.0,
+    42.7,
+    362.6,
+    55.9
+   ],
+   "text": "AND ATTESSA IV (O.N. 9179830) SOUTH OF U.S./MEXICO",
+   "conf": 0.9935,
+   "retry": null
+  },
+  {
+   "bbox": [
+    474.5,
+    43.1,
+    564.2,
+    56.3
+   ],
+   "text": "December 3, 2019",
+   "conf": 0.9924,
+   "retry": null
+  },
+  {
+   "bbox": [
+    46.2,
+    55.9,
+    333.1,
+    69.5
+   ],
+   "text": "MARITIME BOUNDARY LINE ON OCTOBER 26,2018",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    103.6,
+    85.0,
+    509.2,
+    99.4
+   ],
+   "text": "5.1.5. The ATTESSA IV was required by the Master's Standing Orders to have an",
+   "conf": 0.9949,
+   "retry": null
+  },
+  {
+   "bbox": [
+    140.6,
+    101.0,
+    508.8,
+    113.0
+   ],
+   "text": "assigned lookout on watch in addition to the navigational watch officer. The",
+   "conf": 0.9922,
+   "retry": null
+  },
+  {
+   "bbox": [
+    140.6,
+    115.8,
+    529.5,
+    127.7
+   ],
+   "text": "master directed the lookout to make a round of the vessel and secure the bosun's",
+   "conf": 0.9917,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.9,
+    129.3,
+    429.5,
+    143.3
+   ],
+   "text": "locker, removing the lookout from his station on the bridge.",
+   "conf": 0.9978,
+   "retry": null
+  },
+  {
+   "bbox": [
+    103.6,
+    150.9,
+    522.0,
+    166.5
+   ],
+   "text": "5.1.6. The master of the ATTESSA IV did not observe the PROWLER visually or by",
+   "conf": 0.9818,
+   "retry": null
+  },
+  {
+   "bbox": [
+    140.2,
+    167.7,
+    361.0,
+    179.6
+   ],
+   "text": "radar until right before the collision occurred.",
+   "conf": 0.9799,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.3,
+    189.2,
+    296.8,
+    202.8
+   ],
+   "text": "5.2. Failure to Determine Risk of Collision.",
+   "conf": 0.9919,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.8,
+    211.6,
+    513.2,
+    226.3
+   ],
+   "text": "5.2.1. Rule 7(b) COLREGS states, \"Proper use shall be made of radar equipment if",
+   "conf": 0.9958,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.1,
+    226.3,
+    525.5,
+    241.5
+   ],
+   "text": "fitted and operational, including long range scanning to obtain early warning of",
+   "conf": 0.9905,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.7,
+    241.1,
+    499.6,
+    255.9
+   ],
+   "text": "risk of collision and radar plotting or equivalent systematic observation of",
+   "conf": 0.9967,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.5,
+    256.3,
+    221.9,
+    269.9
+   ],
+   "text": "detected objects.",
+   "conf": 0.9961,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.8,
+    278.2,
+    532.7,
+    293.0
+   ],
+   "text": "5.2.2. The PROWLER had a new radar installed approximately three weeks prior to the",
+   "conf": 0.9942,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.1,
+    293.4,
+    535.1,
+    308.2
+   ],
+   "text": "collision. The mate stated that the radar was operating properly and had displayed",
+   "conf": 0.9983,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.7,
+    307.8,
+    523.9,
+    322.5
+   ],
+   "text": "contacts earlier in the evening prior to the incident, however, the ATTESSA IV",
+   "conf": 0.9984,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.5,
+    323.7,
+    280.9,
+    335.7
+   ],
+   "text": "was never observed on radar.",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.8,
+    344.9,
+    525.5,
+    360.5
+   ],
+   "text": "5.2.3. The ATTESSA IV was equipped with an X-band and S-band radar. Both radars",
+   "conf": 0.9979,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.3,
+    360.5,
+    520.8,
+    374.4
+   ],
+   "text": "had a collision warning alarm when a contact enters within the closest point of",
+   "conf": 0.9883,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.1,
+    375.6,
+    519.2,
+    388.8
+   ],
+   "text": "approach (CPA). The CPA had been set by the master to one mile. The master",
+   "conf": 0.9891,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.7,
+    389.6,
+    526.3,
+    404.8
+   ],
+   "text": "stated that the radars had been working properly when they departed San Diego,",
+   "conf": 0.9958,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.1,
+    404.0,
+    431.5,
+    418.0
+   ],
+   "text": "CA, but the master never observed the PROWLER by radar.",
+   "conf": 0.9793,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.3,
+    427.5,
+    222.3,
+    439.5
+   ],
+   "text": "5.3. Potential Radar Failure.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.0,
+    449.5,
+    520.4,
+    463.9
+   ],
+   "text": "5.3.1. The operators onboard both vessels stated they were at their operating stations,",
+   "conf": 0.9847,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.7,
+    464.3,
+    531.1,
+    479.0
+   ],
+   "text": "alert, and maintaining a proper visual of navigation equipment and lookout. Both",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.1,
+    479.8,
+    524.7,
+    493.0
+   ],
+   "text": "operators stated that their radar never displayed the other vessel in this incident.",
+   "conf": 0.9962,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.1,
+    493.8,
+    518.8,
+    507.8
+   ],
+   "text": "This would mean that in open water, during unrestricted visibility, at the exact",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.5,
+    509.4,
+    451.4,
+    521.3
+   ],
+   "text": "same time, three different radars failed to detect the other vessel.",
+   "conf": 0.998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.0,
+    531.3,
+    532.3,
+    545.3
+   ],
+   "text": "5.3.2. A post-casualty functionality test of the ATTESSA IV's radars was conducted by",
+   "conf": 0.9869,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.1,
+    547.3,
+    506.4,
+    559.3
+   ],
+   "text": "attending Coast Guard investigators. At this time, the radars identified close",
+   "conf": 0.9941,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.7,
+    561.3,
+    500.4,
+    573.2
+   ],
+   "text": "known targets as designed. Testing of the PROWLER's new radar was not",
+   "conf": 0.9933,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.7,
+    575.2,
+    466.2,
+    589.2
+   ],
+   "text": "completed due to extensive damage to the vessel and its equipment.",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.1,
+    598.0,
+    147.0,
+    611.2
+   ],
+   "text": "6. Conclusions:",
+   "conf": 0.9849,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.1,
+    620.3,
+    532.7,
+    634.7
+   ],
+   "text": "6.1. Determination of Cause. The initiating event for this casualty was the collision between",
+   "conf": 0.9925,
+   "retry": null
+  },
+  {
+   "bbox": [
+    105.6,
+    635.9,
+    276.9,
+    647.9
+   ],
+   "text": "the PROWLER and ATTESSA IV.",
+   "conf": 0.9872,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.4,
+    658.3,
+    536.7,
+    671.4
+   ],
+   "text": "6.1.1. The operators of both vessels failed to use all available means aboard their vessels",
+   "conf": 0.9963,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.5,
+    673.0,
+    529.5,
+    686.6
+   ],
+   "text": "to identify if risk of collision existed, including visual and electronic means. The",
+   "conf": 0.9811,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.9,
+    687.0,
+    526.3,
+    701.8
+   ],
+   "text": "vessels both failed to have an additional lookout posted; the PROWLER did not",
+   "conf": 0.9937,
+   "retry": null
+  },
+  {
+   "bbox": [
+    293.2,
+    733.7,
+    310.4,
+    748.5
+   ],
+   "text": "12",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

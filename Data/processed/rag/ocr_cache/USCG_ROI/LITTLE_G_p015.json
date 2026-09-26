@@ -1,0 +1,357 @@
+{
+ "key": {
+  "report_id": "LITTLE_G",
+  "filename": "LITTLE_G_7717011_ROI_Redacted.pdf",
+  "sha256": "9bfb88866d75e684135d09cf0c07f8079087bcdf03236273b78edc88199915ac",
+  "page_number": 15,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    111.2,
+    37.5,
+    506.0,
+    50.7
+   ],
+   "text": "4.2.4. The LITTLE G operated as an uninspected vessel, as such, no manning nor",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    51.5,
+    526.3,
+    64.7
+   ],
+   "text": "credentialling requirements applied. The Master had experience operating LITTLE G",
+   "conf": 0.9978,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    64.3,
+    497.6,
+    78.2
+   ],
+   "text": "and worked for MC Marine for over 10 years. Deckhand 1 started working as a",
+   "conf": 0.9976,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    78.2,
+    500.8,
+    92.6
+   ],
+   "text": "deckhand in 2019 and was employed by MC Marine for approximately one year.",
+   "conf": 0.9922,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    92.6,
+    530.7,
+    105.8
+   ],
+   "text": "Deckhand 2 had no experience as a deckhand and began employment with MC Marine",
+   "conf": 0.9881,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    105.4,
+    355.8,
+    120.2
+   ],
+   "text": "on or about the day of departure on June 14, 2023.",
+   "conf": 0.9915,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    133.3,
+    519.2,
+    146.9
+   ],
+   "text": "4.2.5. Weather conditions around the time of the incident were inclement. A United",
+   "conf": 0.9922,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    147.7,
+    514.0,
+    160.9
+   ],
+   "text": "States Geological River station in Choctaw Bluff, AL, just northeast of the incident",
+   "conf": 0.995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    161.7,
+    535.9,
+    174.8
+   ],
+   "text": "location, experienced a steady increase in both river discharge (current) and gage height",
+   "conf": 0.9945,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    173.2,
+    522.4,
+    189.6
+   ],
+   "text": "(depth) from June 15th to June 16th, 2023. Discharge rose from approximately 20,000",
+   "conf": 0.9891,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    188.0,
+    501.6,
+    202.4
+   ],
+   "text": "cubic feet per second (ft³/s) on June 15th to 44,700 ft³/s by June 16th, indicating a",
+   "conf": 0.9987,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    202.0,
+    534.3,
+    216.8
+   ],
+   "text": "significant increase in water flow.Similarly, the gage height increased from around 4ft",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    216.8,
+    446.2,
+    229.9
+   ],
+   "text": "to 9.15ft during the same period, reflecting an increase in river depth.",
+   "conf": 0.9989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    243.5,
+    523.9,
+    256.7
+   ],
+   "text": "4.2.6. The door leading to the engine room of the LITTLE G was not watertight. It is",
+   "conf": 0.9946,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    257.5,
+    465.0,
+    271.1
+   ],
+   "text": "unknown whether the door was secured shut or open during this incident.",
+   "conf": 0.9963,
+   "retry": null
+  },
+  {
+   "bbox": [
+    136.3,
+    530.1,
+    331.9,
+    541.3
+   ],
+   "text": "Figure 15. LITTLE G engine room door. (June 30, 2023/LT",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.5,
+    553.3,
+    135.5,
+    565.7
+   ],
+   "text": "Analysis",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    553.7,
+    83.3,
+    565.3
+   ],
+   "text": "5.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.7,
+    578.0,
+    529.5,
+    592.8
+   ],
+   "text": "5.1. Improper Ship Handling. Water conditions at the time of the incident included steadily",
+   "conf": 0.9977,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.1,
+    592.4,
+    532.3,
+    606.8
+   ],
+   "text": "increasing water depths and current due to inclement weather. With only one spud engaged",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.5,
+    606.4,
+    526.7,
+    619.5
+   ],
+   "text": "and acting as a fulcrum, the current conditions, rising from 20,000 to 44,700 cubic feet per",
+   "conf": 0.9861,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.1,
+    620.7,
+    537.1,
+    633.9
+   ],
+   "text": "second, with river depth increasing from approximately 4 feet to just over 9 feet, were strong",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.1,
+    634.3,
+    538.7,
+    647.5
+   ],
+   "text": "enough to force the vessel in a perpendicular position overnight. The following morning, the",
+   "conf": 0.9903,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.7,
+    647.5,
+    503.6,
+    661.1
+   ],
+   "text": "Master attempted to hold a corrected position along the east bank, which inhibited the",
+   "conf": 0.9974,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.7,
+    661.5,
+    539.5,
+    675.4
+   ],
+   "text": "LITTLE G from reacting naturally to the force of the current which would have consequently",
+   "conf": 0.9883,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.5,
+    675.0,
+    520.0,
+    689.4
+   ],
+   "text": "forced the vessel and barge back to a perpendicular position. In doing so, the stern of the",
+   "conf": 0.9907,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.5,
+    689.4,
+    529.9,
+    702.6
+   ],
+   "text": "LITTLE G began taking on water in such a rapid manner that subsequent vessel maneuvers",
+   "conf": 0.9929,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.7,
+    702.2,
+    515.2,
+    717.0
+   ],
+   "text": "to abate sinking were unsuccessful. If the Master chose not to hold the vessel’s position",
+   "conf": 0.9863,
+   "retry": null
+  },
+  {
+   "bbox": [
+    298.4,
+    742.5,
+    314.8,
+    757.7
+   ],
+   "text": "10",
+   "conf": 0.9999,
+   "retry": null
+  }
+ ]
+}

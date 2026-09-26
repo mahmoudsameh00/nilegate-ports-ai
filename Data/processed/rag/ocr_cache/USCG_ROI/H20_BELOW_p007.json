@@ -1,0 +1,82 @@
+{
+ "key": {
+  "report_id": "H20_BELOW",
+  "filename": "H20_BELOW_6966090_ROI_Redacted.pdf",
+  "sha256": "f3fcf7689854c086f79383529c2e174af10699e91199f16de6dc34a5f5fcd65c",
+  "page_number": 7,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    68.1,
+    65.9,
+    526.3,
+    83.0
+   ],
+   "text": "Through its investigation, the Coast Guard determined the initiating event for this casualty was",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.5,
+    80.2,
+    534.7,
+    96.2
+   ],
+   "text": "the death of Passenger 1. The causal factor contributing to this marine casualty was: 1) Failure to",
+   "conf": 0.9952,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.1,
+    93.8,
+    375.3,
+    110.6
+   ],
+   "text": "adhere with recommended dive computer decompression stops.",
+   "conf": 0.9917,
+   "retry": null
+  },
+  {
+   "bbox": [
+    296.0,
+    737.7,
+    310.8,
+    752.5
+   ],
+   "text": "iii",
+   "conf": 0.9912,
+   "retry": null
+  }
+ ]
+}

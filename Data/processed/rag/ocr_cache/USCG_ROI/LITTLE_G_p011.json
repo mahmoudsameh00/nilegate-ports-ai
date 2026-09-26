@@ -1,0 +1,214 @@
+{
+ "key": {
+  "report_id": "LITTLE_G",
+  "filename": "LITTLE_G_7717011_ROI_Redacted.pdf",
+  "sha256": "9bfb88866d75e684135d09cf0c07f8079087bcdf03236273b78edc88199915ac",
+  "page_number": 11,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    110.4,
+    36.3,
+    499.2,
+    51.1
+   ],
+   "text": "4.1.10. With the barge back in its original position, the Master then attempted to",
+   "conf": 0.998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    50.7,
+    355.8,
+    63.5
+   ],
+   "text": "maneuver the LITTLE G’s stern back to the north.",
+   "conf": 0.9947,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    75.8,
+    530.7,
+    90.2
+   ],
+   "text": "4.1.11. Once the LITTLE G was pushed up against the barge with the port side abreast",
+   "conf": 0.9919,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    90.2,
+    529.9,
+    103.4
+   ],
+   "text": "the east bank, Deckhand 1 secured a towing line from the barge to the forward cleat of",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    103.8,
+    187.3,
+    117.0
+   ],
+   "text": "the LITTLE G.",
+   "conf": 0.9969,
+   "retry": null
+  },
+  {
+   "bbox": [
+    184.9,
+    315.4,
+    409.2,
+    325.7
+   ],
+   "text": "Figure 9. LITTLE G forward cleat. (June 30, 2023/Sector Mobile IO)",
+   "conf": 0.9863,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    337.3,
+    529.1,
+    351.7
+   ],
+   "text": "4.1.12. Shortly after affixing the towing line, water began rushing over the stern of the",
+   "conf": 0.9875,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    350.5,
+    516.8,
+    365.7
+   ],
+   "text": "LITTLE G. The Master immediately ordered Deckhand 1 to remove the towline, to",
+   "conf": 0.9944,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.6,
+    365.7,
+    524.7,
+    377.6
+   ],
+   "text": "which Deckhand 1 replied that he believed it would make matters worse. The Master",
+   "conf": 0.9986,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    379.2,
+    328.3,
+    392.4
+   ],
+   "text": "insisted, and Deckhand 1 eventually obliged.",
+   "conf": 0.9807,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    405.2,
+    500.4,
+    418.4
+   ],
+   "text": "4.1.13. After removing the towing line, flooding over the stern of the LITTLE G",
+   "conf": 0.998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    419.2,
+    214.4,
+    432.3
+   ],
+   "text": "reportedly increased.",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    443.5,
+    480.1,
+    458.7
+   ],
+   "text": "4.1.14. As the flooding over the stern of the LITTLE G continued, the barge",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    458.3,
+    416.8,
+    471.4
+   ],
+   "text": "simultaneously began shifting back to a perpendicular position.",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    186.9,
+    699.8,
+    406.4,
+    710.6
+   ],
+   "text": "Figure 10. Aerial view of the LITTLE G position to the north of the",
+   "conf": 0.9919,
+   "retry": null
+  },
+  {
+   "bbox": [
+    186.9,
+    711.0,
+    305.2,
+    720.1
+   ],
+   "text": "perpendicular barge. (Google Maps)",
+   "conf": 0.9927,
+   "retry": null
+  }
+ ]
+}

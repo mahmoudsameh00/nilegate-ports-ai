@@ -1,0 +1,368 @@
+{
+ "key": {
+  "report_id": "NC3250BW",
+  "filename": "NC3250BW_7987052_ROI_Redacted.pdf",
+  "sha256": "8664f259ee17e90b7ac68569f7f6271564beb3044e64ba52759a25c9f9808c87",
+  "page_number": 3,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    251.4,
+    37.9,
+    300.0,
+    49.5
+   ],
+   "text": "Commander",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    73.7,
+    38.3,
+    163.0,
+    49.1
+   ],
+   "text": "U.S. Department of",
+   "conf": 0.9988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    396.8,
+    38.3,
+    457.8,
+    47.5
+   ],
+   "text": "431 Crawford St.",
+   "conf": 0.9919,
+   "retry": null
+  },
+  {
+   "bbox": [
+    396.8,
+    46.3,
+    478.5,
+    55.5
+   ],
+   "text": "Portsmouth, VA 23704",
+   "conf": 0.9916,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.9,
+    47.9,
+    162.2,
+    59.9
+   ],
+   "text": "Homeland Security",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    251.8,
+    47.9,
+    351.0,
+    58.3
+   ],
+   "text": "United States Coast Guard",
+   "conf": 0.9977,
+   "retry": null
+  },
+  {
+   "bbox": [
+    396.0,
+    53.5,
+    462.6,
+    65.1
+   ],
+   "text": "Staff Symbol: (dp)",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    252.2,
+    57.5,
+    298.4,
+    67.1
+   ],
+   "text": "East District",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    73.3,
+    66.3,
+    145.0,
+    77.0
+   ],
+   "text": "United States",
+   "conf": 0.9658,
+   "retry": null
+  },
+  {
+   "bbox": [
+    73.3,
+    76.2,
+    139.9,
+    87.0
+   ],
+   "text": "Coast Guard",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    396.0,
+    86.2,
+    429.9,
+    100.2
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    396.0,
+    99.0,
+    481.7,
+    112.2
+   ],
+   "text": "October 22, 2025",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    98.0,
+    152.9,
+    522.8,
+    164.5
+   ],
+   "text": "LOSS OF LIFE FROM THE COMMERCIAL FISHING VESSEL NC3250BW IN",
+   "conf": 0.9925,
+   "retry": null
+  },
+  {
+   "bbox": [
+    190.1,
+    166.9,
+    432.7,
+    178.8
+   ],
+   "text": "CEDAR ISLAND BAY ON AUGUST 20, 2024.",
+   "conf": 0.9793,
+   "retry": null
+  },
+  {
+   "bbox": [
+    104.0,
+    208.4,
+    517.2,
+    220.0
+   ],
+   "text": "ENDORSEMENT BY THE COMMANDER, COAST GUARD EAST DISTRICT",
+   "conf": 0.9932,
+   "retry": null
+  },
+  {
+   "bbox": [
+    76.9,
+    249.5,
+    511.6,
+    262.7
+   ],
+   "text": "The record and the report of the investigation convened for the subject casualty have been",
+   "conf": 0.9984,
+   "retry": null
+  },
+  {
+   "bbox": [
+    75.7,
+    263.1,
+    524.7,
+    277.4
+   ],
+   "text": "reviewed. The record and the report, including the findings of fact, analysis, conclusions, and",
+   "conf": 0.9973,
+   "retry": null
+  },
+  {
+   "bbox": [
+    75.7,
+    277.4,
+    524.3,
+    290.6
+   ],
+   "text": "recommendations are approved. It is recommended that this marine casualty investigation be",
+   "conf": 0.998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    75.3,
+    289.8,
+    112.4,
+    304.6
+   ],
+   "text": "closed.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    188.5,
+    333.3,
+    433.5,
+    343.7
+   ],
+   "text": "ENDORSEMENT ON RECOMMENDATIONS",
+   "conf": 0.981,
+   "retry": null
+  },
+  {
+   "bbox": [
+    76.9,
+    373.2,
+    459.4,
+    386.8
+   ],
+   "text": "Administrative Recommendation 2. Recommend this investigation be closed.",
+   "conf": 0.9922,
+   "retry": null
+  },
+  {
+   "bbox": [
+    94.0,
+    401.6,
+    498.4,
+    414.8
+   ],
+   "text": "Endorsement: Concur. The Coast Guard East District agrees with the analysis and",
+   "conf": 0.9916,
+   "retry": null
+  },
+  {
+   "bbox": [
+    93.2,
+    414.4,
+    508.0,
+    429.1
+   ],
+   "text": "conclusions of the Investigating Officer and the endorsement of the Officer in Charge,",
+   "conf": 0.9976,
+   "retry": null
+  },
+  {
+   "bbox": [
+    92.4,
+    427.9,
+    427.1,
+    444.3
+   ],
+   "text": "Marine Inspection. No further action is required by the Coast Guard.",
+   "conf": 0.9949,
+   "retry": null
+  },
+  {
+   "bbox": [
+    311.6,
+    514.2,
+    436.3,
+    523.3
+   ],
+   "text": "MATTHEWJ.MESKUN",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    311.6,
+    526.1,
+    439.5,
+    538.1
+   ],
+   "text": "Captain, U.S. Coast Guard",
+   "conf": 0.9977,
+   "retry": null
+  },
+  {
+   "bbox": [
+    311.2,
+    540.1,
+    440.3,
+    552.1
+   ],
+   "text": "Chief, Prevention Division",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.5,
+    581.2,
+    440.3,
+    595.6
+   ],
+   "text": "Enclosures: (1) Endorsement by the Officer in Charge, Marine Inspection",
+   "conf": 0.9937,
+   "retry": null
+  },
+  {
+   "bbox": [
+    143.0,
+    595.2,
+    260.6,
+    609.6
+   ],
+   "text": "(2) Executive Summary",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    143.8,
+    609.6,
+    308.4,
+    622.7
+   ],
+   "text": "(3) Investigating Officer's Report",
+   "conf": 0.9974,
+   "retry": null
+  }
+ ]
+}

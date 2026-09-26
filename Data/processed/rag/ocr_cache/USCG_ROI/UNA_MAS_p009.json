@@ -1,0 +1,368 @@
+{
+ "key": {
+  "report_id": "UNA_MAS",
+  "filename": "UNA_MAS_8231938_ROI_Redacted.pdf",
+  "sha256": "1a2020a9e1b298824fcb61c142865d41c70a5cf6f9d2ad82f12a16e9cec3cda6",
+  "page_number": 9,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    111.6,
+    37.5,
+    528.3,
+    50.7
+   ],
+   "text": "and banging from beneath the vessel. The voices continued for approximately 15 to 20",
+   "conf": 0.995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    51.9,
+    154.6,
+    64.3
+   ],
+   "text": "minutes.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    78.2,
+    523.5,
+    91.8
+   ],
+   "text": "4.1.9. After climbing onto the hull, C-1 was able to utilize his cellphone to call local",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    92.2,
+    316.8,
+    105.8
+   ],
+   "text": "authorities and a Good Samaritan for help.",
+   "conf": 0.9918,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.6,
+    120.6,
+    519.2,
+    132.5
+   ],
+   "text": "4.1.10. At 2053, Coast Guard received notification of incident from local authorities.",
+   "conf": 0.9939,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    147.3,
+    529.5,
+    160.9
+   ],
+   "text": "4.1.11. At 2130, Good Samaritans responded on-scene and rescued C-1 from on top of",
+   "conf": 0.9897,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    161.7,
+    409.2,
+    174.8
+   ],
+   "text": "the UNA MAS but were unable to locate the Operator or C-2.",
+   "conf": 0.998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    188.4,
+    502.4,
+    202.8
+   ],
+   "text": "4.1.12. At 2150, Good Samaritans took C-1 ashore to be evaluated by emergency",
+   "conf": 0.9843,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    203.6,
+    155.0,
+    216.0
+   ],
+   "text": "services.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    230.7,
+    539.5,
+    242.7
+   ],
+   "text": "4.1.13. At 2154, While UNA MAS was floating inverted, Coast Guard assets arrived and",
+   "conf": 0.9942,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    243.5,
+    521.6,
+    258.3
+   ],
+   "text": "deployed a rescue swimmer on top of the vessel. Rescue swimmer attempted to elicit",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.6,
+    259.1,
+    537.5,
+    271.1
+   ],
+   "text": "response from inside the vessel with negative results. Coast Guard, local authorities, and",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    271.5,
+    419.6,
+    285.4
+   ],
+   "text": "Good Samaritans continued search efforts with negative results.",
+   "conf": 0.9949,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.6,
+    300.2,
+    520.0,
+    312.2
+   ],
+   "text": "4.1.14. On September 01, 2025, at 1038, The Coast Guard suspended the search and",
+   "conf": 0.9935,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    315.4,
+    170.5,
+    326.1
+   ],
+   "text": "rescue case.",
+   "conf": 0.9981,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    340.5,
+    513.2,
+    354.1
+   ],
+   "text": "4.1.15. On September 03, 2025, at 0846, The Operator of the vessel was recovered",
+   "conf": 0.9911,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    354.5,
+    530.7,
+    368.1
+   ],
+   "text": "deceased. A medical autopsy determined cause of death to be from asphyxia drowning,",
+   "conf": 0.9955,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.6,
+    368.9,
+    412.0,
+    380.8
+   ],
+   "text": "and manner of death was accidental. C-2 was never recovered.",
+   "conf": 0.9931,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    396.4,
+    510.4,
+    409.6
+   ],
+   "text": "4.1.16. Alcohol and drug testing in accordance with 46 CFR Subpart 4.06 was not",
+   "conf": 0.9923,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    409.2,
+    511.2,
+    423.9
+   ],
+   "text": "completed. The individual determined directly involved was the Operator who was",
+   "conf": 0.9983,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    424.3,
+    209.6,
+    436.3
+   ],
+   "text": "recovered deceased.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.5,
+    451.1,
+    283.7,
+    464.7
+   ],
+   "text": "4.2. Additional/Supporting Information:",
+   "conf": 0.9846,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    478.6,
+    510.8,
+    492.2
+   ],
+   "text": "4.2.1. The UNA MAS was an Oregon state registered, 2002, 26-foot Glacier Bay,",
+   "conf": 0.9948,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    493.0,
+    528.7,
+    506.2
+   ],
+   "text": "Coastal Runner 2680, catamaran with two 150 horsepower (HP) outboards. The vessel",
+   "conf": 0.9945,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    505.4,
+    539.1,
+    520.5
+   ],
+   "text": "was utilized for recreational and commercial use. UNA MAS maximum capacities: 2400",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    519.8,
+    525.9,
+    534.5
+   ],
+   "text": "pounds including persons, motors, and gear. The vessel was under 05 net tons and not",
+   "conf": 0.995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    533.3,
+    516.0,
+    548.1
+   ],
+   "text": "required to have Certificate of Documentation. The UNA MAS was operated by the",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    548.1,
+    516.0,
+    561.3
+   ],
+   "text": "Owner. UNA MAS had no reported permanent modifications that would change the",
+   "conf": 0.9952,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    560.9,
+    174.9,
+    575.6
+   ],
+   "text": "original hull.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    302.0,
+    730.1,
+    310.0,
+    741.3
+   ],
+   "text": "4",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

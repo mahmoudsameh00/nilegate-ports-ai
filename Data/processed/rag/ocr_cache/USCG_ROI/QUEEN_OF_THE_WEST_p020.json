@@ -1,0 +1,599 @@
+{
+ "key": {
+  "report_id": "QUEEN_OF_THE_WEST",
+  "filename": "QUEEN_OF_THE_WEST_4405289_ROI_Redacted.pdf",
+  "sha256": "02f978c36fcbd8ef00493738d66ee13a4079eab5832883de67ba1cacc388cba3",
+  "page_number": 20,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3292
+ ],
+ "lines": [
+  {
+   "bbox": [
+    508.8,
+    29.1,
+    540.3,
+    41.8
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    493.7,
+    41.4,
+    539.5,
+    55.0
+   ],
+   "text": "06May13",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    41.8,
+    475.7,
+    53.4
+   ],
+   "text": "LOSS OF LIFE FOLLOWING MAN OVERBOARD FROM P/V QUEEN OF THE WEST",
+   "conf": 0.9939,
+   "retry": null
+  },
+  {
+   "bbox": [
+    122.7,
+    80.0,
+    527.1,
+    93.2
+   ],
+   "text": "2) Violation of Safety Policies: American Cruise Lines, Inc. had several safety policies in",
+   "conf": 0.9964,
+   "retry": null
+  },
+  {
+   "bbox": [
+    140.6,
+    92.8,
+    494.1,
+    104.7
+   ],
+   "text": "place that could have effectively prevented this incident if Mr. Staples had been",
+   "conf": 0.9955,
+   "retry": null
+  },
+  {
+   "bbox": [
+    141.4,
+    104.7,
+    532.3,
+    116.7
+   ],
+   "text": "following them. Mr. Staples was made aware of the policies when he signed on to work",
+   "conf": 0.9946,
+   "retry": null
+  },
+  {
+   "bbox": [
+    141.0,
+    116.7,
+    523.5,
+    128.6
+   ],
+   "text": "as a galley steward. Had Mr. Staples abided by the \"Crew in Quarters after Midnight\"",
+   "conf": 0.9825,
+   "retry": null
+  },
+  {
+   "bbox": [
+    140.2,
+    127.8,
+    537.5,
+    141.4
+   ],
+   "text": "policy, he would have been in his berth instead of on the stern. Furthermore, had he been",
+   "conf": 0.9936,
+   "retry": null
+  },
+  {
+   "bbox": [
+    140.2,
+    139.8,
+    522.4,
+    153.3
+   ],
+   "text": "following the \"No Smoking\" policy, he would have gone to shore to smoke instead of",
+   "conf": 0.9936,
+   "retry": null
+  },
+  {
+   "bbox": [
+    140.6,
+    152.9,
+    526.7,
+    164.9
+   ],
+   "text": "placing himself in a hazardous area of the vessel. Finally, Mr. Staples violated the \"No",
+   "conf": 0.9936,
+   "retry": null
+  },
+  {
+   "bbox": [
+    141.4,
+    164.9,
+    390.9,
+    176.8
+   ],
+   "text": "Alcohol\"policy by consuming alcohol earlier that night.",
+   "conf": 0.9922,
+   "retry": null
+  },
+  {
+   "bbox": [
+    121.9,
+    188.4,
+    509.6,
+    201.5
+   ],
+   "text": "3) Fatigue: Historically, marine casualty investigations have shown that fatigue often",
+   "conf": 0.9966,
+   "retry": null
+  },
+  {
+   "bbox": [
+    140.6,
+    201.1,
+    496.9,
+    212.7
+   ],
+   "text": "contributes to errors in judgment and attention failures. In this case, it cannot be",
+   "conf": 0.9972,
+   "retry": null
+  },
+  {
+   "bbox": [
+    140.6,
+    213.1,
+    518.0,
+    225.0
+   ],
+   "text": "conclusively determined if fatigue was a factor in Mr. Staples' fall overboard, but the",
+   "conf": 0.9954,
+   "retry": null
+  },
+  {
+   "bbox": [
+    140.6,
+    225.0,
+    532.3,
+    236.9
+   ],
+   "text": "likelihood that Mr. Staples was suffering from fatigue is high. At the end of his shift, he",
+   "conf": 0.9913,
+   "retry": null
+  },
+  {
+   "bbox": [
+    280.5,
+    236.1,
+    525.5,
+    249.7
+   ],
+   "text": "at around 2150 hrs because \"he had wanted to go for a",
+   "conf": 0.9874,
+   "retry": null
+  },
+  {
+   "bbox": [
+    140.2,
+    236.5,
+    231.1,
+    249.7
+   ],
+   "text": "was relieved by Mr.",
+   "conf": 0.9806,
+   "retry": null
+  },
+  {
+   "bbox": [
+    140.6,
+    249.3,
+    532.3,
+    261.2
+   ],
+   "text": "drink,\" according to witnesses. Mr. Staples spent about two hours on shore and returned",
+   "conf": 0.9978,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.9,
+    260.8,
+    530.3,
+    274.0
+   ],
+   "text": "to the vessel, where he stayed up playing video games with other off-duty crew. He fell",
+   "conf": 0.9938,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.9,
+    272.4,
+    525.1,
+    285.9
+   ],
+   "text": "overboard shortly after 0100 hrs. \"Al three witnesses saw him slip on the step when he",
+   "conf": 0.995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.9,
+    284.3,
+    525.1,
+    298.3
+   ],
+   "text": "approached the paddlewheel, one witness saw him slip twice. He was also observed to",
+   "conf": 0.9939,
+   "retry": null
+  },
+  {
+   "bbox": [
+    140.2,
+    297.5,
+    529.9,
+    309.4
+   ],
+   "text": "fumble with clutching at the paddlewheel boards before falling off the vessel. Although",
+   "conf": 0.9982,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.9,
+    309.8,
+    534.3,
+    321.8
+   ],
+   "text": "witnesses were unable to tell investigators exactly how long Mr. Staples had been awake,",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.5,
+    321.8,
+    523.9,
+    333.3
+   ],
+   "text": "it can be safely inferred through witness statements that fatigue played a role in his fall",
+   "conf": 0.994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.5,
+    333.3,
+    189.3,
+    345.3
+   ],
+   "text": "overboard.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    103.2,
+    357.6,
+    188.1,
+    369.6
+   ],
+   "text": "Safety Equipment:",
+   "conf": 0.9756,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.3,
+    358.4,
+    98.8,
+    369.2
+   ],
+   "text": "e)",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    121.5,
+    381.1,
+    534.3,
+    394.2
+   ],
+   "text": "1) Deck Lighting: Although witnesses conflicted as to whether the flood light was on at the",
+   "conf": 0.9982,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.5,
+    393.4,
+    535.1,
+    405.4
+   ],
+   "text": "time of the incident, the fact that the light was wired on a separate switch from the rest of",
+   "conf": 0.9937,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.5,
+    405.8,
+    528.7,
+    417.7
+   ],
+   "text": "the deck lights allowed investigators to reasonably conclude that the light was likely off",
+   "conf": 0.9914,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.5,
+    417.7,
+    530.7,
+    429.7
+   ],
+   "text": "at the time of the fall. Additionally, by leaving the switch in the \"off' position, a certain",
+   "conf": 0.9872,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.1,
+    428.9,
+    517.6,
+    442.4
+   ],
+   "text": "degree of concealment at night is afforded to unauthorized persons wishing to remain",
+   "conf": 0.9869,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.5,
+    441.6,
+    518.0,
+    453.6
+   ],
+   "text": "unseen by vessel managers and passengers. Although witnesses were able to see Mr.",
+   "conf": 0.9899,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.9,
+    453.6,
+    510.4,
+    465.5
+   ],
+   "text": "Staples in the water clearly enough to know that his eyes were open and that he was",
+   "conf": 0.9926,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.3,
+    464.7,
+    531.9,
+    478.3
+   ],
+   "text": "moving his arms in the water, bright lights flooded the area from the grain facility across",
+   "conf": 0.9895,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.5,
+    477.9,
+    514.8,
+    489.4
+   ],
+   "text": "the river which may have provided an extra degree of illumination. But had the light",
+   "conf": 0.9881,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.5,
+    489.8,
+    525.9,
+    501.8
+   ],
+   "text": "definitively been in operation, Mr. Staples may have had enough illumination to see his",
+   "conf": 0.9983,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.7,
+    501.4,
+    358.6,
+    513.7
+   ],
+   "text": "surroundings, and a fall could have been avoided.",
+   "conf": 0.9887,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.3,
+    525.3,
+    394.9,
+    537.6
+   ],
+   "text": "3. The causal factors that existed during the rescue efforts are as follows:",
+   "conf": 0.9982,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.4,
+    549.6,
+    187.3,
+    562.7
+   ],
+   "text": "Safety Equipment:",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.1,
+    550.7,
+    96.8,
+    562.3
+   ],
+   "text": "a)",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    119.9,
+    572.6,
+    512.0,
+    588.2
+   ],
+   "text": "1) Searchlight: The Code of Federal Regulations does not require \"K-Boat\" passenger",
+   "conf": 0.9892,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.9,
+    585.4,
+    534.7,
+    598.9
+   ],
+   "text": "vessels to equip their rescue boats with searchlights. The P/V QUEEN OF THE WEST's",
+   "conf": 0.9911,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.3,
+    598.5,
+    530.3,
+    610.5
+   ],
+   "text": "rescue boat had onboard a box labeled \"Searchlight\" though no searchlight was included",
+   "conf": 0.9901,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.7,
+    610.5,
+    525.5,
+    622.4
+   ],
+   "text": "in the rescue boat's outfit. Nobody onboard could clarify if a searchlight had ever been",
+   "conf": 0.9963,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.9,
+    621.6,
+    532.3,
+    635.2
+   ],
+   "text": "part of the rescue boat's equipment. Because Mr. Staples fell overboard in the middle of",
+   "conf": 0.99,
+   "retry": null
+  },
+  {
+   "bbox": [
+    428.3,
+    633.6,
+    514.8,
+    646.3
+   ],
+   "text": "ran to the 4thDeck",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.7,
+    634.4,
+    398.8,
+    646.3
+   ],
+   "text": "the night, the launch of the rescue boat was delayed as Mr.",
+   "conf": 0.9989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.1,
+    646.7,
+    533.5,
+    658.7
+   ],
+   "text": "Operating Station in order to find two suitable flashlights for boat crew rescuers to utilize",
+   "conf": 0.9956,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.5,
+    657.5,
+    200.8,
+    671.4
+   ],
+   "text": "for searching.",
+   "conf": 0.9739,
+   "retry": null
+  },
+  {
+   "bbox": [
+    291.7,
+    737.9,
+    309.2,
+    752.6
+   ],
+   "text": "15",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

@@ -1,0 +1,533 @@
+{
+ "key": {
+  "report_id": "QUEEN_OF_THE_WEST",
+  "filename": "QUEEN_OF_THE_WEST_4405289_ROI_Redacted.pdf",
+  "sha256": "02f978c36fcbd8ef00493738d66ee13a4079eab5832883de67ba1cacc388cba3",
+  "page_number": 12,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3292
+ ],
+ "lines": [
+  {
+   "bbox": [
+    508.0,
+    28.7,
+    539.9,
+    42.6
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    493.3,
+    41.4,
+    539.1,
+    55.0
+   ],
+   "text": "06May13",
+   "conf": 0.9533,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.7,
+    41.8,
+    476.1,
+    53.4
+   ],
+   "text": "LOSS OF LIFE FOLLOWING MAN OVERBOARD FROM P/V QUEEN OF THE WEST",
+   "conf": 0.9955,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.3,
+    118.7,
+    115.9,
+    132.2
+   ],
+   "text": "Analysis:",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    144.6,
+    489.7,
+    156.5
+   ],
+   "text": "1. Policies: American Cruise Lines, Inc. implemented a number of policies designed to protect",
+   "conf": 0.995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.7,
+    157.3,
+    505.6,
+    169.2
+   ],
+   "text": "crewmembers from harm onboard their vessels; namely, the \"Crew in Quarters After Midnight, No",
+   "conf": 0.9891,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.7,
+    170.0,
+    525.9,
+    182.0
+   ],
+   "text": "Smoking Onboard the Vessel, and No Alcohol Policies\". Mr. Staples violated each of these policies on",
+   "conf": 0.9952,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.3,
+    182.8,
+    531.1,
+    195.1
+   ],
+   "text": "the night of 06 August 2012 and early morning of 07 August 2012. Had Mr. Staples been in his quarters",
+   "conf": 0.9912,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.3,
+    195.5,
+    505.2,
+    207.5
+   ],
+   "text": "by midnight, he would have not been in a position to fall overboard. Likewise, if he had abided by",
+   "conf": 0.9913,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.1,
+    207.1,
+    509.6,
+    221.0
+   ],
+   "text": "company policy and gone to shore to smoke, instead of the stern, he probably would not have fallen",
+   "conf": 0.9973,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.9,
+    220.6,
+    518.8,
+    232.6
+   ],
+   "text": "overboard. Had he refrained from drinking that night, he may have acted with better judgment than to",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.9,
+    233.0,
+    247.4,
+    246.1
+   ],
+   "text": "approach a dangerous area of the vessel.",
+   "conf": 0.9885,
+   "retry": null
+  },
+  {
+   "bbox": [
+    90.0,
+    246.1,
+    504.4,
+    258.1
+   ],
+   "text": "Even though American Cruise Lines, Inc. made an effort to require crew to take certain safety",
+   "conf": 0.9923,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.1,
+    258.8,
+    532.7,
+    271.2
+   ],
+   "text": "precautions, the implementation of a number of additional policies will help prevent this kind of accident",
+   "conf": 0.9965,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.1,
+    271.2,
+    537.1,
+    283.9
+   ],
+   "text": "in the future. Namely, American Cruise Lines, Inc. has no formal, written lifejacket policy for their crews",
+   "conf": 0.9946,
+   "retry": null
+  },
+  {
+   "bbox": [
+    200.0,
+    283.5,
+    529.9,
+    297.1
+   ],
+   "text": "stated that crewmembers were only told to wear lifejackets while working",
+   "conf": 0.9955,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.7,
+    283.9,
+    154.2,
+    297.1
+   ],
+   "text": "to follow. Captain",
+   "conf": 0.9895,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.5,
+    297.1,
+    527.9,
+    309.0
+   ],
+   "text": "lines for mooring and unmooring. Had a stronger safety culture with respect to lifejackets been in place",
+   "conf": 0.9895,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.7,
+    309.0,
+    536.7,
+    322.6
+   ],
+   "text": "and enforced, Mr. Staples and his fellow crewmembers may have worn lifejackets out on deck in the early",
+   "conf": 0.9962,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.1,
+    322.6,
+    489.7,
+    334.5
+   ],
+   "text": "morning of 07 August 2012. Additionally, a written policy detailing which crewmembers were",
+   "conf": 0.9893,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.5,
+    335.3,
+    520.8,
+    347.3
+   ],
+   "text": "specifically granted access to the stern paddlewheel support arms (and for what reasons) will assist the",
+   "conf": 0.9988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.5,
+    347.7,
+    499.6,
+    359.6
+   ],
+   "text": "Captain in enforcing the lax “Authorized Personnel Only\" policy. Inadequate enforcement of this",
+   "conf": 0.9952,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.3,
+    359.6,
+    514.8,
+    373.1
+   ],
+   "text": "particular rule on the part of vessel management contributed to Mr. Staples (and other crewmembers)",
+   "conf": 0.9885,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.1,
+    373.1,
+    516.8,
+    385.1
+   ],
+   "text": "believing that access to this particularly dangerous area of the vessel was permitted despite the posted",
+   "conf": 0.9963,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.3,
+    385.9,
+    107.6,
+    399.4
+   ],
+   "text": "signage.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    89.6,
+    398.6,
+    522.0,
+    410.6
+   ],
+   "text": "Safety policies are effected in order to thwart a passenger's or a crewmember's lapse of judgment.",
+   "conf": 0.9961,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.1,
+    411.0,
+    507.2,
+    422.9
+   ],
+   "text": "Investigators visiting P/V QUEEN OF THE WEST saw definite areas where the implementation of",
+   "conf": 0.9841,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.1,
+    423.7,
+    516.4,
+    435.7
+   ],
+   "text": "additional policies could save lives. But vessel managers must be willing and able to enforce policies",
+   "conf": 0.9944,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.5,
+    436.9,
+    492.5,
+    448.4
+   ],
+   "text": "effectively. Reprimands and documentation of transgressors coupled with strong leadership and",
+   "conf": 0.9935,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.7,
+    448.8,
+    532.3,
+    461.5
+   ],
+   "text": "continuous safety training will help vessel management ensure crew follow all company policies and will",
+   "conf": 0.9888,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.1,
+    462.3,
+    227.9,
+    473.9
+   ],
+   "text": "ultimately lead to heightened safety.",
+   "conf": 0.9893,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.7,
+    487.4,
+    520.8,
+    499.4
+   ],
+   "text": "2. Barricades and railings: Investígators also noted an insufficiency of physical barricades to prevent",
+   "conf": 0.9943,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.7,
+    500.2,
+    526.3,
+    512.1
+   ],
+   "text": "crew and passengers alike from accessing the stern. \"Employees Only\" signs on main deck chains were",
+   "conf": 0.9845,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.7,
+    512.9,
+    523.1,
+    524.9
+   ],
+   "text": "provided to restrict passenger access to the forward main deck areas only. But on two separate visits to",
+   "conf": 0.99,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.3,
+    525.3,
+    535.1,
+    538.0
+   ],
+   "text": "the vessel by investigators, they were not being used to deter passenger access. Most notably, there was a",
+   "conf": 0.9954,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.9,
+    537.6,
+    508.4,
+    551.1
+   ],
+   "text": "complete absence of physical barriers to prevent the crew from approaching the stern, though ample",
+   "conf": 0.9956,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.9,
+    550.3,
+    531.1,
+    563.9
+   ],
+   "text": "opportunity existed to put an effective barricade system in place. A simple chain (with a similar warning",
+   "conf": 0.9913,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.3,
+    563.1,
+    497.6,
+    576.2
+   ],
+   "text": "sign as that used for passengers) attached to the bulkhead and stretched across the walkway in the",
+   "conf": 0.9889,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.9,
+    575.8,
+    535.9,
+    588.6
+   ],
+   "text": "bottleneck area of the main deck immediately forward of the paddlewheel support arms would suffice as a",
+   "conf": 0.996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.9,
+    588.6,
+    533.1,
+    601.3
+   ],
+   "text": "clear reminder to crew that the paddlewheel support arms are off-limits. Finally, investigators discovered",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.7,
+    601.7,
+    524.7,
+    613.7
+   ],
+   "text": "an eye-ring connection on the aftermost railing designe to provide a point of attachment for a grab line",
+   "conf": 0.9945,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.3,
+    614.5,
+    527.5,
+    626.4
+   ],
+   "text": "or chain to protect personnel working on the paddlewheel support arms from accidentally falling directly",
+   "conf": 0.9976,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.9,
+    626.0,
+    525.1,
+    639.6
+   ],
+   "text": "off the stern. The grab line or chain had never been placed into service, but vessel personnel stated they",
+   "conf": 0.9984,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.3,
+    639.9,
+    221.9,
+    651.9
+   ],
+   "text": "could manufacture one very easily.",
+   "conf": 0.9991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    294.8,
+    739.1,
+    305.2,
+    751.5
+   ],
+   "text": "7",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

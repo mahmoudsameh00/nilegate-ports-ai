@@ -1,0 +1,533 @@
+{
+ "key": {
+  "report_id": "VICAR_602",
+  "filename": "VICAR_602_7989592_ROI_Redacted.pdf",
+  "sha256": "d9dc7fd0a97c4acce65dfb145743b8d801c9b325290e42bb95e69f017ef1d1d7",
+  "page_number": 3,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    74.5,
+    39.1,
+    163.0,
+    49.9
+   ],
+   "text": "U.S. Department of",
+   "conf": 0.9959,
+   "retry": null
+  },
+  {
+   "bbox": [
+    251.4,
+    39.5,
+    300.0,
+    51.1
+   ],
+   "text": "Commander",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    396.0,
+    39.5,
+    457.8,
+    48.7
+   ],
+   "text": "431 Crawford St.",
+   "conf": 0.9714,
+   "retry": null
+  },
+  {
+   "bbox": [
+    395.6,
+    47.5,
+    478.1,
+    56.7
+   ],
+   "text": "Portsmouth, VA 23704",
+   "conf": 0.9943,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.1,
+    48.7,
+    162.2,
+    60.7
+   ],
+   "text": "Homeland Security",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    252.2,
+    49.5,
+    350.6,
+    59.9
+   ],
+   "text": "United States Coast Guard",
+   "conf": 0.9929,
+   "retry": null
+  },
+  {
+   "bbox": [
+    396.4,
+    55.5,
+    462.2,
+    66.3
+   ],
+   "text": "Staff Symbol: (dp)",
+   "conf": 0.995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    252.6,
+    58.7,
+    298.0,
+    68.3
+   ],
+   "text": "East District",
+   "conf": 0.9983,
+   "retry": null
+  },
+  {
+   "bbox": [
+    73.7,
+    66.7,
+    145.8,
+    78.6
+   ],
+   "text": "United States",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.5,
+    77.0,
+    140.6,
+    87.8
+   ],
+   "text": "Coast Guard",
+   "conf": 0.9667,
+   "retry": null
+  },
+  {
+   "bbox": [
+    395.6,
+    87.8,
+    428.7,
+    100.6
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    394.9,
+    99.4,
+    493.3,
+    113.4
+   ],
+   "text": "November 24, 2025",
+   "conf": 0.9889,
+   "retry": null
+  },
+  {
+   "bbox": [
+    117.1,
+    139.3,
+    496.9,
+    151.7
+   ],
+   "text": "GLOBAL AUTONOMOUS RECONNAISSANCE CRAFT VICAR 602 &",
+   "conf": 0.9879,
+   "retry": null
+  },
+  {
+   "bbox": [
+    112.0,
+    154.5,
+    501.6,
+    164.9
+   ],
+   "text": "RECREATIONAL VESSEL ROWING SCULL COLLISION AND TOTAL",
+   "conf": 0.9987,
+   "retry": null
+  },
+  {
+   "bbox": [
+    94.4,
+    167.7,
+    518.8,
+    179.2
+   ],
+   "text": "CONSTRUCTIVE LOSS OF ROWING SCULL ON THE POTAPSCO RIVER IN",
+   "conf": 0.9741,
+   "retry": null
+  },
+  {
+   "bbox": [
+    193.6,
+    181.2,
+    420.8,
+    194.4
+   ],
+   "text": "BALTIMORE, MD, ON AUGUST 07, 2024.",
+   "conf": 0.9956,
+   "retry": null
+  },
+  {
+   "bbox": [
+    105.2,
+    223.1,
+    515.6,
+    234.7
+   ],
+   "text": "ENDORSEMENT BY THE COMMANDER, COAST GUARD EAST DISTRICT",
+   "conf": 0.99,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    263.1,
+    506.0,
+    277.8
+   ],
+   "text": "The record and the report of the investigation convened for the subject casualty have been",
+   "conf": 0.9961,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.7,
+    278.6,
+    517.6,
+    290.6
+   ],
+   "text": "reviewed. The record and the report, including the findings of fact, analysis, conclusions, and",
+   "conf": 0.9932,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    292.2,
+    517.6,
+    305.4
+   ],
+   "text": "recommendations are approved. It is recommended that this marine casualty investigation be",
+   "conf": 0.9954,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    305.4,
+    107.6,
+    318.2
+   ],
+   "text": "closed.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    188.1,
+    333.7,
+    432.7,
+    345.3
+   ],
+   "text": "ENDORSEMENT ON RECOMMENDATIONS",
+   "conf": 0.9942,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.7,
+    360.5,
+    529.5,
+    374.8
+   ],
+   "text": "Safety Recommendation 8.1.1: It is recommended that Coast Guard Headquarters promulgate",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.7,
+    374.0,
+    530.3,
+    388.8
+   ],
+   "text": "guidance to clarify authorities and applicable standards for the governance of autonomous craft",
+   "conf": 0.9989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    73.3,
+    389.6,
+    144.2,
+    400.4
+   ],
+   "text": "and/or vessels.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    89.2,
+    415.6,
+    517.6,
+    430.3
+   ],
+   "text": "Endorsement: Concur – I support the recommendation for Coast Guard Headquarters to",
+   "conf": 0.994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.9,
+    429.5,
+    523.1,
+    445.1
+   ],
+   "text": "promulgate guidance clarifying authorities and applicable standards for the governance of",
+   "conf": 0.9985,
+   "retry": null
+  },
+  {
+   "bbox": [
+    89.2,
+    443.5,
+    521.6,
+    457.5
+   ],
+   "text": "autonomous craft and/or vessels. As advancements in autonomous technology continue to",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    89.6,
+    457.9,
+    536.3,
+    471.0
+   ],
+   "text": "evolve, it is imperative that the Coast Guard establish clear and consistent policies to address",
+   "conf": 0.9917,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.9,
+    470.6,
+    528.3,
+    485.4
+   ],
+   "text": "the unique challenges and opportunities presented by these emerging platforms. The Office",
+   "conf": 0.9962,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.9,
+    484.6,
+    538.3,
+    499.4
+   ],
+   "text": "of Prevention Policy (CG-5P) is uniquely positioned to take the lead in evaluating, analyzing,",
+   "conf": 0.9925,
+   "retry": null
+  },
+  {
+   "bbox": [
+    89.2,
+    499.0,
+    518.4,
+    513.4
+   ],
+   "text": "and providing comprehensive guidance for autonomous craft. With its focus on maritime",
+   "conf": 0.9975,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.9,
+    512.2,
+    538.3,
+    526.9
+   ],
+   "text": "safety, security, and environmental stewardship, CG-5P is well-equipped to ensure alignment",
+   "conf": 0.9991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    90.0,
+    527.7,
+    527.5,
+    539.7
+   ],
+   "text": "with existing laws and regulations while enhancing operational oversight. Additionally, the",
+   "conf": 0.9919,
+   "retry": null
+  },
+  {
+   "bbox": [
+    89.6,
+    540.5,
+    535.5,
+    553.7
+   ],
+   "text": "Coast Guard should actively collaborate with the International Maritime Organization (IMO)",
+   "conf": 0.9952,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.9,
+    554.5,
+    521.2,
+    567.7
+   ],
+   "text": "to drive the development of standardized laws and regulations for autonomous craft at the",
+   "conf": 0.9967,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.9,
+    567.7,
+    532.7,
+    582.4
+   ],
+   "text": "global level. Such guidance and international cooperation will not only promote consistency",
+   "conf": 0.9991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    89.2,
+    582.0,
+    513.6,
+    595.2
+   ],
+   "text": "across jurisdictions but also support the Coast Guard's mission to adapt to technological",
+   "conf": 0.9964,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.9,
+    594.8,
+    522.8,
+    609.6
+   ],
+   "text": "advancements while maintaining its unwavering commitment to safeguarding the nation's",
+   "conf": 0.9931,
+   "retry": null
+  },
+  {
+   "bbox": [
+    89.6,
+    610.8,
+    145.8,
+    623.1
+   ],
+   "text": "waterways.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    76.9,
+    636.3,
+    506.4,
+    650.3
+   ],
+   "text": "Administrative Recommendation 8.2.1: It is recommended that a finding of concern be",
+   "conf": 0.996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    76.1,
+    650.3,
+    488.5,
+    664.7
+   ],
+   "text": "published to mitigate the risk associated with the contributing factors identified in the",
+   "conf": 0.9879,
+   "retry": null
+  },
+  {
+   "bbox": [
+    75.7,
+    664.7,
+    143.8,
+    678.2
+   ],
+   "text": "investigation.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    89.6,
+    692.2,
+    520.0,
+    705.4
+   ],
+   "text": "Endorsement: Concur. I strongly support the recommendation to publish the findings of",
+   "conf": 0.9984,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.5,
+    704.6,
+    526.7,
+    719.7
+   ],
+   "text": "concern identified by Sector Maryland-National Capital Region to address the contributing",
+   "conf": 0.9861,
+   "retry": null
+  }
+ ]
+}

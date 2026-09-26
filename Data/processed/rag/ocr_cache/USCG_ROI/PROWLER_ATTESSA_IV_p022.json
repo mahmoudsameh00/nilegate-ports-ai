@@ -1,0 +1,297 @@
+{
+ "key": {
+  "report_id": "PROWLER_ATTESSA_IV",
+  "filename": "PROWLER_ATTESSA_IV_6572770_ROI_Redacted.pdf",
+  "sha256": "010157c0edf08c5e13cd22197805e3bf59408c4d04b1b047d4c13c51c2410175",
+  "page_number": 22,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    46.6,
+    29.5,
+    334.3,
+    45.9
+   ],
+   "text": "COLLISION BETWEEN THE PROWLER (O.N. 294465)",
+   "conf": 0.9824,
+   "retry": null
+  },
+  {
+   "bbox": [
+    474.5,
+    31.9,
+    508.0,
+    45.9
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    46.2,
+    44.3,
+    363.8,
+    59.5
+   ],
+   "text": "AND ATTESSA IV (O.N. 9179830) SOUTH OF U.S./MÉXICO",
+   "conf": 0.9849,
+   "retry": {
+    "text": "AND ATTESSA IV (O.N. 9179830) SOUTH OF U.S./MÉXICO",
+    "conf": 0.9849,
+    "first_text": "AN/  O     IICO",
+    "first_conf": 0.6282,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    474.9,
+    46.7,
+    565.4,
+    59.9
+   ],
+   "text": "December3,2019",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    46.2,
+    58.3,
+    333.9,
+    72.7
+   ],
+   "text": "MARITIME BOUNDARY LINE ON OCTOBER 26,2018",
+   "conf": 0.9923,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.1,
+    87.0,
+    540.3,
+    103.4
+   ],
+   "text": "7.1. The ATTESSA IV changed the Master's Standing Orders to require the lookout maintain",
+   "conf": 0.9953,
+   "retry": null
+  },
+  {
+   "bbox": [
+    104.4,
+    102.2,
+    319.5,
+    116.2
+   ],
+   "text": "their position in the wheelhouse at all times.",
+   "conf": 0.9957,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.7,
+    124.5,
+    181.3,
+    138.5
+   ],
+   "text": "8. Recommendations",
+   "conf": 0.9972,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.7,
+    148.1,
+    270.9,
+    161.7
+   ],
+   "text": "8.1. Safety Recommendations. None.",
+   "conf": 0.9948,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.1,
+    171.3,
+    276.5,
+    184.0
+   ],
+   "text": "8.2. Administrative Recommendations.",
+   "conf": 0.9892,
+   "retry": null
+  },
+  {
+   "bbox": [
+    103.2,
+    193.2,
+    511.2,
+    209.2
+   ],
+   "text": "8.2.1. It is recommended that the findings in this report be forwarded to the United",
+   "conf": 0.9918,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.9,
+    208.4,
+    522.8,
+    223.5
+   ],
+   "text": "Kingdom of Great Britain and Northern Ireland, as the issuing authority for the",
+   "conf": 0.9977,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.1,
+    222.4,
+    517.6,
+    238.7
+   ],
+   "text": "master of the ATTESSA IV's merchant mariner credential and to the Cayman",
+   "conf": 0.9928,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.1,
+    237.9,
+    363.8,
+    251.5
+   ],
+   "text": "Islands as the Flag State of the ATTESSA IV.",
+   "conf": 0.9899,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.4,
+    259.9,
+    504.0,
+    275.8
+   ],
+   "text": "8.2.2. It is recommended that the Officer in Charge of Marine Inspections initiate",
+   "conf": 0.9913,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.9,
+    275.8,
+    527.1,
+    290.2
+   ],
+   "text": "Suspension and Revocation proceedings against the U.S. Coast Guard merchant",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.7,
+    289.0,
+    525.5,
+    305.8
+   ],
+   "text": "mariner credentials issued to the mate of the PROWLER for allegedly violating",
+   "conf": 0.9921,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.7,
+    304.2,
+    520.0,
+    320.6
+   ],
+   "text": "laws or regulations in violation of the International Regulations for Preventing",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.5,
+    319.0,
+    317.2,
+    333.7
+   ],
+   "text": "Collision at Sea, 1972 (COLREGS).",
+   "conf": 0.9764,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.4,
+    341.3,
+    388.9,
+    356.9
+   ],
+   "text": "8.2.3. It is recommended that this investigation be closed.",
+   "conf": 0.9811,
+   "retry": null
+  },
+  {
+   "bbox": [
+    242.6,
+    431.9,
+    442.7,
+    445.9
+   ],
+   "text": "Chief Warrant Officer, U.S. Coast Guard",
+   "conf": 0.9952,
+   "retry": null
+  },
+  {
+   "bbox": [
+    242.2,
+    447.1,
+    346.6,
+    461.5
+   ],
+   "text": "Investigating Officer",
+   "conf": 0.9959,
+   "retry": null
+  },
+  {
+   "bbox": [
+    293.2,
+    737.3,
+    309.2,
+    750.9
+   ],
+   "text": "14",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

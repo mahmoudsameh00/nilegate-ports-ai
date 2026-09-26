@@ -1,0 +1,308 @@
+{
+ "key": {
+  "report_id": "GENERAL_MACARTHUR",
+  "filename": "GENERAL_MACARTHUR_7861135_ROI_Redacted.pdf",
+  "sha256": "7a5f54a53ec5bce4939adadd6fe89ac91483ca57e949281d9d0ecdbe20282018",
+  "page_number": 4,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    72.9,
+    49.5,
+    162.2,
+    61.5
+   ],
+   "text": "U.S. Department of",
+   "conf": 0.9949,
+   "retry": null
+  },
+  {
+   "bbox": [
+    257.4,
+    50.7,
+    333.9,
+    61.1
+   ],
+   "text": "Commanding Officer",
+   "conf": 0.993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    410.0,
+    50.7,
+    527.1,
+    61.1
+   ],
+   "text": "7327 Highway 182 E, First Floor",
+   "conf": 0.9778,
+   "retry": null
+  },
+  {
+   "bbox": [
+    257.8,
+    59.1,
+    356.2,
+    69.5
+   ],
+   "text": "Uhited States Coast Guard",
+   "conf": 0.9957,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.5,
+    59.5,
+    161.4,
+    72.3
+   ],
+   "text": "Homeland Security",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    410.4,
+    59.5,
+    519.2,
+    69.9
+   ],
+   "text": "Morgan City, Louisiana 70380",
+   "conf": 0.9855,
+   "retry": null
+  },
+  {
+   "bbox": [
+    257.0,
+    66.7,
+    370.9,
+    78.2
+   ],
+   "text": "Marine Safety Unit Morgan City",
+   "conf": 0.9964,
+   "retry": null
+  },
+  {
+   "bbox": [
+    410.4,
+    67.5,
+    494.9,
+    77.8
+   ],
+   "text": "Phone: (985) 397-3300",
+   "conf": 0.9779,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.5,
+    77.8,
+    145.0,
+    91.0
+   ],
+   "text": "United States",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.9,
+    88.6,
+    140.2,
+    100.6
+   ],
+   "text": "Coast Guard",
+   "conf": 0.9972,
+   "retry": null
+  },
+  {
+   "bbox": [
+    413.2,
+    128.5,
+    446.6,
+    142.9
+   ],
+   "text": "13732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    412.8,
+    142.9,
+    458.6,
+    156.5
+   ],
+   "text": "C-25046",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    412.8,
+    157.3,
+    477.3,
+    170.5
+   ],
+   "text": "Junc 5, 2025",
+   "conf": 0.9927,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.5,
+    183.6,
+    526.3,
+    198.4
+   ],
+   "text": "INDUSTRIAL VESSEL GENERAL MACARTHUR (O.N. 1301331), LOSS OF LIFE",
+   "conf": 0.9883,
+   "retry": {
+    "text": "INDUSTRIAL VESSEL GENERAL MACARTHUR (O.N. 1301331), LOSS OF LIFE",
+    "conf": 0.9883,
+    "first_text": "IN     L  FE",
+    "first_conf": 0.5947,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    76.1,
+    197.6,
+    536.7,
+    212.0
+   ],
+   "text": "WHILE IN DRY DOCK AT CONRAD SHIPYARD IN AMELIA, LA ON JUNE 19, 2023",
+   "conf": 0.9856,
+   "retry": null
+  },
+  {
+   "bbox": [
+    100.0,
+    225.1,
+    513.2,
+    239.5
+   ],
+   "text": "ENDORSEMENT BY THE OFFICER IN CHARGE, MARINE INSPECTIONS",
+   "conf": 0.9919,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    252.3,
+    541.1,
+    268.3
+   ],
+   "text": "The record and report of the investigation convened for the subject casualty have been reviewed.",
+   "conf": 0.9939,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    266.7,
+    541.9,
+    282.2
+   ],
+   "text": "The record and the report, including findings of fact, analysis, conclusions, and recommendation",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    280.6,
+    467.0,
+    295.8
+   ],
+   "text": "are approved. It is recommended that this marine casualty investigation be closed.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    191.6,
+    307.0,
+    421.5,
+    319.8
+   ],
+   "text": "ENDORSEMENT ON RECOMMENDATION",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.1,
+    332.1,
+    485.3,
+    347.3
+   ],
+   "text": "Administrative Recommendation 1: It is recommended this investigation be closed.",
+   "conf": 0.9965,
+   "retry": null
+  },
+  {
+   "bbox": [
+    351.0,
+    388.8,
+    430.3,
+    403.2
+   ],
+   "text": "Mary A. Gilday",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    351.4,
+    402.8,
+    503.2,
+    416.0
+   ],
+   "text": "Commander, U.S. Coast Guard",
+   "conf": 0.9752,
+   "retry": null
+  },
+  {
+   "bbox": [
+    349.8,
+    415.6,
+    531.1,
+    431.1
+   ],
+   "text": "Officer in Charge, Marine Inspection",
+   "conf": 0.998,
+   "retry": null
+  }
+ ]
+}

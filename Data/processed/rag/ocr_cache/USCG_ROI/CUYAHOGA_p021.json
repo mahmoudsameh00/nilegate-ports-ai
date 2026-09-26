@@ -1,0 +1,276 @@
+{
+ "key": {
+  "report_id": "CUYAHOGA",
+  "filename": "CUYAHOGA_7881082_ROI_Redacted.pdf",
+  "sha256": "c518b7d648f90ab65608426f5a39cb32667954bc1cb6890867dce47e6c56fa0a",
+  "page_number": 21,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    160.6,
+    71.5,
+    214.4,
+    83.8
+   ],
+   "text": "Xin Zhao",
+   "conf": 0.9485,
+   "retry": {
+    "text": "Xin Zhao",
+    "conf": 0.9485,
+    "first_text": "Xin Zhao",
+    "first_conf": 0.9481,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    168.5,
+    80.6,
+    213.2,
+    95.0
+   ],
+   "text": "41072024",
+   "conf": 0.7313,
+   "retry": {
+    "text": "41072024",
+    "conf": 0.6557,
+    "first_text": "41072024",
+    "first_conf": 0.7313,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    171.3,
+    88.2,
+    235.5,
+    113.4
+   ],
+   "text": "X2N21HA0",
+   "conf": 0.7725,
+   "retry": {
+    "text": "X2N21AV",
+    "conf": 0.7503,
+    "first_text": "X2N21HA0",
+    "first_conf": 0.7725,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    207.2,
+    164.5,
+    273.7,
+    174.8
+   ],
+   "text": "Firefirst observed",
+   "conf": 0.9747,
+   "retry": null
+  },
+  {
+   "bbox": [
+    208.0,
+    174.8,
+    266.2,
+    184.0
+   ],
+   "text": "by SMS'welder",
+   "conf": 0.9633,
+   "retry": null
+  },
+  {
+   "bbox": [
+    229.9,
+    217.2,
+    273.3,
+    227.9
+   ],
+   "text": "Location of",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    230.3,
+    226.7,
+    266.2,
+    237.5
+   ],
+   "text": "grounded",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    230.7,
+    236.7,
+    284.5,
+    245.9
+   ],
+   "text": "electrodecable",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    147.0,
+    532.1,
+    482.1,
+    542.5
+   ],
+   "text": "Figure 11. Location where SMS' welder discovered the initial flames in Cuyahoga's Cargo Hold No. 2.",
+   "conf": 0.9885,
+   "retry": null
+  },
+  {
+   "bbox": [
+    146.6,
+    542.1,
+    483.3,
+    552.5
+   ],
+   "text": "Source: U.S. Coast Guard. Diagram obtained during an interview on April 15, 2024, with SMS’ welder.",
+   "conf": 0.9964,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    576.8,
+    516.8,
+    591.6
+   ],
+   "text": "4.1.45. SMS' fitter observed smoke and a blazing fire that appeared to have started",
+   "conf": 0.9883,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    591.6,
+    518.4,
+    604.8
+   ],
+   "text": "underneath Cargo Hold No. 2's forward ladder. The fire appeared large with flames",
+   "conf": 0.9923,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    604.4,
+    530.7,
+    619.5
+   ],
+   "text": "approximately five feet high from the base of the bulkhead that quickly grew. The fire",
+   "conf": 0.9972,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    618.4,
+    441.5,
+    634.3
+   ],
+   "text": "appeared out of control and beyond the fire extinguishers capability.",
+   "conf": 0.9956,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    645.9,
+    520.4,
+    661.1
+   ],
+   "text": "4.1.46.SMS' fire watch proceeded toward the fire and attempted to extinguish it by",
+   "conf": 0.983,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    660.7,
+    535.1,
+    675.0
+   ],
+   "text": "spraying water at the center of the fire and then moving the water stream toward the top",
+   "conf": 0.9919,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    673.4,
+    517.6,
+    688.6
+   ],
+   "text": "of the fire.The fire continued to grow upward and spread to the sides at a fast pace.",
+   "conf": 0.9937,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    687.4,
+    537.5,
+    702.2
+   ],
+   "text": "After depleting both water canister fire extinguishers, SMS’ fire watch extracted the fire",
+   "conf": 0.9903,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    701.0,
+    520.0,
+    716.2
+   ],
+   "text": "extinguishers from the hold using a rope and evacuated Cargo Hold No. 2 via the aft",
+   "conf": 0.994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    298.0,
+    757.7,
+    314.0,
+    770.4
+   ],
+   "text": "15",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

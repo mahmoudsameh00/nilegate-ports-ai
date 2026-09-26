@@ -1,0 +1,489 @@
+{
+ "key": {
+  "report_id": "PROWLER_ATTESSA_IV",
+  "filename": "PROWLER_ATTESSA_IV_6572770_ROI_Redacted.pdf",
+  "sha256": "010157c0edf08c5e13cd22197805e3bf59408c4d04b1b047d4c13c51c2410175",
+  "page_number": 21,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    47.4,
+    30.7,
+    333.5,
+    45.1
+   ],
+   "text": "COLLISION BETWEEN THE PROWLER (O.N. 294465)",
+   "conf": 0.9961,
+   "retry": null
+  },
+  {
+   "bbox": [
+    474.1,
+    31.1,
+    507.6,
+    45.1
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    47.0,
+    45.1,
+    363.0,
+    58.7
+   ],
+   "text": "AND ATTESSA IV (O.N. 9179830) SOUTH OF U.S./MEXICO",
+   "conf": 0.9865,
+   "retry": null
+  },
+  {
+   "bbox": [
+    475.3,
+    46.3,
+    564.6,
+    58.3
+   ],
+   "text": "December 3,2019",
+   "conf": 0.9789,
+   "retry": null
+  },
+  {
+   "bbox": [
+    46.6,
+    58.7,
+    333.5,
+    72.3
+   ],
+   "text": "MARITIME BOUNDARY LINE ON OCTOBER 26,2018",
+   "conf": 0.9916,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.9,
+    87.4,
+    498.4,
+    102.6
+   ],
+   "text": "require a designated lookout and although the ATTESSÀ IV did require a",
+   "conf": 0.9869,
+   "retry": null
+  },
+  {
+   "bbox": [
+    140.2,
+    102.6,
+    537.5,
+    116.6
+   ],
+   "text": "designated lookout, that individual was below decks doing other duties at the time",
+   "conf": 0.9972,
+   "retry": null
+  },
+  {
+   "bbox": [
+    140.6,
+    117.8,
+    200.4,
+    130.1
+   ],
+   "text": "of collision.",
+   "conf": 0.9991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.7,
+    139.3,
+    538.7,
+    154.5
+   ],
+   "text": "6.2. The subsequent event for this casualty was the loss of propulsion aboard the PROWLER.",
+   "conf": 0.9932,
+   "retry": null
+  },
+  {
+   "bbox": [
+    104.0,
+    162.5,
+    494.9,
+    176.0
+   ],
+   "text": "6.2.1. After the PROWLER was struck by the ATTESSA IV, the PROWLER's",
+   "conf": 0.9949,
+   "retry": null
+  },
+  {
+   "bbox": [
+    140.2,
+    177.6,
+    531.9,
+    191.2
+   ],
+   "text": "engineering equipment sustained an unknown material failure that resulted in the",
+   "conf": 0.9959,
+   "retry": null
+  },
+  {
+   "bbox": [
+    140.6,
+    192.8,
+    231.9,
+    206.0
+   ],
+   "text": "loss of propulsion.",
+   "conf": 0.9988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.1,
+    214.8,
+    516.8,
+    228.3
+   ],
+   "text": "6.3. The next subsequent event for this casualty was the flooding aboard the PROWLER.",
+   "conf": 0.9987,
+   "retry": null
+  },
+  {
+   "bbox": [
+    103.6,
+    237.1,
+    516.8,
+    251.5
+   ],
+   "text": "6.3.1. The starboard hull of the PROWLER sustained a large hull penetration on the",
+   "conf": 0.9979,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.9,
+    252.3,
+    535.1,
+    266.7
+   ],
+   "text": "starboard side, resulting in the flooding of the engine and lazarette compartments.",
+   "conf": 0.9919,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.9,
+    267.1,
+    526.3,
+    281.4
+   ],
+   "text": "The vessel’s bilge and portable pumps were used to dewater the spaces and was",
+   "conf": 0.993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.9,
+    281.8,
+    339.5,
+    295.0
+   ],
+   "text": "able to keep up with the ingress of water.",
+   "conf": 0.979,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.3,
+    303.8,
+    511.2,
+    319.0
+   ],
+   "text": "6.4. The final subsequent event for this casualty was the personnel casualties aboard the",
+   "conf": 0.994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    108.0,
+    319.4,
+    171.3,
+    331.3
+   ],
+   "text": "PROWLER.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    103.2,
+    341.7,
+    526.7,
+    356.1
+   ],
+   "text": "6.4.1. At the time of collision, a few passengers aboard the PROWLER were sitting in",
+   "conf": 0.9926,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.9,
+    357.7,
+    497.6,
+    369.7
+   ],
+   "text": "the galley. When the ATTESSA IV collided with the starboard side of the",
+   "conf": 0.9896,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.7,
+    370.5,
+    521.2,
+    386.0
+   ],
+   "text": "PROWLER, the galley cabin collapsed causing the death of one passenger and",
+   "conf": 0.9986,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.5,
+    386.4,
+    218.3,
+    399.6
+   ],
+   "text": "injury to others.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.9,
+    408.4,
+    520.0,
+    422.3
+   ],
+   "text": "6.5. Evidence of Act(s) or Violation(s) of Law by Any Coast Guard Credentialed Mariner",
+   "conf": 0.9939,
+   "retry": null
+  },
+  {
+   "bbox": [
+    107.6,
+    422.7,
+    525.1,
+    437.9
+   ],
+   "text": "Subject to Action under 46 U.S.C. Chapter 77. The mate on the PROWLER allegedly",
+   "conf": 0.9975,
+   "retry": null
+  },
+  {
+   "bbox": [
+    107.6,
+    437.9,
+    535.1,
+    452.3
+   ],
+   "text": "violated law(s) or regulation(s) by violating the International Regulations for Preventing",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    108.0,
+    452.3,
+    436.7,
+    466.3
+   ],
+   "text": "Collision at Sea, 1972 (COLREGS), specifically Rule 5 and Rule 7.",
+   "conf": 0.9931,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.3,
+    475.0,
+    528.7,
+    489.4
+   ],
+   "text": "6.6. Evidence of Act(s) or Violation(s) of Law by U.S. Coast Guard Personnel, or any other",
+   "conf": 0.9963,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.4,
+    489.4,
+    514.4,
+    504.6
+   ],
+   "text": "person. No acts of misconduct, incompetence, negligence, unskillfulness, or willful",
+   "conf": 0.9927,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.8,
+    504.2,
+    526.3,
+    519.4
+   ],
+   "text": "violation of law committed by a person, including an officer, employee, or member of",
+   "conf": 0.9962,
+   "retry": null
+  },
+  {
+   "bbox": [
+    107.2,
+    519.4,
+    526.7,
+    533.3
+   ],
+   "text": "the U.S. Coast Guard contributed to the cause of the casualty, or to a death involved in",
+   "conf": 0.9856,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.8,
+    533.3,
+    173.3,
+    548.9
+   ],
+   "text": "this casualty.",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.9,
+    556.9,
+    531.1,
+    570.8
+   ],
+   "text": "6.7. Evidence of Act(s) Subject to Civil Penalty. There is no evidence that an act subjecting",
+   "conf": 0.989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.8,
+    571.2,
+    525.5,
+    585.6
+   ],
+   "text": "the offender to a civil penalty under the laws of the United States has been committed.",
+   "conf": 0.988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.5,
+    594.0,
+    530.7,
+    607.6
+   ],
+   "text": "6.8. Evidence of Criminal Act(s). There is no evidence that a criminal act under the laws of",
+   "conf": 0.9952,
+   "retry": null
+  },
+  {
+   "bbox": [
+    107.6,
+    609.6,
+    293.6,
+    621.5
+   ],
+   "text": "the United States has been committed.",
+   "conf": 0.9953,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.5,
+    631.5,
+    524.3,
+    645.5
+   ],
+   "text": "6.9. Need for New or Amended U.S. Law or Regulation. There is no need for new laws or",
+   "conf": 0.9897,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.4,
+    646.7,
+    522.4,
+    660.3
+   ],
+   "text": "regulations, or amendment or repeal of existing laws or regulations identified through",
+   "conf": 0.9982,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.4,
+    661.1,
+    408.0,
+    674.6
+   ],
+   "text": "this investigation, to prevent the reoccurrence of this casualty.",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.9,
+    683.8,
+    254.2,
+    696.2
+   ],
+   "text": "7. Actions Taken Since the Incident",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    293.6,
+    736.1,
+    310.4,
+    751.3
+   ],
+   "text": "13",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

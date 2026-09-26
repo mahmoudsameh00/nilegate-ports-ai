@@ -1,0 +1,594 @@
+{
+ "key": {
+  "report_id": "QUEEN_OF_THE_WEST",
+  "filename": "QUEEN_OF_THE_WEST_4405289_ROI_Redacted.pdf",
+  "sha256": "02f978c36fcbd8ef00493738d66ee13a4079eab5832883de67ba1cacc388cba3",
+  "page_number": 17,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2534,
+  3292
+ ],
+ "lines": [
+  {
+   "bbox": [
+    505.2,
+    29.5,
+    537.3,
+    43.4
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.5,
+    43.0,
+    473.1,
+    54.6
+   ],
+   "text": "LOSS OF LIFE FOLLOWING MAN OVERBOARD FROM P/V QUEEN OF THE WEST",
+   "conf": 0.9904,
+   "retry": null
+  },
+  {
+   "bbox": [
+    491.0,
+    43.0,
+    535.7,
+    55.4
+   ],
+   "text": "06May13",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.7,
+    69.3,
+    529.4,
+    81.2
+   ],
+   "text": "the navigation bridge in order to obtain suitable lights for the rescue boat crew to use. Although the",
+   "conf": 0.9964,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.9,
+    81.6,
+    530.6,
+    94.8
+   ],
+   "text": "regulations do not require the rescue boat on the P/V QUEEN OF THE WEST to have a searchlight,",
+   "conf": 0.9965,
+   "retry": {
+    "text": "regulations do not require the rescue boat on the P/V QUEEN OF THE WEST to have a searchlight,",
+    "conf": 0.9965,
+    "first_text": "reus   t     e t  e t  ut   sght",
+    "first_conf": 0.6493,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    87.5,
+    95.2,
+    529.0,
+    106.7
+   ],
+   "text": "it remains a critical piece of gear the presence of which may have provided the rescue boat crew the",
+   "conf": 0.9899,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.3,
+    107.1,
+    328.6,
+    119.1
+   ],
+   "text": "additional time they needed to have saved Mr. Staples.",
+   "conf": 0.9972,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.5,
+    132.6,
+    129.1,
+    144.6
+   ],
+   "text": "Conclusions:",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.1,
+    156.1,
+    533.7,
+    168.8
+   ],
+   "text": "1. In accordance with reference (b) the Initiating Event (or first unwanted outcome) for this casualty was",
+   "conf": 0.9953,
+   "retry": null
+  },
+  {
+   "bbox": [
+    65.7,
+    168.8,
+    509.6,
+    180.8
+   ],
+   "text": "Mr. Staples' fall overboard from the port paddlewheel support arm in the area between the aftermost",
+   "conf": 0.9931,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.1,
+    180.8,
+    233.2,
+    192.3
+   ],
+   "text": "vessel bulkhead and the paddlewheel.",
+   "conf": 0.9927,
+   "retry": null
+  },
+  {
+   "bbox": [
+    65.7,
+    204.3,
+    357.5,
+    216.2
+   ],
+   "text": "2. The causal factors that led to the fall overboard are as follows:",
+   "conf": 0.9988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    82.4,
+    227.4,
+    523.0,
+    242.1
+   ],
+   "text": "a) Environment: Although the weather at the time of the incident was relatively benign, the river",
+   "conf": 0.9896,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.8,
+    240.9,
+    533.7,
+    252.9
+   ],
+   "text": "current speed at the vessel's position in the Columbia River was around 4 knots. Not only did the",
+   "conf": 0.9975,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.8,
+    253.3,
+    485.0,
+    265.2
+   ],
+   "text": "strong river current cause the paddlewheel to turn in a slow, forward-moving direction,",
+   "conf": 0.9958,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.8,
+    265.2,
+    528.2,
+    276.8
+   ],
+   "text": "unbalancing Mr. Staples, but it carried him swiftly away from the vessel once he had entered the",
+   "conf": 0.9902,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.8,
+    277.2,
+    532.5,
+    289.1
+   ],
+   "text": "water. Every minute that Mr. Staples was in the river, he drifted an additional 125 yards from the",
+   "conf": 0.9931,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.8,
+    289.1,
+    530.6,
+    301.1
+   ],
+   "text": "vessel. Witnesses indicated that they lost sight of him within just a couple of minutes, and by the",
+   "conf": 0.9947,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.4,
+    301.5,
+    439.1,
+    313.0
+   ],
+   "text": "time the rescue boat was in the water, he was likely half-a-mile downstream.",
+   "conf": 0.9939,
+   "retry": null
+  },
+  {
+   "bbox": [
+    82.4,
+    324.6,
+    98.2,
+    338.5
+   ],
+   "text": "b)",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    99.4,
+    325.0,
+    509.2,
+    337.3
+   ],
+   "text": "Organizational Factors: There are three organizational factors that involve American Cruise",
+   "conf": 0.9917,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.4,
+    337.7,
+    258.5,
+    349.2
+   ],
+   "text": "Lines, Inc. policies and procedures.",
+   "conf": 0.998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    118.4,
+    360.4,
+    519.9,
+    374.7
+   ],
+   "text": "1) Life Jacket Policy: American Cruise Lines, Inc. does not have a policy with respect to",
+   "conf": 0.9963,
+   "retry": null
+  },
+  {
+   "bbox": [
+    135.8,
+    372.3,
+    526.2,
+    386.3
+   ],
+   "text": "life jacket use for personnel working in dangerous areas of the main deck. The majority",
+   "conf": 0.9921,
+   "retry": null
+  },
+  {
+   "bbox": [
+    135.8,
+    384.3,
+    508.0,
+    398.2
+   ],
+   "text": "of the P/V QUEEN OF THE WEST's main deck was surrounded by 39 ½ inch high",
+   "conf": 0.9929,
+   "retry": null
+  },
+  {
+   "bbox": [
+    136.6,
+    397.4,
+    487.8,
+    409.4
+   ],
+   "text": "railings with three additional courses to protect passengers and crew. The most",
+   "conf": 0.9902,
+   "retry": null
+  },
+  {
+   "bbox": [
+    136.6,
+    409.4,
+    501.7,
+    421.3
+   ],
+   "text": "dangerous, and least protected, area of the vessel's main deck is the stern. Captain",
+   "conf": 0.986,
+   "retry": null
+  },
+  {
+   "bbox": [
+    184.1,
+    421.7,
+    497.3,
+    433.7
+   ],
+   "text": "stated that the life jacket policy was only for engineers working on the",
+   "conf": 0.993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    135.0,
+    432.9,
+    533.3,
+    446.4
+   ],
+   "text": "machinery or the paddlewheel on the stern. Crewmembers handling lines, or anyone else,",
+   "conf": 0.9971,
+   "retry": null
+  },
+  {
+   "bbox": [
+    135.4,
+    444.8,
+    517.9,
+    458.4
+   ],
+   "text": "in the vicinity are not required by policy to wear them. An effective life jacket policy,",
+   "conf": 0.9885,
+   "retry": null
+  },
+  {
+   "bbox": [
+    136.6,
+    457.6,
+    523.4,
+    469.5
+   ],
+   "text": "enforced by the ship's management, would stress the importance of wearing life jackets",
+   "conf": 0.9931,
+   "retry": null
+  },
+  {
+   "bbox": [
+    136.2,
+    469.1,
+    523.8,
+    481.1
+   ],
+   "text": "any time that crewmembers are working in dangerous areas of the vessel, and may have",
+   "conf": 0.9933,
+   "retry": null
+  },
+  {
+   "bbox": [
+    136.2,
+    481.5,
+    519.9,
+    493.4
+   ],
+   "text": "given Mr. Staples good cause for putting on a life jacket prior to approaching the stern.",
+   "conf": 0.9935,
+   "retry": null
+  },
+  {
+   "bbox": [
+    116.4,
+    503.8,
+    525.8,
+    519.3
+   ],
+   "text": "2) Station Bill: The P/V QUEEN OF THE WEST's Station Bill does not identify a person",
+   "conf": 0.9857,
+   "retry": null
+  },
+  {
+   "bbox": [
+    135.8,
+    517.7,
+    516.7,
+    529.6
+   ],
+   "text": "to throw the \"Man Overboard\" life ring. As a consequence, a lighted life ring was not",
+   "conf": 0.9912,
+   "retry": null
+  },
+  {
+   "bbox": [
+    135.4,
+    529.2,
+    523.4,
+    541.2
+   ],
+   "text": "thrown until the vessel was directed by the Coast Guard helicopter around an hour later.",
+   "conf": 0.9917,
+   "retry": null
+  },
+  {
+   "bbox": [
+    135.0,
+    540.8,
+    512.7,
+    554.3
+   ],
+   "text": "Had the Station Bill indicated that a certain crewmember throw the life ring, it would",
+   "conf": 0.9932,
+   "retry": null
+  },
+  {
+   "bbox": [
+    135.4,
+    553.5,
+    528.6,
+    565.9
+   ],
+   "text": "have been done much sooner (probably within a minute or two), and may have given Mr.",
+   "conf": 0.9873,
+   "retry": null
+  },
+  {
+   "bbox": [
+    136.2,
+    566.3,
+    517.9,
+    578.2
+   ],
+   "text": "Staples something to hold for buoyancy while the rescue boat was launched to recover",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    134.6,
+    577.0,
+    158.4,
+    590.6
+   ],
+   "text": "him.",
+   "conf": 0.9977,
+   "retry": null
+  },
+  {
+   "bbox": [
+    116.8,
+    601.3,
+    514.3,
+    615.7
+   ],
+   "text": "3) Authorized Personnel: Neither the American Cruise Lines Operations Manual nor the",
+   "conf": 0.987,
+   "retry": null
+  },
+  {
+   "bbox": [
+    135.0,
+    613.3,
+    527.8,
+    626.8
+   ],
+   "text": "shipboard policies identified which “Authorized Personnel\" were permitted access to the",
+   "conf": 0.9925,
+   "retry": null
+  },
+  {
+   "bbox": [
+    134.2,
+    626.0,
+    527.4,
+    638.4
+   ],
+   "text": "stern. As a result, there was confusion onboard with regard to rightful access. When the",
+   "conf": 0.9969,
+   "retry": null
+  },
+  {
+   "bbox": [
+    135.4,
+    638.4,
+    502.8,
+    650.3
+   ],
+   "text": "vessel underwent its cosmetic paddlewheel installation, the Coast Guard and vessel",
+   "conf": 0.9991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    135.0,
+    650.7,
+    505.2,
+    662.6
+   ],
+   "text": "representatives agreed that only engineers would have access to the stern in order to",
+   "conf": 0.9985,
+   "retry": null
+  },
+  {
+   "bbox": [
+    135.4,
+    662.6,
+    525.0,
+    674.6
+   ],
+   "text": "service the hydraulic equipment. The only physical evidence attesting to this agreement",
+   "conf": 0.9876,
+   "retry": null
+  },
+  {
+   "bbox": [
+    135.4,
+    674.2,
+    530.2,
+    686.5
+   ],
+   "text": "was the small red sign placed on the bulkhead leading back to the stern (albeit on the port",
+   "conf": 0.9976,
+   "retry": null
+  },
+  {
+   "bbox": [
+    135.8,
+    686.9,
+    523.0,
+    698.5
+   ],
+   "text": "side only). No formal, written policy or list of designated personnel was ever created to",
+   "conf": 0.9982,
+   "retry": null
+  },
+  {
+   "bbox": [
+    135.4,
+    698.1,
+    515.5,
+    710.4
+   ],
+   "text": "ensure that the policy was followed. And there was no evidence that the rule had ever",
+   "conf": 0.9919,
+   "retry": null
+  },
+  {
+   "bbox": [
+    289.8,
+    739.5,
+    305.7,
+    753.0
+   ],
+   "text": "12",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

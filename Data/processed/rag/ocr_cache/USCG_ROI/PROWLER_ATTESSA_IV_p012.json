@@ -1,0 +1,544 @@
+{
+ "key": {
+  "report_id": "PROWLER_ATTESSA_IV",
+  "filename": "PROWLER_ATTESSA_IV_6572770_ROI_Redacted.pdf",
+  "sha256": "010157c0edf08c5e13cd22197805e3bf59408c4d04b1b047d4c13c51c2410175",
+  "page_number": 12,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    47.4,
+    31.1,
+    334.3,
+    45.5
+   ],
+   "text": "COLLISION BETWEEN THE PROWLER (O.N. 294465)",
+   "conf": 0.9902,
+   "retry": null
+  },
+  {
+   "bbox": [
+    474.5,
+    31.5,
+    508.0,
+    45.5
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    47.4,
+    45.5,
+    363.4,
+    59.1
+   ],
+   "text": "AND ATTESSA IV (O.N. 9179830) SOUTH OF U.S./MEXICO",
+   "conf": 0.9902,
+   "retry": null
+  },
+  {
+   "bbox": [
+    475.7,
+    46.7,
+    565.4,
+    59.9
+   ],
+   "text": "December 3, 2019",
+   "conf": 0.9746,
+   "retry": null
+  },
+  {
+   "bbox": [
+    46.6,
+    59.1,
+    333.9,
+    73.1
+   ],
+   "text": "MARITIME BOUNDARY LINE ON OCTOBER 26,2018",
+   "conf": 0.9943,
+   "retry": null
+  },
+  {
+   "bbox": [
+    122.7,
+    88.6,
+    531.1,
+    102.6
+   ],
+   "text": "electronic chart display and information system (ECDIS). At 1915, the master saw a",
+   "conf": 0.9936,
+   "retry": null
+  },
+  {
+   "bbox": [
+    123.1,
+    103.0,
+    518.8,
+    116.2
+   ],
+   "text": "light out of the corner of his eye, just off the port bow. The master determined the",
+   "conf": 0.9855,
+   "retry": null
+  },
+  {
+   "bbox": [
+    122.7,
+    116.2,
+    535.5,
+    130.5
+   ],
+   "text": "other vessel to be on a course and speed that would likely result in a collision. He put",
+   "conf": 0.9969,
+   "retry": null
+  },
+  {
+   "bbox": [
+    122.7,
+    130.1,
+    384.1,
+    143.7
+   ],
+   "text": "the engine into neutral and the helm hard over to port.",
+   "conf": 0.994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    122.3,
+    143.3,
+    535.5,
+    158.5
+   ],
+   "text": "On October 26, 2019, at approximately 1915, the starboard bow of the ATTESSA IV",
+   "conf": 0.9952,
+   "retry": null
+  },
+  {
+   "bbox": [
+    122.3,
+    157.3,
+    525.1,
+    172.1
+   ],
+   "text": "collided with the PROWLER's starboard bow, resulting in a large protrusion in the",
+   "conf": 0.9956,
+   "retry": null
+  },
+  {
+   "bbox": [
+    121.9,
+    171.3,
+    538.7,
+    185.6
+   ],
+   "text": "hull of the PROWLER with an eventual determination as total constructive loss of the",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    121.9,
+    184.8,
+    537.1,
+    200.0
+   ],
+   "text": "vessel, a passenger death, and multiple injuries. The collision occurred approximately",
+   "conf": 0.9982,
+   "retry": null
+  },
+  {
+   "bbox": [
+    121.9,
+    199.2,
+    536.3,
+    212.8
+   ],
+   "text": "nine miles southwest of Imperial Beach, California and two miles south of the United",
+   "conf": 0.997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    122.3,
+    212.8,
+    505.6,
+    226.3
+   ],
+   "text": "States and Mexico maritime boundary line, estimated at 32°.524N, 117°.303W.",
+   "conf": 0.9939,
+   "retry": null
+  },
+  {
+   "bbox": [
+    122.3,
+    226.3,
+    529.1,
+    241.1
+   ],
+   "text": "The PROWLER subsequently lost propulsion. The ATTESSA IV did not report any",
+   "conf": 0.9901,
+   "retry": null
+  },
+  {
+   "bbox": [
+    122.3,
+    240.3,
+    378.5,
+    253.9
+   ],
+   "text": "injuries and there was minimal damage to the vessel.",
+   "conf": 0.9881,
+   "retry": null
+  },
+  {
+   "bbox": [
+    122.3,
+    253.9,
+    514.8,
+    268.3
+   ],
+   "text": "The master and mate on the PROWLER were subject to mandatory post-casualty",
+   "conf": 0.9904,
+   "retry": null
+  },
+  {
+   "bbox": [
+    122.7,
+    268.3,
+    516.8,
+    281.4
+   ],
+   "text": "chemical testing for evidence of drug and alcohol use in accordance with 46 CFR",
+   "conf": 0.9933,
+   "retry": null
+  },
+  {
+   "bbox": [
+    121.9,
+    281.0,
+    528.7,
+    296.6
+   ],
+   "text": "Subpart 4.06. Alcohol testing was not conducted as safety concerns were being met.",
+   "conf": 0.9991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    295.2,
+    295.4,
+    513.2,
+    309.4
+   ],
+   "text": "The master of the ATTESSA IV took part in",
+   "conf": 0.9959,
+   "retry": null
+  },
+  {
+   "bbox": [
+    122.7,
+    295.8,
+    249.4,
+    309.0
+   ],
+   "text": "The drug test results were",
+   "conf": 0.986,
+   "retry": null
+  },
+  {
+   "bbox": [
+    121.9,
+    309.0,
+    373.7,
+    322.9
+   ],
+   "text": "chemical testing for drugs and alcohol; results were",
+   "conf": 0.9922,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.1,
+    335.3,
+    536.3,
+    351.3
+   ],
+   "text": "4.1.2PROWLER, was on an overnight fishing charter off the coast of Mexico, south of the",
+   "conf": 0.9985,
+   "retry": null
+  },
+  {
+   "bbox": [
+    121.5,
+    350.5,
+    406.4,
+    364.1
+   ],
+   "text": "U.S./Mexico maritime boundary line on October 26, 2018.",
+   "conf": 0.9969,
+   "retry": null
+  },
+  {
+   "bbox": [
+    103.2,
+    377.6,
+    499.6,
+    392.0
+   ],
+   "text": "4.1.2.1. On October 26, 2018, the PROWLER got underway headed north to their",
+   "conf": 0.9933,
+   "retry": null
+  },
+  {
+   "bbox": [
+    143.8,
+    392.8,
+    383.7,
+    406.4
+   ],
+   "text": "homeport in Mission Bay, San Diego, California.",
+   "conf": 0.9989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.8,
+    415.2,
+    524.3,
+    429.9
+   ],
+   "text": "4.1.2.2. The mate was alone on watch, all engineering and navigational equipment was",
+   "conf": 0.9939,
+   "retry": null
+  },
+  {
+   "bbox": [
+    143.4,
+    429.9,
+    523.1,
+    445.1
+   ],
+   "text": "operating as designed. The mate adjusted course to 351º, unknowingly putting",
+   "conf": 0.9925,
+   "retry": null
+  },
+  {
+   "bbox": [
+    144.6,
+    445.5,
+    412.0,
+    457.5
+   ],
+   "text": "the vessel on a collision course with the ATTESSA IV.",
+   "conf": 0.9975,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.8,
+    467.1,
+    523.9,
+    481.4
+   ],
+   "text": "4.1.2.3. The collision resulted in a total constructive loss of the PROWLER, one death,",
+   "conf": 0.9947,
+   "retry": null
+  },
+  {
+   "bbox": [
+    143.8,
+    481.8,
+    249.0,
+    495.8
+   ],
+   "text": "and multiple injuries.",
+   "conf": 0.9838,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.8,
+    504.6,
+    526.7,
+    519.0
+   ],
+   "text": "4.1.2.4. Mandatory chemical testing following a serious marine incident was conducted",
+   "conf": 0.9988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    143.8,
+    520.1,
+    363.4,
+    533.3
+   ],
+   "text": "as required by 46 CFRSubpart 4.06; all with",
+   "conf": 0.9954,
+   "retry": null
+  },
+  {
+   "bbox": [
+    405.2,
+    520.1,
+    521.2,
+    534.5
+   ],
+   "text": "results. Alcohol testing",
+   "conf": 0.9982,
+   "retry": null
+  },
+  {
+   "bbox": [
+    144.6,
+    535.3,
+    527.5,
+    547.3
+   ],
+   "text": "was not performed within the required time, as safety concerns were addressed.",
+   "conf": 0.9918,
+   "retry": null
+  },
+  {
+   "bbox": [
+    83.7,
+    555.7,
+    505.6,
+    571.2
+   ],
+   "text": "4.1.3 ATTESSA IV, departed San Diego, California headed south to Puerto Vallarta,",
+   "conf": 0.9942,
+   "retry": null
+  },
+  {
+   "bbox": [
+    121.1,
+    571.2,
+    265.4,
+    583.2
+   ],
+   "text": "Mexico on October 26, 2018.",
+   "conf": 0.9903,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.4,
+    598.0,
+    506.8,
+    612.4
+   ],
+   "text": "4.1.3.1. The master and a lookout were standing watch on the bridge. Pre-departure",
+   "conf": 0.9976,
+   "retry": null
+  },
+  {
+   "bbox": [
+    143.0,
+    612.4,
+    524.7,
+    627.5
+   ],
+   "text": "checks had been completed prior to leaving San Diego and all engineering and",
+   "conf": 0.9916,
+   "retry": null
+  },
+  {
+   "bbox": [
+    143.4,
+    627.9,
+    395.2,
+    641.5
+   ],
+   "text": "navigational equipment were operating as designed.",
+   "conf": 0.9983,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.0,
+    649.9,
+    532.7,
+    664.3
+   ],
+   "text": "4.1.3.2. The master ordered the lookout to make rounds and to secure the bosun's locker,",
+   "conf": 0.995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    143.4,
+    665.1,
+    531.9,
+    679.0
+   ],
+   "text": "leaving the master alone on the bridge. The master then checked the port side S-",
+   "conf": 0.9972,
+   "retry": null
+  },
+  {
+   "bbox": [
+    143.0,
+    679.8,
+    529.1,
+    693.4
+   ],
+   "text": "band radar, then walked back onto the starboard side and sat behind the X-band",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    143.4,
+    695.0,
+    231.5,
+    707.0
+   ],
+   "text": "radar and ECDIS.",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    297.6,
+    738.1,
+    307.6,
+    750.5
+   ],
+   "text": "4",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

@@ -1,0 +1,484 @@
+{
+ "key": {
+  "report_id": "MERRICK",
+  "filename": "MERRICK_8031230_ROI_Redacted.pdf",
+  "sha256": "76047e77ee5376e2fc4638301674894f54af536e5de39cbdbdeec8ffbedd53b9",
+  "page_number": 5,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    73.7,
+    26.7,
+    162.2,
+    37.5
+   ],
+   "text": "U.S. Department of",
+   "conf": 0.9938,
+   "retry": null
+  },
+  {
+   "bbox": [
+    252.2,
+    27.5,
+    300.0,
+    38.3
+   ],
+   "text": "Commander",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    397.2,
+    27.5,
+    480.9,
+    36.7
+   ],
+   "text": "120 Woodward Avenue",
+   "conf": 0.9778,
+   "retry": null
+  },
+  {
+   "bbox": [
+    396.8,
+    35.5,
+    479.3,
+    44.7
+   ],
+   "text": "New Haven, CT 06512",
+   "conf": 0.9839,
+   "retry": null
+  },
+  {
+   "bbox": [
+    73.3,
+    37.1,
+    161.8,
+    49.1
+   ],
+   "text": "Homeland Security",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    252.2,
+    37.1,
+    349.8,
+    47.5
+   ],
+   "text": "United States Coast Guard",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    396.4,
+    42.7,
+    480.1,
+    54.3
+   ],
+   "text": "Phone: (206)815-6879",
+   "conf": 0.9917,
+   "retry": null
+  },
+  {
+   "bbox": [
+    252.2,
+    46.3,
+    346.6,
+    57.9
+   ],
+   "text": "Sector Long Island Sound",
+   "conf": 0.9988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.5,
+    54.3,
+    145.0,
+    66.3
+   ],
+   "text": "United States",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    73.3,
+    65.1,
+    139.9,
+    75.8
+   ],
+   "text": "Coast Guard",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    395.6,
+    67.1,
+    429.9,
+    81.0
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    395.6,
+    79.8,
+    480.5,
+    93.4
+   ],
+   "text": "February 4, 2026",
+   "conf": 0.9989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    105.6,
+    125.3,
+    507.6,
+    138.5
+   ],
+   "text": "SINKING OF THE FISHING VESSEL MERRICK (CT1979BK) WITH THE",
+   "conf": 0.9993,
+   "retry": {
+    "text": "SINKING OF THE FISHING VESSEL MERRICK (CT1979BK) WITH THE",
+    "conf": 0.9993,
+    "first_text": "SI  M ME  E  J HE",
+    "first_conf": 0.6127,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    101.6,
+    138.5,
+    511.6,
+    153.3
+   ],
+   "text": "SUBSEQUENT LOSS OF ONE LIFE, IN THE VICINITY OF MILFORD, CT,",
+   "conf": 0.9935,
+   "retry": null
+  },
+  {
+   "bbox": [
+    165.8,
+    152.5,
+    447.8,
+    166.5
+   ],
+   "text": "IN LONG ISLAND SOUND ON NOVEMBER 4,2024",
+   "conf": 0.9774,
+   "retry": null
+  },
+  {
+   "bbox": [
+    237.5,
+    195.6,
+    377.3,
+    207.2
+   ],
+   "text": "EXECUTIVE SUMMARY",
+   "conf": 0.9856,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    236.7,
+    516.4,
+    251.1
+   ],
+   "text": "On November 4, 2024, the uninspected commercial fishing vessel MERRICK departed Safe",
+   "conf": 0.9977,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    251.9,
+    531.5,
+    263.9
+   ],
+   "text": "Harbor Marina on the Housatonic River in Stratford, CT with three crewmembers on board: the",
+   "conf": 0.9925,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    264.3,
+    492.1,
+    279.0
+   ],
+   "text": "vessel operator and two deckhands. The crew planned to harvest juvenile oysters in the",
+   "conf": 0.9979,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    279.0,
+    525.9,
+    292.2
+   ],
+   "text": "Housatonic River and then seed the vessel owner's oyster beds located off Charles Island near",
+   "conf": 0.9964,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    292.2,
+    537.9,
+    306.6
+   ],
+   "text": "Milford, CT, in the waters of Long Island Sound. After approximately five hours of dredging for",
+   "conf": 0.9982,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    306.6,
+    539.1,
+    321.0
+   ],
+   "text": "juvenile oysters, the crew stacked approximately 125 fully loaded totes of oysters on the aft deck",
+   "conf": 0.9978,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    321.0,
+    539.9,
+    333.7
+   ],
+   "text": "and transited toward the oyster beds in fair weather (clear skies, 10-15 knot winds, 2-3 foot seas).",
+   "conf": 0.9945,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    346.1,
+    537.5,
+    360.1
+   ],
+   "text": "Upon arrival, as the vessel operator turned to port to begin seeding, the bilge alarm sounded, and",
+   "conf": 0.9964,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    360.5,
+    521.6,
+    373.6
+   ],
+   "text": "the stern began flooding. Despite MAYDAY calls and attempts to lighten the load, the vessel",
+   "conf": 0.9926,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    373.6,
+    512.4,
+    388.0
+   ],
+   "text": "sank rapidly. All three crew members entered the water without lifesaving gear. U.S. Coast",
+   "conf": 0.9984,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.7,
+    388.4,
+    516.4,
+    400.4
+   ],
+   "text": "Guard Station New Haven, Milford Fire and Rescue, and one nearby Good Samaritan vessel",
+   "conf": 0.989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    401.2,
+    514.0,
+    414.8
+   ],
+   "text": "responded. The crewmembers were recovered within 10-15 minutes by the Good Samaritan",
+   "conf": 0.9939,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    415.6,
+    528.7,
+    428.7
+   ],
+   "text": "vessel. The vessel operator suffered cardiac arrest, and CPR was initiated during the transfer to",
+   "conf": 0.9971,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    429.1,
+    514.8,
+    442.3
+   ],
+   "text": "Milford Fire and Rescue vessel. U.S. Coast Guard Station New Haven and Milford Fire and",
+   "conf": 0.9961,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    443.1,
+    523.5,
+    456.7
+   ],
+   "text": "Recuse transported all three crewmembers to Milford Hospital, where the vessel operator was",
+   "conf": 0.9979,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    457.1,
+    524.7,
+    470.2
+   ],
+   "text": "pronounced deceased and the two deckhands were treated for minor injuries and hypothermia.",
+   "conf": 0.992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    470.2,
+    288.1,
+    483.4
+   ],
+   "text": "The MERRICK sank and was not recovered.",
+   "conf": 0.9932,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    496.2,
+    538.3,
+    510.6
+   ],
+   "text": "As a result of its investigation, the Coast Guard determined the initiating event to be the flooding",
+   "conf": 0.9944,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    509.4,
+    489.3,
+    524.1
+   ],
+   "text": "of the aft deck as the vessel operator made his port turn upon arrival at the oyster beds.",
+   "conf": 0.9969,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    524.1,
+    531.5,
+    537.3
+   ],
+   "text": "Subsequent events were the sinking of the vessel with all three crewmembers on board entering",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    537.7,
+    529.9,
+    552.1
+   ],
+   "text": "the water, and the death of the operator. Causal factors contributing to the casualty were: 1) the",
+   "conf": 0.9934,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    552.1,
+    518.4,
+    565.3
+   ],
+   "text": "heavy load of oysters stacked on the aft deck, 2) penetration of seawater into the below-deck",
+   "conf": 0.9945,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    566.1,
+    494.9,
+    579.2
+   ],
+   "text": "spaces, 3) the weather conditions, in particular the wave height and direction, and 4) the",
+   "conf": 0.994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    579.6,
+    304.8,
+    592.8
+   ],
+   "text": "operator's decision to put the stern into the seas.",
+   "conf": 0.9887,
+   "retry": null
+  }
+ ]
+}

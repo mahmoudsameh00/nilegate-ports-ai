@@ -1,0 +1,561 @@
+{
+ "key": {
+  "report_id": "SPIRIT_OF_BOSTON",
+  "filename": "SPIRIT_OF_BOSTON_7656694_ROI_Redacted.pdf",
+  "sha256": "9dbabbd157bfb182fc2b99f514795db0b11afd75e205b893c0c5b06c02daf04e",
+  "page_number": 7,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    510.0,
+    35.5,
+    542.7,
+    48.3
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    476.5,
+    48.3,
+    541.9,
+    60.3
+   ],
+   "text": "13 June 2025",
+   "conf": 0.9663,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    74.2,
+    363.4,
+    87.4
+   ],
+   "text": "thinner, acetone, charcoal lighter and other similar products.",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    107.2,
+    101.4,
+    514.8,
+    114.6
+   ],
+   "text": "Endorsement: Partially Concur; My office agrees in part that Commandant should",
+   "conf": 0.9918,
+   "retry": null
+  },
+  {
+   "bbox": [
+    107.2,
+    115.0,
+    541.9,
+    128.1
+   ],
+   "text": "implement new regulations under 46 CFR Subchapter T (including older T-L vessels) and",
+   "conf": 0.998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    107.6,
+    128.5,
+    508.4,
+    140.5
+   ],
+   "text": "Subchapter K. My office does not agree that the new regulations should altogether",
+   "conf": 0.9978,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.8,
+    141.3,
+    522.0,
+    154.5
+   ],
+   "text": "eliminate the ability to utilize open flames onboard however and instead recommends",
+   "conf": 0.9942,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.8,
+    154.9,
+    519.2,
+    168.1
+   ],
+   "text": "vessels that choose to utilize open flames be required to identify proper handling and",
+   "conf": 0.9888,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.4,
+    166.9,
+    541.5,
+    180.8
+   ],
+   "text": "storage procedures within their SMS as recommended in Safety Recommendation 1. New",
+   "conf": 0.9955,
+   "retry": null
+  },
+  {
+   "bbox": [
+    105.6,
+    180.0,
+    492.5,
+    195.2
+   ],
+   "text": "regulations should also require type approved flammable liquid storage lockers.",
+   "conf": 0.9901,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    208.4,
+    536.7,
+    221.2
+   ],
+   "text": "Safety Recommendation 3 - It is recommended that Commandant clarify the definition “safety",
+   "conf": 0.9906,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    221.2,
+    519.2,
+    234.3
+   ],
+   "text": "sensitive\" in regulatory language to precisely define which type of crew functions are in fact",
+   "conf": 0.9953,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    235.1,
+    531.1,
+    247.1
+   ],
+   "text": "safety sensitive. The Coast Guard's Deputy Commandant for Operations (DCO) website states",
+   "conf": 0.9948,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    248.7,
+    529.9,
+    260.7
+   ],
+   "text": "that “Safety Sensitive Position: Is any position (billet) aboard a vessel, that requires the person",
+   "conf": 0.9857,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.3,
+    261.9,
+    520.0,
+    275.0
+   ],
+   "text": "filling that position to perform one or more safety sensitive duties or operation of a vessel on",
+   "conf": 0.9955,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    275.0,
+    515.2,
+    287.0
+   ],
+   "text": "either a routine or emergency only basis.\" In the case of the Spirit of Boston fire, the senior",
+   "conf": 0.9935,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    286.6,
+    515.6,
+    301.8
+   ],
+   "text": "company person aboard would make life or death decisions, to fight the fire or evacuate the",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    301.4,
+    541.5,
+    314.6
+   ],
+   "text": "vessel. The company did not classify that position as being in a safety sensitive position based on",
+   "conf": 0.9893,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    314.2,
+    418.4,
+    327.3
+   ],
+   "text": "the company interpretation of the definition of safety sensitive position.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.4,
+    340.5,
+    483.7,
+    354.5
+   ],
+   "text": "Endorsement: Partially Concur; My office agrees in part that clarification by",
+   "conf": 0.9968,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.8,
+    354.9,
+    533.5,
+    368.1
+   ],
+   "text": "Commandant of the “safety sensitive\" regulatory definition may be necessary. This case",
+   "conf": 0.9935,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.4,
+    367.7,
+    539.9,
+    380.8
+   ],
+   "text": "highlights that restaurant personnel can play a key role in ensuring the safety onboard the",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    107.6,
+    381.6,
+    511.2,
+    393.6
+   ],
+   "text": "vessel. While the Deputy Commandant for Operations (DCO) may select to further",
+   "conf": 0.995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.8,
+    394.0,
+    498.4,
+    407.6
+   ],
+   "text": "clarify the definition, nothing precludes the Operator from identifying restaurant",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.8,
+    408.0,
+    536.7,
+    420.0
+   ],
+   "text": "personnel as Safety Sensitive Positions and providing appropriate training. The extent of",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    107.2,
+    421.1,
+    524.3,
+    433.1
+   ],
+   "text": "the fire aboard the SPIRIT OF BOSTON may have been significantly lessened had the",
+   "conf": 0.9853,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.4,
+    434.3,
+    487.3,
+    447.5
+   ],
+   "text": "restaurant crew been comfortable with the use of fire-fighting equipment. This",
+   "conf": 0.9951,
+   "retry": {
+    "text": "restaurant crew been comfortable with the use of fire-fighting equipment. This",
+    "conf": 0.9951,
+    "first_text": "rs  -  n t     hnis",
+    "first_conf": 0.5975,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    106.8,
+    447.5,
+    533.1,
+    460.7
+   ],
+   "text": "investigation identified that had there been marine crewmembers onboard at the time of",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.8,
+    460.7,
+    523.9,
+    473.8
+   ],
+   "text": "the fire, then the casualty response may have been quicker and more efficient. It is my",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.8,
+    474.2,
+    539.5,
+    487.4
+   ],
+   "text": "office's opinion that crewmember positions should be clearly identified in company SMS",
+   "conf": 0.9923,
+   "retry": null
+  },
+  {
+   "bbox": [
+    107.2,
+    487.8,
+    480.9,
+    501.0
+   ],
+   "text": "and appropriate training should be conducted for each position responsibility.",
+   "conf": 0.9984,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    513.8,
+    519.2,
+    526.9
+   ],
+   "text": "Safety Recommendation 4 - It is recommended that Commandant require that all personnel",
+   "conf": 0.9922,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    527.3,
+    537.9,
+    540.9
+   ],
+   "text": "employed onboard all certificated vessels are required to have completed an appropriately scaled",
+   "conf": 0.9973,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    540.9,
+    521.6,
+    554.1
+   ],
+   "text": "Coast Guard approved firefighting course. Unlike deep draft vessels over 100 GT, personnel",
+   "conf": 0.9978,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    553.3,
+    533.9,
+    566.9
+   ],
+   "text": "onboard smaller vessels are not required to obtain a baseline merchant mariner credential which",
+   "conf": 0.995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    566.9,
+    525.9,
+    580.4
+   ],
+   "text": "would include certain mandated courses, including firefighting. This poses a national threat to",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    580.4,
+    539.9,
+    594.0
+   ],
+   "text": "the safety of the general public and the Coast Guard must find ways to include this large amount",
+   "conf": 0.9934,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    593.2,
+    541.5,
+    606.8
+   ],
+   "text": "of non-credentialed crews in the baseline safety requirements that the rest of the merchant marine",
+   "conf": 0.9985,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    607.6,
+    507.6,
+    619.5
+   ],
+   "text": "are required to obtain. This has been witnessed several times over past fires and accidents",
+   "conf": 0.9862,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    619.5,
+    519.6,
+    634.3
+   ],
+   "text": "onboard other similar type vessels under 100 GT. This entire fire and subsequent significant",
+   "conf": 0.9982,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    634.3,
+    530.7,
+    647.5
+   ],
+   "text": "damage to the vessel may have been prevented if nationally mandated firefighting training was",
+   "conf": 0.9964,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    647.1,
+    510.8,
+    660.3
+   ],
+   "text": "obtained by the remaining employees onboard the vessel and not left up to the company to",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    660.3,
+    499.6,
+    673.4
+   ],
+   "text": "assume they have trained their staff. CG-REG has published a final rule “Towing Vessel",
+   "conf": 0.9958,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    674.6,
+    514.8,
+    686.6
+   ],
+   "text": "Firefighting Training, 88 FR 67966\" that allows towing vessel operators to take scaled back",
+   "conf": 0.9899,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    687.8,
+    524.3,
+    701.0
+   ],
+   "text": "training that reflects the capabilities of the equipment onboard the vessel they are working on.",
+   "conf": 0.9945,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.7,
+    701.0,
+    355.4,
+    713.0
+   ],
+   "text": "The small passenger vessel fleet must duplicate this effort.",
+   "conf": 0.9965,
+   "retry": null
+  },
+  {
+   "bbox": [
+    301.6,
+    759.3,
+    311.2,
+    771.6
+   ],
+   "text": "2",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

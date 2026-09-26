@@ -1,0 +1,324 @@
+{
+ "key": {
+  "report_id": "WILDERNESS_I",
+  "filename": "WILDERNESS_I_7828267_ROI_Redacted.pdf",
+  "sha256": "e0f98431b9d795e2e25804b66e1de1efa3284a2d53b47fe4a957b9c628e9b902",
+  "page_number": 11,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    114.8,
+    35.5,
+    541.9,
+    50.7
+   ],
+   "text": "4.1.15. At 1821, the operator of the Captain Nash’'s Wings called the company manager",
+   "conf": 0.984,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.5,
+    50.3,
+    411.6,
+    63.9
+   ],
+   "text": "of Ultimate Swamp Adventures to notify him of the incident.",
+   "conf": 0.9952,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.5,
+    76.6,
+    541.5,
+    89.8
+   ],
+   "text": "4.1.16. Immediately following the call, both the company and operations managers left",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.5,
+    90.2,
+    541.5,
+    103.4
+   ],
+   "text": "the Ultimate Swamp Adventures dock on airboat LA1599GF and transited to the incident",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    114.4,
+    103.0,
+    160.6,
+    117.8
+   ],
+   "text": "location.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    114.8,
+    128.5,
+    541.5,
+    143.7
+   ],
+   "text": "4.1.17. At 1822, Westwego Fire Department and EMS arrived at the Ultimate Swamp",
+   "conf": 0.9965,
+   "retry": null
+  },
+  {
+   "bbox": [
+    114.8,
+    142.5,
+    541.5,
+    157.7
+   ],
+   "text": "Adventures dock and boarded the airboat LA5180GC with another Ultimate Swamp",
+   "conf": 0.9839,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.9,
+    158.5,
+    396.8,
+    170.5
+   ],
+   "text": "Adventures operator and transited to the incident location.",
+   "conf": 0.997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.5,
+    183.2,
+    541.5,
+    196.4
+   ],
+   "text": "4.1.18. At 1825, the managers arrived at the incident location. They saw branches on the",
+   "conf": 0.995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.5,
+    197.2,
+    541.5,
+    210.4
+   ],
+   "text": "deck of the Wilderness I and abrasions on the mechanic’s arms and head. The managers",
+   "conf": 0.9857,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.5,
+    211.2,
+    540.7,
+    224.3
+   ],
+   "text": "yelled for the mechanic to wake up, but the mechanic remained unresponsive. Shortly",
+   "conf": 0.995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.1,
+    224.3,
+    541.5,
+    237.9
+   ],
+   "text": "after, the Westwego Fire Department and EMS arrived on scene and determined the",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    114.8,
+    237.9,
+    488.9,
+    253.1
+   ],
+   "text": "mechanic was injured, unresponsive with a pulse, and had shallow breathing.",
+   "conf": 0.994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    147.4,
+    485.0,
+    437.1,
+    497.4
+   ],
+   "text": "Figure 7 Post-incident picture of Wilderness I (July 28, 2023/ Ultimate Swamp",
+   "conf": 0.988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    147.4,
+    495.8,
+    196.0,
+    507.8
+   ],
+   "text": "Adventures)",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.5,
+    517.4,
+    541.1,
+    530.5
+   ],
+   "text": "4.1.19. Members from the Westwego Fire Department and the Ultimate Swamp",
+   "conf": 0.9891,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.5,
+    531.3,
+    541.9,
+    544.5
+   ],
+   "text": "Adventures managers lifted and carried the mechanic to the LA1599GF for transport back",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.5,
+    544.9,
+    541.5,
+    558.1
+   ],
+   "text": "to the Ultimate Swamp Adventures dock. The Westwego Fire Department provided",
+   "conf": 0.998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.9,
+    559.3,
+    444.3,
+    572.4
+   ],
+   "text": "cardiopulmonary resuscitation (CPR) during the journey to the pier.",
+   "conf": 0.9938,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.5,
+    584.4,
+    540.7,
+    597.6
+   ],
+   "text": "4.1.20. At 1837, LA1599GF arrived at the dock where EMS took over CPR and began",
+   "conf": 0.9824,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.9,
+    599.2,
+    541.1,
+    611.2
+   ],
+   "text": "advanced life support efforts. The mechanic was then transferred to a stretcher and into",
+   "conf": 0.9918,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.1,
+    612.4,
+    524.3,
+    625.5
+   ],
+   "text": "an ambulance and transported to University Medical Center (UMC) in New Orleans.",
+   "conf": 0.9871,
+   "retry": null
+  },
+  {
+   "bbox": [
+    114.8,
+    636.7,
+    526.3,
+    652.3
+   ],
+   "text": "4.1.21. At 1858, the mechanic arrived at UMC and was sent into emergency surgery.",
+   "conf": 0.9982,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.1,
+    663.5,
+    541.5,
+    677.8
+   ],
+   "text": "4.1.22. At 2213, while undergoing emergency surgery, the mechanic experienced cardiac",
+   "conf": 0.9858,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.5,
+    677.4,
+    296.0,
+    690.6
+   ],
+   "text": "arrest and was pronounced deceased.",
+   "conf": 0.9923,
+   "retry": null
+  },
+  {
+   "bbox": [
+    301.2,
+    744.5,
+    311.2,
+    756.5
+   ],
+   "text": "6",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

@@ -1,0 +1,588 @@
+{
+ "key": {
+  "report_id": "PROWLER_ATTESSA_IV",
+  "filename": "PROWLER_ATTESSA_IV_6572770_ROI_Redacted.pdf",
+  "sha256": "010157c0edf08c5e13cd22197805e3bf59408c4d04b1b047d4c13c51c2410175",
+  "page_number": 6,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    240.3,
+    45.1,
+    372.9,
+    57.9
+   ],
+   "text": "TABLE OF CONTENTS",
+   "conf": 0.9976,
+   "retry": null
+  },
+  {
+   "bbox": [
+    73.3,
+    85.0,
+    116.3,
+    101.0
+   ],
+   "text": "Section",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    507.6,
+    86.6,
+    538.7,
+    103.8
+   ],
+   "text": "Page",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.1,
+    111.8,
+    176.1,
+    126.9
+   ],
+   "text": "Executive Summary",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    508.8,
+    112.2,
+    520.4,
+    127.3
+   ],
+   "text": "ii",
+   "conf": 0.9881,
+   "retry": null
+  },
+  {
+   "bbox": [
+    75.3,
+    137.3,
+    198.8,
+    152.1
+   ],
+   "text": "1. Preliminary Statement",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    508.8,
+    139.3,
+    518.4,
+    152.9
+   ],
+   "text": "1",
+   "conf": 0.9859,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.1,
+    163.7,
+    253.8,
+    177.6
+   ],
+   "text": "2. Vessel(s) Involved in the Incident",
+   "conf": 0.9848,
+   "retry": null
+  },
+  {
+   "bbox": [
+    508.8,
+    164.9,
+    518.0,
+    178.0
+   ],
+   "text": "1",
+   "conf": 0.9933,
+   "retry": null
+  },
+  {
+   "bbox": [
+    73.3,
+    188.4,
+    296.8,
+    204.4
+   ],
+   "text": "3. Deceased, Missing, and/or Injured Persons",
+   "conf": 0.9984,
+   "retry": null
+  },
+  {
+   "bbox": [
+    508.8,
+    190.4,
+    518.0,
+    204.0
+   ],
+   "text": "3",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    73.3,
+    214.0,
+    169.7,
+    229.5
+   ],
+   "text": "4. Findings of Fact",
+   "conf": 0.9859,
+   "retry": null
+  },
+  {
+   "bbox": [
+    508.4,
+    216.0,
+    518.0,
+    229.9
+   ],
+   "text": "3",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.7,
+    240.3,
+    172.5,
+    254.3
+   ],
+   "text": "4.1. The Incident",
+   "conf": 0.9782,
+   "retry": null
+  },
+  {
+   "bbox": [
+    508.4,
+    241.9,
+    518.0,
+    255.9
+   ],
+   "text": "3",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.7,
+    265.9,
+    280.1,
+    281.4
+   ],
+   "text": "4.2. Additional/Supporting Information",
+   "conf": 0.9901,
+   "retry": null
+  },
+  {
+   "bbox": [
+    508.0,
+    267.5,
+    518.8,
+    281.8
+   ],
+   "text": "5",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    73.3,
+    292.2,
+    131.9,
+    307.0
+   ],
+   "text": "5. Analysis",
+   "conf": 0.9968,
+   "retry": null
+  },
+  {
+   "bbox": [
+    508.0,
+    293.0,
+    524.7,
+    308.2
+   ],
+   "text": "11",
+   "conf": 0.9851,
+   "retry": null
+  },
+  {
+   "bbox": [
+    73.3,
+    317.8,
+    149.4,
+    331.7
+   ],
+   "text": "6. Conclusions",
+   "conf": 0.998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    508.0,
+    318.6,
+    525.1,
+    333.7
+   ],
+   "text": "12",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.7,
+    343.3,
+    225.5,
+    357.7
+   ],
+   "text": "6.1. Determination of Cause",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    508.0,
+    344.1,
+    524.7,
+    359.7
+   ],
+   "text": "12",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.7,
+    369.3,
+    222.7,
+    384.0
+   ],
+   "text": "6.2. First Subsequent Event",
+   "conf": 0.9972,
+   "retry": null
+  },
+  {
+   "bbox": [
+    508.0,
+    370.1,
+    524.7,
+    385.6
+   ],
+   "text": "13",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.7,
+    395.2,
+    235.9,
+    409.6
+   ],
+   "text": "6.3. Second Subsequent Event",
+   "conf": 0.994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    507.6,
+    396.0,
+    524.3,
+    411.2
+   ],
+   "text": "13",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.7,
+    420.8,
+    227.1,
+    435.5
+   ],
+   "text": "6.4. Third Subsequent Event",
+   "conf": 0.9971,
+   "retry": null
+  },
+  {
+   "bbox": [
+    507.6,
+    423.1,
+    524.3,
+    438.7
+   ],
+   "text": "13",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.3,
+    446.7,
+    481.3,
+    462.3
+   ],
+   "text": "6.5. Evidence of Act(s) or Violation(s) of Law by Any Coast Guard Credentialed",
+   "conf": 0.9936,
+   "retry": null
+  },
+  {
+   "bbox": [
+    507.6,
+    451.1,
+    524.3,
+    466.3
+   ],
+   "text": "13",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.3,
+    461.1,
+    346.6,
+    475.0
+   ],
+   "text": "Mariner Subject to Action Under 46 USC Chapter 77",
+   "conf": 0.9964,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.9,
+    486.2,
+    484.5,
+    501.8
+   ],
+   "text": "6.6. Evidence of Act(s) or Violation(s) of Law by U.S. Coast Guard Personnel, or",
+   "conf": 0.9875,
+   "retry": null
+  },
+  {
+   "bbox": [
+    507.2,
+    487.0,
+    524.3,
+    502.2
+   ],
+   "text": "13",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.7,
+    501.4,
+    169.7,
+    514.6
+   ],
+   "text": "any other person",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.9,
+    525.7,
+    319.1,
+    541.3
+   ],
+   "text": "6.7. Evidence of Act(s) Subject to Civil Penalty",
+   "conf": 0.9874,
+   "retry": null
+  },
+  {
+   "bbox": [
+    507.6,
+    526.5,
+    524.3,
+    542.1
+   ],
+   "text": "13",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.9,
+    552.1,
+    246.6,
+    566.5
+   ],
+   "text": "6.8. Evidence of Criminal Act(s)",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    507.6,
+    552.5,
+    523.9,
+    568.1
+   ],
+   "text": "13",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.3,
+    577.6,
+    359.4,
+    592.4
+   ],
+   "text": "6.9. Need for New or Amended U.S. Law or Regulation",
+   "conf": 0.9954,
+   "retry": null
+  },
+  {
+   "bbox": [
+    507.2,
+    578.4,
+    523.9,
+    594.0
+   ],
+   "text": "13",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.9,
+    604.0,
+    249.8,
+    617.6
+   ],
+   "text": "7. Actions Taken Since the Incident",
+   "conf": 0.9861,
+   "retry": null
+  },
+  {
+   "bbox": [
+    507.2,
+    604.4,
+    523.9,
+    619.9
+   ],
+   "text": "13",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.5,
+    629.5,
+    178.5,
+    643.5
+   ],
+   "text": "8. Recommendations",
+   "conf": 0.9979,
+   "retry": null
+  },
+  {
+   "bbox": [
+    507.2,
+    630.3,
+    524.3,
+    645.5
+   ],
+   "text": "14",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.9,
+    655.9,
+    220.7,
+    669.8
+   ],
+   "text": "8.1. Safety Recommendations",
+   "conf": 0.9977,
+   "retry": null
+  },
+  {
+   "bbox": [
+    507.2,
+    656.3,
+    524.3,
+    671.0
+   ],
+   "text": "14",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.5,
+    681.4,
+    274.9,
+    695.4
+   ],
+   "text": "8.2. Administrative Recommendations",
+   "conf": 0.9949,
+   "retry": null
+  },
+  {
+   "bbox": [
+    507.2,
+    681.8,
+    524.3,
+    697.0
+   ],
+   "text": "14",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    302.0,
+    770.8,
+    306.8,
+    778.8
+   ],
+   "text": "i",
+   "conf": 0.9911,
+   "retry": null
+  }
+ ]
+}

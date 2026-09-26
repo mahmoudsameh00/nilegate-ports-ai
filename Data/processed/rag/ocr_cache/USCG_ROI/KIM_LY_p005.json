@@ -1,0 +1,451 @@
+{
+ "key": {
+  "report_id": "KIM_LY",
+  "filename": "KIM_LY_7867677_ROI_Redacted.pdf",
+  "sha256": "070b37ee21b7addd2d4e5bb6e73f471703fe5b4f25957f0fdf302979229dffcc",
+  "page_number": 5,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    71.3,
+    37.9,
+    530.3,
+    49.9
+   ],
+   "text": "and 27 nonfatal winch-related incidents. These statistics clearly demonstrate that the risk posed",
+   "conf": 0.9937,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    51.5,
+    522.0,
+    64.7
+   ],
+   "text": "by unguarded equipment is not limited to offshore operations and persists across all maritime",
+   "conf": 0.9943,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.7,
+    66.3,
+    141.0,
+    77.0
+   ],
+   "text": "environments.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    93.4,
+    506.0,
+    105.4
+   ],
+   "text": "According to the article Reducing Winch Entanglements with Stationary Guarding, by the",
+   "conf": 0.9988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    107.0,
+    501.6,
+    119.0
+   ],
+   "text": "National Institute for Occupational Safety and Health (NIOSH) in 2011, the Coast Guard",
+   "conf": 0.9976,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    120.6,
+    528.3,
+    133.7
+   ],
+   "text": "requested assistance from NIOSH due to a rise in winch entanglement incidents among shrimp",
+   "conf": 0.9968,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    133.7,
+    515.6,
+    147.3
+   ],
+   "text": "fishermen in the Gulf of America. NIOSH engineers collaborated with fishermen to identify",
+   "conf": 0.9965,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    148.1,
+    535.9,
+    160.9
+   ],
+   "text": "commonly used winch types and designed standardized, stationary guarding systems to improve",
+   "conf": 0.9981,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    161.7,
+    508.4,
+    175.2
+   ],
+   "text": "safety. These guards are cost-effective and easy to implement, typically costing only a few",
+   "conf": 0.9969,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    176.4,
+    517.2,
+    188.4
+   ],
+   "text": "hundred dollars and requiring less than four hours to install. Most modern guard systems are",
+   "conf": 0.988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    189.6,
+    537.1,
+    202.4
+   ],
+   "text": "modular, allowing them to be retrofitted onto older machinery without significant modifications.",
+   "conf": 0.9943,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    217.2,
+    529.1,
+    230.3
+   ],
+   "text": "Amending the applicability of § 28.200 would close a regulatory loophole and bring consistent",
+   "conf": 0.9981,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    230.7,
+    525.1,
+    244.3
+   ],
+   "text": "machinery safety standards to all commercial fishing vessels regardless of operating area. The",
+   "conf": 0.9943,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    245.5,
+    516.8,
+    257.5
+   ],
+   "text": "proposed change would directly mitigate the risk of machinery related injuries and fatalities,",
+   "conf": 0.9983,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    258.3,
+    401.2,
+    271.9
+   ],
+   "text": "thereby enhancing overall safety in the commercial fishing industry.",
+   "conf": 0.9984,
+   "retry": null
+  },
+  {
+   "bbox": [
+    89.2,
+    286.6,
+    512.4,
+    298.6
+   ],
+   "text": "Endorsement 1: I concur with the intent of this safety recommendation; however, until",
+   "conf": 0.9928,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.7,
+    299.0,
+    481.7,
+    313.8
+   ],
+   "text": "regulatory and enforcement resources are allocated for an increase in compliance",
+   "conf": 0.9991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.5,
+    314.2,
+    502.0,
+    327.3
+   ],
+   "text": "requirements, a more effective strategy lies in advancing the use of machinery guards",
+   "conf": 0.9974,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.9,
+    327.7,
+    503.2,
+    340.9
+   ],
+   "text": "through strengthened outreach and education within our existing resource framework.",
+   "conf": 0.9949,
+   "retry": null
+  },
+  {
+   "bbox": [
+    89.2,
+    341.7,
+    512.4,
+    354.9
+   ],
+   "text": "Amending 46 CFR § 28.200, particularly for vessels operating within the boundary line",
+   "conf": 0.9969,
+   "retry": null
+  },
+  {
+   "bbox": [
+    89.2,
+    355.7,
+    523.5,
+    368.9
+   ],
+   "text": "where program participation remains voluntary, may not be the most effective or strategic",
+   "conf": 0.9961,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.9,
+    369.3,
+    531.5,
+    382.4
+   ],
+   "text": "path forward. The Heartland District's Commercial Fishing Vessel Safety (CFVS) Program,",
+   "conf": 0.9966,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.5,
+    382.4,
+    508.0,
+    396.0
+   ],
+   "text": "comprised of one coordinator and 11 dedicated examiners, has demonstrated sustained",
+   "conf": 0.9986,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.7,
+    396.0,
+    534.3,
+    410.8
+   ],
+   "text": "success in promoting best practices through education, outreach, and voluntary engagement.",
+   "conf": 0.9964,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.5,
+    410.0,
+    501.2,
+    423.9
+   ],
+   "text": "Our CFV examiners are deeply embedded within the fishing communities they serve,",
+   "conf": 0.993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.9,
+    424.3,
+    514.8,
+    437.5
+   ],
+   "text": "fostering trusted relationships with vessel operators and crews. The continued use of the",
+   "conf": 0.9964,
+   "retry": null
+  },
+  {
+   "bbox": [
+    89.2,
+    438.3,
+    538.7,
+    451.5
+   ],
+   "text": "Commercial Fishing Industry Vessels Best Safety Practices Guide, which emphasizes critical",
+   "conf": 0.9981,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.9,
+    452.7,
+    514.0,
+    464.7
+   ],
+   "text": "hazards such as those posed by rotating machinery, enables our examiners to effectively",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.5,
+    465.5,
+    531.1,
+    479.0
+   ],
+   "text": "educate and influence behavior. This approach reinforces a proactive safety culture without",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.9,
+    479.8,
+    517.6,
+    493.0
+   ],
+   "text": "imposing additional regulatory mandates which would have limited enforceability in our",
+   "conf": 0.9955,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.9,
+    493.0,
+    199.6,
+    506.2
+   ],
+   "text": "current force laydown.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    308.8,
+    547.7,
+    414.0,
+    561.7
+   ],
+   "text": "J. B. WHELLER V",
+   "conf": 0.8905,
+   "retry": {
+    "text": "J. B. WHELLER V",
+    "conf": 0.8905,
+    "first_text": "J. B. WHEELER VV",
+    "first_conf": 0.8875,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    310.0,
+    562.5,
+    441.1,
+    575.6
+   ],
+   "text": "Captain, U.S. Coast Guard",
+   "conf": 0.9857,
+   "retry": null
+  },
+  {
+   "bbox": [
+    310.4,
+    576.4,
+    406.8,
+    588.4
+   ],
+   "text": "Chief of Prevention",
+   "conf": 0.9986,
+   "retry": null
+  },
+  {
+   "bbox": [
+    309.2,
+    589.6,
+    505.6,
+    603.2
+   ],
+   "text": "Coast Guard Heartland (Eighth) District",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    309.2,
+    604.0,
+    374.9,
+    617.2
+   ],
+   "text": "By Direction",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    301.2,
+    758.5,
+    310.8,
+    770.8
+   ],
+   "text": "2",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

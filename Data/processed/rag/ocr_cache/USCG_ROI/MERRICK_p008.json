@@ -1,0 +1,3847 @@
+{
+ "key": {
+  "report_id": "MERRICK",
+  "filename": "MERRICK_8031230_ROI_Redacted.pdf",
+  "sha256": "76047e77ee5376e2fc4638301674894f54af536e5de39cbdbdeec8ffbedd53b9",
+  "page_number": 8,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    510.4,
+    96.2,
+    515.6,
+    101.0
+   ],
+   "text": "28",
+   "conf": 0.9482,
+   "retry": {
+    "text": "28",
+    "conf": 0.9482,
+    "first_text": "26",
+    "first_conf": 0.8732,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    521.2,
+    105.8,
+    525.1,
+    109.8
+   ],
+   "text": "36",
+   "conf": 0.9702,
+   "retry": {
+    "text": "36",
+    "conf": 0.9702,
+    "first_text": "36",
+    "first_conf": 0.8514,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    521.6,
+    113.0,
+    526.3,
+    118.2
+   ],
+   "text": "36",
+   "conf": 0.9921,
+   "retry": {
+    "text": "36",
+    "conf": 0.9921,
+    "first_text": "36",
+    "first_conf": 0.6126,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    521.6,
+    119.8,
+    526.3,
+    124.9
+   ],
+   "text": "35",
+   "conf": 0.804,
+   "retry": {
+    "text": "35",
+    "conf": 0.804,
+    "first_text": "5",
+    "first_conf": 0.7288,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    413.6,
+    124.5,
+    419.2,
+    129.3
+   ],
+   "text": "2",
+   "conf": 0.7344,
+   "retry": {
+    "text": "2",
+    "conf": 0.7344,
+    "first_text": "x",
+    "first_conf": 0.2578,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    512.4,
+    126.1,
+    517.6,
+    131.3
+   ],
+   "text": "3a",
+   "conf": 0.4775,
+   "retry": {
+    "text": "0",
+    "conf": 0.455,
+    "first_text": "3a",
+    "first_conf": 0.4775,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    502.8,
+    126.5,
+    506.8,
+    130.5
+   ],
+   "text": "3",
+   "conf": 0.8376,
+   "retry": {
+    "text": "3",
+    "conf": 0.8376,
+    "first_text": "33",
+    "first_conf": 0.81,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    496.5,
+    132.1,
+    501.2,
+    135.7
+   ],
+   "text": "20",
+   "conf": 0.8941,
+   "retry": {
+    "text": "20",
+    "conf": 0.8941,
+    "first_text": "28",
+    "first_conf": 0.7767,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    513.6,
+    133.7,
+    518.8,
+    138.9
+   ],
+   "text": "算",
+   "conf": 0.5656,
+   "retry": {
+    "text": "$2",
+    "conf": 0.4785,
+    "first_text": "算",
+    "first_conf": 0.5656,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    416.8,
+    138.5,
+    420.4,
+    142.1
+   ],
+   "text": "20",
+   "conf": 0.6836,
+   "retry": {
+    "text": "2",
+    "conf": 0.1037,
+    "first_text": "20",
+    "first_conf": 0.6836,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    518.4,
+    141.7,
+    526.7,
+    147.7
+   ],
+   "text": "如",
+   "conf": 0.2712,
+   "retry": {
+    "text": "",
+    "conf": 0.0,
+    "first_text": "如",
+    "first_conf": 0.2712,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    432.7,
+    142.1,
+    438.7,
+    148.1
+   ],
+   "text": "26",
+   "conf": 0.9068,
+   "retry": {
+    "text": "26",
+    "conf": 0.9068,
+    "first_text": "0",
+    "first_conf": 0.0922,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    400.8,
+    142.9,
+    406.0,
+    147.7
+   ],
+   "text": "20",
+   "conf": 0.6896,
+   "retry": {
+    "text": "第",
+    "conf": 0.163,
+    "first_text": "20",
+    "first_conf": 0.6896,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    475.7,
+    143.3,
+    479.7,
+    147.3
+   ],
+   "text": "36",
+   "conf": 0.8577,
+   "retry": {
+    "text": "24",
+    "conf": 0.4515,
+    "first_text": "36",
+    "first_conf": 0.8577,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    488.1,
+    144.1,
+    493.7,
+    148.9
+   ],
+   "text": "26h",
+   "conf": 0.6794,
+   "retry": {
+    "text": "2h",
+    "conf": 0.5265,
+    "first_text": "26h",
+    "first_conf": 0.6794,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    413.2,
+    145.3,
+    419.6,
+    150.5
+   ],
+   "text": "31",
+   "conf": 0.9831,
+   "retry": null
+  },
+  {
+   "bbox": [
+    506.8,
+    145.3,
+    510.8,
+    148.9
+   ],
+   "text": "20",
+   "conf": 0.9734,
+   "retry": null
+  },
+  {
+   "bbox": [
+    428.7,
+    147.7,
+    434.3,
+    152.5
+   ],
+   "text": "28",
+   "conf": 0.6719,
+   "retry": {
+    "text": "28",
+    "conf": 0.6719,
+    "first_text": "26",
+    "first_conf": 0.5783,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    474.1,
+    149.7,
+    477.7,
+    153.7
+   ],
+   "text": "38",
+   "conf": 0.5588,
+   "retry": {
+    "text": "38",
+    "conf": 0.5588,
+    "first_text": "2",
+    "first_conf": 0.5013,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    406.4,
+    150.5,
+    411.6,
+    155.7
+   ],
+   "text": "29",
+   "conf": 0.9222,
+   "retry": {
+    "text": "29",
+    "conf": 0.9222,
+    "first_text": "20",
+    "first_conf": 0.7433,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    486.5,
+    152.1,
+    498.4,
+    159.3
+   ],
+   "text": "8P",
+   "conf": 0.1748,
+   "retry": {
+    "text": "8P",
+    "conf": 0.1748,
+    "first_text": "当",
+    "first_conf": 0.1131,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    461.0,
+    152.5,
+    466.2,
+    157.3
+   ],
+   "text": "29",
+   "conf": 0.7045,
+   "retry": {
+    "text": "2",
+    "conf": 0.4686,
+    "first_text": "29",
+    "first_conf": 0.7045,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    440.3,
+    153.7,
+    445.9,
+    158.5
+   ],
+   "text": "28",
+   "conf": 0.8762,
+   "retry": {
+    "text": "器",
+    "conf": 0.2861,
+    "first_text": "28",
+    "first_conf": 0.8762,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    469.4,
+    154.5,
+    473.7,
+    158.1
+   ],
+   "text": "2",
+   "conf": 0.7411,
+   "retry": {
+    "text": "2",
+    "conf": 0.1286,
+    "first_text": "2",
+    "first_conf": 0.7411,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    508.4,
+    154.5,
+    514.4,
+    159.7
+   ],
+   "text": "8",
+   "conf": 0.1639,
+   "retry": {
+    "text": "8",
+    "conf": 0.1131,
+    "first_text": "8",
+    "first_conf": 0.1639,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    391.7,
+    155.3,
+    397.2,
+    160.5
+   ],
+   "text": "77",
+   "conf": 0.6698,
+   "retry": {
+    "text": "7",
+    "conf": 0.4437,
+    "first_text": "77",
+    "first_conf": 0.6698,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    371.7,
+    156.5,
+    377.3,
+    161.7
+   ],
+   "text": "2",
+   "conf": 0.2115,
+   "retry": {
+    "text": "当",
+    "conf": 0.1383,
+    "first_text": "2",
+    "first_conf": 0.2115,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    418.0,
+    157.7,
+    423.5,
+    162.5
+   ],
+   "text": "2",
+   "conf": 0.8058,
+   "retry": {
+    "text": "2",
+    "conf": 0.3629,
+    "first_text": "2",
+    "first_conf": 0.8058,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    459.0,
+    158.5,
+    464.6,
+    163.3
+   ],
+   "text": "26",
+   "conf": 0.9016,
+   "retry": {
+    "text": "26",
+    "conf": 0.9016,
+    "first_text": "26",
+    "first_conf": 0.8063,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    298.8,
+    158.9,
+    304.0,
+    164.5
+   ],
+   "text": "13",
+   "conf": 0.7173,
+   "retry": {
+    "text": "熔",
+    "conf": 0.4213,
+    "first_text": "13",
+    "first_conf": 0.7173,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    472.1,
+    159.3,
+    477.7,
+    164.5
+   ],
+   "text": "26",
+   "conf": 0.6658,
+   "retry": {
+    "text": "2器8",
+    "conf": 0.4345,
+    "first_text": "26",
+    "first_conf": 0.6658,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    382.9,
+    159.7,
+    388.5,
+    164.9
+   ],
+   "text": "2",
+   "conf": 0.6245,
+   "retry": {
+    "text": "散",
+    "conf": 0.0964,
+    "first_text": "2",
+    "first_conf": 0.6245,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    345.8,
+    161.7,
+    351.8,
+    171.7
+   ],
+   "text": "号",
+   "conf": 0.5524,
+   "retry": {
+    "text": "号",
+    "conf": 0.5524,
+    "first_text": "反",
+    "first_conf": 0.1273,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    429.5,
+    164.5,
+    434.7,
+    169.7
+   ],
+   "text": "20",
+   "conf": 0.6112,
+   "retry": {
+    "text": "额",
+    "conf": 0.271,
+    "first_text": "20",
+    "first_conf": 0.6112,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    491.3,
+    164.5,
+    494.9,
+    168.1
+   ],
+   "text": "20",
+   "conf": 0.8269,
+   "retry": {
+    "text": "20",
+    "conf": 0.8269,
+    "first_text": "城",
+    "first_conf": 0.2171,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    373.3,
+    165.3,
+    379.3,
+    170.5
+   ],
+   "text": "a",
+   "conf": 0.4646,
+   "retry": {
+    "text": "",
+    "conf": 0.0,
+    "first_text": "a",
+    "first_conf": 0.4646,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    304.0,
+    167.3,
+    309.6,
+    172.9
+   ],
+   "text": "20",
+   "conf": 0.9253,
+   "retry": {
+    "text": "如",
+    "conf": 0.2551,
+    "first_text": "20",
+    "first_conf": 0.9253,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    494.9,
+    168.1,
+    500.0,
+    172.9
+   ],
+   "text": "28",
+   "conf": 0.9587,
+   "retry": null
+  },
+  {
+   "bbox": [
+    419.6,
+    168.5,
+    424.7,
+    173.6
+   ],
+   "text": "29",
+   "conf": 0.8676,
+   "retry": {
+    "text": "39",
+    "conf": 0.6449,
+    "first_text": "29",
+    "first_conf": 0.8676,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    440.7,
+    168.5,
+    444.7,
+    172.5
+   ],
+   "text": "20",
+   "conf": 0.8939,
+   "retry": {
+    "text": "省",
+    "conf": 0.4051,
+    "first_text": "20",
+    "first_conf": 0.8939,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    500.8,
+    168.5,
+    506.4,
+    173.6
+   ],
+   "text": "29",
+   "conf": 0.6444,
+   "retry": {
+    "text": "20",
+    "conf": 0.5059,
+    "first_text": "29",
+    "first_conf": 0.6444,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    484.9,
+    168.9,
+    490.5,
+    174.4
+   ],
+   "text": "城",
+   "conf": 0.8103,
+   "retry": {
+    "text": "城",
+    "conf": 0.1588,
+    "first_text": "城",
+    "first_conf": 0.8103,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    519.6,
+    169.3,
+    525.1,
+    174.4
+   ],
+   "text": "3",
+   "conf": 0.4375,
+   "retry": {
+    "text": "2",
+    "conf": 0.4008,
+    "first_text": "3",
+    "first_conf": 0.4375,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    292.9,
+    169.7,
+    298.0,
+    174.8
+   ],
+   "text": "in",
+   "conf": 0.84,
+   "retry": {
+    "text": "雅",
+    "conf": 0.295,
+    "first_text": "in",
+    "first_conf": 0.84,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    466.6,
+    170.1,
+    472.1,
+    175.2
+   ],
+   "text": "20",
+   "conf": 0.7489,
+   "retry": {
+    "text": "29",
+    "conf": 0.4749,
+    "first_text": "20",
+    "first_conf": 0.7489,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    408.0,
+    170.5,
+    412.0,
+    174.4
+   ],
+   "text": "20",
+   "conf": 0.9058,
+   "retry": {
+    "text": "20",
+    "conf": 0.9058,
+    "first_text": "24",
+    "first_conf": 0.6476,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    489.7,
+    171.7,
+    495.3,
+    176.4
+   ],
+   "text": "神",
+   "conf": 0.6383,
+   "retry": {
+    "text": "神",
+    "conf": 0.6383,
+    "first_text": "福",
+    "first_conf": 0.1221,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    346.6,
+    172.1,
+    351.8,
+    177.6
+   ],
+   "text": "物",
+   "conf": 0.7167,
+   "retry": {
+    "text": "物",
+    "conf": 0.7167,
+    "first_text": "站",
+    "first_conf": 0.341,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    435.9,
+    172.1,
+    441.5,
+    176.8
+   ],
+   "text": "20",
+   "conf": 0.8206,
+   "retry": {
+    "text": "4",
+    "conf": 0.2039,
+    "first_text": "20",
+    "first_conf": 0.8206,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    378.5,
+    178.4,
+    382.5,
+    181.6
+   ],
+   "text": "鸿",
+   "conf": 0.3034,
+   "retry": {
+    "text": "鸿",
+    "conf": 0.3034,
+    "first_text": "2",
+    "first_conf": 0.2065,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    393.3,
+    178.4,
+    398.8,
+    184.0
+   ],
+   "text": "26",
+   "conf": 0.5165,
+   "retry": {
+    "text": "26",
+    "conf": 0.5165,
+    "first_text": "31",
+    "first_conf": 0.4078,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    508.8,
+    178.4,
+    515.2,
+    183.2
+   ],
+   "text": "20",
+   "conf": 0.8116,
+   "retry": {
+    "text": "",
+    "conf": 0.0,
+    "first_text": "20",
+    "first_conf": 0.8116,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    515.2,
+    178.8,
+    521.2,
+    184.0
+   ],
+   "text": "st",
+   "conf": 0.668,
+   "retry": {
+    "text": "缺",
+    "conf": 0.4633,
+    "first_text": "st",
+    "first_conf": 0.668,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    296.0,
+    180.0,
+    302.0,
+    184.8
+   ],
+   "text": "20",
+   "conf": 0.9666,
+   "retry": null
+  },
+  {
+   "bbox": [
+    320.3,
+    180.0,
+    325.5,
+    186.0
+   ],
+   "text": "智",
+   "conf": 0.9479,
+   "retry": {
+    "text": "智",
+    "conf": 0.9479,
+    "first_text": "尊",
+    "first_conf": 0.2344,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    286.9,
+    180.4,
+    292.1,
+    185.6
+   ],
+   "text": "20",
+   "conf": 0.9422,
+   "retry": {
+    "text": "20",
+    "conf": 0.4746,
+    "first_text": "20",
+    "first_conf": 0.9422,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    373.7,
+    182.0,
+    378.9,
+    187.2
+   ],
+   "text": "36",
+   "conf": 0.684,
+   "retry": {
+    "text": "3$",
+    "conf": 0.4702,
+    "first_text": "36",
+    "first_conf": 0.684,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    343.5,
+    183.2,
+    349.0,
+    188.8
+   ],
+   "text": "16",
+   "conf": 0.5521,
+   "retry": {
+    "text": "體",
+    "conf": 0.2445,
+    "first_text": "16",
+    "first_conf": 0.5521,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    382.5,
+    183.2,
+    388.1,
+    188.4
+   ],
+   "text": "加s",
+   "conf": 0.3736,
+   "retry": {
+    "text": "1",
+    "conf": 0.1309,
+    "first_text": "加s",
+    "first_conf": 0.3736,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    498.8,
+    183.2,
+    502.8,
+    187.2
+   ],
+   "text": "20",
+   "conf": 0.8151,
+   "retry": {
+    "text": "20",
+    "conf": 0.8151,
+    "first_text": "20",
+    "first_conf": 0.8072,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    328.7,
+    183.6,
+    334.3,
+    188.8
+   ],
+   "text": "a",
+   "conf": 0.3497,
+   "retry": {
+    "text": "a",
+    "conf": 0.3497,
+    "first_text": "丝",
+    "first_conf": 0.0881,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    399.2,
+    184.8,
+    402.8,
+    188.4
+   ],
+   "text": "20",
+   "conf": 0.9312,
+   "retry": {
+    "text": "20",
+    "conf": 0.8212,
+    "first_text": "20",
+    "first_conf": 0.9312,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    471.0,
+    184.8,
+    475.7,
+    188.4
+   ],
+   "text": "第",
+   "conf": 0.5641,
+   "retry": {
+    "text": "篇",
+    "conf": 0.328,
+    "first_text": "第",
+    "first_conf": 0.5641,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    304.8,
+    185.2,
+    310.4,
+    190.4
+   ],
+   "text": "2",
+   "conf": 0.479,
+   "retry": {
+    "text": "z",
+    "conf": 0.2494,
+    "first_text": "2",
+    "first_conf": 0.479,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    390.9,
+    185.2,
+    396.0,
+    190.0
+   ],
+   "text": "20",
+   "conf": 0.6232,
+   "retry": {
+    "text": "路",
+    "conf": 0.1221,
+    "first_text": "20",
+    "first_conf": 0.6232,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    429.5,
+    186.0,
+    435.5,
+    190.8
+   ],
+   "text": "32",
+   "conf": 0.7451,
+   "retry": {
+    "text": "32",
+    "conf": 0.7425,
+    "first_text": "32",
+    "first_conf": 0.7451,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    514.4,
+    186.0,
+    518.8,
+    189.6
+   ],
+   "text": "15",
+   "conf": 0.6656,
+   "retry": {
+    "text": "51",
+    "conf": 0.6371,
+    "first_text": "15",
+    "first_conf": 0.6656,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    504.4,
+    186.4,
+    508.0,
+    190.0
+   ],
+   "text": "20",
+   "conf": 0.8421,
+   "retry": {
+    "text": "a",
+    "conf": 0.6283,
+    "first_text": "20",
+    "first_conf": 0.8421,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    312.8,
+    188.0,
+    319.9,
+    194.8
+   ],
+   "text": "城",
+   "conf": 0.0928,
+   "retry": {
+    "text": "雜",
+    "conf": 0.0575,
+    "first_text": "城",
+    "first_conf": 0.0928,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    520.4,
+    189.6,
+    525.5,
+    194.8
+   ],
+   "text": "a1",
+   "conf": 0.7995,
+   "retry": {
+    "text": "4",
+    "conf": 0.2103,
+    "first_text": "a1",
+    "first_conf": 0.7995,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    357.0,
+    190.0,
+    363.0,
+    195.2
+   ],
+   "text": "2",
+   "conf": 0.6823,
+   "retry": {
+    "text": "蒙",
+    "conf": 0.2486,
+    "first_text": "2",
+    "first_conf": 0.6823,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    471.4,
+    190.0,
+    476.9,
+    195.2
+   ],
+   "text": "3",
+   "conf": 0.9084,
+   "retry": {
+    "text": "3",
+    "conf": 0.9084,
+    "first_text": "2",
+    "first_conf": 0.2791,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    292.1,
+    190.8,
+    298.0,
+    196.0
+   ],
+   "text": "11",
+   "conf": 0.4589,
+   "retry": {
+    "text": ".1",
+    "conf": 0.3751,
+    "first_text": "11",
+    "first_conf": 0.4589,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    460.6,
+    191.2,
+    464.2,
+    194.4
+   ],
+   "text": "31",
+   "conf": 0.9256,
+   "retry": {
+    "text": "31",
+    "conf": 0.4389,
+    "first_text": "31",
+    "first_conf": 0.9256,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    335.1,
+    191.6,
+    340.7,
+    196.8
+   ],
+   "text": "露",
+   "conf": 0.9371,
+   "retry": {
+    "text": "露",
+    "conf": 0.9371,
+    "first_text": "效",
+    "first_conf": 0.1897,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    508.4,
+    191.6,
+    514.0,
+    196.4
+   ],
+   "text": "21",
+   "conf": 0.7168,
+   "retry": {
+    "text": "s",
+    "conf": 0.3935,
+    "first_text": "21",
+    "first_conf": 0.7168,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    491.7,
+    192.0,
+    495.7,
+    195.6
+   ],
+   "text": "39",
+   "conf": 0.9822,
+   "retry": null
+  },
+  {
+   "bbox": [
+    372.9,
+    194.0,
+    378.1,
+    198.8
+   ],
+   "text": "20",
+   "conf": 0.9409,
+   "retry": {
+    "text": "28",
+    "conf": 0.698,
+    "first_text": "20",
+    "first_conf": 0.9409,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    282.1,
+    194.8,
+    287.3,
+    200.0
+   ],
+   "text": "20",
+   "conf": 0.8047,
+   "retry": {
+    "text": "2",
+    "conf": 0.7701,
+    "first_text": "20",
+    "first_conf": 0.8047,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    407.6,
+    195.6,
+    412.4,
+    200.8
+   ],
+   "text": "30",
+   "conf": 0.6926,
+   "retry": {
+    "text": "33",
+    "conf": 0.5824,
+    "first_text": "30",
+    "first_conf": 0.6926,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    465.8,
+    195.6,
+    471.0,
+    200.4
+   ],
+   "text": "22",
+   "conf": 0.5218,
+   "retry": {
+    "text": "x",
+    "conf": 0.3681,
+    "first_text": "22",
+    "first_conf": 0.5218,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    505.2,
+    196.4,
+    509.2,
+    200.4
+   ],
+   "text": "3",
+   "conf": 0.6562,
+   "retry": {
+    "text": "3",
+    "conf": 0.6562,
+    "first_text": "iup",
+    "first_conf": 0.4999,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    447.0,
+    196.8,
+    451.0,
+    200.8
+   ],
+   "text": "33",
+   "conf": 0.7495,
+   "retry": {
+    "text": "3",
+    "conf": 0.3645,
+    "first_text": "33",
+    "first_conf": 0.7495,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    349.8,
+    197.6,
+    355.4,
+    202.4
+   ],
+   "text": "256",
+   "conf": 0.6421,
+   "retry": {
+    "text": "荔",
+    "conf": 0.2366,
+    "first_text": "256",
+    "first_conf": 0.6421,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    298.8,
+    198.8,
+    308.4,
+    205.2
+   ],
+   "text": "M24",
+   "conf": 0.6381,
+   "retry": {
+    "text": "随政",
+    "conf": 0.2486,
+    "first_text": "M24",
+    "first_conf": 0.6381,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    415.2,
+    198.8,
+    420.4,
+    203.6
+   ],
+   "text": "31",
+   "conf": 0.6914,
+   "retry": {
+    "text": "31",
+    "conf": 0.6914,
+    "first_text": "31",
+    "first_conf": 0.6622,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    523.5,
+    198.8,
+    528.7,
+    203.6
+   ],
+   "text": "3新",
+   "conf": 0.4944,
+   "retry": {
+    "text": "家",
+    "conf": 0.0653,
+    "first_text": "3新",
+    "first_conf": 0.4944,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    488.9,
+    199.6,
+    494.5,
+    204.8
+   ],
+   "text": "21",
+   "conf": 0.8983,
+   "retry": {
+    "text": "31",
+    "conf": 0.3696,
+    "first_text": "21",
+    "first_conf": 0.8983,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    326.3,
+    200.4,
+    331.9,
+    205.6
+   ],
+   "text": "地",
+   "conf": 0.2188,
+   "retry": {
+    "text": "2",
+    "conf": 0.1714,
+    "first_text": "地",
+    "first_conf": 0.2188,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    426.7,
+    200.4,
+    432.7,
+    205.2
+   ],
+   "text": "33",
+   "conf": 0.853,
+   "retry": {
+    "text": "33",
+    "conf": 0.6636,
+    "first_text": "33",
+    "first_conf": 0.853,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    289.7,
+    200.8,
+    295.2,
+    205.6
+   ],
+   "text": "双",
+   "conf": 0.3297,
+   "retry": {
+    "text": "四",
+    "conf": 0.1225,
+    "first_text": "双",
+    "first_conf": 0.3297,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    339.9,
+    201.2,
+    345.4,
+    206.0
+   ],
+   "text": "28",
+   "conf": 0.5253,
+   "retry": {
+    "text": "28",
+    "conf": 0.5253,
+    "first_text": "2",
+    "first_conf": 0.4253,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    501.2,
+    201.2,
+    506.8,
+    206.0
+   ],
+   "text": "31",
+   "conf": 0.7627,
+   "retry": {
+    "text": "3",
+    "conf": 0.4816,
+    "first_text": "31",
+    "first_conf": 0.7627,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    464.6,
+    202.4,
+    468.6,
+    206.0
+   ],
+   "text": "加",
+   "conf": 0.5451,
+   "retry": {
+    "text": "排",
+    "conf": 0.1806,
+    "first_text": "加",
+    "first_conf": 0.5451,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    276.5,
+    204.0,
+    281.7,
+    209.6
+   ],
+   "text": "21",
+   "conf": 0.7958,
+   "retry": {
+    "text": "21",
+    "conf": 0.7958,
+    "first_text": "2",
+    "first_conf": 0.6474,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    265.8,
+    206.4,
+    270.5,
+    212.0
+   ],
+   "text": "t1",
+   "conf": 0.3127,
+   "retry": {
+    "text": "建",
+    "conf": 0.1666,
+    "first_text": "t1",
+    "first_conf": 0.3127,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    312.0,
+    206.8,
+    319.5,
+    213.6
+   ],
+   "text": "热",
+   "conf": 0.667,
+   "retry": {
+    "text": "慧",
+    "conf": 0.1017,
+    "first_text": "热",
+    "first_conf": 0.667,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    484.9,
+    207.6,
+    490.1,
+    213.2
+   ],
+   "text": "30",
+   "conf": 0.5182,
+   "retry": {
+    "text": "2",
+    "conf": 0.2606,
+    "first_text": "30",
+    "first_conf": 0.5182,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    350.6,
+    208.4,
+    355.8,
+    213.6
+   ],
+   "text": "2",
+   "conf": 0.8902,
+   "retry": {
+    "text": "2",
+    "conf": 0.8902,
+    "first_text": "2",
+    "first_conf": 0.5622,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    498.8,
+    208.4,
+    502.8,
+    212.4
+   ],
+   "text": "91",
+   "conf": 0.6787,
+   "retry": {
+    "text": "91",
+    "conf": 0.6787,
+    "first_text": "91",
+    "first_conf": 0.5618,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    522.4,
+    209.6,
+    527.5,
+    214.8
+   ],
+   "text": "2",
+   "conf": 0.8999,
+   "retry": {
+    "text": "2",
+    "conf": 0.8999,
+    "first_text": "签",
+    "first_conf": 0.3467,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    330.3,
+    210.4,
+    335.9,
+    215.6
+   ],
+   "text": "20",
+   "conf": 0.7324,
+   "retry": {
+    "text": "28",
+    "conf": 0.6827,
+    "first_text": "20",
+    "first_conf": 0.7324,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    374.1,
+    210.4,
+    379.3,
+    215.6
+   ],
+   "text": "31",
+   "conf": 0.7764,
+   "retry": {
+    "text": "38",
+    "conf": 0.7688,
+    "first_text": "31",
+    "first_conf": 0.7764,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    491.3,
+    210.4,
+    495.7,
+    214.0
+   ],
+   "text": "31",
+   "conf": 0.7939,
+   "retry": {
+    "text": "新",
+    "conf": 0.7187,
+    "first_text": "31",
+    "first_conf": 0.7939,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    362.2,
+    212.0,
+    367.4,
+    217.2
+   ],
+   "text": "28",
+   "conf": 0.8368,
+   "retry": {
+    "text": "28",
+    "conf": 0.8368,
+    "first_text": "29",
+    "first_conf": 0.5768,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    507.2,
+    212.0,
+    512.8,
+    217.2
+   ],
+   "text": "32",
+   "conf": 0.8687,
+   "retry": {
+    "text": "3a",
+    "conf": 0.7668,
+    "first_text": "32",
+    "first_conf": 0.8687,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    349.0,
+    214.0,
+    354.2,
+    219.2
+   ],
+   "text": "ic",
+   "conf": 0.6773,
+   "retry": {
+    "text": "3",
+    "conf": 0.5444,
+    "first_text": "ic",
+    "first_conf": 0.6773,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    517.2,
+    214.8,
+    522.4,
+    219.6
+   ],
+   "text": "2",
+   "conf": 0.5975,
+   "retry": {
+    "text": "2",
+    "conf": 0.5975,
+    "first_text": "2",
+    "first_conf": 0.5405,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    489.7,
+    215.2,
+    495.3,
+    220.4
+   ],
+   "text": "双",
+   "conf": 0.4195,
+   "retry": {
+    "text": "双",
+    "conf": 0.4195,
+    "first_text": "x",
+    "first_conf": 0.124,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    259.8,
+    215.6,
+    263.8,
+    219.6
+   ],
+   "text": "21",
+   "conf": 0.9921,
+   "retry": null
+  },
+  {
+   "bbox": [
+    523.5,
+    215.6,
+    527.5,
+    219.2
+   ],
+   "text": "32",
+   "conf": 0.9803,
+   "retry": {
+    "text": "32",
+    "conf": 0.9803,
+    "first_text": "32",
+    "first_conf": 0.8584,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    427.5,
+    216.0,
+    432.7,
+    221.2
+   ],
+   "text": "20",
+   "conf": 0.368,
+   "retry": {
+    "text": "2",
+    "conf": 0.194,
+    "first_text": "20",
+    "first_conf": 0.368,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    329.5,
+    216.4,
+    334.7,
+    221.2
+   ],
+   "text": "20",
+   "conf": 0.7424,
+   "retry": {
+    "text": "辦",
+    "conf": 0.1651,
+    "first_text": "20",
+    "first_conf": 0.7424,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    372.1,
+    216.4,
+    377.3,
+    221.2
+   ],
+   "text": "7",
+   "conf": 0.7268,
+   "retry": {
+    "text": "T7",
+    "conf": 0.3793,
+    "first_text": "7",
+    "first_conf": 0.7268,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    295.2,
+    217.6,
+    300.4,
+    222.8
+   ],
+   "text": "22",
+   "conf": 0.9401,
+   "retry": {
+    "text": "28",
+    "conf": 0.7242,
+    "first_text": "22",
+    "first_conf": 0.9401,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    360.2,
+    218.8,
+    365.8,
+    224.3
+   ],
+   "text": "33",
+   "conf": 0.6917,
+   "retry": {
+    "text": "38",
+    "conf": 0.665,
+    "first_text": "33",
+    "first_conf": 0.6917,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    312.0,
+    219.6,
+    317.6,
+    225.1
+   ],
+   "text": "26",
+   "conf": 0.7856,
+   "retry": {
+    "text": "發",
+    "conf": 0.3531,
+    "first_text": "26",
+    "first_conf": 0.7856,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    321.1,
+    219.6,
+    326.3,
+    224.7
+   ],
+   "text": "2",
+   "conf": 0.7138,
+   "retry": {
+    "text": "π",
+    "conf": 0.5395,
+    "first_text": "2",
+    "first_conf": 0.7138,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    500.8,
+    220.0,
+    504.8,
+    223.9
+   ],
+   "text": "22",
+   "conf": 0.9559,
+   "retry": null
+  },
+  {
+   "bbox": [
+    510.8,
+    220.0,
+    516.0,
+    224.7
+   ],
+   "text": "32",
+   "conf": 0.6712,
+   "retry": {
+    "text": "32",
+    "conf": 0.6712,
+    "first_text": "d0",
+    "first_conf": 0.249,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    302.0,
+    222.0,
+    307.6,
+    227.5
+   ],
+   "text": "基",
+   "conf": 0.4111,
+   "retry": {
+    "text": "基",
+    "conf": 0.0926,
+    "first_text": "基",
+    "first_conf": 0.4111,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    467.0,
+    223.1,
+    470.6,
+    226.7
+   ],
+   "text": "36",
+   "conf": 0.9879,
+   "retry": null
+  },
+  {
+   "bbox": [
+    521.6,
+    223.5,
+    526.7,
+    229.1
+   ],
+   "text": "22",
+   "conf": 0.5498,
+   "retry": {
+    "text": "22",
+    "conf": 0.5498,
+    "first_text": "2",
+    "first_conf": 0.427,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    269.3,
+    225.1,
+    274.5,
+    230.3
+   ],
+   "text": "2",
+   "conf": 0.9264,
+   "retry": {
+    "text": "2",
+    "conf": 0.9264,
+    "first_text": "22",
+    "first_conf": 0.9075,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    326.3,
+    226.3,
+    331.5,
+    231.1
+   ],
+   "text": "28",
+   "conf": 0.8165,
+   "retry": {
+    "text": "2",
+    "conf": 0.3108,
+    "first_text": "28",
+    "first_conf": 0.8165,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    416.4,
+    226.3,
+    421.1,
+    231.5
+   ],
+   "text": "第",
+   "conf": 0.5535,
+   "retry": {
+    "text": "第",
+    "conf": 0.5535,
+    "first_text": "9",
+    "first_conf": 0.3437,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    262.2,
+    229.1,
+    266.6,
+    232.7
+   ],
+   "text": "21",
+   "conf": 0.9815,
+   "retry": null
+  },
+  {
+   "bbox": [
+    373.7,
+    229.1,
+    379.3,
+    233.9
+   ],
+   "text": "35",
+   "conf": 0.9914,
+   "retry": null
+  },
+  {
+   "bbox": [
+    380.1,
+    229.5,
+    384.1,
+    233.1
+   ],
+   "text": "36",
+   "conf": 0.8516,
+   "retry": {
+    "text": "36",
+    "conf": 0.8516,
+    "first_text": "28",
+    "first_conf": 0.8101,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    391.3,
+    229.5,
+    395.2,
+    233.5
+   ],
+   "text": "37",
+   "conf": 0.5853,
+   "retry": {
+    "text": "17",
+    "conf": 0.4391,
+    "first_text": "37",
+    "first_conf": 0.5853,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    469.4,
+    229.9,
+    474.5,
+    235.1
+   ],
+   "text": "40",
+   "conf": 0.9818,
+   "retry": null
+  },
+  {
+   "bbox": [
+    405.2,
+    230.3,
+    410.8,
+    235.1
+   ],
+   "text": "第",
+   "conf": 0.9464,
+   "retry": {
+    "text": "第",
+    "conf": 0.9464,
+    "first_text": "其",
+    "first_conf": 0.1786,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    349.4,
+    231.1,
+    355.0,
+    235.9
+   ],
+   "text": "10",
+   "conf": 0.5151,
+   "retry": {
+    "text": "3",
+    "conf": 0.3693,
+    "first_text": "10",
+    "first_conf": 0.5151,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    502.4,
+    231.1,
+    508.8,
+    236.3
+   ],
+   "text": "36",
+   "conf": 0.8509,
+   "retry": {
+    "text": "36",
+    "conf": 0.8509,
+    "first_text": "36",
+    "first_conf": 0.5771,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    507.2,
+    231.5,
+    515.2,
+    236.3
+   ],
+   "text": "34",
+   "conf": 0.9883,
+   "retry": null
+  },
+  {
+   "bbox": [
+    481.7,
+    232.7,
+    486.5,
+    238.3
+   ],
+   "text": "39",
+   "conf": 0.8694,
+   "retry": {
+    "text": "39",
+    "conf": 0.7965,
+    "first_text": "39",
+    "first_conf": 0.8694,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    299.6,
+    233.1,
+    304.8,
+    237.9
+   ],
+   "text": "20",
+   "conf": 0.7857,
+   "retry": {
+    "text": "28",
+    "conf": 0.7442,
+    "first_text": "20",
+    "first_conf": 0.7857,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    518.8,
+    233.1,
+    523.5,
+    236.7
+   ],
+   "text": "30",
+   "conf": 0.6625,
+   "retry": {
+    "text": "2",
+    "conf": 0.1709,
+    "first_text": "30",
+    "first_conf": 0.6625,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    374.9,
+    234.3,
+    380.1,
+    239.5
+   ],
+   "text": "36",
+   "conf": 0.9517,
+   "retry": null
+  },
+  {
+   "bbox": [
+    316.4,
+    234.7,
+    321.9,
+    240.3
+   ],
+   "text": "27",
+   "conf": 0.688,
+   "retry": {
+    "text": "»",
+    "conf": 0.3613,
+    "first_text": "27",
+    "first_conf": 0.688,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    417.2,
+    235.5,
+    422.3,
+    240.7
+   ],
+   "text": "30",
+   "conf": 0.9911,
+   "retry": null
+  },
+  {
+   "bbox": [
+    487.3,
+    235.9,
+    492.5,
+    240.7
+   ],
+   "text": "38",
+   "conf": 0.6355,
+   "retry": {
+    "text": "38",
+    "conf": 0.6355,
+    "first_text": "30",
+    "first_conf": 0.6286,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    245.0,
+    236.3,
+    250.6,
+    241.1
+   ],
+   "text": "2",
+   "conf": 0.494,
+   "retry": {
+    "text": "0",
+    "conf": 0.1932,
+    "first_text": "2",
+    "first_conf": 0.494,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    390.1,
+    236.3,
+    394.5,
+    239.9
+   ],
+   "text": "36",
+   "conf": 0.9305,
+   "retry": {
+    "text": "36",
+    "conf": 0.9305,
+    "first_text": "36",
+    "first_conf": 0.8391,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    400.8,
+    236.3,
+    404.8,
+    240.3
+   ],
+   "text": "17",
+   "conf": 0.7563,
+   "retry": {
+    "text": "37",
+    "conf": 0.6277,
+    "first_text": "17",
+    "first_conf": 0.7563,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    508.4,
+    236.3,
+    527.1,
+    244.3
+   ],
+   "text": "30  35",
+   "conf": 0.7563,
+   "retry": {
+    "text": "0  ",
+    "conf": 0.5023,
+    "first_text": "30  35",
+    "first_conf": 0.7563,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    497.2,
+    238.3,
+    504.0,
+    243.1
+   ],
+   "text": "第",
+   "conf": 0.3002,
+   "retry": {
+    "text": "3",
+    "conf": 0.2517,
+    "first_text": "第",
+    "first_conf": 0.3002,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    237.5,
+    239.1,
+    242.6,
+    244.3
+   ],
+   "text": "s",
+   "conf": 0.2194,
+   "retry": {
+    "text": "理",
+    "conf": 0.1299,
+    "first_text": "s",
+    "first_conf": 0.2194,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    412.0,
+    239.1,
+    417.2,
+    244.3
+   ],
+   "text": "38",
+   "conf": 0.9813,
+   "retry": null
+  },
+  {
+   "bbox": [
+    329.5,
+    239.5,
+    334.3,
+    244.7
+   ],
+   "text": "20",
+   "conf": 0.9226,
+   "retry": {
+    "text": "2",
+    "conf": 0.8701,
+    "first_text": "20",
+    "first_conf": 0.9226,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    300.8,
+    240.3,
+    306.8,
+    245.5
+   ],
+   "text": "2",
+   "conf": 0.2743,
+   "retry": {
+    "text": "2",
+    "conf": 0.1838,
+    "first_text": "2",
+    "first_conf": 0.2743,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    337.5,
+    240.7,
+    343.5,
+    246.3
+   ],
+   "text": "31",
+   "conf": 0.5529,
+   "retry": {
+    "text": "彭",
+    "conf": 0.4705,
+    "first_text": "31",
+    "first_conf": 0.5529,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    369.8,
+    241.1,
+    374.9,
+    246.3
+   ],
+   "text": "25",
+   "conf": 0.9142,
+   "retry": {
+    "text": "28",
+    "conf": 0.4738,
+    "first_text": "25",
+    "first_conf": 0.9142,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    352.6,
+    241.9,
+    357.8,
+    247.1
+   ],
+   "text": "38",
+   "conf": 0.7706,
+   "retry": {
+    "text": "38",
+    "conf": 0.7706,
+    "first_text": "38",
+    "first_conf": 0.7102,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    281.3,
+    242.7,
+    285.3,
+    246.7
+   ],
+   "text": "30",
+   "conf": 0.7504,
+   "retry": {
+    "text": "2",
+    "conf": 0.1907,
+    "first_text": "30",
+    "first_conf": 0.7504,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    418.0,
+    242.7,
+    423.5,
+    247.9
+   ],
+   "text": "30",
+   "conf": 0.8661,
+   "retry": {
+    "text": "30",
+    "conf": 0.8661,
+    "first_text": "30",
+    "first_conf": 0.7796,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    271.7,
+    243.9,
+    277.3,
+    249.1
+   ],
+   "text": "2",
+   "conf": 0.817,
+   "retry": {
+    "text": "2",
+    "conf": 0.817,
+    "first_text": "22",
+    "first_conf": 0.7611,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    400.4,
+    244.3,
+    406.0,
+    249.5
+   ],
+   "text": "37",
+   "conf": 0.9988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    243.8,
+    244.7,
+    251.0,
+    251.1
+   ],
+   "text": ">",
+   "conf": 0.2575,
+   "retry": {
+    "text": ">",
+    "conf": 0.2575,
+    "first_text": "2",
+    "first_conf": 0.1771,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    320.7,
+    244.7,
+    326.3,
+    250.3
+   ],
+   "text": "28",
+   "conf": 0.6749,
+   "retry": {
+    "text": "第",
+    "conf": 0.2945,
+    "first_text": "28",
+    "first_conf": 0.6749,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    491.3,
+    244.7,
+    497.2,
+    249.1
+   ],
+   "text": "38",
+   "conf": 0.7679,
+   "retry": {
+    "text": "208",
+    "conf": 0.6332,
+    "first_text": "38",
+    "first_conf": 0.7679,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    410.8,
+    245.9,
+    416.0,
+    250.7
+   ],
+   "text": "36",
+   "conf": 0.9643,
+   "retry": null
+  },
+  {
+   "bbox": [
+    512.4,
+    245.9,
+    517.2,
+    249.5
+   ],
+   "text": "30",
+   "conf": 0.9326,
+   "retry": {
+    "text": "30",
+    "conf": 0.7387,
+    "first_text": "30",
+    "first_conf": 0.9326,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    472.9,
+    246.7,
+    476.5,
+    250.3
+   ],
+   "text": "d1",
+   "conf": 0.6515,
+   "retry": {
+    "text": "41",
+    "conf": 0.3862,
+    "first_text": "d1",
+    "first_conf": 0.6515,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    393.7,
+    247.1,
+    397.6,
+    251.1
+   ],
+   "text": "37",
+   "conf": 0.8697,
+   "retry": {
+    "text": "37",
+    "conf": 0.8697,
+    "first_text": "27",
+    "first_conf": 0.7556,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    290.9,
+    248.3,
+    296.4,
+    253.1
+   ],
+   "text": "2",
+   "conf": 0.8172,
+   "retry": {
+    "text": "2",
+    "conf": 0.3897,
+    "first_text": "2",
+    "first_conf": 0.8172,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    330.3,
+    248.3,
+    335.9,
+    253.1
+   ],
+   "text": "31",
+   "conf": 0.9668,
+   "retry": null
+  },
+  {
+   "bbox": [
+    231.1,
+    248.7,
+    236.3,
+    253.5
+   ],
+   "text": "20",
+   "conf": 0.9045,
+   "retry": {
+    "text": "280",
+    "conf": 0.5301,
+    "first_text": "20",
+    "first_conf": 0.9045,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    314.4,
+    253.9,
+    321.1,
+    258.7
+   ],
+   "text": "-28",
+   "conf": 0.9493,
+   "retry": {
+    "text": "储",
+    "conf": 0.5183,
+    "first_text": "-28",
+    "first_conf": 0.9493,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    396.0,
+    253.9,
+    400.0,
+    257.1
+   ],
+   "text": "38",
+   "conf": 0.9,
+   "retry": {
+    "text": "38",
+    "conf": 0.9,
+    "first_text": "3",
+    "first_conf": 0.2913,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    265.8,
+    254.3,
+    269.7,
+    258.3
+   ],
+   "text": "21",
+   "conf": 0.8023,
+   "retry": {
+    "text": "21",
+    "conf": 0.7526,
+    "first_text": "21",
+    "first_conf": 0.8023,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    294.8,
+    255.1,
+    300.0,
+    260.7
+   ],
+   "text": "2",
+   "conf": 0.3911,
+   "retry": {
+    "text": "2",
+    "conf": 0.223,
+    "first_text": "2",
+    "first_conf": 0.3911,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    233.5,
+    257.5,
+    245.4,
+    263.9
+   ],
+   "text": "20",
+   "conf": 0.7809,
+   "retry": {
+    "text": "2",
+    "conf": 0.4915,
+    "first_text": "20",
+    "first_conf": 0.7809,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    387.7,
+    257.9,
+    393.7,
+    262.3
+   ],
+   "text": "37",
+   "conf": 0.8079,
+   "retry": {
+    "text": "37",
+    "conf": 0.8079,
+    "first_text": "3",
+    "first_conf": 0.257,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    402.0,
+    258.7,
+    406.4,
+    262.3
+   ],
+   "text": "38",
+   "conf": 0.8753,
+   "retry": {
+    "text": "38",
+    "conf": 0.8753,
+    "first_text": "38",
+    "first_conf": 0.8682,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    257.4,
+    259.9,
+    261.8,
+    263.5
+   ],
+   "text": "20",
+   "conf": 0.6705,
+   "retry": {
+    "text": "2",
+    "conf": 0.52,
+    "first_text": "20",
+    "first_conf": 0.6705,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    335.1,
+    259.9,
+    340.7,
+    265.1
+   ],
+   "text": "33",
+   "conf": 0.6502,
+   "retry": {
+    "text": "",
+    "conf": 0.0,
+    "first_text": "33",
+    "first_conf": 0.6502,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    360.2,
+    259.9,
+    365.0,
+    265.1
+   ],
+   "text": "36",
+   "conf": 0.7256,
+   "retry": {
+    "text": "3s",
+    "conf": 0.5795,
+    "first_text": "36",
+    "first_conf": 0.7256,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    318.8,
+    261.1,
+    324.3,
+    266.3
+   ],
+   "text": "20",
+   "conf": 0.9186,
+   "retry": {
+    "text": "2à",
+    "conf": 0.6213,
+    "first_text": "20",
+    "first_conf": 0.9186,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    376.5,
+    261.1,
+    380.9,
+    264.7
+   ],
+   "text": "30",
+   "conf": 0.9611,
+   "retry": null
+  },
+  {
+   "bbox": [
+    285.7,
+    261.9,
+    291.7,
+    267.1
+   ],
+   "text": "首",
+   "conf": 0.6865,
+   "retry": {
+    "text": "首",
+    "conf": 0.6865,
+    "first_text": "38",
+    "first_conf": 0.5891,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    300.8,
+    262.7,
+    306.4,
+    267.9
+   ],
+   "text": "27",
+   "conf": 0.6982,
+   "retry": {
+    "text": "游",
+    "conf": 0.4992,
+    "first_text": "27",
+    "first_conf": 0.6982,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    389.3,
+    263.9,
+    394.9,
+    269.1
+   ],
+   "text": "第",
+   "conf": 0.7612,
+   "retry": {
+    "text": "第",
+    "conf": 0.7612,
+    "first_text": "30",
+    "first_conf": 0.6154,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    262.6,
+    265.5,
+    267.4,
+    270.7
+   ],
+   "text": "20",
+   "conf": 0.6147,
+   "retry": {
+    "text": "23",
+    "conf": 0.5912,
+    "first_text": "20",
+    "first_conf": 0.6147,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    375.7,
+    266.3,
+    380.5,
+    271.5
+   ],
+   "text": "u",
+   "conf": 0.1282,
+   "retry": {
+    "text": "u",
+    "conf": 0.1282,
+    "first_text": "x",
+    "first_conf": 0.1225,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    403.2,
+    266.3,
+    406.8,
+    270.3
+   ],
+   "text": "20",
+   "conf": 0.7449,
+   "retry": {
+    "text": "20",
+    "conf": 0.7449,
+    "first_text": "20",
+    "first_conf": 0.641,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    314.0,
+    267.1,
+    319.5,
+    272.2
+   ],
+   "text": "20",
+   "conf": 0.9176,
+   "retry": {
+    "text": "2",
+    "conf": 0.895,
+    "first_text": "20",
+    "first_conf": 0.9176,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    355.0,
+    267.9,
+    360.6,
+    273.4
+   ],
+   "text": "36",
+   "conf": 0.7986,
+   "retry": {
+    "text": "36",
+    "conf": 0.6662,
+    "first_text": "36",
+    "first_conf": 0.7986,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    321.9,
+    268.3,
+    327.1,
+    273.4
+   ],
+   "text": "2",
+   "conf": 0.8854,
+   "retry": {
+    "text": "2",
+    "conf": 0.8854,
+    "first_text": "2",
+    "first_conf": 0.6642,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    276.9,
+    269.1,
+    283.3,
+    274.2
+   ],
+   "text": "25",
+   "conf": 0.9188,
+   "retry": {
+    "text": "25",
+    "conf": 0.8688,
+    "first_text": "25",
+    "first_conf": 0.9188,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    286.9,
+    270.3,
+    292.1,
+    275.4
+   ],
+   "text": "2",
+   "conf": 0.317,
+   "retry": {
+    "text": "2磁",
+    "conf": 0.3133,
+    "first_text": "2",
+    "first_conf": 0.317,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    296.8,
+    271.1,
+    302.4,
+    276.2
+   ],
+   "text": "9",
+   "conf": 0.4068,
+   "retry": {
+    "text": "7",
+    "conf": 0.2681,
+    "first_text": "9",
+    "first_conf": 0.4068,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    499.2,
+    271.5,
+    502.8,
+    274.6
+   ],
+   "text": "oh",
+   "conf": 0.2051,
+   "retry": {
+    "text": "",
+    "conf": 0.0,
+    "first_text": "oh",
+    "first_conf": 0.2051,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    236.3,
+    271.9,
+    242.6,
+    277.0
+   ],
+   "text": "23",
+   "conf": 0.7902,
+   "retry": {
+    "text": "323",
+    "conf": 0.646,
+    "first_text": "23",
+    "first_conf": 0.7902,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    340.3,
+    271.9,
+    354.6,
+    279.4
+   ],
+   "text": "24 MSh",
+   "conf": 0.6415,
+   "retry": {
+    "text": "2 MSh",
+    "conf": 0.5193,
+    "first_text": "24 MSh",
+    "first_conf": 0.6415,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    329.5,
+    273.8,
+    335.5,
+    279.0
+   ],
+   "text": "a",
+   "conf": 0.4572,
+   "retry": {
+    "text": "新",
+    "conf": 0.0864,
+    "first_text": "a",
+    "first_conf": 0.4572,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    376.5,
+    274.2,
+    381.3,
+    279.4
+   ],
+   "text": "32",
+   "conf": 0.4817,
+   "retry": {
+    "text": "x",
+    "conf": 0.3797,
+    "first_text": "32",
+    "first_conf": 0.4817,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    488.1,
+    274.6,
+    493.3,
+    279.4
+   ],
+   "text": "45",
+   "conf": 0.9432,
+   "retry": {
+    "text": "45",
+    "conf": 0.729,
+    "first_text": "45",
+    "first_conf": 0.9432,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    320.7,
+    275.8,
+    326.3,
+    281.4
+   ],
+   "text": "x",
+   "conf": 0.3896,
+   "retry": {
+    "text": "x",
+    "conf": 0.2459,
+    "first_text": "x",
+    "first_conf": 0.3896,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    223.5,
+    276.6,
+    247.8,
+    283.4
+   ],
+   "text": "2",
+   "conf": 0.4422,
+   "retry": {
+    "text": "0427",
+    "conf": 0.2793,
+    "first_text": "2",
+    "first_conf": 0.4422,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    352.6,
+    277.0,
+    357.8,
+    281.8
+   ],
+   "text": "38",
+   "conf": 0.9836,
+   "retry": {
+    "text": "38",
+    "conf": 0.9836,
+    "first_text": "36",
+    "first_conf": 0.6318,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    274.1,
+    278.2,
+    278.9,
+    281.8
+   ],
+   "text": "70",
+   "conf": 0.6744,
+   "retry": {
+    "text": "s",
+    "conf": 0.2336,
+    "first_text": "70",
+    "first_conf": 0.6744,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    372.1,
+    279.4,
+    377.3,
+    284.2
+   ],
+   "text": "57",
+   "conf": 0.853,
+   "retry": {
+    "text": "57",
+    "conf": 0.853,
+    "first_text": "57",
+    "first_conf": 0.7344,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    392.1,
+    279.4,
+    396.0,
+    283.4
+   ],
+   "text": "30",
+   "conf": 0.9883,
+   "retry": null
+  },
+  {
+   "bbox": [
+    335.5,
+    280.6,
+    340.7,
+    285.8
+   ],
+   "text": "4o",
+   "conf": 0.564,
+   "retry": {
+    "text": "36",
+    "conf": 0.4742,
+    "first_text": "4o",
+    "first_conf": 0.564,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    245.4,
+    282.2,
+    250.6,
+    287.4
+   ],
+   "text": "25",
+   "conf": 0.9518,
+   "retry": null
+  },
+  {
+   "bbox": [
+    229.9,
+    283.0,
+    235.1,
+    287.8
+   ],
+   "text": "24",
+   "conf": 0.9989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    298.4,
+    283.4,
+    304.0,
+    289.0
+   ],
+   "text": "m",
+   "conf": 0.6831,
+   "retry": {
+    "text": "磁",
+    "conf": 0.6742,
+    "first_text": "m",
+    "first_conf": 0.6831,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    407.2,
+    284.6,
+    411.2,
+    288.6
+   ],
+   "text": "40",
+   "conf": 0.8909,
+   "retry": {
+    "text": "#0",
+    "conf": 0.6329,
+    "first_text": "40",
+    "first_conf": 0.8909,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    518.0,
+    284.6,
+    522.0,
+    288.2
+   ],
+   "text": "44",
+   "conf": 0.7853,
+   "retry": {
+    "text": "44",
+    "conf": 0.7853,
+    "first_text": "48",
+    "first_conf": 0.4558,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    270.1,
+    285.4,
+    275.3,
+    290.2
+   ],
+   "text": "26",
+   "conf": 0.8505,
+   "retry": {
+    "text": "2第",
+    "conf": 0.5652,
+    "first_text": "26",
+    "first_conf": 0.8505,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    282.1,
+    286.6,
+    288.1,
+    291.4
+   ],
+   "text": "326",
+   "conf": 0.52,
+   "retry": {
+    "text": "326",
+    "conf": 0.52,
+    "first_text": "36",
+    "first_conf": 0.5179,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    329.1,
+    287.0,
+    333.5,
+    290.6
+   ],
+   "text": "34",
+   "conf": 0.988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    399.6,
+    287.0,
+    404.8,
+    291.8
+   ],
+   "text": "40",
+   "conf": 0.9704,
+   "retry": null
+  },
+  {
+   "bbox": [
+    239.5,
+    287.4,
+    245.0,
+    293.0
+   ],
+   "text": "25",
+   "conf": 0.7925,
+   "retry": {
+    "text": "28",
+    "conf": 0.69,
+    "first_text": "25",
+    "first_conf": 0.7925,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    258.2,
+    287.8,
+    263.8,
+    293.0
+   ],
+   "text": "26",
+   "conf": 0.9075,
+   "retry": {
+    "text": "26",
+    "conf": 0.8832,
+    "first_text": "26",
+    "first_conf": 0.9075,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    473.7,
+    289.4,
+    479.3,
+    294.2
+   ],
+   "text": "45",
+   "conf": 0.6982,
+   "retry": {
+    "text": "鸽",
+    "conf": 0.1412,
+    "first_text": "45",
+    "first_conf": 0.6982,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    201.2,
+    304.2,
+    428.7,
+    314.6
+   ],
+   "text": "Figure 2. NOAA chart of Housatonic River and Milford, CT shoreline",
+   "conf": 0.9964,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    323.3,
+    533.1,
+    337.7
+   ],
+   "text": "4.1.2. At approximately 11:30 a.m., the crew completed harvesting juvenile oysters and",
+   "conf": 0.9981,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    336.5,
+    465.0,
+    351.7
+   ],
+   "text": "stacked approximately 125 fully loaded totes of oysters onto the aft deck.",
+   "conf": 0.9966,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    363.7,
+    516.8,
+    376.8
+   ],
+   "text": "4.1.3. At approximately 11:30 a.m., the MERRICK began making its way out of the",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    376.8,
+    522.0,
+    391.2
+   ],
+   "text": "Housatonic River into Long Island Sound, enroute to the owner's oyster beds located",
+   "conf": 0.9851,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    390.8,
+    521.2,
+    405.2
+   ],
+   "text": "southeast of Charles Island off Milford, CT. They planned to use the juvenile oysters",
+   "conf": 0.9979,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    405.2,
+    380.5,
+    418.4
+   ],
+   "text": "harvested that morning to seed the owner's oyster beds.",
+   "conf": 0.9863,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    429.5,
+    537.5,
+    444.3
+   ],
+   "text": "4.1.4. The transit to the oyster beds took nearly 50 minutes. The two deckhands reported",
+   "conf": 0.9917,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    444.7,
+    523.5,
+    457.9
+   ],
+   "text": "sea water on the deck over their ankles during the transit but did not observe the bilge",
+   "conf": 0.9969,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    458.3,
+    533.5,
+    472.6
+   ],
+   "text": "pump running/discharging overboard. The aft deck scuppers were submerged below the",
+   "conf": 0.9942,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    472.2,
+    249.0,
+    485.4
+   ],
+   "text": "water line during the transit.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    497.4,
+    529.1,
+    511.8
+   ],
+   "text": "4.1.5. The fishing vessel MILFORD was fishing for clams east of Charles Island when",
+   "conf": 0.9928,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    511.8,
+    519.6,
+    524.9
+   ],
+   "text": "the MILFORD's Captain saw the MERRICK underway not more than a quarter mile",
+   "conf": 0.9981,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    525.7,
+    518.0,
+    538.9
+   ],
+   "text": "away. The Captain noted the MERRICK was heavily loaded with oyster totes on the",
+   "conf": 0.9903,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    539.3,
+    525.1,
+    552.5
+   ],
+   "text": "deck and appeared to be sitting low in the water by the stern and midships. He kept an",
+   "conf": 0.9923,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    553.3,
+    504.4,
+    566.5
+   ],
+   "text": "eye on the MERRICK and directed his crew to retrieve their fishing gear on deck.",
+   "conf": 0.9889,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    578.0,
+    508.4,
+    592.8
+   ],
+   "text": "4.1.6. At approximately 12:32 p.m., the MERRICK arrived at the oyster beds. The",
+   "conf": 0.9904,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    592.0,
+    537.5,
+    606.8
+   ],
+   "text": "Operator slowed the vessel and made a turn to port to enable the two deckhands to begin",
+   "conf": 0.9985,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.6,
+    605.6,
+    462.2,
+    620.7
+   ],
+   "text": "seeding operations (dumping the contents of the loaded totes overboard).",
+   "conf": 0.9964,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    631.1,
+    331.5,
+    645.9
+   ],
+   "text": "4.1.7. The MERRICK's bilge alarm sounded.",
+   "conf": 0.9936,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    656.7,
+    491.7,
+    671.8
+   ],
+   "text": "4.1.8. Sea water flooded the deck of the MERRICK at the stern, submerging it.",
+   "conf": 0.9981,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    683.8,
+    539.9,
+    697.0
+   ],
+   "text": "4.1.9. Sea water progressively flooded the deck from the stern toward the bow. The crew",
+   "conf": 0.9952,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    697.4,
+    522.8,
+    711.8
+   ],
+   "text": "members noted the water level was above their knees and rising. They began pushing",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    301.2,
+    750.5,
+    310.8,
+    763.7
+   ],
+   "text": "3",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

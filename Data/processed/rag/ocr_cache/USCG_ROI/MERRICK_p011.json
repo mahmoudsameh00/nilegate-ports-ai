@@ -1,0 +1,423 @@
+{
+ "key": {
+  "report_id": "MERRICK",
+  "filename": "MERRICK_8031230_ROI_Redacted.pdf",
+  "sha256": "76047e77ee5376e2fc4638301674894f54af536e5de39cbdbdeec8ffbedd53b9",
+  "page_number": 11,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    111.2,
+    29.5,
+    524.3,
+    43.1
+   ],
+   "text": "4.2.6. The Coast Guard Authorization Act of 2010 and the Coast Guard and Maritime",
+   "conf": 0.987,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.6,
+    43.9,
+    490.5,
+    57.1
+   ],
+   "text": "Transportation Act of 2013 both amended 46 U.S.C. Chapter 45, which covers",
+   "conf": 0.9902,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    57.9,
+    539.9,
+    71.1
+   ],
+   "text": "Uninspected Commercial Fishing Industry Vessels. In particular, it amended 46 U.S.C. §",
+   "conf": 0.9973,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    70.7,
+    515.2,
+    85.8
+   ],
+   "text": "4502(f) to direct both state registered and federally documented vessels that operate",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    85.8,
+    537.1,
+    99.0
+   ],
+   "text": "beyond three nautical miles from shore to complete a Coast Guard dockside safety exam",
+   "conf": 0.9975,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    98.6,
+    489.7,
+    113.4
+   ],
+   "text": "no later than October 15, 2015. These vessels will need to complete this safety",
+   "conf": 0.9959,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    113.4,
+    500.4,
+    126.5
+   ],
+   "text": "examination at least once every five years thereafter. The Coast Guard, however,",
+   "conf": 0.9984,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    126.1,
+    522.0,
+    140.5
+   ],
+   "text": "continued to use the “two years\" safety decals for all successful exams, mandatory or",
+   "conf": 0.9921,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    140.5,
+    163.0,
+    154.1
+   ],
+   "text": "otherwise.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    168.1,
+    518.4,
+    181.6
+   ],
+   "text": "4.2.7. The MERRICK was a Connecticut-registered and state numbered uninspected",
+   "conf": 0.9968,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    182.8,
+    510.8,
+    196.0
+   ],
+   "text": "commercial fishing vessel that worked the oyster fishery within the waters of Long",
+   "conf": 0.9987,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    196.4,
+    533.5,
+    209.6
+   ],
+   "text": "Island Sound, CT. The vessel, built in 1975, did not operate beyond three nautical miles",
+   "conf": 0.9972,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    209.6,
+    534.3,
+    223.1
+   ],
+   "text": "from the baseline of the U.S. territorial sea. As such, the MERRICK was not required to",
+   "conf": 0.9983,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    222.8,
+    530.3,
+    237.9
+   ],
+   "text": "submit to a mandatory dockside safety examination, nor did the MERRICK voluntarily",
+   "conf": 0.9956,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    238.3,
+    237.1,
+    250.3
+   ],
+   "text": "submit to an examination.",
+   "conf": 0.9914,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    263.1,
+    516.0,
+    276.6
+   ],
+   "text": "4.2.8. The MERRICK was a NOVI-style commercial fishing vessel. The NOVI hull",
+   "conf": 0.9882,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    277.8,
+    499.6,
+    291.0
+   ],
+   "text": "design originated in Nova Scotia and is typically recognized by its step-up bows,",
+   "conf": 0.9938,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    291.4,
+    538.7,
+    304.6
+   ],
+   "text": "rounded bottom, and upturned sterns. The MERRICK displayed these characteristics and",
+   "conf": 0.9982,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.6,
+    305.4,
+    504.8,
+    318.6
+   ],
+   "text": "more. It had an open transom, low midships, and a closed keel cooler system. The",
+   "conf": 0.9991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    319.8,
+    516.4,
+    331.7
+   ],
+   "text": "wheelhouse was located forward of midships. The helm station was on the starboard",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    333.7,
+    521.6,
+    345.7
+   ],
+   "text": "side, inside the wheelhouse. The engine compartment was accessed via a hatch inside",
+   "conf": 0.9893,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    347.3,
+    526.3,
+    359.3
+   ],
+   "text": "the wheelhouse on the port side. Just aft of the wheelhouse on the starboard side was a",
+   "conf": 0.9968,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    361.3,
+    517.2,
+    373.2
+   ],
+   "text": "mounted davit and winch system for setting and retrieving the oyster dredge. The aft",
+   "conf": 0.9936,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    374.8,
+    519.6,
+    386.8
+   ],
+   "text": "deck/work deck had three flush aluminum hatches along the centerline. The forward-",
+   "conf": 0.9985,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.2,
+    388.0,
+    525.9,
+    401.6
+   ],
+   "text": "most hatch was located just behind the wheelhouse and provided access to the primary",
+   "conf": 0.995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    402.4,
+    521.6,
+    415.6
+   ],
+   "text": "bilge pump and high-water alarm (float switch). The bilge pump overboard discharge",
+   "conf": 0.9957,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    416.4,
+    522.4,
+    428.3
+   ],
+   "text": "was located on the starboard side in the vicinity of the helm station. The middle hatch",
+   "conf": 0.99,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.2,
+    428.3,
+    517.2,
+    443.5
+   ],
+   "text": "was located in the middle of the work deck and provided access to the shaft packing.",
+   "conf": 0.9931,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    442.7,
+    516.0,
+    456.7
+   ],
+   "text": "The aft-most hatch was located close to the stern and provided access to the steering",
+   "conf": 0.9879,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.6,
+    456.3,
+    522.4,
+    471.0
+   ],
+   "text": "gear. The owner stated that he replaced all three hatch gaskets each year. There was a",
+   "conf": 0.9898,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    471.4,
+    521.6,
+    483.4
+   ],
+   "text": "100-gallon plastic fuel tank installed below the deck and located between the forward",
+   "conf": 0.9919,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.6,
+    483.4,
+    516.8,
+    498.6
+   ],
+   "text": "and middle hatches with the fill located on deck. There were two 2-inch scuppers on",
+   "conf": 0.9923,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.6,
+    497.8,
+    505.2,
+    512.2
+   ],
+   "text": "each side of the aft deck. The first set was located approximately midship, and the",
+   "conf": 0.9874,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    512.6,
+    392.1,
+    525.7
+   ],
+   "text": "second set was approximately 12 inches aft of the first set.",
+   "conf": 0.9971,
+   "retry": null
+  },
+  {
+   "bbox": [
+    299.2,
+    750.9,
+    309.6,
+    763.3
+   ],
+   "text": "6",
+   "conf": 0.9999,
+   "retry": null
+  }
+ ]
+}

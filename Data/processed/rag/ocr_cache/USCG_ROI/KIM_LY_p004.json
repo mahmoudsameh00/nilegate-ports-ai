@@ -1,0 +1,500 @@
+{
+ "key": {
+  "report_id": "KIM_LY",
+  "filename": "KIM_LY_7867677_ROI_Redacted.pdf",
+  "sha256": "070b37ee21b7addd2d4e5bb6e73f471703fe5b4f25957f0fdf302979229dffcc",
+  "page_number": 4,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    72.1,
+    35.1,
+    160.6,
+    45.9
+   ],
+   "text": "U.S. Department of",
+   "conf": 0.9966,
+   "retry": null
+  },
+  {
+   "bbox": [
+    273.7,
+    35.1,
+    319.9,
+    45.9
+   ],
+   "text": "Commander",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    435.9,
+    35.1,
+    529.1,
+    45.5
+   ],
+   "text": "Hale Boggs Federal Bldg.",
+   "conf": 0.9932,
+   "retry": null
+  },
+  {
+   "bbox": [
+    436.3,
+    43.5,
+    507.6,
+    52.7
+   ],
+   "text": "500 Poydras Street",
+   "conf": 0.9723,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    44.3,
+    160.6,
+    57.1
+   ],
+   "text": "Homeland Security",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    273.3,
+    44.7,
+    415.6,
+    55.5
+   ],
+   "text": "Coast Guard Heartland (Eighth) District",
+   "conf": 0.9867,
+   "retry": null
+  },
+  {
+   "bbox": [
+    435.9,
+    50.7,
+    523.1,
+    61.1
+   ],
+   "text": "New Orleans, LA 70130",
+   "conf": 0.9947,
+   "retry": null
+  },
+  {
+   "bbox": [
+    436.7,
+    59.5,
+    497.6,
+    69.1
+   ],
+   "text": "Staff Symbol: dp",
+   "conf": 0.9855,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.1,
+    63.5,
+    143.4,
+    74.2
+   ],
+   "text": "United States",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    436.3,
+    67.1,
+    520.4,
+    77.4
+   ],
+   "text": "Phone: (504) 671-2087",
+   "conf": 0.9903,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.1,
+    73.5,
+    138.3,
+    84.2
+   ],
+   "text": "Coast Guard",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    435.5,
+    91.4,
+    469.0,
+    104.2
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    76.1,
+    142.1,
+    536.7,
+    154.1
+   ],
+   "text": "LOSS OF LIFE ON THE KIM LY (O.N. 588734) WHILE FISHING CORPUS CHRISTI",
+   "conf": 0.9888,
+   "retry": null
+  },
+  {
+   "bbox": [
+    224.3,
+    155.3,
+    388.1,
+    167.7
+   ],
+   "text": "BAY ON FEBRUARY 20, 2024",
+   "conf": 0.9975,
+   "retry": null
+  },
+  {
+   "bbox": [
+    189.7,
+    197.2,
+    422.7,
+    208.8
+   ],
+   "text": "ENDORSEMENT BY THE COMMANDER,",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    191.2,
+    211.6,
+    421.5,
+    222.0
+   ],
+   "text": "COAST GUARD HEARTLAND DISTRICT",
+   "conf": 0.9983,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    251.9,
+    506.4,
+    266.3
+   ],
+   "text": "The record and the report of the investigation convened for the subject casualty have been",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.7,
+    265.5,
+    522.0,
+    279.4
+   ],
+   "text": "reviewed. The record and the report, including the findings of fact, analysis, conclusions, and",
+   "conf": 0.9961,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    280.2,
+    519.2,
+    293.4
+   ],
+   "text": "recommendations are approved. It is recommended that this marine casualty investigation be",
+   "conf": 0.998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    293.4,
+    106.8,
+    306.2
+   ],
+   "text": "closed.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    217.9,
+    335.3,
+    393.7,
+    346.9
+   ],
+   "text": "COMMENTS ON THE REPORT",
+   "conf": 0.9708,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    362.1,
+    533.5,
+    376.8
+   ],
+   "text": "1. The loss of life was a tragic, yet preventable accident. I offer my sincerest condolences to the",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    376.8,
+    320.7,
+    390.0
+   ],
+   "text": "family and friends of the Operator who lost his life.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    404.8,
+    523.1,
+    416.8
+   ],
+   "text": "2. The investigation and report contain valuable information which can be used to address the",
+   "conf": 0.984,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    417.6,
+    525.9,
+    431.5
+   ],
+   "text": "factors that contributed to this marine casualty and prevent similar incidents from occurring in",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    431.1,
+    121.9,
+    443.5
+   ],
+   "text": "the future.",
+   "conf": 0.9582,
+   "retry": null
+  },
+  {
+   "bbox": [
+    182.1,
+    474.2,
+    430.3,
+    484.6
+   ],
+   "text": "ENDORSEMENT ON RECOMMENDATIONS",
+   "conf": 0.9977,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    515.4,
+    528.3,
+    526.9
+   ],
+   "text": "Safety Recommendation 1: Recommend that the Commandant of the Coast Guard amend the",
+   "conf": 0.9949,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    527.7,
+    514.0,
+    542.5
+   ],
+   "text": "applicability of 46 CFR § 28.200 to include commercial fishing vessels operating inside the",
+   "conf": 0.989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    542.9,
+    530.3,
+    554.9
+   ],
+   "text": "boundary line. Currently, the regulation requires suitable guards or covers for rotary machinery",
+   "conf": 0.9932,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    556.5,
+    537.1,
+    569.6
+   ],
+   "text": "only on vessels operating beyond the boundary line, leaving a gap in safety standards for vessels",
+   "conf": 0.9918,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    570.4,
+    276.9,
+    583.6
+   ],
+   "text": "engaged in nearshore or inland operations.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    598.0,
+    532.3,
+    611.2
+   ],
+   "text": "The investigation identified that unguarded machinery, specifically winches, posed a direct risk",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    611.6,
+    521.2,
+    624.7
+   ],
+   "text": "of serious injury or death to crewmembers, regardless of operating location. According to the",
+   "conf": 0.9945,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    624.7,
+    533.1,
+    638.7
+   ],
+   "text": "Centers for Disease Control and Prevention (CDC) article Fatal and Nonfatal Injuries Involving",
+   "conf": 0.9962,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    638.7,
+    527.1,
+    652.3
+   ],
+   "text": "Fishing Vessel Winches —Southern Shrimp Fleet, United States, 2000–2011, entanglement in",
+   "conf": 0.9937,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    653.1,
+    531.1,
+    666.3
+   ],
+   "text": "deck machinery is among the leading causes of traumatic injuries and deaths in the commercial",
+   "conf": 0.9867,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    666.7,
+    532.3,
+    679.8
+   ],
+   "text": "fishing industry. Between 2000 and 2009, 504 U.S. fishermen lost their lives while working; 51",
+   "conf": 0.9906,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    680.2,
+    535.5,
+    693.8
+   ],
+   "text": "of these deaths resulted from onboard injuries, including machinery entanglement. Additionally,",
+   "conf": 0.9953,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    694.6,
+    537.1,
+    707.4
+   ],
+   "text": "the report notes that from 2000 to 2011, the Southern shrimp fleet operating throughout the Gulf",
+   "conf": 0.9973,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    708.2,
+    529.1,
+    721.3
+   ],
+   "text": "of America and along the Atlantic coast from Florida to North Carolina experienced eight fatal",
+   "conf": 0.9916,
+   "retry": null
+  },
+  {
+   "bbox": [
+    302.0,
+    750.1,
+    310.0,
+    761.3
+   ],
+   "text": "1",
+   "conf": 0.9999,
+   "retry": null
+  }
+ ]
+}

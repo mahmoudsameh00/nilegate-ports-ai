@@ -1,0 +1,412 @@
+{
+ "key": {
+  "report_id": "QUEEN_OF_THE_WEST",
+  "filename": "QUEEN_OF_THE_WEST_4405289_ROI_Redacted.pdf",
+  "sha256": "02f978c36fcbd8ef00493738d66ee13a4079eab5832883de67ba1cacc388cba3",
+  "page_number": 11,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2542,
+  3292
+ ],
+ "lines": [
+  {
+   "bbox": [
+    506.4,
+    27.5,
+    539.0,
+    41.4
+   ],
+   "text": "16732",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    491.7,
+    40.2,
+    537.8,
+    53.8
+   ],
+   "text": "06May13",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.3,
+    40.6,
+    475.0,
+    52.2
+   ],
+   "text": "LOSS OF LIFE FOLLOWING MAN OVERBOARD FROM P/V QUEEN OF THE WEST",
+   "conf": 0.9913,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.2,
+    66.5,
+    532.6,
+    78.5
+   ],
+   "text": "27. The rescue boat had a compartment labeled \"Searchlight\" but did not have a searchlight onboard.",
+   "conf": 0.9911,
+   "retry": null
+  },
+  {
+   "bbox": [
+    152.9,
+    76.9,
+    517.1,
+    91.6
+   ],
+   "text": "ran from the Main Deck to the 4th Deck Bridge to obtain flashlights for the rescue",
+   "conf": 0.9816,
+   "retry": null
+  },
+  {
+   "bbox": [
+    103.3,
+    78.5,
+    123.5,
+    90.8
+   ],
+   "text": "Mr.",
+   "conf": 0.9973,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.9,
+    90.4,
+    253.8,
+    103.5
+   ],
+   "text": "boat crew to use while searching.",
+   "conf": 0.9965,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.2,
+    114.7,
+    320.1,
+    126.6
+   ],
+   "text": "28. At about 0110 hrs, the rescue boat was launched.",
+   "conf": 0.9824,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.8,
+    138.6,
+    195.0,
+    150.5
+   ],
+   "text": "29. At 0111 hrs Captain",
+   "conf": 0.9817,
+   "retry": null
+  },
+  {
+   "bbox": [
+    243.1,
+    138.6,
+    523.1,
+    150.5
+   ],
+   "text": "contacted the Coast Guard via VHF Ch. 16 and then called 911",
+   "conf": 0.998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.5,
+    150.5,
+    168.0,
+    164.1
+   ],
+   "text": "by cell phone.",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.4,
+    174.0,
+    457.2,
+    187.6
+   ],
+   "text": "30. At 0116 hrs a Fire and Rescue Truck arrived and began searching the shore line.",
+   "conf": 0.9977,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.4,
+    199.1,
+    515.9,
+    211.1
+   ],
+   "text": "31. At 0204 hrs, the Coast Guard helicopter CG 6035 arrived on-scene and began its search. The",
+   "conf": 0.9931,
+   "retry": null
+  },
+  {
+   "bbox": [
+    103.3,
+    211.1,
+    499.7,
+    223.0
+   ],
+   "text": "Coast Guard helicopter requested the crew throw a lighted life ring in the water for datum",
+   "conf": 0.9855,
+   "retry": null
+  },
+  {
+   "bbox": [
+    280.4,
+    223.0,
+    527.5,
+    235.0
+   ],
+   "text": "threw a lighted life ring in the water. This was the first",
+   "conf": 0.9943,
+   "retry": null
+  },
+  {
+   "bbox": [
+    103.7,
+    223.4,
+    233.5,
+    235.4
+   ],
+   "text": "collection purposes. Captain",
+   "conf": 0.9899,
+   "retry": null
+  },
+  {
+   "bbox": [
+    103.3,
+    235.4,
+    394.8,
+    247.3
+   ],
+   "text": "buoyant object to enter the water since Mr. Staples fell overboard.",
+   "conf": 0.9982,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.4,
+    259.2,
+    500.5,
+    270.8
+   ],
+   "text": "32. At 0235 hrs, the vessel's crew recovered the rescue boat. The rescue boat crew found Mr.",
+   "conf": 0.9906,
+   "retry": null
+  },
+  {
+   "bbox": [
+    103.3,
+    271.6,
+    279.2,
+    283.5
+   ],
+   "text": "Staples'tan jacket floating in the water.",
+   "conf": 0.9919,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.6,
+    295.1,
+    197.8,
+    308.2
+   ],
+   "text": "33. At 0400 hrs, Captain",
+   "conf": 0.9824,
+   "retry": null
+  },
+  {
+   "bbox": [
+    244.7,
+    295.5,
+    531.8,
+    307.4
+   ],
+   "text": "conducted alcohol breathalyzer testing for the six crew members",
+   "conf": 0.9829,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.5,
+    306.6,
+    349.9,
+    320.2
+   ],
+   "text": "directly involved. All results were negative for alcohol.",
+   "conf": 0.996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    83.8,
+    330.1,
+    508.8,
+    345.3
+   ],
+   "text": "34. P/V QUEEN OF THE WEST departed from Rainier, OR at 0454 hrs to continue its voyage.",
+   "conf": 0.9953,
+   "retry": null
+  },
+  {
+   "bbox": [
+    83.8,
+    354.4,
+    533.0,
+    368.4
+   ],
+   "text": "35. On 08AUG12 at 1130 hrs, the three witnesses present when Mr. Staples fell overboard were drug",
+   "conf": 0.9899,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.1,
+    368.0,
+    523.1,
+    379.9
+   ],
+   "text": "tested at Hood River, OR. All drug tests were later confirmed \"negative\" by a Medical Review",
+   "conf": 0.9926,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.7,
+    379.1,
+    139.4,
+    391.9
+   ],
+   "text": "Officer.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    83.4,
+    402.6,
+    521.5,
+    416.1
+   ],
+   "text": "36. On 12AUG12 at 0624 hrs, two civilian boaters found Mr. Staples' body in the Columbia River",
+   "conf": 0.9909,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.7,
+    415.3,
+    521.1,
+    428.5
+   ],
+   "text": "channel in approximate position 46-11.3N 123-08.63W, 11 NM northwest of where he entered",
+   "conf": 0.9965,
+   "retry": null
+  },
+  {
+   "bbox": [
+    100.9,
+    427.3,
+    147.0,
+    439.2
+   ],
+   "text": "the water.",
+   "conf": 0.9636,
+   "retry": null
+  },
+  {
+   "bbox": [
+    83.4,
+    450.8,
+    280.8,
+    464.3
+   ],
+   "text": "37. On 09NOV12, Cowlitz County Coroner",
+   "conf": 0.9975,
+   "retry": null
+  },
+  {
+   "bbox": [
+    340.0,
+    452.0,
+    531.8,
+    463.9
+   ],
+   "text": "indicated that Mr. Staples died of asphyxia",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.7,
+    463.9,
+    526.3,
+    475.9
+   ],
+   "text": "by drowning. His death was ruled as an accident. Toxicology specimens were unattainable due",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.7,
+    475.9,
+    409.5,
+    487.8
+   ],
+   "text": "to the advanced state of decomposition that Andres Staples presented.",
+   "conf": 0.996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    294.7,
+    738.7,
+    302.7,
+    749.5
+   ],
+   "text": "6",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

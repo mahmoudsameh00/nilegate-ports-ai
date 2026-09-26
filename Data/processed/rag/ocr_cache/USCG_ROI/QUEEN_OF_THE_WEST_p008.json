@@ -1,0 +1,627 @@
+{
+ "key": {
+  "report_id": "QUEEN_OF_THE_WEST",
+  "filename": "QUEEN_OF_THE_WEST_4405289_ROI_Redacted.pdf",
+  "sha256": "02f978c36fcbd8ef00493738d66ee13a4079eab5832883de67ba1cacc388cba3",
+  "page_number": 8,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2542,
+  3292
+ ],
+ "lines": [
+  {
+   "bbox": [
+    506.8,
+    29.5,
+    538.6,
+    43.4
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    492.1,
+    42.2,
+    537.8,
+    55.8
+   ],
+   "text": "06May13",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.9,
+    43.0,
+    474.6,
+    54.6
+   ],
+   "text": "LOSS OF LIFE FOLLOWING MAN OVERBOARD FROM P/V QUEEN OF THE WEST",
+   "conf": 0.998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.3,
+    69.7,
+    149.3,
+    81.6
+   ],
+   "text": "Findings of Fact:",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.0,
+    93.6,
+    530.2,
+    107.1
+   ],
+   "text": "1. P/V QUEEN OF THE WEST (O.N. 1033572) is an inspected passenger vessel. The regulations",
+   "conf": 0.991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.9,
+    105.9,
+    513.6,
+    119.5
+   ],
+   "text": "that govern P/V QUEEN OF THE WEST are found in Title 46 Code of Federal Regulations,",
+   "conf": 0.9934,
+   "retry": {
+    "text": "that govern P/V QUEEN OF THE WEST are found in Title 46 Code of Federal Regulations,",
+    "conf": 0.9934,
+    "first_text": "th      e  n l   n   ons.",
+    "first_conf": 0.6065,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    103.7,
+    118.7,
+    535.4,
+    130.6
+   ],
+   "text": "Subchapter K – Small Passenger Vessels Carrying More Than 150 Passengers Or With Overnight",
+   "conf": 0.9858,
+   "retry": null
+  },
+  {
+   "bbox": [
+    103.7,
+    130.6,
+    531.0,
+    142.6
+   ],
+   "text": "Accommodations For More Than 49 Passengers. P/V QUEEN OF THE WEST's last In-Service",
+   "conf": 0.9945,
+   "retry": null
+  },
+  {
+   "bbox": [
+    103.3,
+    142.2,
+    524.3,
+    154.9
+   ],
+   "text": "Inspection was conducted on 13APR12. Attending inspectors issued the vessel's Certificate of",
+   "conf": 0.9971,
+   "retry": null
+  },
+  {
+   "bbox": [
+    103.3,
+    154.5,
+    510.4,
+    166.9
+   ],
+   "text": "Inspection. The P/V QUEEN OF THE WEST was operated by American Cruise Lines, Inc.",
+   "conf": 0.9901,
+   "retry": null
+  },
+  {
+   "bbox": [
+    103.3,
+    166.9,
+    141.0,
+    179.6
+   ],
+   "text": "Captain",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    223.2,
+    166.9,
+    466.7,
+    178.8
+   ],
+   "text": "was the master of the vessel at the time of the incident.",
+   "conf": 0.989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.6,
+    190.8,
+    526.7,
+    203.9
+   ],
+   "text": "2. At approximately 1200 hrs on 06AUG12 the vessel moored at the marina in Rainier, OR, for an",
+   "conf": 0.9917,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.5,
+    202.7,
+    526.3,
+    216.2
+   ],
+   "text": "overnight stay. The vessel's position was 46-05.475N 122-56.886W. Weather conditions were",
+   "conf": 0.9971,
+   "retry": null
+  },
+  {
+   "bbox": [
+    270.9,
+    215.4,
+    503.6,
+    229.0
+   ],
+   "text": "observations and historical information provided by",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.5,
+    216.2,
+    181.9,
+    229.4
+   ],
+   "text": "based on Captain|",
+   "conf": 0.958,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.9,
+    229.0,
+    513.6,
+    240.9
+   ],
+   "text": "National Oceanic and Atmospheric Administration (NOAA) website. On scene weather was",
+   "conf": 0.9908,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.1,
+    240.9,
+    524.3,
+    254.5
+   ],
+   "text": "clear with 8 nautical miles of visibility. The air temperature was approximately 62 degrees and",
+   "conf": 0.9881,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.1,
+    253.7,
+    512.4,
+    267.2
+   ],
+   "text": "the water temperature was approximately 69 degrees. Winds were 6 knots from WSW. The",
+   "conf": 0.9932,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.5,
+    266.4,
+    521.1,
+    280.0
+   ],
+   "text": "downstream currents were moving at approximately 4 knots. Tides were nearing the end of an",
+   "conf": 0.99,
+   "retry": null
+  },
+  {
+   "bbox": [
+    103.3,
+    280.0,
+    466.7,
+    291.9
+   ],
+   "text": "ebb cycle and the tidal height was +2.00 feet above mean low low water (MLLW).",
+   "conf": 0.9824,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.6,
+    305.0,
+    504.4,
+    317.0
+   ],
+   "text": "3. At 2140 hrs Mr. Staples signed off the vessel after working an entire shift and walked to El",
+   "conf": 0.9937,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.9,
+    317.0,
+    525.9,
+    328.9
+   ],
+   "text": "Tapatio Mexican Restaurant in Rainier, OR, where he purchased and drank two mixed drinks at",
+   "conf": 0.9893,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.5,
+    329.3,
+    517.9,
+    341.3
+   ],
+   "text": "the bar using cash. He took a photo of his drink and posted it to his Facebook page. When he",
+   "conf": 0.9948,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.5,
+    341.3,
+    516.3,
+    353.2
+   ],
+   "text": "consumed alcohol, Mr. Staples violated American Cruise Lines Operations Manual policy 3.3",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.7,
+    352.4,
+    535.0,
+    366.0
+   ],
+   "text": "(Alcohol Abuse / Alcoholic Beverages) which stated, \"No member of the crew shall consume any",
+   "conf": 0.9876,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.7,
+    364.4,
+    531.8,
+    377.9
+   ],
+   "text": "alcoholic beverage while on board or ashore 12 hours before performing any duty, while they are",
+   "conf": 0.9979,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.5,
+    377.5,
+    525.9,
+    389.5
+   ],
+   "text": "in employ of American Cruise Lines and assigned to a vessel. Consuming any alcohol 12 hours",
+   "conf": 0.9928,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.3,
+    388.3,
+    238.7,
+    402.2
+   ],
+   "text": "before any duty is prohibited.\"",
+   "conf": 0.9896,
+   "retry": null
+  },
+  {
+   "bbox": [
+    83.8,
+    413.4,
+    533.4,
+    424.9
+   ],
+   "text": "4. At 2201 hrs he arrived at Ol' Pastime Tavern in Rainier and consumed one bottle of beer that was",
+   "conf": 0.979,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.3,
+    424.9,
+    446.4,
+    437.7
+   ],
+   "text": "purchased for him by another patron. He departed sometime around 2245 hrs.",
+   "conf": 0.9967,
+   "retry": null
+  },
+  {
+   "bbox": [
+    83.8,
+    449.2,
+    526.3,
+    461.1
+   ],
+   "text": "5. Mr. Staples signed back in to the vessel at 2246 hrs and joined other members of the crew in the",
+   "conf": 0.9964,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.3,
+    460.3,
+    514.4,
+    473.5
+   ],
+   "text": "dining room area to play video games until 0105 hrs. Some witnesses stated that he appeared",
+   "conf": 0.9946,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.7,
+    473.5,
+    534.2,
+    485.0
+   ],
+   "text": "intoxicated and slurred his speech. Mr. Staples and other members of the crew violated American",
+   "conf": 0.9973,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.7,
+    485.4,
+    528.3,
+    497.4
+   ],
+   "text": "Cruise Lines Operations Manual policy 3.6 (Crew Areas) which stated, \"In no case will the crew",
+   "conf": 0.9942,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.7,
+    497.4,
+    533.0,
+    509.3
+   ],
+   "text": "be able to congregate in or use the dining room after 12 midnight.\"Additionally, Mr. Staples and",
+   "conf": 0.9865,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.7,
+    509.3,
+    527.9,
+    521.3
+   ],
+   "text": "other members of the crew violated American Cruise Lines Operations Manual policy 3.6 (Crew",
+   "conf": 0.9912,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.1,
+    521.7,
+    529.8,
+    533.6
+   ],
+   "text": "Areas) which stated, “All crew members, except those on duty, are to be in their quarters after 12",
+   "conf": 0.9943,
+   "retry": null
+  },
+  {
+   "bbox": [
+    99.7,
+    531.2,
+    152.9,
+    547.6
+   ],
+   "text": "midnight.\"",
+   "conf": 0.9986,
+   "retry": null
+  },
+  {
+   "bbox": [
+    437.7,
+    556.7,
+    477.8,
+    570.3
+   ],
+   "text": "and Mr.",
+   "conf": 0.9989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    83.8,
+    557.5,
+    367.4,
+    569.5
+   ],
+   "text": "6. At 0105 hrs on 07AUG12, Mr. Staples, two deckhands (Mr.",
+   "conf": 0.9854,
+   "retry": null
+  },
+  {
+   "bbox": [
+    147.4,
+    569.5,
+    297.1,
+    581.4
+   ],
+   "text": "and the other galley steward (Mr.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    382.9,
+    569.9,
+    525.5,
+    581.8
+   ],
+   "text": "went out to the paddlewheel on",
+   "conf": 0.9823,
+   "retry": null
+  },
+  {
+   "bbox": [
+    100.9,
+    581.0,
+    531.4,
+    594.6
+   ],
+   "text": "the port side to smoke. By doing so, Mr. Staples and other members of the crew violated Captain",
+   "conf": 0.9964,
+   "retry": null
+  },
+  {
+   "bbox": [
+    156.1,
+    593.0,
+    527.9,
+    606.5
+   ],
+   "text": "standing order to not congregate on the stern of the vessel. However, there were no",
+   "conf": 0.9857,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.7,
+    606.1,
+    520.3,
+    618.0
+   ],
+   "text": "written policies onboard (or from the company) that prohibit such loitering on the stern. When",
+   "conf": 0.9832,
+   "retry": null
+  },
+  {
+   "bbox": [
+    100.9,
+    617.2,
+    523.9,
+    630.8
+   ],
+   "text": "questioned, witnesses were conflicted as to the policy: Some thought they could be on the stern",
+   "conf": 0.9974,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.3,
+    630.4,
+    296.3,
+    642.3
+   ],
+   "text": "to smoke, others knew it was against policy.",
+   "conf": 0.9991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    83.4,
+    654.3,
+    511.6,
+    666.2
+   ],
+   "text": "7. At approximately 0105 hrs witnesses stated that Mr. Staples said that he was going \"to take a",
+   "conf": 0.972,
+   "retry": null
+  },
+  {
+   "bbox": [
+    100.1,
+    665.4,
+    525.5,
+    679.0
+   ],
+   "text": "piss\" and approached the paddlewheel between the diagonal paddlewheel post and the ftermost",
+   "conf": 0.9938,
+   "retry": null
+  },
+  {
+   "bbox": [
+    100.9,
+    678.6,
+    531.0,
+    690.5
+   ],
+   "text": "bulkhead of the vessel. He was observed to stumble twice and attempt to grab the paddlewheel to",
+   "conf": 0.9973,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.3,
+    690.5,
+    169.2,
+    702.5
+   ],
+   "text": "steady himself.",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    293.1,
+    739.9,
+    302.7,
+    752.6
+   ],
+   "text": "3",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

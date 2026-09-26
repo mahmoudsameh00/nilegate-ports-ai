@@ -1,0 +1,434 @@
+{
+ "key": {
+  "report_id": "QUEEN_OF_THE_WEST",
+  "filename": "QUEEN_OF_THE_WEST_4405289_ROI_Redacted.pdf",
+  "sha256": "02f978c36fcbd8ef00493738d66ee13a4079eab5832883de67ba1cacc388cba3",
+  "page_number": 16,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2542,
+  3292
+ ],
+ "lines": [
+  {
+   "bbox": [
+    508.0,
+    27.9,
+    539.8,
+    41.8
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    492.9,
+    40.2,
+    538.6,
+    54.6
+   ],
+   "text": "06May13",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.9,
+    41.0,
+    476.2,
+    52.6
+   ],
+   "text": "LOSS OF LIFE FOLLOWING MAN OVERBOARD FROM P/V QUEEN OF THE WEST",
+   "conf": 0.9964,
+   "retry": null
+  },
+  {
+   "bbox": [
+    397.6,
+    128.6,
+    571.9,
+    142.6
+   ],
+   "text": "Red “authorizedpersons only\"sign",
+   "conf": 0.9753,
+   "retry": null
+  },
+  {
+   "bbox": [
+    398.0,
+    196.7,
+    562.8,
+    209.9
+   ],
+   "text": "Lowered “employees only\" chain",
+   "conf": 0.9704,
+   "retry": null
+  },
+  {
+   "bbox": [
+    397.2,
+    263.2,
+    481.4,
+    277.6
+   ],
+   "text": "Missing life ring",
+   "conf": 0.9825,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.3,
+    373.5,
+    297.5,
+    383.9
+   ],
+   "text": "Photo detailing missing life ring, lowered barrier, and red warning sign.",
+   "conf": 0.9962,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    396.6,
+    515.5,
+    408.6
+   ],
+   "text": "Neglecting to use the vessel's other life rings may have also contributed to the failure of the",
+   "conf": 0.9973,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.4,
+    407.4,
+    533.4,
+    422.5
+   ],
+   "text": "rescue effort. Investigators determined that the \"Man Overboard\" life ring (a life ring equipped with",
+   "conf": 0.9823,
+   "retry": null
+  },
+  {
+   "bbox": [
+    89.0,
+    422.1,
+    530.2,
+    434.1
+   ],
+   "text": "a floating, waterproof light) was not thrown into the water until almost an hour later when the Coast",
+   "conf": 0.9979,
+   "retry": null
+  },
+  {
+   "bbox": [
+    287.2,
+    433.7,
+    536.2,
+    447.2
+   ],
+   "text": "to put it overboard for purposes of datum collection. In",
+   "conf": 0.9908,
+   "retry": null
+  },
+  {
+   "bbox": [
+    89.0,
+    434.5,
+    240.7,
+    446.4
+   ],
+   "text": "Guard helicopter directed Captain",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.4,
+    445.2,
+    515.9,
+    460.3
+   ],
+   "text": "a man overboard situation at night, the \"Man Overboard\" life ring is a critical piece of lifesaving",
+   "conf": 0.9957,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.6,
+    459.2,
+    517.1,
+    472.3
+   ],
+   "text": "equipment as it serves not only as a point of reference for the alert person in the water to hold for",
+   "conf": 0.9966,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.2,
+    471.5,
+    533.0,
+    485.0
+   ],
+   "text": "buoyancy, but also as a reference point for rescuers to commence and hone their searching. Without",
+   "conf": 0.989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.6,
+    485.0,
+    535.8,
+    497.0
+   ],
+   "text": "a light in the water in the approximate position of Mr. Staples, rescuers were not afforded an accurate",
+   "conf": 0.9939,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.6,
+    497.8,
+    194.6,
+    509.7
+   ],
+   "text": "starting reference point.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    108.8,
+    509.3,
+    474.6,
+    522.9
+   ],
+   "text": "Investigators noted that the Watch Station Bill did not assign anybody onboard the",
+   "conf": 0.9908,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.8,
+    522.5,
+    485.4,
+    535.6
+   ],
+   "text": "responsibility of throwing the \"Man Overboard\" life ring. As a consequence, no one took",
+   "conf": 0.9896,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.2,
+    536.0,
+    513.2,
+    548.0
+   ],
+   "text": "responsibility for making sure that it had been done so the buoy remained onboard. With proper",
+   "conf": 0.9946,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.2,
+    548.8,
+    512.8,
+    560.7
+   ],
+   "text": "assignment of duties and follow-on training, this critical piece of life saving gear may have been",
+   "conf": 0.9869,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.6,
+    560.7,
+    194.6,
+    573.8
+   ],
+   "text": "employed to save a life.",
+   "conf": 0.9834,
+   "retry": null
+  },
+  {
+   "bbox": [
+    262.1,
+    586.2,
+    412.3,
+    599.3
+   ],
+   "text": "was awakened at 0108 hrs by Mr.",
+   "conf": 0.9985,
+   "retry": null
+  },
+  {
+   "bbox": [
+    449.2,
+    586.6,
+    508.0,
+    600.1
+   ],
+   "text": "After giving",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.2,
+    587.0,
+    213.7,
+    598.9
+   ],
+   "text": "Call for assistance: Captain",
+   "conf": 0.9909,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.2,
+    599.7,
+    519.5,
+    611.7
+   ],
+   "text": "orders for launching the rescue boat and mustering the crew, she immediately contacted the Coast",
+   "conf": 0.996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.4,
+    611.3,
+    529.5,
+    624.8
+   ],
+   "text": "Guard via VHF Channel 16 and local EMS units via cell phone. Shore side assistance arrived at the",
+   "conf": 0.9939,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.2,
+    625.2,
+    524.7,
+    637.2
+   ],
+   "text": "scene just five minutes after initial notification, and heightened the overall numbers of professional",
+   "conf": 0.9953,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.0,
+    638.4,
+    163.2,
+    650.3
+   ],
+   "text": "rescuers present.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    242.3,
+    661.9,
+    489.7,
+    675.8
+   ],
+   "text": "and her crew's effort to recover Mr. Staples was further",
+   "conf": 0.9884,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.4,
+    662.6,
+    186.3,
+    675.8
+   ],
+   "text": "Rescue boat: Captain",
+   "conf": 0.9755,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.0,
+    675.0,
+    519.1,
+    688.5
+   ],
+   "text": "evidenced by the fact that the rescue boat was in the water within five minutes of Mr. Staples' fall",
+   "conf": 0.9919,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.8,
+    688.5,
+    516.3,
+    700.5
+   ],
+   "text": "overboard. However, the launch of the rescue boat could certainly have been even faster if it had",
+   "conf": 0.9935,
+   "retry": null
+  },
+  {
+   "bbox": [
+    364.6,
+    700.9,
+    523.5,
+    714.0
+   ],
+   "text": "ran up four flights of stairs to reach",
+   "conf": 0.9981,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.8,
+    701.3,
+    332.8,
+    713.2
+   ],
+   "text": "been equipped with a charged searchlight. Instead, Mr.",
+   "conf": 0.993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    291.9,
+    737.9,
+    307.0,
+    751.9
+   ],
+   "text": "11",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

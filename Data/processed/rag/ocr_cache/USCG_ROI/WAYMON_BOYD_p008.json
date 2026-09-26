@@ -1,0 +1,533 @@
+{
+ "key": {
+  "report_id": "WAYMON_BOYD",
+  "filename": "WAYMON_BOYD_7039383_ROI_Redacted.pdf",
+  "sha256": "31e9bb9552ee4986b942f39eb4f6ea294c7d2213bb5c326bd3fde185b05de07b",
+  "page_number": 8,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    109.2,
+    35.1,
+    529.9,
+    48.3
+   ],
+   "text": "Endorsement: I do not concur with this recommendation. While the goal is to enhance",
+   "conf": 0.9896,
+   "retry": null
+  },
+  {
+   "bbox": [
+    108.8,
+    48.7,
+    537.5,
+    62.3
+   ],
+   "text": "the safety and proficiency in dredging operations, I believe that mandating MMCs for all",
+   "conf": 0.9986,
+   "retry": null
+  },
+  {
+   "bbox": [
+    108.4,
+    62.7,
+    536.7,
+    76.2
+   ],
+   "text": "crewmembers is not the most effective solution to address the identified safety concerns.",
+   "conf": 0.9951,
+   "retry": null
+  },
+  {
+   "bbox": [
+    108.8,
+    76.2,
+    541.9,
+    89.8
+   ],
+   "text": "This recommendation implies that the lack of MMCs was a direct cause of crew members",
+   "conf": 0.998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    108.4,
+    91.0,
+    527.1,
+    104.2
+   ],
+   "text": "not being trained to identify pipelines and respond appropriately to a potential pipeline",
+   "conf": 0.9946,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.6,
+    105.0,
+    535.5,
+    117.0
+   ],
+   "text": "strike. However, it is crucial to recognize that the core issue lies in the inadequacy of the",
+   "conf": 0.9934,
+   "retry": null
+  },
+  {
+   "bbox": [
+    108.4,
+    117.4,
+    498.0,
+    132.1
+   ],
+   "text": "Site Safety Plan, which failed to identify the pipeline as required. This omission,",
+   "conf": 0.9933,
+   "retry": null
+  },
+  {
+   "bbox": [
+    108.0,
+    130.9,
+    538.3,
+    145.7
+   ],
+   "text": "irrespective of MMC requirements, created a latent unsafe condition that led to the tragic",
+   "conf": 0.994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    108.4,
+    145.3,
+    538.7,
+    159.3
+   ],
+   "text": "sequence of events. Focusing on improving the development and implementation of such",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    107.6,
+    158.5,
+    540.7,
+    173.6
+   ],
+   "text": "plans, along with crew training specific to identified risks, is pivotal in preventing similar",
+   "conf": 0.9929,
+   "retry": null
+  },
+  {
+   "bbox": [
+    108.8,
+    174.0,
+    524.3,
+    186.0
+   ],
+   "text": "incidents. Rather than mandating MMCs, efforts should concentrate on refining safety",
+   "conf": 0.9971,
+   "retry": null
+  },
+  {
+   "bbox": [
+    108.0,
+    186.8,
+    511.2,
+    200.8
+   ],
+   "text": "plans, ensuring accurate software input, and providing crew members with targeted",
+   "conf": 0.9876,
+   "retry": null
+  },
+  {
+   "bbox": [
+    108.4,
+    200.8,
+    538.3,
+    214.4
+   ],
+   "text": "training on identified risks and emergency response procedures through industry-specific",
+   "conf": 0.9983,
+   "retry": null
+  },
+  {
+   "bbox": [
+    108.8,
+    214.8,
+    285.7,
+    228.3
+   ],
+   "text": "certifications and training programs.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    73.3,
+    242.3,
+    531.5,
+    255.5
+   ],
+   "text": "Safety Recommendation 2: To achieve the shared goal in increasing safety and proficiency in",
+   "conf": 0.9983,
+   "retry": null
+  },
+  {
+   "bbox": [
+    73.7,
+    256.3,
+    536.7,
+    269.5
+   ],
+   "text": "dredging operations, it is recommended that the Coast Guard institute requirements that manned",
+   "conf": 0.9948,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.9,
+    269.5,
+    539.1,
+    283.4
+   ],
+   "text": "uninspected dredges over 100 gross tons be subject to inspection under U.S. law and regulations.",
+   "conf": 0.9853,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.9,
+    283.0,
+    537.9,
+    297.0
+   ],
+   "text": "Existing regulations under 46 C.F.R. Table 2.01-7(a)(4) and 46 C.F.R. Subchapter I require self-",
+   "conf": 0.9969,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.5,
+    296.6,
+    543.1,
+    311.4
+   ],
+   "text": "propelled dredges of 300 gross tons or more, as well as manned non-self-propelled dredges under",
+   "conf": 0.9942,
+   "retry": null
+  },
+  {
+   "bbox": [
+    73.3,
+    310.6,
+    502.4,
+    324.5
+   ],
+   "text": "100 gross tons, to be inspected. Dredges are considered \"manned\" if they have personnel",
+   "conf": 0.9893,
+   "retry": null
+  },
+  {
+   "bbox": [
+    73.3,
+    324.5,
+    529.1,
+    338.9
+   ],
+   "text": "onboard for the purposes of operating and navigating the dredge, including operating dredging",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.9,
+    338.1,
+    514.4,
+    352.9
+   ],
+   "text": "equipment. The relative nature of non-self-propelled dredging operations does not hinge on",
+   "conf": 0.9935,
+   "retry": null
+  },
+  {
+   "bbox": [
+    73.7,
+    352.9,
+    537.1,
+    365.7
+   ],
+   "text": "whether a dredge is a prescribed tonnage; rather, the dredging components and overall operation",
+   "conf": 0.9949,
+   "retry": null
+  },
+  {
+   "bbox": [
+    73.3,
+    366.1,
+    539.9,
+    379.6
+   ],
+   "text": "are generally the same on most dredge vessels. However, the 300 gross ton self-propelled dredge",
+   "conf": 0.9957,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.9,
+    379.6,
+    512.8,
+    393.2
+   ],
+   "text": "or manned non-self-propelled dredges under 100 gross tons are designed and maintained in",
+   "conf": 0.9948,
+   "retry": null
+  },
+  {
+   "bbox": [
+    73.3,
+    393.2,
+    509.2,
+    407.2
+   ],
+   "text": "accordance with regulations intended to increase safety in commercial operations. Had the",
+   "conf": 0.9919,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.1,
+    407.6,
+    525.5,
+    420.8
+   ],
+   "text": "WAYMON BOYD been subject to inspection, the requirements in 46 C.F.R. Subchapters I, J,",
+   "conf": 0.9979,
+   "retry": null
+  },
+  {
+   "bbox": [
+    73.3,
+    420.8,
+    478.5,
+    434.7
+   ],
+   "text": "and F mandate stringent lifesaving, fire protection, electrical, and machinery related",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.5,
+    434.7,
+    519.2,
+    448.7
+   ],
+   "text": "requirements that will lead to an increase in shipboard operations and equipment safety, thus",
+   "conf": 0.9965,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.9,
+    449.1,
+    368.6,
+    462.7
+   ],
+   "text": "supporting the intent and goals of the marine safety program.",
+   "conf": 0.9833,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.2,
+    476.2,
+    532.7,
+    489.4
+   ],
+   "text": "Endorsement: I do not concur with this recommendation. The requirements set forth in",
+   "conf": 0.9978,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.2,
+    490.2,
+    528.7,
+    503.4
+   ],
+   "text": "46 C.F.R. Subchapter I would not address the insufficient means to protect the pipeline",
+   "conf": 0.9916,
+   "retry": null
+  },
+  {
+   "bbox": [
+    108.8,
+    503.4,
+    500.8,
+    517.0
+   ],
+   "text": "from excavation damage or minimal time of escape. Given the limited 66-second",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    108.8,
+    517.4,
+    513.2,
+    530.9
+   ],
+   "text": "timeframe to avert an explosion on board, the referenced regulations do not offer an",
+   "conf": 0.9874,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.2,
+    530.9,
+    525.1,
+    544.5
+   ],
+   "text": "effective mechanism to prevent ignition or ensure evacuation of all personnel. A more",
+   "conf": 0.9889,
+   "retry": null
+  },
+  {
+   "bbox": [
+    108.8,
+    543.7,
+    533.1,
+    559.7
+   ],
+   "text": "appropriate course of action for preventing future incidents of this nature would involve",
+   "conf": 0.9977,
+   "retry": null
+  },
+  {
+   "bbox": [
+    108.8,
+    558.9,
+    492.5,
+    572.4
+   ],
+   "text": "the dredging industry developing recommended procedures for precise pipeline",
+   "conf": 0.9925,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.2,
+    572.8,
+    471.4,
+    586.0
+   ],
+   "text": "identification and ensuring clear representation within navigation software.",
+   "conf": 0.9882,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.5,
+    600.8,
+    522.4,
+    612.8
+   ],
+   "text": "Administrative Recommendation 1: Recommend the Officer in Charge, Marine Inspection,",
+   "conf": 0.9988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.9,
+    613.6,
+    531.1,
+    627.1
+   ],
+   "text": "Sector Corpus Christi, initiate an investigation involving potential civil penalties in accordance",
+   "conf": 0.9953,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.5,
+    628.7,
+    171.3,
+    639.5
+   ],
+   "text": "with 33 CFR Part 1.",
+   "conf": 0.9917,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    655.9,
+    522.4,
+    667.9
+   ],
+   "text": "Endorsement: Concur. The facts and evidence support an investigation into potential",
+   "conf": 0.9879,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.6,
+    669.4,
+    200.4,
+    682.6
+   ],
+   "text": "acts of negligence.",
+   "conf": 0.9536,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    697.0,
+    346.6,
+    709.0
+   ],
+   "text": "Action: Chief of Prevention has taken for action.",
+   "conf": 0.9985,
+   "retry": null
+  },
+  {
+   "bbox": [
+    303.2,
+    754.1,
+    313.2,
+    766.5
+   ],
+   "text": "2",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

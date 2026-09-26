@@ -1,0 +1,522 @@
+{
+ "key": {
+  "report_id": "WAYMON_BOYD",
+  "filename": "WAYMON_BOYD_7039383_ROI_Redacted.pdf",
+  "sha256": "31e9bb9552ee4986b942f39eb4f6ea294c7d2213bb5c326bd3fde185b05de07b",
+  "page_number": 5,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    71.3,
+    74.2,
+    523.5,
+    86.2
+   ],
+   "text": "unsafe condition that remains dormant until a significant or major marine casualty occurs that",
+   "conf": 0.9972,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    87.8,
+    537.5,
+    100.6
+   ],
+   "text": "brings to light the ineptitude and complacency that exists in the dredging industry. Indeed, in the",
+   "conf": 0.998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    101.4,
+    516.8,
+    113.4
+   ],
+   "text": "absence of federal law and regulations requiring a national standard for dredge crewmember",
+   "conf": 0.9947,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    115.4,
+    541.5,
+    128.5
+   ],
+   "text": "competency areas and promulgate unambiguous policies for crew training. In this case, the Barge",
+   "conf": 0.9935,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    128.5,
+    519.2,
+    142.1
+   ],
+   "text": "Captain, Dredge Captain, Leverman, and other experienced crew were not trained to identify",
+   "conf": 0.9897,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.7,
+    142.1,
+    498.4,
+    156.9
+   ],
+   "text": "pipelines and how to appropriately respond to a potential pipeline strike with emergency",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    156.5,
+    528.3,
+    169.7
+   ],
+   "text": "shutdown procedures and abandoning ship. While there were a lot of possible ignition sources,",
+   "conf": 0.9978,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    170.5,
+    538.7,
+    183.2
+   ],
+   "text": "an immediate shutdown of machinery could have limited them and an immediate call to abandon",
+   "conf": 0.9941,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    184.0,
+    527.1,
+    197.2
+   ],
+   "text": "ship once the pipeline was struck could have saved lives. Without proper training to take these",
+   "conf": 0.9945,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    198.0,
+    535.5,
+    211.2
+   ],
+   "text": "steps immediately, crew members waste valuable seconds determining what happened and what",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    212.4,
+    259.0,
+    224.3
+   ],
+   "text": "actions to take, which likely cost lives.",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    89.2,
+    239.9,
+    519.2,
+    251.9
+   ],
+   "text": "Endorsement 1: I do not concur with this recommendation. While the stated objective is",
+   "conf": 0.9929,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.9,
+    253.9,
+    536.3,
+    265.9
+   ],
+   "text": "laudable, the proposed solution represents a misdiagnosis of the underlying systemic failures",
+   "conf": 0.9893,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.9,
+    267.1,
+    534.3,
+    280.2
+   ],
+   "text": "that contributed to the incident. The recommendation implicitly suggests a direct causal link",
+   "conf": 0.995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.1,
+    280.2,
+    516.8,
+    294.2
+   ],
+   "text": "between the absence of MMCs and a deficiency in crew preparedness regarding pipeline",
+   "conf": 0.9876,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.7,
+    293.8,
+    532.3,
+    308.6
+   ],
+   "text": "identification and their subsequent response to a pipeline strike. The investigation indicated",
+   "conf": 0.992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.5,
+    308.6,
+    535.1,
+    321.8
+   ],
+   "text": "that the primary and precipitating factor was a fundamental flaw in the Site Safety Plan. The",
+   "conf": 0.9963,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.1,
+    321.8,
+    495.3,
+    335.7
+   ],
+   "text": "plan, as implemented, failed to adequately identify and delineate the presence of the",
+   "conf": 0.9933,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.5,
+    335.7,
+    512.0,
+    349.3
+   ],
+   "text": "submerged pipeline. Irrespective of individual crewmember MMC status, this omission",
+   "conf": 0.9828,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.9,
+    350.1,
+    519.2,
+    363.3
+   ],
+   "text": "created a situation where the potential for a catastrophic event was significantly elevated.",
+   "conf": 0.9985,
+   "retry": null
+  },
+  {
+   "bbox": [
+    89.2,
+    364.5,
+    537.1,
+    376.4
+   ],
+   "text": "Addressing the symptoms of a poorly executed safety plan through the imposition of blanket",
+   "conf": 0.9917,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.5,
+    377.6,
+    417.2,
+    390.8
+   ],
+   "text": "MMCs represents an inefficient and potentially ineffective solution.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    404.8,
+    530.3,
+    418.4
+   ],
+   "text": "Safety Recommendation 2: To achieve the shared goal in increasing safety and proficiency in",
+   "conf": 0.9939,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    419.2,
+    535.5,
+    432.3
+   ],
+   "text": "dredging operations, it is recommended that the Coast Guard institute requirements that manned",
+   "conf": 0.9952,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    433.1,
+    537.9,
+    445.9
+   ],
+   "text": "uninspected dredges over 100 gross tons be subject to inspection under U.S. law and regulations.",
+   "conf": 0.9981,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    446.7,
+    537.1,
+    459.9
+   ],
+   "text": "Existing regulations under 46 C.F.R. Table 2.01-7(a)(4) and 46 C.F.R. Subchapter I require self-",
+   "conf": 0.9976,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    460.7,
+    525.9,
+    473.8
+   ],
+   "text": "propelled dredges of 300 gross tons, to be inspected. Dredges are considered \"manned\" if they",
+   "conf": 0.9943,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.7,
+    473.4,
+    509.2,
+    488.2
+   ],
+   "text": "have personnel onboard for the purposes of operating and navigating the dredge, including",
+   "conf": 0.9926,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    488.2,
+    518.4,
+    501.4
+   ],
+   "text": "operating dredging equipment. The relative nature of non-self-propelled dredging operations",
+   "conf": 0.9903,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    502.2,
+    539.9,
+    515.4
+   ],
+   "text": "does not hinge on whether a dredge is a prescribed tonnage; rather, the dredging components and",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    515.8,
+    518.8,
+    528.9
+   ],
+   "text": "overall operation are generally the same on most dredge vessels. However, the 300 gross ton",
+   "conf": 0.9953,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    530.1,
+    527.9,
+    542.1
+   ],
+   "text": "self-propelled dredge or manned non-self-propelled dredges under 100 gross tons are designed",
+   "conf": 0.9929,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    542.9,
+    500.8,
+    556.5
+   ],
+   "text": "and maintained in accordance with regulations intended to increase safety in commercial",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    557.3,
+    539.1,
+    570.4
+   ],
+   "text": "operations. Had the WAYMON BOYD been subject to inspection, the requirements in 46 C.F.R.",
+   "conf": 0.9824,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    571.6,
+    522.8,
+    583.6
+   ],
+   "text": "Subchapters I, J, and F mandate stringent lifesaving, fire protection, electrical, and machinery",
+   "conf": 0.9917,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    584.4,
+    530.7,
+    598.0
+   ],
+   "text": "related requirements that will lead to an increase in shipboard operations and equipment safety,",
+   "conf": 0.9895,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    598.8,
+    389.7,
+    612.0
+   ],
+   "text": "thus supporting the intent and goals of the marine safety program.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.5,
+    625.9,
+    487.7,
+    639.5
+   ],
+   "text": "Endorsement 2: I do not concur with the recommendation to institute inspection",
+   "conf": 0.9965,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.9,
+    641.1,
+    505.6,
+    654.3
+   ],
+   "text": "requirements for manned uninspected dredges over 100 gross tons. While the intent to",
+   "conf": 0.9944,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.5,
+    655.5,
+    525.9,
+    669.4
+   ],
+   "text": "improve safety and proficiency is valid, the proposed inspection framework under 46 CFR",
+   "conf": 0.9977,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.9,
+    671.0,
+    516.0,
+    684.2
+   ],
+   "text": "Subchapter I, does not adequately address the underlying causal factors identified in this",
+   "conf": 0.9955,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.9,
+    685.0,
+    540.7,
+    699.8
+   ],
+   "text": "casualty. The investigation revealed that the dredge struck a submerged gas pipeline resulting",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    89.6,
+    701.4,
+    233.1,
+    713.4
+   ],
+   "text": "in a rapid and fatal explosion.",
+   "conf": 0.9861,
+   "retry": null
+  },
+  {
+   "bbox": [
+    301.2,
+    758.9,
+    310.8,
+    770.8
+   ],
+   "text": "2",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

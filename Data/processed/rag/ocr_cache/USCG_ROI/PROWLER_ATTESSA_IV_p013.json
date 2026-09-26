@@ -1,0 +1,489 @@
+{
+ "key": {
+  "report_id": "PROWLER_ATTESSA_IV",
+  "filename": "PROWLER_ATTESSA_IV_6572770_ROI_Redacted.pdf",
+  "sha256": "010157c0edf08c5e13cd22197805e3bf59408c4d04b1b047d4c13c51c2410175",
+  "page_number": 13,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    49.4,
+    30.7,
+    335.5,
+    45.5
+   ],
+   "text": "COLLISION BETWEEN THE PROWLER (O.N. 294465)",
+   "conf": 0.9955,
+   "retry": null
+  },
+  {
+   "bbox": [
+    476.1,
+    32.3,
+    510.0,
+    46.3
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    48.6,
+    44.3,
+    365.4,
+    59.9
+   ],
+   "text": "AND ATTESSA IV (O.N. 9179830) SOUTH OF U.S./MEXICO",
+   "conf": 0.9931,
+   "retry": null
+  },
+  {
+   "bbox": [
+    476.9,
+    47.1,
+    567.0,
+    60.3
+   ],
+   "text": "December 3, 2019",
+   "conf": 0.9866,
+   "retry": null
+  },
+  {
+   "bbox": [
+    48.2,
+    58.7,
+    334.7,
+    73.1
+   ],
+   "text": "MARITIME BOUNDARY LINE ON OCTOBER 26,2018",
+   "conf": 0.981,
+   "retry": null
+  },
+  {
+   "bbox": [
+    105.6,
+    87.4,
+    500.4,
+    103.8
+   ],
+   "text": "4.1.3.3. The master saw a light out of the corner of his eye off the port bow of the",
+   "conf": 0.9956,
+   "retry": null
+  },
+  {
+   "bbox": [
+    146.6,
+    103.0,
+    517.2,
+    117.4
+   ],
+   "text": "ATTESSA IV. The master determined the other vessel to be on a course and",
+   "conf": 0.9877,
+   "retry": null
+  },
+  {
+   "bbox": [
+    146.6,
+    117.8,
+    518.0,
+    132.9
+   ],
+   "text": "speed that would result in collision. He put the engines in neutral and put the",
+   "conf": 0.9957,
+   "retry": null
+  },
+  {
+   "bbox": [
+    145.4,
+    131.7,
+    412.0,
+    147.3
+   ],
+   "text": "helm hard over to port in an attempt to avoid collision.",
+   "conf": 0.9892,
+   "retry": null
+  },
+  {
+   "bbox": [
+    105.2,
+    154.9,
+    502.4,
+    169.7
+   ],
+   "text": "4.1.3.4. The ATTESSA IV sustained minimal damage to the hull as a result of the",
+   "conf": 0.9871,
+   "retry": null
+  },
+  {
+   "bbox": [
+    146.2,
+    169.7,
+    451.0,
+    184.4
+   ],
+   "text": "collision and no injuries were reported from the crewmembers.",
+   "conf": 0.9981,
+   "retry": null
+  },
+  {
+   "bbox": [
+    105.2,
+    192.0,
+    435.5,
+    207.2
+   ],
+   "text": "4.1.3.5. Chemical testing was completed on the master; results were",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.3,
+    214.8,
+    282.1,
+    229.1
+   ],
+   "text": "4.2. Additional/SupportingInformation.",
+   "conf": 0.9903,
+   "retry": null
+  },
+  {
+   "bbox": [
+    104.4,
+    242.3,
+    502.4,
+    257.5
+   ],
+   "text": "4.2.1. The PROWLER was a 56.5 foot Sport Fisher with plank on frame wooden",
+   "conf": 0.9859,
+   "retry": null
+  },
+  {
+   "bbox": [
+    141.0,
+    257.1,
+    528.3,
+    272.2
+   ],
+   "text": "construction. The vessel was a U.S. Coast Guard inspected vessel in accordance",
+   "conf": 0.9937,
+   "retry": null
+  },
+  {
+   "bbox": [
+    141.0,
+    271.9,
+    497.2,
+    287.0
+   ],
+   "text": "with 46 Code of Federal Regulation (CFR) Subchapter T. The last annual",
+   "conf": 0.992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    141.0,
+    286.2,
+    517.2,
+    301.8
+   ],
+   "text": "inspection had been completed on February 20, 2018 to the satisfaction of the",
+   "conf": 0.995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    140.6,
+    301.8,
+    476.1,
+    315.8
+   ],
+   "text": "attending marine inspectors, and found to be fit for route and service.",
+   "conf": 0.9928,
+   "retry": null
+  },
+  {
+   "bbox": [
+    104.0,
+    323.3,
+    537.1,
+    338.9
+   ],
+   "text": "4.2.2. The master of the PROWLER was the holder of a Master of Less Than 100 Gross",
+   "conf": 0.9923,
+   "retry": null
+  },
+  {
+   "bbox": [
+    140.6,
+    338.9,
+    531.5,
+    353.7
+   ],
+   "text": "Registered Tons, Upon Near Coastal Waters merchant mariner credential, issued",
+   "conf": 0.9944,
+   "retry": null
+  },
+  {
+   "bbox": [
+    140.6,
+    353.7,
+    526.3,
+    368.5
+   ],
+   "text": "May 28, 2013 and renewed May 29, 2018. The mate of the PROWLER was the",
+   "conf": 0.9896,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.9,
+    368.1,
+    528.7,
+    383.2
+   ],
+   "text": "holder of a Master of Less Than 100 Gross Registered Tons, Upon Near Coastal",
+   "conf": 0.9942,
+   "retry": null
+  },
+  {
+   "bbox": [
+    140.6,
+    382.4,
+    526.7,
+    398.0
+   ],
+   "text": "Waters merchant mariner credential, issued June 28, 1983 and renewed July 15,",
+   "conf": 0.9965,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.1,
+    396.8,
+    171.3,
+    410.8
+   ],
+   "text": "2015.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    103.2,
+    420.0,
+    536.7,
+    435.5
+   ],
+   "text": "4.2.3. A Furuno NAVNET radar and chart plotter was installed on the PROWLER three",
+   "conf": 0.9964,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.9,
+    434.7,
+    532.3,
+    449.9
+   ],
+   "text": "weeks before the collision date. The mate identified multiple vessel targets in the",
+   "conf": 0.9961,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.9,
+    449.5,
+    532.7,
+    465.1
+   ],
+   "text": "vicinity of Isla Coronado Norte; none of those targets were reported to have been",
+   "conf": 0.9952,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.9,
+    464.3,
+    231.1,
+    476.2
+   ],
+   "text": "the ATTESSA IV.",
+   "conf": 0.9982,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.8,
+    486.6,
+    506.0,
+    501.8
+   ],
+   "text": "4.2.4. The master's standing orders on the PROWLER did not require a dedicated",
+   "conf": 0.9883,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.7,
+    501.8,
+    531.5,
+    516.6
+   ],
+   "text": "lookout as part of the standard navigational watch. A dedicated lookout was only",
+   "conf": 0.9933,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.7,
+    515.8,
+    526.7,
+    531.7
+   ],
+   "text": "required when the vessel operated in areas with limited visibility, shallow water",
+   "conf": 0.9935,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.7,
+    530.9,
+    516.4,
+    546.1
+   ],
+   "text": "or an area known to have lobster traps. It was common practice for the person",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.7,
+    546.1,
+    471.4,
+    560.1
+   ],
+   "text": "having direct operational control of the vessel to also be the lookout.",
+   "conf": 0.9952,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.4,
+    567.7,
+    526.7,
+    583.6
+   ],
+   "text": "4.2.5. The ATTESSA IV was a 278.9 foot private yacht of steel construction, Cayman",
+   "conf": 0.9933,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.3,
+    583.2,
+    459.0,
+    598.0
+   ],
+   "text": "Island flagged, with a homeport of George Town, Grand Cayman.",
+   "conf": 0.9986,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.0,
+    605.2,
+    513.2,
+    620.7
+   ],
+   "text": "4.2.6. The master of the ATTESSA IV was the holder of a Master (Yachts) mariner",
+   "conf": 0.9943,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.7,
+    620.3,
+    537.1,
+    635.9
+   ],
+   "text": "credential, issued on November 03, 2014 by the United Kingdom and endorsed by",
+   "conf": 0.9938,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.7,
+    635.5,
+    239.1,
+    648.7
+   ],
+   "text": "the Cayman Islands.",
+   "conf": 0.9971,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.6,
+    657.1,
+    512.8,
+    673.4
+   ],
+   "text": "4.2.7. The master's standing orders on the ATTESSA IV required in addition to the",
+   "conf": 0.9922,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.9,
+    672.6,
+    521.2,
+    687.4
+   ],
+   "text": "officer on watch, a lookout shall be posted from sunset to sunrise and that their",
+   "conf": 0.9987,
+   "retry": null
+  },
+  {
+   "bbox": [
+    296.0,
+    737.3,
+    307.2,
+    751.3
+   ],
+   "text": "5",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

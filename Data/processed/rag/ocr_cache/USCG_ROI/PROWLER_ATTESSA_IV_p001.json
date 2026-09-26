@@ -1,0 +1,176 @@
+{
+ "key": {
+  "report_id": "PROWLER_ATTESSA_IV",
+  "filename": "PROWLER_ATTESSA_IV_6572770_ROI_Redacted.pdf",
+  "sha256": "010157c0edf08c5e13cd22197805e3bf59408c4d04b1b047d4c13c51c2410175",
+  "page_number": 1,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    181.3,
+    70.3,
+    520.8,
+    93.0
+   ],
+   "text": "UNITED STATES COAST GUARD",
+   "conf": 0.9758,
+   "retry": null
+  },
+  {
+   "bbox": [
+    157.4,
+    174.0,
+    444.7,
+    191.6
+   ],
+   "text": "REPORT OF THE INVESTIGATION",
+   "conf": 0.9846,
+   "retry": null
+  },
+  {
+   "bbox": [
+    258.2,
+    195.6,
+    343.9,
+    211.6
+   ],
+   "text": "INTO THE",
+   "conf": 0.9938,
+   "retry": null
+  },
+  {
+   "bbox": [
+    103.2,
+    212.8,
+    497.6,
+    232.3
+   ],
+   "text": "COLLISION BETWEEN THE PROWLER (O.N.",
+   "conf": 0.9936,
+   "retry": null
+  },
+  {
+   "bbox": [
+    78.5,
+    231.9,
+    520.8,
+    252.3
+   ],
+   "text": "294465) AND THE ATTESSA IV (IMO 9179830)",
+   "conf": 0.9857,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    253.9,
+    531.1,
+    271.5
+   ],
+   "text": "SOUTH OF THE U.S./MEXICO MARITIME BOUNDARY",
+   "conf": 0.9917,
+   "retry": null
+  },
+  {
+   "bbox": [
+    276.5,
+    273.0,
+    325.5,
+    292.2
+   ],
+   "text": "LINE",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    194.0,
+    293.4,
+    407.2,
+    312.2
+   ],
+   "text": "ON OCTOBER 26, 20 18",
+   "conf": 0.9508,
+   "retry": null
+  },
+  {
+   "bbox": [
+    291.7,
+    486.6,
+    331.9,
+    503.4
+   ],
+   "text": "PARATUS",
+   "conf": 0.9993,
+   "retry": {
+    "text": "PARATUS",
+    "conf": 0.9993,
+    "first_text": "PARATUS",
+    "first_conf": 0.8279,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    290.9,
+    503.0,
+    333.5,
+    523.3
+   ],
+   "text": "1790",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    233.1,
+    632.3,
+    366.6,
+    643.5
+   ],
+   "text": "MISLE ACTIVITYNUMBER:",
+   "conf": 0.9927,
+   "retry": null
+  },
+  {
+   "bbox": [
+    275.7,
+    643.5,
+    325.5,
+    654.3
+   ],
+   "text": "6572770",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

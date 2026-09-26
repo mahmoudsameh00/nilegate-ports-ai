@@ -1,0 +1,203 @@
+{
+ "key": {
+  "report_id": "LITTLE_G",
+  "filename": "LITTLE_G_7717011_ROI_Redacted.pdf",
+  "sha256": "9bfb88866d75e684135d09cf0c07f8079087bcdf03236273b78edc88199915ac",
+  "page_number": 13,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    110.4,
+    35.9,
+    537.5,
+    51.1
+   ],
+   "text": "4.1.23. At the request of MC Marine, the T/V HAMP UZZELLE (O/N:280046) arrived",
+   "conf": 0.9936,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    49.9,
+    535.5,
+    65.5
+   ],
+   "text": "on scene at approximately 1501 to assist with search and rescue and salvage operations.",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    188.1,
+    357.3,
+    395.6,
+    367.7
+   ],
+   "text": "Figure 12. T/V HAMP UZZELLE enroute to the incident scene",
+   "conf": 0.9803,
+   "retry": null
+  },
+  {
+   "bbox": [
+    187.3,
+    366.9,
+    297.2,
+    377.2
+   ],
+   "text": "(June 16, 2023/Sector Mobile IO)",
+   "conf": 0.9979,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    387.6,
+    537.1,
+    402.4
+   ],
+   "text": "4.1.24. The HAMP UZZELLE pushed up directly against the starboard side (south side)",
+   "conf": 0.9953,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    402.0,
+    510.8,
+    416.8
+   ],
+   "text": "of the barge and in doing so caused a release of debris and the Master’s body from",
+   "conf": 0.984,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    416.0,
+    217.5,
+    430.3
+   ],
+   "text": "underneath the barge.",
+   "conf": 0.9915,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    441.1,
+    534.7,
+    457.1
+   ],
+   "text": "4.1.25. Once the Master’s body resurfaced, it drifted approximately 100 yards south of",
+   "conf": 0.9908,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    455.9,
+    456.6,
+    469.9
+   ],
+   "text": "the barge along the riverbank where first responders retrieved his body.",
+   "conf": 0.9879,
+   "retry": null
+  },
+  {
+   "bbox": [
+    314.4,
+    561.7,
+    370.1,
+    572.4
+   ],
+   "text": "Approximate",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    316.4,
+    571.2,
+    367.8,
+    580.8
+   ],
+   "text": "Location of",
+   "conf": 0.9981,
+   "retry": null
+  },
+  {
+   "bbox": [
+    310.8,
+    580.0,
+    372.5,
+    592.0
+   ],
+   "text": "Master's Body",
+   "conf": 0.9982,
+   "retry": null
+  },
+  {
+   "bbox": [
+    320.3,
+    589.2,
+    361.0,
+    601.6
+   ],
+   "text": "Recovery",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    167.3,
+    702.2,
+    437.5,
+    712.6
+   ],
+   "text": "Figure 13. Aerial view of the body recovery in relation to the barge. (Google Maps)",
+   "conf": 0.9984,
+   "retry": null
+  },
+  {
+   "bbox": [
+    301.2,
+    743.7,
+    311.2,
+    756.5
+   ],
+   "text": "8",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

@@ -1,0 +1,470 @@
+{
+ "key": {
+  "report_id": "QUEEN_OF_THE_WEST",
+  "filename": "QUEEN_OF_THE_WEST_4405289_ROI_Redacted.pdf",
+  "sha256": "02f978c36fcbd8ef00493738d66ee13a4079eab5832883de67ba1cacc388cba3",
+  "page_number": 13,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2542,
+  3292
+ ],
+ "lines": [
+  {
+   "bbox": [
+    506.8,
+    30.3,
+    539.4,
+    44.2
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    492.1,
+    43.0,
+    538.2,
+    56.5
+   ],
+   "text": "06May13",
+   "conf": 0.9996,
+   "retry": {
+    "text": "06May13",
+    "conf": 0.9996,
+    "first_text": "06May13",
+    "first_conf": 0.9391,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    69.5,
+    43.4,
+    474.6,
+    55.0
+   ],
+   "text": "LOSS OF LIFE FOLLOWING MAN OVERBOARD FROM P/V QUEEN OF THE WEST",
+   "conf": 0.9808,
+   "retry": null
+  },
+  {
+   "bbox": [
+    89.0,
+    94.0,
+    529.5,
+    108.7
+   ],
+   "text": "Historical records and photographs of the P/V QUEEN OF THE WEST show railings extending all",
+   "conf": 0.9777,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.3,
+    107.5,
+    530.6,
+    121.1
+   ],
+   "text": "the way to the afterimost portion of the vessel. When investigators arrived onboard, they noted that there",
+   "conf": 0.992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.3,
+    120.3,
+    513.6,
+    133.8
+   ],
+   "text": "were two segments on the port side paddlewheel support arm unprotected without railings: a 54-inch",
+   "conf": 0.9972,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.1,
+    133.8,
+    516.7,
+    145.8
+   ],
+   "text": "section (where Mr. Staples fell) between the wheel and the aftermost bulkhead of the accommodation",
+   "conf": 0.9908,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.1,
+    146.1,
+    526.3,
+    158.1
+   ],
+   "text": "bulkhead, and a 10-foot section along the aftermost stretch of the arm (see diagram below for details on",
+   "conf": 0.9946,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.3,
+    158.9,
+    509.2,
+    172.0
+   ],
+   "text": "unprotected railing areas). The hydraulic turning gear for the original, functional paddlewheel was",
+   "conf": 0.995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.9,
+    171.2,
+    529.1,
+    184.8
+   ],
+   "text": "arranged to prevent someone from easily accessing the extreme end of the vessel, even though historical",
+   "conf": 0.9985,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.9,
+    184.0,
+    532.6,
+    197.5
+   ],
+   "text": "photographs show that railing existed beyond the turning gear. Historical photographs also show that the",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.7,
+    197.1,
+    509.6,
+    209.1
+   ],
+   "text": "54-inch area where the paddlewheel diagonal supports attach to the aftermost exterior bulkhead was",
+   "conf": 0.9937,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.9,
+    209.1,
+    518.3,
+    222.6
+   ],
+   "text": "unprotected. Complicating this investigation was the fact that an official railing diagram or schematic",
+   "conf": 0.9972,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.7,
+    222.6,
+    498.5,
+    234.6
+   ],
+   "text": "was not created during the cosmetic paddlewheel installation project: Investigators had to rely on",
+   "conf": 0.9912,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.9,
+    235.0,
+    454.0,
+    248.1
+   ],
+   "text": "photographs of the vessel before the re-fit project and statements from involved parties.",
+   "conf": 0.9871,
+   "retry": null
+  },
+  {
+   "bbox": [
+    346.7,
+    273.6,
+    440.1,
+    281.5
+   ],
+   "text": "-STBD HAIN ENGINE MUFFLER (N)",
+   "conf": 0.9614,
+   "retry": {
+    "text": "-STBD HAIN ENGINE MUFFLER (N)",
+    "conf": 0.9614,
+    "first_text": "-STBD HAIN ENGINE MUFFLER (N)",
+    "first_conf": 0.9426,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    374.2,
+    287.1,
+    415.5,
+    296.3
+   ],
+   "text": "-PADDLEWHEEL",
+   "conf": 0.9958,
+   "retry": null
+  },
+  {
+   "bbox": [
+    375.7,
+    293.9,
+    427.4,
+    303.0
+   ],
+   "text": "SUPPORT ARM (N",
+   "conf": 0.9275,
+   "retry": {
+    "text": "SUPPORT ARM (N)",
+    "conf": 0.8819,
+    "first_text": "SUPPORT ARM (N",
+    "first_conf": 0.9275,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    144.2,
+    419.3,
+    215.3,
+    431.3
+   ],
+   "text": "Accomodation",
+   "conf": 0.9984,
+   "retry": null
+  },
+  {
+   "bbox": [
+    162.8,
+    434.9,
+    195.4,
+    445.6
+   ],
+   "text": "Space",
+   "conf": 0.9965,
+   "retry": null
+  },
+  {
+   "bbox": [
+    430.6,
+    448.0,
+    539.4,
+    458.8
+   ],
+   "text": "Two missing segments of",
+   "conf": 0.9982,
+   "retry": null
+  },
+  {
+   "bbox": [
+    407.5,
+    450.8,
+    421.8,
+    459.6
+   ],
+   "text": "H",
+   "conf": 0.8052,
+   "retry": {
+    "text": "H",
+    "conf": 0.8052,
+    "first_text": "H",
+    "first_conf": 0.6659,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    428.6,
+    459.6,
+    556.1,
+    470.3
+   ],
+   "text": "railing: 54 inches and 10 feet",
+   "conf": 0.9669,
+   "retry": null
+  },
+  {
+   "bbox": [
+    495.3,
+    537.2,
+    512.0,
+    550.3
+   ],
+   "text": "44",
+   "conf": 1.0,
+   "retry": {
+    "text": "44",
+    "conf": 1.0,
+    "first_text": "44",
+    "first_conf": 0.6989,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    406.3,
+    537.6,
+    448.8,
+    546.8
+   ],
+   "text": "-PADDLEWHEEL",
+   "conf": 0.965,
+   "retry": null
+  },
+  {
+   "bbox": [
+    407.1,
+    544.0,
+    459.9,
+    553.1
+   ],
+   "text": "SUPPORT ARM (N",
+   "conf": 0.9227,
+   "retry": {
+    "text": "SUPPORT ARM (N",
+    "conf": 0.9227,
+    "first_text": "SUPPORT ARM <N",
+    "first_conf": 0.8955,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    77.8,
+    625.2,
+    225.6,
+    637.2
+   ],
+   "text": "Red dotted lines indicate proposed",
+   "conf": 0.989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    333.6,
+    625.6,
+    526.3,
+    638.0
+   ],
+   "text": "Mr. Staples fell overboard from this position",
+   "conf": 0.99,
+   "retry": null
+  },
+  {
+   "bbox": [
+    77.5,
+    637.2,
+    241.1,
+    648.7
+   ],
+   "text": "barrier positions for restricting access",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    334.0,
+    638.0,
+    521.9,
+    649.5
+   ],
+   "text": "between the bulkead and the paddlewheel.",
+   "conf": 0.9812,
+   "retry": null
+  },
+  {
+   "bbox": [
+    77.1,
+    647.9,
+    130.7,
+    660.7
+   ],
+   "text": "to the stern.",
+   "conf": 0.9749,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.2,
+    667.4,
+    478.6,
+    679.4
+   ],
+   "text": "According to the attending Coast Guard inspector, it was determined during the cosmetic",
+   "conf": 0.9987,
+   "retry": null
+  },
+  {
+   "bbox": [
+    65.5,
+    678.6,
+    524.7,
+    693.3
+   ],
+   "text": "paddlewheel installation project that railings in this area of the vessel would only become a larger safety",
+   "conf": 0.9952,
+   "retry": null
+  },
+  {
+   "bbox": [
+    65.5,
+    691.7,
+    528.7,
+    705.3
+   ],
+   "text": "concern due to the possibility of river debris being carried up with the paddlewheel boards and becoming",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.3,
+    705.3,
+    531.8,
+    718.0
+   ],
+   "text": "lodged between the paddlewheel and the railings, causing potential damage to the wheel or the propulsion",
+   "conf": 0.9945,
+   "retry": null
+  },
+  {
+   "bbox": [
+    295.1,
+    741.5,
+    303.1,
+    753.0
+   ],
+   "text": "8",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

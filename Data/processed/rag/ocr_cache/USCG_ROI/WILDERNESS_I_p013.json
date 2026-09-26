@@ -1,0 +1,324 @@
+{
+ "key": {
+  "report_id": "WILDERNESS_I",
+  "filename": "WILDERNESS_I_7828267_ROI_Redacted.pdf",
+  "sha256": "e0f98431b9d795e2e25804b66e1de1efa3284a2d53b47fe4a957b9c628e9b902",
+  "page_number": 13,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    88.1,
+    36.3,
+    286.5,
+    49.9
+   ],
+   "text": "4.3. Vessel Configuration and Operation",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.5,
+    62.7,
+    541.5,
+    75.8
+   ],
+   "text": "4.3.1. The WildernessI is a 23 foot, flat-bottomed, aluminum hull airboat. The",
+   "conf": 0.982,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.5,
+    75.8,
+    542.3,
+    90.6
+   ],
+   "text": "Wilderness I's propellor blades were protected by a metal cage. Large metal rudders were",
+   "conf": 0.9944,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.5,
+    90.6,
+    541.5,
+    103.8
+   ],
+   "text": "mounted on the metal cage behind the propellor blades. TheWilderness I had no",
+   "conf": 0.9889,
+   "retry": null
+  },
+  {
+   "bbox": [
+    114.8,
+    103.4,
+    440.7,
+    118.6
+   ],
+   "text": "protective barrier between the operator's seat and the environment.",
+   "conf": 0.9893,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.5,
+    129.7,
+    541.5,
+    142.9
+   ],
+   "text": "4.3.2. The Wilderness I is powered by an internal combustion engine that turns a",
+   "conf": 0.9837,
+   "retry": null
+  },
+  {
+   "bbox": [
+    114.8,
+    142.9,
+    541.9,
+    158.1
+   ],
+   "text": "propellor, which moves air across the propeller blades. As the propeller rotates, thrust is",
+   "conf": 0.9986,
+   "retry": null
+  },
+  {
+   "bbox": [
+    114.8,
+    156.9,
+    541.9,
+    172.1
+   ],
+   "text": "produced to pull the vessel into forward propulsion. The speed of the forward thrust is",
+   "conf": 0.9801,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.5,
+    171.7,
+    541.5,
+    184.8
+   ],
+   "text": "controlled by a foot pedal, i.e., the throttle. Rudders are mounted aft of the propeller and",
+   "conf": 0.9902,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.5,
+    185.2,
+    541.5,
+    198.4
+   ],
+   "text": "are controlled by a cable connected to a lever in the operator’s hand. Pulling back on the",
+   "conf": 0.9926,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.5,
+    199.2,
+    541.5,
+    212.4
+   ],
+   "text": "lever turns the vessel to port and pushing on it turns the vessel to starboard. There is no",
+   "conf": 0.994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.5,
+    213.2,
+    541.5,
+    226.3
+   ],
+   "text": "method to quickly halt or reverse the forward thrust and the vessel does not possess the",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.5,
+    227.1,
+    234.3,
+    240.3
+   ],
+   "text": "ability to operate astern.",
+   "conf": 0.9988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.1,
+    251.1,
+    541.5,
+    266.3
+   ],
+   "text": "4.3.3. Airboats like the Wilderness I turn with a delayed response when compared to",
+   "conf": 0.9912,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.5,
+    266.7,
+    541.5,
+    279.8
+   ],
+   "text": "other vessel types. When an operator moves the lever controller, thereby directing the",
+   "conf": 0.9858,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.1,
+    279.4,
+    541.9,
+    293.8
+   ],
+   "text": "rudders, the airboat's bow will point in the direction the operator intends to travel, but",
+   "conf": 0.9881,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.5,
+    293.8,
+    541.5,
+    307.0
+   ],
+   "text": "the vessel will not move in that direction until the momentum in the previous direction",
+   "conf": 0.9985,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.5,
+    307.4,
+    541.1,
+    321.8
+   ],
+   "text": "dissipates and is overcome by forces in the new direction. This effect is known as drifting.",
+   "conf": 0.9891,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.5,
+    320.6,
+    541.9,
+    335.3
+   ],
+   "text": "The Wilderness I was known by its owners and previous operators to drift more when",
+   "conf": 0.9925,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.9,
+    335.7,
+    540.7,
+    348.9
+   ],
+   "text": "operating at a lighter weight, such as when the vessel was operating without passengers.",
+   "conf": 0.9877,
+   "retry": null
+  },
+  {
+   "bbox": [
+    149.8,
+    616.0,
+    450.6,
+    627.5
+   ],
+   "text": "Figure 9 Post-incident picture of Wilderness I’s operator lever controller and pedal",
+   "conf": 0.9903,
+   "retry": null
+  },
+  {
+   "bbox": [
+    150.2,
+    626.7,
+    317.2,
+    638.3
+   ],
+   "text": "(July 28, 2023/ Ultimate Swamp Adventures)",
+   "conf": 0.9909,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.9,
+    648.3,
+    206.4,
+    660.3
+   ],
+   "text": "4.4.Vessel Background",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.5,
+    673.8,
+    541.5,
+    687.0
+   ],
+   "text": "4.4.1. The Wilderness I was built in Florida in 2002. It was purchased by Ultimate",
+   "conf": 0.9922,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.5,
+    687.0,
+    416.0,
+    700.6
+   ],
+   "text": "Swamp Adventures Inc. and brought to New Orleans in 2018.",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    300.8,
+    744.5,
+    310.8,
+    756.5
+   ],
+   "text": "8",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

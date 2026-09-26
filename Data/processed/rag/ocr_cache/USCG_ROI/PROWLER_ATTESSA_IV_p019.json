@@ -1,0 +1,341 @@
+{
+ "key": {
+  "report_id": "PROWLER_ATTESSA_IV",
+  "filename": "PROWLER_ATTESSA_IV_6572770_ROI_Redacted.pdf",
+  "sha256": "010157c0edf08c5e13cd22197805e3bf59408c4d04b1b047d4c13c51c2410175",
+  "page_number": 19,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    47.4,
+    28.7,
+    334.7,
+    44.3
+   ],
+   "text": "COLLISION BETWEEN THE PROWLER (O.N. 294465)",
+   "conf": 0.9937,
+   "retry": null
+  },
+  {
+   "bbox": [
+    474.5,
+    30.7,
+    508.4,
+    44.7
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    47.4,
+    43.1,
+    363.8,
+    58.3
+   ],
+   "text": "AND ATTESSA IV (O.N. 9179830) SOUTH OF U.S./MEXICO",
+   "conf": 0.9758,
+   "retry": null
+  },
+  {
+   "bbox": [
+    475.3,
+    45.5,
+    565.4,
+    58.7
+   ],
+   "text": "December 3, 2019",
+   "conf": 0.9958,
+   "retry": null
+  },
+  {
+   "bbox": [
+    47.0,
+    57.1,
+    333.9,
+    71.5
+   ],
+   "text": "MARITIME BOUNDARY LINE ON OCTOBER 26,2018",
+   "conf": 0.9721,
+   "retry": null
+  },
+  {
+   "bbox": [
+    233.1,
+    152.9,
+    299.2,
+    164.9
+   ],
+   "text": "MESSA IV",
+   "conf": 0.8859,
+   "retry": {
+    "text": "MESSA IV",
+    "conf": 0.8859,
+    "first_text": "TESSA IV",
+    "first_conf": 0.8755,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    178.5,
+    371.6,
+    468.2,
+    386.0
+   ],
+   "text": "Above: Photograph of ATTESSA IV's stern taken on October 29, 2019",
+   "conf": 0.9817,
+   "retry": null
+  },
+  {
+   "bbox": [
+    224.3,
+    384.0,
+    421.5,
+    396.8
+   ],
+   "text": "in San Diego Bay, provided by the Coast Guard.",
+   "conf": 0.9879,
+   "retry": null
+  },
+  {
+   "bbox": [
+    65.7,
+    408.4,
+    128.3,
+    423.1
+   ],
+   "text": "5. Analysis",
+   "conf": 0.9805,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.5,
+    431.5,
+    282.5,
+    445.9
+   ],
+   "text": "5.1. Failure to Maintain Proper Lookout.",
+   "conf": 0.9967,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.0,
+    453.9,
+    528.3,
+    470.2
+   ],
+   "text": "5.1.1. International Regulations for Prevention of Collisions at Sea, 1972 (COLREGS)",
+   "conf": 0.989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.9,
+    469.5,
+    523.9,
+    485.4
+   ],
+   "text": "requires that “every vessel shall at all times maintain a proper look-out by sight",
+   "conf": 0.984,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.9,
+    483.8,
+    497.6,
+    500.2
+   ],
+   "text": "and hearing as well as by all available means appropriate in the prevailing",
+   "conf": 0.9913,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.9,
+    498.6,
+    535.9,
+    514.2
+   ],
+   "text": "circumstances and conditions so as to make a full appraisal of the situation and of",
+   "conf": 0.9862,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.3,
+    513.0,
+    237.5,
+    526.9
+   ],
+   "text": "the risk of collision.",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.6,
+    535.3,
+    529.5,
+    551.7
+   ],
+   "text": "5.1.2. The mate of the PROWLER periodically left the wheelhouse to use the galley or",
+   "conf": 0.9936,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.5,
+    551.3,
+    507.6,
+    565.3
+   ],
+   "text": "restroom, leaving the vessel without a person in direct control and without a",
+   "conf": 0.9887,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.9,
+    565.3,
+    402.0,
+    580.0
+   ],
+   "text": "lookout. This was a routine practice aboard the vessel.",
+   "conf": 0.9986,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.2,
+    587.6,
+    529.5,
+    604.0
+   ],
+   "text": "5.1.3. The PROWLER did not have a company or vessel policy that required a lookout",
+   "conf": 0.9911,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.5,
+    602.8,
+    499.2,
+    618.4
+   ],
+   "text": "to be posted in addition to the navigational watch officer, except in special",
+   "conf": 0.984,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.1,
+    617.2,
+    519.2,
+    632.7
+   ],
+   "text": "circumstances. This left the navigational watch officer to also serve as the sole",
+   "conf": 0.9913,
+   "retry": null
+  },
+  {
+   "bbox": [
+    136.7,
+    631.1,
+    180.5,
+    645.9
+   ],
+   "text": "lookout.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    100.8,
+    654.3,
+    520.0,
+    670.6
+   ],
+   "text": "5.1.4. At the time of collision, the mate of the PROWLER was the only person in the",
+   "conf": 0.9858,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.1,
+    669.0,
+    518.0,
+    685.8
+   ],
+   "text": "wheelhouse. Visibility was reported at approximately 6nm and their radar was",
+   "conf": 0.9892,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.1,
+    684.2,
+    516.4,
+    699.8
+   ],
+   "text": "functioning properly. Radar did not identify ATTESSA IV as a target, and the",
+   "conf": 0.9915,
+   "retry": null
+  },
+  {
+   "bbox": [
+    136.3,
+    698.6,
+    435.1,
+    713.8
+   ],
+   "text": "mate of PROWLER never visually observed the other vessel.",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    293.2,
+    735.7,
+    308.4,
+    750.1
+   ],
+   "text": "11",
+   "conf": 0.9992,
+   "retry": null
+  }
+ ]
+}

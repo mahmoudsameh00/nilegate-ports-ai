@@ -1,0 +1,500 @@
+{
+ "key": {
+  "report_id": "MERRICK",
+  "filename": "MERRICK_8031230_ROI_Redacted.pdf",
+  "sha256": "76047e77ee5376e2fc4638301674894f54af536e5de39cbdbdeec8ffbedd53b9",
+  "page_number": 17,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    88.9,
+    29.5,
+    528.3,
+    43.1
+   ],
+   "text": "5.5. Post-mortem toxicology determined that the Operator had evidence of recent drug use.",
+   "conf": 0.9868,
+   "retry": null
+  },
+  {
+   "bbox": [
+    89.2,
+    43.9,
+    498.8,
+    57.1
+   ],
+   "text": "The use of drugs can result in impaired judgement, mental fog, drowsiness, impaired",
+   "conf": 0.9975,
+   "retry": null
+  },
+  {
+   "bbox": [
+    89.2,
+    57.9,
+    304.0,
+    71.1
+   ],
+   "text": "attention or memory, and poor coordination.",
+   "conf": 0.9986,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    83.0,
+    530.3,
+    96.6
+   ],
+   "text": "5.5.1. The attending Medical Examiner provided additional explanation as to the cause",
+   "conf": 0.9971,
+   "retry": null
+  },
+  {
+   "bbox": [
+    112.0,
+    97.8,
+    528.7,
+    109.8
+   ],
+   "text": "of death: a combination of the exposure to the cold water and exertion to remain afloat",
+   "conf": 0.9925,
+   "retry": null
+  },
+  {
+   "bbox": [
+    112.0,
+    111.8,
+    503.2,
+    123.8
+   ],
+   "text": "combined with stimulant use could have resulted in an epinephrine shock and the",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    124.9,
+    274.9,
+    138.1
+   ],
+   "text": "subsequent death of the Operator.",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    150.5,
+    503.6,
+    164.1
+   ],
+   "text": "5.6. The Coast Guard Authorization Act of 2010 directed the Coast Guard to develop an",
+   "conf": 0.994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    99.6,
+    164.9,
+    522.4,
+    178.0
+   ],
+   "text": "Alternate Safety Compliance Program (ASCP) for vessels that operate beyond the three",
+   "conf": 0.9852,
+   "retry": null
+  },
+  {
+   "bbox": [
+    99.2,
+    178.8,
+    531.1,
+    192.0
+   ],
+   "text": "nautical mile line if the vessel is: (1) at least 50 feet overall in length; (2) was built before",
+   "conf": 0.989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    99.6,
+    192.8,
+    536.7,
+    206.0
+   ],
+   "text": "July 1, 2012; and (3) is 25 years of age or older (in 2020); or was built before July 1, 2012,",
+   "conf": 0.9857,
+   "retry": null
+  },
+  {
+   "bbox": [
+    100.0,
+    207.2,
+    537.9,
+    219.2
+   ],
+   "text": "and undergoes a substantial change to the dimension or type of vessel, completed after July",
+   "conf": 0.9888,
+   "retry": null
+  },
+  {
+   "bbox": [
+    100.0,
+    220.0,
+    489.7,
+    233.5
+   ],
+   "text": "1, 2012. Regulations were never implemented. Instead, in 2016, the Coast Guard",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    99.6,
+    234.3,
+    512.8,
+    247.5
+   ],
+   "text": "suspended development of an ASCP and announced its plans to develop an Enhanced",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    99.6,
+    248.3,
+    514.8,
+    261.5
+   ],
+   "text": "Oversight Program (EOP) for commercial fishing vessels and publish voluntary safety",
+   "conf": 0.9949,
+   "retry": null
+  },
+  {
+   "bbox": [
+    98.8,
+    260.7,
+    522.8,
+    275.8
+   ],
+   "text": "guidelines which offers suggested measures to increase CFV safety. See Commandant's",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    98.8,
+    275.0,
+    534.3,
+    288.6
+   ],
+   "text": "Marine Safety Information Bulletin (MSIB) 18-14 dated December 1, 2014 and MSIB 11-",
+   "conf": 0.9931,
+   "retry": null
+  },
+  {
+   "bbox": [
+    100.4,
+    289.8,
+    523.5,
+    301.8
+   ],
+   "text": "16 dated July 20, 2016. The EOP does not include vessels similar to the MERRICK that",
+   "conf": 0.9895,
+   "retry": null
+  },
+  {
+   "bbox": [
+    99.6,
+    303.8,
+    512.4,
+    315.8
+   ],
+   "text": "are less than 50 feet in length and do not operate beyond three nautical miles, thus the",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    98.8,
+    316.6,
+    494.1,
+    330.9
+   ],
+   "text": "MERRICK was an uninspected commercial fishing vessel with limited regulatory",
+   "conf": 0.9982,
+   "retry": null
+  },
+  {
+   "bbox": [
+    98.8,
+    330.9,
+    149.4,
+    344.5
+   ],
+   "text": "oversight.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.3,
+    358.1,
+    153.4,
+    371.6
+   ],
+   "text": "6. Conclusions",
+   "conf": 0.9977,
+   "retry": null
+  },
+  {
+   "bbox": [
+    89.2,
+    384.8,
+    231.1,
+    396.8
+   ],
+   "text": "6.1. Determination of Cause:",
+   "conf": 0.9906,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    410.0,
+    530.3,
+    423.1
+   ],
+   "text": "6.1.1. The initiating event for this casualty occurred when the MERRICK began taking",
+   "conf": 0.9882,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    423.9,
+    504.4,
+    437.1
+   ],
+   "text": "on water undetected through the center and stern deck hatches, flooding the bilge.",
+   "conf": 0.9975,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    437.5,
+    311.2,
+    451.1
+   ],
+   "text": "Causal factors leading to this event were:",
+   "conf": 0.9948,
+   "retry": null
+  },
+  {
+   "bbox": [
+    142.2,
+    463.1,
+    519.6,
+    476.6
+   ],
+   "text": "6.1.1.1. Overloading – the normal load was 80-90 totes. The crew had stacked",
+   "conf": 0.9829,
+   "retry": null
+  },
+  {
+   "bbox": [
+    142.6,
+    477.0,
+    520.8,
+    490.2
+   ],
+   "text": "125 fully-loaded totes of juvenile oysters onto the aft deck for the transit to the",
+   "conf": 0.992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    142.6,
+    491.4,
+    531.1,
+    503.4
+   ],
+   "text": "oyster beds. This added an additional 5,000 pounds to the deck, causing the deck",
+   "conf": 0.9953,
+   "retry": null
+  },
+  {
+   "bbox": [
+    141.8,
+    504.6,
+    511.6,
+    518.2
+   ],
+   "text": "to become submerged under 4-6 inches of water for the 50-minute trip to the",
+   "conf": 0.9937,
+   "retry": null
+  },
+  {
+   "bbox": [
+    142.6,
+    518.6,
+    202.4,
+    532.1
+   ],
+   "text": "oyster beds.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    143.0,
+    544.9,
+    497.2,
+    556.9
+   ],
+   "text": "6.1.1.2. The deck hatches were weather tight, not watertight and were not",
+   "conf": 0.9922,
+   "retry": null
+  },
+  {
+   "bbox": [
+    142.6,
+    558.5,
+    361.0,
+    571.6
+   ],
+   "text": "designed to keep water out while submerged.",
+   "conf": 0.9974,
+   "retry": null
+  },
+  {
+   "bbox": [
+    142.2,
+    582.8,
+    506.0,
+    597.6
+   ],
+   "text": "6.1.1.3. There was only one high-level alarm in the bilge and it was located",
+   "conf": 0.9958,
+   "retry": null
+  },
+  {
+   "bbox": [
+    143.0,
+    598.4,
+    276.9,
+    610.0
+   ],
+   "text": "forward of the center hatch.",
+   "conf": 0.9838,
+   "retry": null
+  },
+  {
+   "bbox": [
+    142.6,
+    622.7,
+    523.1,
+    636.3
+   ],
+   "text": "6.1.1.4. The crewmembers could not detect that the bilge was flooding because",
+   "conf": 0.9963,
+   "retry": null
+  },
+  {
+   "bbox": [
+    142.6,
+    637.5,
+    515.2,
+    650.7
+   ],
+   "text": "they were already experiencing the deck under 4-6 inches of water during the",
+   "conf": 0.9952,
+   "retry": null
+  },
+  {
+   "bbox": [
+    141.8,
+    650.7,
+    178.5,
+    664.7
+   ],
+   "text": "transit.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    143.0,
+    677.4,
+    529.5,
+    689.4
+   ],
+   "text": "6.1.1.5. As the vessel was transiting to the oyster beds, the water accumulated in",
+   "conf": 0.9947,
+   "retry": null
+  },
+  {
+   "bbox": [
+    142.6,
+    690.6,
+    533.1,
+    703.8
+   ],
+   "text": "the bilge at the stern and progressively flooded the bilge until it reached the high-",
+   "conf": 0.9859,
+   "retry": null
+  },
+  {
+   "bbox": [
+    141.8,
+    703.8,
+    516.0,
+    718.1
+   ],
+   "text": "level alarm. When the vessel slowed upon reaching the oyster beds, the water",
+   "conf": 0.9887,
+   "retry": null
+  },
+  {
+   "bbox": [
+    298.0,
+    749.7,
+    314.0,
+    763.7
+   ],
+   "text": "12",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

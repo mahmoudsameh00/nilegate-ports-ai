@@ -1,0 +1,171 @@
+{
+ "key": {
+  "report_id": "CUMBERLAND_II",
+  "filename": "CUMBERLAND_II_8126294_ROI_Redacted.pdf",
+  "sha256": "8794152c28321eb2e4a90e86b339751332ecf2a6c5ceb8e3f31973bbba03bc91",
+  "page_number": 1,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    188.1,
+    72.3,
+    542.7,
+    90.6
+   ],
+   "text": "UNITED STATES COAST GUARD",
+   "conf": 0.9871,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.5,
+    166.5,
+    467.8,
+    183.6
+   ],
+   "text": "REPORT OF THE INVESTIGATION",
+   "conf": 0.9725,
+   "retry": null
+  },
+  {
+   "bbox": [
+    251.8,
+    191.2,
+    352.6,
+    211.2
+   ],
+   "text": "INTO THE",
+   "conf": 0.9988,
+   "retry": {
+    "text": "INTO THE",
+    "conf": 0.9988,
+    "first_text": "INTO THE",
+    "first_conf": 0.9477,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    77.7,
+    212.4,
+    528.3,
+    229.5
+   ],
+   "text": "CUMBERLAND II (O.N. 1244371) AND MOTOR",
+   "conf": 0.9824,
+   "retry": null
+  },
+  {
+   "bbox": [
+    75.7,
+    231.5,
+    529.1,
+    250.3
+   ],
+   "text": "VEHICLE (PLATE #1PD5341) ROLL OFF WITH",
+   "conf": 0.9779,
+   "retry": null
+  },
+  {
+   "bbox": [
+    90.8,
+    252.7,
+    514.4,
+    269.9
+   ],
+   "text": "LOSS OF LIFE NEAR CUMBERLAND RIVER",
+   "conf": 0.9806,
+   "retry": null
+  },
+  {
+   "bbox": [
+    253.8,
+    271.9,
+    352.2,
+    290.6
+   ],
+   "text": "MILE 104",
+   "conf": 0.9625,
+   "retry": null
+  },
+  {
+   "bbox": [
+    206.0,
+    291.8,
+    398.8,
+    311.4
+   ],
+   "text": "ON APRIL 25, 2025",
+   "conf": 0.9881,
+   "retry": null
+  },
+  {
+   "bbox": [
+    280.1,
+    492.2,
+    321.1,
+    509.0
+   ],
+   "text": "PARATUS",
+   "conf": 0.9995,
+   "retry": {
+    "text": "PARATUS",
+    "conf": 0.9995,
+    "first_text": "PARAATUS",
+    "first_conf": 0.7462,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    278.9,
+    508.6,
+    321.9,
+    528.9
+   ],
+   "text": "1790",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    206.4,
+    727.7,
+    391.7,
+    738.9
+   ],
+   "text": "MISLE ACTIVITY NUMBER: 8126294",
+   "conf": 0.9878,
+   "retry": null
+  }
+ ]
+}

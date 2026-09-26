@@ -1,0 +1,225 @@
+{
+ "key": {
+  "report_id": "UNA_MAS",
+  "filename": "UNA_MAS_8231938_ROI_Redacted.pdf",
+  "sha256": "1a2020a9e1b298824fcb61c142865d41c70a5cf6f9d2ad82f12a16e9cec3cda6",
+  "page_number": 14,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    88.1,
+    51.9,
+    533.5,
+    65.9
+   ],
+   "text": "6.5. Evidence of Criminal Act(s): This investigation did not identify any potential violations",
+   "conf": 0.9978,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.9,
+    67.1,
+    166.9,
+    79.0
+   ],
+   "text": "of criminal law.",
+   "conf": 0.9845,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.1,
+    92.6,
+    516.8,
+    106.6
+   ],
+   "text": "6.6. Need for New or Amended U.S. Law or Regulation: This investigation identified no",
+   "conf": 0.9897,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.7,
+    106.6,
+    361.0,
+    121.4
+   ],
+   "text": "matters needing new or amended U.S. law or regulation.",
+   "conf": 0.9972,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.1,
+    134.1,
+    520.8,
+    148.1
+   ],
+   "text": "6.7. Unsafe Actions or Conditions that were not Causal Factors: There were no actions or",
+   "conf": 0.9943,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.1,
+    147.7,
+    368.2,
+    161.3
+   ],
+   "text": "conditions that were determined to be a non-causal factor.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    176.0,
+    259.8,
+    189.2
+   ],
+   "text": "7. Actions Taken Since the Incident",
+   "conf": 0.9795,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.5,
+    202.0,
+    524.7,
+    217.2
+   ],
+   "text": "7.1. As of the date of this report, the Investigating Officer has not been made aware of any",
+   "conf": 0.9965,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.7,
+    216.4,
+    389.3,
+    231.5
+   ],
+   "text": "corrective actions taken by any party involved in this incident.",
+   "conf": 0.9898,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    245.1,
+    185.7,
+    258.3
+   ],
+   "text": "8. Recommendations",
+   "conf": 0.9917,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.9,
+    273.0,
+    235.1,
+    286.2
+   ],
+   "text": "8.1. Safety Recommendation:",
+   "conf": 0.9947,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    299.0,
+    472.9,
+    312.6
+   ],
+   "text": "8.1.1. This investigation did not identify any new safety recommendations.",
+   "conf": 0.9977,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.5,
+    326.5,
+    280.5,
+    340.5
+   ],
+   "text": "8.2. Administrative Recommendations:",
+   "conf": 0.9946,
+   "retry": null
+  },
+  {
+   "bbox": [
+    141.4,
+    354.1,
+    394.9,
+    368.5
+   ],
+   "text": "8.2.1.1.Recommend this investigation be closed.",
+   "conf": 0.9907,
+   "retry": null
+  },
+  {
+   "bbox": [
+    304.0,
+    431.1,
+    430.7,
+    442.3
+   ],
+   "text": "CWO2, U.S. Coast Guard",
+   "conf": 0.9734,
+   "retry": null
+  },
+  {
+   "bbox": [
+    303.2,
+    442.7,
+    407.6,
+    457.1
+   ],
+   "text": "InvestigatingOfficer",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    300.4,
+    726.1,
+    310.4,
+    738.9
+   ],
+   "text": "9",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

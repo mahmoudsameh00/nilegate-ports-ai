@@ -1,0 +1,379 @@
+{
+ "key": {
+  "report_id": "PROWLER_ATTESSA_IV",
+  "filename": "PROWLER_ATTESSA_IV_6572770_ROI_Redacted.pdf",
+  "sha256": "010157c0edf08c5e13cd22197805e3bf59408c4d04b1b047d4c13c51c2410175",
+  "page_number": 14,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    49.4,
+    31.5,
+    335.9,
+    45.9
+   ],
+   "text": "COLLISION BETWEEN THE PROWLER (O.N. 294465)",
+   "conf": 0.9925,
+   "retry": null
+  },
+  {
+   "bbox": [
+    476.5,
+    31.9,
+    510.4,
+    45.9
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    49.8,
+    46.3,
+    365.4,
+    59.5
+   ],
+   "text": "AND ATTESSA IV (O.N. 9179830) SOUTH OF U.S./MEXICO",
+   "conf": 0.9799,
+   "retry": null
+  },
+  {
+   "bbox": [
+    477.3,
+    46.7,
+    567.0,
+    59.9
+   ],
+   "text": "December 3, 2019",
+   "conf": 0.9574,
+   "retry": null
+  },
+  {
+   "bbox": [
+    49.4,
+    59.9,
+    335.1,
+    73.1
+   ],
+   "text": "MARITIME BOUNDARYLINE ON OCTOBER 26,2018",
+   "conf": 0.99,
+   "retry": null
+  },
+  {
+   "bbox": [
+    143.4,
+    89.8,
+    515.2,
+    103.0
+   ],
+   "text": "primary duty is to maintain safety on the bridge and in good visibility and no",
+   "conf": 0.9971,
+   "retry": null
+  },
+  {
+   "bbox": [
+    142.6,
+    103.4,
+    398.0,
+    117.0
+   ],
+   "text": "traffic may be directed to make rounds of the vessel.",
+   "conf": 0.9797,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.0,
+    126.1,
+    541.1,
+    140.1
+   ],
+   "text": "4.3.8. Aboard the ATTESSA IV, the Furuno 2127 X-band radar was installed on August",
+   "conf": 0.9902,
+   "retry": null
+  },
+  {
+   "bbox": [
+    143.4,
+    140.1,
+    521.6,
+    155.3
+   ],
+   "text": "18, 2011 and the Furuno 2137 S-band radar was installed on August 23, 2011.",
+   "conf": 0.995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    143.0,
+    156.1,
+    537.1,
+    169.7
+   ],
+   "text": "They were serviced on November 23, 2011. On September 10, 2018, a technician",
+   "conf": 0.9928,
+   "retry": null
+  },
+  {
+   "bbox": [
+    143.0,
+    171.7,
+    534.7,
+    183.6
+   ],
+   "text": "switched the placement of the radars, putting the X-band on the starboard side of",
+   "conf": 0.9936,
+   "retry": null
+  },
+  {
+   "bbox": [
+    142.6,
+    184.8,
+    413.2,
+    199.6
+   ],
+   "text": "the bridge and the S-band on the port side of the bridge.",
+   "conf": 0.9938,
+   "retry": null
+  },
+  {
+   "bbox": [
+    105.6,
+    207.2,
+    535.5,
+    222.4
+   ],
+   "text": "4.3.9. The on-scene weather approximately one hour after the collision was recorded as",
+   "conf": 0.9973,
+   "retry": null
+  },
+  {
+   "bbox": [
+    142.2,
+    222.4,
+    501.6,
+    235.9
+   ],
+   "text": "6nm visibility, westerly two foot swell and wind speed of two knots. Both",
+   "conf": 0.9972,
+   "retry": null
+  },
+  {
+   "bbox": [
+    143.0,
+    237.9,
+    431.5,
+    251.1
+   ],
+   "text": "operators stated the weather was good prior to the collision.",
+   "conf": 0.9968,
+   "retry": null
+  },
+  {
+   "bbox": [
+    105.6,
+    259.5,
+    523.9,
+    274.2
+   ],
+   "text": "4.3.10. On October 26, 2018, at approximately 0930, the mate on the PROWLER was",
+   "conf": 0.9966,
+   "retry": null
+  },
+  {
+   "bbox": [
+    142.2,
+    274.6,
+    531.5,
+    288.2
+   ],
+   "text": "relieved of his navigation watch and deck duties. He went below to rest until he",
+   "conf": 0.9885,
+   "retry": null
+  },
+  {
+   "bbox": [
+    142.2,
+    289.4,
+    521.2,
+    304.2
+   ],
+   "text": "got up at 1600 when the vessel was preparing to get underway to head back to",
+   "conf": 0.9971,
+   "retry": null
+  },
+  {
+   "bbox": [
+    141.8,
+    304.6,
+    194.4,
+    318.2
+   ],
+   "text": "homeport.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    105.6,
+    326.9,
+    530.7,
+    340.5
+   ],
+   "text": "4.3.11. The master of the ATTESSA IV reported that he slept from October 25, 2018 at",
+   "conf": 0.9913,
+   "retry": null
+  },
+  {
+   "bbox": [
+    142.2,
+    341.3,
+    525.5,
+    355.7
+   ],
+   "text": "2100 to October 26 at 0600. He worked most of the day on October 26, but got",
+   "conf": 0.9951,
+   "retry": null
+  },
+  {
+   "bbox": [
+    142.2,
+    356.9,
+    423.9,
+    370.1
+   ],
+   "text": "about one hour of sleep prior to getting underway at 1800.",
+   "conf": 0.9887,
+   "retry": null
+  },
+  {
+   "bbox": [
+    105.6,
+    378.8,
+    537.9,
+    392.8
+   ],
+   "text": "4.3.12. Neither vessel made an attempt to hail the other vessel via VHF Radio or produce",
+   "conf": 0.9932,
+   "retry": null
+  },
+  {
+   "bbox": [
+    142.2,
+    394.0,
+    311.6,
+    407.2
+   ],
+   "text": "a sound signal to prevent collision.",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    105.6,
+    416.4,
+    498.4,
+    429.9
+   ],
+   "text": "4.3.13. Cell phone records were obtained for both vessel operators. There was no",
+   "conf": 0.9871,
+   "retry": null
+  },
+  {
+   "bbox": [
+    141.8,
+    431.1,
+    536.3,
+    445.5
+   ],
+   "text": "evidence that either operator was distracted by their phones prior to or at the time",
+   "conf": 0.9859,
+   "retry": null
+  },
+  {
+   "bbox": [
+    142.2,
+    446.3,
+    219.1,
+    458.3
+   ],
+   "text": "of the collision.",
+   "conf": 0.9991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    105.2,
+    467.9,
+    529.9,
+    482.6
+   ],
+   "text": "4.3.14. The ATTESSA IV was equipped with video surveillance aboard the vessel. The",
+   "conf": 0.996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    141.8,
+    483.0,
+    539.5,
+    497.0
+   ],
+   "text": "video evidence provided post-casualty indicated that the PROWLER's deck lights",
+   "conf": 0.9952,
+   "retry": null
+  },
+  {
+   "bbox": [
+    142.6,
+    498.6,
+    359.0,
+    510.6
+   ],
+   "text": "were on and the vessel was well illuminated.",
+   "conf": 0.996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    300.0,
+    738.5,
+    310.0,
+    751.3
+   ],
+   "text": "6",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

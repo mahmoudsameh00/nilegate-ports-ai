@@ -6,7 +6,9 @@ dependencies = [
     "faker==40.38.0",
     "geopandas==1.1.4",
     "ipykernel==7.1.0",
+    "nbconvert==7.17.1",
     "numpy==2.2.4",
+    "onnxruntime==1.30.0",
     "pandas==3.0.5",
     "pillow>=12.3.0",
     "psycopg[binary]==3.3.5",
@@ -14,5 +16,7 @@ dependencies = [
     "pymupdf==1.28.2",
     "pymupdf4llm>=1.28.2",
     "pypdf==6.18.1",
+    "rapidocr==3.9.2",
     "scikit-learn==1.9.1",
+    "scipy==1.18.1",
 ]

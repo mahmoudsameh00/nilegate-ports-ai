@@ -1,0 +1,198 @@
+{
+ "key": {
+  "report_id": "QUEEN_OF_THE_WEST",
+  "filename": "QUEEN_OF_THE_WEST_4405289_ROI_Redacted.pdf",
+  "sha256": "02f978c36fcbd8ef00493738d66ee13a4079eab5832883de67ba1cacc388cba3",
+  "page_number": 1,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2542,
+  3292
+ ],
+ "lines": [
+  {
+   "bbox": [
+    191.8,
+    68.9,
+    537.0,
+    91.2
+   ],
+   "text": "UNITED STATES COAST GUARD",
+   "conf": 0.9794,
+   "retry": null
+  },
+  {
+   "bbox": [
+    144.6,
+    164.1,
+    476.2,
+    182.4
+   ],
+   "text": "REPORT OF INVESTIGATION INTO THE",
+   "conf": 0.9986,
+   "retry": null
+  },
+  {
+   "bbox": [
+    98.9,
+    184.8,
+    523.5,
+    202.3
+   ],
+   "text": "CIRCUMSTANCES SURROUNDING THE INCIDENT",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    257.8,
+    204.3,
+    359.9,
+    222.6
+   ],
+   "text": "INVOLVING",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.8,
+    223.4,
+    536.6,
+    243.7
+   ],
+   "text": "P/V QUEEN OF THE WEST / MAN OVERBOARD",
+   "conf": 0.9809,
+   "retry": null
+  },
+  {
+   "bbox": [
+    245.9,
+    244.1,
+    372.2,
+    263.6
+   ],
+   "text": "LOSS OF LIFE",
+   "conf": 0.979,
+   "retry": null
+  },
+  {
+   "bbox": [
+    225.6,
+    284.3,
+    390.4,
+    303.4
+   ],
+   "text": "ON08/07/2012",
+   "conf": 0.9928,
+   "retry": null
+  },
+  {
+   "bbox": [
+    285.2,
+    526.1,
+    321.3,
+    540.0
+   ],
+   "text": "PARATUS",
+   "conf": 0.9994,
+   "retry": {
+    "text": "PARATUS",
+    "conf": 0.9994,
+    "first_text": "PARAUS",
+    "first_conf": 0.8307,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    284.0,
+    540.4,
+    322.5,
+    559.1
+   ],
+   "text": "1790",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    210.9,
+    639.2,
+    396.4,
+    650.7
+   ],
+   "text": "MISLE ACTIVITY NUMBER: 4405289",
+   "conf": 0.9954,
+   "retry": null
+  },
+  {
+   "bbox": [
+    189.5,
+    651.1,
+    417.8,
+    662.2
+   ],
+   "text": "ORIGINATING UNIT: SECTOR COLUMBIA RIVER",
+   "conf": 0.9871,
+   "retry": null
+  },
+  {
+   "bbox": [
+    174.0,
+    661.9,
+    433.3,
+    674.2
+   ],
+   "text": "MISLE ACTIVITY OWNER: SECTOR COLUMBIA RIVER",
+   "conf": 0.9982,
+   "retry": null
+  },
+  {
+   "bbox": [
+    160.9,
+    673.4,
+    446.8,
+    684.9
+   ],
+   "text": "MISLE ACTIVITY CONTROLLER: SECTOR COLUMBIA RIVER",
+   "conf": 0.9943,
+   "retry": null
+  },
+  {
+   "bbox": [
+    223.2,
+    685.3,
+    384.5,
+    695.7
+   ],
+   "text": "MISLE CASE NUMBER: 607456",
+   "conf": 0.9955,
+   "retry": null
+  }
+ ]
+}

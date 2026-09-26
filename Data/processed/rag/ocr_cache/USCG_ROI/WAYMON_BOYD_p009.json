@@ -1,0 +1,104 @@
+{
+ "key": {
+  "report_id": "WAYMON_BOYD",
+  "filename": "WAYMON_BOYD_7039383_ROI_Redacted.pdf",
+  "sha256": "31e9bb9552ee4986b942f39eb4f6ea294c7d2213bb5c326bd3fde185b05de07b",
+  "page_number": 9,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    75.3,
+    47.1,
+    458.2,
+    60.3
+   ],
+   "text": "Administrative Recommendation 2: Recommend this investigation be closed.",
+   "conf": 0.9931,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.6,
+    74.6,
+    400.0,
+    87.8
+   ],
+   "text": "Endorsement: Concur. This investigation should be closed.",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    252.6,
+    144.1,
+    336.7,
+    156.1
+   ],
+   "text": "J.B.GUNNING",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    252.6,
+    156.5,
+    384.5,
+    172.1
+   ],
+   "text": "Captain, U.S. Coast Guard",
+   "conf": 0.9978,
+   "retry": null
+  },
+  {
+   "bbox": [
+    252.2,
+    170.1,
+    434.7,
+    186.0
+   ],
+   "text": "Officer in Charge, Marine Inspection",
+   "conf": 0.991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    303.2,
+    752.9,
+    311.2,
+    765.3
+   ],
+   "text": "3",
+   "conf": 0.9928,
+   "retry": null
+  }
+ ]
+}

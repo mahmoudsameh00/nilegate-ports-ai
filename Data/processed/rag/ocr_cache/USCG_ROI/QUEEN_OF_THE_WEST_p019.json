@@ -1,0 +1,654 @@
+{
+ "key": {
+  "report_id": "QUEEN_OF_THE_WEST",
+  "filename": "QUEEN_OF_THE_WEST_4405289_ROI_Redacted.pdf",
+  "sha256": "02f978c36fcbd8ef00493738d66ee13a4079eab5832883de67ba1cacc388cba3",
+  "page_number": 19,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2542,
+  3292
+ ],
+ "lines": [
+  {
+   "bbox": [
+    506.8,
+    27.9,
+    539.4,
+    41.8
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.9,
+    40.6,
+    475.0,
+    53.0
+   ],
+   "text": "LOSS OF LIFE FOLLOWING MAN OVERBOARD FROM P/V QUEEN OF THE WEST",
+   "conf": 0.9957,
+   "retry": null
+  },
+  {
+   "bbox": [
+    492.1,
+    40.6,
+    538.2,
+    54.2
+   ],
+   "text": "06May13",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.4,
+    66.9,
+    178.3,
+    80.8
+   ],
+   "text": "Captain",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    224.8,
+    67.7,
+    529.1,
+    79.6
+   ],
+   "text": "seemed embarrassed by this discovery, but made no action to punish",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.4,
+    79.6,
+    525.9,
+    93.2
+   ],
+   "text": "or reprimand the transgressors. She noted that crew members frequently broke another",
+   "conf": 0.9956,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.4,
+    92.8,
+    419.8,
+    105.9
+   ],
+   "text": "company policy by staying up after midnight. Finally, Captain",
+   "conf": 0.9974,
+   "retry": null
+  },
+  {
+   "bbox": [
+    465.5,
+    92.8,
+    502.0,
+    106.7
+   ],
+   "text": "openly",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.0,
+    106.3,
+    535.0,
+    118.3
+   ],
+   "text": "permitted crewmembers to utilize the dining room to play video games despite the \"Crew",
+   "conf": 0.9886,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.4,
+    119.1,
+    530.6,
+    131.0
+   ],
+   "text": "in Quarters after Midnight\" policy. She cited that the crew appreciated having the space",
+   "conf": 0.9979,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.0,
+    131.0,
+    515.9,
+    143.8
+   ],
+   "text": "to congregate together and that it was good for overall morale. Strict enforcement of",
+   "conf": 0.9949,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.0,
+    144.2,
+    520.7,
+    156.5
+   ],
+   "text": "policy by vessel managers sends a message to employees that breaking the rules is not",
+   "conf": 0.9922,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.0,
+    156.5,
+    518.3,
+    168.8
+   ],
+   "text": "tolerated. Company rules and policies exist to keep people safe, but without effective",
+   "conf": 0.9985,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.0,
+    169.6,
+    498.9,
+    181.6
+   ],
+   "text": "enforcement, the rules will be broken, as evidenced in this investigation. Captain",
+   "conf": 0.9962,
+   "retry": null
+  },
+  {
+   "bbox": [
+    186.3,
+    181.2,
+    530.6,
+    194.7
+   ],
+   "text": "and other management staff onboard P/V QUEEN OF THE WEST must take",
+   "conf": 0.9921,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.0,
+    195.1,
+    492.1,
+    207.1
+   ],
+   "text": "enforcement action against persons who violate safety policies to prevent future",
+   "conf": 0.9991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.2,
+    207.1,
+    183.9,
+    219.4
+   ],
+   "text": "incidents.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    120.0,
+    232.2,
+    523.1,
+    245.3
+   ],
+   "text": "3) Barriers: An insufficiency of barriers permitted easy access to the stern by passengers",
+   "conf": 0.991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.6,
+    244.5,
+    529.5,
+    256.5
+   ],
+   "text": "and crew alike. The only physical barriers were \"Employees Only\" safety chains placed",
+   "conf": 0.9887,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.6,
+    256.9,
+    519.9,
+    268.8
+   ],
+   "text": "on the main deck walkways to prevent passengers from approaching the stern. But on",
+   "conf": 0.9977,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.6,
+    268.8,
+    512.0,
+    280.7
+   ],
+   "text": "both Coast Guard visits, investigators found these chains hanging from the bulkhead",
+   "conf": 0.9872,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.2,
+    280.7,
+    362.2,
+    292.7
+   ],
+   "text": "instead of stretched across the walkways. Captain",
+   "conf": 0.991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    409.9,
+    281.1,
+    522.3,
+    291.9
+   ],
+   "text": "stated that crewmembers",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.6,
+    293.1,
+    504.8,
+    305.0
+   ],
+   "text": "routinely forgot to put these barriers in place. Again, there was no evidence of any",
+   "conf": 0.9978,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.2,
+    304.2,
+    421.0,
+    317.0
+   ],
+   "text": "consequences for neglectful crew who didn't replace the chains.",
+   "conf": 0.9976,
+   "retry": null
+  },
+  {
+   "bbox": [
+    120.3,
+    328.9,
+    132.7,
+    341.3
+   ],
+   "text": "4)",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.8,
+    328.9,
+    496.5,
+    340.9
+   ],
+   "text": "Railings: Two sections on the port side stern near the paddlewheel were missing",
+   "conf": 0.9923,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.2,
+    340.9,
+    533.4,
+    352.8
+   ],
+   "text": "effective railings to prevent a person from falling overboard. Mr. Staples fell through the",
+   "conf": 0.9991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.8,
+    352.8,
+    497.7,
+    364.8
+   ],
+   "text": "smaller of the two sections (a 54 inch section). During the cosmetic paddlewheel",
+   "conf": 0.9932,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.2,
+    365.2,
+    517.9,
+    377.1
+   ],
+   "text": "installation project, Coast Guard and vessel representatives determined that railings in",
+   "conf": 0.9988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.8,
+    377.1,
+    527.5,
+    389.1
+   ],
+   "text": "these sections were inappropriate due to the heightened chance of river debris becoming",
+   "conf": 0.9884,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.0,
+    388.3,
+    526.7,
+    401.8
+   ],
+   "text": "lodged in the railing and damaging vital ship's equipment. The smaller section was left",
+   "conf": 0.9903,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.8,
+    401.4,
+    535.4,
+    413.4
+   ],
+   "text": "completely exposed, but the larger of the two sections (the ten-foot section) was supposed",
+   "conf": 0.9983,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.8,
+    413.4,
+    520.7,
+    425.3
+   ],
+   "text": "to be equipped with a chain to warn and prevent personnel from approaching the stern.",
+   "conf": 0.9903,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.4,
+    425.3,
+    505.2,
+    437.3
+   ],
+   "text": "However, the chain was never fabricated or put in place following the project. The",
+   "conf": 0.9988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.4,
+    437.3,
+    505.6,
+    449.2
+   ],
+   "text": "missing smaller railing must be considered to be a causal factor in this case, but the",
+   "conf": 0.995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.4,
+    449.6,
+    502.4,
+    461.1
+   ],
+   "text": "installation of a new railing was not advised due to the increased risk of damage to",
+   "conf": 0.9962,
+   "retry": null
+  },
+  {
+   "bbox": [
+    136.6,
+    460.7,
+    238.3,
+    474.7
+   ],
+   "text": "propulsion equipment.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    82.2,
+    483.4,
+    434.1,
+    499.0
+   ],
+   "text": "d) Personnel: There are three personnel factors related to Mr. Andres Staples.",
+   "conf": 0.9928,
+   "retry": null
+  },
+  {
+   "bbox": [
+    118.8,
+    508.5,
+    506.4,
+    522.9
+   ],
+   "text": "1) Alcohol Consumption: According to gathered evidence and witness statements Mr.",
+   "conf": 0.9962,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.4,
+    522.5,
+    527.5,
+    534.4
+   ],
+   "text": "Staples consumed two mixed drinks (Jack and Coke) and one standard bottle of beer (12",
+   "conf": 0.9858,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.4,
+    535.2,
+    516.3,
+    547.2
+   ],
+   "text": "oz.) in a one-hour period. A total of three hours and twenty-five minutes passed from",
+   "conf": 0.9984,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.4,
+    547.6,
+    508.8,
+    559.5
+   ],
+   "text": "when he signed off the vessel until when he entered the water. Mr. Staples weighed",
+   "conf": 0.9941,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.0,
+    559.5,
+    522.3,
+    573.0
+   ],
+   "text": "approximately 200 pounds, according to his driver's license. According to most Blood",
+   "conf": 0.9872,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.8,
+    573.0,
+    534.6,
+    585.0
+   ],
+   "text": "Alcohol Content (BAC) charts and calculators, a 200 pound man who consumed the same",
+   "conf": 0.9911,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.4,
+    585.8,
+    518.3,
+    597.7
+   ],
+   "text": "amount of alcohol over the same period of time would have a BAC around 0.01%, not",
+   "conf": 0.998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    136.6,
+    597.7,
+    527.5,
+    611.3
+   ],
+   "text": "enough to legally impair a person. An individual's blood alcohol concentration depends",
+   "conf": 0.9948,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.0,
+    611.3,
+    529.1,
+    623.2
+   ],
+   "text": "on a variety of additional factors, so it is difficult to accurately assess Mr. Staples' actual",
+   "conf": 0.9858,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.0,
+    624.0,
+    504.4,
+    636.0
+   ],
+   "text": "levels. Complicating the investigation is the fact that Mr. Staples' whereabouts are",
+   "conf": 0.9971,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.0,
+    636.8,
+    529.8,
+    648.7
+   ],
+   "text": "unknown for a period of about forty-five minutes between when he signed back on to the",
+   "conf": 0.9853,
+   "retry": null
+  },
+  {
+   "bbox": [
+    136.2,
+    648.7,
+    526.7,
+    662.2
+   ],
+   "text": "vessel and when the first witnesses recount seeing him in the dining room. It is possible",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    136.2,
+    662.2,
+    493.3,
+    674.2
+   ],
+   "text": "that he may have consumed more alcohol on the vessel, but not likely, as alcohol",
+   "conf": 0.9967,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.0,
+    675.0,
+    501.3,
+    686.9
+   ],
+   "text": "containers were not found on his person or in his personal effects. Without further",
+   "conf": 0.9897,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.0,
+    687.7,
+    518.7,
+    699.7
+   ],
+   "text": "evience or witness testimony that Mr. Staples consumed additional alcohol, his blood",
+   "conf": 0.997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.0,
+    700.5,
+    421.8,
+    712.4
+   ],
+   "text": "alcohol content cannot be assumed to be at a level to impair him.",
+   "conf": 0.9962,
+   "retry": null
+  },
+  {
+   "bbox": [
+    290.7,
+    737.5,
+    307.8,
+    752.2
+   ],
+   "text": "14",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

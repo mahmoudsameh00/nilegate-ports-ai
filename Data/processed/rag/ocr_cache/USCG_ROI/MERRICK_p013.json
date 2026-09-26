@@ -1,0 +1,544 @@
+{
+ "key": {
+  "report_id": "MERRICK",
+  "filename": "MERRICK_8031230_ROI_Redacted.pdf",
+  "sha256": "76047e77ee5376e2fc4638301674894f54af536e5de39cbdbdeec8ffbedd53b9",
+  "page_number": 13,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    111.2,
+    29.9,
+    513.6,
+    43.9
+   ],
+   "text": "stern tube repair, and; 3) filling voids and holes in the aft work deck with thickened",
+   "conf": 0.993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    43.5,
+    519.2,
+    58.7
+   ],
+   "text": "epoxy, and laying strips of fiberglass over existing cracks emanating from the center",
+   "conf": 0.9958,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    58.3,
+    523.1,
+    71.5
+   ],
+   "text": "deck hatch. Maintenance employees noted some delaminating of the fiberglass on the",
+   "conf": 0.9948,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    71.9,
+    526.7,
+    85.4
+   ],
+   "text": "deck in some areas. The owner stated to Safe Harbor Marina that this was a temporary",
+   "conf": 0.9953,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    86.2,
+    535.9,
+    99.4
+   ],
+   "text": "repair until the season ended; he intended to completely replace the deck at a future date",
+   "conf": 0.9913,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    99.4,
+    153.8,
+    113.0
+   ],
+   "text": "in 2025.",
+   "conf": 0.9828,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    125.7,
+    536.3,
+    138.9
+   ],
+   "text": "4.2.10. The MERRICK had been operated for three days prior to the incident. On Friday",
+   "conf": 0.9918,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    140.1,
+    538.7,
+    152.1
+   ],
+   "text": "November 1, 2024 and Saturday November 2, 2024, the two deckhands and the Operator",
+   "conf": 0.9989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.6,
+    154.1,
+    527.9,
+    166.1
+   ],
+   "text": "took the vessel out to seed the owner's oyster beds. Both days the crew made two trips",
+   "conf": 0.9863,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    166.9,
+    534.7,
+    180.4
+   ],
+   "text": "out of the Housatonic River to the oyster beds without incident. They reported no issues",
+   "conf": 0.9971,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    180.8,
+    523.5,
+    194.4
+   ],
+   "text": "with the vessel. On Sunday, the owner took the MERRICK out on one trip to seed his",
+   "conf": 0.9984,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    194.8,
+    321.9,
+    208.4
+   ],
+   "text": "beds. He reported no issues with the vessel.",
+   "conf": 0.9927,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    220.8,
+    529.5,
+    233.9
+   ],
+   "text": "4.2.11. The Operator and two deckhands had been working together on the MERRICK",
+   "conf": 0.9917,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    233.9,
+    505.2,
+    248.7
+   ],
+   "text": "for the last two years. The Operator had 30 years of experience in the commercial",
+   "conf": 0.9921,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    248.3,
+    532.7,
+    261.9
+   ],
+   "text": "fishing industry, starting out as a crewmember working on different vessels and various",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    262.3,
+    532.3,
+    275.4
+   ],
+   "text": "fisheries. He was made Captain of the MERRICK in 2022. Deckhand 1 had 25 years of",
+   "conf": 0.9991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    275.4,
+    502.0,
+    289.8
+   ],
+   "text": "experience working in the oyster fishing industry; the last two on the MERRICK.",
+   "conf": 0.9982,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    289.8,
+    520.8,
+    303.0
+   ],
+   "text": "Deckhand 2 had been employed in the oyster fishing business for eight years, the last",
+   "conf": 0.9979,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    304.6,
+    223.5,
+    316.6
+   ],
+   "text": "two on the MERRICK.",
+   "conf": 0.9711,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    329.7,
+    521.2,
+    342.9
+   ],
+   "text": "4.2.12. The MERRICK worked the oyster fisheries in Long Island Sound. The vessel",
+   "conf": 0.9961,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    343.3,
+    526.7,
+    356.9
+   ],
+   "text": "was used to gather juvenile oysters for seeding and then to harvest (collect) the mature",
+   "conf": 0.9838,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    357.3,
+    522.0,
+    370.9
+   ],
+   "text": "oysters for market. According to the owner and the deckhands, when engaged in both",
+   "conf": 0.9878,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    371.2,
+    522.8,
+    384.4
+   ],
+   "text": "seeding and harvesting, a typical load was 80-90 filled totes loaded on the deck. Each",
+   "conf": 0.9863,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    385.2,
+    529.9,
+    398.4
+   ],
+   "text": "loaded tote can weigh approximately 100 - 150 pounds. On the date of the incident, the",
+   "conf": 0.9922,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    398.8,
+    534.7,
+    412.0
+   ],
+   "text": "Operator and one of the deckhands had discussed the number of trips they were to make",
+   "conf": 0.9948,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    412.0,
+    535.9,
+    425.5
+   ],
+   "text": "that day. The Operator wanted to make two trips, however the Deckhand 1 stated that he",
+   "conf": 0.9912,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    425.5,
+    527.1,
+    440.3
+   ],
+   "text": "was tired and wanted to make only one trip. They decided to make one trip and loaded",
+   "conf": 0.9921,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    440.3,
+    482.5,
+    453.5
+   ],
+   "text": "125 totes filled with juvenile oysters on the deck they had harvested from the",
+   "conf": 0.9975,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    454.3,
+    521.2,
+    466.3
+   ],
+   "text": "Housatonic River. The weight of the load had the MERRICK sitting low in the water,",
+   "conf": 0.9987,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.6,
+    467.1,
+    533.9,
+    481.8
+   ],
+   "text": "putting the deck scuppers below the waterline. The deck was awash in approximately 4-",
+   "conf": 0.9879,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    482.2,
+    512.8,
+    494.2
+   ],
+   "text": "6 inches of water for the 50-minute transit out of the Housatonic River to the oyster",
+   "conf": 0.9891,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.6,
+    494.6,
+    139.5,
+    509.0
+   ],
+   "text": "beds.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    520.9,
+    521.6,
+    534.1
+   ],
+   "text": "4.2.13. The MERRICK was uninsured at the time of the casualty. The owner claimed",
+   "conf": 0.997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    534.1,
+    521.6,
+    548.9
+   ],
+   "text": "that he did not have the money to salvage the vessel, despite being told that it was his",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.6,
+    548.5,
+    511.2,
+    562.1
+   ],
+   "text": "responsibility to do so by both the Coast Guard and the Connecticut Department of",
+   "conf": 0.9942,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    562.1,
+    518.8,
+    576.0
+   ],
+   "text": "Energy and Environmental Protection (CT DEEP). As such, the vessel was not made",
+   "conf": 0.9902,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    575.6,
+    513.2,
+    590.4
+   ],
+   "text": "available to investigators to conduct a post-casualty survey. It remains sunken in its",
+   "conf": 0.9935,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.6,
+    589.2,
+    506.8,
+    604.4
+   ],
+   "text": "reported location in Long Island Sound, approximately 300 yards off Milford, CT.",
+   "conf": 0.9872,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    616.0,
+    508.4,
+    629.1
+   ],
+   "text": "4.2.14. Two separate dive surveys were conducted on the MERRICK in its sunken",
+   "conf": 0.9977,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    630.3,
+    529.1,
+    642.3
+   ],
+   "text": "location. The owner contracted Marine Diving Service of Croton-On-Hudson, NY who",
+   "conf": 0.9958,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    643.5,
+    519.2,
+    656.7
+   ],
+   "text": "conducted a dive survey on November 24, 2024. The owner provided Marine Diving",
+   "conf": 0.9897,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    656.7,
+    493.3,
+    670.2
+   ],
+   "text": "Service's written dive report to the Coast Guard. Additionally, the Coast Guard",
+   "conf": 0.9959,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    671.0,
+    530.3,
+    684.2
+   ],
+   "text": "coordinated with the Connecticut State Police Dive Team who conducted a dive survey",
+   "conf": 0.9969,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    684.2,
+    533.5,
+    697.8
+   ],
+   "text": "on December 9, 2024. The CT State Police Dive Team provided the Coast Guard with a",
+   "conf": 0.9917,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    699.4,
+    406.4,
+    711.4
+   ],
+   "text": "written dive report and five video clips taken during the dive.",
+   "conf": 0.9922,
+   "retry": null
+  },
+  {
+   "bbox": [
+    300.8,
+    751.3,
+    310.0,
+    764.1
+   ],
+   "text": "8",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

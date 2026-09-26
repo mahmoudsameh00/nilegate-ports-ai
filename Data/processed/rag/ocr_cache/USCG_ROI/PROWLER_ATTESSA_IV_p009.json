@@ -1,0 +1,385 @@
+{
+ "key": {
+  "report_id": "PROWLER_ATTESSA_IV",
+  "filename": "PROWLER_ATTESSA_IV_6572770_ROI_Redacted.pdf",
+  "sha256": "010157c0edf08c5e13cd22197805e3bf59408c4d04b1b047d4c13c51c2410175",
+  "page_number": 9,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    70.9,
+    30.3,
+    160.6,
+    41.1
+   ],
+   "text": "U.S. Department of",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    410.8,
+    30.3,
+    502.0,
+    41.9
+   ],
+   "text": "2710 North Harbor Drive",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    254.2,
+    31.9,
+    301.2,
+    41.5
+   ],
+   "text": "Commander",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    410.8,
+    38.3,
+    492.1,
+    49.9
+   ],
+   "text": "San Diego, CA 92101",
+   "conf": 0.9887,
+   "retry": null
+  },
+  {
+   "bbox": [
+    253.4,
+    40.7,
+    352.6,
+    51.1
+   ],
+   "text": "United States Coast Guard",
+   "conf": 0.9986,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    41.1,
+    159.8,
+    51.9
+   ],
+   "text": "Homeland Security",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    411.2,
+    47.1,
+    477.7,
+    57.5
+   ],
+   "text": "Staff Symbol: spv",
+   "conf": 0.9971,
+   "retry": null
+  },
+  {
+   "bbox": [
+    253.0,
+    49.5,
+    319.5,
+    61.1
+   ],
+   "text": "Sector San Diego",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    411.2,
+    55.1,
+    499.2,
+    65.5
+   ],
+   "text": "Phone: (619) 278-7255",
+   "conf": 0.9729,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.7,
+    57.1,
+    143.0,
+    70.3
+   ],
+   "text": "United States",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    411.2,
+    63.1,
+    487.3,
+    73.5
+   ],
+   "text": "Fax: (619) 278-7235",
+   "conf": 0.9795,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    68.7,
+    137.9,
+    79.4
+   ],
+   "text": "Coast Guard",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    410.8,
+    79.0,
+    444.7,
+    93.0
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    411.2,
+    91.8,
+    502.8,
+    105.0
+   ],
+   "text": "December 3, 2019",
+   "conf": 0.9862,
+   "retry": null
+  },
+  {
+   "bbox": [
+    90.4,
+    135.7,
+    519.2,
+    150.1
+   ],
+   "text": "REPORT OF THE INVESTIGATION INTO THE COLLISION BETWEEN THE",
+   "conf": 0.9954,
+   "retry": null
+  },
+  {
+   "bbox": [
+    81.7,
+    149.7,
+    527.1,
+    165.3
+   ],
+   "text": "PROWLER (O.N. 294465) AND THE ATTESSA IV (O.N. 9179830) SOUTH OF THE",
+   "conf": 0.9862,
+   "retry": null
+  },
+  {
+   "bbox": [
+    114.0,
+    164.1,
+    495.7,
+    178.0
+   ],
+   "text": "U.S./MEXICO MARITIME BOUNDARY LINE ON OCTOBER 26, 2018",
+   "conf": 0.9959,
+   "retry": {
+    "text": "U.S./MEXICO MARITIME BOUNDARY LINE ON OCTOBER 26, 2018",
+    "conf": 0.9959,
+    "first_text": "U.S     ",
+    "first_conf": 0.5897,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    194.0,
+    192.4,
+    415.6,
+    205.2
+   ],
+   "text": "INVESTIGATINGOFFICER'S REPORT",
+   "conf": 0.9983,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.5,
+    233.9,
+    204.8,
+    247.9
+   ],
+   "text": "1. Preliminary Statement",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.1,
+    260.3,
+    533.9,
+    276.6
+   ],
+   "text": "1.1. This marine casualty investigation was conducted and report was submitted in accordance",
+   "conf": 0.9927,
+   "retry": null
+  },
+  {
+   "bbox": [
+    96.8,
+    274.6,
+    539.9,
+    290.2
+   ],
+   "text": "with Title 46, Code of Federal Regulations (CFR), Subpart 4.07, and under the authority of",
+   "conf": 0.9952,
+   "retry": null
+  },
+  {
+   "bbox": [
+    97.2,
+    288.2,
+    330.7,
+    303.8
+   ],
+   "text": "Title 46, United States Code (USC) Chapter 63.",
+   "conf": 0.9942,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.5,
+    316.2,
+    384.9,
+    330.9
+   ],
+   "text": "1.2. No Parties-in-Interest were designated in this investigation.",
+   "conf": 0.9892,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.7,
+    343.3,
+    526.7,
+    358.9
+   ],
+   "text": "1.3. The Coast Guard was the lead agency for all evidence collection activities involving this",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    96.4,
+    357.7,
+    472.5,
+    373.2
+   ],
+   "text": "investigation. No other persons or organizations assisted in this investigation.",
+   "conf": 0.997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.3,
+    384.0,
+    525.1,
+    401.2
+   ],
+   "text": "1.4. All times listed in this report are an approximation and in Pacific Standard Time using a",
+   "conf": 0.9885,
+   "retry": null
+  },
+  {
+   "bbox": [
+    95.6,
+    398.8,
+    488.5,
+    414.0
+   ],
+   "text": "24-hour format. The Incident Investigation Activity Number associated with this",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    96.4,
+    413.6,
+    220.7,
+    426.7
+   ],
+   "text": "investigation is 6572770.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.9,
+    440.7,
+    248.6,
+    454.3
+   ],
+   "text": "2. Vessels Involved in the Incident",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    334.7,
+    616.8,
+    402.4,
+    632.7
+   ],
+   "text": "PROWLER",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    177.7,
+    662.3,
+    428.7,
+    676.2
+   ],
+   "text": "Above: Photograph of PROWLER underway taken by owner.",
+   "conf": 0.9921,
+   "retry": null
+  }
+ ]
+}

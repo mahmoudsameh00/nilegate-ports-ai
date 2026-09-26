@@ -1,0 +1,374 @@
+{
+ "key": {
+  "report_id": "QUEEN_OF_THE_WEST",
+  "filename": "QUEEN_OF_THE_WEST_4405289_ROI_Redacted.pdf",
+  "sha256": "02f978c36fcbd8ef00493738d66ee13a4079eab5832883de67ba1cacc388cba3",
+  "page_number": 14,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2542,
+  3292
+ ],
+ "lines": [
+  {
+   "bbox": [
+    506.8,
+    26.3,
+    538.6,
+    39.0
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.3,
+    39.0,
+    475.4,
+    51.4
+   ],
+   "text": "LOSS OF LIFE FOLLOWING MAN OVERBOARD FROM P/V QUEEN OF THE WEST",
+   "conf": 0.9941,
+   "retry": null
+  },
+  {
+   "bbox": [
+    492.1,
+    39.0,
+    538.6,
+    52.6
+   ],
+   "text": "06May13",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.3,
+    64.9,
+    522.7,
+    78.8
+   ],
+   "text": "gear located in the vicinity of the stern. The threat of damage to the propulsion system outweighed the",
+   "conf": 0.9963,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.3,
+    78.5,
+    534.2,
+    91.2
+   ],
+   "text": "threat of personnel falling overboard. As a precaution, Coast Guard inspectors and vessel representatives",
+   "conf": 0.9959,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.3,
+    91.2,
+    536.2,
+    103.5
+   ],
+   "text": "decided to make the paddlewheel support arms an “Authorized Personnel Only\" area. Since the stern was",
+   "conf": 0.9851,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.3,
+    104.3,
+    494.9,
+    116.3
+   ],
+   "text": "to be accessible by authorized personnel only, the requirement for railings was waived as neither",
+   "conf": 0.9966,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.1,
+    116.3,
+    527.1,
+    129.8
+   ],
+   "text": "passengers nor unauthorized crew were permitted on the paddlewheel support arms. Afterwards, vessel",
+   "conf": 0.9923,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.5,
+    129.0,
+    524.7,
+    141.8
+   ],
+   "text": "representatives posted a small red sign on the port side, but not on the starboard side. And no list could",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.9,
+    141.4,
+    325.7,
+    154.9
+   ],
+   "text": "be produced that specifically named authorized personnel.",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    377.7,
+    211.5,
+    405.5,
+    233.4
+   ],
+   "text": "mh",
+   "conf": 0.3451,
+   "retry": {
+    "text": "",
+    "conf": 0.0,
+    "first_text": "mh",
+    "first_conf": 0.3451,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    66.7,
+    439.2,
+    438.5,
+    449.6
+   ],
+   "text": "Photo showing the port paddlewheel support arm. Notice the unprotected sections on the right and left of the photo.",
+   "conf": 0.996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.2,
+    461.9,
+    533.8,
+    473.9
+   ],
+   "text": "Physical barricades such as warning chains, bars, gates, and railings serve much the same function as",
+   "conf": 0.989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.1,
+    475.1,
+    504.0,
+    487.0
+   ],
+   "text": "safety policies: They provide one more way to keep people from falling prey to their own lapses of",
+   "conf": 0.9952,
+   "retry": null
+  },
+  {
+   "bbox": [
+    65.9,
+    487.0,
+    528.3,
+    500.2
+   ],
+   "text": "memory or judgment. A warning sign, however large and colored, does not provide any physical way to",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.3,
+    500.2,
+    514.4,
+    512.1
+   ],
+   "text": "restrict access to a dangerous area. Similarly, barricades such as the chains found hanging on the P/V",
+   "conf": 0.9882,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.3,
+    512.5,
+    533.4,
+    525.3
+   ],
+   "text": "QUEEN OF THE WEST, which are not utilized to protect crew or passengers, are simply useless. Vessel",
+   "conf": 0.9902,
+   "retry": null
+  },
+  {
+   "bbox": [
+    65.1,
+    524.9,
+    527.9,
+    538.4
+   ],
+   "text": "management must place barricades in effective areas of the vessel and then empower supervisors to hold",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.3,
+    538.4,
+    300.7,
+    549.9
+   ],
+   "text": "crew accountable for failure to place them in service.",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.8,
+    563.5,
+    504.4,
+    575.4
+   ],
+   "text": "3. Rescue effort: After Mr. Staples fell into the water, his subsequent rescue was unsuccessful.",
+   "conf": 0.996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.7,
+    576.2,
+    528.7,
+    589.0
+   ],
+   "text": "Although the efforts of the crew to save him were highly commendable, a number of events transpired to",
+   "conf": 0.9968,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.3,
+    589.4,
+    285.2,
+    600.9
+   ],
+   "text": "reduce the likelihood that he was rescued in time:",
+   "conf": 0.9928,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.4,
+    614.9,
+    525.9,
+    626.4
+   ],
+   "text": "Lighted deck: An overhead light rests on the port side of the paddlewheel support arms about eight",
+   "conf": 0.9985,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.8,
+    627.2,
+    530.6,
+    639.2
+   ],
+   "text": "feet up on the accommodation bulkhead. The three witnesses could not agree if it was on at the time",
+   "conf": 0.9866,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.8,
+    639.9,
+    528.3,
+    651.5
+   ],
+   "text": "of the incident. The light is not part of the rest of the vessel's deck light system, and must be turned",
+   "conf": 0.9949,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.8,
+    652.7,
+    525.1,
+    664.6
+   ],
+   "text": "on manually from an independent switch inside the garbage room. Some crew members stated that",
+   "conf": 0.9977,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.4,
+    664.6,
+    505.2,
+    677.8
+   ],
+   "text": "they leave the light in the \"off’ position when they go to the stern to smoke, because the added",
+   "conf": 0.9758,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.6,
+    676.6,
+    532.6,
+    690.9
+   ],
+   "text": "illumination allows personnel supervisors to observe them smoking (in violation of company policy).",
+   "conf": 0.9942,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.0,
+    689.7,
+    519.5,
+    703.3
+   ],
+   "text": "Others stated that it detracts from the nighttime visibility of passengers sitting in the lounge above",
+   "conf": 0.9909,
+   "retry": null
+  },
+  {
+   "bbox": [
+    294.7,
+    737.5,
+    303.1,
+    748.7
+   ],
+   "text": "9",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

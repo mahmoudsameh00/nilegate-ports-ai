@@ -1,0 +1,572 @@
+{
+ "key": {
+  "report_id": "MERRICK",
+  "filename": "MERRICK_8031230_ROI_Redacted.pdf",
+  "sha256": "76047e77ee5376e2fc4638301674894f54af536e5de39cbdbdeec8ffbedd53b9",
+  "page_number": 14,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    165.8,
+    29.1,
+    519.6,
+    42.7
+   ],
+   "text": "4.2.14.1. Marine Diving Service results: divers noted the MERRICK was",
+   "conf": 0.997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    166.5,
+    43.5,
+    537.9,
+    56.7
+   ],
+   "text": "located approximately 300 yards offshore in 15 feet of water. The vessel was",
+   "conf": 0.9944,
+   "retry": null
+  },
+  {
+   "bbox": [
+    166.9,
+    57.5,
+    527.9,
+    70.7
+   ],
+   "text": "found partially lying on its starboard side with the transom on the sea floor",
+   "conf": 0.9974,
+   "retry": null
+  },
+  {
+   "bbox": [
+    166.9,
+    71.9,
+    529.5,
+    83.8
+   ],
+   "text": "and a small portion of the bow buoyant above the waterline. Damage to the",
+   "conf": 0.9814,
+   "retry": null
+  },
+  {
+   "bbox": [
+    166.1,
+    85.0,
+    536.3,
+    98.2
+   ],
+   "text": "keel (splits, cracks, and gouges) was noted from the transom toward the bow",
+   "conf": 0.9823,
+   "retry": null
+  },
+  {
+   "bbox": [
+    166.1,
+    99.0,
+    538.3,
+    112.2
+   ],
+   "text": "for 2 – 3 feet. The deck appeared to be solid; two deck hatches were found in",
+   "conf": 0.9811,
+   "retry": null
+  },
+  {
+   "bbox": [
+    166.5,
+    113.0,
+    540.7,
+    126.1
+   ],
+   "text": "place, in good condition with the surrounding deck solid. Hull, gunwales, and",
+   "conf": 0.9854,
+   "retry": null
+  },
+  {
+   "bbox": [
+    166.5,
+    126.5,
+    518.8,
+    139.7
+   ],
+   "text": "chines (the intersection of the lines forming the sides and the bottom of a",
+   "conf": 0.9858,
+   "retry": null
+  },
+  {
+   "bbox": [
+    166.5,
+    140.5,
+    514.0,
+    153.7
+   ],
+   "text": "boat) all appeared solid. Divers noted the front cabin superstructure was",
+   "conf": 0.9972,
+   "retry": null
+  },
+  {
+   "bbox": [
+    166.1,
+    154.1,
+    539.9,
+    167.7
+   ],
+   "text": "damaged: the roof and side windows were missing. Divers did not inspect the",
+   "conf": 0.9882,
+   "retry": null
+  },
+  {
+   "bbox": [
+    166.1,
+    168.5,
+    520.8,
+    181.6
+   ],
+   "text": "running gear due to the vessel's position making those areas inaccessible.",
+   "conf": 0.9875,
+   "retry": null
+  },
+  {
+   "bbox": [
+    165.4,
+    194.0,
+    507.2,
+    207.2
+   ],
+   "text": "4.2.14.2. CT State Police Dive Team results: three divers inspected the",
+   "conf": 0.9978,
+   "retry": null
+  },
+  {
+   "bbox": [
+    166.5,
+    208.4,
+    525.5,
+    220.4
+   ],
+   "text": "MERRICK in its sunken position. The vessel was located on the bottom in",
+   "conf": 0.9872,
+   "retry": null
+  },
+  {
+   "bbox": [
+    166.5,
+    222.0,
+    520.4,
+    235.1
+   ],
+   "text": "approximately 18 feet of water; the bow was slightly buoyant beneath the",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    166.5,
+    236.3,
+    473.7,
+    248.3
+   ],
+   "text": "surface. The vessel was found to be resting on the bottom on its",
+   "conf": 0.9855,
+   "retry": null
+  },
+  {
+   "bbox": [
+    166.1,
+    249.5,
+    532.3,
+    262.7
+   ],
+   "text": "stern/starboard side. Divers noted damage to the transom and fiberglass hull",
+   "conf": 0.9954,
+   "retry": null
+  },
+  {
+   "bbox": [
+    166.1,
+    263.5,
+    517.6,
+    276.6
+   ],
+   "text": "on the starboard side where it was resting on the bottom. They noted two",
+   "conf": 0.987,
+   "retry": null
+  },
+  {
+   "bbox": [
+    166.5,
+    277.8,
+    535.9,
+    289.8
+   ],
+   "text": "aluminum hatches secured in place on the deck, and one hatch missing in the",
+   "conf": 0.9919,
+   "retry": null
+  },
+  {
+   "bbox": [
+    165.4,
+    290.2,
+    523.1,
+    305.0
+   ],
+   "text": "area of the cabin/superstructure. The single prop appeared to be intact and",
+   "conf": 0.994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    165.8,
+    305.0,
+    383.7,
+    318.2
+   ],
+   "text": "mounted to the shaft with no visible damage.",
+   "conf": 0.9933,
+   "retry": null
+  },
+  {
+   "bbox": [
+    165.0,
+    330.5,
+    525.9,
+    343.7
+   ],
+   "text": "4.2.14.3. There were five video clips provided by the CT State Police Dive",
+   "conf": 0.9868,
+   "retry": null
+  },
+  {
+   "bbox": [
+    165.8,
+    344.1,
+    537.1,
+    357.7
+   ],
+   "text": "Team to the Coast Guard. The videos were taken by GoPro headsets worn by",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    165.4,
+    357.7,
+    513.2,
+    371.2
+   ],
+   "text": "the divers. Each of the five videos were short in duration. Visibility was",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    166.1,
+    372.0,
+    527.9,
+    385.2
+   ],
+   "text": "slightly obscured due to the lack of daylight/limited flashlight illumination.",
+   "conf": 0.9911,
+   "retry": null
+  },
+  {
+   "bbox": [
+    165.8,
+    385.6,
+    512.4,
+    399.2
+   ],
+   "text": "The slight current/chop made the videos appear choppy and jumpy. The",
+   "conf": 0.9945,
+   "retry": null
+  },
+  {
+   "bbox": [
+    165.8,
+    399.2,
+    528.3,
+    412.8
+   ],
+   "text": "owner of the MERRICK viewed the videos along with CG and both parties",
+   "conf": 0.9948,
+   "retry": null
+  },
+  {
+   "bbox": [
+    165.8,
+    414.0,
+    530.7,
+    425.9
+   ],
+   "text": "noted the following: not all of the aft work deck was readily visible because",
+   "conf": 0.9938,
+   "retry": null
+  },
+  {
+   "bbox": [
+    166.1,
+    427.9,
+    531.1,
+    439.9
+   ],
+   "text": "the rubber mats were present; the aluminum deck hatch cover in the vicinity",
+   "conf": 0.9955,
+   "retry": null
+  },
+  {
+   "bbox": [
+    165.4,
+    440.3,
+    529.1,
+    455.1
+   ],
+   "text": "of the davit appears intact and secured; the center deck hatch cover appears",
+   "conf": 0.9999,
+   "retry": {
+    "text": "of the davit appears intact and secured; the center deck hatch cover appears",
+    "conf": 0.9999,
+    "first_text": "ort d   o  s   se   arss",
+    "first_conf": 0.6955,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    165.8,
+    455.1,
+    533.5,
+    468.3
+   ],
+   "text": "intact and secured; the areas of the deck that were visible appeared solid and",
+   "conf": 0.9854,
+   "retry": null
+  },
+  {
+   "bbox": [
+    165.8,
+    468.7,
+    516.0,
+    481.8
+   ],
+   "text": "uncompromised; evidence of recent fiberglass work is visible around the",
+   "conf": 0.9929,
+   "retry": null
+  },
+  {
+   "bbox": [
+    165.0,
+    482.2,
+    533.5,
+    496.2
+   ],
+   "text": "hatches; the keel cooler piping appears to be attached and in good condition;",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    165.8,
+    496.6,
+    531.9,
+    509.8
+   ],
+   "text": "the propeller and rudder both appear in good condition and intact; there was",
+   "conf": 0.997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    165.4,
+    509.8,
+    536.7,
+    523.7
+   ],
+   "text": "visible split wood/fiberglass damage to the transom; the engine compartment",
+   "conf": 0.9923,
+   "retry": null
+  },
+  {
+   "bbox": [
+    165.4,
+    524.1,
+    515.6,
+    537.3
+   ],
+   "text": "hatch cover and battery access hatch cover were not in place; the throttle",
+   "conf": 0.9931,
+   "retry": null
+  },
+  {
+   "bbox": [
+    165.0,
+    538.1,
+    280.9,
+    551.3
+   ],
+   "text": "position was in reverse.",
+   "conf": 0.997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    112.0,
+    563.7,
+    525.9,
+    575.6
+   ],
+   "text": "4.2.15. In accordance with 46 CFR §4.06-3, the owner of the MERRICK was directed",
+   "conf": 0.991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.6,
+    577.2,
+    518.8,
+    590.4
+   ],
+   "text": "by the Coast Guard to conduct post-casualty drug testing for the two deckhands. The",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    591.2,
+    532.3,
+    604.4
+   ],
+   "text": "owner was unfamiliar with the regulatory requirement and the steps necessary to obtain",
+   "conf": 0.9968,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    604.4,
+    518.4,
+    618.0
+   ],
+   "text": "the drug tests for his crewmembers. The owner made multiple attempts with a Quest",
+   "conf": 0.9954,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    618.8,
+    537.5,
+    631.9
+   ],
+   "text": "Diagnostics facility to set up the collections for the drug test but was repeatedly told that",
+   "conf": 0.9953,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    631.9,
+    521.6,
+    645.5
+   ],
+   "text": "since he did not have an active account, they would not perform the tests. As a result,",
+   "conf": 0.9959,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    646.3,
+    441.1,
+    659.5
+   ],
+   "text": "post-casualty drug testing for the two deckhands was not completed.",
+   "conf": 0.9984,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    671.8,
+    531.9,
+    685.0
+   ],
+   "text": "4.2.16. An autopsy and post-mortem toxicology were conducted on the Operator by the",
+   "conf": 0.9921,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    685.0,
+    513.2,
+    698.6
+   ],
+   "text": "State of Connecticut Office of the Chief Medical Examiner. The Medical Examiner",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    699.0,
+    510.8,
+    712.6
+   ],
+   "text": "determined that the Operator died accidentally due to environmental exposure with",
+   "conf": 0.99,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    713.0,
+    338.7,
+    726.5
+   ],
+   "text": "stimulant use (cocaine and methamphetamine).",
+   "conf": 0.9961,
+   "retry": null
+  },
+  {
+   "bbox": [
+    301.2,
+    750.5,
+    310.8,
+    762.9
+   ],
+   "text": "9",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

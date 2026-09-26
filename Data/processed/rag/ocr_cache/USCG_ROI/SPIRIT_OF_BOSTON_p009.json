@@ -1,0 +1,434 @@
+{
+ "key": {
+  "report_id": "SPIRIT_OF_BOSTON",
+  "filename": "SPIRIT_OF_BOSTON_7656694_ROI_Redacted.pdf",
+  "sha256": "9dbabbd157bfb182fc2b99f514795db0b11afd75e205b893c0c5b06c02daf04e",
+  "page_number": 9,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    510.0,
+    35.5,
+    542.7,
+    48.3
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    476.5,
+    48.3,
+    541.9,
+    60.3
+   ],
+   "text": "13 June 2025",
+   "conf": 0.9962,
+   "retry": null
+  },
+  {
+   "bbox": [
+    107.2,
+    74.2,
+    531.1,
+    87.4
+   ],
+   "text": "Endorsement: Concur; My office agrees that that Commandant require all certificated",
+   "conf": 0.9969,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.4,
+    88.2,
+    524.7,
+    101.4
+   ],
+   "text": "passenger vessel operators under Subchapter K, to ensure they designate one qualified",
+   "conf": 0.9938,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.8,
+    101.0,
+    531.5,
+    114.6
+   ],
+   "text": "and trained person, in vessel specific emergency response, to remain onboard the vessel",
+   "conf": 0.995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.8,
+    114.6,
+    514.4,
+    128.1
+   ],
+   "text": "while not underway until all the non-marine crew and contractors have departed the",
+   "conf": 0.9947,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.8,
+    127.7,
+    516.8,
+    140.9
+   ],
+   "text": "vessel. A trained leader during a dangerous crisis can substantially reduce the risk of",
+   "conf": 0.9957,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.4,
+    140.9,
+    521.6,
+    155.3
+   ],
+   "text": "injury or death while also preserving property. This investigation highlights that even",
+   "conf": 0.9918,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.4,
+    154.1,
+    522.8,
+    168.1
+   ],
+   "text": "small errors can have compounding consequences. Such risks do not dissipate when a",
+   "conf": 0.9952,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.4,
+    166.9,
+    517.6,
+    181.2
+   ],
+   "text": "vessel moors and is not underway. As long as passengers or workers are present on a",
+   "conf": 0.9904,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.8,
+    181.2,
+    531.1,
+    194.4
+   ],
+   "text": "certificated passenger vessel under the safety purview of the U.S. Coast Guard through",
+   "conf": 0.9917,
+   "retry": null
+  },
+  {
+   "bbox": [
+    107.2,
+    194.8,
+    532.7,
+    208.0
+   ],
+   "text": "codified regulations, there should be a clearly identified company employee or designee",
+   "conf": 0.9966,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.8,
+    208.4,
+    493.3,
+    221.6
+   ],
+   "text": "who has been trained in emergency response procedures for that specific vessel.",
+   "conf": 0.9991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    97.2,
+    233.9,
+    514.8,
+    246.3
+   ],
+   "text": "ENDORSEMENT/ACTION ON ADMINISTRATIVE RECOMMENDATIONS",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    260.7,
+    529.5,
+    274.6
+   ],
+   "text": "Administrative Recommendation 1 – It is recommended that Commandant strongly urge the",
+   "conf": 0.9748,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    274.2,
+    532.3,
+    287.4
+   ],
+   "text": "Passenger Vessel Association (PVA), a quality partner of the Coast Guard, leverage the lessons",
+   "conf": 0.9928,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    287.0,
+    467.0,
+    301.4
+   ],
+   "text": "learned and safety recommendations from this investigation to support voluntarily",
+   "conf": 0.996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    301.4,
+    494.5,
+    314.6
+   ],
+   "text": "implementation of enhanced safety protocols and training by their members beyond the",
+   "conf": 0.9984,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    314.6,
+    507.6,
+    326.5
+   ],
+   "text": "minimum standards found in the Code of Federal Regulations. The Coast Guard relies on",
+   "conf": 0.989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    327.7,
+    535.5,
+    340.9
+   ],
+   "text": "partnerships with trade organizations to improve the industry and communicate need for change",
+   "conf": 0.9903,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    340.1,
+    531.9,
+    354.9
+   ],
+   "text": "with their input. The majority of our nation's passenger vessel fleet are members and the PVA",
+   "conf": 0.9932,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.7,
+    354.1,
+    327.9,
+    368.1
+   ],
+   "text": "has the requisite expertise to help lead the initiatives.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.8,
+    380.4,
+    521.2,
+    394.4
+   ],
+   "text": "Endorsement: Concur; My office agrees that Commandant should strongly urge the",
+   "conf": 0.9941,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.8,
+    394.4,
+    490.5,
+    407.6
+   ],
+   "text": "Passenger Vessel Association (PVA) to leverage the lessons learned and safety",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.0,
+    406.8,
+    506.8,
+    420.4
+   ],
+   "text": "recommendations from this investigation to support voluntarily implementation of",
+   "conf": 0.9991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    107.2,
+    420.8,
+    537.9,
+    433.9
+   ],
+   "text": "enhanced safety protocols and training by their members beyond the minimum standards",
+   "conf": 0.9937,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.8,
+    434.3,
+    541.9,
+    447.5
+   ],
+   "text": "found in the CFR. Utilization of trusted partnerships in the maritime industry can help the",
+   "conf": 0.9923,
+   "retry": null
+  },
+  {
+   "bbox": [
+    107.2,
+    448.3,
+    541.1,
+    460.3
+   ],
+   "text": "U.S. Coast Guard enhance its safety initiatives. Collaboration with the PVA at the highest",
+   "conf": 0.9854,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.4,
+    459.9,
+    536.7,
+    473.8
+   ],
+   "text": "levels of the Coast Guard could also help establish a program(s) of voluntary compliance",
+   "conf": 0.9927,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.0,
+    473.8,
+    497.6,
+    487.0
+   ],
+   "text": "regarding heightened safety procedures beyond the current statutory regulations.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    105.6,
+    486.6,
+    512.4,
+    501.8
+   ],
+   "text": "Innovations in safety protocols will undoubtedly benefit the population of seagoing",
+   "conf": 0.9986,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.4,
+    500.6,
+    471.4,
+    513.8
+   ],
+   "text": "passengers while also ensuring the greatest mitigation in risk to waterways.",
+   "conf": 0.9939,
+   "retry": null
+  },
+  {
+   "bbox": [
+    233.1,
+    555.3,
+    303.2,
+    567.3
+   ],
+   "text": "M. E. PLATT",
+   "conf": 0.9809,
+   "retry": null
+  },
+  {
+   "bbox": [
+    233.1,
+    568.9,
+    393.3,
+    580.8
+   ],
+   "text": "Rear Admiral, U.S. Coast Guard",
+   "conf": 0.9802,
+   "retry": null
+  },
+  {
+   "bbox": [
+    233.5,
+    583.2,
+    425.9,
+    595.2
+   ],
+   "text": "Commander, First Coast Guard District",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    302.4,
+    759.7,
+    310.8,
+    770.8
+   ],
+   "text": "4",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

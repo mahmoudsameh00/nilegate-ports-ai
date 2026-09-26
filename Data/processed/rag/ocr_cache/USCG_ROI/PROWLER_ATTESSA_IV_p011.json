@@ -1,0 +1,665 @@
+{
+ "key": {
+  "report_id": "PROWLER_ATTESSA_IV",
+  "filename": "PROWLER_ATTESSA_IV_6572770_ROI_Redacted.pdf",
+  "sha256": "010157c0edf08c5e13cd22197805e3bf59408c4d04b1b047d4c13c51c2410175",
+  "page_number": 11,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    47.8,
+    29.1,
+    334.7,
+    45.1
+   ],
+   "text": "COLLISION BETWEEN THE PROWLER(O.N. 294465)",
+   "conf": 0.9917,
+   "retry": null
+  },
+  {
+   "bbox": [
+    474.5,
+    30.7,
+    509.2,
+    46.3
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    47.4,
+    43.5,
+    364.6,
+    59.1
+   ],
+   "text": "AND ATTESSA IV (O.N. 9179830) SOUTHOF U.S./MEXICO",
+   "conf": 0.9869,
+   "retry": null
+  },
+  {
+   "bbox": [
+    475.7,
+    45.9,
+    566.2,
+    59.5
+   ],
+   "text": "December 3, 2019",
+   "conf": 0.9932,
+   "retry": null
+  },
+  {
+   "bbox": [
+    47.4,
+    57.9,
+    334.3,
+    72.3
+   ],
+   "text": "MARITIME BOUNDARY LINE ON OCTOBER 26,2018",
+   "conf": 0.9883,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.7,
+    87.0,
+    303.2,
+    102.2
+   ],
+   "text": "3. Deceased, Missing and/or Injured Persons",
+   "conf": 0.9875,
+   "retry": null
+  },
+  {
+   "bbox": [
+    346.2,
+    115.4,
+    373.3,
+    132.5
+   ],
+   "text": "Sex",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    241.1,
+    115.8,
+    268.5,
+    133.3
+   ],
+   "text": "Age",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    77.7,
+    116.2,
+    195.2,
+    131.3
+   ],
+   "text": "Relationship to Vessel",
+   "conf": 0.9982,
+   "retry": null
+  },
+  {
+   "bbox": [
+    453.0,
+    117.0,
+    491.3,
+    132.1
+   ],
+   "text": "Status",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.5,
+    131.7,
+    186.5,
+    146.1
+   ],
+   "text": "Prowler Passenger 1",
+   "conf": 0.9697,
+   "retry": null
+  },
+  {
+   "bbox": [
+    344.6,
+    131.7,
+    375.3,
+    147.7
+   ],
+   "text": "Male",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    446.6,
+    132.5,
+    497.6,
+    147.3
+   ],
+   "text": "Deceased",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.5,
+    146.1,
+    187.3,
+    160.5
+   ],
+   "text": "Prowler Passenger 2",
+   "conf": 0.9798,
+   "retry": null
+  },
+  {
+   "bbox": [
+    345.0,
+    146.5,
+    374.9,
+    161.3
+   ],
+   "text": "Male",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    451.4,
+    146.5,
+    491.7,
+    162.1
+   ],
+   "text": "Injured",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    344.2,
+    159.7,
+    375.3,
+    176.4
+   ],
+   "text": "Male",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.1,
+    160.1,
+    186.9,
+    175.2
+   ],
+   "text": "Prowler Passenger 3",
+   "conf": 0.9879,
+   "retry": null
+  },
+  {
+   "bbox": [
+    451.8,
+    161.3,
+    492.1,
+    176.8
+   ],
+   "text": "Injured",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    100.4,
+    174.8,
+    170.9,
+    189.2
+   ],
+   "text": "Prowler Mate",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    344.6,
+    175.2,
+    374.9,
+    190.0
+   ],
+   "text": "Male",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    452.2,
+    175.6,
+    492.1,
+    191.2
+   ],
+   "text": "Injured",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.7,
+    203.2,
+    170.1,
+    218.4
+   ],
+   "text": "4. Findings of Fact",
+   "conf": 0.995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.3,
+    231.1,
+    173.7,
+    245.1
+   ],
+   "text": "4.1. The Incident.",
+   "conf": 0.9963,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.3,
+    258.7,
+    516.0,
+    274.6
+   ],
+   "text": "4.1.1. On October 25, 2018, at approximately 2100, the U.S. flagged, U.S. Coast Guard",
+   "conf": 0.9949,
+   "retry": null
+  },
+  {
+   "bbox": [
+    121.1,
+    272.2,
+    513.2,
+    289.4
+   ],
+   "text": "inspected, small passenger vessel PROWLER departed Mission Bay, San Diego,",
+   "conf": 0.9988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    121.1,
+    286.2,
+    532.7,
+    302.6
+   ],
+   "text": "California headed south to the fishing grounds off the coast of Ensenada, Mexico for",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    120.7,
+    300.6,
+    531.1,
+    316.2
+   ],
+   "text": "an overnight fishing charter. The vessel had twenty-three passengers for hire and six",
+   "conf": 0.9977,
+   "retry": null
+  },
+  {
+   "bbox": [
+    121.5,
+    315.0,
+    237.1,
+    328.1
+   ],
+   "text": "crewmembers onboard.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    120.7,
+    326.9,
+    525.1,
+    344.5
+   ],
+   "text": "On October 26, 2018, at approximately 1600, the PROWLER secured from fishing",
+   "conf": 0.9983,
+   "retry": null
+  },
+  {
+   "bbox": [
+    120.7,
+    342.1,
+    537.5,
+    357.3
+   ],
+   "text": "operations and began the transit north to Mission Bay with the master on navigational",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    120.7,
+    355.3,
+    535.1,
+    371.6
+   ],
+   "text": "watch in the wheelhouse. The vessel was on autopilot with all equipment functioning",
+   "conf": 0.9937,
+   "retry": null
+  },
+  {
+   "bbox": [
+    120.3,
+    369.7,
+    505.6,
+    385.2
+   ],
+   "text": "as designed. At 1800, the mate relieved the master, and the master departed the",
+   "conf": 0.9983,
+   "retry": null
+  },
+  {
+   "bbox": [
+    120.3,
+    383.2,
+    514.4,
+    398.8
+   ],
+   "text": "wheelhouse to get some rest in his stateroom. A short time later, the mate left the",
+   "conf": 0.9942,
+   "retry": null
+  },
+  {
+   "bbox": [
+    120.3,
+    396.8,
+    495.7,
+    412.8
+   ],
+   "text": "wheelhouse and went to the galley to get a soda and bag of chips, leaving the",
+   "conf": 0.9958,
+   "retry": null
+  },
+  {
+   "bbox": [
+    120.7,
+    411.2,
+    532.3,
+    425.9
+   ],
+   "text": "wheelhouse unmanned and without a lookout. He returned to the wheelhouse and sat",
+   "conf": 0.9974,
+   "retry": null
+  },
+  {
+   "bbox": [
+    119.9,
+    424.3,
+    523.1,
+    440.3
+   ],
+   "text": "on the starboard bench in front of the helm. At approximately 1900, the vessel was",
+   "conf": 0.9929,
+   "retry": null
+  },
+  {
+   "bbox": [
+    119.1,
+    437.9,
+    535.9,
+    454.7
+   ],
+   "text": "passing the northwest side of Isla Coronado Norte. This prompted the mate to change",
+   "conf": 0.99,
+   "retry": null
+  },
+  {
+   "bbox": [
+    119.5,
+    451.9,
+    533.9,
+    468.3
+   ],
+   "text": "course to 351º, turning the vessel towards their homeport at Mission Bay, San Diego,",
+   "conf": 0.9936,
+   "retry": null
+  },
+  {
+   "bbox": [
+    119.9,
+    465.5,
+    535.5,
+    481.8
+   ],
+   "text": "California. Additionally, the mate adjusted the radar from three miles with a one mile",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    119.5,
+    479.0,
+    304.8,
+    495.0
+   ],
+   "text": "ring to six miles with a two mile ring.",
+   "conf": 0.9875,
+   "retry": null
+  },
+  {
+   "bbox": [
+    119.9,
+    493.0,
+    537.9,
+    509.4
+   ],
+   "text": "On October 26, 2018, at approximately1800, the Cayman Island flagged, recreational",
+   "conf": 0.9901,
+   "retry": null
+  },
+  {
+   "bbox": [
+    119.5,
+    507.0,
+    512.4,
+    522.5
+   ],
+   "text": "yacht ATTESSA IV, departed San Diego Bay, California headed south to Puerto",
+   "conf": 0.9842,
+   "retry": null
+  },
+  {
+   "bbox": [
+    119.9,
+    520.5,
+    532.7,
+    536.5
+   ],
+   "text": "Vallarta, Mexico with nineteen crewmembers onboard. The master, mate and second",
+   "conf": 0.9912,
+   "retry": null
+  },
+  {
+   "bbox": [
+    119.5,
+    534.5,
+    523.5,
+    550.5
+   ],
+   "text": "officer were on the bridge for departure and completed a pre-departure check of all",
+   "conf": 0.9882,
+   "retry": null
+  },
+  {
+   "bbox": [
+    119.5,
+    548.5,
+    529.5,
+    564.1
+   ],
+   "text": "navigational and engineering systems with no deficiencies identified at that time. At",
+   "conf": 0.9906,
+   "retry": null
+  },
+  {
+   "bbox": [
+    119.5,
+    561.7,
+    524.7,
+    578.4
+   ],
+   "text": "approximately 1845, the ATTESSA IV cleared the entrance to San Diego Bay with",
+   "conf": 0.9952,
+   "retry": null
+  },
+  {
+   "bbox": [
+    119.5,
+    575.6,
+    499.6,
+    592.0
+   ],
+   "text": "the master and a lookout on watch. The master set a course of 213º using gyro",
+   "conf": 0.9924,
+   "retry": null
+  },
+  {
+   "bbox": [
+    119.5,
+    590.0,
+    529.5,
+    605.2
+   ],
+   "text": "steering and only using the starboard engine. The X-band (10GHz) radar, located on",
+   "conf": 0.998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    119.5,
+    603.6,
+    525.1,
+    619.1
+   ],
+   "text": "the starboard side of the bridge, was set to eight nautical miles. The S-band (3GHz)",
+   "conf": 0.9962,
+   "retry": null
+  },
+  {
+   "bbox": [
+    119.1,
+    617.2,
+    537.1,
+    633.1
+   ],
+   "text": "radar, located on the port side of the bridge, was set to twelve nautical miles. At 1900,",
+   "conf": 0.9967,
+   "retry": null
+  },
+  {
+   "bbox": [
+    119.1,
+    631.1,
+    524.3,
+    647.1
+   ],
+   "text": "the master left the bridge to grab a snack from the galley, leaving the lookout alone",
+   "conf": 0.9861,
+   "retry": null
+  },
+  {
+   "bbox": [
+    119.1,
+    644.7,
+    516.4,
+    660.3
+   ],
+   "text": "on the bridge. The master returned within five minutes and ordered the lookout to",
+   "conf": 0.9979,
+   "retry": null
+  },
+  {
+   "bbox": [
+    119.1,
+    658.7,
+    527.1,
+    674.2
+   ],
+   "text": "conduct safety rounds of the vessel and ensure that all mooring equipment had been",
+   "conf": 0.9931,
+   "retry": null
+  },
+  {
+   "bbox": [
+    118.7,
+    672.6,
+    533.5,
+    687.8
+   ],
+   "text": "properly stowed in the bosun's locker. The master checked the S-band radar and then",
+   "conf": 0.9922,
+   "retry": null
+  },
+  {
+   "bbox": [
+    119.5,
+    686.6,
+    502.8,
+    701.0
+   ],
+   "text": "walked to the starboard side and had a seat in front of the X-band radar and the",
+   "conf": 0.9891,
+   "retry": null
+  },
+  {
+   "bbox": [
+    295.6,
+    736.5,
+    306.8,
+    750.5
+   ],
+   "text": "3",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

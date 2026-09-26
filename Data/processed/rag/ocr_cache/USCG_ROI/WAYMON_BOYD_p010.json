@@ -1,0 +1,517 @@
+{
+ "key": {
+  "report_id": "WAYMON_BOYD",
+  "filename": "WAYMON_BOYD_7039383_ROI_Redacted.pdf",
+  "sha256": "31e9bb9552ee4986b942f39eb4f6ea294c7d2213bb5c326bd3fde185b05de07b",
+  "page_number": 10,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    405.6,
+    34.7,
+    447.0,
+    44.3
+   ],
+   "text": "Valent Hall",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.1,
+    35.1,
+    161.0,
+    45.9
+   ],
+   "text": "U.S. Department of",
+   "conf": 0.9971,
+   "retry": null
+  },
+  {
+   "bbox": [
+    255.0,
+    35.9,
+    301.2,
+    45.5
+   ],
+   "text": "Commander",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    405.6,
+    43.1,
+    473.3,
+    52.3
+   ],
+   "text": "249 Glasson Drive",
+   "conf": 0.9848,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.7,
+    45.1,
+    160.6,
+    57.1
+   ],
+   "text": "Homeland Security",
+   "conf": 0.9989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    255.0,
+    45.5,
+    351.8,
+    54.7
+   ],
+   "text": "United States Coast Guard",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    405.6,
+    50.7,
+    497.6,
+    61.1
+   ],
+   "text": "Corpus Christi, TX 78406",
+   "conf": 0.9991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    254.6,
+    54.3,
+    333.1,
+    64.7
+   ],
+   "text": "Sector Corpus Christi",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    406.0,
+    58.7,
+    485.3,
+    69.1
+   ],
+   "text": "Phone: 361-939-5140",
+   "conf": 0.9888,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    62.7,
+    143.8,
+    75.4
+   ],
+   "text": "United States",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.5,
+    73.9,
+    138.3,
+    84.6
+   ],
+   "text": "Coast Guard",
+   "conf": 0.9676,
+   "retry": null
+  },
+  {
+   "bbox": [
+    405.2,
+    83.4,
+    438.3,
+    96.2
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    404.8,
+    95.8,
+    483.7,
+    109.0
+   ],
+   "text": "March 21, 2023",
+   "conf": 0.9782,
+   "retry": null
+  },
+  {
+   "bbox": [
+    78.9,
+    122.6,
+    533.1,
+    136.1
+   ],
+   "text": "WAYMON BOYD (O.N. 261512) EXPLOSION, FIRE, AND LOSS OF LIFE ON TULE",
+   "conf": 0.9873,
+   "retry": null
+  },
+  {
+   "bbox": [
+    123.5,
+    136.1,
+    487.3,
+    150.1
+   ],
+   "text": "LAKE CHANNEL IN CORPUS CHRISTI, TX ON AUGUST 21, 2020",
+   "conf": 0.9984,
+   "retry": null
+  },
+  {
+   "bbox": [
+    235.9,
+    179.2,
+    374.5,
+    189.6
+   ],
+   "text": "EXECUTIVE SUMMARY",
+   "conf": 0.9779,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    220.0,
+    523.9,
+    233.1
+   ],
+   "text": "On the morning of August 21, 2020, the U.S. flagged non-self-propelled cutter suction dredge",
+   "conf": 0.9898,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    233.1,
+    529.5,
+    246.3
+   ],
+   "text": "WAYMON BOYD (O.N. 261512) was conducting Phase 2 of the EPIC Marine Terminal berth",
+   "conf": 0.9948,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    247.5,
+    496.9,
+    260.7
+   ],
+   "text": "dredging project on Tule Lake Channel in Corpus Christi, Texas. It was a clear day with",
+   "conf": 0.9969,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    261.9,
+    243.4,
+    273.8
+   ],
+   "text": "unlimited visibility and calm water.",
+   "conf": 0.9909,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    287.4,
+    525.1,
+    303.4
+   ],
+   "text": "WAYMON BOYD dredging operations were frequently interrupted by rocks and debris. That",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    303.0,
+    516.0,
+    316.2
+   ],
+   "text": "morning, the Day Leverman had expressed concerns to the Dredge Captain of hitting debris,",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    316.6,
+    515.2,
+    329.7
+   ],
+   "text": "leading the cutterhead to be repositioned toward the shoreline, five feet from the edge of the",
+   "conf": 0.9988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    329.3,
+    532.3,
+    344.1
+   ],
+   "text": "dredge template. At 0802, the WAYMON BOYD cutterhead struck submerged TX219 propane",
+   "conf": 0.995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    344.1,
+    509.2,
+    357.3
+   ],
+   "text": "pipeline during the first cut of the bank. Subsequently, the submerged pipeline released an",
+   "conf": 0.9945,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    358.1,
+    513.2,
+    371.2
+   ],
+   "text": "odorless and colorless propane gas unbeknownst to the crewmembers onboard, propelling a",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.7,
+    370.5,
+    516.4,
+    386.4
+   ],
+   "text": "water geyser and encompassing the WAYMON BOYD. The propane gas entered the engine",
+   "conf": 0.9948,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    385.2,
+    514.8,
+    399.2
+   ],
+   "text": "room through ventilation fans and met an unknown engine room ignition source, causing an",
+   "conf": 0.9963,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    399.6,
+    393.3,
+    412.8
+   ],
+   "text": "explosion and fire engulfing the dredge 66 seconds after the strike.",
+   "conf": 0.9944,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    426.7,
+    510.8,
+    439.9
+   ],
+   "text": "This explosion and fire caused the loss of five crewmembers lives and injuries to five more",
+   "conf": 0.994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    441.9,
+    142.6,
+    452.7
+   ],
+   "text": "crewmembers.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    468.3,
+    524.7,
+    481.4
+   ],
+   "text": "As a result of its investigation, the Coast Guard determined the initiating event occurred when",
+   "conf": 0.9976,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    481.4,
+    523.9,
+    495.4
+   ],
+   "text": "the cutterhead of WAYMON BOYD struck TX219 pipeline, releasing propane into the water.",
+   "conf": 0.9953,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    495.0,
+    537.9,
+    509.8
+   ],
+   "text": "The subsequent events were an explosion and fire resulting in loss of life. The causal factors that",
+   "conf": 0.989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    509.0,
+    536.7,
+    523.7
+   ],
+   "text": "contributed to these events were: (1) Non-existent or inadequate planning protocols for dredging",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    523.7,
+    518.8,
+    536.9
+   ],
+   "text": "near pipelines, (2) Failure of Orion to incorporate pipeline into dredging software, (3) Latent",
+   "conf": 0.9896,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    536.9,
+    525.5,
+    550.5
+   ],
+   "text": "unsafe condition of Orion's Safety Program, (4) Inadequate training of crewmembers working",
+   "conf": 0.991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    551.3,
+    523.1,
+    564.5
+   ],
+   "text": "near pipelines, (5) Lack of professional training requirements for mariners working on dredge",
+   "conf": 0.9989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    564.5,
+    493.7,
+    578.0
+   ],
+   "text": "vessels, (6) Failure of Orion to teach crewmembers when to de-energize machinery and",
+   "conf": 0.9921,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    578.0,
+    503.6,
+    592.8
+   ],
+   "text": "operational equipment, (7) Failure of Orion to train crewmembers properly on emergency",
+   "conf": 0.997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    592.8,
+    489.7,
+    606.0
+   ],
+   "text": "response to striking a pipeline, and (8) Lack of Coast Guard regulations covering basic",
+   "conf": 0.9991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    606.0,
+    253.8,
+    619.5
+   ],
+   "text": "requirements onboard dredge vessels.",
+   "conf": 0.9963,
+   "retry": null
+  },
+  {
+   "bbox": [
+    302.0,
+    729.7,
+    309.6,
+    741.3
+   ],
+   "text": "i",
+   "conf": 0.9937,
+   "retry": {
+    "text": "i",
+    "conf": 0.9937,
+    "first_text": "i",
+    "first_conf": 0.9344,
+    "kept": "retry"
+   }
+  }
+ ]
+}

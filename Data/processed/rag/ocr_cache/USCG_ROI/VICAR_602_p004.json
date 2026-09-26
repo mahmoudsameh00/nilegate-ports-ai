@@ -1,0 +1,148 @@
+{
+ "key": {
+  "report_id": "VICAR_602",
+  "filename": "VICAR_602_7989592_ROI_Redacted.pdf",
+  "sha256": "d9dc7fd0a97c4acce65dfb145743b8d801c9b325290e42bb95e69f017ef1d1d7",
+  "page_number": 4,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    87.7,
+    40.7,
+    513.2,
+    56.3
+   ],
+   "text": "factors identified in the investigation. Taking this proactive step will help mitigate risks,",
+   "conf": 0.9959,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.7,
+    54.7,
+    520.0,
+    70.3
+   ],
+   "text": "enhance safety measures, and demonstrate a commitment to continuous improvement. By",
+   "conf": 0.9935,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.7,
+    68.7,
+    529.9,
+    83.8
+   ],
+   "text": "highlighting these concerns, we can foster greater awareness and drive meaningful action to",
+   "conf": 0.993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.3,
+    81.8,
+    274.5,
+    97.4
+   ],
+   "text": "prevent similar incidents in the future.",
+   "conf": 0.998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    309.2,
+    181.2,
+    434.3,
+    192.0
+   ],
+   "text": "MATTHEW J. MESKUN",
+   "conf": 0.9707,
+   "retry": null
+  },
+  {
+   "bbox": [
+    308.8,
+    194.0,
+    437.5,
+    207.2
+   ],
+   "text": "Captain, U.S. Coast Guard",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    308.0,
+    207.2,
+    438.3,
+    221.6
+   ],
+   "text": "Chief, Prevention Division",
+   "conf": 0.9876,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.5,
+    247.9,
+    438.3,
+    265.1
+   ],
+   "text": "Enclosures: (1) Endorsement by the Officer in Charge, Marine Inspection",
+   "conf": 0.9889,
+   "retry": null
+  },
+  {
+   "bbox": [
+    140.2,
+    263.1,
+    259.4,
+    278.2
+   ],
+   "text": "(2) Executive Summary",
+   "conf": 0.9928,
+   "retry": null
+  },
+  {
+   "bbox": [
+    140.6,
+    276.2,
+    306.0,
+    291.8
+   ],
+   "text": "(3) Investigating Officer's Report",
+   "conf": 0.9724,
+   "retry": null
+  }
+ ]
+}

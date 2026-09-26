@@ -1,0 +1,160 @@
+{
+ "key": {
+  "report_id": "CUYAHOGA",
+  "filename": "CUYAHOGA_7881082_ROI_Redacted.pdf",
+  "sha256": "c518b7d648f90ab65608426f5a39cb32667954bc1cb6890867dce47e6c56fa0a",
+  "page_number": 1,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    192.0,
+    73.9,
+    548.6,
+    94.2
+   ],
+   "text": "UNITED STATES COAST GUARD",
+   "conf": 0.9845,
+   "retry": null
+  },
+  {
+   "bbox": [
+    182.5,
+    169.3,
+    429.1,
+    187.6
+   ],
+   "text": "REPORT OF INVESTIGATION",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    263.0,
+    195.6,
+    349.4,
+    213.2
+   ],
+   "text": "INTO THE",
+   "conf": 0.9759,
+   "retry": null
+  },
+  {
+   "bbox": [
+    158.2,
+    221.2,
+    452.6,
+    239.1
+   ],
+   "text": "FIRE THAT OCCURRED ONBOARD",
+   "conf": 0.9939,
+   "retry": null
+  },
+  {
+   "bbox": [
+    184.1,
+    245.5,
+    428.3,
+    266.3
+   ],
+   "text": "CUYAHOGA (O.N.243772)",
+   "conf": 0.9687,
+   "retry": null
+  },
+  {
+   "bbox": [
+    82.1,
+    271.9,
+    529.5,
+    294.2
+   ],
+   "text": "ON MARCH 15, 2024, WHILE MOORED AT KINDER",
+   "conf": 0.9612,
+   "retry": {
+    "text": "ON MARCH 15, 2024, WHILE MOORED AT KINDER",
+    "conf": 0.9612,
+    "first_text": "ON MARCH 15, 2024, WHILE MOORED AT KINDER",
+    "first_conf": 0.9392,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    100.8,
+    293.0,
+    510.4,
+    312.6
+   ],
+   "text": "MORGAN PINNEY DOCK IN ASHTABULA, OHIO",
+   "conf": 0.9889,
+   "retry": null
+  },
+  {
+   "bbox": [
+    286.5,
+    514.2,
+    325.9,
+    529.7
+   ],
+   "text": "PARATUS",
+   "conf": 0.9998,
+   "retry": {
+    "text": "PARATUS",
+    "conf": 0.9998,
+    "first_text": "PARATUS",
+    "first_conf": 0.7926,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    284.9,
+    529.3,
+    327.5,
+    550.1
+   ],
+   "text": "1790",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    301.6,
+    758.5,
+    308.8,
+    769.6
+   ],
+   "text": "1",
+   "conf": 0.9974,
+   "retry": null
+  }
+ ]
+}

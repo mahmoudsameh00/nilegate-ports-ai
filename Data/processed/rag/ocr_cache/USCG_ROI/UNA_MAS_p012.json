@@ -1,0 +1,522 @@
+{
+ "key": {
+  "report_id": "UNA_MAS",
+  "filename": "UNA_MAS_8231938_ROI_Redacted.pdf",
+  "sha256": "1a2020a9e1b298824fcb61c142865d41c70a5cf6f9d2ad82f12a16e9cec3cda6",
+  "page_number": 12,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    111.6,
+    37.5,
+    508.8,
+    50.7
+   ],
+   "text": "system is designed to maintain a predetermined course and speed, making reactive",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    112.0,
+    51.9,
+    498.8,
+    63.9
+   ],
+   "text": "adjustments to prevailing conditions as they are detected. Weather on-scene was",
+   "conf": 0.9923,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    64.7,
+    526.7,
+    78.2
+   ],
+   "text": "observed to have deteriorated rapidly with swells steadily increasing to a sudden 09 to",
+   "conf": 0.9963,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    78.2,
+    531.1,
+    91.8
+   ],
+   "text": "12 feet when they capsized. It is reasonable to believe the Operator was unaware of the",
+   "conf": 0.9955,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    92.2,
+    540.3,
+    105.8
+   ],
+   "text": "severity and suddenness of the swells. There is a potential that if the Operator slowed the",
+   "conf": 0.9916,
+   "retry": null
+  },
+  {
+   "bbox": [
+    112.0,
+    107.0,
+    483.7,
+    119.0
+   ],
+   "text": "vessel and disengaged the autopilot to have full manual control in an effort to",
+   "conf": 0.9941,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    120.6,
+    525.1,
+    133.7
+   ],
+   "text": "preemptively combat the deteriorating weather changes and increasing swells, he may",
+   "conf": 0.9924,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.6,
+    134.5,
+    520.8,
+    146.5
+   ],
+   "text": "have been able to perform more effective real-time vessel maneuvers. This increased",
+   "conf": 0.9942,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    148.1,
+    531.1,
+    161.3
+   ],
+   "text": "responsiveness and slower speed may have assisted in mitigating the impact of adverse",
+   "conf": 0.9904,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    160.9,
+    415.6,
+    176.0
+   ],
+   "text": "conditions and potentially prevented the vessel from capsizing.",
+   "conf": 0.983,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.9,
+    188.8,
+    500.8,
+    202.4
+   ],
+   "text": "5.4. Lack of barriers or restraints to prevent personnel from entering the water during",
+   "conf": 0.9939,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.9,
+    204.0,
+    135.5,
+    217.6
+   ],
+   "text": "capsizing.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    112.4,
+    230.3,
+    531.1,
+    244.7
+   ],
+   "text": "5.4.1. The vessel was equipped with a seating arrangement that was not fully enclosed,",
+   "conf": 0.9958,
+   "retry": null
+  },
+  {
+   "bbox": [
+    112.8,
+    244.7,
+    502.8,
+    257.9
+   ],
+   "text": "resulting in each occupant being either fully or partially exposed to the elements.",
+   "conf": 0.9984,
+   "retry": null
+  },
+  {
+   "bbox": [
+    113.6,
+    259.1,
+    529.9,
+    271.1
+   ],
+   "text": "Consequently, when the vessel capsized, there were no barriers or restraints in place to",
+   "conf": 0.9897,
+   "retry": null
+  },
+  {
+   "bbox": [
+    112.0,
+    271.5,
+    361.4,
+    285.8
+   ],
+   "text": "prevent personnel from being exposed to the water.",
+   "conf": 0.9932,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.9,
+    299.8,
+    403.2,
+    313.0
+   ],
+   "text": "5.5. Lack of permanently secured storage to withstand capsizing.",
+   "conf": 0.9924,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    327.3,
+    521.2,
+    340.5
+   ],
+   "text": "5.5.1. Following the capsizing event, reports indicated that two individuals may have",
+   "conf": 0.9942,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    340.9,
+    518.4,
+    354.1
+   ],
+   "text": "become trapped beneath the overturned vessel. The vessel was outfitted with fishing",
+   "conf": 0.9991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    354.5,
+    533.9,
+    368.1
+   ],
+   "text": "gear, lines, and additional storage items that were not permanently affixed to the vessel.",
+   "conf": 0.998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.6,
+    368.9,
+    518.8,
+    382.0
+   ],
+   "text": "Upon overturning, the equipment that was not permanently affixed to the vessel may",
+   "conf": 0.9922,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    382.0,
+    497.6,
+    396.0
+   ],
+   "text": "have not been able to withstand a capsizing event, becoming dislodged, creating",
+   "conf": 0.9886,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    396.4,
+    493.3,
+    409.6
+   ],
+   "text": "entanglement hazards beneath the vessel. These hazards may have impeded the",
+   "conf": 0.991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    410.4,
+    509.2,
+    423.5
+   ],
+   "text": "individuals’ ability to escape safely, resulting in their disappearance or subsequent",
+   "conf": 0.9988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    423.5,
+    250.6,
+    437.1
+   ],
+   "text": "recovery in a deceased state.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.1,
+    451.1,
+    404.8,
+    464.7
+   ],
+   "text": "5.6. Adverse environmental conditions compromised survivability",
+   "conf": 0.9886,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.8,
+    479.0,
+    536.7,
+    492.2
+   ],
+   "text": "5.6.1. Two individuals were reported to have been trapped beneath the overturned vessel,",
+   "conf": 0.9984,
+   "retry": null
+  },
+  {
+   "bbox": [
+    105.6,
+    491.4,
+    524.7,
+    507.0
+   ],
+   "text": "potentially submerged in the water to their necks. The Coast Guard calculated survival",
+   "conf": 0.9847,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.4,
+    507.0,
+    523.5,
+    520.1
+   ],
+   "text": "metrics based on a male approximately six feet tall, weighing 190 pounds, with a body",
+   "conf": 0.9948,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.0,
+    520.1,
+    504.4,
+    533.7
+   ],
+   "text": "mass index of 23.8%, wearing a long sleeve shirt and mid-weight pants in weather",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.8,
+    533.7,
+    524.7,
+    546.9
+   ],
+   "text": "conditions of air temperature: 57°F, water temperature: 55°F, relative humidity 96.0%,",
+   "conf": 0.9933,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.8,
+    547.7,
+    524.3,
+    561.3
+   ],
+   "text": "wind speed: 20.0 knots, immersion: water to neck, and immersion state: turbulent. The",
+   "conf": 0.9974,
+   "retry": null
+  },
+  {
+   "bbox": [
+    107.6,
+    562.5,
+    495.3,
+    574.4
+   ],
+   "text": "estimated Functional Time (period during which an individual can sustain a core",
+   "conf": 0.9949,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.0,
+    575.2,
+    520.8,
+    588.8
+   ],
+   "text": "temperature above 93.2°F, allowing them to perform self-rescue or survival actions to",
+   "conf": 0.9905,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.4,
+    589.2,
+    519.2,
+    602.8
+   ],
+   "text": "mitigate exposure risks) was 8.5 hours, while the Cold Survival Time (time until core",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.8,
+    604.0,
+    535.1,
+    616.0
+   ],
+   "text": "temperature drops to 82.4°F, at which point the risk of death from hypothermia increases",
+   "conf": 0.9861,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.4,
+    616.8,
+    518.8,
+    630.3
+   ],
+   "text": "significantly) was calculated to be 11.5 hours. The maximum immersed survival time",
+   "conf": 0.9965,
+   "retry": null
+  },
+  {
+   "bbox": [
+    107.6,
+    631.5,
+    514.4,
+    643.5
+   ],
+   "text": "(MIST) was calculated to be 20.5 hours. MIST represents an estimated survival time",
+   "conf": 0.9954,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.8,
+    644.3,
+    518.8,
+    657.9
+   ],
+   "text": "derived from historical accounts of individuals of varying weights, ages, and clothing",
+   "conf": 0.9947,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.8,
+    658.7,
+    512.4,
+    671.8
+   ],
+   "text": "types who survived the longest immersion times at the same water temperature. The",
+   "conf": 0.9964,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.8,
+    672.2,
+    526.7,
+    685.4
+   ],
+   "text": "challenging environmental factors, including cold water exposure and adverse weather,",
+   "conf": 0.9966,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.0,
+    685.4,
+    529.9,
+    699.4
+   ],
+   "text": "may have contributed to the probability of survival. Had environmental conditions been",
+   "conf": 0.9872,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.4,
+    700.6,
+    410.8,
+    712.6
+   ],
+   "text": "more favorable, the chances of survival may have been greater.",
+   "conf": 0.9916,
+   "retry": null
+  },
+  {
+   "bbox": [
+    301.2,
+    729.3,
+    311.2,
+    741.7
+   ],
+   "text": "7",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

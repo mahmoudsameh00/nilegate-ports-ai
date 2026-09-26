@@ -1,0 +1,584 @@
+{
+ "key": {
+  "report_id": "H20_BELOW",
+  "filename": "H20_BELOW_6966090_ROI_Redacted.pdf",
+  "sha256": "f3fcf7689854c086f79383529c2e174af10699e91199f16de6dc34a5f5fcd65c",
+  "page_number": 6,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    157.8,
+    65.1,
+    212.0,
+    111.8
+   ],
+   "text": "3",
+   "conf": 0.2644,
+   "retry": {
+    "text": "3",
+    "conf": 0.2252,
+    "first_text": "3",
+    "first_conf": 0.2644,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    71.3,
+    65.5,
+    159.0,
+    76.2
+   ],
+   "text": "U.S. Department of",
+   "conf": 0.9817,
+   "retry": null
+  },
+  {
+   "bbox": [
+    248.2,
+    65.9,
+    377.7,
+    77.0
+   ],
+   "text": "Officer in Charge, Marine Inspection",
+   "conf": 0.9989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    391.7,
+    65.9,
+    451.0,
+    75.4
+   ],
+   "text": "1500 15th Street",
+   "conf": 0.9859,
+   "retry": null
+  },
+  {
+   "bbox": [
+    390.9,
+    74.2,
+    455.4,
+    83.4
+   ],
+   "text": "Mobile, AL 36615",
+   "conf": 0.9936,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.7,
+    75.8,
+    158.6,
+    86.6
+   ],
+   "text": "Homeland Security",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    248.6,
+    76.2,
+    345.0,
+    85.4
+   ],
+   "text": "United States Coast Guard",
+   "conf": 0.9978,
+   "retry": null
+  },
+  {
+   "bbox": [
+    390.9,
+    81.8,
+    461.4,
+    92.2
+   ],
+   "text": "Staff Symbol: (spv)",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    248.2,
+    85.4,
+    299.2,
+    95.0
+   ],
+   "text": "Sector Mobile",
+   "conf": 0.9765,
+   "retry": null
+  },
+  {
+   "bbox": [
+    390.5,
+    89.4,
+    474.9,
+    101.0
+   ],
+   "text": "Phone: (251) 382-6000",
+   "conf": 0.9752,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    93.4,
+    141.4,
+    104.2
+   ],
+   "text": "United States",
+   "conf": 0.9989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    103.4,
+    136.7,
+    114.2
+   ],
+   "text": "Coast Guard",
+   "conf": 0.9926,
+   "retry": null
+  },
+  {
+   "bbox": [
+    390.9,
+    114.2,
+    423.9,
+    126.9
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    390.5,
+    126.5,
+    458.6,
+    139.7
+   ],
+   "text": "03 Mar, 2026",
+   "conf": 0.988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.5,
+    164.5,
+    524.7,
+    176.8
+   ],
+   "text": "LOSS OF LIFE WHILE DIVING FROM THE SMALL PASSENGER VESSEL H2O",
+   "conf": 0.9889,
+   "retry": {
+    "text": "LOSS OF LIFE WHILE DIVING FROM THE SMALL PASSENGER VESSEL H2O",
+    "conf": 0.9889,
+    "first_text": "TOE          O",
+    "first_conf": 0.66,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    96.0,
+    178.8,
+    515.6,
+    192.8
+   ],
+   "text": "BELOW (O.N. 1136903), AT THE USS ORISKANY WRECK DIVE SITE 24 NM",
+   "conf": 0.9959,
+   "retry": null
+  },
+  {
+   "bbox": [
+    162.2,
+    194.0,
+    448.6,
+    208.0
+   ],
+   "text": "SOUTHEAST OF PENSACOLA, FL ON JUNE 1, 2020",
+   "conf": 0.9916,
+   "retry": null
+  },
+  {
+   "bbox": [
+    233.1,
+    223.1,
+    372.5,
+    235.5
+   ],
+   "text": "EXECUTIVE SUMMARY",
+   "conf": 0.9982,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.7,
+    251.1,
+    511.2,
+    264.7
+   ],
+   "text": "On June 1, 2020, at approximately 0815, the 36-foot United States-flagged commercial dive",
+   "conf": 0.9882,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.3,
+    264.7,
+    527.1,
+    278.6
+   ],
+   "text": "vessel, H2O BELOW, departed from its dock in Pensacola, Florida, with the Master, Deckhand",
+   "conf": 0.9939,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.9,
+    277.8,
+    520.0,
+    293.4
+   ],
+   "text": "(also serving as the Dive Master), and five passengers onboard. The purpose of the trip was to",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.3,
+    292.2,
+    515.2,
+    306.6
+   ],
+   "text": "conduct dive operations at the USS ORISKANY dive site, located approximately 24 nautical",
+   "conf": 0.9986,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.9,
+    305.8,
+    506.0,
+    320.6
+   ],
+   "text": "miles southeast of Pensacola. While underway, the Master provided a safety briefing to the",
+   "conf": 0.989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.9,
+    320.2,
+    521.2,
+    333.7
+   ],
+   "text": "passengers, which included an overview of emergency drills, hand signals, and the location of",
+   "conf": 0.9976,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.9,
+    333.7,
+    482.9,
+    347.3
+   ],
+   "text": "life jackets and oxygen kits. At approximately 1040, the vessel arrived at the dive site.",
+   "conf": 0.9937,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.5,
+    358.9,
+    522.8,
+    374.0
+   ],
+   "text": "Passenger 1, Passenger 2, and Passenger 3 were dive buddies. All three passengers prepared to",
+   "conf": 0.9949,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.3,
+    373.2,
+    535.9,
+    387.2
+   ],
+   "text": "commence their technical dives using Hollis Prism 2 closed-circuit rebreather (CCR) systems. At",
+   "conf": 0.9942,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.7,
+    388.0,
+    507.2,
+    401.2
+   ],
+   "text": "approximately 1050, the three passengers entered the water, conducted a bubble check, and",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.9,
+    400.0,
+    531.9,
+    415.2
+   ],
+   "text": "began their descent to the USS ORISKANY's flight deck, located approximately 130 feet below",
+   "conf": 0.9973,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.9,
+    414.0,
+    496.9,
+    429.5
+   ],
+   "text": "the surface. Shortly after beginning the dive, Passenger 3 discovered a leaking gauge and",
+   "conf": 0.9982,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.9,
+    428.3,
+    487.7,
+    441.9
+   ],
+   "text": "returned to the surface, leaving Passengers 1 and 2 to continue the dive. The two divers",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.3,
+    442.7,
+    456.2,
+    455.9
+   ],
+   "text": "proceeded to explore the site, descending to a depth of approximately 183.7 feet.",
+   "conf": 0.9956,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.9,
+    467.5,
+    524.7,
+    482.6
+   ],
+   "text": "From approximately 1139 to 1203, Passenger 1 and Passenger 2 made several rapid changes in",
+   "conf": 0.9989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.7,
+    481.8,
+    519.6,
+    495.8
+   ],
+   "text": "depth, including two distinct anomalies. The first anomaly occurred about 50 minutes into the",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.7,
+    495.4,
+    533.1,
+    509.8
+   ],
+   "text": "dive, during which both divers made rapid ascents and descents within a five-minute period. The",
+   "conf": 0.9939,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.3,
+    509.0,
+    512.8,
+    523.3
+   ],
+   "text": "second anomaly occurred 56 minutes into the dive and lasted approximately six minutes and",
+   "conf": 0.9929,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.3,
+    522.9,
+    462.6,
+    537.3
+   ],
+   "text": "consisted of additional depth changes that ended with a final ascent to the surface.",
+   "conf": 0.9938,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    549.7,
+    535.5,
+    562.9
+   ],
+   "text": "At approximately 1210, the Master spotted Passengers 1 and 2 at the surface and maneuvered the",
+   "conf": 0.9948,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.3,
+    562.5,
+    485.3,
+    576.8
+   ],
+   "text": "vessel to their location. With the assistance of others onboard, the Master brought both",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.7,
+    578.0,
+    486.5,
+    590.0
+   ],
+   "text": "passengers onto the vessel. Passenger 1 was unresponsive, while Passenger 2 exhibited",
+   "conf": 0.9978,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.7,
+    591.2,
+    532.7,
+    604.4
+   ],
+   "text": "symptoms of decompression sickness. The Master immediately made way toward Pensacola and",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.3,
+    604.4,
+    534.7,
+    618.8
+   ],
+   "text": "contacted the Coast Guard. Passenger 3 administered emergency onboard oxygen to Passenger 2.",
+   "conf": 0.9966,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.3,
+    618.4,
+    518.0,
+    632.3
+   ],
+   "text": "Meanwhile, the other divers and crew performed CPR on the unconscious Passenger 1. Coast",
+   "conf": 0.992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.7,
+    631.9,
+    532.7,
+    646.3
+   ],
+   "text": "Guard Station Pensacola deployed a CG-45 which met the vessel making way back to Pensacola",
+   "conf": 0.9878,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.7,
+    645.9,
+    248.6,
+    659.9
+   ],
+   "text": "and extracted both injured personnel.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.3,
+    671.4,
+    499.6,
+    686.6
+   ],
+   "text": "At 1327, Passenger 2 was airlifted to Spring Hill Hospital for hyperbaric treatment, while",
+   "conf": 0.9961,
+   "retry": {
+    "text": "At 1327, Passenger 2 was airlifted to Spring Hill Hospital for hyperbaric treatment, while",
+    "conf": 0.9961,
+    "first_text": "s H   g ig di   i  si i ie",
+    "first_conf": 0.6708,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    68.9,
+    685.8,
+    396.4,
+    699.4
+   ],
+   "text": "Passenger 1 was transferred to EMS and pronounced dead on scene.",
+   "conf": 0.9989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    297.6,
+    738.1,
+    308.8,
+    751.7
+   ],
+   "text": "ii",
+   "conf": 0.9967,
+   "retry": null
+  }
+ ]
+}

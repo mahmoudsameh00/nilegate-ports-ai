@@ -1,0 +1,550 @@
+{
+ "key": {
+  "report_id": "SPIRIT_OF_BOSTON",
+  "filename": "SPIRIT_OF_BOSTON_7656694_ROI_Redacted.pdf",
+  "sha256": "9dbabbd157bfb182fc2b99f514795db0b11afd75e205b893c0c5b06c02daf04e",
+  "page_number": 8,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    510.0,
+    35.5,
+    542.7,
+    48.3
+   ],
+   "text": "16732",
+   "conf": 0.9866,
+   "retry": null
+  },
+  {
+   "bbox": [
+    476.5,
+    48.3,
+    541.9,
+    60.3
+   ],
+   "text": "13 June 2025",
+   "conf": 0.9623,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.8,
+    87.4,
+    509.2,
+    101.4
+   ],
+   "text": "Endorsement: Concur; My office agrees that Commandant should require that all",
+   "conf": 0.9897,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.0,
+    101.0,
+    518.4,
+    115.0
+   ],
+   "text": "personnel employed onboard all certificated vessels complete an appropriately scaled",
+   "conf": 0.997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    107.2,
+    115.0,
+    533.5,
+    128.1
+   ],
+   "text": "Coast Guard approved firefighting course. This case highlights that restaurant personnel",
+   "conf": 0.9988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    107.6,
+    128.5,
+    538.3,
+    140.5
+   ],
+   "text": "can play a key role in performing basic firefighting and fire-mitigation measures onboard",
+   "conf": 0.9988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.8,
+    141.3,
+    521.2,
+    154.5
+   ],
+   "text": "a commercial vessel. This population of the waterborne workforce are not required to",
+   "conf": 0.998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.8,
+    154.9,
+    527.9,
+    168.1
+   ],
+   "text": "meet rigorous training standards for employment at sea, contrary to what is required of",
+   "conf": 0.9981,
+   "retry": null
+  },
+  {
+   "bbox": [
+    107.2,
+    168.1,
+    532.3,
+    180.0
+   ],
+   "text": "those with merchant mariner credentials. Safety training for credentialed mariners exists",
+   "conf": 0.993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    107.2,
+    181.6,
+    489.3,
+    193.6
+   ],
+   "text": "to mitigate life-threatening hazards at sea where margins of error are decreased",
+   "conf": 0.9948,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.8,
+    194.0,
+    543.1,
+    208.0
+   ],
+   "text": "significantly, as opposed to land-based emergencies. The extent of fire aboard the SPIRIT",
+   "conf": 0.9923,
+   "retry": null
+  },
+  {
+   "bbox": [
+    107.6,
+    208.4,
+    525.9,
+    221.6
+   ],
+   "text": "OF BOSTON may have been significantly lessened if the company had made marginal",
+   "conf": 0.9983,
+   "retry": null
+  },
+  {
+   "bbox": [
+    107.2,
+    221.2,
+    514.0,
+    234.3
+   ],
+   "text": "efforts to periodically train all its employees in basic firefighting and fire-mitigation",
+   "conf": 0.9881,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.4,
+    233.9,
+    513.6,
+    247.5
+   ],
+   "text": "skills. Fires aboard vessels consistently prove to be some of the most harrowing and",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    107.2,
+    247.9,
+    529.9,
+    261.1
+   ],
+   "text": "damaging catastrophes, which oftentimes become tremendously difficult to fight as the",
+   "conf": 0.9947,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.0,
+    260.7,
+    527.5,
+    275.4
+   ],
+   "text": "fire worsens. Requirements in basic firefighting skills for any person working aboard a",
+   "conf": 0.9988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.4,
+    273.8,
+    522.8,
+    287.8
+   ],
+   "text": "vessel will undoubtedly reduce death, injuries, and damage at sea while also lessening",
+   "conf": 0.99,
+   "retry": null
+  },
+  {
+   "bbox": [
+    105.6,
+    287.0,
+    507.6,
+    301.8
+   ],
+   "text": "threats to the local population as well as danger to piers and/or local infrastructure.",
+   "conf": 0.9894,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    314.6,
+    499.6,
+    326.5
+   ],
+   "text": "Safety Recommendation 5 – It is recommended that Commandant conduct a review of",
+   "conf": 0.9748,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    326.9,
+    509.2,
+    340.5
+   ],
+   "text": "HORNBLOWER CRUISES AND EVENTS, LLC and their subsidiaries to determine the",
+   "conf": 0.995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    341.3,
+    532.3,
+    354.5
+   ],
+   "text": "adequacy of their fire prevention training and organizational ability to maintain safe operations.",
+   "conf": 0.9965,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    354.5,
+    494.1,
+    367.7
+   ],
+   "text": "This review should include, but not be limited to, an examination of all casualty reports",
+   "conf": 0.9922,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    367.7,
+    541.5,
+    380.8
+   ],
+   "text": "involving fires onboard their passenger vessels and any damage surveys that were conducted due",
+   "conf": 0.9895,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    381.2,
+    534.3,
+    394.4
+   ],
+   "text": "to a lack of maintenance, training or company oversight. This review should be used to identify",
+   "conf": 0.9937,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    394.8,
+    453.4,
+    408.0
+   ],
+   "text": "organizational safety gaps within the company and between ports of operation.",
+   "conf": 0.9988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    107.2,
+    421.1,
+    536.3,
+    433.1
+   ],
+   "text": "Endorsement: Concur; My office agrees that Commandant should conduct a review of",
+   "conf": 0.9964,
+   "retry": null
+  },
+  {
+   "bbox": [
+    107.2,
+    434.7,
+    530.7,
+    446.7
+   ],
+   "text": "HORNBLOWER CRUISES AND EVENTS, LLC and their subsidiaries to determine the",
+   "conf": 0.9984,
+   "retry": null
+  },
+  {
+   "bbox": [
+    107.2,
+    447.9,
+    513.6,
+    461.1
+   ],
+   "text": "adequacy of their fire prevention training and organizational ability to maintain safe",
+   "conf": 0.9915,
+   "retry": null
+  },
+  {
+   "bbox": [
+    107.2,
+    460.7,
+    542.3,
+    473.8
+   ],
+   "text": "operations. HORNBLOWER CRUISES AND EVENTS, LLC is one of the country's largest",
+   "conf": 0.9923,
+   "retry": null
+  },
+  {
+   "bbox": [
+    107.2,
+    474.2,
+    529.1,
+    487.4
+   ],
+   "text": "and most-established companies in the waterborne passenger transportation industry. It",
+   "conf": 0.997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    107.2,
+    487.8,
+    541.5,
+    501.0
+   ],
+   "text": "operates dozens of vessels in many of the United States’ largest ports and seaside cities. It",
+   "conf": 0.9879,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.0,
+    500.2,
+    531.1,
+    514.6
+   ],
+   "text": "is reasonable to expect that a company with such an expansive footprint in the maritime",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    107.2,
+    514.6,
+    528.7,
+    526.5
+   ],
+   "text": "industry in the United States should meet, or exceed, basic safety standards through its",
+   "conf": 0.9989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.8,
+    527.3,
+    513.6,
+    540.5
+   ],
+   "text": "organizational structure, company policies, and operating procedures. Threats to the",
+   "conf": 0.9967,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.4,
+    540.9,
+    541.9,
+    554.5
+   ],
+   "text": "safety of the population and/or the economic vitality of the country through its waterways",
+   "conf": 0.9948,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.8,
+    554.1,
+    506.0,
+    567.3
+   ],
+   "text": "is unacceptable, especially if such hazards could be mitigated by seemingly simple",
+   "conf": 0.9961,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.8,
+    567.3,
+    535.5,
+    580.8
+   ],
+   "text": "organizational changes. A review of the company's past three marine casualties, training",
+   "conf": 0.9954,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.4,
+    581.2,
+    483.3,
+    594.4
+   ],
+   "text": "requirements, and maintenance procedures should identify any gaps in safety.",
+   "conf": 0.9978,
+   "retry": {
+    "text": "requirements, and maintenance procedures should identify any gaps in safety.",
+    "conf": 0.9978,
+    "first_text": "as  ses   ans sa monts es setys",
+    "first_conf": 0.59,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    71.3,
+    607.2,
+    506.8,
+    619.1
+   ],
+   "text": "Safety Recommendation 6 – It is recommended that Commandant require all certificated",
+   "conf": 0.9868,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    620.7,
+    509.2,
+    633.9
+   ],
+   "text": "passenger vessel operators under Subchapter K, to ensure they designate one qualified and",
+   "conf": 0.9891,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    634.3,
+    522.8,
+    647.5
+   ],
+   "text": "trained person, in vessel specific emergency response, to remain onboard the vessel while not",
+   "conf": 0.998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    647.1,
+    522.4,
+    660.3
+   ],
+   "text": "underway until all the non-marine crew and contractors have departed the vessel. This person",
+   "conf": 0.9948,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    660.7,
+    532.3,
+    673.8
+   ],
+   "text": "should be trained to an acceptable standard to respond to vessel emergencies to reduce the risks",
+   "conf": 0.9972,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    674.6,
+    527.5,
+    686.6
+   ],
+   "text": "from emergencies such as fire, medical, flooding, and other contingencies outlined in a Vessel",
+   "conf": 0.9788,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    687.4,
+    492.1,
+    700.6
+   ],
+   "text": "Emergency Response Plan and to ensure the safe evacuation of the vessel, if necessary.",
+   "conf": 0.9979,
+   "retry": null
+  },
+  {
+   "bbox": [
+    301.6,
+    759.3,
+    310.8,
+    771.6
+   ],
+   "text": "3",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

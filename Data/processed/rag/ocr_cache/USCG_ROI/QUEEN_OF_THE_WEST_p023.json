@@ -1,0 +1,148 @@
+{
+ "key": {
+  "report_id": "QUEEN_OF_THE_WEST",
+  "filename": "QUEEN_OF_THE_WEST_4405289_ROI_Redacted.pdf",
+  "sha256": "02f978c36fcbd8ef00493738d66ee13a4079eab5832883de67ba1cacc388cba3",
+  "page_number": 23,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2542,
+  3292
+ ],
+ "lines": [
+  {
+   "bbox": [
+    508.0,
+    29.1,
+    540.6,
+    43.0
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    493.3,
+    41.4,
+    539.8,
+    55.4
+   ],
+   "text": "06May13",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.7,
+    42.2,
+    476.2,
+    53.8
+   ],
+   "text": "LOSS OF LIFE FOLLOWING MAN OVERBOARD FROM P/V QUEEN OF THE WEST",
+   "conf": 0.983,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.9,
+    66.1,
+    521.1,
+    81.6
+   ],
+   "text": "17. It is recommended that P/V QUEEN OF THE WEST's Engineer design (and put in place) a safety",
+   "conf": 0.9977,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.9,
+    79.2,
+    533.4,
+    93.2
+   ],
+   "text": "chain protecting authorized personnel on the paddlewheel support arms from falling from the stern in the",
+   "conf": 0.993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.1,
+    91.2,
+    208.5,
+    105.5
+   ],
+   "text": "area of the ten-foot railing gap.",
+   "conf": 0.9971,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.7,
+    113.9,
+    100.9,
+    130.2
+   ],
+   "text": "Other",
+   "conf": 0.998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.3,
+    139.4,
+    351.5,
+    152.5
+   ],
+   "text": "1. It is recommended that this casualty investigation be closed.",
+   "conf": 0.9963,
+   "retry": null
+  },
+  {
+   "bbox": [
+    298.3,
+    164.1,
+    308.6,
+    176.4
+   ],
+   "text": "#",
+   "conf": 0.9985,
+   "retry": null
+  },
+  {
+   "bbox": [
+    292.3,
+    738.3,
+    309.4,
+    753.0
+   ],
+   "text": "18",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

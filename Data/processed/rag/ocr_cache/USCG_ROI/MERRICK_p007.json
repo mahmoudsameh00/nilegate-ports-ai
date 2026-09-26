@@ -1,0 +1,594 @@
+{
+ "key": {
+  "report_id": "MERRICK",
+  "filename": "MERRICK_8031230_ROI_Redacted.pdf",
+  "sha256": "76047e77ee5376e2fc4638301674894f54af536e5de39cbdbdeec8ffbedd53b9",
+  "page_number": 7,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    82.1,
+    51.9,
+    157.4,
+    65.1
+   ],
+   "text": "Official Name:",
+   "conf": 0.9989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    334.3,
+    52.3,
+    392.1,
+    64.7
+   ],
+   "text": "MERRICK",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    334.7,
+    66.3,
+    394.1,
+    79.8
+   ],
+   "text": "CT1979BK",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    82.1,
+    67.5,
+    194.8,
+    79.4
+   ],
+   "text": "Identification Number:",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    79.3,
+    79.8,
+    110.4,
+    96.6
+   ],
+   "text": "Flag:",
+   "conf": 0.998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    334.3,
+    81.4,
+    402.4,
+    95.0
+   ],
+   "text": "United States",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    81.3,
+    95.4,
+    225.1,
+    111.0
+   ],
+   "text": "Vessel Class/Type/Sub-Type",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    333.1,
+    95.4,
+    477.3,
+    111.0
+   ],
+   "text": "Fishing Vessel/Fish Catching",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    334.3,
+    109.4,
+    412.8,
+    123.8
+   ],
+   "text": "Vessel/Dredger",
+   "conf": 0.9646,
+   "retry": null
+  },
+  {
+   "bbox": [
+    80.9,
+    123.4,
+    141.8,
+    138.1
+   ],
+   "text": "Build Year:",
+   "conf": 0.9989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    333.5,
+    123.8,
+    361.8,
+    138.5
+   ],
+   "text": "1975",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    333.1,
+    137.7,
+    369.8,
+    153.3
+   ],
+   "text": "10 GT",
+   "conf": 0.9954,
+   "retry": null
+  },
+  {
+   "bbox": [
+    80.9,
+    138.5,
+    161.8,
+    153.3
+   ],
+   "text": "Gross Tonnage:",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    332.7,
+    152.9,
+    361.4,
+    167.7
+   ],
+   "text": "39 ft",
+   "conf": 0.9813,
+   "retry": {
+    "text": "39 ft",
+    "conf": 0.9813,
+    "first_text": "39 ft",
+    "first_conf": 0.922,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    80.5,
+    153.7,
+    122.3,
+    167.7
+   ],
+   "text": "Length:",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    333.1,
+    167.3,
+    361.4,
+    182.0
+   ],
+   "text": "10 ft",
+   "conf": 0.9615,
+   "retry": null
+  },
+  {
+   "bbox": [
+    80.9,
+    168.5,
+    149.4,
+    181.6
+   ],
+   "text": "Beam/Width:",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    332.3,
+    181.6,
+    355.8,
+    196.8
+   ],
+   "text": "3 ft",
+   "conf": 0.9649,
+   "retry": null
+  },
+  {
+   "bbox": [
+    80.9,
+    183.2,
+    146.2,
+    196.8
+   ],
+   "text": "Draft/Depth:",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    80.5,
+    197.2,
+    324.7,
+    212.4
+   ],
+   "text": "Main/Primary Propulsion: (Configuration/System",
+   "conf": 0.9929,
+   "retry": null
+  },
+  {
+   "bbox": [
+    333.9,
+    198.0,
+    445.9,
+    210.0
+   ],
+   "text": "Diesel inboard/150 HP",
+   "conf": 0.9782,
+   "retry": null
+  },
+  {
+   "bbox": [
+    82.1,
+    211.6,
+    218.3,
+    224.7
+   ],
+   "text": "Type, Ahead Horse Power)",
+   "conf": 0.9981,
+   "retry": null
+  },
+  {
+   "bbox": [
+    80.9,
+    226.3,
+    121.1,
+    239.9
+   ],
+   "text": "Owner:",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    80.9,
+    254.7,
+    131.1,
+    269.9
+   ],
+   "text": "Operator:",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    333.5,
+    255.1,
+    422.3,
+    267.1
+   ],
+   "text": "Donald Harlacher",
+   "conf": 0.9991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    333.5,
+    268.3,
+    398.8,
+    281.8
+   ],
+   "text": "Hamden, CT",
+   "conf": 0.9987,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.9,
+    293.8,
+    310.8,
+    308.6
+   ],
+   "text": "3. Deceased, Missing, and/or Injured Persons",
+   "conf": 0.9949,
+   "retry": null
+  },
+  {
+   "bbox": [
+    345.4,
+    318.6,
+    371.7,
+    336.9
+   ],
+   "text": "Age",
+   "conf": 0.9989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    272.9,
+    319.4,
+    296.4,
+    334.5
+   ],
+   "text": "Sex",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    450.2,
+    319.8,
+    485.3,
+    333.7
+   ],
+   "text": "Status",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.0,
+    320.6,
+    213.6,
+    333.7
+   ],
+   "text": "Relationship to Vessel",
+   "conf": 0.9967,
+   "retry": null
+  },
+  {
+   "bbox": [
+    270.1,
+    334.1,
+    298.4,
+    348.9
+   ],
+   "text": "Male",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    350.2,
+    334.1,
+    367.0,
+    349.3
+   ],
+   "text": "58",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    444.7,
+    334.5,
+    491.3,
+    348.1
+   ],
+   "text": "Deceased",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.9,
+    335.7,
+    182.1,
+    349.3
+   ],
+   "text": "Operator",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    349.8,
+    348.5,
+    367.0,
+    363.3
+   ],
+   "text": "40",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    269.7,
+    348.9,
+    298.4,
+    363.3
+   ],
+   "text": "Male",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    443.1,
+    348.9,
+    492.5,
+    364.1
+   ],
+   "text": "Uninjured",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    131.1,
+    350.1,
+    187.3,
+    362.5
+   ],
+   "text": "Deckhand 1",
+   "conf": 0.958,
+   "retry": null
+  },
+  {
+   "bbox": [
+    269.7,
+    363.7,
+    298.4,
+    378.0
+   ],
+   "text": "Male",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    349.8,
+    363.7,
+    367.4,
+    378.4
+   ],
+   "text": "46",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    443.5,
+    364.1,
+    492.1,
+    378.0
+   ],
+   "text": "Uninjured",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    131.1,
+    364.5,
+    187.3,
+    376.8
+   ],
+   "text": "Deckhand 2",
+   "conf": 0.9779,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.7,
+    391.6,
+    174.9,
+    404.8
+   ],
+   "text": "4. Findings of Fact",
+   "conf": 0.9941,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    417.2,
+    166.1,
+    430.3
+   ],
+   "text": "4.1. The Incident:",
+   "conf": 0.9826,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    442.3,
+    492.9,
+    456.7
+   ],
+   "text": "4.1.1. On November 4, 2024, at approximately 6:30 a.m., the Operator and two",
+   "conf": 0.9982,
+   "retry": null
+  },
+  {
+   "bbox": [
+    141.8,
+    456.7,
+    522.8,
+    471.0
+   ],
+   "text": "Deckhands, of the uninspected commercial fishing vessel MERRICK departed",
+   "conf": 0.9927,
+   "retry": null
+  },
+  {
+   "bbox": [
+    141.4,
+    469.9,
+    531.5,
+    485.0
+   ],
+   "text": "Safe Harbor Marina in Stratford, CT with empty totes to harvest juvenile oysters",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    143.0,
+    485.0,
+    304.4,
+    497.0
+   ],
+   "text": "within the Housatonic River, CT.",
+   "conf": 0.9975,
+   "retry": null
+  },
+  {
+   "bbox": [
+    300.8,
+    750.5,
+    310.8,
+    763.7
+   ],
+   "text": "2",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

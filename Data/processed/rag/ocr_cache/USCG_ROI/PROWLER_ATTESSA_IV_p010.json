@@ -1,0 +1,588 @@
+{
+ "key": {
+  "report_id": "PROWLER_ATTESSA_IV",
+  "filename": "PROWLER_ATTESSA_IV_6572770_ROI_Redacted.pdf",
+  "sha256": "010157c0edf08c5e13cd22197805e3bf59408c4d04b1b047d4c13c51c2410175",
+  "page_number": 10,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    44.2,
+    29.5,
+    331.9,
+    44.7
+   ],
+   "text": "COLLISION BETWEEN THE PROWLER (O.N. 294465)",
+   "conf": 0.9989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    472.1,
+    29.9,
+    505.6,
+    44.3
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    45.0,
+    44.3,
+    361.0,
+    57.5
+   ],
+   "text": "AND ATTESSA IV (O.N. 9179830) SOUTH OF U.S./MEXICO",
+   "conf": 0.9948,
+   "retry": null
+  },
+  {
+   "bbox": [
+    472.5,
+    44.7,
+    563.4,
+    57.9
+   ],
+   "text": "December 3,2019",
+   "conf": 0.9805,
+   "retry": null
+  },
+  {
+   "bbox": [
+    44.6,
+    57.9,
+    331.1,
+    71.1
+   ],
+   "text": "MARITIME BOUNDARY LINE ON OCTOBER 26,2018",
+   "conf": 0.9915,
+   "retry": null
+  },
+  {
+   "bbox": [
+    65.7,
+    95.0,
+    136.7,
+    109.4
+   ],
+   "text": "Vessel Name:",
+   "conf": 0.9805,
+   "retry": null
+  },
+  {
+   "bbox": [
+    274.9,
+    95.8,
+    335.5,
+    108.2
+   ],
+   "text": "PROWLER",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    274.5,
+    109.0,
+    340.7,
+    123.4
+   ],
+   "text": "O.N.294465",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    65.7,
+    109.4,
+    214.8,
+    123.4
+   ],
+   "text": "Vessel Identification Number:",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    63.8,
+    122.6,
+    95.6,
+    140.5
+   ],
+   "text": "Flag:",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    274.5,
+    123.8,
+    343.1,
+    138.1
+   ],
+   "text": "United States",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    65.3,
+    138.5,
+    212.4,
+    153.7
+   ],
+   "text": "Vessel Class/Type/Sub-Type:",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    274.1,
+    138.5,
+    437.9,
+    153.7
+   ],
+   "text": "Passenger Vessel – Subchapter T",
+   "conf": 0.9903,
+   "retry": null
+  },
+  {
+   "bbox": [
+    64.9,
+    152.5,
+    125.9,
+    167.3
+   ],
+   "text": "Build Year:",
+   "conf": 0.9991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    274.5,
+    152.9,
+    303.2,
+    167.7
+   ],
+   "text": "1964",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    274.5,
+    167.7,
+    318.0,
+    181.6
+   ],
+   "text": "67 GRT",
+   "conf": 0.9565,
+   "retry": null
+  },
+  {
+   "bbox": [
+    65.7,
+    168.1,
+    127.9,
+    181.6
+   ],
+   "text": "Gross Tons:",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    274.5,
+    182.0,
+    313.2,
+    197.2
+   ],
+   "text": "56.5 ft.",
+   "conf": 0.9891,
+   "retry": null
+  },
+  {
+   "bbox": [
+    64.5,
+    182.4,
+    107.2,
+    197.6
+   ],
+   "text": "Length:",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    64.5,
+    196.8,
+    194.8,
+    212.4
+   ],
+   "text": "Main Primary Propulsion:",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    274.5,
+    197.6,
+    360.6,
+    210.8
+   ],
+   "text": "Diesel Reduction",
+   "conf": 0.9938,
+   "retry": null
+  },
+  {
+   "bbox": [
+    274.5,
+    211.6,
+    336.7,
+    225.1
+   ],
+   "text": "Prowler Inc.",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    64.9,
+    212.0,
+    105.6,
+    225.9
+   ],
+   "text": "Owner:",
+   "conf": 0.9972,
+   "retry": null
+  },
+  {
+   "bbox": [
+    274.5,
+    225.1,
+    454.2,
+    239.5
+   ],
+   "text": "San Diego, California, United States",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    64.9,
+    240.3,
+    115.1,
+    255.5
+   ],
+   "text": "Operator:",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    274.5,
+    254.3,
+    453.4,
+    267.5
+   ],
+   "text": "San Diego, California, United States",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    183.3,
+    499.4,
+    420.4,
+    513.0
+   ],
+   "text": "Above : Photograph of ATTESSA IV provided by Google",
+   "conf": 0.9782,
+   "retry": null
+  },
+  {
+   "bbox": [
+    274.1,
+    532.9,
+    346.2,
+    547.3
+   ],
+   "text": "ATTESSA IV",
+   "conf": 0.9622,
+   "retry": null
+  },
+  {
+   "bbox": [
+    64.9,
+    533.3,
+    135.9,
+    547.7
+   ],
+   "text": "Vessel Name:",
+   "conf": 0.9895,
+   "retry": null
+  },
+  {
+   "bbox": [
+    65.3,
+    547.7,
+    213.6,
+    562.1
+   ],
+   "text": "Vessel Identification Number:",
+   "conf": 0.9974,
+   "retry": null
+  },
+  {
+   "bbox": [
+    274.5,
+    548.5,
+    340.7,
+    561.7
+   ],
+   "text": "O.N.740010",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    63.0,
+    561.7,
+    94.4,
+    578.4
+   ],
+   "text": "Flag:",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    274.5,
+    562.9,
+    384.5,
+    576.0
+   ],
+   "text": "CAYMAN ISLANDS",
+   "conf": 0.9715,
+   "retry": null
+  },
+  {
+   "bbox": [
+    64.9,
+    576.8,
+    212.0,
+    592.4
+   ],
+   "text": "Vessel Class/Type/Sub-Type:",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    273.7,
+    577.2,
+    350.6,
+    591.6
+   ],
+   "text": "Pleasure Yacht",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    274.1,
+    591.6,
+    302.4,
+    606.4
+   ],
+   "text": "1995",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    64.9,
+    592.4,
+    125.1,
+    606.0
+   ],
+   "text": "Build Year:",
+   "conf": 0.9913,
+   "retry": null
+  },
+  {
+   "bbox": [
+    274.1,
+    606.8,
+    328.7,
+    620.3
+   ],
+   "text": "2864 GRT",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    64.9,
+    607.2,
+    127.1,
+    620.7
+   ],
+   "text": "Gross Tons:",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    273.3,
+    620.3,
+    318.8,
+    636.3
+   ],
+   "text": "278.9 ft.",
+   "conf": 0.9982,
+   "retry": null
+  },
+  {
+   "bbox": [
+    63.4,
+    621.1,
+    106.4,
+    637.5
+   ],
+   "text": "Length:",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    64.1,
+    637.5,
+    193.6,
+    651.9
+   ],
+   "text": "Main Primary Propulsion:",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    273.7,
+    637.5,
+    309.2,
+    651.5
+   ],
+   "text": "Motor",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    64.5,
+    652.3,
+    104.8,
+    666.3
+   ],
+   "text": "Owner:",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    274.9,
+    652.3,
+    416.8,
+    665.5
+   ],
+   "text": "Arran Point Charterers, LTD",
+   "conf": 0.9977,
+   "retry": null
+  },
+  {
+   "bbox": [
+    274.9,
+    666.3,
+    506.0,
+    679.4
+   ],
+   "text": "George Town, Grand Cayman, Cayman Islands",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    274.9,
+    680.6,
+    416.8,
+    693.8
+   ],
+   "text": "Arran Point Charterers, LTD",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    64.9,
+    681.0,
+    114.4,
+    695.0
+   ],
+   "text": "Operator:",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    274.1,
+    693.4,
+    506.0,
+    708.2
+   ],
+   "text": "George Town, Grand Cayman, Cayman Islands",
+   "conf": 0.9876,
+   "retry": null
+  },
+  {
+   "bbox": [
+    295.2,
+    735.7,
+    306.8,
+    750.1
+   ],
+   "text": "2",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

@@ -1,0 +1,479 @@
+{
+ "key": {
+  "report_id": "VICAR_602",
+  "filename": "VICAR_602_7989592_ROI_Redacted.pdf",
+  "sha256": "d9dc7fd0a97c4acce65dfb145743b8d801c9b325290e42bb95e69f017ef1d1d7",
+  "page_number": 5,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    81.7,
+    46.7,
+    167.3,
+    57.5
+   ],
+   "text": "U.S. Department of",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    392.5,
+    46.7,
+    481.7,
+    56.7
+   ],
+   "text": "2401 Hawkins Point Road",
+   "conf": 0.9892,
+   "retry": null
+  },
+  {
+   "bbox": [
+    253.8,
+    48.3,
+    299.2,
+    57.9
+   ],
+   "text": "Commander",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    392.9,
+    55.1,
+    502.8,
+    64.3
+   ],
+   "text": "Baltimore, Maryland 21226-1791",
+   "conf": 0.9937,
+   "retry": null
+  },
+  {
+   "bbox": [
+    81.7,
+    55.9,
+    166.5,
+    67.5
+   ],
+   "text": "Homeland Security",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    253.4,
+    56.7,
+    348.6,
+    67.1
+   ],
+   "text": "United States Coast Guard",
+   "conf": 0.9971,
+   "retry": null
+  },
+  {
+   "bbox": [
+    392.5,
+    61.9,
+    451.4,
+    72.7
+   ],
+   "text": "Staff Symbol: (s)",
+   "conf": 0.9524,
+   "retry": null
+  },
+  {
+   "bbox": [
+    253.8,
+    66.3,
+    331.1,
+    75.4
+   ],
+   "text": "Sector Maryland-NCR",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    392.1,
+    70.3,
+    471.4,
+    81.0
+   ],
+   "text": "Phone: (410) 576-2561",
+   "conf": 0.9774,
+   "retry": {
+    "text": "Phone: (410) 576-2561",
+    "conf": 0.9774,
+    "first_text": "Phone: (410) 576-2561",
+    "first_conf": 0.9352,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    81.3,
+    73.5,
+    149.8,
+    84.2
+   ],
+   "text": "United States",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    81.3,
+    83.0,
+    145.4,
+    93.8
+   ],
+   "text": "Coast Guard",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    392.1,
+    93.8,
+    423.9,
+    106.6
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    392.1,
+    105.4,
+    472.1,
+    118.6
+   ],
+   "text": "October 17, 2025",
+   "conf": 0.9876,
+   "retry": null
+  },
+  {
+   "bbox": [
+    123.1,
+    144.9,
+    487.3,
+    155.3
+   ],
+   "text": "GLOBAL AUTONOMOUS RECONNAISSANCE CRAFT VICAR 602 &",
+   "conf": 0.9837,
+   "retry": null
+  },
+  {
+   "bbox": [
+    116.7,
+    157.7,
+    492.5,
+    169.3
+   ],
+   "text": "RECREATIONAL VESSEL ROWING SCULL COLLISION AND TOTAL",
+   "conf": 0.9907,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.2,
+    170.9,
+    508.8,
+    182.4
+   ],
+   "text": "CONSTRUCTIVE LOSS OF ROWING SCULL ON THE PATAPSCO RIVER IN",
+   "conf": 0.9865,
+   "retry": null
+  },
+  {
+   "bbox": [
+    196.8,
+    183.6,
+    415.2,
+    198.0
+   ],
+   "text": "BALTIMORE, MD, ON AUGUST 07, 2024",
+   "conf": 0.9886,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.2,
+    210.0,
+    499.6,
+    223.5
+   ],
+   "text": "ENDORSEMENT BY THE OFFICER IN CHARGE, MARINE INSPECTION",
+   "conf": 0.994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    78.9,
+    250.7,
+    518.8,
+    263.9
+   ],
+   "text": "The record and the report of the investigation convened for the subject casualty were reviewed.",
+   "conf": 0.9932,
+   "retry": null
+  },
+  {
+   "bbox": [
+    78.9,
+    264.3,
+    463.8,
+    277.4
+   ],
+   "text": "The record and the report, including the findings of fact, analysis, conclusions, and",
+   "conf": 0.9892,
+   "retry": null
+  },
+  {
+   "bbox": [
+    77.3,
+    277.4,
+    507.2,
+    290.6
+   ],
+   "text": "recommendations are approved. It is recommended that this marine casualty investigation be",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    77.3,
+    289.8,
+    113.6,
+    303.8
+   ],
+   "text": "closed.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    178.9,
+    330.9,
+    418.4,
+    342.5
+   ],
+   "text": "ENDORSEMENT ON RECOMMENDATIONS",
+   "conf": 0.995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    76.9,
+    357.3,
+    502.4,
+    370.9
+   ],
+   "text": "Safety Recommendation 1: It is recommended that Coast Guard Headquarters promulgate",
+   "conf": 0.9909,
+   "retry": null
+  },
+  {
+   "bbox": [
+    76.9,
+    369.7,
+    500.4,
+    385.6
+   ],
+   "text": "guidance to clarify authorities and applicable standards for the governance of autonomous",
+   "conf": 0.9937,
+   "retry": null
+  },
+  {
+   "bbox": [
+    78.1,
+    383.6,
+    173.7,
+    396.8
+   ],
+   "text": "craft and/or vessels.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    92.4,
+    423.1,
+    507.2,
+    438.3
+   ],
+   "text": "Endorsement 1:. Concur with the safety recommendation proposed by the investigating",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    94.4,
+    436.7,
+    134.3,
+    450.3
+   ],
+   "text": "officer.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    78.5,
+    469.5,
+    478.1,
+    483.0
+   ],
+   "text": "Administrative Recommendation 1: It is recommended that a finding of concern be",
+   "conf": 0.9929,
+   "retry": null
+  },
+  {
+   "bbox": [
+    77.7,
+    484.2,
+    472.9,
+    498.6
+   ],
+   "text": "published to mitigate the risks associated with the contributing factors identified in the",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    78.1,
+    499.0,
+    141.8,
+    512.2
+   ],
+   "text": "investigation.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    98.8,
+    526.1,
+    405.2,
+    537.7
+   ],
+   "text": "Endorsement 1: Concur with the administrative recommendation.",
+   "conf": 0.9828,
+   "retry": null
+  },
+  {
+   "bbox": [
+    244.6,
+    588.4,
+    365.0,
+    599.2
+   ],
+   "text": "PATRICK C. BURKETT",
+   "conf": 0.9723,
+   "retry": null
+  },
+  {
+   "bbox": [
+    241.9,
+    600.8,
+    368.2,
+    614.0
+   ],
+   "text": "Captain, U.S. Coast Guard",
+   "conf": 0.9986,
+   "retry": null
+  },
+  {
+   "bbox": [
+    241.5,
+    613.6,
+    415.6,
+    627.5
+   ],
+   "text": "Officer in Charge, Marine Inspection",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    77.3,
+    653.5,
+    251.0,
+    667.5
+   ],
+   "text": "Enclosures: (1) Executive Summary",
+   "conf": 0.9908,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.1,
+    668.2,
+    296.4,
+    680.2
+   ],
+   "text": "(2) Investigating Officer's Report",
+   "conf": 0.9914,
+   "retry": null
+  },
+  {
+   "bbox": [
+    298.8,
+    741.3,
+    306.8,
+    747.3
+   ],
+   "text": "票",
+   "conf": 0.2854,
+   "retry": {
+    "text": "",
+    "conf": 0.0,
+    "first_text": "票",
+    "first_conf": 0.2854,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    298.8,
+    745.3,
+    308.8,
+    756.1
+   ],
+   "text": "11",
+   "conf": 0.9996,
+   "retry": null
+  }
+ ]
+}

@@ -1,0 +1,478 @@
+{
+ "key": {
+  "report_id": "CONCHRD",
+  "filename": "CONCHRD_7107811_ROI_Redacted.pdf",
+  "sha256": "67762d08caf4f265a4f6b001711884e261fefb10cb629c869b9435ac82c8cf66",
+  "page_number": 3,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    72.1,
+    35.9,
+    160.2,
+    46.7
+   ],
+   "text": "U.S. Department of",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    394.5,
+    36.3,
+    455.4,
+    45.5
+   ],
+   "text": "431 Crawford St.",
+   "conf": 0.9983,
+   "retry": null
+  },
+  {
+   "bbox": [
+    251.0,
+    37.1,
+    296.8,
+    46.7
+   ],
+   "text": "Commander",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    394.5,
+    44.3,
+    476.1,
+    53.5
+   ],
+   "text": "Portsmouth, VA 23704",
+   "conf": 0.9949,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    45.1,
+    159.8,
+    57.9
+   ],
+   "text": "Homeland Security",
+   "conf": 0.9976,
+   "retry": null
+  },
+  {
+   "bbox": [
+    250.6,
+    45.9,
+    347.4,
+    56.3
+   ],
+   "text": "United States Coast Guard",
+   "conf": 0.9938,
+   "retry": null
+  },
+  {
+   "bbox": [
+    394.1,
+    51.9,
+    459.8,
+    62.7
+   ],
+   "text": "Staff Symbol: (dp)",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    251.4,
+    55.9,
+    296.0,
+    65.5
+   ],
+   "text": "East District",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    63.1,
+    142.6,
+    75.0
+   ],
+   "text": "United States",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    72.7,
+    138.3,
+    85.4
+   ],
+   "text": "Coast Guard",
+   "conf": 0.9987,
+   "retry": null
+  },
+  {
+   "bbox": [
+    394.1,
+    84.6,
+    427.1,
+    97.4
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    393.3,
+    97.0,
+    483.3,
+    110.2
+   ],
+   "text": "December 9, 2025",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    105.6,
+    135.3,
+    510.4,
+    149.3
+   ],
+   "text": "LOSS OF LIFE ONBOARD THE COMMERCIAL FISHING VESSEL (CFV)",
+   "conf": 0.9979,
+   "retry": null
+  },
+  {
+   "bbox": [
+    81.3,
+    150.9,
+    535.9,
+    162.9
+   ],
+   "text": "CONCH'RD (NJ8244GN), APPROX. 15 MILES EAST OF CAPE MAY, NEW JERSEY",
+   "conf": 0.9766,
+   "retry": null
+  },
+  {
+   "bbox": [
+    239.1,
+    164.1,
+    378.9,
+    176.4
+   ],
+   "text": "ON DECEMBER 03, 2020.",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.8,
+    206.0,
+    514.0,
+    218.0
+   ],
+   "text": "ENDORSEMENT BY THE COMMANDER, COAST GUARD EAST DISTRICT",
+   "conf": 0.9904,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.5,
+    246.3,
+    508.8,
+    261.1
+   ],
+   "text": "The record and the report of the investigation convened for the subject casualty have been",
+   "conf": 0.9938,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.1,
+    261.1,
+    521.6,
+    274.2
+   ],
+   "text": "reviewed. The record and the report, including the findings of fact, analysis, conclusions, and",
+   "conf": 0.9911,
+   "retry": null
+  },
+  {
+   "bbox": [
+    73.7,
+    275.0,
+    521.6,
+    288.2
+   ],
+   "text": "recommendations are approved. It is recommended that this marine casualty investigation be",
+   "conf": 0.995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    73.3,
+    287.4,
+    110.4,
+    302.2
+   ],
+   "text": "closed.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    185.3,
+    317.0,
+    431.5,
+    328.5
+   ],
+   "text": "ENDORSEMENT ON RECOMMENDATIONS",
+   "conf": 0.9985,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.7,
+    343.3,
+    516.8,
+    357.3
+   ],
+   "text": "Administrative Recommendation 8.2.1. It is recommended that the Commandant provide a",
+   "conf": 0.989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.9,
+    357.3,
+    307.6,
+    372.0
+   ],
+   "text": "copy of this report to the following upon closure:",
+   "conf": 0.9979,
+   "retry": null
+  },
+  {
+   "bbox": [
+    117.5,
+    384.8,
+    155.8,
+    397.6
+   ],
+   "text": "NOAA",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    118.3,
+    398.8,
+    358.2,
+    412.4
+   ],
+   "text": "Commercial Fishing Vessel Advisory Committee",
+   "conf": 0.9986,
+   "retry": null
+  },
+  {
+   "bbox": [
+    117.5,
+    412.8,
+    324.3,
+    426.3
+   ],
+   "text": "National Association of Marine Surveyors",
+   "conf": 0.9979,
+   "retry": null
+  },
+  {
+   "bbox": [
+    118.3,
+    426.7,
+    315.2,
+    440.7
+   ],
+   "text": "Society of Accredited Marine Surveyors",
+   "conf": 0.9984,
+   "retry": null
+  },
+  {
+   "bbox": [
+    117.5,
+    440.3,
+    335.9,
+    454.3
+   ],
+   "text": "New Jersey Department of Fish and Wildlife",
+   "conf": 0.9892,
+   "retry": null
+  },
+  {
+   "bbox": [
+    91.2,
+    467.1,
+    531.5,
+    482.2
+   ],
+   "text": "Endorsement: Concur. Upon closure of this investigation, I recommend the Commandant",
+   "conf": 0.9988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    91.6,
+    482.6,
+    522.0,
+    495.8
+   ],
+   "text": "provide a copy of this report to the aforementioned agencies. Disseminating this report to",
+   "conf": 0.9924,
+   "retry": null
+  },
+  {
+   "bbox": [
+    91.2,
+    495.8,
+    531.5,
+    510.2
+   ],
+   "text": "these stakeholders will help educate the commercial fishing vessel community. Sharing the",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    90.4,
+    509.0,
+    534.7,
+    524.1
+   ],
+   "text": "lessons learned from this tragic incident can have a significant impact on safety and support",
+   "conf": 0.9935,
+   "retry": null
+  },
+  {
+   "bbox": [
+    90.8,
+    522.5,
+    461.0,
+    537.7
+   ],
+   "text": "informed decision-making within the commercial fishing vessel community.",
+   "conf": 0.9905,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.3,
+    550.1,
+    468.2,
+    564.5
+   ],
+   "text": "Administrative Recommendation 8.2.2. Recommend this investigation be closed.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    91.6,
+    578.4,
+    494.1,
+    591.6
+   ],
+   "text": "Endorsement: Concur. The Coast Guard East District agrees with the analysis and",
+   "conf": 0.9783,
+   "retry": null
+  },
+  {
+   "bbox": [
+    91.6,
+    592.8,
+    503.2,
+    606.0
+   ],
+   "text": "conclusions of the Investigating Officer and the endorsement of the Officer in Charge,",
+   "conf": 0.9926,
+   "retry": null
+  },
+  {
+   "bbox": [
+    91.2,
+    606.4,
+    422.3,
+    619.5
+   ],
+   "text": "Marine Inspection. No further action is required by the Coast Guard.",
+   "conf": 0.9937,
+   "retry": null
+  },
+  {
+   "bbox": [
+    306.0,
+    673.4,
+    433.9,
+    687.4
+   ],
+   "text": "MATTHEW/J.MESKUN",
+   "conf": 0.9897,
+   "retry": null
+  },
+  {
+   "bbox": [
+    307.6,
+    689.0,
+    435.9,
+    702.2
+   ],
+   "text": "Captain, U.$. Coast Guard",
+   "conf": 0.9901,
+   "retry": null
+  },
+  {
+   "bbox": [
+    307.6,
+    703.4,
+    436.3,
+    715.4
+   ],
+   "text": "Chief, Prevention Division",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

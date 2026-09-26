@@ -1,0 +1,1572 @@
+{
+ "key": {
+  "report_id": "H20_BELOW",
+  "filename": "H20_BELOW_6966090_ROI_Redacted.pdf",
+  "sha256": "f3fcf7689854c086f79383529c2e174af10699e91199f16de6dc34a5f5fcd65c",
+  "page_number": 12,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    165.4,
+    64.7,
+    192.8,
+    72.7
+   ],
+   "text": "Shearwater",
+   "conf": 0.9987,
+   "retry": null
+  },
+  {
+   "bbox": [
+    375.3,
+    79.0,
+    390.1,
+    86.6
+   ],
+   "text": "guest",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    196.4,
+    86.2,
+    210.8,
+    93.0
+   ],
+   "text": "Layout",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    171.3,
+    94.6,
+    191.2,
+    101.4
+   ],
+   "text": "Dive List",
+   "conf": 0.9696,
+   "retry": null
+  },
+  {
+   "bbox": [
+    171.7,
+    100.6,
+    194.8,
+    107.4
+   ],
+   "text": "Filter Dives",
+   "conf": 0.9972,
+   "retry": null
+  },
+  {
+   "bbox": [
+    457.0,
+    103.4,
+    483.3,
+    111.0
+   ],
+   "text": "Visible: 1 of 1",
+   "conf": 0.9862,
+   "retry": null
+  },
+  {
+   "bbox": [
+    448.2,
+    114.6,
+    458.2,
+    120.6
+   ],
+   "text": "Dive",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    278.9,
+    115.4,
+    333.1,
+    123.0
+   ],
+   "text": "Computer Model Dive Type",
+   "conf": 0.9805,
+   "retry": null
+  },
+  {
+   "bbox": [
+    416.0,
+    115.8,
+    437.1,
+    123.8
+   ],
+   "text": "Max Depth",
+   "conf": 0.9848,
+   "retry": null
+  },
+  {
+   "bbox": [
+    173.7,
+    116.2,
+    186.9,
+    122.2
+   ],
+   "text": "Dive #",
+   "conf": 0.8685,
+   "retry": {
+    "text": "Dive#",
+    "conf": 0.8403,
+    "first_text": "Dive #",
+    "first_conf": 0.8685,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    229.9,
+    116.2,
+    282.1,
+    122.6
+   ],
+   "text": "Date / Time Dive Computer",
+   "conf": 0.9826,
+   "retry": null
+  },
+  {
+   "bbox": [
+    330.7,
+    117.0,
+    349.8,
+    122.6
+   ],
+   "text": "Location",
+   "conf": 0.9969,
+   "retry": null
+  },
+  {
+   "bbox": [
+    443.1,
+    119.0,
+    458.6,
+    125.7
+   ],
+   "text": "Length",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    206.0,
+    195.2,
+    219.1,
+    202.4
+   ],
+   "text": "Stats",
+   "conf": 0.9966,
+   "retry": null
+  },
+  {
+   "bbox": [
+    174.1,
+    196.0,
+    187.7,
+    202.0
+   ],
+   "text": "Graph",
+   "conf": 0.9688,
+   "retry": null
+  },
+  {
+   "bbox": [
+    170.1,
+    203.6,
+    203.2,
+    210.4
+   ],
+   "text": "Dive number : 26",
+   "conf": 0.97,
+   "retry": null
+  },
+  {
+   "bbox": [
+    229.1,
+    203.6,
+    264.6,
+    210.4
+   ],
+   "text": "Date: 2020-06-01",
+   "conf": 0.9702,
+   "retry": null
+  },
+  {
+   "bbox": [
+    282.9,
+    203.6,
+    312.8,
+    210.4
+   ],
+   "text": "Time : 9:49 AM",
+   "conf": 0.9521,
+   "retry": null
+  },
+  {
+   "bbox": [
+    337.5,
+    204.0,
+    374.1,
+    210.8
+   ],
+   "text": "Max Depth : 54.2m",
+   "conf": 0.9833,
+   "retry": null
+  },
+  {
+   "bbox": [
+    396.0,
+    204.0,
+    424.3,
+    210.8
+   ],
+   "text": "Model : Petrel",
+   "conf": 0.9888,
+   "retry": null
+  },
+  {
+   "bbox": [
+    447.0,
+    204.4,
+    479.7,
+    211.2
+   ],
+   "text": "Length : 1h 4min",
+   "conf": 0.986,
+   "retry": null
+  },
+  {
+   "bbox": [
+    187.3,
+    216.0,
+    206.8,
+    221.6
+   ],
+   "text": "Time:00s",
+   "conf": 0.8946,
+   "retry": {
+    "text": "Time:00s",
+    "conf": 0.8001,
+    "first_text": "Time:00s",
+    "first_conf": 0.8946,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    188.1,
+    220.4,
+    222.3,
+    225.9
+   ],
+   "text": "Deco: NDL Omln",
+   "conf": 0.8364,
+   "retry": {
+    "text": "Deca: NDL 0mln",
+    "conf": 0.8285,
+    "first_text": "Deco: NDL Omln",
+    "first_conf": 0.8364,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    190.9,
+    224.7,
+    232.7,
+    231.1
+   ],
+   "text": "TTS:0min @+5: 0min",
+   "conf": 0.9508,
+   "retry": null
+  },
+  {
+   "bbox": [
+    165.8,
+    227.5,
+    173.7,
+    253.9
+   ],
+   "text": "DEPPTMI",
+   "conf": 0.7272,
+   "retry": {
+    "text": "T",
+    "conf": 0.1571,
+    "first_text": "DEPPTMI",
+    "first_conf": 0.7272,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    186.9,
+    229.1,
+    216.4,
+    235.9
+   ],
+   "text": "Depth:0.0m",
+   "conf": 0.99,
+   "retry": null
+  },
+  {
+   "bbox": [
+    175.7,
+    231.9,
+    183.3,
+    239.5
+   ],
+   "text": "20",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    188.9,
+    233.1,
+    230.7,
+    240.3
+   ],
+   "text": "Temperature: 30.0°C",
+   "conf": 0.9687,
+   "retry": null
+  },
+  {
+   "bbox": [
+    190.1,
+    237.9,
+    230.7,
+    244.7
+   ],
+   "text": "Circult Mode: CC/BO",
+   "conf": 0.9531,
+   "retry": null
+  },
+  {
+   "bbox": [
+    189.7,
+    242.3,
+    225.9,
+    249.1
+   ],
+   "text": "Gas Switch: 19/45",
+   "conf": 0.9737,
+   "retry": null
+  },
+  {
+   "bbox": [
+    175.7,
+    249.9,
+    183.3,
+    256.7
+   ],
+   "text": "40",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    173.7,
+    267.5,
+    194.8,
+    274.2
+   ],
+   "text": "00:00:00",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    219.5,
+    267.9,
+    241.1,
+    274.6
+   ],
+   "text": "00:10:00",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    265.8,
+    267.9,
+    286.5,
+    275.0
+   ],
+   "text": "00:20:00",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    311.6,
+    268.3,
+    332.7,
+    275.0
+   ],
+   "text": "00:30:00",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    357.8,
+    268.3,
+    378.9,
+    275.0
+   ],
+   "text": "00:40:00",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    403.6,
+    268.3,
+    424.7,
+    275.0
+   ],
+   "text": "00:50:00",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    449.4,
+    268.7,
+    470.6,
+    275.4
+   ],
+   "text": "01:00:00",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    318.8,
+    273.4,
+    347.8,
+    281.4
+   ],
+   "text": "TIME [h:m:s]",
+   "conf": 0.9707,
+   "retry": null
+  },
+  {
+   "bbox": [
+    363.4,
+    284.6,
+    377.3,
+    291.8
+   ],
+   "text": "02 mv",
+   "conf": 0.976,
+   "retry": {
+    "text": "02 mv",
+    "conf": 0.976,
+    "first_text": "02 mv",
+    "first_conf": 0.9193,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    216.8,
+    285.0,
+    227.9,
+    291.0
+   ],
+   "text": "Deco",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    398.4,
+    285.0,
+    408.8,
+    291.4
+   ],
+   "text": "CNS",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    183.3,
+    285.4,
+    194.4,
+    291.0
+   ],
+   "text": "Depth",
+   "conf": 0.9999,
+   "retry": {
+    "text": "Depth",
+    "conf": 0.9999,
+    "first_text": "Depth",
+    "first_conf": 0.9253,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    251.0,
+    285.4,
+    262.6,
+    291.4
+   ],
+   "text": "Temp",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    460.6,
+    285.4,
+    474.9,
+    291.4
+   ],
+   "text": "Ascent",
+   "conf": 0.9906,
+   "retry": null
+  },
+  {
+   "bbox": [
+    163.8,
+    292.2,
+    453.4,
+    303.8
+   ],
+   "text": "Figure 3: Passenger 2's USS ORISKANY dive retrieved from his personal dive computer.",
+   "conf": 0.9802,
+   "retry": null
+  },
+  {
+   "bbox": [
+    164.2,
+    302.2,
+    248.6,
+    311.4
+   ],
+   "text": "Source: Sector Mobile IO",
+   "conf": 0.9982,
+   "retry": null
+  },
+  {
+   "bbox": [
+    163.4,
+    326.1,
+    194.4,
+    334.1
+   ],
+   "text": "Shearwater",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    391.7,
+    342.5,
+    408.8,
+    352.1
+   ],
+   "text": "guest",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    222.7,
+    350.9,
+    241.5,
+    358.1
+   ],
+   "text": "Connect",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    196.4,
+    351.3,
+    212.8,
+    358.1
+   ],
+   "text": "Layout",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    172.5,
+    352.1,
+    181.3,
+    356.9
+   ],
+   "text": "File",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    169.3,
+    360.5,
+    190.1,
+    367.3
+   ],
+   "text": "Dive List",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    163.8,
+    367.3,
+    194.8,
+    374.0
+   ],
+   "text": "Q Filter Dives",
+   "conf": 0.9346,
+   "retry": {
+    "text": "Q Filter Dives",
+    "conf": 0.9197,
+    "first_text": "Q Filter Dives",
+    "first_conf": 0.9346,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    451.4,
+    370.5,
+    480.5,
+    378.4
+   ],
+   "text": "Visible: 5 of 5",
+   "conf": 0.9902,
+   "retry": null
+  },
+  {
+   "bbox": [
+    470.6,
+    382.0,
+    482.1,
+    389.2
+   ],
+   "text": "Dive",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    231.9,
+    383.2,
+    363.4,
+    391.6
+   ],
+   "text": "Date / Time Dive Computer Computer Model Dive Type Location",
+   "conf": 0.9868,
+   "retry": null
+  },
+  {
+   "bbox": [
+    170.5,
+    383.6,
+    185.3,
+    390.8
+   ],
+   "text": "Dive #",
+   "conf": 0.9056,
+   "retry": {
+    "text": "Dive #",
+    "conf": 0.9056,
+    "first_text": "Dive #",
+    "first_conf": 0.8477,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    435.5,
+    384.4,
+    458.2,
+    391.6
+   ],
+   "text": "Max Depth",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    465.8,
+    387.2,
+    481.7,
+    394.0
+   ],
+   "text": "Length",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    213.6,
+    394.8,
+    278.5,
+    401.6
+   ],
+   "text": "201901-09 11:00 AM 3520BFC9",
+   "conf": 0.9709,
+   "retry": null
+  },
+  {
+   "bbox": [
+    320.3,
+    394.8,
+    336.3,
+    402.0
+   ],
+   "text": "CC/B0",
+   "conf": 0.8991,
+   "retry": {
+    "text": "CC/80",
+    "conf": 0.8943,
+    "first_text": "CC/B0",
+    "first_conf": 0.8991,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    287.3,
+    395.6,
+    299.6,
+    401.6
+   ],
+   "text": "Petrel",
+   "conf": 0.9828,
+   "retry": null
+  },
+  {
+   "bbox": [
+    445.5,
+    396.0,
+    458.6,
+    402.0
+   ],
+   "text": "7.6m",
+   "conf": 0.9756,
+   "retry": null
+  },
+  {
+   "bbox": [
+    462.2,
+    396.0,
+    476.5,
+    402.0
+   ],
+   "text": "0140",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    319.9,
+    401.2,
+    336.7,
+    409.6
+   ],
+   "text": "CC/BO",
+   "conf": 0.9599,
+   "retry": null
+  },
+  {
+   "bbox": [
+    286.5,
+    401.6,
+    300.8,
+    409.2
+   ],
+   "text": "Petrel",
+   "conf": 0.9593,
+   "retry": null
+  },
+  {
+   "bbox": [
+    215.6,
+    402.0,
+    278.1,
+    408.8
+   ],
+   "text": "2019-01-093:23 PM 3520BFC9",
+   "conf": 0.9623,
+   "retry": null
+  },
+  {
+   "bbox": [
+    461.8,
+    402.0,
+    476.1,
+    409.6
+   ],
+   "text": "0004",
+   "conf": 0.9984,
+   "retry": null
+  },
+  {
+   "bbox": [
+    447.8,
+    402.4,
+    459.4,
+    409.6
+   ],
+   "text": "3m",
+   "conf": 0.9988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    319.9,
+    408.4,
+    336.7,
+    416.8
+   ],
+   "text": "CC/80",
+   "conf": 0.9445,
+   "retry": {
+    "text": "CC/80",
+    "conf": 0.9101,
+    "first_text": "CC/80",
+    "first_conf": 0.9445,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    216.0,
+    409.2,
+    278.5,
+    415.6
+   ],
+   "text": "2020-05-301:40 PM 3520BFC9",
+   "conf": 0.9698,
+   "retry": null
+  },
+  {
+   "bbox": [
+    461.8,
+    409.2,
+    476.5,
+    416.4
+   ],
+   "text": "0022",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    286.9,
+    409.6,
+    300.0,
+    415.6
+   ],
+   "text": "Petrel",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    444.7,
+    410.0,
+    458.6,
+    416.0
+   ],
+   "text": "9.1m",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    320.3,
+    416.4,
+    336.7,
+    423.1
+   ],
+   "text": "CC/BO",
+   "conf": 0.9616,
+   "retry": null
+  },
+  {
+   "bbox": [
+    442.3,
+    416.8,
+    478.9,
+    423.5
+   ],
+   "text": "533m01022",
+   "conf": 0.989,
+   "retry": {
+    "text": "533m01022",
+    "conf": 0.989,
+    "first_text": "533m01:022",
+    "first_conf": 0.9424,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    214.0,
+    417.2,
+    277.3,
+    422.3
+   ],
+   "text": "2020-06-0111:51 AM 85206FC9",
+   "conf": 0.9307,
+   "retry": {
+    "text": "2020-06-0111:51 AM 85206FC9",
+    "conf": 0.9307,
+    "first_text": "2020-06-01 11:51 AM 85206FC9",
+    "first_conf": 0.9192,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    286.9,
+    417.2,
+    300.0,
+    422.7
+   ],
+   "text": "Petrei",
+   "conf": 0.8096,
+   "retry": {
+    "text": "Petrel",
+    "conf": 0.6978,
+    "first_text": "Petrei",
+    "first_conf": 0.8096,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    344.2,
+    417.2,
+    371.3,
+    422.7
+   ],
+   "text": "USS Oriskany",
+   "conf": 0.9677,
+   "retry": {
+    "text": "USS Oriskany",
+    "conf": 0.9677,
+    "first_text": "USS Oriskany",
+    "first_conf": 0.9475,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    321.1,
+    424.3,
+    335.9,
+    429.9
+   ],
+   "text": "CC/BO",
+   "conf": 0.9681,
+   "retry": null
+  },
+  {
+   "bbox": [
+    443.5,
+    424.7,
+    458.6,
+    430.3
+   ],
+   "text": "542m",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    462.2,
+    424.7,
+    476.1,
+    430.3
+   ],
+   "text": "01:04",
+   "conf": 0.9987,
+   "retry": null
+  },
+  {
+   "bbox": [
+    207.6,
+    469.5,
+    221.1,
+    477.0
+   ],
+   "text": "Stats",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    172.1,
+    469.9,
+    187.7,
+    476.6
+   ],
+   "text": "Graph",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    166.5,
+    478.6,
+    202.4,
+    485.4
+   ],
+   "text": "Dive number : 45",
+   "conf": 0.9692,
+   "retry": null
+  },
+  {
+   "bbox": [
+    225.9,
+    478.6,
+    264.2,
+    485.4
+   ],
+   "text": "Date: 2020-06-01",
+   "conf": 0.9686,
+   "retry": null
+  },
+  {
+   "bbox": [
+    279.3,
+    478.6,
+    314.4,
+    485.4
+   ],
+   "text": "Time : 11:51 AM",
+   "conf": 0.9632,
+   "retry": null
+  },
+  {
+   "bbox": [
+    333.5,
+    479.0,
+    373.3,
+    485.8
+   ],
+   "text": "Max Depth : 53.3m",
+   "conf": 0.9884,
+   "retry": null
+  },
+  {
+   "bbox": [
+    391.7,
+    479.0,
+    422.3,
+    485.8
+   ],
+   "text": "Model : Petrel",
+   "conf": 0.9682,
+   "retry": null
+  },
+  {
+   "bbox": [
+    442.3,
+    479.4,
+    477.7,
+    486.2
+   ],
+   "text": "Length : 1h 2min",
+   "conf": 0.9614,
+   "retry": null
+  },
+  {
+   "bbox": [
+    186.5,
+    491.4,
+    209.6,
+    498.2
+   ],
+   "text": "Tima; 10s",
+   "conf": 0.8629,
+   "retry": {
+    "text": "Timiá; 10",
+    "conf": 0.7507,
+    "first_text": "Tima; 10s",
+    "first_conf": 0.8629,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    188.1,
+    496.6,
+    228.3,
+    503.4
+   ],
+   "text": "Deco: NDL 99min",
+   "conf": 0.8888,
+   "retry": {
+    "text": "Deco: NDL99min",
+    "conf": 0.8164,
+    "first_text": "Deco: NDL 99min",
+    "first_conf": 0.8888,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    174.1,
+    497.8,
+    182.1,
+    505.0
+   ],
+   "text": "20",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    190.1,
+    501.0,
+    237.9,
+    509.0
+   ],
+   "text": "TTS:1min @+5:1min",
+   "conf": 0.9218,
+   "retry": {
+    "text": "TTS: 1@+5: 1min",
+    "conf": 0.8633,
+    "first_text": "TTS:1min @+5:1min",
+    "first_conf": 0.9218,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    162.6,
+    503.8,
+    172.1,
+    532.5
+   ],
+   "text": "DEPPTMm]",
+   "conf": 0.6681,
+   "retry": {
+    "text": "0",
+    "conf": 0.2859,
+    "first_text": "DEPPTMm]",
+    "first_conf": 0.6681,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    186.5,
+    506.6,
+    218.3,
+    513.4
+   ],
+   "text": "Depth: 2.5",
+   "conf": 0.9792,
+   "retry": null
+  },
+  {
+   "bbox": [
+    189.3,
+    511.0,
+    234.7,
+    518.6
+   ],
+   "text": "Temperature: 27.0 C",
+   "conf": 0.9362,
+   "retry": {
+    "text": "Temperature: 27.0 C",
+    "conf": 0.9064,
+    "first_text": "Temperature: 27.0 C",
+    "first_conf": 0.9362,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    173.7,
+    516.6,
+    182.5,
+    524.9
+   ],
+   "text": "40",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    190.1,
+    516.6,
+    234.7,
+    523.3
+   ],
+   "text": "Circuilt Mode:CC/BO",
+   "conf": 0.9676,
+   "retry": null
+  },
+  {
+   "bbox": [
+    190.5,
+    522.1,
+    228.7,
+    527.7
+   ],
+   "text": "Gas Switch: 19/45",
+   "conf": 0.977,
+   "retry": null
+  },
+  {
+   "bbox": [
+    173.3,
+    536.1,
+    182.5,
+    544.1
+   ],
+   "text": "60",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    172.1,
+    547.3,
+    194.4,
+    554.5
+   ],
+   "text": "00:00:00",
+   "conf": 0.9987,
+   "retry": null
+  },
+  {
+   "bbox": [
+    218.7,
+    547.7,
+    241.5,
+    554.9
+   ],
+   "text": "00:10:00",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    266.2,
+    547.7,
+    288.5,
+    554.9
+   ],
+   "text": "00:20:00",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    312.8,
+    547.7,
+    335.9,
+    554.9
+   ],
+   "text": "00:30:00",
+   "conf": 0.9937,
+   "retry": null
+  },
+  {
+   "bbox": [
+    359.8,
+    548.1,
+    382.1,
+    555.3
+   ],
+   "text": "00:40:00",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    406.8,
+    548.1,
+    429.5,
+    555.3
+   ],
+   "text": "00:50:00",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    453.4,
+    548.1,
+    476.1,
+    555.3
+   ],
+   "text": "01:00:00",
+   "conf": 0.9986,
+   "retry": null
+  },
+  {
+   "bbox": [
+    316.0,
+    554.1,
+    347.8,
+    562.1
+   ],
+   "text": "TIME [h:m:s]",
+   "conf": 0.9896,
+   "retry": null
+  },
+  {
+   "bbox": [
+    171.7,
+    565.7,
+    193.2,
+    572.8
+   ],
+   "text": "Depth",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    211.6,
+    565.7,
+    226.3,
+    572.8
+   ],
+   "text": "Deco",
+   "conf": 0.9985,
+   "retry": null
+  },
+  {
+   "bbox": [
+    246.2,
+    565.7,
+    260.6,
+    573.2
+   ],
+   "text": "Temp",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    395.2,
+    565.7,
+    407.6,
+    573.2
+   ],
+   "text": "CNS",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    324.3,
+    566.1,
+    340.7,
+    573.2
+   ],
+   "text": "Battery",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    287.3,
+    566.5,
+    304.8,
+    572.0
+   ],
+   "text": "/HeN2",
+   "conf": 0.7253,
+   "retry": {
+    "text": "He/N2",
+    "conf": 0.7234,
+    "first_text": "/HeN2",
+    "first_conf": 0.7253,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    361.4,
+    566.5,
+    375.3,
+    572.4
+   ],
+   "text": "02 mv",
+   "conf": 0.9962,
+   "retry": {
+    "text": "02 mv",
+    "conf": 0.9962,
+    "first_text": "02 mv",
+    "first_conf": 0.9067,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    427.1,
+    566.5,
+    434.7,
+    572.8
+   ],
+   "text": "GF",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    456.2,
+    566.5,
+    472.9,
+    573.2
+   ],
+   "text": "Ascent",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    161.8,
+    578.0,
+    441.9,
+    589.6
+   ],
+   "text": "Figure 4: Passenger 1's USS Oriskany Dive retrieved from his personal dive computer.",
+   "conf": 0.9911,
+   "retry": null
+  },
+  {
+   "bbox": [
+    162.2,
+    588.0,
+    246.6,
+    597.2
+   ],
+   "text": "Source: Sector Mobile IO",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.6,
+    610.8,
+    523.9,
+    626.3
+   ],
+   "text": "4.1.15. At 1210, the Master spotted Passenger 1, Passenger 2, and the deflated surface",
+   "conf": 0.9953,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    625.5,
+    376.9,
+    639.5
+   ],
+   "text": "buoy lying in the water and made way to their position.",
+   "conf": 0.9876,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    651.1,
+    526.7,
+    665.9
+   ],
+   "text": "4.1.16. At 1212, the Master retrieved both Passengers from the water. Passenger 1 was",
+   "conf": 0.9943,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.2,
+    665.1,
+    510.8,
+    680.2
+   ],
+   "text": "unresponsive and Passenger 2 exhibited symptoms of decompression sickness. The",
+   "conf": 0.9948,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    678.6,
+    476.5,
+    694.2
+   ],
+   "text": "deckhand and other passengers performed CPR on Passenger 1. Passenger 3",
+   "conf": 0.9989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    693.0,
+    287.7,
+    707.0
+   ],
+   "text": "administered oxygen to Passenger 2.",
+   "conf": 0.9965,
+   "retry": null
+  },
+  {
+   "bbox": [
+    298.4,
+    736.5,
+    309.6,
+    750.5
+   ],
+   "text": "5",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

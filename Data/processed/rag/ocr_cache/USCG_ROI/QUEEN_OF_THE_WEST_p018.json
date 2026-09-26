@@ -1,0 +1,671 @@
+{
+ "key": {
+  "report_id": "QUEEN_OF_THE_WEST",
+  "filename": "QUEEN_OF_THE_WEST_4405289_ROI_Redacted.pdf",
+  "sha256": "02f978c36fcbd8ef00493738d66ee13a4079eab5832883de67ba1cacc388cba3",
+  "page_number": 18,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2542,
+  3292
+ ],
+ "lines": [
+  {
+   "bbox": [
+    506.8,
+    28.7,
+    539.0,
+    41.4
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.3,
+    41.0,
+    475.0,
+    53.4
+   ],
+   "text": "LOSS OF LIFE FOLLOWING MAN OVERBOARD FROM P/V QUEEN OF THE WEST",
+   "conf": 0.9977,
+   "retry": null
+  },
+  {
+   "bbox": [
+    492.5,
+    41.4,
+    538.6,
+    55.0
+   ],
+   "text": "06May13",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    140.2,
+    67.7,
+    528.3,
+    79.6
+   ],
+   "text": "been formally enforced. Since no document existed to support the captain's claims that",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.0,
+    79.2,
+    532.2,
+    92.8
+   ],
+   "text": "personnel should not be loitering on the stern, enforcement of the policy could not easily",
+   "conf": 0.9853,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.4,
+    92.0,
+    494.9,
+    103.9
+   ],
+   "text": "be made. Furthermore, the ineffective signage and nonexistent physical barriers",
+   "conf": 0.9889,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.8,
+    103.5,
+    490.1,
+    115.5
+   ],
+   "text": "complicated the captain's ability to enforce the policy. As a result, some of the",
+   "conf": 0.9908,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.8,
+    116.3,
+    520.7,
+    128.2
+   ],
+   "text": "crewmembers knew they shouldn't be on the stern, some knew the policy wouldn't be",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.8,
+    128.2,
+    529.5,
+    140.2
+   ],
+   "text": "enforced if they were, and some didn't even know the policy existed. No crewmembers",
+   "conf": 0.9957,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.6,
+    139.4,
+    502.8,
+    152.9
+   ],
+   "text": "interviewed could definitively tell investigators if they were “authorized\" persons.",
+   "conf": 0.9887,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.6,
+    163.3,
+    498.1,
+    177.6
+   ],
+   "text": "c) Workplace Factors: There are four workplace factors that involve P/V QUEEN OF THE",
+   "conf": 0.9967,
+   "retry": null
+  },
+  {
+   "bbox": [
+    104.5,
+    176.4,
+    252.2,
+    188.4
+   ],
+   "text": "WEST's policies and procedures.",
+   "conf": 0.9947,
+   "retry": null
+  },
+  {
+   "bbox": [
+    120.0,
+    198.7,
+    506.8,
+    215.0
+   ],
+   "text": "1) Drills and Training: American Cruise Lines, Inc. provided inadequate training for",
+   "conf": 0.9807,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.2,
+    212.7,
+    525.9,
+    226.2
+   ],
+   "text": "crewmembers. Though the deckhands were well-trained in the ability to recover a man",
+   "conf": 0.9945,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.2,
+    225.4,
+    521.1,
+    238.9
+   ],
+   "text": "overboard and launch the rescue boat in a timely fashion, the galley staff and stewards",
+   "conf": 0.9939,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.6,
+    238.1,
+    498.5,
+    252.1
+   ],
+   "text": "(40% of the crew) had never participated in a man overboard drill beyond simply",
+   "conf": 0.9965,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.8,
+    250.9,
+    520.3,
+    264.4
+   ],
+   "text": "mustering at the alarm. Furthermore, scheduled man overboard training was provided",
+   "conf": 0.9977,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.6,
+    264.0,
+    494.5,
+    276.0
+   ],
+   "text": "only for deckhands – galley staff and stewards were not required to attend. As a",
+   "conf": 0.9895,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.6,
+    276.8,
+    516.7,
+    288.7
+   ],
+   "text": "consequence, Mr. Staples (a member of the galley staff) had never been involved in a",
+   "conf": 0.9944,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.2,
+    289.5,
+    317.4,
+    301.5
+   ],
+   "text": "man overboard drill, as was true for Mr.",
+   "conf": 0.9922,
+   "retry": null
+  },
+  {
+   "bbox": [
+    373.4,
+    289.9,
+    524.3,
+    301.9
+   ],
+   "text": "Both gentlemen did not know the",
+   "conf": 0.9778,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.6,
+    302.7,
+    529.5,
+    314.6
+   ],
+   "text": "procedures to take, or how to respond, following a fall overboard. Critical knowledge is",
+   "conf": 0.9893,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.8,
+    314.6,
+    513.6,
+    327.7
+   ],
+   "text": "passed during training and drill evolutions: This knowledge is vital for all personnel",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.2,
+    327.7,
+    522.7,
+    339.7
+   ],
+   "text": "working full-time on a vessel, regardless of their position onboard. All crew should be",
+   "conf": 0.99,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.2,
+    340.5,
+    519.9,
+    352.4
+   ],
+   "text": "trained to throw life buoys, alert other crew by shouting, and point/spot for rescuers to",
+   "conf": 0.9946,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.2,
+    352.8,
+    262.9,
+    364.8
+   ],
+   "text": "find the person in the water.",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    156.5,
+    365.6,
+    533.8,
+    377.5
+   ],
+   "text": "Man overboard training should also include information for how to survive a fall into",
+   "conf": 0.989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.8,
+    377.5,
+    510.4,
+    391.1
+   ],
+   "text": "cold water. When Mr. Staples fell overboard, a large pool of crewmembers was not",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.2,
+    391.1,
+    504.0,
+    403.0
+   ],
+   "text": "available to assist with the rescue efforts because they had never been trained. Mr.",
+   "conf": 0.9968,
+   "retry": null
+  },
+  {
+   "bbox": [
+    360.2,
+    403.0,
+    491.7,
+    415.7
+   ],
+   "text": "verbal directions on the stern",
+   "conf": 0.9937,
+   "retry": null
+  },
+  {
+   "bbox": [
+    170.0,
+    403.4,
+    208.9,
+    415.7
+   ],
+   "text": "and Mr.",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    246.7,
+    403.4,
+    310.6,
+    416.5
+   ],
+   "text": "provided Mr.",
+   "conf": 0.9998,
+   "retry": {
+    "text": "provided Mr.",
+    "conf": 0.9998,
+    "first_text": "provided Mr.|",
+    "first_conf": 0.9447,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    138.2,
+    416.5,
+    506.8,
+    428.5
+   ],
+   "text": "immediately after Mr. Staples fell overboard, which resulted in critical seconds lost",
+   "conf": 0.9969,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.6,
+    428.9,
+    245.9,
+    440.8
+   ],
+   "text": "during the rescue effort.",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    156.9,
+    441.6,
+    515.2,
+    453.6
+   ],
+   "text": "On 10 May 2011, during the vessel's last annual inspection, Coast Guard Marine",
+   "conf": 0.9932,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.4,
+    453.6,
+    524.3,
+    467.1
+   ],
+   "text": "Inspectors drilled the crew on Man Overboard procedures. But according to inspection",
+   "conf": 0.9887,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.0,
+    466.3,
+    534.2,
+    479.9
+   ],
+   "text": "records, Coast Guard Marine Inspectors did not exercise the vessel's crew in drills during",
+   "conf": 0.9953,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.8,
+    479.9,
+    509.2,
+    491.8
+   ],
+   "text": "its Certificate of Inspection examination on 13 April 2012. It is unclear whether the",
+   "conf": 0.9858,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.8,
+    492.6,
+    508.4,
+    504.6
+   ],
+   "text": "deckhands who were onboard when Mr. Staples fell overboard were part of the drill",
+   "conf": 0.9905,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.8,
+    505.0,
+    347.9,
+    518.1
+   ],
+   "text": "conducted in 2011, but it is not likely. Captain",
+   "conf": 0.9882,
+   "retry": null
+  },
+  {
+   "bbox": [
+    394.8,
+    505.3,
+    522.3,
+    517.3
+   ],
+   "text": "stated that many of the crew",
+   "conf": 0.9846,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.8,
+    518.1,
+    513.6,
+    530.0
+   ],
+   "text": "are temporary hires, and that they often sign on just prior to the peak summer season.",
+   "conf": 0.9915,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.0,
+    529.6,
+    527.1,
+    543.2
+   ],
+   "text": "Mr. Staples signed on to the vessel on 28 June 2012, so he had never been observed in a",
+   "conf": 0.9945,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.0,
+    542.4,
+    519.9,
+    555.9
+   ],
+   "text": "drill by the Coast Guard. Coast Guard Marine Inspectors provide vital experience and",
+   "conf": 0.9948,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.8,
+    556.3,
+    525.1,
+    568.3
+   ],
+   "text": "training to inspected passenger vessel crewmen. Inspectors should make every effort to",
+   "conf": 0.9947,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.8,
+    568.7,
+    504.0,
+    580.6
+   ],
+   "text": "visit the P/V QUEEN OF THE WEST after the temporary crew has been hired and",
+   "conf": 0.9911,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.4,
+    581.0,
+    344.8,
+    593.4
+   ],
+   "text": "trained, so that accurate drills can be observed.",
+   "conf": 0.9858,
+   "retry": null
+  },
+  {
+   "bbox": [
+    118.0,
+    605.7,
+    531.4,
+    620.0
+   ],
+   "text": "2) Enforcement of Policies. Existing American Cruise Lines, Inc. policies are insufficiently",
+   "conf": 0.9923,
+   "retry": null
+  },
+  {
+   "bbox": [
+    136.6,
+    618.4,
+    393.6,
+    632.0
+   ],
+   "text": "enforced on board P/V QUEEN OF THE WEST. Captain",
+   "conf": 0.9909,
+   "retry": null
+  },
+  {
+   "bbox": [
+    440.5,
+    619.6,
+    525.1,
+    631.6
+   ],
+   "text": "stated that she and",
+   "conf": 0.9761,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.4,
+    632.4,
+    500.1,
+    644.3
+   ],
+   "text": "the Hotel Manager constantly remind crewmembers to keep clear of the stern, and",
+   "conf": 0.9976,
+   "retry": null
+  },
+  {
+   "bbox": [
+    136.6,
+    643.9,
+    492.1,
+    657.5
+   ],
+   "text": "constantly reinforce that the stern is not a safe place to congregate or loiter. She",
+   "conf": 0.994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    136.6,
+    656.3,
+    509.6,
+    671.0
+   ],
+   "text": "expressed difficulty enforcing the rule and often had to turn a blind eye to the policy",
+   "conf": 0.9893,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.0,
+    669.4,
+    511.2,
+    683.0
+   ],
+   "text": "because the crew needed someplace on the vessel to smoke. During the initial Coast",
+   "conf": 0.9954,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.4,
+    682.6,
+    530.6,
+    694.9
+   ],
+   "text": "Guard visit immediately following the incident, investigators encountered three members",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    137.0,
+    695.7,
+    509.6,
+    707.6
+   ],
+   "text": "of the crew smoking and loitering on the stern when they arrived onboard the vessel.",
+   "conf": 0.9975,
+   "retry": null
+  },
+  {
+   "bbox": [
+    291.5,
+    738.7,
+    307.0,
+    752.6
+   ],
+   "text": "13",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

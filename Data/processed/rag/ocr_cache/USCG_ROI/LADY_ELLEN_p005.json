@@ -1,0 +1,533 @@
+{
+ "key": {
+  "report_id": "LADY_ELLEN",
+  "filename": "LADY_ELLEN_7965695_ROI_Redacted.pdf",
+  "sha256": "2f2c6a50d58addb5fd93c98b2144a893d2416e1a501617e9cbc8e33ee7fe0a98",
+  "page_number": 5,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    70.9,
+    38.7,
+    159.8,
+    51.9
+   ],
+   "text": "U.S. Department of",
+   "conf": 0.9875,
+   "retry": null
+  },
+  {
+   "bbox": [
+    249.8,
+    40.3,
+    296.8,
+    51.9
+   ],
+   "text": "Commander",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    393.7,
+    40.3,
+    455.8,
+    50.7
+   ],
+   "text": "431 Crawford St.",
+   "conf": 0.9946,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    49.1,
+    159.0,
+    61.9
+   ],
+   "text": "Homeland Security",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    394.1,
+    49.5,
+    475.7,
+    58.7
+   ],
+   "text": "Portsmouth, VA 23704",
+   "conf": 0.9864,
+   "retry": null
+  },
+  {
+   "bbox": [
+    249.8,
+    49.9,
+    347.4,
+    61.1
+   ],
+   "text": "United States Coast Guard",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    393.7,
+    56.7,
+    459.8,
+    68.3
+   ],
+   "text": "Staff Symbol: (dp)",
+   "conf": 0.9979,
+   "retry": null
+  },
+  {
+   "bbox": [
+    249.8,
+    59.1,
+    295.6,
+    70.7
+   ],
+   "text": "East District",
+   "conf": 0.998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    66.7,
+    142.2,
+    79.4
+   ],
+   "text": "United States",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.7,
+    77.8,
+    136.7,
+    88.6
+   ],
+   "text": "Coast Guard",
+   "conf": 0.9986,
+   "retry": null
+  },
+  {
+   "bbox": [
+    392.9,
+    89.0,
+    427.1,
+    103.0
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    392.5,
+    101.4,
+    490.1,
+    115.4
+   ],
+   "text": "November 10, 2025",
+   "conf": 0.9707,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.3,
+    139.7,
+    512.0,
+    155.3
+   ],
+   "text": "COMMERCIAL FISHING VESSEL LADY ALLEN (O.N. 625371) CREWMEMBER",
+   "conf": 0.9923,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.9,
+    153.7,
+    523.1,
+    168.9
+   ],
+   "text": "LOSS OF LIFE IN TANGIER SOUND NEAR DEAL ISLAND, MD ON JULY 23, 2024.",
+   "conf": 0.9904,
+   "retry": null
+  },
+  {
+   "bbox": [
+    100.4,
+    195.6,
+    513.6,
+    210.0
+   ],
+   "text": "ENDORSEMENT BY THE COMMANDER, COAST GUARD EAST DISTRICT",
+   "conf": 0.9989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.5,
+    236.3,
+    502.8,
+    253.1
+   ],
+   "text": "The record and the report of the investigation convened for the subject casualty have been",
+   "conf": 0.9948,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.3,
+    250.3,
+    515.6,
+    266.7
+   ],
+   "text": "reviewed. The record and the report, including the findings of fact, analysis, conclusions, and",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.9,
+    264.7,
+    515.6,
+    280.6
+   ],
+   "text": "recommendations are approved. It is recommended that this marine casualty investigation be",
+   "conf": 0.9947,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.7,
+    278.2,
+    104.4,
+    292.2
+   ],
+   "text": "closed.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    183.3,
+    307.4,
+    430.3,
+    319.8
+   ],
+   "text": "ENDORSEMENT ON RECOMMENDATIONS",
+   "conf": 0.9913,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.7,
+    333.7,
+    517.2,
+    349.3
+   ],
+   "text": "Safety Recommendation 8.1.1: Recommend the Commandant's Office of CFV Compliance",
+   "conf": 0.993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.1,
+    348.1,
+    494.5,
+    362.9
+   ],
+   "text": "(CG-CVC-3) amend CFVS compliance examinations to include a mandate for all CFVs,",
+   "conf": 0.982,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.9,
+    361.7,
+    518.4,
+    377.6
+   ],
+   "text": "regardless of operating area. 46 USC Subchapter 4502(f) requires a dockside examination for",
+   "conf": 0.9873,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.7,
+    375.6,
+    518.8,
+    390.4
+   ],
+   "text": "CFVs which operate beyond three nautical miles from the territorial-sea baseline at least once",
+   "conf": 0.9929,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.9,
+    389.2,
+    530.3,
+    405.2
+   ],
+   "text": "every five years. The Coast Guard advises safety examinations to be completed every two years",
+   "conf": 0.9952,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.5,
+    402.8,
+    520.0,
+    419.2
+   ],
+   "text": "to maintain currency of the CFVS compliance decals. CFVS examinations include a thorough",
+   "conf": 0.9939,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.9,
+    417.2,
+    496.1,
+    433.1
+   ],
+   "text": "check of applicable safety equipment and procedures required for each vessel, indicating",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.5,
+    431.1,
+    517.2,
+    446.7
+   ],
+   "text": "compliance with 46 CFR Subchapter C requirements. Amending this requirement to mandate",
+   "conf": 0.9931,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.9,
+    445.1,
+    533.9,
+    459.9
+   ],
+   "text": "safety examinations for all documented CFVs would significantly bolster safety standards across",
+   "conf": 0.9972,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.9,
+    458.3,
+    520.4,
+    474.2
+   ],
+   "text": "the fishing fleet, dramatically reducing the risk of marine casualties and preventing the loss of",
+   "conf": 0.994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.1,
+    472.2,
+    89.6,
+    485.8
+   ],
+   "text": "life.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.9,
+    500.2,
+    508.0,
+    515.4
+   ],
+   "text": "Endorsement: Partially Concur – While I agree that expanding the scope of mandatory",
+   "conf": 0.9723,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.9,
+    514.2,
+    517.6,
+    528.9
+   ],
+   "text": "safety examinations to include all documented Commercial Fishing Vessels (CFV) would",
+   "conf": 0.9963,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.9,
+    527.7,
+    488.5,
+    542.9
+   ],
+   "text": "significantly enhance safety standards across the industry, reduce the risk of marine",
+   "conf": 0.9978,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.9,
+    542.1,
+    525.1,
+    556.5
+   ],
+   "text": "casualties, and help prevent the loss of life, I believe further analysis is needed to assess the",
+   "conf": 0.9863,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.1,
+    555.3,
+    441.1,
+    570.8
+   ],
+   "text": "potential operational, resource, and economic implications of this change.",
+   "conf": 0.9987,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.9,
+    569.6,
+    505.6,
+    584.0
+   ],
+   "text": "Specifically, the impact on Coast Guard personnel and the ability to effectively enforce",
+   "conf": 0.9957,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.1,
+    582.8,
+    516.4,
+    598.4
+   ],
+   "text": "compliance across a larger pool of vessels should be carefully evaluated. Additionally, an",
+   "conf": 0.9958,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.5,
+    597.2,
+    500.8,
+    611.6
+   ],
+   "text": "economic study should be conducted to assess how this mandate might affect the CFV",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.1,
+    610.8,
+    502.8,
+    626.3
+   ],
+   "text": "industry, including potential costs to vessel operators, impacts on productivity, and the",
+   "conf": 0.9977,
+   "retry": null
+  },
+  {
+   "bbox": [
+    83.7,
+    623.9,
+    528.7,
+    640.3
+   ],
+   "text": "financial feasibility of compliance for smaller operators. I recommend conducting a detailed",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    83.7,
+    637.9,
+    504.4,
+    653.9
+   ],
+   "text": "feasibility study, including an economic impact analysis, to address these concerns and",
+   "conf": 0.9973,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.1,
+    652.3,
+    518.4,
+    667.1
+   ],
+   "text": "ensure the proposed amendment can be effectively implemented without undue burden on",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    83.7,
+    665.9,
+    488.9,
+    681.4
+   ],
+   "text": "industry o compromising the Coast Guard's ability to fulfill other critical missions.",
+   "conf": 0.9884,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.1,
+    707.0,
+    515.2,
+    722.1
+   ],
+   "text": "Safety Recommendation 8.1.2: Recommend the Commandant's Office of CFV Compliance",
+   "conf": 0.9972,
+   "retry": null
+  }
+ ]
+}

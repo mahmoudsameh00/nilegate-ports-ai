@@ -1,0 +1,357 @@
+{
+ "key": {
+  "report_id": "CUYAHOGA",
+  "filename": "CUYAHOGA_7881082_ROI_Redacted.pdf",
+  "sha256": "c518b7d648f90ab65608426f5a39cb32667954bc1cb6890867dce47e6c56fa0a",
+  "page_number": 5,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2484,
+  3509
+ ],
+ "lines": [
+  {
+   "bbox": [
+    67.7,
+    56.0,
+    525.0,
+    71.3
+   ],
+   "text": "The U.S. Department of Labor Mine Safety and Health Administration (MSHA) has long been",
+   "conf": 0.9946,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.3,
+    69.6,
+    514.0,
+    85.3
+   ],
+   "text": "aware of the increased risk and lethality of belts that are not fire-resistant. MSHA developed",
+   "conf": 0.9912,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.3,
+    84.0,
+    506.0,
+    99.3
+   ],
+   "text": "standards to address these concerns, requiring the use of fire-resistant belts proven through",
+   "conf": 0.9933,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.3,
+    98.1,
+    508.1,
+    112.9
+   ],
+   "text": "approved tests. The recurrence of conveyor belt fire casualties, and the significant financial",
+   "conf": 0.9935,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.3,
+    111.6,
+    482.7,
+    126.5
+   ],
+   "text": "losses in those cases indicate a need for further evaluation of regulatory standards and",
+   "conf": 0.9941,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.9,
+    125.2,
+    506.4,
+    140.5
+   ],
+   "text": "consideration of requirements similar to MSHA conveyor belt fire resistance requirements.",
+   "conf": 0.9864,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.7,
+    151.1,
+    526.3,
+    166.0
+   ],
+   "text": "Endorsement: I CONCUR with this recommendation. This incident further demonstrates that",
+   "conf": 0.9968,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.3,
+    165.1,
+    511.9,
+    180.0
+   ],
+   "text": "conveyor belts are a primary vector for fire spread, regardless of the initial cause. Minimum",
+   "conf": 0.9974,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.9,
+    179.1,
+    538.2,
+    194.0
+   ],
+   "text": "standards for the fire-resistant properties of conveyor belts should be established. The nearly four",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.3,
+    192.7,
+    521.2,
+    208.0
+   ],
+   "text": "dozen U.S. flagged self-unloading bulk carriers on the Great Lakes, and others in U.S. waters,",
+   "conf": 0.9896,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.9,
+    206.7,
+    534.8,
+    221.6
+   ],
+   "text": "will continue to present a high fire risk without adequate regulations for shipboard conveyor belt",
+   "conf": 0.9921,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.9,
+    221.6,
+    111.8,
+    234.7
+   ],
+   "text": "systems.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.2,
+    245.8,
+    494.1,
+    261.5
+   ],
+   "text": "Administrative Recommendation 1. Recommend Sector Eastern Great Lakes formally",
+   "conf": 0.9922,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.9,
+    260.2,
+    528.8,
+    275.5
+   ],
+   "text": "recognize the Ashtabula Fire Department for their rapid response to the fire onboard Cuyahoga.",
+   "conf": 0.9975,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.3,
+    273.8,
+    536.9,
+    289.1
+   ],
+   "text": "The Ashtabula Fire Departments swift actions limited the spread of fire and quickly extinguished",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.3,
+    287.8,
+    531.4,
+    303.1
+   ],
+   "text": "the fire with no reported injuries. Without their efforts, the Marine Transportation System could",
+   "conf": 0.9926,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.9,
+    301.4,
+    442.0,
+    316.7
+   ],
+   "text": "have suffered a tremendous loss to shore side infrastructure and nearby ships.",
+   "conf": 0.9965,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.7,
+    327.3,
+    528.4,
+    342.1
+   ],
+   "text": "Endorsement: I CONCUR with this recommendation. The Ashtabula Fire Department's swift",
+   "conf": 0.9931,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.3,
+    341.7,
+    520.4,
+    356.6
+   ],
+   "text": "response to this fire mitigated the impacts to the port, personnel, the marine environment, and",
+   "conf": 0.9945,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.3,
+    355.3,
+    501.3,
+    370.1
+   ],
+   "text": "other vessels. Recognizing their vital contribution is not only appropriate but essential for",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.9,
+    369.3,
+    499.2,
+    384.6
+   ],
+   "text": "reinforcing our critical inter-agency partnerships. I fully endorse the initiative to formally",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.7,
+    383.3,
+    240.5,
+    396.9
+   ],
+   "text": "commend their courageous actions.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.2,
+    410.5,
+    451.8,
+    425.3
+   ],
+   "text": "Administrative Recommendation 2. Recommend this investigation be closed.",
+   "conf": 0.9951,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.6,
+    436.8,
+    336.2,
+    450.4
+   ],
+   "text": "Endorsement:I CONCUR with this recommendation.",
+   "conf": 0.9948,
+   "retry": null
+  },
+  {
+   "bbox": [
+    284.1,
+    506.4,
+    370.5,
+    519.1
+   ],
+   "text": "K. A. BROYLES",
+   "conf": 0.9813,
+   "retry": null
+  },
+  {
+   "bbox": [
+    284.5,
+    520.8,
+    414.9,
+    533.6
+   ],
+   "text": "Captain, U.S. Coast Guard",
+   "conf": 0.9929,
+   "retry": null
+  },
+  {
+   "bbox": [
+    284.5,
+    534.4,
+    415.8,
+    547.1
+   ],
+   "text": "Chief, Prevention Division",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    284.1,
+    548.4,
+    349.3,
+    561.6
+   ],
+   "text": "By Direction",
+   "conf": 0.9968,
+   "retry": null
+  },
+  {
+   "bbox": [
+    298.5,
+    778.9,
+    309.1,
+    792.5
+   ],
+   "text": "2",
+   "conf": 0.9997,
+   "retry": null
+  }
+ ]
+}

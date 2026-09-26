@@ -1,0 +1,539 @@
+{
+ "key": {
+  "report_id": "QUEEN_OF_THE_WEST",
+  "filename": "QUEEN_OF_THE_WEST_4405289_ROI_Redacted.pdf",
+  "sha256": "02f978c36fcbd8ef00493738d66ee13a4079eab5832883de67ba1cacc388cba3",
+  "page_number": 21,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3292
+ ],
+ "lines": [
+  {
+   "bbox": [
+    508.4,
+    29.1,
+    539.9,
+    41.8
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    493.3,
+    41.4,
+    539.1,
+    55.0
+   ],
+   "text": "06May13",
+   "conf": 0.9574,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.7,
+    41.8,
+    476.1,
+    53.4
+   ],
+   "text": "LOSS OF LIFE FOLLOWING MAN OVERBOARD FROM P/V QUEEN OF THE WEST",
+   "conf": 0.9853,
+   "retry": {
+    "text": "LOSS OF LIFE FOLLOWING MAN OVERBOARD FROM P/V QUEEN OF THE WEST",
+    "conf": 0.9853,
+    "first_text": "TLO           ST",
+    "first_conf": 0.6607,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    122.7,
+    67.3,
+    210.4,
+    80.8
+   ],
+   "text": "2) Life Ring: Mr.",
+   "conf": 0.9806,
+   "retry": null
+  },
+  {
+   "bbox": [
+    241.9,
+    67.7,
+    498.0,
+    79.6
+   ],
+   "text": "also ran past an empty life ring bracket on his way to find",
+   "conf": 0.9858,
+   "retry": null
+  },
+  {
+   "bbox": [
+    141.4,
+    80.0,
+    537.9,
+    92.0
+   ],
+   "text": "something to throw to Mr. Staples. He was not aware of an empty life ring bracket on the",
+   "conf": 0.9935,
+   "retry": null
+  },
+  {
+   "bbox": [
+    141.0,
+    92.0,
+    537.1,
+    103.9
+   ],
+   "text": "main deck becaușe he signed on to the vessel after the life ring had already been removed",
+   "conf": 0.9777,
+   "retry": null
+  },
+  {
+   "bbox": [
+    141.0,
+    103.1,
+    524.3,
+    116.7
+   ],
+   "text": "due to deterioration. The missing life ring had been condemned for multiple cracks by",
+   "conf": 0.9907,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.9,
+    115.1,
+    161.0,
+    128.6
+   ],
+   "text": "Mr.",
+   "conf": 0.9962,
+   "retry": null
+  },
+  {
+   "bbox": [
+    236.3,
+    116.3,
+    529.1,
+    128.2
+   ],
+   "text": "during an inspection which occurred in the same timeframe as the",
+   "conf": 0.9936,
+   "retry": null
+  },
+  {
+   "bbox": [
+    140.2,
+    127.4,
+    529.1,
+    141.0
+   ],
+   "text": "cosmetic paddlewheel installation. The inspector noted the deficiency with the life ring",
+   "conf": 0.9937,
+   "retry": null
+  },
+  {
+   "bbox": [
+    141.4,
+    140.2,
+    498.0,
+    152.1
+   ],
+   "text": "(as well as several other lesser deficiencies on the other life rings) to the vessel's",
+   "conf": 0.9927,
+   "retry": null
+  },
+  {
+   "bbox": [
+    298.8,
+    151.3,
+    531.9,
+    164.9
+   ],
+   "text": "and advised him to repair the life rings. Despite the",
+   "conf": 0.997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    140.2,
+    152.1,
+    227.1,
+    165.3
+   ],
+   "text": "representative, Mr.",
+   "conf": 0.9772,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.5,
+    162.9,
+    521.2,
+    177.6
+   ],
+   "text": "missing life ring, the P/V QUEEN OF THE WEST was still well-within the operating",
+   "conf": 0.9917,
+   "retry": null
+  },
+  {
+   "bbox": [
+    140.2,
+    175.6,
+    534.3,
+    189.2
+   ],
+   "text": "limitations of its Certificate of Inspection, which only required three life rings. Since the",
+   "conf": 0.9913,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.9,
+    187.6,
+    523.5,
+    201.5
+   ],
+   "text": "vessel had a total of four other functional life rings onboard, and was already repairing",
+   "conf": 0.9974,
+   "retry": null
+  },
+  {
+   "bbox": [
+    140.6,
+    200.7,
+    519.6,
+    212.7
+   ],
+   "text": "the other life rings, a requirement for a new life ring was not issued to the vessel. Mr.",
+   "conf": 0.9884,
+   "retry": null
+  },
+  {
+   "bbox": [
+    185.7,
+    212.3,
+    488.1,
+    224.2
+   ],
+   "text": "disposed of the condemned life ring, as it was no longer serviceable.",
+   "conf": 0.9907,
+   "retry": null
+  },
+  {
+   "bbox": [
+    121.9,
+    236.1,
+    522.4,
+    249.3
+   ],
+   "text": "3) Life Jacket: Mr. Staples was not wearing a life jacket at the time of his fall overboard.",
+   "conf": 0.9968,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.9,
+    248.9,
+    534.3,
+    260.8
+   ],
+   "text": "Had he been wearing a Coast Guard approved life jacket, he may have remained afloat to",
+   "conf": 0.992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    140.2,
+    260.8,
+    219.9,
+    272.8
+   ],
+   "text": "be safely rescued.",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.7,
+    284.3,
+    516.4,
+    296.7
+   ],
+   "text": "4. There is no evidence of misconduct, inattention to duty, or negligent or willful violation of law or",
+   "conf": 0.9981,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.1,
+    297.1,
+    527.1,
+    309.0
+   ],
+   "text": "regulation on the part of American Cruise Lines, Inc., licensed or certificated personnel, or Coast Guard",
+   "conf": 0.9975,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.3,
+    308.6,
+    116.3,
+    322.2
+   ],
+   "text": "personnel.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.3,
+    331.7,
+    523.1,
+    345.7
+   ],
+   "text": "5. There is no evidence of failure to properly respond to this situation by American Cruise Lines, Inc.,",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.1,
+    344.9,
+    485.3,
+    356.8
+   ],
+   "text": "the crew of the Passenger Vessel QUEEN OF THE WEST, the U. S. Coast Guard or any other",
+   "conf": 0.9948,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.7,
+    356.8,
+    157.0,
+    370.0
+   ],
+   "text": "responsible agency.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.3,
+    379.9,
+    536.7,
+    393.8
+   ],
+   "text": "6. There is no evidence that any personnel of the Coast Guard or of any other agency or any other person",
+   "conf": 0.9969,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.5,
+    393.8,
+    189.7,
+    404.6
+   ],
+   "text": "contributed to this casualty.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.1,
+    441.2,
+    159.8,
+    453.2
+   ],
+   "text": "Recommendations:",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.5,
+    464.3,
+    98.4,
+    478.7
+   ],
+   "text": "Safety",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.7,
+    489.0,
+    534.7,
+    501.8
+   ],
+   "text": "1. Recommend that the Commandant of the Coast Guard consider requiring life rings with lights on both",
+   "conf": 0.9949,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.7,
+    501.0,
+    472.5,
+    513.3
+   ],
+   "text": "sides of the main deck and searchlights in rescue boats as part of Subchapter K Regulations.",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.3,
+    525.7,
+    518.4,
+    537.2
+   ],
+   "text": "2. It is recommended that American Cruise Lines, Inc. test random crew members in Man Overboard",
+   "conf": 0.9931,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.3,
+    537.2,
+    529.9,
+    549.9
+   ],
+   "text": "drills annually. Coast Guard Marine Inspectors should plan to conduct a scheduled drill with the crew at",
+   "conf": 0.9899,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.3,
+    549.2,
+    518.0,
+    561.5
+   ],
+   "text": "the earliest convenience to the vessel after all temporary summer employees and deckhands have been",
+   "conf": 0.9971,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.3,
+    561.5,
+    349.0,
+    573.0
+   ],
+   "text": "hired and have had a chance to become familiar with the vessel.",
+   "conf": 0.995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.5,
+    584.6,
+    529.1,
+    598.5
+   ],
+   "text": "3. It is recommended that American Cruise Lines, Inc. develop an inclusive safety policy with regard to",
+   "conf": 0.9959,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.7,
+    597.7,
+    506.0,
+    609.7
+   ],
+   "text": "all crew wearing life jackets while working in the vicinity of the stern. American Cruise Lines, Inc.",
+   "conf": 0.9939,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.7,
+    610.1,
+    516.0,
+    622.0
+   ],
+   "text": "should consider required personal protective equipment, safety practices, buddy system, and/or tie-off",
+   "conf": 0.9985,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.9,
+    620.8,
+    217.5,
+    634.8
+   ],
+   "text": "system in developing their policy.",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.5,
+    644.7,
+    514.0,
+    658.7
+   ],
+   "text": "4. It is recommended that American Cruise Lines, Inc. assign all crew members a duty during a man",
+   "conf": 0.9976,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.3,
+    657.9,
+    343.5,
+    669.4
+   ],
+   "text": "overboard event and document these duties on the Station Bill.",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    291.7,
+    738.3,
+    308.8,
+    753.0
+   ],
+   "text": "16",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

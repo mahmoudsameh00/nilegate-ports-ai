@@ -1,0 +1,225 @@
+{
+ "key": {
+  "report_id": "LITTLE_G",
+  "filename": "LITTLE_G_7717011_ROI_Redacted.pdf",
+  "sha256": "9bfb88866d75e684135d09cf0c07f8079087bcdf03236273b78edc88199915ac",
+  "page_number": 10,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    110.8,
+    49.9,
+    535.9,
+    64.7
+   ],
+   "text": "4.1.7. Two hours later, at 0600, the Master's alarm went off, awakening the entire crew.",
+   "conf": 0.9936,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    64.3,
+    506.4,
+    78.6
+   ],
+   "text": "Upon awakening, the crew discovered the change in vessel positioning and began",
+   "conf": 0.9954,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    78.2,
+    531.1,
+    91.4
+   ],
+   "text": "discussing how to best address the situation. The mood was calm at this juncture, with",
+   "conf": 0.9893,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    91.8,
+    431.9,
+    106.2
+   ],
+   "text": "the Master even taking the time to brew and drink a cup of coffee.",
+   "conf": 0.9963,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    117.8,
+    519.2,
+    130.9
+   ],
+   "text": "4.1.8. Eventually, the Master ordered Deckhand 1 to add 500 gallons of diesel to the",
+   "conf": 0.996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    130.5,
+    484.1,
+    145.7
+   ],
+   "text": "LITTLE G.While Deckhand 1 was adding fuel, the Master proceeded to the",
+   "conf": 0.9944,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    144.5,
+    512.8,
+    158.9
+   ],
+   "text": "wheelhouse. Upon completion of this evolution, Deckhand 1 returned to the barge.",
+   "conf": 0.99,
+   "retry": null
+  },
+  {
+   "bbox": [
+    159.4,
+    378.8,
+    410.4,
+    389.2
+   ],
+   "text": "Figure 7. Wheelhouse of the LITTLE G post salvage at MC Marine Shipyard",
+   "conf": 0.9949,
+   "retry": null
+  },
+  {
+   "bbox": [
+    158.6,
+    388.0,
+    268.9,
+    398.4
+   ],
+   "text": "(June 30, 2023/Sector Mobile IO)",
+   "conf": 0.9967,
+   "retry": null
+  },
+  {
+   "bbox": [
+    119.5,
+    410.0,
+    536.3,
+    424.3
+   ],
+   "text": "4.1.9.The Master then positioned the LITTLE G to push up against the starboard side",
+   "conf": 0.9905,
+   "retry": null
+  },
+  {
+   "bbox": [
+    119.9,
+    423.5,
+    521.2,
+    438.3
+   ],
+   "text": "(south side) of the perpendicular barge, with the intent of pushing it northward in a",
+   "conf": 0.992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    120.3,
+    438.3,
+    398.8,
+    450.3
+   ],
+   "text": "clockwise rotation back against the east bank of the river.",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    167.3,
+    490.2,
+    175.3,
+    496.6
+   ],
+   "text": "W",
+   "conf": 0.9728,
+   "retry": null
+  },
+  {
+   "bbox": [
+    307.6,
+    600.4,
+    332.7,
+    635.9
+   ],
+   "text": "AlabamaRiver",
+   "conf": 0.9634,
+   "retry": null
+  },
+  {
+   "bbox": [
+    172.1,
+    701.0,
+    428.3,
+    712.2
+   ],
+   "text": "Figure 8. Aerial view of the LITTLE G pushing the starboard side of the barge.",
+   "conf": 0.9953,
+   "retry": null
+  },
+  {
+   "bbox": [
+    172.5,
+    711.0,
+    223.9,
+    720.5
+   ],
+   "text": "(Google Maps)",
+   "conf": 0.9954,
+   "retry": null
+  },
+  {
+   "bbox": [
+    301.6,
+    743.7,
+    310.8,
+    756.5
+   ],
+   "text": "5",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

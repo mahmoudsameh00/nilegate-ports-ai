@@ -1,0 +1,82 @@
+{
+ "key": {
+  "report_id": "CONCHRD",
+  "filename": "CONCHRD_7107811_ROI_Redacted.pdf",
+  "sha256": "67762d08caf4f265a4f6b001711884e261fefb10cb629c869b9435ac82c8cf66",
+  "page_number": 4,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    139.5,
+    64.3,
+    439.5,
+    81.8
+   ],
+   "text": "(1) Endorsement by the Officer in Charge, Marine Inspection",
+   "conf": 0.9786,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.1,
+    65.1,
+    134.3,
+    79.8
+   ],
+   "text": "Enclosures:",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    140.2,
+    78.2,
+    260.6,
+    95.4
+   ],
+   "text": "(2) Executive Summary",
+   "conf": 0.9946,
+   "retry": null
+  },
+  {
+   "bbox": [
+    139.9,
+    91.8,
+    308.0,
+    110.2
+   ],
+   "text": "(3) Investigating Officer's Report",
+   "conf": 0.9697,
+   "retry": null
+  }
+ ]
+}

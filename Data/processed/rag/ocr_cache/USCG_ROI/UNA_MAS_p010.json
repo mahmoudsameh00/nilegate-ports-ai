@@ -1,0 +1,502 @@
+{
+ "key": {
+  "report_id": "UNA_MAS",
+  "filename": "UNA_MAS_8231938_ROI_Redacted.pdf",
+  "sha256": "1a2020a9e1b298824fcb61c142865d41c70a5cf6f9d2ad82f12a16e9cec3cda6",
+  "page_number": 10,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    225.9,
+    77.8,
+    427.1,
+    120.6
+   ],
+   "text": "MAXIMUM CAPACITIES",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    226.3,
+    115.4,
+    424.3,
+    158.1
+   ],
+   "text": "8 PERSONS OR 1950 LBS",
+   "conf": 0.9958,
+   "retry": null
+  },
+  {
+   "bbox": [
+    251.4,
+    144.1,
+    403.2,
+    161.7
+   ],
+   "text": "2400 LBS PERSONS, MOTORS, GEAR",
+   "conf": 0.9842,
+   "retry": null
+  },
+  {
+   "bbox": [
+    243.4,
+    153.7,
+    408.0,
+    170.1
+   ],
+   "text": "MAXIMUM HORSEPOWER (TWIN) 150 HP",
+   "conf": 0.9688,
+   "retry": null
+  },
+  {
+   "bbox": [
+    237.9,
+    163.3,
+    411.2,
+    177.6
+   ],
+   "text": "MAXIMUM ENGINE WEIGHT (TWIN) 515 LBS",
+   "conf": 0.9632,
+   "retry": null
+  },
+  {
+   "bbox": [
+    233.1,
+    178.8,
+    412.8,
+    190.8
+   ],
+   "text": "THIS BOAT COMPLIES WITH US COAST GUARD SAFETY",
+   "conf": 0.9863,
+   "retry": null
+  },
+  {
+   "bbox": [
+    239.1,
+    188.0,
+    407.6,
+    198.0
+   ],
+   "text": "STANDARD IN EFFECT ON DATE OF CERTIFICATION",
+   "conf": 0.9818,
+   "retry": null
+  },
+  {
+   "bbox": [
+    246.6,
+    196.8,
+    402.0,
+    206.0
+   ],
+   "text": "GLACIER BAY, INC., MONROE. WA (360) 794-0444",
+   "conf": 0.9634,
+   "retry": null
+  },
+  {
+   "bbox": [
+    305.6,
+    220.0,
+    351.4,
+    232.7
+   ],
+   "text": "NOTICE",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    255.4,
+    229.1,
+    392.9,
+    241.9
+   ],
+   "text": "This bout was manufoctured with pride by crafsmen m",
+   "conf": 0.8849,
+   "retry": {
+    "text": "This boat was mtrd w pride  ",
+    "conf": 0.6113,
+    "first_text": "This bout was manufoctured with pride by crafsmen m",
+    "first_conf": 0.8849,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    251.8,
+    234.7,
+    382.1,
+    248.7
+   ],
+   "text": "Mouroe, Washington. U.S.A. The desgn is covered",
+   "conf": 0.8885,
+   "retry": {
+    "text": "MU",
+    "conf": 0.4208,
+    "first_text": "Mouroe, Washington. U.S.A. The desgn is covered",
+    "first_conf": 0.8885,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    255.4,
+    239.9,
+    391.3,
+    255.9
+   ],
+   "text": "the folowing U S patents. 5.188.049 and DES33( 362",
+   "conf": 0.7823,
+   "retry": {
+    "text": "e ",
+    "conf": 0.3309,
+    "first_text": "the folowing U S patents. 5.188.049 and DES33( 362",
+    "first_conf": 0.7823,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    276.1,
+    253.9,
+    373.3,
+    267.9
+   ],
+   "text": "Read Owner's Manual prior so use",
+   "conf": 0.9514,
+   "retry": null
+  },
+  {
+   "bbox": [
+    114.0,
+    293.0,
+    537.5,
+    302.2
+   ],
+   "text": "Figure 3. Enlarged photo of maximum capacities label adhered to UNA MAS on September 22, 2025. Obtained from CG Inspector.",
+   "conf": 0.9944,
+   "retry": {
+    "text": "Figure 3. Enlarged photo of maximum capacities label adhered to UNA MAS on September 22, 2025. Obtained from CG Inspector.",
+    "conf": 0.9944,
+    "first_text": "ide   o   es     e  e d   t  to.",
+    "first_conf": 0.6056,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    110.8,
+    316.6,
+    515.6,
+    329.7
+   ],
+   "text": "4.2.2. The Owner (Operator) of the UNA MAS was a commercial and recreational",
+   "conf": 0.9958,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    330.9,
+    495.7,
+    342.9
+   ],
+   "text": "fisherman. The Operator had experience with the area and ocean transiting. The",
+   "conf": 0.995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.6,
+    344.9,
+    539.5,
+    356.9
+   ],
+   "text": "Operator had been fishing for over 40 years. The Operator held a 100 gross ton merchant",
+   "conf": 0.9974,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    358.5,
+    203.2,
+    370.5
+   ],
+   "text": "mariner credential.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    384.8,
+    527.5,
+    398.4
+   ],
+   "text": "4.2.3. Crewmember 1 (C-1) had worked with the Operator and on the UNA MAS for",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    400.0,
+    509.6,
+    412.0
+   ],
+   "text": "the last three years. C-1 had experience with the area and ocean transiting. C-1 has",
+   "conf": 0.9964,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    413.6,
+    539.1,
+    425.5
+   ],
+   "text": "overseen another vessel for the last 15 years. C-1 held a 100 gross ton merchant mariner",
+   "conf": 0.9969,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    427.1,
+    414.8,
+    440.3
+   ],
+   "text": "credential and is a commercial fishing guide on another vessel.",
+   "conf": 0.9903,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    453.5,
+    516.4,
+    468.3
+   ],
+   "text": "4.2.4. Crewmember 2 (C-2) was an experienced recreational fisherman but did not",
+   "conf": 0.9973,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    467.9,
+    508.0,
+    481.4
+   ],
+   "text": "commercially fish. This was C-2's first time on the UNA MAS. C-2 and C-1 were",
+   "conf": 0.9848,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    482.2,
+    189.7,
+    495.4
+   ],
+   "text": "lifelong friends.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    508.6,
+    537.9,
+    523.3
+   ],
+   "text": "4.2.5. At the time of the incident there were three people on board with an approximate",
+   "conf": 0.9957,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    522.5,
+    521.6,
+    537.3
+   ],
+   "text": "combined weight of 550 pounds. The vessel was equipped with two Yamaha 150 HP",
+   "conf": 0.9944,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    537.3,
+    534.7,
+    550.5
+   ],
+   "text": "outboards with a total estimated weight of 1,018 pounds. The vessel also had 02 storage",
+   "conf": 0.9903,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    551.7,
+    531.1,
+    563.7
+   ],
+   "text": "fish totes, 04 feet by 02 feet by 03 feet deep. One was secured on the aft starboard side,",
+   "conf": 0.9856,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    564.5,
+    488.5,
+    578.8
+   ],
+   "text": "and one was secured on the aft port side, directly behind the passenger seating",
+   "conf": 0.9881,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    578.4,
+    530.3,
+    592.0
+   ],
+   "text": "arrangement. Each tote weighed an estimated 803 pounds. 01 ice chest about 40 inches",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    592.8,
+    522.4,
+    606.0
+   ],
+   "text": "by 18 inches by 20 inches deep was secured between the captain's chair and opposite",
+   "conf": 0.9951,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    607.2,
+    523.1,
+    619.1
+   ],
+   "text": "seat, estimated weight of 382 pounds. 01 large Reliable kill bag approximate size 240",
+   "conf": 0.9955,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    619.5,
+    499.2,
+    634.3
+   ],
+   "text": "quarts was placed forward of the ice chest near the entry way to the lower cabin,",
+   "conf": 0.985,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    633.9,
+    539.5,
+    647.1
+   ],
+   "text": "estimated weight 286 pounds. All storage was filled with half ice and half fish calculated",
+   "conf": 0.9918,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    647.5,
+    533.9,
+    661.1
+   ],
+   "text": "to be an estimated weight of 2,274 pounds. The overall total weight on board, including",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    661.1,
+    446.2,
+    675.8
+   ],
+   "text": "persons, motors, and storage (gear) was approximately 3,842 pounds.",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    688.6,
+    522.4,
+    702.2
+   ],
+   "text": "4.2.6. NOAA weather report from two of nearest buoy observation areas: Seas were",
+   "conf": 0.9972,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    702.2,
+    531.9,
+    717.4
+   ],
+   "text": "approximately 03 to 04 feet at 05 to 16 seconds, water temperature was 56° Fahrenheit,",
+   "conf": 0.9969,
+   "retry": null
+  },
+  {
+   "bbox": [
+    301.2,
+    729.3,
+    310.8,
+    741.7
+   ],
+   "text": "5",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

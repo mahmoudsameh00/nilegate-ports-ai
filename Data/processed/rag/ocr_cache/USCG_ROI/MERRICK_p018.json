@@ -1,0 +1,445 @@
+{
+ "key": {
+  "report_id": "MERRICK",
+  "filename": "MERRICK_8031230_ROI_Redacted.pdf",
+  "sha256": "76047e77ee5376e2fc4638301674894f54af536e5de39cbdbdeec8ffbedd53b9",
+  "page_number": 18,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    143.4,
+    29.1,
+    537.5,
+    42.3
+   ],
+   "text": "came forward (free surface effect) and triggered the bilge alarm, altering the crew",
+   "conf": 0.9927,
+   "retry": null
+  },
+  {
+   "bbox": [
+    143.0,
+    43.1,
+    299.2,
+    56.3
+   ],
+   "text": "that there was water in the bilge",
+   "conf": 0.9901,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.6,
+    68.7,
+    519.2,
+    81.8
+   ],
+   "text": "6.1.2. The first subsequent event was the sinking of the MERRICK by the stern. The",
+   "conf": 0.9934,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.6,
+    82.6,
+    308.8,
+    95.8
+   ],
+   "text": "causal factors leading to this event were:",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    143.0,
+    108.6,
+    523.9,
+    120.6
+   ],
+   "text": "6.1.2.1. The weight of the load and the water that had flooded the bilge caused",
+   "conf": 0.9929,
+   "retry": null
+  },
+  {
+   "bbox": [
+    142.6,
+    122.6,
+    520.0,
+    135.7
+   ],
+   "text": "the scuppers and overboard discharge for the bilge pump to be submerged and",
+   "conf": 0.9987,
+   "retry": null
+  },
+  {
+   "bbox": [
+    143.0,
+    136.5,
+    376.5,
+    148.5
+   ],
+   "text": "unable to shed the water off the deck/overboard.",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    142.6,
+    162.1,
+    508.4,
+    175.2
+   ],
+   "text": "6.1.2.2. The Operator made a turn to port, putting the stern into the sea. The",
+   "conf": 0.9855,
+   "retry": null
+  },
+  {
+   "bbox": [
+    143.0,
+    176.0,
+    512.8,
+    189.6
+   ],
+   "text": "weight of the sea water on the stern continued to force the stern to submerge.",
+   "conf": 0.9852,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    201.6,
+    445.9,
+    216.0
+   ],
+   "text": "6.1.3. The next subsequent event was Deckhand 1 entering the water.",
+   "conf": 0.9976,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.6,
+    227.9,
+    527.5,
+    241.1
+   ],
+   "text": "6.1.4. The next subsequent event was the Operator and Deckhand 2 entering the water.",
+   "conf": 0.9969,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    252.7,
+    418.8,
+    267.5
+   ],
+   "text": "6.1.5. The next subsequent event was the death of the Operator.",
+   "conf": 0.9906,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.5,
+    279.4,
+    522.4,
+    292.6
+   ],
+   "text": "6.2. Evidence of Act(s) or Violation(s) of Law by Any Coast Guard Credentialed Mariner",
+   "conf": 0.9844,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.1,
+    293.0,
+    475.7,
+    306.6
+   ],
+   "text": "Subject to Action Under 46 USC Chapter 77: There were no acts of misconduct,",
+   "conf": 0.9811,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.1,
+    307.4,
+    507.2,
+    320.6
+   ],
+   "text": "incompetence, negligence, unskillfulness, or violation of law by a credentialed mariner",
+   "conf": 0.9986,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.7,
+    320.6,
+    272.5,
+    334.1
+   ],
+   "text": "identified as part of this investigation.",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.7,
+    346.1,
+    530.7,
+    359.7
+   ],
+   "text": "6.3. Evidence of Act(s) or Violation(s) of Law by U.S. Coast Guard Personnel, or any other",
+   "conf": 0.9911,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.1,
+    360.9,
+    513.2,
+    374.0
+   ],
+   "text": "person: There were no acts of misconduct, incompetence, negligence, unskillfulness, or",
+   "conf": 0.9856,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.1,
+    374.4,
+    510.4,
+    387.6
+   ],
+   "text": "violations of law by Coast Guard employees or any other person that contributed to this",
+   "conf": 0.9988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.7,
+    388.4,
+    133.5,
+    402.4
+   ],
+   "text": "casualty.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.1,
+    414.0,
+    504.0,
+    427.1
+   ],
+   "text": "6.4. Evidence of Act(s) Subject to Civil Penalty: The owner of the MERRICK did not",
+   "conf": 0.9837,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.9,
+    428.7,
+    524.7,
+    440.7
+   ],
+   "text": "salvage the vessel and it remains in its sunken location in the waters of Long Island Sound,",
+   "conf": 0.9948,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.7,
+    440.3,
+    505.2,
+    455.9
+   ],
+   "text": "approximately 300 yards offshore from Milford, CT. This is evidence of a violation of",
+   "conf": 0.992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.1,
+    455.1,
+    522.4,
+    468.7
+   ],
+   "text": "Connecticut State Statute Title 15, Chapter 268, Boating Section 15-140c, enforced by the",
+   "conf": 0.9911,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.5,
+    469.5,
+    467.0,
+    482.6
+   ],
+   "text": "Connecticut Department of Energy and Environmental Protection (CT DEEP).",
+   "conf": 0.9891,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.1,
+    495.0,
+    536.3,
+    508.2
+   ],
+   "text": "6.5. Evidence of Criminal Act(s): There was no evidence of criminal acts that would warrant",
+   "conf": 0.993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.5,
+    509.8,
+    194.8,
+    521.7
+   ],
+   "text": "further investigations.",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.7,
+    534.1,
+    516.0,
+    547.7
+   ],
+   "text": "6.6. Need for New or Amended U.S. Law or Regulation: This investigation identified no",
+   "conf": 0.9947,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.1,
+    549.3,
+    365.8,
+    561.3
+   ],
+   "text": "matters needing new or amended U.S. law or regulations.",
+   "conf": 0.997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.7,
+    573.6,
+    535.9,
+    587.2
+   ],
+   "text": "6.7. Unsafe Actions or Conditions that Were Not Causal Factors: The Operator had evidence",
+   "conf": 0.9938,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.7,
+    588.0,
+    529.5,
+    601.2
+   ],
+   "text": "of recent drug use, however it could not be determined if his use was a causal factor for this",
+   "conf": 0.9984,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.3,
+    601.2,
+    132.3,
+    614.8
+   ],
+   "text": "incident.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.3,
+    627.9,
+    259.8,
+    639.9
+   ],
+   "text": "7. Actions Taken Since the Incident",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.1,
+    652.7,
+    410.0,
+    666.3
+   ],
+   "text": "7.1. There have been no actions taken since this incident occurred.",
+   "conf": 0.9951,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.5,
+    679.0,
+    184.5,
+    692.2
+   ],
+   "text": "8. Recommendations",
+   "conf": 0.9938,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.1,
+    705.4,
+    233.9,
+    717.4
+   ],
+   "text": "8.1. SafetyRecommendation:",
+   "conf": 0.9899,
+   "retry": null
+  },
+  {
+   "bbox": [
+    296.8,
+    748.9,
+    313.6,
+    764.1
+   ],
+   "text": "13",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

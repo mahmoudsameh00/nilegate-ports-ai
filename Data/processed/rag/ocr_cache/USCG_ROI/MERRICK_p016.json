@@ -1,0 +1,837 @@
+{
+ "key": {
+  "report_id": "MERRICK",
+  "filename": "MERRICK_8031230_ROI_Redacted.pdf",
+  "sha256": "76047e77ee5376e2fc4638301674894f54af536e5de39cbdbdeec8ffbedd53b9",
+  "page_number": 16,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    109.6,
+    28.3,
+    522.4,
+    44.3
+   ],
+   "text": "following seas forced the deck lower, further compromising the vessel’s stability and",
+   "conf": 0.9919,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.6,
+    43.1,
+    163.4,
+    58.7
+   ],
+   "text": "buoyancy.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    256.2,
+    62.7,
+    277.3,
+    84.2
+   ],
+   "text": "adsta",
+   "conf": 0.348,
+   "retry": {
+    "text": "",
+    "conf": 0.0,
+    "first_text": "adsta",
+    "first_conf": 0.348,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    257.4,
+    77.8,
+    284.1,
+    103.8
+   ],
+   "text": "EBraade2y",
+   "conf": 0.6529,
+   "retry": {
+    "text": "ot",
+    "conf": 0.2448,
+    "first_text": "EBraade2y",
+    "first_conf": 0.6529,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    215.6,
+    82.2,
+    237.5,
+    107.8
+   ],
+   "text": "Ola PomiR",
+   "conf": 0.7834,
+   "retry": {
+    "text": "e",
+    "conf": 0.2392,
+    "first_text": "Ola PomiR",
+    "first_conf": 0.7834,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    104.4,
+    163.7,
+    122.7,
+    169.3
+   ],
+   "text": "35AM",
+   "conf": 0.8545,
+   "retry": {
+    "text": "6.35 AM",
+    "conf": 0.637,
+    "first_text": "35AM",
+    "first_conf": 0.8545,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    104.0,
+    173.6,
+    123.9,
+    180.4
+   ],
+   "text": "ESP4EAM",
+   "conf": 0.6431,
+   "retry": {
+    "text": "A3TAM",
+    "conf": 0.5467,
+    "first_text": "ESP4EAM",
+    "first_conf": 0.6431,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    78.1,
+    247.1,
+    88.5,
+    254.7
+   ],
+   "text": "mly",
+   "conf": 0.4925,
+   "retry": {
+    "text": "磨",
+    "conf": 0.1736,
+    "first_text": "mly",
+    "first_conf": 0.4925,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    98.8,
+    249.1,
+    118.3,
+    256.7
+   ],
+   "text": "Mermortetl",
+   "conf": 0.615,
+   "retry": {
+    "text": "Mermortetl",
+    "conf": 0.615,
+    "first_text": "Mrmortel",
+    "first_conf": 0.5007,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    115.5,
+    278.2,
+    125.9,
+    301.0
+   ],
+   "text": "10",
+   "conf": 0.3608,
+   "retry": {
+    "text": "10",
+    "conf": 0.3608,
+    "first_text": "どP",
+    "first_conf": 0.3019,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    463.8,
+    299.8,
+    486.9,
+    309.4
+   ],
+   "text": "Legend",
+   "conf": 0.9974,
+   "retry": null
+  },
+  {
+   "bbox": [
+    124.7,
+    301.0,
+    151.4,
+    312.6
+   ],
+   "text": "ProspsetDr",
+   "conf": 0.8092,
+   "retry": {
+    "text": "Prospse Dr",
+    "conf": 0.7462,
+    "first_text": "ProspsetDr",
+    "first_conf": 0.8092,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    468.2,
+    310.2,
+    506.0,
+    317.0
+   ],
+   "text": "Merck_110424",
+   "conf": 0.9108,
+   "retry": {
+    "text": "Merck_110424",
+    "conf": 0.9108,
+    "first_text": "Merick_110424",
+    "first_conf": 0.9103,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    307.6,
+    312.6,
+    458.6,
+    319.4
+   ],
+   "text": "SoUs Esh. HERE. GanTIn USGS Irta ANaREMENTE NBE",
+   "conf": 0.6741,
+   "retry": {
+    "text": "SoUs Esh. HERE. GanTIn USGS Irta ANaREMENTE NBE",
+    "conf": 0.6741,
+    "first_text": "SoUces ESh. HERE.GanmIin USGS Irtmnap INOREMINT NRC",
+    "first_conf": 0.6709,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    468.6,
+    317.8,
+    524.3,
+    324.5
+   ],
+   "text": "Mertck_110424XYToUne",
+   "conf": 0.9097,
+   "retry": {
+    "text": "Mertck_110424XYToUne",
+    "conf": 0.9097,
+    "first_text": "Merrtck_110424_XYToLune",
+    "first_conf": 0.8999,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    308.8,
+    318.6,
+    460.2,
+    324.9
+   ],
+   "text": "(Hong Kong) Es Karea EsntThaildou Na woonatroutMapco",
+   "conf": 0.6669,
+   "retry": {
+    "text": "(Hong Kang), Esh Korea Esn (Thailau Ne  ponatutdap ",
+    "conf": 0.6619,
+    "first_text": "(Hong Kong) Es Karea EsntThaildou Na woonatroutMapco",
+    "first_conf": 0.6669,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    309.6,
+    324.5,
+    334.7,
+    330.1
+   ],
+   "text": "comimanty",
+   "conf": 0.8814,
+   "retry": {
+    "text": "comimanty",
+    "conf": 0.8814,
+    "first_text": "comimtnty",
+    "first_conf": 0.692,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    476.9,
+    324.9,
+    503.6,
+    331.7
+   ],
+   "text": "Shelfah Beds",
+   "conf": 0.8307,
+   "retry": {
+    "text": "Shelfah Beds",
+    "conf": 0.8307,
+    "first_text": "Shelfah Bods",
+    "first_conf": 0.8086,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    463.8,
+    330.9,
+    506.0,
+    340.5
+   ],
+   "text": "Z2Proposed Bede",
+   "conf": 0.7802,
+   "retry": {
+    "text": "Z2Propood Bede",
+    "conf": 0.7743,
+    "first_text": "Z2Proposed Bede",
+    "first_conf": 0.7802,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    81.7,
+    334.9,
+    295.2,
+    346.5
+   ],
+   "text": "CT Department of Agriculture Bureau of Aquaculture",
+   "conf": 0.9955,
+   "retry": null
+  },
+  {
+   "bbox": [
+    429.9,
+    337.7,
+    439.9,
+    348.5
+   ],
+   "text": "N",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    464.6,
+    338.9,
+    497.6,
+    347.3
+   ],
+   "text": "Classification",
+   "conf": 0.9168,
+   "retry": {
+    "text": "Classification",
+    "conf": 0.9109,
+    "first_text": "Classification",
+    "first_conf": 0.9168,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    476.5,
+    346.9,
+    496.1,
+    354.1
+   ],
+   "text": "Approved",
+   "conf": 0.9902,
+   "retry": null
+  },
+  {
+   "bbox": [
+    81.7,
+    347.3,
+    122.7,
+    356.9
+   ],
+   "text": "Milford, CT",
+   "conf": 0.9965,
+   "retry": null
+  },
+  {
+   "bbox": [
+    476.5,
+    353.3,
+    518.8,
+    362.1
+   ],
+   "text": "Condionelty Approved",
+   "conf": 0.9341,
+   "retry": {
+    "text": "CondW onety Approved",
+    "conf": 0.792,
+    "first_text": "Condionelty Approved",
+    "first_conf": 0.9341,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    81.3,
+    356.1,
+    169.7,
+    366.5
+   ],
+   "text": "Merrick tracks11/4/2024",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    476.9,
+    361.7,
+    535.5,
+    368.5
+   ],
+   "text": "Condeonely Approved Seesonal",
+   "conf": 0.9556,
+   "retry": null
+  },
+  {
+   "bbox": [
+    430.3,
+    366.9,
+    444.7,
+    374.4
+   ],
+   "text": "Feet",
+   "conf": 0.9738,
+   "retry": {
+    "text": "Feet",
+    "conf": 0.9738,
+    "first_text": "Feat",
+    "first_conf": 0.8629,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    476.5,
+    369.3,
+    530.3,
+    376.0
+   ],
+   "text": "Condeonally Restricied-Reley",
+   "conf": 0.9551,
+   "retry": null
+  },
+  {
+   "bbox": [
+    163.4,
+    371.6,
+    179.3,
+    380.4
+   ],
+   "text": "6.000",
+   "conf": 0.9876,
+   "retry": null
+  },
+  {
+   "bbox": [
+    119.5,
+    372.0,
+    135.9,
+    380.8
+   ],
+   "text": "3.000",
+   "conf": 0.9732,
+   "retry": {
+    "text": "3.000",
+    "conf": 0.9732,
+    "first_text": "3,000",
+    "first_conf": 0.9104,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    249.4,
+    372.0,
+    267.8,
+    380.4
+   ],
+   "text": "12,000",
+   "conf": 0.9897,
+   "retry": {
+    "text": "12,000",
+    "conf": 0.9897,
+    "first_text": "12,000",
+    "first_conf": 0.9321,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    336.3,
+    372.0,
+    354.6,
+    380.4
+   ],
+   "text": "18,000",
+   "conf": 0.9638,
+   "retry": null
+  },
+  {
+   "bbox": [
+    422.7,
+    372.0,
+    441.5,
+    380.4
+   ],
+   "text": "24,000",
+   "conf": 0.9383,
+   "retry": {
+    "text": "24,000",
+    "conf": 0.9313,
+    "first_text": "24,000",
+    "first_conf": 0.9383,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    476.5,
+    376.4,
+    507.6,
+    383.2
+   ],
+   "text": "Restricted-Relay",
+   "conf": 0.8291,
+   "retry": {
+    "text": "Restrcted-Relay",
+    "conf": 0.778,
+    "first_text": "Restricted-Relay",
+    "first_conf": 0.8291,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    475.3,
+    382.0,
+    497.2,
+    391.2
+   ],
+   "text": "Prohibited",
+   "conf": 0.9354,
+   "retry": {
+    "text": "Prohibted",
+    "conf": 0.8752,
+    "first_text": "Prohibited",
+    "first_conf": 0.9354,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    81.3,
+    382.8,
+    123.9,
+    390.8
+   ],
+   "text": "Date: 11/6/2024",
+   "conf": 0.9925,
+   "retry": null
+  },
+  {
+   "bbox": [
+    370.9,
+    386.4,
+    414.0,
+    392.8
+   ],
+   "text": "ECN 8051230-044K-006",
+   "conf": 0.7823,
+   "retry": {
+    "text": "ECN 8051230-044K-006",
+    "conf": 0.7823,
+    "first_text": "ECN8051230-0M4K-006",
+    "first_conf": 0.755,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    165.8,
+    391.2,
+    445.5,
+    401.6
+   ],
+   "text": "Figure 6. MERRICK track on November 4, 2024 provided by CT Dept. of Agriculture",
+   "conf": 0.9913,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.9,
+    414.0,
+    518.0,
+    425.9
+   ],
+   "text": "5.3. The owner and deckhands stated that a normal load consisted of 80-90 totes, with an",
+   "conf": 0.9982,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.5,
+    427.5,
+    516.0,
+    440.7
+   ],
+   "text": "estimated weight of 13,500 pounds. When loaded, it was not uncommon for the aft-most",
+   "conf": 0.9945,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.7,
+    439.9,
+    532.7,
+    455.5
+   ],
+   "text": "scuppers to be submerged, and the stern to sit lower in the water. On November 4, 2024, the",
+   "conf": 0.9862,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.1,
+    454.3,
+    521.6,
+    468.7
+   ],
+   "text": "crew loaded 125 full totes on the aft deck after harvesting, equaling approximately 18,750",
+   "conf": 0.9899,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.3,
+    467.9,
+    530.7,
+    483.4
+   ],
+   "text": "pounds. The additional 5,000 pounds had an adverse effect on the vessel’s stability, causing",
+   "conf": 0.9888,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.9,
+    481.8,
+    515.6,
+    496.6
+   ],
+   "text": "it to sit even lower in the water, completely submerging the aft scuppers and causing 4-6",
+   "conf": 0.9991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.7,
+    495.8,
+    522.0,
+    509.8
+   ],
+   "text": "inches of standing water to remain on the deck. It also caused the stern to sit low, with the",
+   "conf": 0.9975,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.7,
+    509.8,
+    523.9,
+    523.7
+   ],
+   "text": "transom barely exposed above the waterline. Witnesses on the day of the incident reported",
+   "conf": 0.9959,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.3,
+    522.9,
+    532.7,
+    538.1
+   ],
+   "text": "that the vessel was sitting quite low in the water as it was operating on the Housatonic River",
+   "conf": 0.9884,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.7,
+    537.3,
+    353.4,
+    552.1
+   ],
+   "text": "and that it appeared to be overloaded with oyster totes.",
+   "conf": 0.9883,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.1,
+    563.3,
+    512.8,
+    577.6
+   ],
+   "text": "5.4. The MERRICK remained slightly buoyant following the incident, and the bow was",
+   "conf": 0.9919,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.7,
+    577.6,
+    525.1,
+    590.8
+   ],
+   "text": "readily observable above the waterline for many weeks until it eventually sank completely.",
+   "conf": 0.9988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.5,
+    591.2,
+    513.6,
+    604.4
+   ],
+   "text": "Two independent dive surveys were conducted on the MERRICK in its sunken location.",
+   "conf": 0.9931,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.3,
+    604.4,
+    519.6,
+    618.0
+   ],
+   "text": "Results from both dives identified no observable damage to the deck in the vicinity of the",
+   "conf": 0.998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.9,
+    617.6,
+    497.2,
+    632.7
+   ],
+   "text": "hatches, and no observable damage to the prop/shaft. There was noted damage to the",
+   "conf": 0.996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.1,
+    631.9,
+    531.1,
+    646.3
+   ],
+   "text": "stern/transom that can be attributed to the vessel striking the rocky bottom repeatedly due to",
+   "conf": 0.9957,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.7,
+    645.1,
+    506.8,
+    659.9
+   ],
+   "text": "the tide following the sinking. Parts of the vessel's superstructure (wheelhouse) and its",
+   "conf": 0.9968,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.7,
+    658.7,
+    532.3,
+    674.6
+   ],
+   "text": "equipment washed ashore along the rocky coastline of Milford. The vessel was not salvaged",
+   "conf": 0.9946,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.1,
+    674.2,
+    461.8,
+    687.4
+   ],
+   "text": "and therefore unavailable for a detailed post-casualty inspection and analysis.",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    297.2,
+    750.1,
+    313.6,
+    765.3
+   ],
+   "text": "11",
+   "conf": 0.9991,
+   "retry": null
+  }
+ ]
+}

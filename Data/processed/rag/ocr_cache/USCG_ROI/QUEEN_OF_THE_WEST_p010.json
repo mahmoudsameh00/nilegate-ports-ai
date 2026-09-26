@@ -1,0 +1,687 @@
+{
+ "key": {
+  "report_id": "QUEEN_OF_THE_WEST",
+  "filename": "QUEEN_OF_THE_WEST_4405289_ROI_Redacted.pdf",
+  "sha256": "02f978c36fcbd8ef00493738d66ee13a4079eab5832883de67ba1cacc388cba3",
+  "page_number": 10,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2542,
+  3292
+ ],
+ "lines": [
+  {
+   "bbox": [
+    507.2,
+    29.9,
+    538.6,
+    42.6
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    492.1,
+    42.2,
+    538.2,
+    55.8
+   ],
+   "text": "06May13",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.9,
+    42.6,
+    474.6,
+    54.2
+   ],
+   "text": "LOSS OF LIFE FOLLQWING MÁN OVERBOARD FROM P/V QUEEN OF THE WEST",
+   "conf": 0.9774,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.0,
+    68.9,
+    498.9,
+    80.4
+   ],
+   "text": "16. The paddlewheel was \"free-wheeling\" and was turning slowly in the current in a counter-",
+   "conf": 0.996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    104.5,
+    80.8,
+    510.0,
+    92.8
+   ],
+   "text": "clockwise fashion when observed from the port side of the vessel. The paddlewheel has the",
+   "conf": 0.991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.9,
+    92.8,
+    458.4,
+    105.1
+   ],
+   "text": "ability to turn on its own when the vessel is moored in an area of strong current.",
+   "conf": 0.9959,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.8,
+    116.3,
+    526.3,
+    129.8
+   ],
+   "text": "17. Mr. Staples was unable to steady himself because the paddlewheel was \"free-wheeling\", and he",
+   "conf": 0.9901,
+   "retry": null
+  },
+  {
+   "bbox": [
+    103.7,
+    129.4,
+    523.5,
+    141.0
+   ],
+   "text": "fell into the water. He passed under or near the paddlewheel as the current carried him aft. He",
+   "conf": 0.9967,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.9,
+    140.6,
+    524.3,
+    154.1
+   ],
+   "text": "was wearing a tan jacket, white Adidas shoes, dark jeans, and a dark undershirt when he fell in.",
+   "conf": 0.9932,
+   "retry": null
+  },
+  {
+   "bbox": [
+    103.3,
+    153.7,
+    245.9,
+    165.7
+   ],
+   "text": "He was not wearing a lifejacket.",
+   "conf": 0.9949,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.6,
+    177.6,
+    517.5,
+    189.2
+   ],
+   "text": "18. Witnesses stated that Mr. Staples was conscious when he emerged on the surface of the water",
+   "conf": 0.9927,
+   "retry": null
+  },
+  {
+   "bbox": [
+    103.7,
+    190.0,
+    527.5,
+    201.5
+   ],
+   "text": "around ten seconds later. He was moving his arms slowly in the water back and forth. His eyes",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.9,
+    201.1,
+    533.8,
+    214.6
+   ],
+   "text": "were open and he had a surprised expression. He was facing the vessel and did not shout for help.",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    160.9,
+    224.6,
+    529.1,
+    238.1
+   ],
+   "text": "ran to get a life jacket from the storage box near the stern. He returned to find that",
+   "conf": 0.9946,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.4,
+    225.0,
+    122.3,
+    237.7
+   ],
+   "text": "19. Mr.",
+   "conf": 0.9815,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.9,
+    237.7,
+    395.6,
+    249.7
+   ],
+   "text": "Mr. Staples was too far away to throw it to him. He gave it to Mr.",
+   "conf": 0.9968,
+   "retry": null
+  },
+  {
+   "bbox": [
+    447.2,
+    238.1,
+    511.2,
+    248.9
+   ],
+   "text": "and ran to the",
+   "conf": 0.9986,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.5,
+    247.7,
+    532.2,
+    263.2
+   ],
+   "text": "dining room to alert the crew there. He then proceeded up the interior stairwell to the 4th Deck to",
+   "conf": 0.9886,
+   "retry": null
+  },
+  {
+   "bbox": [
+    103.3,
+    262.0,
+    239.9,
+    273.6
+   ],
+   "text": "alert the Captain and the Mate.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    152.1,
+    284.7,
+    515.5,
+    298.3
+   ],
+   "text": "ran forward along the port side walkway to the forward stairwell. He went up the",
+   "conf": 0.9966,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.0,
+    285.1,
+    122.7,
+    297.9
+   ],
+   "text": "20. Mr.",
+   "conf": 0.9991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.5,
+    296.7,
+    535.0,
+    310.2
+   ],
+   "text": "stairwell to the 4th Deck and alerted the Captain. He then grabbed a lighted life ring and took it to",
+   "conf": 0.9901,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.9,
+    310.2,
+    516.7,
+    322.2
+   ],
+   "text": "the rescue boat to begin his man overboard duties of readying the rescue boat for deployment.",
+   "conf": 0.9979,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.6,
+    333.3,
+    465.5,
+    346.5
+   ],
+   "text": "21. There was an empty life ring bracket on the port side main deck walkway that Mr.",
+   "conf": 0.9922,
+   "retry": null
+  },
+  {
+   "bbox": [
+    496.9,
+    334.1,
+    516.3,
+    346.5
+   ],
+   "text": "ran",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.7,
+    344.9,
+    530.2,
+    358.8
+   ],
+   "text": "past. This life ring bracket was approximately 40 feet from where Mr. Staples fell overboard. A",
+   "conf": 0.992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    467.9,
+    357.2,
+    529.5,
+    371.1
+   ],
+   "text": "the company",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.5,
+    357.6,
+    417.4,
+    370.3
+   ],
+   "text": "life ring formally occupied the empty bracket, but according to Captain",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.1,
+    370.3,
+    413.9,
+    381.9
+   ],
+   "text": "removed the life ring prior to the incident when it began to deteriorate.",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.2,
+    393.0,
+    285.6,
+    406.6
+   ],
+   "text": "22. On 27APR2011 MSU Portland Inspector",
+   "conf": 0.9941,
+   "retry": null
+  },
+  {
+   "bbox": [
+    361.8,
+    394.2,
+    534.6,
+    406.2
+   ],
+   "text": "examined all the life rings onboard the",
+   "conf": 0.9989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.5,
+    406.6,
+    522.7,
+    418.1
+   ],
+   "text": "vessel during the propulsion modification project. He noted that, \"Only a few were acceptable.",
+   "conf": 0.99,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.1,
+    418.5,
+    526.3,
+    430.5
+   ],
+   "text": "Most need retro reflective tape. Several had deteriorating grab lines (UV damage), and one was",
+   "conf": 0.9972,
+   "retry": null
+  },
+  {
+   "bbox": [
+    228.4,
+    429.7,
+    534.2,
+    443.2
+   ],
+   "text": "directed the port engineer to have crew staff have the 5 required ring",
+   "conf": 0.9948,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.7,
+    430.1,
+    176.4,
+    443.2
+   ],
+   "text": "split open. [Mr.]",
+   "conf": 0.9888,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.3,
+    441.6,
+    522.3,
+    455.2
+   ],
+   "text": "buoys prepared for inspection.\" Inspectors did not issue a CG-835 deficiency for the life rings.",
+   "conf": 0.9982,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.3,
+    453.2,
+    513.2,
+    467.1
+   ],
+   "text": "And there is no indication in the inspection report that the life rings were checked after being",
+   "conf": 0.9985,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.3,
+    465.9,
+    143.4,
+    478.3
+   ],
+   "text": "serviced.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    193.4,
+    489.4,
+    525.5,
+    503.0
+   ],
+   "text": "the vessel's engineer overseeing the project, removed the life ring that was",
+   "conf": 0.994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    83.4,
+    489.8,
+    121.1,
+    502.6
+   ],
+   "text": "23. Mr.",
+   "conf": 0.9988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.7,
+    501.8,
+    516.3,
+    515.3
+   ],
+   "text": "split open (port side main deck) from service. He did not replace the life ring with a new one.",
+   "conf": 0.9953,
+   "retry": null
+  },
+  {
+   "bbox": [
+    102.1,
+    514.5,
+    515.2,
+    526.5
+   ],
+   "text": "The vessel's Certificate of Inspection (COI) required three life rings. The vessel had four life",
+   "conf": 0.99,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.3,
+    526.5,
+    516.7,
+    538.4
+   ],
+   "text": "rings onboard at the time of the fall overboard. The vessel was abiding by the conditions of its",
+   "conf": 0.9954,
+   "retry": null
+  },
+  {
+   "bbox": [
+    100.9,
+    537.6,
+    126.3,
+    550.7
+   ],
+   "text": "COI.",
+   "conf": 0.9973,
+   "retry": null
+  },
+  {
+   "bbox": [
+    83.4,
+    561.9,
+    533.4,
+    574.2
+   ],
+   "text": "24. The vessel's Station Bill did not indicate that a life ring with a light should be thrown in the water",
+   "conf": 0.9882,
+   "retry": null
+  },
+  {
+   "bbox": [
+    100.9,
+    574.2,
+    505.6,
+    586.2
+   ],
+   "text": "to mark the position of the man overboard and/or provide the victim with a flotation device.",
+   "conf": 0.989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    83.8,
+    598.5,
+    495.7,
+    610.5
+   ],
+   "text": "25. Man Overboard (MOB) training was last conducted on 19JUL12 and the last drill was on",
+   "conf": 0.9943,
+   "retry": null
+  },
+  {
+   "bbox": [
+    100.9,
+    609.7,
+    195.0,
+    623.6
+   ],
+   "text": "09JUL12. Only Mr.",
+   "conf": 0.985,
+   "retry": null
+  },
+  {
+   "bbox": [
+    226.8,
+    609.7,
+    248.2,
+    623.2
+   ],
+   "text": "Mr.",
+   "conf": 0.997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    289.9,
+    609.7,
+    531.4,
+    623.6
+   ],
+   "text": "and the other deckhands participated in MOB training",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    218.1,
+    622.4,
+    520.7,
+    635.6
+   ],
+   "text": "a galley steward) stated that he did not know how to respond when",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.3,
+    622.8,
+    170.4,
+    634.8
+   ],
+   "text": "and drills. Mr.",
+   "conf": 0.9927,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.3,
+    634.8,
+    220.4,
+    646.7
+   ],
+   "text": "Mr. Staples fell overboard.",
+   "conf": 0.9875,
+   "retry": null
+  },
+  {
+   "bbox": [
+    83.8,
+    659.1,
+    205.3,
+    671.0
+   ],
+   "text": "26. On 07AUG12, Captain",
+   "conf": 0.9971,
+   "retry": null
+  },
+  {
+   "bbox": [
+    253.0,
+    659.1,
+    523.9,
+    671.0
+   ],
+   "text": "was awakened at 0108 hrs and immediately gave the order to",
+   "conf": 0.9946,
+   "retry": null
+  },
+  {
+   "bbox": [
+    101.3,
+    671.4,
+    272.5,
+    683.0
+   ],
+   "text": "launch the rescue boat. The mate (Mr.",
+   "conf": 0.9827,
+   "retry": null
+  },
+  {
+   "bbox": [
+    356.7,
+    671.4,
+    454.4,
+    683.4
+   ],
+   "text": "and the engineer (Mr.",
+   "conf": 0.9948,
+   "retry": null
+  },
+  {
+   "bbox": [
+    100.9,
+    683.0,
+    286.8,
+    695.3
+   ],
+   "text": "were assigned as crew for the rescue boat.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    293.5,
+    740.3,
+    303.5,
+    753.0
+   ],
+   "text": "5",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

@@ -1,0 +1,445 @@
+{
+ "key": {
+  "report_id": "GOOD_GULF",
+  "filename": "GOOD_GULF_8194633_ROI_Redacted.pdf",
+  "sha256": "b079d8d08db1276fde6ebd4189b6f251d8ab81bf1fbd74f187b7156c546663c6",
+  "page_number": 8,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    110.8,
+    54.3,
+    533.1,
+    67.9
+   ],
+   "text": "4.1.8. At an unknown time, the owner removed his boots, shorts, and shirt, and was left",
+   "conf": 0.995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.6,
+    69.5,
+    536.7,
+    81.4
+   ],
+   "text": "in socks and underwear. He subsequently entered the water; it is not known if the owner",
+   "conf": 0.9949,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    82.2,
+    527.5,
+    95.8
+   ],
+   "text": "intentionally entered the water to free the vessel from the piling or if he fell overboard.",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    108.2,
+    540.7,
+    121.4
+   ],
+   "text": "4.1.9. At 0910, the owner's brother, operating the CFV TERMINATOR, investigated the",
+   "conf": 0.9883,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    121.8,
+    537.9,
+    135.7
+   ],
+   "text": "GOOD GULF’s last known position. He found the vessel pushed up on a piling with the",
+   "conf": 0.9948,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    135.3,
+    438.7,
+    149.7
+   ],
+   "text": "engine running, not in gear, fishing nets down, and no one onboard.",
+   "conf": 0.996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    160.9,
+    534.7,
+    175.2
+   ],
+   "text": "4.1.10. The brother boarded the vessel and found the owner's bolt cutters, boots, phone,",
+   "conf": 0.9934,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.6,
+    176.4,
+    241.5,
+    188.4
+   ],
+   "text": "and Crocs on the port side.",
+   "conf": 0.9935,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    201.2,
+    500.0,
+    213.2
+   ],
+   "text": "4.1.11. At 1146, the brother contacted the U.S. Coast Guard Sector New Orleans",
+   "conf": 0.995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    215.6,
+    268.9,
+    227.9
+   ],
+   "text": "Command Center for assistance.",
+   "conf": 0.9977,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    240.3,
+    540.3,
+    253.5
+   ],
+   "text": "4.1.12. A search for the missing owner was conducted by the U.S. Coast Guard and local",
+   "conf": 0.9938,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    254.7,
+    520.8,
+    268.3
+   ],
+   "text": "agencies. On July 23, 2025, at 2017, the owner's body was located by a Coast Guard",
+   "conf": 0.9845,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    268.7,
+    528.3,
+    281.8
+   ],
+   "text": "MH-60 and recovered by the St. Mary Parish Sheriff's Office with assistance from the",
+   "conf": 0.9821,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    283.0,
+    345.4,
+    295.0
+   ],
+   "text": "Louisiana Department of Wildlife and Fisheries.",
+   "conf": 0.9907,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    308.2,
+    522.8,
+    321.4
+   ],
+   "text": "4.1.13. The body was positively identified by the brother and transferred to the Iberia",
+   "conf": 0.9919,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    322.5,
+    229.9,
+    334.5
+   ],
+   "text": "Parish Coroner's Office.",
+   "conf": 0.9774,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    346.9,
+    535.9,
+    361.7
+   ],
+   "text": "4.1.14. On July 24, 2025, at 1500, the owner was declared deceased due to drowning by",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    362.1,
+    531.9,
+    375.2
+   ],
+   "text": "the Iberia Parish Coroner. No autopsy or post mortem toxicology tests were conducted.",
+   "conf": 0.9967,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    387.2,
+    447.8,
+    400.4
+   ],
+   "text": "4.1.15. No CG-2692 was provided due to the mariner being deceased.",
+   "conf": 0.9978,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.1,
+    412.8,
+    284.5,
+    426.3
+   ],
+   "text": "4.2. Additional/Supporting Information:",
+   "conf": 0.9935,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    439.1,
+    518.0,
+    452.3
+   ],
+   "text": "4.2.1. Homeported in Erath, LA, the GOOD GULF was a 1939 build, wood-hulled",
+   "conf": 0.9987,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    452.3,
+    508.8,
+    465.9
+   ],
+   "text": "vessel with no gunwale, railings, nonskid, or a voluntary Coast Guard commercial",
+   "conf": 0.9881,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.6,
+    467.1,
+    497.2,
+    479.0
+   ],
+   "text": "fishing vessel exam decal. The vessel typically operated in the Gulf of America.",
+   "conf": 0.9943,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    492.2,
+    534.7,
+    505.4
+   ],
+   "text": "4.2.2. The owner was considered to be in good physical condition and a good swimmer",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    505.4,
+    210.8,
+    519.8
+   ],
+   "text": "by family members.",
+   "conf": 0.9959,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    531.3,
+    504.0,
+    544.9
+   ],
+   "text": "4.2.3. The owner had over 25 years of experience in the fishing industry and was",
+   "conf": 0.9958,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    545.7,
+    263.4,
+    558.9
+   ],
+   "text": "accustomed to operating alone.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    571.2,
+    534.7,
+    584.4
+   ],
+   "text": "4.2.4. While the GOOD GULF was equipped with a marine radar system, it is unknown",
+   "conf": 0.9937,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    584.8,
+    519.2,
+    598.0
+   ],
+   "text": "if the owner was actively using it at the time of the incident or if the radar, if utilized,",
+   "conf": 0.9931,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    599.2,
+    262.2,
+    612.4
+   ],
+   "text": "would have detected the piling.",
+   "conf": 0.9895,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.6,
+    624.7,
+    483.3,
+    636.7
+   ],
+   "text": "4.2.5. The environmental conditions at the time of the incident included high",
+   "conf": 0.991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    638.7,
+    308.8,
+    651.9
+   ],
+   "text": "temperatures (up to 94°F) and calm seas.",
+   "conf": 0.9822,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    663.5,
+    496.5,
+    677.4
+   ],
+   "text": "4.2.6. The owner did not wear a lifejacket while shrimping; it was not common",
+   "conf": 0.9942,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    678.2,
+    302.4,
+    691.4
+   ],
+   "text": "practice to use PFDs during operations.",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    703.4,
+    522.0,
+    716.6
+   ],
+   "text": "4.2.7. The practice of not wearing lifejackets (PFDs) during operations was common",
+   "conf": 0.9879,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    717.0,
+    225.5,
+    730.9
+   ],
+   "text": "among local fishermen.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    302.0,
+    756.5,
+    311.6,
+    769.2
+   ],
+   "text": "3",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

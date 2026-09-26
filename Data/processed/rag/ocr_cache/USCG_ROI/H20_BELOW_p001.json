@@ -1,0 +1,165 @@
+{
+ "key": {
+  "report_id": "H20_BELOW",
+  "filename": "H20_BELOW_6966090_ROI_Redacted.pdf",
+  "sha256": "f3fcf7689854c086f79383529c2e174af10699e91199f16de6dc34a5f5fcd65c",
+  "page_number": 1,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    192.4,
+    65.9,
+    544.3,
+    86.6
+   ],
+   "text": "UNITED STATES COAST GUARD",
+   "conf": 0.9958,
+   "retry": null
+  },
+  {
+   "bbox": [
+    162.2,
+    137.3,
+    444.7,
+    156.5
+   ],
+   "text": "REPORT OF INVESTIGATION",
+   "conf": 0.983,
+   "retry": null
+  },
+  {
+   "bbox": [
+    254.2,
+    163.3,
+    352.2,
+    182.0
+   ],
+   "text": "INTOTHE",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    105.2,
+    183.2,
+    501.6,
+    202.8
+   ],
+   "text": "LOSS OF LIFE WHILE DIVING FROM THE",
+   "conf": 0.9874,
+   "retry": null
+  },
+  {
+   "bbox": [
+    95.6,
+    203.2,
+    511.6,
+    223.1
+   ],
+   "text": "SMALL PASSENGER VESSEL H2O BELOW",
+   "conf": 0.9738,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.6,
+    222.4,
+    498.4,
+    244.3
+   ],
+   "text": "(O.N. 1136903), AT THE USS ORISKANY",
+   "conf": 0.9698,
+   "retry": null
+  },
+  {
+   "bbox": [
+    98.4,
+    243.1,
+    507.6,
+    262.7
+   ],
+   "text": "WRECK DIVE SITE 24 NM SOUTHEAST OF",
+   "conf": 0.9945,
+   "retry": null
+  },
+  {
+   "bbox": [
+    132.7,
+    263.1,
+    472.5,
+    283.8
+   ],
+   "text": "PENSACOLA, FL ON JUNE 1, 2020",
+   "conf": 0.9873,
+   "retry": null
+  },
+  {
+   "bbox": [
+    282.5,
+    449.9,
+    322.7,
+    468.3
+   ],
+   "text": "PARATUS",
+   "conf": 0.9997,
+   "retry": {
+    "text": "PARATUS",
+    "conf": 0.9997,
+    "first_text": "PARAUS",
+    "first_conf": 0.7552,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    282.5,
+    468.7,
+    323.1,
+    487.0
+   ],
+   "text": "1790",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    209.2,
+    707.0,
+    400.8,
+    718.5
+   ],
+   "text": "MISLE ACTIVITY NUMBER: 6966090",
+   "conf": 0.9712,
+   "retry": null
+  }
+ ]
+}

@@ -1,0 +1,357 @@
+{
+ "key": {
+  "report_id": "KIM_LY",
+  "filename": "KIM_LY_7867677_ROI_Redacted.pdf",
+  "sha256": "070b37ee21b7addd2d4e5bb6e73f471703fe5b4f25957f0fdf302979229dffcc",
+  "page_number": 7,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    66.5,
+    74.6,
+    523.9,
+    93.4
+   ],
+   "text": "requested assistance from NIOSH due to a rise in winch entanglement incidents among shrimp",
+   "conf": 0.99,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.3,
+    89.0,
+    510.4,
+    106.2
+   ],
+   "text": "fishermen in the Gulf of America. NIOSH engineers collaborated with fishermen to identify",
+   "conf": 0.998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.9,
+    102.6,
+    531.5,
+    121.0
+   ],
+   "text": "commonly used winch types and designed standardized, stationary guarding systems to improve",
+   "conf": 0.9969,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.9,
+    116.6,
+    504.8,
+    134.9
+   ],
+   "text": "safety. These guards are cost-effective and easy to implement, typically costing only a few",
+   "conf": 0.9916,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.9,
+    130.5,
+    513.6,
+    148.9
+   ],
+   "text": "hundred dollars and requiring less than four hours to install. Most modern guard systems are",
+   "conf": 0.993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.9,
+    144.1,
+    532.7,
+    162.9
+   ],
+   "text": "modular, allowing them to be retrofitted onto older machinery without significant modifications.",
+   "conf": 0.9922,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.7,
+    170.1,
+    525.5,
+    188.8
+   ],
+   "text": "Amending the applicability of § 28.200 would close a regulatory loophole and bring consistent",
+   "conf": 0.9869,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.9,
+    183.2,
+    522.0,
+    202.4
+   ],
+   "text": "machinery safety standards to all commercial fishing vessels regardless of operating area. The",
+   "conf": 0.9975,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.3,
+    196.8,
+    514.0,
+    216.4
+   ],
+   "text": "proposed change would directly mitigate the risk of machinery related injuries and fatalities,",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.7,
+    212.0,
+    398.0,
+    229.5
+   ],
+   "text": "thereby enhancing overall safety in the commercial fishing industry.",
+   "conf": 0.9919,
+   "retry": null
+  },
+  {
+   "bbox": [
+    140.6,
+    236.7,
+    520.0,
+    253.5
+   ],
+   "text": "Endorsement: Concur. Moving machinery, such as the winch involved in this",
+   "conf": 0.9911,
+   "retry": null
+  },
+  {
+   "bbox": [
+    141.0,
+    250.7,
+    511.2,
+    267.9
+   ],
+   "text": "incident, posed a significant hazard to personnel working in its vicinity. This",
+   "conf": 0.9863,
+   "retry": null
+  },
+  {
+   "bbox": [
+    140.2,
+    263.9,
+    523.9,
+    282.2
+   ],
+   "text": "danger exists regardless of whether the vessel is operating within or outside the",
+   "conf": 0.9952,
+   "retry": null
+  },
+  {
+   "bbox": [
+    140.6,
+    278.2,
+    529.5,
+    295.8
+   ],
+   "text": "boundary line, underscoring the importance of consistent safety standards across",
+   "conf": 0.9947,
+   "retry": null
+  },
+  {
+   "bbox": [
+    140.6,
+    291.0,
+    533.1,
+    310.2
+   ],
+   "text": "all operating environments. Installed guards or covers serve as critical safeguards",
+   "conf": 0.9971,
+   "retry": null
+  },
+  {
+   "bbox": [
+    140.6,
+    305.4,
+    518.4,
+    323.7
+   ],
+   "text": "designed to prevent contact with moving parts and are specifically intended to",
+   "conf": 0.9983,
+   "retry": null
+  },
+  {
+   "bbox": [
+    140.2,
+    319.8,
+    493.3,
+    336.9
+   ],
+   "text": "reduce the risk of entanglement or other injury. The absence or improper",
+   "conf": 0.9936,
+   "retry": null
+  },
+  {
+   "bbox": [
+    141.0,
+    332.9,
+    531.9,
+    350.1
+   ],
+   "text": "installation of such protective measures contributed directly to the circumstances",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    141.4,
+    346.9,
+    491.3,
+    363.7
+   ],
+   "text": "that led to this tragedy. This case highlights the continued need for strict",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    141.4,
+    360.5,
+    529.5,
+    378.0
+   ],
+   "text": "adherence to machinery guarding requirements and reinforces the importance of",
+   "conf": 0.9939,
+   "retry": null
+  },
+  {
+   "bbox": [
+    141.4,
+    373.6,
+    482.9,
+    392.4
+   ],
+   "text": "operator awareness and maintenance of safety equipment to protect all",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    142.2,
+    390.8,
+    256.2,
+    404.4
+   ],
+   "text": "crewmembers onboard.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    431.5,
+    278.5,
+    447.5
+   ],
+   "text": "Administrative Recommendation: None.",
+   "conf": 0.9906,
+   "retry": null
+  },
+  {
+   "bbox": [
+    251.0,
+    499.4,
+    325.9,
+    512.6
+   ],
+   "text": "T. H. Bertheau",
+   "conf": 0.9766,
+   "retry": null
+  },
+  {
+   "bbox": [
+    251.4,
+    511.8,
+    381.7,
+    526.9
+   ],
+   "text": "Captain, U.S. Coast Guard",
+   "conf": 0.9901,
+   "retry": null
+  },
+  {
+   "bbox": [
+    251.4,
+    525.7,
+    431.9,
+    540.1
+   ],
+   "text": "Officer in Charge, Marine Inspection",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.7,
+    555.7,
+    243.0,
+    570.4
+   ],
+   "text": "Enclosure: (1) Executive Summary",
+   "conf": 0.9815,
+   "retry": null
+  },
+  {
+   "bbox": [
+    125.9,
+    568.9,
+    290.1,
+    584.0
+   ],
+   "text": "(2) Investigating Officer's Report",
+   "conf": 0.9986,
+   "retry": null
+  },
+  {
+   "bbox": [
+    304.0,
+    756.1,
+    314.0,
+    768.8
+   ],
+   "text": "2",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

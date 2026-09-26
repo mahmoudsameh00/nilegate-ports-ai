@@ -1,0 +1,369 @@
+{
+ "key": {
+  "report_id": "H20_BELOW",
+  "filename": "H20_BELOW_6966090_ROI_Redacted.pdf",
+  "sha256": "f3fcf7689854c086f79383529c2e174af10699e91199f16de6dc34a5f5fcd65c",
+  "page_number": 16,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    68.5,
+    64.3,
+    152.2,
+    78.6
+   ],
+   "text": "6. Conclusions",
+   "conf": 0.9958,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.7,
+    89.8,
+    229.1,
+    103.8
+   ],
+   "text": "6.1. Determination of Cause:",
+   "conf": 0.9925,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.6,
+    116.6,
+    511.2,
+    130.5
+   ],
+   "text": "6.1.1. The initiating event for this casualty was the death of Passenger 1. The causal",
+   "conf": 0.997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.6,
+    130.1,
+    264.6,
+    144.5
+   ],
+   "text": "factor leading to this event was:",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    140.6,
+    157.3,
+    533.1,
+    172.9
+   ],
+   "text": "6.1.1.1. Failure to adhere with recommended dive computer decompression stops.",
+   "conf": 0.9948,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.5,
+    184.4,
+    519.6,
+    200.4
+   ],
+   "text": "6.2. Evidence of Act(s) or Violation(s) of Law by Any Coast Guard Credentialed Mariner",
+   "conf": 0.9966,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.9,
+    198.4,
+    534.3,
+    214.4
+   ],
+   "text": "Subject to Action under 46 USC Chapter 77: This investigation did not identify any evidence",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.3,
+    212.8,
+    535.1,
+    227.5
+   ],
+   "text": "of acts by any Coast Guard credentialed mariners subject to action under 46 USC Chapter 77.",
+   "conf": 0.9943,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.9,
+    237.5,
+    528.3,
+    253.9
+   ],
+   "text": "6.3. Evidence of Act(s) or Violation(s) of Law by U.S. Coast Guard Personnel, or any other",
+   "conf": 0.997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.5,
+    252.3,
+    527.5,
+    267.5
+   ],
+   "text": "person: This investigation did not identify any evidence of acts or violations of law by U.S.",
+   "conf": 0.9956,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.9,
+    265.5,
+    300.0,
+    281.8
+   ],
+   "text": "Coast Guard Personnel, or any other person.",
+   "conf": 0.9955,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.5,
+    291.0,
+    506.8,
+    307.4
+   ],
+   "text": "6.4. Evidence of Act(s) Subject to Civil Penalty: This investigation did not identify any",
+   "conf": 0.9957,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.3,
+    305.4,
+    331.9,
+    320.2
+   ],
+   "text": "evidence of acts that would warrant a civil penalty.",
+   "conf": 0.9978,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.5,
+    332.9,
+    521.2,
+    348.1
+   ],
+   "text": "6.5. Evidence of Criminal Act(s): This investigation did not identify violations of criminal",
+   "conf": 0.9891,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.3,
+    346.1,
+    110.8,
+    361.3
+   ],
+   "text": "law.",
+   "conf": 0.9985,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.5,
+    374.4,
+    515.6,
+    389.2
+   ],
+   "text": "6.6. Need for New or Amended U.S. Law or Regulation: This investigation identified no",
+   "conf": 0.9907,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.5,
+    388.0,
+    357.8,
+    402.8
+   ],
+   "text": "matters needing new or amended U.S. law or regulation.",
+   "conf": 0.9901,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.9,
+    415.6,
+    431.9,
+    429.5
+   ],
+   "text": "6.7. Unsafe Actions or Conditions that Were Not Causal Factors: None.",
+   "conf": 0.9936,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.3,
+    442.3,
+    258.6,
+    456.7
+   ],
+   "text": "7. Actions Taken Since the Incident",
+   "conf": 0.9962,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.9,
+    468.7,
+    192.4,
+    481.8
+   ],
+   "text": "7.1. No actions taken.",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.1,
+    496.6,
+    184.1,
+    511.0
+   ],
+   "text": "8. Recommendations",
+   "conf": 0.9987,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.5,
+    524.1,
+    529.5,
+    539.3
+   ],
+   "text": "8.1. Safety Recommendation: There were no proposed actions to add new or amend existing",
+   "conf": 0.9888,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.1,
+    537.7,
+    527.1,
+    553.3
+   ],
+   "text": "U.S. law or regulations, international requirements, industry standards, or U.S. Coast Guard",
+   "conf": 0.9913,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.3,
+    552.9,
+    335.9,
+    566.1
+   ],
+   "text": "policies and procedures as part of this investigation.",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.9,
+    578.0,
+    383.7,
+    591.6
+   ],
+   "text": "8.2. Administrative Recommendations: No recommendations.",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    230.7,
+    659.5,
+    373.7,
+    673.4
+   ],
+   "text": "Lheutenant, U.S. Coast Guard",
+   "conf": 0.9671,
+   "retry": null
+  },
+  {
+   "bbox": [
+    230.7,
+    672.2,
+    334.3,
+    689.4
+   ],
+   "text": "Inveshgating Officer",
+   "conf": 0.9674,
+   "retry": {
+    "text": "Inveshgating Officer",
+    "conf": 0.9674,
+    "first_text": "Invesfgating Officer",
+    "first_conf": 0.948,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    254.2,
+    688.2,
+    260.6,
+    697.0
+   ],
+   "text": "V",
+   "conf": 0.7101,
+   "retry": {
+    "text": "V",
+    "conf": 0.4101,
+    "first_text": "V",
+    "first_conf": 0.7101,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    298.0,
+    736.9,
+    306.0,
+    748.5
+   ],
+   "text": "9",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

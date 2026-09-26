@@ -1,0 +1,418 @@
+{
+ "key": {
+  "report_id": "H20_BELOW",
+  "filename": "H20_BELOW_6966090_ROI_Redacted.pdf",
+  "sha256": "f3fcf7689854c086f79383529c2e174af10699e91199f16de6dc34a5f5fcd65c",
+  "page_number": 4,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    431.9,
+    35.1,
+    524.3,
+    45.9
+   ],
+   "text": "Hale Boggs Federal Bldg.",
+   "conf": 0.9941,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.7,
+    36.7,
+    160.2,
+    47.5
+   ],
+   "text": "U.S. Department of",
+   "conf": 0.9803,
+   "retry": null
+  },
+  {
+   "bbox": [
+    271.7,
+    37.1,
+    318.4,
+    46.7
+   ],
+   "text": "Commander",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    431.9,
+    43.9,
+    504.0,
+    53.1
+   ],
+   "text": "500 Poydras Street",
+   "conf": 0.9974,
+   "retry": null
+  },
+  {
+   "bbox": [
+    271.3,
+    45.5,
+    370.5,
+    57.1
+   ],
+   "text": "Eighth Coast Guard District",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    47.1,
+    159.0,
+    57.9
+   ],
+   "text": "Homeland Security",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    431.9,
+    51.1,
+    519.2,
+    61.5
+   ],
+   "text": "New Orleans, LA 70130",
+   "conf": 0.996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    431.9,
+    59.1,
+    494.1,
+    69.9
+   ],
+   "text": "Staff Symbol: dp",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    63.9,
+    142.2,
+    75.8
+   ],
+   "text": "United States",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    431.9,
+    67.1,
+    516.4,
+    77.8
+   ],
+   "text": "Phone: (504) 671-2087",
+   "conf": 0.9824,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    73.5,
+    138.3,
+    86.2
+   ],
+   "text": "Coast Guard",
+   "conf": 0.9565,
+   "retry": null
+  },
+  {
+   "bbox": [
+    431.5,
+    91.4,
+    465.8,
+    105.8
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    430.7,
+    105.8,
+    492.5,
+    123.0
+   ],
+   "text": "DEC 0 42023",
+   "conf": 0.9458,
+   "retry": {
+    "text": "DEC 0 42023",
+    "conf": 0.9458,
+    "first_text": "DEC 0 42023",
+    "first_conf": 0.9432,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    75.3,
+    142.5,
+    532.3,
+    158.5
+   ],
+   "text": "COMMERCIAL DIVE VESSEL H2O BELOW (O.N. 1136903), PASSENGER LOSS OF",
+   "conf": 0.9981,
+   "retry": null
+  },
+  {
+   "bbox": [
+    81.7,
+    156.9,
+    524.7,
+    171.3
+   ],
+   "text": "LIFE AT USS ORISKANY WRECK 24 NM SOUTHEAST OF PENSACOLA, FL ON",
+   "conf": 0.9931,
+   "retry": null
+  },
+  {
+   "bbox": [
+    267.0,
+    171.7,
+    340.7,
+    185.2
+   ],
+   "text": "JUNE 1, 2020",
+   "conf": 0.9593,
+   "retry": null
+  },
+  {
+   "bbox": [
+    187.3,
+    198.8,
+    419.6,
+    212.4
+   ],
+   "text": "ENDORSEMENT BY THE COMMANDER,",
+   "conf": 0.9865,
+   "retry": null
+  },
+  {
+   "bbox": [
+    202.0,
+    213.2,
+    404.0,
+    225.5
+   ],
+   "text": "EIGHTH COASTGUARD DISTRICT",
+   "conf": 0.9668,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.3,
+    253.5,
+    501.6,
+    269.1
+   ],
+   "text": "The record and the report of the investigation convened for the subject casualty have been",
+   "conf": 0.9978,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.9,
+    267.5,
+    517.2,
+    283.0
+   ],
+   "text": "reviewed. The record and the report, including the findings of fact, analysis, conclusions, and",
+   "conf": 0.9988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.1,
+    281.0,
+    514.4,
+    297.0
+   ],
+   "text": "recommendations are approved. It is recommended that this marine casualty investigation be",
+   "conf": 0.9956,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.9,
+    296.2,
+    106.4,
+    310.2
+   ],
+   "text": "closed.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    216.0,
+    337.7,
+    390.9,
+    349.7
+   ],
+   "text": "COMMENTS ON THE REPORT",
+   "conf": 0.9967,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.3,
+    377.6,
+    516.4,
+    393.6
+   ],
+   "text": "1. This loss of a passenger was a tragic accident. I offer my sincere condolences to the family",
+   "conf": 0.99,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.3,
+    392.8,
+    280.9,
+    406.8
+   ],
+   "text": "and friends of the person who lost their life.",
+   "conf": 0.9965,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.5,
+    419.2,
+    518.8,
+    434.7
+   ],
+   "text": "2. The investigation and report contain valuable information which can be used to address the",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.5,
+    433.1,
+    523.9,
+    448.3
+   ],
+   "text": "factors that contributed to this marine casualty, and prevent similar incidents from occurring in",
+   "conf": 0.9962,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.9,
+    448.3,
+    121.5,
+    461.9
+   ],
+   "text": "the future.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    305.2,
+    503.8,
+    402.4,
+    515.8
+   ],
+   "text": "A. H. MOORE, JR.",
+   "conf": 0.9572,
+   "retry": null
+  },
+  {
+   "bbox": [
+    306.0,
+    515.0,
+    436.7,
+    530.9
+   ],
+   "text": "Captain, U.S. Coast Guard",
+   "conf": 0.998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    306.8,
+    530.5,
+    402.8,
+    542.5
+   ],
+   "text": "Chief of Prevention",
+   "conf": 0.9977,
+   "retry": null
+  },
+  {
+   "bbox": [
+    306.0,
+    543.7,
+    442.7,
+    557.7
+   ],
+   "text": "Eighth Coast Guard District",
+   "conf": 0.9978,
+   "retry": null
+  },
+  {
+   "bbox": [
+    305.2,
+    557.7,
+    371.3,
+    572.4
+   ],
+   "text": "By Direction",
+   "conf": 0.9966,
+   "retry": null
+  },
+  {
+   "bbox": [
+    297.6,
+    748.9,
+    307.2,
+    761.7
+   ],
+   "text": "1",
+   "conf": 0.9998,
+   "retry": null
+  }
+ ]
+}

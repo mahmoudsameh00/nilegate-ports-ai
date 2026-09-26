@@ -1,0 +1,434 @@
+{
+ "key": {
+  "report_id": "H20_BELOW",
+  "filename": "H20_BELOW_6966090_ROI_Redacted.pdf",
+  "sha256": "f3fcf7689854c086f79383529c2e174af10699e91199f16de6dc34a5f5fcd65c",
+  "page_number": 13,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    110.4,
+    67.1,
+    493.3,
+    80.6
+   ],
+   "text": "4.1.17. At 1222, the Master notified the Coast Guard that the H20 BELOW was",
+   "conf": 0.9928,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    81.0,
+    529.1,
+    95.0
+   ],
+   "text": "underway, making way at 23 mph to Pensacola Pass with 02 injured passengers, one of",
+   "conf": 0.9826,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    94.6,
+    433.1,
+    108.2
+   ],
+   "text": "which was unconscious. The vessel was 21 nautical miles offshore.",
+   "conf": 0.9947,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    121.8,
+    482.5,
+    136.1
+   ],
+   "text": "4.1.18. At 1225, Coast Guard Station Pensacola deployed a CG-45 to transfer",
+   "conf": 0.9967,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.6,
+    136.1,
+    526.7,
+    149.7
+   ],
+   "text": "Passengers 1 and 2 from the H2O BELOW. The on-duty flight doctor was notified and",
+   "conf": 0.9875,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.2,
+    148.9,
+    528.7,
+    164.1
+   ],
+   "text": "believed both suffered decompression sickness and directed CPR with no more than 10",
+   "conf": 0.9956,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    163.3,
+    351.8,
+    178.0
+   ],
+   "text": "sec interruptions between compressions for Pax1.",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    188.8,
+    310.0,
+    202.8
+   ],
+   "text": "4.1.19. At 1258, CG-45 arrived on-scene.",
+   "conf": 0.9949,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.6,
+    214.4,
+    534.7,
+    229.9
+   ],
+   "text": "4.1.20. At 1306, the CG-45 completed the transfer of the passengers and made way back",
+   "conf": 0.9905,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.2,
+    228.3,
+    510.4,
+    243.1
+   ],
+   "text": "to Station Pensacola to meet Emergency Medical Services (EMS) with a 20-minute",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    242.7,
+    231.5,
+    255.5
+   ],
+   "text": "estimated time of arrival.",
+   "conf": 0.9924,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    269.5,
+    524.7,
+    284.2
+   ],
+   "text": "4.1.21. At 1327, the CG-45 arrived at Station Pensacola and disembarked Passenger 1.",
+   "conf": 0.994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.6,
+    284.2,
+    533.9,
+    297.8
+   ],
+   "text": "Passenger 1 was pronounced dead on scene by EMS. Passenger 2 departed via life flight",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.6,
+    297.8,
+    513.2,
+    312.2
+   ],
+   "text": "to Spring Hill Hospital in Mobile, AL. Upon arrival at the hospital, Passenger 2 was",
+   "conf": 0.9964,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    311.4,
+    343.9,
+    325.3
+   ],
+   "text": "evaluated ánd treated in the hyperbaric chamber.",
+   "conf": 0.9952,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.6,
+    338.5,
+    496.9,
+    353.3
+   ],
+   "text": "4.1.22. On June 2, 2020, at 1030, medical examiners at Sacred Heart Hospital of",
+   "conf": 0.9841,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.2,
+    352.9,
+    364.2,
+    367.3
+   ],
+   "text": "Pensacola, FL performed an autopsy on Passenger 1.",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.2,
+    378.0,
+    533.5,
+    393.2
+   ],
+   "text": "4.1.23. On August 16, 2020, the autopsy report stated the cause of death was arterial gas",
+   "conf": 0.9936,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    392.4,
+    317.2,
+    406.8
+   ],
+   "text": "embolism due to rapid ascent while diving.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    417.6,
+    521.6,
+    431.9
+   ],
+   "text": "4.1.24. The Master and Deckhand aboard the H2O BELOW determined to be directly",
+   "conf": 0.9977,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.6,
+    431.9,
+    534.7,
+    446.3
+   ],
+   "text": "involved in the incident were subject to mandatory chemical testing for evidence of drug",
+   "conf": 0.9955,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    445.5,
+    506.4,
+    459.1
+   ],
+   "text": "and alcohol use in accordance with 46 CFR 4.06. The Master and Deckhand tested",
+   "conf": 0.9887,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.6,
+    459.1,
+    298.8,
+    474.6
+   ],
+   "text": "negative for both alcohol and drug use.",
+   "conf": 0.9925,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.7,
+    487.0,
+    282.1,
+    501.0
+   ],
+   "text": "4.2. Additional/Supporting Information:",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.2,
+    512.2,
+    520.4,
+    527.7
+   ],
+   "text": "4.2.1. The H2O BELOW is a 36-foot USCG inspected passenger vessel with required",
+   "conf": 0.9985,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.2,
+    527.7,
+    518.0,
+    539.7
+   ],
+   "text": "minimum manning of one Coast Guard credentialed Master and one Deckhand and is",
+   "conf": 0.9929,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.2,
+    540.5,
+    515.6,
+    555.7
+   ],
+   "text": "authorized to carry 20 passengers. Its last USCG inspection prior to the casualty was",
+   "conf": 0.9854,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.6,
+    554.1,
+    525.9,
+    568.9
+   ],
+   "text": "conducted on March 24, 2020. The vessel conducted recreational diving charters in the",
+   "conf": 0.9981,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.6,
+    568.1,
+    490.5,
+    582.4
+   ],
+   "text": "Gulf of America waters surrounding the Pensacola, Florida area. H2O BELOW",
+   "conf": 0.9949,
+   "retry": null
+  },
+  {
+   "bbox": [
+    108.8,
+    581.2,
+    445.9,
+    597.2
+   ],
+   "text": "specialized in diving charters to the aircraft carrier USS ORISKANY.",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.2,
+    607.6,
+    517.2,
+    622.7
+   ],
+   "text": "4.2.2. The company, Douglas Marine Service, serves as the managing owner of H2O",
+   "conf": 0.9945,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    621.9,
+    158.6,
+    634.3
+   ],
+   "text": "BELOW.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.6,
+    649.1,
+    524.7,
+    664.7
+   ],
+   "text": "4.2.3. The Master of the H2O BELOW was employed by Douglas Marine Service. He",
+   "conf": 0.9981,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    663.5,
+    533.1,
+    677.4
+   ],
+   "text": "was the holder of a USCG Merchant Mariner Credential and had been a licensed Master",
+   "conf": 0.9926,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    677.0,
+    172.9,
+    691.4
+   ],
+   "text": "for 11 years.",
+   "conf": 0.997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    299.6,
+    738.5,
+    308.8,
+    750.9
+   ],
+   "text": "6",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

@@ -1,0 +1,551 @@
+{
+ "key": {
+  "report_id": "CUYAHOGA",
+  "filename": "CUYAHOGA_7881082_ROI_Redacted.pdf",
+  "sha256": "c518b7d648f90ab65608426f5a39cb32667954bc1cb6890867dce47e6c56fa0a",
+  "page_number": 11,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    69.7,
+    37.5,
+    248.2,
+    49.5
+   ],
+   "text": "2. Vessel Involved in the Incident",
+   "conf": 0.9977,
+   "retry": null
+  },
+  {
+   "bbox": [
+    138.3,
+    311.4,
+    491.7,
+    322.9
+   ],
+   "text": "Figure 1. Undated Photograph of Cuyahoga (U.S. Official Number 243772). Source: www.vesselfinder.com",
+   "conf": 0.995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    332.7,
+    343.7,
+    386.1,
+    359.3
+   ],
+   "text": "Cuyahoga",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    80.9,
+    344.1,
+    157.4,
+    358.1
+   ],
+   "text": "Official Name:",
+   "conf": 0.9813,
+   "retry": null
+  },
+  {
+   "bbox": [
+    80.9,
+    358.9,
+    194.8,
+    372.4
+   ],
+   "text": "Identification Number:",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    333.5,
+    358.9,
+    478.9,
+    372.0
+   ],
+   "text": "U.S. Official Number 243772",
+   "conf": 0.9903,
+   "retry": null
+  },
+  {
+   "bbox": [
+    79.7,
+    372.0,
+    110.0,
+    388.8
+   ],
+   "text": "Flag:",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    332.3,
+    372.8,
+    372.9,
+    387.6
+   ],
+   "text": "Canada",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    332.3,
+    386.8,
+    523.9,
+    402.8
+   ],
+   "text": "Bulk Carrier/General/Self-Discharging",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    80.1,
+    387.6,
+    227.1,
+    402.8
+   ],
+   "text": "Vessel Class/Type/Sub-Type:",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    80.9,
+    402.4,
+    141.4,
+    416.8
+   ],
+   "text": "Build Year:",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    332.7,
+    402.4,
+    361.0,
+    416.8
+   ],
+   "text": "1943",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    81.3,
+    417.6,
+    177.7,
+    431.9
+   ],
+   "text": "Gross Tons (GRT):",
+   "conf": 0.9909,
+   "retry": null
+  },
+  {
+   "bbox": [
+    333.1,
+    417.6,
+    370.1,
+    431.5
+   ],
+   "text": "10,532",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    79.7,
+    430.7,
+    122.3,
+    447.1
+   ],
+   "text": "Length:",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    332.3,
+    431.5,
+    367.4,
+    445.9
+   ],
+   "text": "604.8'",
+   "conf": 0.9391,
+   "retry": {
+    "text": "604.8'",
+    "conf": 0.9123,
+    "first_text": "604.8'",
+    "first_conf": 0.9391,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    331.9,
+    445.5,
+    353.0,
+    461.1
+   ],
+   "text": "60",
+   "conf": 0.9968,
+   "retry": {
+    "text": "60",
+    "conf": 0.9968,
+    "first_text": "60'",
+    "first_conf": 0.8418,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    80.5,
+    446.7,
+    117.5,
+    460.7
+   ],
+   "text": "Beam:",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    80.1,
+    460.7,
+    117.9,
+    476.2
+   ],
+   "text": "Depth:",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    332.3,
+    460.7,
+    353.0,
+    475.0
+   ],
+   "text": "35'",
+   "conf": 0.8548,
+   "retry": {
+    "text": "35'",
+    "conf": 0.8345,
+    "first_text": "35'",
+    "first_conf": 0.8548,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    80.1,
+    475.0,
+    320.7,
+    490.6
+   ],
+   "text": "Main/Primary Propulsion (Configuration/System",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    333.1,
+    475.8,
+    419.6,
+    489.0
+   ],
+   "text": "Diesel Reduction",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    81.3,
+    489.8,
+    216.0,
+    504.2
+   ],
+   "text": "Type, Ahead Horsepower):",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    333.1,
+    504.6,
+    465.4,
+    517.8
+   ],
+   "text": "Lower Lakes Towing LTD",
+   "conf": 0.9948,
+   "retry": null
+  },
+  {
+   "bbox": [
+    80.9,
+    505.0,
+    120.7,
+    517.4
+   ],
+   "text": "Owner:",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    332.7,
+    517.8,
+    414.4,
+    531.7
+   ],
+   "text": "517 Main Street",
+   "conf": 0.9555,
+   "retry": null
+  },
+  {
+   "bbox": [
+    332.7,
+    531.3,
+    402.0,
+    545.3
+   ],
+   "text": "PO Box 1149",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    333.1,
+    546.1,
+    462.6,
+    559.3
+   ],
+   "text": "Port Dover, ON N0A 1N0",
+   "conf": 0.9893,
+   "retry": null
+  },
+  {
+   "bbox": [
+    332.7,
+    574.0,
+    465.4,
+    588.4
+   ],
+   "text": "Lower Lakes Towing LTD",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    81.3,
+    574.8,
+    130.3,
+    588.8
+   ],
+   "text": "Operator:",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    333.1,
+    588.4,
+    414.0,
+    600.4
+   ],
+   "text": "517 Main Street",
+   "conf": 0.9743,
+   "retry": null
+  },
+  {
+   "bbox": [
+    333.5,
+    602.4,
+    401.6,
+    614.4
+   ],
+   "text": "PO Box 1149",
+   "conf": 0.9804,
+   "retry": null
+  },
+  {
+   "bbox": [
+    333.5,
+    616.0,
+    461.8,
+    627.9
+   ],
+   "text": "Port Dover, ON N0A 1N0",
+   "conf": 0.9726,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    657.9,
+    310.0,
+    671.0
+   ],
+   "text": "3.Deceased, Missing, and/or Injured Persons",
+   "conf": 0.9979,
+   "retry": null
+  },
+  {
+   "bbox": [
+    272.9,
+    684.2,
+    298.4,
+    699.8
+   ],
+   "text": "Age",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    473.3,
+    684.2,
+    508.0,
+    698.2
+   ],
+   "text": "Status",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    81.7,
+    684.6,
+    191.6,
+    698.6
+   ],
+   "text": "Name (First, MI, Last)",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    214.0,
+    684.6,
+    236.7,
+    698.2
+   ],
+   "text": "Sex",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    324.3,
+    685.0,
+    431.9,
+    698.2
+   ],
+   "text": "Relationship to Vessel",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    212.4,
+    698.2,
+    237.1,
+    713.0
+   ],
+   "text": "N/A",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    272.9,
+    698.2,
+    298.0,
+    713.0
+   ],
+   "text": "N/A",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    365.4,
+    698.2,
+    390.5,
+    713.0
+   ],
+   "text": "N/A",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    477.3,
+    698.2,
+    502.4,
+    713.0
+   ],
+   "text": "N/A",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    122.3,
+    699.4,
+    151.0,
+    712.6
+   ],
+   "text": "None",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    301.6,
+    758.9,
+    310.0,
+    769.6
+   ],
+   "text": "5",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

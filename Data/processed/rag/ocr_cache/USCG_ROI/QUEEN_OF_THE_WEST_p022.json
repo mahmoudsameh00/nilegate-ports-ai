@@ -1,0 +1,511 @@
+{
+ "key": {
+  "report_id": "QUEEN_OF_THE_WEST",
+  "filename": "QUEEN_OF_THE_WEST_4405289_ROI_Redacted.pdf",
+  "sha256": "02f978c36fcbd8ef00493738d66ee13a4079eab5832883de67ba1cacc388cba3",
+  "page_number": 22,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2542,
+  3292
+ ],
+ "lines": [
+  {
+   "bbox": [
+    507.2,
+    27.1,
+    540.2,
+    41.8
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.1,
+    40.6,
+    476.2,
+    52.2
+   ],
+   "text": "LOSS OF LIFE FOLLOWING MAN OVERBOARD FROM P/V QUEEN OF THE WEST",
+   "conf": 0.9848,
+   "retry": null
+  },
+  {
+   "bbox": [
+    493.3,
+    41.0,
+    538.6,
+    53.4
+   ],
+   "text": "06May13",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.5,
+    66.9,
+    500.5,
+    78.8
+   ],
+   "text": "5. It is recommended that American Cruise Lines, Inc. update the Station Bill to assign one crew",
+   "conf": 0.9882,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.7,
+    78.5,
+    530.6,
+    91.2
+   ],
+   "text": "member the responsibility of throwing the “Man Overboard\" life buoy in event of a fall overboard. This",
+   "conf": 0.9903,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.5,
+    89.6,
+    511.6,
+    104.3
+   ],
+   "text": "person should have other duties on or near the bridge. All crew should be trained to throw anything",
+   "conf": 0.9836,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.1,
+    102.7,
+    340.4,
+    114.7
+   ],
+   "text": "buoyant immediately available to assist a person in the water.",
+   "conf": 0.9988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.7,
+    126.6,
+    533.4,
+    139.4
+   ],
+   "text": "6. It is recommended that American Cruise Lines, Inc. place a serviceable searchlight in the rescue boat.",
+   "conf": 0.9964,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.7,
+    150.9,
+    531.8,
+    163.7
+   ],
+   "text": "7. It is recommended that American Cruise Lines, Inc. place a serviceable life ring in the port side main",
+   "conf": 0.9928,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.1,
+    163.3,
+    166.8,
+    175.2
+   ],
+   "text": "deck life ring bracket.",
+   "conf": 0.9886,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.3,
+    186.4,
+    536.2,
+    199.9
+   ],
+   "text": "8. It is recommended that American Cruise Lines, Inc. provide floating lights for all main deck life rings.",
+   "conf": 0.9978,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.9,
+    210.3,
+    531.0,
+    224.2
+   ],
+   "text": "9. It is recommended that American Cruise Lines, Inc. develop an inclusive safety policy with regard to",
+   "conf": 0.9955,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.9,
+    222.6,
+    514.4,
+    236.1
+   ],
+   "text": "authorized crew permitted to work on the stern in the vicinity of the paddlewheel. The policy should",
+   "conf": 0.9959,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.9,
+    234.6,
+    536.6,
+    248.1
+   ],
+   "text": "designate in writing the “authorized persons\" permitted in the area and detail specific evolutions requiring",
+   "conf": 0.9945,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.7,
+    247.7,
+    508.4,
+    259.6
+   ],
+   "text": "access (ie. trash detail, mooring/sea detail, maintenance, etc.). A physical list of authorized persons",
+   "conf": 0.9919,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.1,
+    259.6,
+    508.8,
+    271.2
+   ],
+   "text": "would deter others from accessing this dangerous area of the vessel, and provide an effective tool to",
+   "conf": 0.9971,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.3,
+    271.2,
+    151.7,
+    284.3
+   ],
+   "text": "enforce the policy.",
+   "conf": 0.9972,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.7,
+    295.5,
+    510.8,
+    307.4
+   ],
+   "text": "10. It is recommended that American Cruise Lines, Inc. provide physical barriers such as chains and",
+   "conf": 0.9987,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.7,
+    307.8,
+    528.3,
+    319.8
+   ],
+   "text": "warning signs on both sides of the vessel as visual deterrents to prevent unauthorized access to the stern.",
+   "conf": 0.9873,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.3,
+    331.7,
+    521.5,
+    343.7
+   ],
+   "text": "11. It is recommended that American Cruise Lines, Inc., in consultation with U.S. Coast Guard Marine",
+   "conf": 0.9867,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.5,
+    343.3,
+    531.4,
+    356.8
+   ],
+   "text": "Safety Unit Portland Inspection Department, install effective deck lights (wired to the main deck lighting",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.9,
+    355.6,
+    516.7,
+    368.0
+   ],
+   "text": "controls) on the stern portion of the vessel. In the meaņtime, it is recommended that P/V QUEEN OF",
+   "conf": 0.9869,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.1,
+    367.2,
+    427.0,
+    380.7
+   ],
+   "text": "THE WEST crew activate existing stern lights from sunset to sunrise every night.",
+   "conf": 0.989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.9,
+    391.9,
+    521.1,
+    403.8
+   ],
+   "text": "12. It is recommended that American Cruise Lines, Inc., in consultation with U.S. Coast Guard Marine",
+   "conf": 0.9932,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.9,
+    404.2,
+    515.9,
+    416.1
+   ],
+   "text": "Safety Unit Portland Inspection Department, consider developing a locking mechanism to prevent the",
+   "conf": 0.9982,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.1,
+    415.7,
+    533.4,
+    428.5
+   ],
+   "text": "movement of the paddlewheel during swift current conditions. The mechanism should be developed only",
+   "conf": 0.9922,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.7,
+    427.3,
+    504.0,
+    440.8
+   ],
+   "text": "if the risk of damage to the paddlewheel support arms or associated vessel propulsion machinery is",
+   "conf": 0.9909,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.1,
+    440.0,
+    119.2,
+    452.0
+   ],
+   "text": "minimized.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.5,
+    463.5,
+    533.8,
+    475.9
+   ],
+   "text": "13. It is recommended that the Master of P/V QUEEN OF THE WEST provide survival training and Man",
+   "conf": 0.9972,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.9,
+    475.9,
+    342.4,
+    487.8
+   ],
+   "text": "Overboard training for all crew following a fall into the water.",
+   "conf": 0.9981,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.1,
+    498.6,
+    486.6,
+    512.5
+   ],
+   "text": "14. It is recommended that the Master of P/V QUEEN OF THE WEST ensure all crew actively",
+   "conf": 0.988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.7,
+    511.3,
+    421.0,
+    524.9
+   ],
+   "text": "participate in drills to ensure knowledge of man overboard recovery procedures.",
+   "conf": 0.9951,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.9,
+    535.6,
+    523.5,
+    547.6
+   ],
+   "text": "15. It is recommended that the Master of P/V QUEEN OF THE WEST actively enforce the “authorized",
+   "conf": 0.9895,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.3,
+    547.2,
+    508.8,
+    561.1
+   ],
+   "text": "personnel only\" policy to prevent others from accessing the stern of the vessel. Enforcement should",
+   "conf": 0.9904,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.3,
+    559.5,
+    504.0,
+    573.0
+   ],
+   "text": "include the use of effective and appropriate punishment and/or documentation of all personnel who",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.9,
+    572.6,
+    148.2,
+    584.6
+   ],
+   "text": "violate the policy.",
+   "conf": 0.9918,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.1,
+    596.1,
+    513.2,
+    608.5
+   ],
+   "text": "16. It is recommended that the Master of P/V QUEEN OF THE WEST actively enforce all American",
+   "conf": 0.9981,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.5,
+    608.9,
+    520.7,
+    620.8
+   ],
+   "text": "Cruise Lines, Inc. Operations Manual policies onboard P/V QUEEN OF THE WEST, but most notably",
+   "conf": 0.9938,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.3,
+    619.6,
+    131.1,
+    634.0
+   ],
+   "text": "the following:",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.9,
+    643.9,
+    492.1,
+    657.5
+   ],
+   "text": "a. No drinking. Enforcement could include random alcohol tests when crew return from shore.",
+   "conf": 0.9969,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.9,
+    669.0,
+    525.1,
+    681.0
+   ],
+   "text": "b. Crew in quarters after midnight. Enforcement could include watchmen keeping track of who is not",
+   "conf": 0.9912,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.1,
+    681.4,
+    182.7,
+    693.3
+   ],
+   "text": "in quarters after midnight.",
+   "conf": 0.9946,
+   "retry": null
+  },
+  {
+   "bbox": [
+    291.5,
+    737.1,
+    309.0,
+    751.5
+   ],
+   "text": "17",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

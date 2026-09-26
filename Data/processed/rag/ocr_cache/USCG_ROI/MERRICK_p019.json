@@ -1,0 +1,170 @@
+{
+ "key": {
+  "report_id": "MERRICK",
+  "filename": "MERRICK_8031230_ROI_Redacted.pdf",
+  "sha256": "76047e77ee5376e2fc4638301674894f54af536e5de39cbdbdeec8ffbedd53b9",
+  "page_number": 19,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    110.0,
+    29.1,
+    504.4,
+    43.5
+   ],
+   "text": "8.1.1. There were no proposed actions to add new or amend existing U.S. laws or",
+   "conf": 0.988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.2,
+    42.7,
+    536.3,
+    57.5
+   ],
+   "text": "regulations, international requirements, industry standards, or U.S. Coast Guard policies",
+   "conf": 0.9983,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    57.5,
+    321.1,
+    70.7
+   ],
+   "text": "and procedures as part of this investigation.",
+   "conf": 0.9849,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.7,
+    82.6,
+    280.5,
+    96.2
+   ],
+   "text": "8.2. Administrative Recommendations:",
+   "conf": 0.9886,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.2,
+    107.8,
+    482.9,
+    122.6
+   ],
+   "text": "8.2.1. It is recommended that Coast Guard Sector Long Island Sound and the",
+   "conf": 0.994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    123.4,
+    527.1,
+    136.5
+   ],
+   "text": "Connecticut Department of Energy and Environmental Protection develop a process to",
+   "conf": 0.9977,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    137.3,
+    520.8,
+    150.5
+   ],
+   "text": "address authority and jurisdiction, as well as appropriate funding streams, to mitigate",
+   "conf": 0.9938,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.6,
+    150.9,
+    427.5,
+    164.1
+   ],
+   "text": "abandoned and/or unsalvaged vessels in Connecticut state waters.",
+   "conf": 0.9978,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    176.4,
+    389.3,
+    189.6
+   ],
+   "text": "8.2.2. It is recommended that this investigation be closed.",
+   "conf": 0.9972,
+   "retry": null
+  },
+  {
+   "bbox": [
+    213.2,
+    283.4,
+    301.6,
+    296.6
+   ],
+   "text": "U.S. Coast Guard",
+   "conf": 0.9744,
+   "retry": null
+  },
+  {
+   "bbox": [
+    213.2,
+    297.0,
+    318.0,
+    311.4
+   ],
+   "text": "Investigating Officer",
+   "conf": 0.9917,
+   "retry": null
+  },
+  {
+   "bbox": [
+    296.4,
+    749.3,
+    313.6,
+    764.5
+   ],
+   "text": "14",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

@@ -1,0 +1,357 @@
+{
+ "key": {
+  "report_id": "MERRICK",
+  "filename": "MERRICK_8031230_ROI_Redacted.pdf",
+  "sha256": "76047e77ee5376e2fc4638301674894f54af536e5de39cbdbdeec8ffbedd53b9",
+  "page_number": 15,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    70.5,
+    29.5,
+    135.9,
+    43.1
+   ],
+   "text": "5. Analysis",
+   "conf": 0.9919,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.9,
+    55.5,
+    522.8,
+    69.1
+   ],
+   "text": "5.1. The weather on November 4, 2024, was typical for the region at that time. The winds",
+   "conf": 0.9879,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.5,
+    69.1,
+    529.1,
+    83.8
+   ],
+   "text": "and seas were not especially hazardous and did not require the National Weather Service to",
+   "conf": 0.9906,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.1,
+    83.4,
+    185.7,
+    97.8
+   ],
+   "text": "issue any warnings.",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    109.0,
+    529.1,
+    123.0
+   ],
+   "text": "5.1.1. The National Weather Service will issue Small Craft Advisories for Long Island",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    122.6,
+    535.1,
+    137.3
+   ],
+   "text": "Sound when there are sustained winds or frequent gusts of 25 to 33 knots and/or seas of",
+   "conf": 0.9972,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    137.3,
+    514.8,
+    150.5
+   ],
+   "text": "5 feet or higher. National Weather Service New York. NY Marine Definitions Page",
+   "conf": 0.9834,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.7,
+    162.1,
+    523.5,
+    177.2
+   ],
+   "text": "5.2. The MERRICK was a NOVI-style fishing vessel and naturally sat low in the water at",
+   "conf": 0.9815,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.5,
+    177.2,
+    528.7,
+    190.4
+   ],
+   "text": "midships. Unloaded, the vessel displayed approximately four inches of freeboard below the",
+   "conf": 0.9892,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.9,
+    191.2,
+    510.8,
+    204.4
+   ],
+   "text": "deck scuppers at midships. The open stern had 4-6 inches of freeboard due to the vessel",
+   "conf": 0.992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.5,
+    205.2,
+    204.8,
+    218.4
+   ],
+   "text": "design (upturned stern).",
+   "conf": 0.9949,
+   "retry": null
+  },
+  {
+   "bbox": [
+    183.7,
+    441.9,
+    444.3,
+    453.5
+   ],
+   "text": "Figure 5. Undated photograph of MERRICK underway provided by Deckhand 1",
+   "conf": 0.9934,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    464.7,
+    517.6,
+    478.6
+   ],
+   "text": "5.2.1. There were three deck hatches on the aft deck, all designed to be weathertight,",
+   "conf": 0.9971,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.6,
+    479.0,
+    516.8,
+    492.2
+   ],
+   "text": "meaning the hatch covers would prevent water from entering from the outside under",
+   "conf": 0.9833,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    493.4,
+    518.8,
+    505.4
+   ],
+   "text": "normal sea conditions. They were not designed to withstand pressure from water and",
+   "conf": 0.9926,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.6,
+    506.6,
+    496.5,
+    519.8
+   ],
+   "text": "were not intended for submerged conditions. The center-most hatch was located",
+   "conf": 0.9946,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.6,
+    520.1,
+    536.7,
+    533.7
+   ],
+   "text": "midships and was covered by loaded oyster totes during the transit out of the Housatonic",
+   "conf": 0.9949,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.2,
+    533.3,
+    533.5,
+    547.7
+   ],
+   "text": "River. The crew members stated that the deck was submerged in 4-6 inches of water for",
+   "conf": 0.9888,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.2,
+    547.3,
+    302.4,
+    560.9
+   ],
+   "text": "the 50-minute transit to the oyster beds.",
+   "conf": 0.9914,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.2,
+    572.4,
+    531.9,
+    587.2
+   ],
+   "text": "5.2.2. There was one bilge alarm float switch and one bilge pump, both located beneath",
+   "conf": 0.9972,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.2,
+    586.8,
+    525.9,
+    600.4
+   ],
+   "text": "the aft deck in the vicinity of the forward-most hatch, just behind the wheelhouse. The",
+   "conf": 0.9945,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    601.2,
+    523.9,
+    614.4
+   ],
+   "text": "bilge alarm had a light and audible alarm located at the helm station. According to the",
+   "conf": 0.9857,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.6,
+    615.2,
+    537.1,
+    628.3
+   ],
+   "text": "crew members, the bilge alarm began to sound as soon as the Operator slowed the vessel",
+   "conf": 0.9942,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    628.7,
+    505.2,
+    641.9
+   ],
+   "text": "upon reaching the oyster beds. The alarm could be heard over the radio during the",
+   "conf": 0.9961,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    641.9,
+    441.5,
+    655.5
+   ],
+   "text": "Operator's MAYDAY calls to the Coast Guard on VHF Channel 16.",
+   "conf": 0.9874,
+   "retry": null
+  },
+  {
+   "bbox": [
+    108.8,
+    667.1,
+    518.4,
+    681.8
+   ],
+   "text": "5.2.3. When the Operator arrived at the oyster beds, he slowed and turned the vessel,",
+   "conf": 0.9885,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.6,
+    682.6,
+    511.2,
+    694.6
+   ],
+   "text": "maneuvering the vessel so that it was taking the seas directly over the transom. The",
+   "conf": 0.9951,
+   "retry": null
+  },
+  {
+   "bbox": [
+    108.4,
+    695.0,
+    505.2,
+    709.8
+   ],
+   "text": "transom was already sitting low in the water due to the weight of the load, and the",
+   "conf": 0.9885,
+   "retry": null
+  },
+  {
+   "bbox": [
+    296.4,
+    749.7,
+    314.0,
+    765.3
+   ],
+   "text": "10",
+   "conf": 0.9999,
+   "retry": null
+  }
+ ]
+}

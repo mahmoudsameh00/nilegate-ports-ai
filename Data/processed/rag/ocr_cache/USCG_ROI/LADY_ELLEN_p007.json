@@ -1,0 +1,456 @@
+{
+ "key": {
+  "report_id": "LADY_ELLEN",
+  "filename": "LADY_ELLEN_7965695_ROI_Redacted.pdf",
+  "sha256": "2f2c6a50d58addb5fd93c98b2144a893d2416e1a501617e9cbc8e33ee7fe0a98",
+  "page_number": 7,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    90.4,
+    40.3,
+    525.9,
+    54.3
+   ],
+   "text": "outreach initiatives such as industry publications, comprehensive training programs, social",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    89.2,
+    54.7,
+    523.5,
+    69.5
+   ],
+   "text": "media campaigns, direct communication with commercial fishing vessel (CFV) operators,",
+   "conf": 0.9907,
+   "retry": null
+  },
+  {
+   "bbox": [
+    90.4,
+    70.3,
+    369.4,
+    83.4
+   ],
+   "text": "and collaborative partnerships with industry stakeholders.",
+   "conf": 0.9988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    76.9,
+    95.8,
+    527.5,
+    109.0
+   ],
+   "text": "Safety Recommendation 8.1.4: Recommend the Commandant, U.S. Coast Guard establish a",
+   "conf": 0.9966,
+   "retry": null
+  },
+  {
+   "bbox": [
+    76.1,
+    109.4,
+    489.7,
+    123.8
+   ],
+   "text": "requirement for credentialing of operators of CFVs over 36 feet in length. Despite the",
+   "conf": 0.9956,
+   "retry": null
+  },
+  {
+   "bbox": [
+    75.7,
+    122.6,
+    526.7,
+    137.7
+   ],
+   "text": "established credentialing requirements for other segments of the commercial marine industry,",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    76.5,
+    137.7,
+    529.1,
+    150.9
+   ],
+   "text": "the Coast Guard has not yet implemented similar standards for CFVs. A significant portion of",
+   "conf": 0.9957,
+   "retry": null
+  },
+  {
+   "bbox": [
+    76.1,
+    150.9,
+    506.4,
+    164.9
+   ],
+   "text": "the U.S. fishing fleet, including an estimated 25,600 vessels greater than 36 feet in length",
+   "conf": 0.9877,
+   "retry": null
+  },
+  {
+   "bbox": [
+    76.5,
+    164.9,
+    500.8,
+    178.4
+   ],
+   "text": "according to the National Marine Fisheries Service, would benefit from such a mandate,",
+   "conf": 0.989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    76.9,
+    179.2,
+    516.4,
+    192.4
+   ],
+   "text": "aligning with the vessel length criteria outlined in 46 CFR Subpart 25.26-5. This alignment",
+   "conf": 0.9969,
+   "retry": null
+  },
+  {
+   "bbox": [
+    75.7,
+    192.0,
+    537.9,
+    206.8
+   ],
+   "text": "would ensure that CFV operators are credentialed, thereby promoting safety through a chemical",
+   "conf": 0.9935,
+   "retry": null
+  },
+  {
+   "bbox": [
+    75.7,
+    206.0,
+    517.6,
+    220.8
+   ],
+   "text": "testing program that includes pre-employment, random, and reasonable cause testing, along",
+   "conf": 0.9919,
+   "retry": null
+  },
+  {
+   "bbox": [
+    76.9,
+    220.4,
+    512.4,
+    233.5
+   ],
+   "text": "with the post-casualty testing requirements mandated by 46 CFR Part 16. Establishing this",
+   "conf": 0.9944,
+   "retry": null
+  },
+  {
+   "bbox": [
+    76.9,
+    234.7,
+    518.4,
+    247.9
+   ],
+   "text": "credentialing requirement would standardize operational competencies, strengthen drug and",
+   "conf": 0.9936,
+   "retry": null
+  },
+  {
+   "bbox": [
+    76.9,
+    248.3,
+    507.6,
+    261.5
+   ],
+   "text": "alcohol procedures, and significantly enhance overall safety for operators of larger CFVs.",
+   "conf": 0.9989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    89.6,
+    275.4,
+    535.1,
+    288.6
+   ],
+   "text": "Endorsement: Partially Concur – Although the investigation did not yield relevant evidence",
+   "conf": 0.9946,
+   "retry": null
+  },
+  {
+   "bbox": [
+    89.2,
+    289.8,
+    526.3,
+    303.0
+   ],
+   "text": "regarding the captain/operator's ability to safely maneuver the vessel or the positive use of",
+   "conf": 0.9947,
+   "retry": null
+  },
+  {
+   "bbox": [
+    90.0,
+    304.2,
+    496.1,
+    316.2
+   ],
+   "text": "drugs or alcohol, regardless of Coast Guard mariner credentials, I firmly believe that",
+   "conf": 0.9969,
+   "retry": null
+  },
+  {
+   "bbox": [
+    89.2,
+    317.0,
+    502.4,
+    331.3
+   ],
+   "text": "establishing a drug and alcohol testing program for CFV mariners would significantly",
+   "conf": 0.9913,
+   "retry": null
+  },
+  {
+   "bbox": [
+    89.2,
+    331.3,
+    516.8,
+    344.5
+   ],
+   "text": "enhance industry standards and improve safety. I recommend conducting comprehensive",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.7,
+    344.1,
+    532.3,
+    358.9
+   ],
+   "text": "research to thoroughly evaluate the feasibility of this initiative. This should include defining",
+   "conf": 0.996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.5,
+    358.1,
+    537.9,
+    372.4
+   ],
+   "text": "the specific dimensions of CFV that should fall under this requirement, analyzing operational",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.7,
+    371.6,
+    529.9,
+    386.4
+   ],
+   "text": "routes, and assessing other critical factors to ensure informed and effective implementation.",
+   "conf": 0.996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.9,
+    386.4,
+    502.8,
+    399.6
+   ],
+   "text": "Additionally, a detailed feasibility and cost analysis should be conducted to assess the",
+   "conf": 0.9949,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.5,
+    400.8,
+    536.7,
+    414.0
+   ],
+   "text": "practicality and potential impacts of establishing tailored requirements for a drug and alcohol",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.1,
+    413.6,
+    527.1,
+    428.3
+   ],
+   "text": "testing program specific to the CFV industry. These efforts would enhance safety, promote",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.5,
+    427.1,
+    518.8,
+    441.5
+   ],
+   "text": "accountability and professionalism within the industry, and contribute significantly to the",
+   "conf": 0.9978,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.7,
+    440.3,
+    369.8,
+    456.7
+   ],
+   "text": "protection of lives, property, and the marine environment.",
+   "conf": 0.9915,
+   "retry": null
+  },
+  {
+   "bbox": [
+    76.1,
+    468.3,
+    457.8,
+    483.0
+   ],
+   "text": "Administrative Recommendation 2. Recommend this investigation be closed.",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.9,
+    496.2,
+    491.7,
+    510.2
+   ],
+   "text": "Endorsement: Concur. The Coast Guard East District agrees with the analysis and",
+   "conf": 0.9818,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.1,
+    509.4,
+    500.0,
+    524.5
+   ],
+   "text": "conclusions of the Investigating Officer and the endorsement of the Officer in Charge,",
+   "conf": 0.9963,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.5,
+    524.5,
+    418.8,
+    537.7
+   ],
+   "text": "Marine Inspection. No further action is required by the Coast Guard.",
+   "conf": 0.9977,
+   "retry": null
+  },
+  {
+   "bbox": [
+    310.0,
+    607.2,
+    434.7,
+    619.1
+   ],
+   "text": "MATTHEWJMESKUN",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    310.0,
+    621.1,
+    437.9,
+    634.3
+   ],
+   "text": "Captain, U.S. Coast Guard",
+   "conf": 0.9975,
+   "retry": null
+  },
+  {
+   "bbox": [
+    309.6,
+    634.3,
+    437.9,
+    647.9
+   ],
+   "text": "Chief, Prevention Division",
+   "conf": 0.9864,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.5,
+    676.6,
+    437.5,
+    689.8
+   ],
+   "text": "Enclosures: (1) Endorsement by the Officer in Charge, Marine Inspection",
+   "conf": 0.9847,
+   "retry": null
+  },
+  {
+   "bbox": [
+    142.6,
+    690.6,
+    258.6,
+    703.8
+   ],
+   "text": "(2) Executive Summary",
+   "conf": 0.9752,
+   "retry": null
+  },
+  {
+   "bbox": [
+    142.6,
+    703.8,
+    306.8,
+    718.1
+   ],
+   "text": "(3) Investigating Officer's Report",
+   "conf": 0.9856,
+   "retry": null
+  }
+ ]
+}

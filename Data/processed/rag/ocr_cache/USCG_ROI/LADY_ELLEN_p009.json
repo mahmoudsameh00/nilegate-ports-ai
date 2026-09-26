@@ -1,0 +1,467 @@
+{
+ "key": {
+  "report_id": "LADY_ELLEN",
+  "filename": "LADY_ELLEN_7965695_ROI_Redacted.pdf",
+  "sha256": "2f2c6a50d58addb5fd93c98b2144a893d2416e1a501617e9cbc8e33ee7fe0a98",
+  "page_number": 9,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    74.5,
+    52.7,
+    511.2,
+    69.9
+   ],
+   "text": "Safety Recommendation 3: Recommend the Commandant, U.S. Coast Guard amend the",
+   "conf": 0.9923,
+   "retry": null
+  },
+  {
+   "bbox": [
+    73.7,
+    66.7,
+    507.6,
+    83.8
+   ],
+   "text": "regulations in 46 CFR Subpart 28.110 to expand requirements by including language that",
+   "conf": 0.9945,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.5,
+    79.8,
+    543.5,
+    97.8
+   ],
+   "text": "specifically mandates the wearing of PFDs for Crewmembers who work on exposed decks or are",
+   "conf": 0.992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.1,
+    94.2,
+    509.2,
+    111.8
+   ],
+   "text": "engaged in fishing operations requiring leaning over the side of the vessel. The regulation",
+   "conf": 0.9938,
+   "retry": null
+  },
+  {
+   "bbox": [
+    73.7,
+    107.0,
+    542.3,
+    126.1
+   ],
+   "text": "addresses the number, type, stowage, and size requirements for PFDs and immersion suits, but it",
+   "conf": 0.9989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.1,
+    121.4,
+    525.5,
+    139.3
+   ],
+   "text": "does not address when they shall be worn. Fisherman often neglect wearing a PFD due to the",
+   "conf": 0.9988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    73.7,
+    135.3,
+    536.7,
+    153.3
+   ],
+   "text": "potential interference with fishing operations (entanglement or restricted movement), perceived",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.1,
+    148.9,
+    537.9,
+    166.9
+   ],
+   "text": "lack of need for, and discomfort while wearing one. Type V commercial hybrid PFDs and work",
+   "conf": 0.9966,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.1,
+    162.9,
+    544.3,
+    181.2
+   ],
+   "text": "vests are significantly less bulky yet still provide an adequate level of protection should someone",
+   "conf": 0.9911,
+   "retry": null
+  },
+  {
+   "bbox": [
+    73.3,
+    176.4,
+    539.5,
+    194.8
+   ],
+   "text": "fall overboard while wearing one. Implementing a requirement to wear a Type V hybrid PFD or",
+   "conf": 0.9862,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.1,
+    190.4,
+    531.1,
+    208.8
+   ],
+   "text": "work vest while engaged in operations which involve leaning over or working near the side of",
+   "conf": 0.9984,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.1,
+    204.8,
+    529.1,
+    222.4
+   ],
+   "text": "the vessel would immensely enhance survivability and significantly reduce recovery times for",
+   "conf": 0.9964,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.5,
+    220.8,
+    317.6,
+    235.5
+   ],
+   "text": "commercial fishermen following a fall overboard.",
+   "conf": 0.9991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    92.4,
+    246.7,
+    522.0,
+    263.5
+   ],
+   "text": "Endorsement 3: Concur with the Safety recommendation proposed by the Investigating",
+   "conf": 0.9935,
+   "retry": null
+  },
+  {
+   "bbox": [
+    92.8,
+    263.1,
+    133.9,
+    276.6
+   ],
+   "text": "Officer.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.1,
+    287.4,
+    514.4,
+    305.0
+   ],
+   "text": "Safety Recommendation 4: Recommend the Commandant, U.S. Coast Guard establish a",
+   "conf": 0.9901,
+   "retry": null
+  },
+  {
+   "bbox": [
+    73.7,
+    301.0,
+    546.7,
+    319.4
+   ],
+   "text": "requirement for credentialing of operators of CFVs over 36 feet in length. Despite the established",
+   "conf": 0.9949,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.5,
+    315.4,
+    521.2,
+    332.5
+   ],
+   "text": "credentialing requirements for other segments of the commercial marine industry, the Coast",
+   "conf": 0.9954,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.5,
+    328.9,
+    523.5,
+    346.5
+   ],
+   "text": "Guard has not yet implemented similar standards for CFVs. A significant portion of the U.S.",
+   "conf": 0.9908,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.1,
+    342.9,
+    546.3,
+    360.5
+   ],
+   "text": "fishing fleet, including an estimated 25,600 vessels greater than 36 feet in length according to the",
+   "conf": 0.9985,
+   "retry": null
+  },
+  {
+   "bbox": [
+    73.7,
+    356.5,
+    539.5,
+    374.0
+   ],
+   "text": "National Marine Fisheries Service, would benefit from such a mandate, aligning with the vessel",
+   "conf": 0.9905,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.1,
+    370.1,
+    515.6,
+    388.0
+   ],
+   "text": "length criteria outlined in 46 CFR Subpart 25.26-5. This alignment would ensure that CFV",
+   "conf": 0.9963,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.1,
+    384.4,
+    525.5,
+    402.4
+   ],
+   "text": "operators are credentialed, thereby promoting safety through a chemical testing program that",
+   "conf": 0.9913,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.5,
+    398.4,
+    527.5,
+    415.6
+   ],
+   "text": "includes pre-employment, random, and reasonable cause testing, along with the post-casualty",
+   "conf": 0.993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.5,
+    412.8,
+    532.3,
+    429.1
+   ],
+   "text": "testing requirements mandated by 46 CFR Part 16. Establishing this credentialing requirement",
+   "conf": 0.9976,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.5,
+    425.9,
+    512.8,
+    443.5
+   ],
+   "text": "would standardize operational competencies, strengthen drug and alcohol procedures, and",
+   "conf": 0.994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.9,
+    441.5,
+    391.7,
+    456.7
+   ],
+   "text": "significantly enhance overall safety for operators of larger CFVs.",
+   "conf": 0.9924,
+   "retry": null
+  },
+  {
+   "bbox": [
+    92.4,
+    467.9,
+    523.5,
+    484.2
+   ],
+   "text": "Endorsement 4: Concur with the Safety recommendation proposed by the Investigating",
+   "conf": 0.9901,
+   "retry": null
+  },
+  {
+   "bbox": [
+    92.8,
+    483.0,
+    134.3,
+    497.0
+   ],
+   "text": "Officer.",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    75.7,
+    508.6,
+    539.1,
+    526.1
+   ],
+   "text": "Administrative Recommendation 1: No administrative recommendations have been made for",
+   "conf": 0.9916,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.9,
+    522.5,
+    508.4,
+    540.1
+   ],
+   "text": "violations identified in paragraph 6.4. The master has since completed a voluntary CFVS",
+   "conf": 0.9986,
+   "retry": null
+  },
+  {
+   "bbox": [
+    75.3,
+    538.1,
+    431.9,
+    553.3
+   ],
+   "text": "examination to comply with regulations and prevent violation recurrence.",
+   "conf": 0.9948,
+   "retry": null
+  },
+  {
+   "bbox": [
+    93.2,
+    564.1,
+    506.4,
+    581.2
+   ],
+   "text": "Endorsement 1: Concur with not pursuing enforcement for the violations identified.",
+   "conf": 0.9934,
+   "retry": null
+  },
+  {
+   "bbox": [
+    75.7,
+    591.6,
+    514.0,
+    608.8
+   ],
+   "text": "Administrative Recommendation 2: It is recommended that this investigation be closed.",
+   "conf": 0.9895,
+   "retry": null
+  },
+  {
+   "bbox": [
+    93.2,
+    619.1,
+    520.0,
+    635.9
+   ],
+   "text": "Endorsement 2: Concur with the analysis and conclusions of the Investigating Officer.",
+   "conf": 0.993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    247.8,
+    680.6,
+    374.1,
+    693.4
+   ],
+   "text": "PATRICK C. BURKETT",
+   "conf": 0.974,
+   "retry": null
+  },
+  {
+   "bbox": [
+    247.4,
+    693.8,
+    378.1,
+    708.2
+   ],
+   "text": "Captain, U.S. Coast Guard",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    248.2,
+    708.6,
+    428.3,
+    721.7
+   ],
+   "text": "Officer in Charge, Marine Inspection",
+   "conf": 0.9845,
+   "retry": null
+  },
+  {
+   "bbox": [
+    306.0,
+    756.1,
+    320.3,
+    770.0
+   ],
+   "text": "iii",
+   "conf": 0.9989,
+   "retry": null
+  }
+ ]
+}

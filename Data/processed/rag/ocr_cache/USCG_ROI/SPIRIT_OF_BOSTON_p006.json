@@ -1,0 +1,555 @@
+{
+ "key": {
+  "report_id": "SPIRIT_OF_BOSTON",
+  "filename": "SPIRIT_OF_BOSTON_7656694_ROI_Redacted.pdf",
+  "sha256": "9dbabbd157bfb182fc2b99f514795db0b11afd75e205b893c0c5b06c02daf04e",
+  "page_number": 6,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    72.5,
+    63.5,
+    161.0,
+    74.2
+   ],
+   "text": "U.S. Department of",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    251.8,
+    64.7,
+    301.2,
+    74.2
+   ],
+   "text": "Commander",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    396.0,
+    67.1,
+    461.0,
+    76.2
+   ],
+   "text": "408 Atlantic Ave.",
+   "conf": 0.9976,
+   "retry": null
+  },
+  {
+   "bbox": [
+    251.4,
+    73.1,
+    351.4,
+    83.4
+   ],
+   "text": "First Coast Guard District",
+   "conf": 0.9919,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.1,
+    74.2,
+    160.2,
+    85.0
+   ],
+   "text": "Homeland Security",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    395.6,
+    75.4,
+    487.3,
+    84.6
+   ],
+   "text": "Boston, MA 02110-3354",
+   "conf": 0.9903,
+   "retry": null
+  },
+  {
+   "bbox": [
+    396.0,
+    83.8,
+    461.0,
+    93.0
+   ],
+   "text": "Staff Symbol: (d)",
+   "conf": 0.986,
+   "retry": null
+  },
+  {
+   "bbox": [
+    394.9,
+    90.6,
+    484.1,
+    102.2
+   ],
+   "text": "Phone: (617) 406-9045",
+   "conf": 0.9968,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.1,
+    91.8,
+    143.4,
+    102.6
+   ],
+   "text": "United States",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    72.5,
+    101.8,
+    138.7,
+    112.6
+   ],
+   "text": "Coast Guard",
+   "conf": 0.9653,
+   "retry": null
+  },
+  {
+   "bbox": [
+    395.2,
+    116.2,
+    428.7,
+    128.5
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    396.0,
+    128.5,
+    461.4,
+    140.5
+   ],
+   "text": "13 June 2025",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    124.3,
+    154.5,
+    487.3,
+    166.5
+   ],
+   "text": "SMALL PASSENGER VESSEL SPIRIT OF BOSTON (O.N. 954835)",
+   "conf": 0.9836,
+   "retry": null
+  },
+  {
+   "bbox": [
+    142.2,
+    167.3,
+    470.6,
+    178.8
+   ],
+   "text": "FIRE IN BOSTON HARBOR, BOSTON, MASSACHUSETTS",
+   "conf": 0.9889,
+   "retry": null
+  },
+  {
+   "bbox": [
+    249.0,
+    181.2,
+    363.0,
+    192.0
+   ],
+   "text": "ON MARCH 24, 2023",
+   "conf": 0.9666,
+   "retry": null
+  },
+  {
+   "bbox": [
+    187.3,
+    207.2,
+    425.1,
+    219.6
+   ],
+   "text": "ENDORSEMENT BY THE COMMANDER,",
+   "conf": 0.9973,
+   "retry": null
+  },
+  {
+   "bbox": [
+    209.2,
+    220.4,
+    403.2,
+    231.9
+   ],
+   "text": "FIRST COAST GUARD DISTRICT",
+   "conf": 0.9903,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    259.1,
+    540.3,
+    271.9
+   ],
+   "text": "The record and the Report of Investigation (ROI) for the subject casualty have been reviewed by",
+   "conf": 0.9979,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    273.4,
+    521.2,
+    285.4
+   ],
+   "text": "my office and we do not concur with the investigative analysis in section 5.10.2, nor with the",
+   "conf": 0.9936,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    285.8,
+    531.9,
+    297.8
+   ],
+   "text": "conclusions in sections 6.1.2, 6.1.9, 6.1.14, and 6.1.15. In these sections, the investigation team",
+   "conf": 0.9873,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    299.0,
+    531.5,
+    312.2
+   ],
+   "text": "concluded that the hospitality staff failed to take action to combat and/or prevent the spread of",
+   "conf": 0.9938,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    313.0,
+    531.1,
+    324.9
+   ],
+   "text": "the fire onboard the vessel. However, based on the facts of the case, my office believes that the",
+   "conf": 0.9921,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    325.3,
+    518.4,
+    338.5
+   ],
+   "text": "hospitality crew made a reasonable decision to evacuate the vessel to ensure the safety of all",
+   "conf": 0.9957,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    339.3,
+    539.9,
+    352.1
+   ],
+   "text": "persons onboard given the minimal shipboard emergency training they received and the fact that",
+   "conf": 0.9957,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    351.7,
+    345.4,
+    365.7
+   ],
+   "text": "the trained marine crew had already departed the vessel.",
+   "conf": 0.9981,
+   "retry": null
+  },
+  {
+   "bbox": [
+    73.7,
+    377.6,
+    519.6,
+    391.2
+   ],
+   "text": "Therefore, we disagree with the presupposition by the investigation team that the hospitality",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    390.4,
+    509.6,
+    404.0
+   ],
+   "text": "staff could have successfully extinguished the fire and evacuated everyone safely had they",
+   "conf": 0.997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    403.2,
+    347.8,
+    418.4
+   ],
+   "text": "prioritized fighting the fire over evacuation of the vessel.",
+   "conf": 0.9921,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    429.5,
+    538.3,
+    442.7
+   ],
+   "text": "The findings of fact and recommendations are approved subject to the following comments. It is",
+   "conf": 0.9988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    441.9,
+    378.1,
+    455.9
+   ],
+   "text": "recommended that this marine casualty investigation be closed.",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    127.9,
+    469.9,
+    484.5,
+    481.4
+   ],
+   "text": "ENDORSEMENT/ACTION ON SAFETY RECOMMENDATIONS",
+   "conf": 0.9979,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    495.4,
+    505.2,
+    509.0
+   ],
+   "text": "Safety Recommendation 1 – It is recommended that the Commandant implement Safety",
+   "conf": 0.9834,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    509.4,
+    534.7,
+    522.5
+   ],
+   "text": "Management Systems (SMS) regulations for all Title 46 C.F.R. Subchapter K vessels, including",
+   "conf": 0.9958,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    521.3,
+    162.2,
+    537.3
+   ],
+   "text": "“existing vessels.\"",
+   "conf": 0.9708,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.4,
+    548.1,
+    517.2,
+    563.3
+   ],
+   "text": "Endorsement: Concur; My office agrees that Commandant should implement SMS",
+   "conf": 0.9979,
+   "retry": null
+  },
+  {
+   "bbox": [
+    105.6,
+    561.7,
+    524.7,
+    576.4
+   ],
+   "text": "regulations for all 46 CFR Subchapter K vessels, including “existing vessels.\" Vessels",
+   "conf": 0.983,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.4,
+    575.6,
+    536.3,
+    589.2
+   ],
+   "text": "considered to be “grandfathered\" after the codification and implementation of 46 C.F.R.",
+   "conf": 0.9886,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.0,
+    588.0,
+    495.3,
+    603.2
+   ],
+   "text": "Subchapter K are not required to have SMS. More uniformity in regulations and",
+   "conf": 0.9893,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.8,
+    602.0,
+    520.0,
+    615.2
+   ],
+   "text": "inspections of all vessels that fall under 46 C.F.R. Subchapter K would create a safer",
+   "conf": 0.9951,
+   "retry": null
+  },
+  {
+   "bbox": [
+    107.2,
+    616.8,
+    496.1,
+    628.7
+   ],
+   "text": "seafaring environment. Furthermore, the requirement for SMS would reduce the",
+   "conf": 0.9975,
+   "retry": null
+  },
+  {
+   "bbox": [
+    106.8,
+    629.1,
+    518.0,
+    642.3
+   ],
+   "text": "likelihood of marine casualties and improve response efforts should a casualty occur.",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    655.5,
+    529.5,
+    669.0
+   ],
+   "text": "Safety Recommendation 2 - It is recommended that Commandant implement new regulations",
+   "conf": 0.9913,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    669.0,
+    527.9,
+    683.0
+   ],
+   "text": "under 46 CFR Subchapter T (including older T-L vessels) and Subchapter K to eliminate open",
+   "conf": 0.998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    681.8,
+    520.8,
+    695.4
+   ],
+   "text": "flames onboard vessels, and if carried for any reason require those vessels that carry onboard",
+   "conf": 0.9919,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    695.0,
+    539.9,
+    709.8
+   ],
+   "text": "flammable liquids to store them in type-approved flammable liquid storage lockers. Examples of",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    71.3,
+    709.4,
+    532.7,
+    722.5
+   ],
+   "text": "flammable liquids include heating fuels for chaffing dishes, table candles with liquid fuel, paint",
+   "conf": 0.9953,
+   "retry": null
+  },
+  {
+   "bbox": [
+    302.0,
+    750.1,
+    311.2,
+    762.5
+   ],
+   "text": "1",
+   "conf": 0.9999,
+   "retry": null
+  }
+ ]
+}

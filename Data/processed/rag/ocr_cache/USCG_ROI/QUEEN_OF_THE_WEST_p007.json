@@ -1,0 +1,600 @@
+{
+ "key": {
+  "report_id": "QUEEN_OF_THE_WEST",
+  "filename": "QUEEN_OF_THE_WEST_4405289_ROI_Redacted.pdf",
+  "sha256": "02f978c36fcbd8ef00493738d66ee13a4079eab5832883de67ba1cacc388cba3",
+  "page_number": 7,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2534,
+  3292
+ ],
+ "lines": [
+  {
+   "bbox": [
+    506.0,
+    31.1,
+    537.7,
+    43.8
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    490.6,
+    42.6,
+    537.3,
+    57.3
+   ],
+   "text": "06May13",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.9,
+    43.0,
+    474.3,
+    55.4
+   ],
+   "text": "LOSS OF LIFE FOLLOWING MAN OVERBOARD FROM P/V QUEEN OF THE WEST",
+   "conf": 0.986,
+   "retry": null
+  },
+  {
+   "bbox": [
+    319.9,
+    166.9,
+    334.2,
+    176.0
+   ],
+   "text": "Palll",
+   "conf": 0.7658,
+   "retry": {
+    "text": "Palll",
+    "conf": 0.7658,
+    "first_text": "valll",
+    "first_conf": 0.7208,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    418.9,
+    299.1,
+    422.9,
+    302.7
+   ],
+   "text": "e2",
+   "conf": 0.486,
+   "retry": {
+    "text": "a",
+    "conf": 0.2921,
+    "first_text": "e2",
+    "first_conf": 0.486,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    68.5,
+    307.0,
+    401.5,
+    317.4
+   ],
+   "text": "Photo of the P/V QUEEN OF THE WEST taken in 2010 prior to the cosmetic paddlewheel installation.",
+   "conf": 0.9973,
+   "retry": null
+  },
+  {
+   "bbox": [
+    65.3,
+    316.6,
+    126.7,
+    329.7
+   ],
+   "text": "Vessel Data:",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    182.1,
+    347.7,
+    416.5,
+    359.2
+   ],
+   "text": "PASSENGER VESSEL QUEEN OF THE WEST",
+   "conf": 0.9832,
+   "retry": null
+  },
+  {
+   "bbox": [
+    64.5,
+    360.0,
+    100.2,
+    372.3
+   ],
+   "text": "Name:",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    303.7,
+    360.0,
+    417.3,
+    373.1
+   ],
+   "text": "QUEEN OF THE WEST",
+   "conf": 0.9956,
+   "retry": null
+  },
+  {
+   "bbox": [
+    303.7,
+    378.3,
+    344.9,
+    390.7
+   ],
+   "text": "1033572",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    65.7,
+    379.1,
+    148.5,
+    389.9
+   ],
+   "text": "Official Number:",
+   "conf": 0.9986,
+   "retry": null
+  },
+  {
+   "bbox": [
+    64.1,
+    396.2,
+    106.5,
+    409.8
+   ],
+   "text": "Service:",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    303.3,
+    397.4,
+    480.7,
+    409.4
+   ],
+   "text": "Passenger Vessel – River Cruise Vessel",
+   "conf": 0.9809,
+   "retry": null
+  },
+  {
+   "bbox": [
+    302.1,
+    415.0,
+    317.5,
+    428.5
+   ],
+   "text": "92",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    65.3,
+    415.7,
+    125.1,
+    427.7
+   ],
+   "text": "Gross Tons:",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    302.5,
+    433.3,
+    328.6,
+    446.4
+   ],
+   "text": "Steel",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    64.9,
+    434.9,
+    134.6,
+    445.6
+   ],
+   "text": "Hull Material:",
+   "conf": 0.998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    63.7,
+    452.4,
+    105.3,
+    466.3
+   ],
+   "text": "Length:",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    302.5,
+    452.4,
+    340.5,
+    464.7
+   ],
+   "text": "221.3 ft",
+   "conf": 0.9984,
+   "retry": null
+  },
+  {
+   "bbox": [
+    64.1,
+    471.1,
+    122.7,
+    484.6
+   ],
+   "text": "Propulsion:",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    302.5,
+    471.1,
+    375.7,
+    483.0
+   ],
+   "text": "Diesel Outdrive",
+   "conf": 0.9777,
+   "retry": null
+  },
+  {
+   "bbox": [
+    303.3,
+    489.4,
+    397.5,
+    501.4
+   ],
+   "text": "Q. W. Boat Co. LLC",
+   "conf": 0.9977,
+   "retry": null
+  },
+  {
+   "bbox": [
+    64.9,
+    490.2,
+    103.3,
+    501.4
+   ],
+   "text": "Owner:",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    64.1,
+    507.7,
+    116.0,
+    522.5
+   ],
+   "text": "Operator:",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    303.3,
+    508.5,
+    426.4,
+    520.5
+   ],
+   "text": "American Cruise Lines, Inc",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    64.5,
+    538.8,
+    141.7,
+    550.7
+   ],
+   "text": "Personnel Data:",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    201.5,
+    561.9,
+    225.7,
+    579.0
+   ],
+   "text": "Age",
+   "conf": 0.9991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    301.7,
+    562.7,
+    344.1,
+    576.2
+   ],
+   "text": "Position",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    95.0,
+    563.1,
+    142.1,
+    575.4
+   ],
+   "text": "Deceased",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    411.4,
+    563.5,
+    521.8,
+    576.6
+   ],
+   "text": "Period of Employment",
+   "conf": 0.9991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    287.1,
+    581.0,
+    358.7,
+    595.3
+   ],
+   "text": "Galley Steward",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    205.5,
+    581.4,
+    220.9,
+    594.9
+   ],
+   "text": "35",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    445.0,
+    581.4,
+    485.4,
+    594.9
+   ],
+   "text": "5 weeks",
+   "conf": 0.9775,
+   "retry": null
+  },
+  {
+   "bbox": [
+    78.4,
+    581.8,
+    159.2,
+    594.9
+   ],
+   "text": "Andres L. Staples",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    201.1,
+    599.3,
+    225.3,
+    616.5
+   ],
+   "text": "Age",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    301.7,
+    600.1,
+    343.7,
+    613.7
+   ],
+   "text": "Position",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    96.2,
+    600.5,
+    140.6,
+    612.9
+   ],
+   "text": "Survivor",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    411.0,
+    600.9,
+    521.4,
+    614.1
+   ],
+   "text": "Period of Employment",
+   "conf": 0.9968,
+   "retry": null
+  },
+  {
+   "bbox": [
+    287.5,
+    619.2,
+    358.7,
+    632.8
+   ],
+   "text": "Galley Steward",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    444.2,
+    619.2,
+    485.8,
+    633.2
+   ],
+   "text": "5+ years",
+   "conf": 0.9734,
+   "retry": null
+  },
+  {
+   "bbox": [
+    300.9,
+    637.6,
+    345.3,
+    651.5
+   ],
+   "text": "Engineer",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    444.2,
+    638.4,
+    486.2,
+    652.3
+   ],
+   "text": "5+ years",
+   "conf": 0.9773,
+   "retry": null
+  },
+  {
+   "bbox": [
+    298.9,
+    656.3,
+    346.4,
+    668.6
+   ],
+   "text": "Deckhand",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    442.7,
+    656.7,
+    488.2,
+    669.0
+   ],
+   "text": "1+month",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    298.5,
+    675.0,
+    346.4,
+    687.3
+   ],
+   "text": "Deckhand",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    442.3,
+    675.4,
+    487.8,
+    687.7
+   ],
+   "text": "1+ month",
+   "conf": 0.9571,
+   "retry": null
+  },
+  {
+   "bbox": [
+    287.1,
+    693.3,
+    358.3,
+    706.9
+   ],
+   "text": "Galley Steward",
+   "conf": 0.996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    441.9,
+    693.7,
+    487.4,
+    706.1
+   ],
+   "text": "1+ month",
+   "conf": 0.9606,
+   "retry": null
+  },
+  {
+   "bbox": [
+    292.6,
+    741.1,
+    302.1,
+    753.4
+   ],
+   "text": "2",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

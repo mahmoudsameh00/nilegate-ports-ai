@@ -1,0 +1,467 @@
+{
+ "key": {
+  "report_id": "MERRICK",
+  "filename": "MERRICK_8031230_ROI_Redacted.pdf",
+  "sha256": "76047e77ee5376e2fc4638301674894f54af536e5de39cbdbdeec8ffbedd53b9",
+  "page_number": 9,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    110.8,
+    28.3,
+    525.1,
+    43.1
+   ],
+   "text": "totes overboard to lighten the vessel. The Operator initiated a “MAYDAY\" call to the",
+   "conf": 0.9892,
+   "retry": null
+  },
+  {
+   "bbox": [
+    112.4,
+    43.5,
+    276.9,
+    55.5
+   ],
+   "text": "Coast Guard on VHF Channel 16.",
+   "conf": 0.9984,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.6,
+    69.1,
+    528.3,
+    82.2
+   ],
+   "text": "4.1.10. The Captain of the MILFORD witnessed the MERRICK beginning to sink and",
+   "conf": 0.9833,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    82.6,
+    533.5,
+    96.2
+   ],
+   "text": "heard the \"MAYDAY\" call on VHF Channel 16. He urged his crew to hurry and secure",
+   "conf": 0.987,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    96.6,
+    435.1,
+    110.6
+   ],
+   "text": "the gear so that he could proceed toward the MERRICK and assist.",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.6,
+    123.4,
+    528.3,
+    135.3
+   ],
+   "text": "4.1.11. On board the MERRICK, the water was reaching the waist of Deckhand 1 who",
+   "conf": 0.9914,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    135.7,
+    536.7,
+    150.5
+   ],
+   "text": "was located on the port side of the aft deck pushing oyster totes off the vessel. When the",
+   "conf": 0.9988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    150.5,
+    506.0,
+    163.7
+   ],
+   "text": "water was chest-high, Deckhand 1 decided to swim away from the vessel to avoid",
+   "conf": 0.9882,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    163.7,
+    498.4,
+    178.4
+   ],
+   "text": "getting trapped in the gear as the vessel continued to sink. He was not wearing a",
+   "conf": 0.9948,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    177.6,
+    530.3,
+    192.4
+   ],
+   "text": "personal floatation device (PFD)/life jacket. He hung on to an empty tote to stay afloat.",
+   "conf": 0.9985,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    202.8,
+    516.4,
+    218.4
+   ],
+   "text": "4.1.12. At 12:35 p.m., the Operator of the MERRICK made two more \"MAYDAY\"",
+   "conf": 0.9807,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    218.0,
+    520.0,
+    231.1
+   ],
+   "text": "calls to the Coast Guard on VHF Channel 16. After the second call, the Operator and",
+   "conf": 0.9895,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    231.9,
+    520.0,
+    243.9
+   ],
+   "text": "Deckhand 2 went into the water off the starboard side as the MERRICK continued to",
+   "conf": 0.9877,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    244.7,
+    434.7,
+    259.5
+   ],
+   "text": "rapidly sink beneath them. Neither were wearing a PFD/life jacket.",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.6,
+    270.3,
+    532.3,
+    285.0
+   ],
+   "text": "4.1.13. At 12:36 p.m., Coast Guard Sector Long Island Sound notified CG Station New",
+   "conf": 0.9972,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    285.8,
+    514.4,
+    297.8
+   ],
+   "text": "Haven of a fishing vessel in distress off Milford and directed the Station to launch a",
+   "conf": 0.997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    299.8,
+    169.7,
+    311.8
+   ],
+   "text": "rescue boat.",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    325.7,
+    518.0,
+    337.7
+   ],
+   "text": "4.1.14. At 12:42 p.m., the Captain of the MILFORD notified CG Sector Long Island",
+   "conf": 0.9816,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    338.9,
+    529.9,
+    352.1
+   ],
+   "text": "Sound that he was close by to the MERRICK, witnessed it sinking, saw three people in",
+   "conf": 0.9882,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    352.9,
+    424.7,
+    366.1
+   ],
+   "text": "the water, and was making way towards the MERRICK to assist.",
+   "conf": 0.9802,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    378.4,
+    530.7,
+    391.6
+   ],
+   "text": "4.1.15. At 12:43 p.m., Milford Fire Marine Unit notified CG Sector Long Island Sound",
+   "conf": 0.9957,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    392.4,
+    531.9,
+    405.6
+   ],
+   "text": "that they were responding to the MERRICK with two rescue boats and support units on",
+   "conf": 0.9953,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    406.4,
+    295.6,
+    418.4
+   ],
+   "text": "shore in Milford Harbor, Milford, CT.",
+   "conf": 0.9898,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    431.9,
+    535.5,
+    445.1
+   ],
+   "text": "4.1.16. At 12:45 p.m., CG Station New Haven's 29-foot response boat-small (RBS) was",
+   "conf": 0.9935,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    445.1,
+    289.3,
+    459.1
+   ],
+   "text": "underway enroute to the MERRICK.",
+   "conf": 0.9947,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    471.4,
+    522.4,
+    484.6
+   ],
+   "text": "4.1.17. At12:50 p.m., the crew of the MILFORD rescued Deckhand 2 using their life",
+   "conf": 0.9818,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    484.6,
+    240.7,
+    498.6
+   ],
+   "text": "ring to hoist him on board.",
+   "conf": 0.9871,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    511.0,
+    537.1,
+    524.1
+   ],
+   "text": "4.1.18. At 12:55 p.m., the MILFORD rescued the MERRICK's Operator who was in the",
+   "conf": 0.9899,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    524.9,
+    536.7,
+    538.1
+   ],
+   "text": "water with Deckhand 1. Once on board, the Operator became non-responsive. Deckhand",
+   "conf": 0.9982,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.6,
+    538.1,
+    532.7,
+    551.7
+   ],
+   "text": "2 began CPR on the Operator while the MILFORD crew brought Deckhand 1 on board.",
+   "conf": 0.9913,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.6,
+    552.1,
+    509.2,
+    565.7
+   ],
+   "text": "Both deckhands performed CPR on the Operator until the Milford Fire rescue boat",
+   "conf": 0.9961,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    566.1,
+    315.6,
+    579.6
+   ],
+   "text": "arrived and EMS personnel relieved them.",
+   "conf": 0.9852,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    592.0,
+    518.8,
+    605.2
+   ],
+   "text": "4.1.19. At 1:00 p.m., a Milford Fire Marine Unit rescue boat met the MILFORD and",
+   "conf": 0.9896,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    606.4,
+    537.9,
+    618.4
+   ],
+   "text": "transferred the MERRICK's Operator to the Milford Fire rescue boat to be transported to",
+   "conf": 0.9907,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    619.1,
+    428.7,
+    633.1
+   ],
+   "text": "Milford Yacht Club where ambulances were standing by to assist.",
+   "conf": 0.9889,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    645.9,
+    502.8,
+    657.9
+   ],
+   "text": "4.1.20. At 1:03p.m., CG Station New Haven's 29-foot RBS arrived on scene and",
+   "conf": 0.9809,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    659.1,
+    521.2,
+    672.2
+   ],
+   "text": "transferred the MERRICK's two deckhands from the MILFORD onto the RBS. They",
+   "conf": 0.9908,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    673.0,
+    363.4,
+    686.2
+   ],
+   "text": "then proceeded to Milford Yacht Club, Milford, CT.",
+   "conf": 0.9976,
+   "retry": null
+  },
+  {
+   "bbox": [
+    300.8,
+    750.5,
+    310.0,
+    762.9
+   ],
+   "text": "4",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

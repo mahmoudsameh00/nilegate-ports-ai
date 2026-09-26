@@ -1,0 +1,506 @@
+{
+ "key": {
+  "report_id": "UNA_MAS",
+  "filename": "UNA_MAS_8231938_ROI_Redacted.pdf",
+  "sha256": "1a2020a9e1b298824fcb61c142865d41c70a5cf6f9d2ad82f12a16e9cec3cda6",
+  "page_number": 11,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    111.6,
+    37.5,
+    494.1,
+    50.7
+   ],
+   "text": "winds north to northwest at 12 knots with gusts up to 16 knots. The buoys were",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    51.5,
+    495.7,
+    64.7
+   ],
+   "text": "approximately 25 and 35 nautical miles from the incident location. The weather",
+   "conf": 0.9893,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    65.1,
+    489.7,
+    78.2
+   ],
+   "text": "conditions on-scene were observed to have rapidly deteriorated to an observed",
+   "conf": 0.9988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    112.0,
+    79.0,
+    363.0,
+    91.0
+   ],
+   "text": "unforeseen swell of 09 to 12 feet at time of incident.",
+   "conf": 0.9842,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    105.8,
+    527.5,
+    119.8
+   ],
+   "text": "4.2.7. The Coast Guard calculated survival metrics based on a male approximately six",
+   "conf": 0.9958,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.6,
+    120.6,
+    533.5,
+    132.5
+   ],
+   "text": "feet tall, weighing 190 pounds, with a body mass index of 23.8%, wearing a long sleeve",
+   "conf": 0.9913,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    133.7,
+    500.4,
+    148.1
+   ],
+   "text": "shirt and mid-weight pants in weather conditions of air temperature: 57°F, water",
+   "conf": 0.988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    148.1,
+    533.1,
+    161.3
+   ],
+   "text": "temperature: 55°F, relative humidity: 96.0%, wind speed: 20.0 knots, immersion: water",
+   "conf": 0.9823,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    162.1,
+    527.5,
+    174.0
+   ],
+   "text": "to neck, and immersion state: turbulent. The calculations revealed a functional time of",
+   "conf": 0.9885,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.6,
+    176.0,
+    530.3,
+    188.0
+   ],
+   "text": "8.5 hours, cold survival time of 11.5 hours, and a maximum immersed survival time of",
+   "conf": 0.9966,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    189.2,
+    166.9,
+    201.6
+   ],
+   "text": "20.6 hours.",
+   "conf": 0.9936,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    216.8,
+    134.7,
+    229.9
+   ],
+   "text": "5. Analysis",
+   "conf": 0.9984,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.5,
+    243.9,
+    482.9,
+    257.9
+   ],
+   "text": "5.1. Improper weight capacity that exceeded the manufacturer's recommendation.",
+   "conf": 0.9966,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.6,
+    272.6,
+    508.8,
+    284.6
+   ],
+   "text": "5.1.1. The UNA MAS, a 2002 Glacier Bay Coastal Runner 2680 catamaran, had a",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.6,
+    286.6,
+    533.9,
+    298.6
+   ],
+   "text": "manufacturer-specified maximum weight capacity of 2,400 pounds for persons, motors,",
+   "conf": 0.9945,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.6,
+    299.4,
+    537.1,
+    312.6
+   ],
+   "text": "and gear, as indicated on the label at the captain's station. At the time of the incident, the",
+   "conf": 0.9958,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.6,
+    313.8,
+    523.5,
+    326.9
+   ],
+   "text": "vessel carried three people with a combined weight of approximately 550 pounds and",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    326.9,
+    528.7,
+    341.3
+   ],
+   "text": "was equipped with two Yamaha 150 HP outboards totaling 1,018 pounds. Considering",
+   "conf": 0.9997,
+   "retry": {
+    "text": "was equipped with two Yamaha 150 HP outboards totaling 1,018 pounds. Considering",
+    "conf": 0.9997,
+    "first_text": "Wn   s    o os dd  ins",
+    "first_conf": 0.6279,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    111.6,
+    341.3,
+    526.3,
+    354.5
+   ],
+   "text": "the report of how much fish, ice, and storage was on board the calculated approximate",
+   "conf": 0.9911,
+   "retry": null
+  },
+  {
+   "bbox": [
+    112.0,
+    355.7,
+    522.4,
+    367.7
+   ],
+   "text": "weight was 2,274 pounds. The total estimated weight of persons, motors, and gear on",
+   "conf": 0.9957,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.6,
+    369.3,
+    535.5,
+    381.2
+   ],
+   "text": "board was 3,842 pounds, exceeding the manufacturer's recommended limit. This excess",
+   "conf": 0.9944,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.6,
+    382.4,
+    524.7,
+    395.6
+   ],
+   "text": "weight, combined with severe weather and increasing swells, may have compromised",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    396.0,
+    523.1,
+    409.6
+   ],
+   "text": "the vessel's ability to right itself, potentially contributing to its capsizing. A proactive",
+   "conf": 0.9891,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    409.6,
+    517.2,
+    423.1
+   ],
+   "text": "assessment of the anticipated total weight by the Operator may have identified these",
+   "conf": 0.998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    423.5,
+    331.1,
+    437.1
+   ],
+   "text": "risks and allowed for preventive adjustments.",
+   "conf": 0.9837,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.9,
+    451.5,
+    465.0,
+    464.7
+   ],
+   "text": "5.2. Securing strap failure resulted in abrupt weight distribution on the vessel.",
+   "conf": 0.9851,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    478.6,
+    531.5,
+    492.2
+   ],
+   "text": "5.2.1. The UNA MAS had two storage totes, each weighing approximately 803 pounds",
+   "conf": 0.9942,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.6,
+    493.0,
+    537.9,
+    506.2
+   ],
+   "text": "and containing a mixture of ice and fish, secured on both sides of the aft deck behind the",
+   "conf": 0.9892,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    507.0,
+    535.5,
+    520.1
+   ],
+   "text": "seating area. Shortly before the capsizing, the vessel encountered a significant swell. As",
+   "conf": 0.996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    520.1,
+    508.8,
+    534.5
+   ],
+   "text": "the vessel descended into the wave trough, port side first, the securing strap on the",
+   "conf": 0.9991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.6,
+    534.5,
+    531.9,
+    546.5
+   ],
+   "text": "starboard tote failed, causing the tote to shift rapidly to port. This abrupt shift in weight",
+   "conf": 0.9973,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.6,
+    548.5,
+    537.9,
+    560.5
+   ],
+   "text": "distribution, combined with the vessel's port side descent and severe weather conditions,",
+   "conf": 0.9886,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    561.7,
+    524.3,
+    574.8
+   ],
+   "text": "may have contributed to the vessel's listing and subsequent overturning. Had the strap",
+   "conf": 0.9995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    575.2,
+    494.9,
+    588.8
+   ],
+   "text": "functioned as intended, it is reasonable to believe that the abrupt shift in weight",
+   "conf": 0.9849,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    589.2,
+    536.7,
+    602.8
+   ],
+   "text": "distribution may not have occurred, and the vessel may have remained upright, avoiding",
+   "conf": 0.9978,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.6,
+    604.8,
+    171.7,
+    616.8
+   ],
+   "text": "overturning.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.9,
+    631.5,
+    532.7,
+    643.5
+   ],
+   "text": "5.3. Failure to disengage auto-pilot and slow the vessel during rapidly deteriorating weather",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.9,
+    645.1,
+    143.4,
+    657.5
+   ],
+   "text": "conditions.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    671.0,
+    517.2,
+    686.2
+   ],
+   "text": "5.3.1. At the time of the incident, the vessel was reported to be operating on a plane,",
+   "conf": 0.9976,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.6,
+    686.2,
+    523.9,
+    699.4
+   ],
+   "text": "approximately 18 to 22 knots, with the auto-pilot feature engaged, while the Operator",
+   "conf": 0.9936,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    699.4,
+    525.1,
+    713.0
+   ],
+   "text": "remained at the helm, actively making corrective adjustments as needed. An autopilot",
+   "conf": 0.9981,
+   "retry": null
+  },
+  {
+   "bbox": [
+    302.0,
+    730.1,
+    310.0,
+    741.3
+   ],
+   "text": "6",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

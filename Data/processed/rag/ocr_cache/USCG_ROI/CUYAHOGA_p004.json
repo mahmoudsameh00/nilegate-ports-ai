@@ -1,0 +1,555 @@
+{
+ "key": {
+  "report_id": "CUYAHOGA",
+  "filename": "CUYAHOGA_7881082_ROI_Redacted.pdf",
+  "sha256": "c518b7d648f90ab65608426f5a39cb32667954bc1cb6890867dce47e6c56fa0a",
+  "page_number": 4,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2484,
+  3509
+ ],
+ "lines": [
+  {
+   "bbox": [
+    390.0,
+    56.0,
+    441.6,
+    68.3
+   ],
+   "text": "1240 E 9h St.",
+   "conf": 0.9548,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.2,
+    57.3,
+    157.5,
+    68.3
+   ],
+   "text": "U.S. Department of",
+   "conf": 0.9675,
+   "retry": null
+  },
+  {
+   "bbox": [
+    246.0,
+    57.3,
+    294.3,
+    69.6
+   ],
+   "text": "Commander",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    390.4,
+    65.4,
+    489.9,
+    76.4
+   ],
+   "text": "Cleveland, OH 44199-2060",
+   "conf": 0.9954,
+   "retry": null
+  },
+  {
+   "bbox": [
+    246.8,
+    67.5,
+    320.5,
+    78.5
+   ],
+   "text": "Great Lakes District",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.7,
+    67.9,
+    157.1,
+    79.4
+   ],
+   "text": "Homeland Security",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    390.8,
+    73.4,
+    452.2,
+    84.5
+   ],
+   "text": "Staff Symbol: dp",
+   "conf": 0.9966,
+   "retry": null
+  },
+  {
+   "bbox": [
+    390.4,
+    81.5,
+    477.6,
+    92.5
+   ],
+   "text": "Phone: (216) 902-6343",
+   "conf": 0.9865,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.7,
+    85.3,
+    140.6,
+    96.8
+   ],
+   "text": "United States",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.2,
+    95.5,
+    135.5,
+    107.0
+   ],
+   "text": "Coast Guard",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    390.8,
+    106.1,
+    424.3,
+    119.7
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    390.4,
+    118.4,
+    464.1,
+    132.9
+   ],
+   "text": "April 15, 2026",
+   "conf": 0.9747,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.9,
+    156.6,
+    529.3,
+    171.9
+   ],
+   "text": "FIRE THAT OCCURRED ONBOARD CUYAHOGA (IMO 5166392) MARCH 15, 2024,",
+   "conf": 0.9869,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.5,
+    171.1,
+    530.5,
+    185.1
+   ],
+   "text": "WHILE MOORED AT KINDER MORGAN PINNEY DOCK IN ASHTABULA, OHIO.",
+   "conf": 0.9862,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.1,
+    199.1,
+    494.1,
+    212.2
+   ],
+   "text": "ENDORSEMENT BY THE COMMANDER, GREAT LAKES DISTRICT",
+   "conf": 0.9914,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.5,
+    226.7,
+    501.7,
+    241.1
+   ],
+   "text": "The record and the report of the investigation convened for the subject casualty have been",
+   "conf": 0.9947,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.1,
+    240.7,
+    518.3,
+    255.1
+   ],
+   "text": "reviewed. The record and the report, including the findings of fact, analysis, conclusions, and",
+   "conf": 0.9987,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.9,
+    255.1,
+    525.5,
+    267.8
+   ],
+   "text": "recommendations are approved subject to the following comments. It is recommended that this",
+   "conf": 0.9937,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.9,
+    269.5,
+    260.8,
+    282.3
+   ],
+   "text": "marine casualty investigation be closed.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    215.1,
+    296.3,
+    390.4,
+    309.0
+   ],
+   "text": "COMMENTS ON THE REPORT",
+   "conf": 0.9883,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.3,
+    321.8,
+    491.2,
+    336.2
+   ],
+   "text": "1. This casualty is another major fire aboard a Great Lakes self-unloading bulk carrier,",
+   "conf": 0.9938,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.1,
+    335.3,
+    537.3,
+    349.8
+   ],
+   "text": "following the losses of the M/V ST. CLAIR (2019) and M/V ROGER BLOUGH (2021). The",
+   "conf": 0.9902,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.1,
+    349.8,
+    517.0,
+    364.6
+   ],
+   "text": "investigation identifies the vessel's conveyor belt systems as a primary factor in the rapid",
+   "conf": 0.9983,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.1,
+    363.8,
+    493.7,
+    378.2
+   ],
+   "text": "spread of the fire, leading to the constructive total loss of the vessel. These recurring",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.1,
+    377.4,
+    511.9,
+    391.8
+   ],
+   "text": "incidents highlight the significant fire risk posed by the cargo handling systems on these",
+   "conf": 0.997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.0,
+    391.4,
+    322.2,
+    404.5
+   ],
+   "text": "vessels due to the lack of fire-resistant materials.",
+   "conf": 0.9917,
+   "retry": null
+  },
+  {
+   "bbox": [
+    66.1,
+    416.4,
+    528.0,
+    431.3
+   ],
+   "text": "2. The response to this fire underscores the value of the Great Lakes Marine Firefighting Task",
+   "conf": 0.9898,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.5,
+    430.8,
+    532.2,
+    444.4
+   ],
+   "text": "Force. The established collaborative framework between the U.S. Coast Guard and local fire",
+   "conf": 0.9916,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.0,
+    445.3,
+    490.3,
+    459.3
+   ],
+   "text": "departments, built upon joint training and strategy development, proved essential in",
+   "conf": 0.9956,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.1,
+    458.0,
+    514.9,
+    473.3
+   ],
+   "text": "mitigating the extent of the fire. The coordinated actions of all responding agencies were",
+   "conf": 0.9971,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.5,
+    472.4,
+    495.8,
+    486.9
+   ],
+   "text": "critical in managing the incident and preventing a worse outcome, demonstrating the",
+   "conf": 0.9988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.4,
+    486.9,
+    498.8,
+    499.6
+   ],
+   "text": "importance of these ongoing partnerships in protecting vessels, crews, and the marine",
+   "conf": 0.9936,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.4,
+    500.9,
+    246.0,
+    513.2
+   ],
+   "text": "environment on the Great Lakes.",
+   "conf": 0.9987,
+   "retry": null
+  },
+  {
+   "bbox": [
+    188.8,
+    525.5,
+    417.1,
+    539.1
+   ],
+   "text": "ENDORSEMENT/RECOMMENDATIONS",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.7,
+    551.4,
+    514.0,
+    565.8
+   ],
+   "text": "Safety Recommendation 1. Recommend Commandant evaluate the dangers internal rubber",
+   "conf": 0.9977,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.7,
+    565.4,
+    527.6,
+    580.3
+   ],
+   "text": "conveyor belts pose to merchant mariners serving onboard self-discharging bulk carriers. More",
+   "conf": 0.9991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.7,
+    579.0,
+    538.6,
+    594.3
+   ],
+   "text": "specifically, self-discharging bulk carriers are equipped with rubber conveyor belts, which pose a",
+   "conf": 0.9967,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.7,
+    593.4,
+    525.5,
+    607.8
+   ],
+   "text": "significant fire risk due to their rapid spread potential; however, standards for rubber conveyor",
+   "conf": 0.9921,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.7,
+    606.6,
+    507.2,
+    621.4
+   ],
+   "text": "belt fire safety are insufficient. While the fire onboard Cuyahoga did not originate with the",
+   "conf": 0.9981,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.6,
+    621.9,
+    512.3,
+    634.6
+   ],
+   "text": "conveyor belt, both conveyor belts on the Cuyahoga ignited, burned, and one belt re-flashed",
+   "conf": 0.988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.2,
+    634.2,
+    514.0,
+    649.4
+   ],
+   "text": "exacerbating the fire and firefighting effort. The conveyor belt's length and movement could",
+   "conf": 0.9956,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.7,
+    648.6,
+    531.8,
+    663.0
+   ],
+   "text": "increase the dangers, allowing fires to quickly travel great distances within a ship. In addition to",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.2,
+    662.2,
+    531.0,
+    677.0
+   ],
+   "text": "the fire onboard Cuyahoga, several significant maritime casualties have highlighted the fire risk",
+   "conf": 0.9934,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.6,
+    677.0,
+    518.3,
+    689.8
+   ],
+   "text": "rubber conveyor belts pose, to include the Roger Blough (IIA 7139261) in 2021 and St. Clair",
+   "conf": 0.9878,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.2,
+    689.8,
+    503.0,
+    704.2
+   ],
+   "text": "(IIA 6630678) in 2019. These incidents involved large-scale fires onboard the vessels and",
+   "conf": 0.9921,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.2,
+    703.8,
+    520.8,
+    718.2
+   ],
+   "text": "substantial damage due to the spread of fire through cargo unloading belt systems where their",
+   "conf": 0.9972,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.2,
+    717.4,
+    536.9,
+    732.2
+   ],
+   "text": "arrangements do not allow for effective structural fire protection installations along the beltways.",
+   "conf": 0.9924,
+   "retry": null
+  }
+ ]
+}

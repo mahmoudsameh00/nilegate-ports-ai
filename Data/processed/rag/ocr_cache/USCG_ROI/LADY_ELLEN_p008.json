@@ -1,0 +1,533 @@
+{
+ "key": {
+  "report_id": "LADY_ELLEN",
+  "filename": "LADY_ELLEN_7965695_ROI_Redacted.pdf",
+  "sha256": "2f2c6a50d58addb5fd93c98b2144a893d2416e1a501617e9cbc8e33ee7fe0a98",
+  "page_number": 8,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    79.3,
+    51.5,
+    167.7,
+    63.9
+   ],
+   "text": "U.S. Department of",
+   "conf": 0.9915,
+   "retry": null
+  },
+  {
+   "bbox": [
+    402.4,
+    53.5,
+    495.3,
+    62.7
+   ],
+   "text": "2401 Hawkins Point Road",
+   "conf": 0.9905,
+   "retry": null
+  },
+  {
+   "bbox": [
+    258.2,
+    53.9,
+    304.8,
+    63.5
+   ],
+   "text": "Commander",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    402.0,
+    61.5,
+    518.0,
+    70.7
+   ],
+   "text": "Baltimore, Maryland 21226-1791",
+   "conf": 0.9959,
+   "retry": null
+  },
+  {
+   "bbox": [
+    79.3,
+    62.3,
+    166.9,
+    73.9
+   ],
+   "text": "Homeland Security",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    257.8,
+    62.3,
+    355.4,
+    73.1
+   ],
+   "text": "United States Coast Guard",
+   "conf": 0.9942,
+   "retry": null
+  },
+  {
+   "bbox": [
+    402.0,
+    69.1,
+    462.6,
+    79.4
+   ],
+   "text": "Staff Symbol: (s)",
+   "conf": 0.9974,
+   "retry": null
+  },
+  {
+   "bbox": [
+    258.2,
+    72.3,
+    338.7,
+    82.6
+   ],
+   "text": "Sector Maryland-NCR",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    401.6,
+    77.4,
+    484.5,
+    87.8
+   ],
+   "text": "Phone: (410) 576-2561",
+   "conf": 0.9952,
+   "retry": null
+  },
+  {
+   "bbox": [
+    78.5,
+    79.8,
+    150.2,
+    91.8
+   ],
+   "text": "United States",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    79.3,
+    90.2,
+    145.0,
+    101.0
+   ],
+   "text": "Coast Guard",
+   "conf": 0.9965,
+   "retry": null
+  },
+  {
+   "bbox": [
+    401.2,
+    101.8,
+    434.3,
+    114.6
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    401.6,
+    114.2,
+    480.5,
+    127.3
+   ],
+   "text": "October 7, 2025",
+   "conf": 0.9932,
+   "retry": null
+  },
+  {
+   "bbox": [
+    90.8,
+    152.5,
+    533.1,
+    166.9
+   ],
+   "text": "COMMERCIAL FISHING VESSEL LADY ELLEN (O.N. 625371) CREWMEMBER",
+   "conf": 0.9893,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.3,
+    166.1,
+    537.1,
+    180.4
+   ],
+   "text": "LOSS OF LIFE IN TANGIER SOUND NEAR DEAL ISLAND, MD ON JULY 23, 2024",
+   "conf": 0.9918,
+   "retry": null
+  },
+  {
+   "bbox": [
+    108.0,
+    208.0,
+    514.4,
+    222.0
+   ],
+   "text": "ENDORSEMENT BY THE OFFICER IN CHARGE, MARINE INSPECTION",
+   "conf": 0.9901,
+   "retry": null
+  },
+  {
+   "bbox": [
+    76.5,
+    249.1,
+    533.9,
+    263.9
+   ],
+   "text": "The record and the report of the investigation convened for the subject casualty were reviewed.",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    75.7,
+    262.7,
+    476.9,
+    278.2
+   ],
+   "text": "The record and the report, including the findings of fact, analysis, conclusions, and",
+   "conf": 0.999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.9,
+    276.6,
+    523.1,
+    292.6
+   ],
+   "text": "recommendations are approved. It is recommended that this marine casualty investigation be",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    75.3,
+    290.2,
+    112.4,
+    304.2
+   ],
+   "text": "closed.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    186.5,
+    332.9,
+    435.5,
+    345.3
+   ],
+   "text": "ENDORSEMENT ON RECOMMENDATIONS",
+   "conf": 0.9942,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.9,
+    359.3,
+    534.3,
+    375.2
+   ],
+   "text": "Safety Recommendation 1: Recommend the Commandant's Office of CFV Compliance (CG-",
+   "conf": 0.9982,
+   "retry": null
+  },
+  {
+   "bbox": [
+    75.7,
+    373.6,
+    543.5,
+    388.4
+   ],
+   "text": "CVC-3) amend CFVS compliance examinations to include a mandate for all CFVs, regardless of",
+   "conf": 0.995,
+   "retry": null
+  },
+  {
+   "bbox": [
+    75.3,
+    387.6,
+    524.7,
+    402.0
+   ],
+   "text": "operating area. 46 USC Subchapter 4502(f) requires a dockside examination for CFVs which",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.9,
+    401.2,
+    514.8,
+    416.4
+   ],
+   "text": "operate beyond three nautical miles from the territorial sea baseline at least once every five",
+   "conf": 0.996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.5,
+    414.4,
+    543.5,
+    430.7
+   ],
+   "text": "years. The Coast Guard advises safety examinations to be completed every two years to maintain",
+   "conf": 0.9954,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.5,
+    428.3,
+    515.2,
+    444.3
+   ],
+   "text": "currency of the CFVS compliance decals. CFVS examinations include a thorough check of",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    75.3,
+    442.7,
+    541.5,
+    458.3
+   ],
+   "text": "applicable safety equipment and procedures required for each vessel, indicating compliance with",
+   "conf": 0.9959,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.9,
+    456.3,
+    540.3,
+    471.8
+   ],
+   "text": "46 CFR Subchapter C requirements. Amending this requirement to mandate safety examinations",
+   "conf": 0.9922,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.5,
+    469.9,
+    523.9,
+    485.4
+   ],
+   "text": "for all documented CFVs would significantly bolster safety standards across the fishing fleet,",
+   "conf": 0.9951,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.9,
+    483.8,
+    468.6,
+    499.4
+   ],
+   "text": "dramatically reducing the risk of marine casualties and preventing the loss of life.",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    92.0,
+    511.0,
+    519.2,
+    527.3
+   ],
+   "text": "Endorsement 1: Concur with the Safety recommendation proposed by the Investigating",
+   "conf": 0.9957,
+   "retry": null
+  },
+  {
+   "bbox": [
+    92.4,
+    524.9,
+    133.5,
+    538.9
+   ],
+   "text": "Officer.",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.1,
+    552.1,
+    533.5,
+    568.5
+   ],
+   "text": "Safety Recommendation 2: Recommend the Commandant's Office of CFV Compliance (CG-",
+   "conf": 0.9917,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.1,
+    566.1,
+    536.7,
+    583.2
+   ],
+   "text": "CVC-3) amend Title 46 CFR Subpart 28.265 and 28.270 to expand requirements for emergency",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.1,
+    580.4,
+    504.4,
+    595.6
+   ],
+   "text": "instructions and drills, to include all documented CFVs, regardless of operating area. The",
+   "conf": 0.9912,
+   "retry": null
+  },
+  {
+   "bbox": [
+    73.3,
+    594.4,
+    541.5,
+    610.0
+   ],
+   "text": "requirement is currently only applicable to documented vessels that operate beyond the boundary",
+   "conf": 0.9989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    73.3,
+    607.2,
+    500.8,
+    623.5
+   ],
+   "text": "lines or with more than 16 individuals on board, or for fish tender vessels engaged in the",
+   "conf": 0.9976,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.5,
+    621.9,
+    539.1,
+    636.7
+   ],
+   "text": "Aleutian trade. Expanding the scope of this requirement will significantly enhance readiness and",
+   "conf": 0.9925,
+   "retry": null
+  },
+  {
+   "bbox": [
+    74.1,
+    635.1,
+    484.5,
+    651.1
+   ],
+   "text": "operational efficiency for all commercial fishermen by ensuring consistent procedure",
+   "conf": 0.9983,
+   "retry": null
+  },
+  {
+   "bbox": [
+    73.7,
+    649.5,
+    523.9,
+    665.1
+   ],
+   "text": "implementation and comprehensive training, ultimately improving survivability and reducing",
+   "conf": 0.9862,
+   "retry": null
+  },
+  {
+   "bbox": [
+    73.3,
+    663.5,
+    305.6,
+    677.0
+   ],
+   "text": "recovery times in the event of a man overboard.",
+   "conf": 0.9928,
+   "retry": null
+  },
+  {
+   "bbox": [
+    91.2,
+    689.8,
+    518.0,
+    706.6
+   ],
+   "text": "Endorsement 2: Concur with the Safety recommendation proposed by the Investigating",
+   "conf": 0.9963,
+   "retry": null
+  },
+  {
+   "bbox": [
+    91.6,
+    704.2,
+    132.3,
+    717.8
+   ],
+   "text": "Officer.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    303.6,
+    757.3,
+    313.6,
+    770.0
+   ],
+   "text": "ii",
+   "conf": 0.9977,
+   "retry": null
+  }
+ ]
+}

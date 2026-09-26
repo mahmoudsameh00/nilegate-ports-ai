@@ -1,0 +1,165 @@
+{
+ "key": {
+  "report_id": "PROWLER_ATTESSA_IV",
+  "filename": "PROWLER_ATTESSA_IV_6572770_ROI_Redacted.pdf",
+  "sha256": "010157c0edf08c5e13cd22197805e3bf59408c4d04b1b047d4c13c51c2410175",
+  "page_number": 17,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    47.4,
+    28.3,
+    335.1,
+    44.7
+   ],
+   "text": "COLLISION BETWEEN THE PROWLER(O.N. 294465)",
+   "conf": 0.9912,
+   "retry": null
+  },
+  {
+   "bbox": [
+    475.3,
+    30.7,
+    508.8,
+    45.1
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    47.0,
+    42.3,
+    364.6,
+    58.3
+   ],
+   "text": "AND ATTESSA IV (O.N. 9179830) SOUTH OF U.S./MEXICO",
+   "conf": 0.9653,
+   "retry": null
+  },
+  {
+   "bbox": [
+    476.1,
+    45.5,
+    566.2,
+    58.7
+   ],
+   "text": "December 3, 2019",
+   "conf": 0.9817,
+   "retry": null
+  },
+  {
+   "bbox": [
+    47.0,
+    56.7,
+    334.3,
+    71.5
+   ],
+   "text": "MARITIME BOUNDARY LINE ON OCTOBER 26,2018",
+   "conf": 0.9898,
+   "retry": null
+  },
+  {
+   "bbox": [
+    174.5,
+    256.7,
+    245.0,
+    277.0
+   ],
+   "text": "ROWLER",
+   "conf": 0.9971,
+   "retry": null
+  },
+  {
+   "bbox": [
+    184.9,
+    282.6,
+    215.2,
+    295.8
+   ],
+   "text": "ANVEDO.CA",
+   "conf": 0.6036,
+   "retry": {
+    "text": "MUES.tA",
+    "conf": 0.5866,
+    "first_text": "ANVEDO.CA",
+    "first_conf": 0.6036,
+    "kept": "first"
+   }
+  },
+  {
+   "bbox": [
+    119.1,
+    371.2,
+    526.7,
+    386.0
+   ],
+   "text": "Above: Photograph of the PROWLER's starboard side after the collision taken on October 26, 2019,",
+   "conf": 0.9944,
+   "retry": null
+  },
+  {
+   "bbox": [
+    247.4,
+    384.4,
+    399.2,
+    396.4
+   ],
+   "text": "provided by a person on the Prowler.",
+   "conf": 0.9985,
+   "retry": null
+  },
+  {
+   "bbox": [
+    107.2,
+    405.2,
+    539.1,
+    421.1
+   ],
+   "text": "Below: Photograph of PROWLER operating station taken on October 28, 2019 while the vessel was in the",
+   "conf": 0.983,
+   "retry": null
+  },
+  {
+   "bbox": [
+    242.2,
+    418.8,
+    403.2,
+    430.7
+   ],
+   "text": "shipyard, provided by the Coast Guard.",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

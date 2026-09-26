@@ -1,0 +1,489 @@
+{
+ "key": {
+  "report_id": "H20_BELOW",
+  "filename": "H20_BELOW_6966090_ROI_Redacted.pdf",
+  "sha256": "f3fcf7689854c086f79383529c2e174af10699e91199f16de6dc34a5f5fcd65c",
+  "page_number": 15,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    110.4,
+    65.9,
+    526.7,
+    79.4
+   ],
+   "text": "4.2.12. Passengers 1, Passenger 2, and Passenger 3 personally owned and brought their",
+   "conf": 0.9941,
+   "retry": null
+  },
+  {
+   "bbox": [
+    111.2,
+    80.6,
+    505.6,
+    92.6
+   ],
+   "text": "scuba gear equipment from Blue Octopus Dive Shop in Alexandria, VA. The Blue",
+   "conf": 0.9986,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    93.4,
+    525.1,
+    107.0
+   ],
+   "text": "Octopus Dive Shop was co-owned by both Passenger 1 and Passenger 3. It also served",
+   "conf": 0.9954,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    107.8,
+    510.0,
+    121.0
+   ],
+   "text": "as Passenger 2's place of employment from September 2017 through January 2019.",
+   "conf": 0.9945,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.6,
+    131.7,
+    527.9,
+    147.3
+   ],
+   "text": "4.2.13. Passengers 1, 2, and 3 utilized Hollis PRISM 2 CCR systems. Two gas supplies",
+   "conf": 0.9909,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    146.9,
+    523.9,
+    160.1
+   ],
+   "text": "(diluent and oxygen) are required for CCR systems. Each Hollis PRISM 2 system also",
+   "conf": 0.9989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    160.1,
+    513.6,
+    174.4
+   ],
+   "text": "consisted of counter-lungs and a scrubber and four bottles (oxygen, diluent cylinder,",
+   "conf": 0.9962,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    174.4,
+    265.0,
+    187.6
+   ],
+   "text": "bail-out bottle, and deco bottle).",
+   "conf": 0.9918,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    201.2,
+    524.3,
+    215.6
+   ],
+   "text": "4.2.14. The Hollis PRISM 2 CCR systems function by recirculating the gas that divers",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.6,
+    215.2,
+    531.9,
+    229.1
+   ],
+   "text": "breathe. In a CCR system, the circular path gas takes are referred to as the loop. The gas",
+   "conf": 0.9966,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    229.1,
+    514.0,
+    243.1
+   ],
+   "text": "flows from the counter-lung that contracts when a diver inhales and expands when a",
+   "conf": 0.9921,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    242.7,
+    510.8,
+    256.7
+   ],
+   "text": "diver exhales. As a diver inhales, fresh gas from the counter-lung flows through the",
+   "conf": 0.9866,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    256.3,
+    519.2,
+    270.7
+   ],
+   "text": "inhalation hose on the left then through the exhalation hose on the right. The gas then",
+   "conf": 0.9848,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    270.3,
+    510.8,
+    284.2
+   ],
+   "text": "flows from the exhalation hose into another counter-lung and then into the scrubber",
+   "conf": 0.9982,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.8,
+    284.6,
+    431.9,
+    297.8
+   ],
+   "text": "which removes carbon dioxide waste as the gas passes through it. 3",
+   "conf": 0.9853,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.6,
+    311.4,
+    536.3,
+    325.7
+   ],
+   "text": "4.2.15. Pre-dive checks are required when utilizing a rebreather system and are crucial to",
+   "conf": 0.9975,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    326.1,
+    239.5,
+    339.3
+   ],
+   "text": "perform before every dive.",
+   "conf": 0.9925,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    350.9,
+    535.5,
+    365.7
+   ],
+   "text": "4.2.16. An in-water bubble check is a critical task to perform upon entering the water for",
+   "conf": 0.9952,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    364.5,
+    514.4,
+    379.6
+   ],
+   "text": "an underwater dive. During this evolution, the dive buddy will check for any sign of",
+   "conf": 0.9972,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.4,
+    380.0,
+    511.2,
+    392.0
+   ],
+   "text": "water leaking into the breathing loop and inside the scrubber. At this time, the diver",
+   "conf": 0.9964,
+   "retry": null
+  },
+  {
+   "bbox": [
+    108.0,
+    388.4,
+    405.6,
+    411.2
+   ],
+   "text": "must also check their mouthpiece, hoses, and counter lungs.4",
+   "conf": 0.9943,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.7,
+    418.4,
+    133.9,
+    431.9
+   ],
+   "text": "5. Analysis",
+   "conf": 0.9978,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.1,
+    443.9,
+    531.5,
+    458.3
+   ],
+   "text": "5.1. Failure to Adhere with Recommended Dive Computer Decompression stops. According",
+   "conf": 0.9963,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.1,
+    458.7,
+    534.7,
+    471.8
+   ],
+   "text": "to passenger 1’s recorded dive history, he did not complete his dive computers recommended",
+   "conf": 0.9928,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.1,
+    472.2,
+    526.7,
+    485.8
+   ],
+   "text": "decompression stop at approximately 15 meters prior to surfacing. Passenger 1 conducted a",
+   "conf": 0.986,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.1,
+    485.4,
+    513.6,
+    499.8
+   ],
+   "text": "dive lasting 1 hour and 2 minutes that included rapid changes in depth. Passenger 2, who",
+   "conf": 0.9978,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.1,
+    499.4,
+    522.4,
+    513.8
+   ],
+   "text": "conducted the same dive profile, surfaced exhibiting symptoms of decompression sickness",
+   "conf": 0.9873,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.9,
+    514.6,
+    517.2,
+    526.5
+   ],
+   "text": "and was subsequently treated in a hyperbaric chamber. Dive computers are essential tools",
+   "conf": 0.9953,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.1,
+    527.3,
+    510.4,
+    540.9
+   ],
+   "text": "designed to enhance diver safety by calculating ascent profiles and reducing the risks of",
+   "conf": 0.9984,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.5,
+    540.1,
+    470.6,
+    555.7
+   ],
+   "text": "decompression sickness. These devices track depth and dive duration and apply",
+   "conf": 0.9975,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.5,
+    554.9,
+    523.9,
+    568.9
+   ],
+   "text": "decompression models to estimate nitrogen absorption in the body during a dive. As divers",
+   "conf": 0.9976,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.1,
+    568.9,
+    520.8,
+    582.8
+   ],
+   "text": "descend deeper, nitrogen levels increase and require controlled ascent, and decompression",
+   "conf": 0.9988,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.1,
+    582.0,
+    521.2,
+    597.2
+   ],
+   "text": "stops to allow safe release from the tissues. By failing to complete the decompression stop",
+   "conf": 0.9921,
+   "retry": null
+  },
+  {
+   "bbox": [
+    87.7,
+    596.0,
+    534.7,
+    610.8
+   ],
+   "text": "indicated by the dive computer, Passenger 1 surfaced without allowing for sufficient time for",
+   "conf": 0.9862,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.1,
+    610.4,
+    506.0,
+    623.9
+   ],
+   "text": "inert gas to be safely released from body tissues. If passenger 1 had completed the dive",
+   "conf": 0.9921,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.9,
+    624.7,
+    537.1,
+    637.9
+   ],
+   "text": "computer’s recommended decompression stop prior to surfacing, it is probable that Passenger",
+   "conf": 0.9889,
+   "retry": null
+  },
+  {
+   "bbox": [
+    88.9,
+    638.7,
+    463.4,
+    651.9
+   ],
+   "text": "1 may not have suffered decompression sickness and a subsequent loss of life.",
+   "conf": 0.9945,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.7,
+    677.4,
+    533.9,
+    691.8
+   ],
+   "text": "3 Information provided in 4.2.14 and 4.2.15 was retrieved from the PADI Rebreather & Advanced Rebreather Diver",
+   "conf": 0.9974,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.5,
+    689.8,
+    318.8,
+    702.2
+   ],
+   "text": "Course Instructor Guide, section III. Basic Function of CCRs.",
+   "conf": 0.9955,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    700.6,
+    521.2,
+    715.0
+   ],
+   "text": "4 Hollis Inc. Hollis PRISM 2 Operations Manual, Revision 7. (2013). Page 87- Skill # 2: In-water Bubble Check.",
+   "conf": 0.9943,
+   "retry": null
+  },
+  {
+   "bbox": [
+    299.6,
+    736.9,
+    308.8,
+    749.3
+   ],
+   "text": "8",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

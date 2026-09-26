@@ -1,0 +1,478 @@
+{
+ "key": {
+  "report_id": "WILDERNESS_I",
+  "filename": "WILDERNESS_I_7828267_ROI_Redacted.pdf",
+  "sha256": "e0f98431b9d795e2e25804b66e1de1efa3284a2d53b47fe4a957b9c628e9b902",
+  "page_number": 8,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    115.1,
+    35.9,
+    541.9,
+    50.3
+   ],
+   "text": "4.1.4. At 1610, the company manager and the mechanic arrived at Bayou Segnette",
+   "conf": 0.9974,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.1,
+    49.9,
+    541.5,
+    64.3
+   ],
+   "text": "Landing pier and fueled the Wilderness I. The company manager then tasked the",
+   "conf": 0.9847,
+   "retry": null
+  },
+  {
+   "bbox": [
+    114.4,
+    63.9,
+    541.5,
+    78.6
+   ],
+   "text": "mechanic to get underway on the Wilderness I and transit to the Ultimate Swamp",
+   "conf": 0.9923,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.9,
+    78.2,
+    541.5,
+    91.4
+   ],
+   "text": "Adventures dock on Laroussini Street. There, the mechanic was instructed to wait for the",
+   "conf": 0.9929,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.5,
+    92.6,
+    541.1,
+    105.8
+   ],
+   "text": "manager. They would then proceed underway together, onboard the Wilderness I, to",
+   "conf": 0.9932,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.5,
+    106.2,
+    220.7,
+    118.2
+   ],
+   "text": "conduct engine trials.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    114.8,
+    130.9,
+    541.9,
+    145.7
+   ],
+   "text": "4.1.5. While the mechanic got the Wilderness I underway, the company manager drove",
+   "conf": 0.9921,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.1,
+    145.3,
+    391.7,
+    158.5
+   ],
+   "text": "the trailer back to the Ultimate Swamp Adventures dock.",
+   "conf": 0.9956,
+   "retry": null
+  },
+  {
+   "bbox": [
+    114.4,
+    169.7,
+    541.5,
+    185.6
+   ],
+   "text": "4.1.6. At 1640, the mechanic and the Wilderness I arrived at the Ultimate Swamp",
+   "conf": 0.9661,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.5,
+    185.6,
+    303.6,
+    197.6
+   ],
+   "text": "Adventures dock on Laroussini Street.",
+   "conf": 0.9985,
+   "retry": null
+  },
+  {
+   "bbox": [
+    233.9,
+    305.8,
+    280.9,
+    318.2
+   ],
+   "text": "Metairie",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    167.3,
+    326.9,
+    219.5,
+    336.1
+   ],
+   "text": "ouis Armstrong",
+   "conf": 0.9862,
+   "retry": null
+  },
+  {
+   "bbox": [
+    168.5,
+    334.1,
+    213.2,
+    342.1
+   ],
+   "text": "New Orleans",
+   "conf": 0.9979,
+   "retry": null
+  },
+  {
+   "bbox": [
+    168.5,
+    340.9,
+    212.8,
+    348.9
+   ],
+   "text": "International",
+   "conf": 0.9972,
+   "retry": null
+  },
+  {
+   "bbox": [
+    178.9,
+    347.3,
+    204.4,
+    355.7
+   ],
+   "text": "Airport",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    251.8,
+    356.5,
+    294.0,
+    367.7
+   ],
+   "text": ".Elmwood",
+   "conf": 0.997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    313.2,
+    362.1,
+    410.0,
+    378.0
+   ],
+   "text": "New Orleans",
+   "conf": 0.9994,
+   "retry": null
+  },
+  {
+   "bbox": [
+    247.8,
+    377.2,
+    287.7,
+    388.0
+   ],
+   "text": "Harahan",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    295.2,
+    406.0,
+    342.7,
+    417.6
+   ],
+   "text": ".Westwego",
+   "conf": 0.9905,
+   "retry": null
+  },
+  {
+   "bbox": [
+    239.9,
+    407.6,
+    282.1,
+    419.2
+   ],
+   "text": ".Avondale",
+   "conf": 0.9879,
+   "retry": null
+  },
+  {
+   "bbox": [
+    363.8,
+    417.6,
+    377.7,
+    428.7
+   ],
+   "text": "90",
+   "conf": 0.9899,
+   "retry": null
+  },
+  {
+   "bbox": [
+    403.2,
+    418.4,
+    430.3,
+    429.5
+   ],
+   "text": ".Terry",
+   "conf": 0.985,
+   "retry": null
+  },
+  {
+   "bbox": [
+    198.8,
+    424.7,
+    257.0,
+    436.7
+   ],
+   "text": "Ultimate Swamp",
+   "conf": 0.991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    207.6,
+    435.1,
+    249.0,
+    445.5
+   ],
+   "text": "Adventures",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    325.9,
+    445.9,
+    365.8,
+    457.1
+   ],
+   "text": "Marrero",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    310.0,
+    481.8,
+    340.7,
+    491.8
+   ],
+   "text": "Incident",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    202.0,
+    483.0,
+    225.1,
+    493.0
+   ],
+   "text": "Lake",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    185.3,
+    490.6,
+    241.1,
+    500.2
+   ],
+   "text": "Cataouatche",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    308.8,
+    490.6,
+    341.9,
+    501.4
+   ],
+   "text": "Location",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    300.0,
+    511.4,
+    331.9,
+    519.4
+   ],
+   "text": "Barataria",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    299.2,
+    517.4,
+    331.5,
+    526.5
+   ],
+   "text": "Preserve",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    167.7,
+    574.0,
+    370.5,
+    585.6
+   ],
+   "text": "Figure 2 Google Earth incident location (January 2024)",
+   "conf": 0.9909,
+   "retry": null
+  },
+  {
+   "bbox": [
+    114.8,
+    594.8,
+    541.9,
+    609.6
+   ],
+   "text": "4.1.7. A receptionist employed by Ultimate Swamp Adventures, who was manning the",
+   "conf": 0.9946,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.9,
+    610.0,
+    541.5,
+    623.1
+   ],
+   "text": "cash register at the dock, saw the mechanic depart alone on the Wilderness I, outbound",
+   "conf": 0.9956,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.1,
+    622.7,
+    233.1,
+    636.7
+   ],
+   "text": "toward Bayou Segnette.",
+   "conf": 0.9955,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.1,
+    648.7,
+    541.1,
+    663.1
+   ],
+   "text": "4.1.8. At 1750, the company manager arrived at the Ultimate Swamp Adventures dock.",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    114.8,
+    662.3,
+    541.5,
+    677.0
+   ],
+   "text": "He noted thatthe Wilderness I and the mechanic were not waiting at the dock as",
+   "conf": 0.973,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.1,
+    676.6,
+    540.7,
+    691.0
+   ],
+   "text": "instructed. The receptionist told the company manager that the mechanic got underway",
+   "conf": 0.9967,
+   "retry": null
+  },
+  {
+   "bbox": [
+    115.1,
+    690.2,
+    246.6,
+    704.2
+   ],
+   "text": "on the Wilderness I, alone.",
+   "conf": 0.9984,
+   "retry": null
+  },
+  {
+   "bbox": [
+    299.6,
+    743.3,
+    310.8,
+    757.3
+   ],
+   "text": "3",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}

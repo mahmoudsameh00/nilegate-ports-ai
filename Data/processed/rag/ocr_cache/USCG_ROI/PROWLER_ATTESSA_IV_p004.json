@@ -1,0 +1,495 @@
+{
+ "key": {
+  "report_id": "PROWLER_ATTESSA_IV",
+  "filename": "PROWLER_ATTESSA_IV_6572770_ROI_Redacted.pdf",
+  "sha256": "010157c0edf08c5e13cd22197805e3bf59408c4d04b1b047d4c13c51c2410175",
+  "page_number": 4,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    71.3,
+    33.9,
+    160.6,
+    44.7
+   ],
+   "text": "U.S. Department of",
+   "conf": 0.9844,
+   "retry": null
+  },
+  {
+   "bbox": [
+    394.5,
+    33.9,
+    484.9,
+    44.3
+   ],
+   "text": "2710 North Harbor Drive",
+   "conf": 0.984,
+   "retry": null
+  },
+  {
+   "bbox": [
+    250.2,
+    35.1,
+    297.6,
+    44.7
+   ],
+   "text": "Commander",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    394.1,
+    41.9,
+    474.5,
+    52.3
+   ],
+   "text": "San Diego, CA 92101",
+   "conf": 0.9814,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    43.1,
+    160.2,
+    55.9
+   ],
+   "text": "Homeland Security",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    250.2,
+    44.3,
+    314.4,
+    53.9
+   ],
+   "text": "U.S Coast Guard",
+   "conf": 0.9838,
+   "retry": null
+  },
+  {
+   "bbox": [
+    394.9,
+    50.3,
+    460.6,
+    60.3
+   ],
+   "text": "Staff Symbol: spv",
+   "conf": 0.9989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    249.4,
+    52.7,
+    315.6,
+    64.7
+   ],
+   "text": "Sector San Diego",
+   "conf": 0.9997,
+   "retry": null
+  },
+  {
+   "bbox": [
+    394.1,
+    57.9,
+    482.1,
+    68.3
+   ],
+   "text": "Phone: (619) 278-7255",
+   "conf": 0.9936,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.1,
+    61.5,
+    142.6,
+    73.5
+   ],
+   "text": "United States",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    394.1,
+    65.9,
+    470.2,
+    76.6
+   ],
+   "text": "Fax: (619) 278-7235",
+   "conf": 0.9953,
+   "retry": null
+  },
+  {
+   "bbox": [
+    70.9,
+    71.9,
+    137.9,
+    82.6
+   ],
+   "text": "Coast Guard",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    393.7,
+    89.8,
+    428.3,
+    103.8
+   ],
+   "text": "16732",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    393.7,
+    102.6,
+    479.3,
+    116.2
+   ],
+   "text": "January 07, 2020",
+   "conf": 0.9982,
+   "retry": null
+  },
+  {
+   "bbox": [
+    91.2,
+    142.1,
+    519.2,
+    154.1
+   ],
+   "text": "REPORT OF THE INVESTIGATION INTO THE COLLISION BETWEEN THE",
+   "conf": 0.9731,
+   "retry": null
+  },
+  {
+   "bbox": [
+    82.5,
+    155.7,
+    527.5,
+    169.3
+   ],
+   "text": "PROWLER (O.N. 294465) AND THE ATTESSA IV (O.N. 9179830) SOUTH OF THE",
+   "conf": 0.9826,
+   "retry": null
+  },
+  {
+   "bbox": [
+    114.8,
+    169.3,
+    496.5,
+    183.2
+   ],
+   "text": "U.S./MEXICO MARITIME BOUNDARY LINE ON OCTOBER 26, 2018",
+   "conf": 0.994,
+   "retry": {
+    "text": "U.S./MEXICO MARITIME BOUNDARY LINE ON OCTOBER 26, 2018",
+    "conf": 0.994,
+    "first_text": "U.S   08",
+    "first_conf": 0.6259,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    101.6,
+    212.0,
+    509.6,
+    223.9
+   ],
+   "text": "ENDORSEMENT BY THE OFFICER IN CHARGE, MARINE INSPECTION",
+   "conf": 0.9886,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.3,
+    239.1,
+    505.2,
+    252.3
+   ],
+   "text": "The record and the report of the investigation convened for the subject casualty have been",
+   "conf": 0.9996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.7,
+    251.9,
+    522.0,
+    267.1
+   ],
+   "text": "reviewed. The record and the report, including the findings of fact, analysis, conclusions, and",
+   "conf": 0.9976,
+   "retry": null
+  },
+  {
+   "bbox": [
+    67.7,
+    265.9,
+    530.3,
+    280.6
+   ],
+   "text": "recommendations are approved subject to the following comments. It is recommended that this",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.9,
+    281.0,
+    263.4,
+    293.0
+   ],
+   "text": "marine casualty investigation be closed.",
+   "conf": 0.9943,
+   "retry": null
+  },
+  {
+   "bbox": [
+    216.8,
+    321.8,
+    393.3,
+    334.1
+   ],
+   "text": "COMMENTS ON THEREPORT",
+   "conf": 0.9928,
+   "retry": null
+  },
+  {
+   "bbox": [
+    68.5,
+    349.3,
+    527.9,
+    362.9
+   ],
+   "text": "1. United States Coast Guard Sector San Diego intends to initiate Suspension and Revocation",
+   "conf": 0.9847,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.9,
+    363.7,
+    526.3,
+    376.8
+   ],
+   "text": "proceedings against the mate on the PROWLER for alleged violations of law or regulation",
+   "conf": 0.9992,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.9,
+    377.6,
+    168.1,
+    389.6
+   ],
+   "text": "and misconduct.",
+   "conf": 0.9889,
+   "retry": null
+  },
+  {
+   "bbox": [
+    155.0,
+    416.8,
+    455.0,
+    428.7
+   ],
+   "text": "ENDORSEMENT/ACTION ON RECOMMENDATIONS",
+   "conf": 0.9944,
+   "retry": null
+  },
+  {
+   "bbox": [
+    69.7,
+    444.7,
+    241.9,
+    456.7
+   ],
+   "text": "Administrative Recommendation",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.1,
+    470.6,
+    539.1,
+    485.4
+   ],
+   "text": "1. Recommend that the findings in this report be forwarded to the United Kingdom of Great",
+   "conf": 0.9955,
+   "retry": null
+  },
+  {
+   "bbox": [
+    104.4,
+    485.4,
+    523.1,
+    498.6
+   ],
+   "text": "Britain and Northern Ireland as issuing authority for the master of the ATTESSA IV's",
+   "conf": 0.9965,
+   "retry": null
+  },
+  {
+   "bbox": [
+    104.4,
+    499.0,
+    441.9,
+    512.2
+   ],
+   "text": "license and the Cayman Islands as the flag state of the ATTESSA IV.",
+   "conf": 0.9925,
+   "retry": null
+  },
+  {
+   "bbox": [
+    84.9,
+    526.1,
+    498.0,
+    540.9
+   ],
+   "text": "2. Recommend the Officer in Charge of Marine Inspections initiate Suspension and",
+   "conf": 0.998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    104.4,
+    540.9,
+    537.1,
+    554.1
+   ],
+   "text": "Revocation proceedings against the mate on the PROWLER for allegedly violating a law",
+   "conf": 0.9991,
+   "retry": null
+  },
+  {
+   "bbox": [
+    104.4,
+    554.9,
+    507.2,
+    568.1
+   ],
+   "text": "or regulation by violating the COLREGS and for alleged acts of misconduct which",
+   "conf": 0.9985,
+   "retry": null
+  },
+  {
+   "bbox": [
+    103.6,
+    567.7,
+    364.2,
+    582.4
+   ],
+   "text": "resulted in the death and serious injury to passengers.",
+   "conf": 0.9967,
+   "retry": null
+  },
+  {
+   "bbox": [
+    85.3,
+    595.2,
+    307.6,
+    608.8
+   ],
+   "text": "3. Recommend this investigation be closed.",
+   "conf": 0.9937,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.1,
+    623.5,
+    162.6,
+    636.7
+   ],
+   "text": "Endorsement:",
+   "conf": 0.9998,
+   "retry": null
+  },
+  {
+   "bbox": [
+    86.1,
+    650.3,
+    541.1,
+    664.3
+   ],
+   "text": "1. United States Coast Guard Sector San Diego OCMI concurs with the recommendations to",
+   "conf": 0.996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    104.0,
+    665.1,
+    529.5,
+    678.2
+   ],
+   "text": "notify the recreational vessel's Flag State and the credentialing authority of the vessel's",
+   "conf": 0.9907,
+   "retry": null
+  },
+  {
+   "bbox": [
+    103.2,
+    679.0,
+    142.2,
+    691.4
+   ],
+   "text": "master.",
+   "conf": 1.0,
+   "retry": null
+  },
+  {
+   "bbox": [
+    300.0,
+    741.3,
+    309.2,
+    754.5
+   ],
+   "text": "1",
+   "conf": 0.9999,
+   "retry": null
+  }
+ ]
+}

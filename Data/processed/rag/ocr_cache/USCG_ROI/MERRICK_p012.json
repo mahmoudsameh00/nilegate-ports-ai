@@ -1,0 +1,242 @@
+{
+ "key": {
+  "report_id": "MERRICK",
+  "filename": "MERRICK_8031230_ROI_Redacted.pdf",
+  "sha256": "76047e77ee5376e2fc4638301674894f54af536e5de39cbdbdeec8ffbedd53b9",
+  "page_number": 12,
+  "settings": {
+   "dpi": 300,
+   "colorspace": "RGB",
+   "alpha": false,
+   "params": {
+    "Global.text_score": 0.0,
+    "Global.max_side_len": 2000,
+    "Global.log_level": "critical"
+   },
+   "retry_conf": 0.95,
+   "crop_pad": 4
+  },
+  "engine": {
+   "rapidocr": "3.9.2",
+   "onnxruntime": "1.30.0",
+   "det": "PP-OCRv6 small",
+   "cls": "PP-OCRv4 mobile",
+   "rec": "PP-OCRv6 small",
+   "model_files": {
+    "ch_ppocr_mobile_v2.0_cls_mobile.onnx": "e47acedf663230f8",
+    "PP-OCRv6_det_small.onnx": "090f04abcd9d9a74",
+    "PP-OCRv6_rec_small.onnx": "6f327246b50388f3"
+   }
+  }
+ },
+ "image_px": [
+  2550,
+  3300
+ ],
+ "lines": [
+  {
+   "bbox": [
+    205.2,
+    39.1,
+    242.6,
+    66.3
+   ],
+   "text": "NH2485D",
+   "conf": 0.9893,
+   "retry": null
+  },
+  {
+   "bbox": [
+    183.7,
+    128.5,
+    233.1,
+    137.7
+   ],
+   "text": "Bilge overboard",
+   "conf": 0.9817,
+   "retry": null
+  },
+  {
+   "bbox": [
+    183.3,
+    137.3,
+    214.4,
+    146.9
+   ],
+   "text": "discharge",
+   "conf": 0.9974,
+   "retry": null
+  },
+  {
+   "bbox": [
+    208.4,
+    263.9,
+    420.0,
+    275.4
+   ],
+   "text": "Figure 3. Undated photograph of MERRICK provided by Owner",
+   "conf": 0.9835,
+   "retry": null
+  },
+  {
+   "bbox": [
+    163.8,
+    300.2,
+    527.9,
+    313.4
+   ],
+   "text": "4.2.8.1. The MERRICK was fiberglass-over-wood construction. The owner",
+   "conf": 0.9933,
+   "retry": null
+  },
+  {
+   "bbox": [
+    164.6,
+    314.6,
+    514.8,
+    327.7
+   ],
+   "text": "estimated 8 to 10 layers of fiberglass had been installed over the original",
+   "conf": 0.9943,
+   "retry": null
+  },
+  {
+   "bbox": [
+    163.8,
+    327.3,
+    523.9,
+    342.1
+   ],
+   "text": "wood hull prior to his purchase of the vessel. The owner described that the",
+   "conf": 0.9932,
+   "retry": null
+  },
+  {
+   "bbox": [
+    164.2,
+    341.7,
+    513.6,
+    356.1
+   ],
+   "text": "fiberglass did not continuously flow from the horizontal deck and up the",
+   "conf": 0.9961,
+   "retry": null
+  },
+  {
+   "bbox": [
+    164.2,
+    356.1,
+    506.4,
+    369.3
+   ],
+   "text": "inside of the gunwale, and over to the outside/shell hull. The fiberglass",
+   "conf": 0.9886,
+   "retry": null
+  },
+  {
+   "bbox": [
+    164.2,
+    369.7,
+    517.6,
+    384.0
+   ],
+   "text": "stopped approximately 18 inches up from the weather deck; exposing the",
+   "conf": 0.9995,
+   "retry": {
+    "text": "stopped approximately 18 inches up from the weather deck; exposing the",
+    "conf": 0.9995,
+    "first_text": "so     g n s   e dis",
+    "first_conf": 0.6139,
+    "kept": "retry"
+   }
+  },
+  {
+   "bbox": [
+    164.2,
+    382.8,
+    321.5,
+    396.8
+   ],
+   "text": "wood structure of the inside rail.",
+   "conf": 0.9999,
+   "retry": null
+  },
+  {
+   "bbox": [
+    208.4,
+    618.4,
+    419.2,
+    628.7
+   ],
+   "text": "Figure 4. Undated photograph of MERRICK provided by Owner",
+   "conf": 0.996,
+   "retry": null
+  },
+  {
+   "bbox": [
+    110.0,
+    653.9,
+    531.1,
+    667.1
+   ],
+   "text": "4.2.9. On October 15 – 17, 2024, the owner of the MERRICK had the vessel hauled for",
+   "conf": 0.9902,
+   "retry": null
+  },
+  {
+   "bbox": [
+    108.0,
+    667.1,
+    528.3,
+    681.8
+   ],
+   "text": "maintenance at Safe Harbor Marina in Stratford, CT. The work completed included: 1)",
+   "conf": 0.9989,
+   "retry": null
+  },
+  {
+   "bbox": [
+    109.2,
+    681.0,
+    534.3,
+    695.8
+   ],
+   "text": "sanding/grinding down chipped areas of the fiberglass on the keel, filling exposed wood",
+   "conf": 0.9987,
+   "retry": null
+  },
+  {
+   "bbox": [
+    108.8,
+    695.0,
+    520.4,
+    709.8
+   ],
+   "text": "areas with epoxy and laying strips of fiberglass over repair areas; 2) cutting away old",
+   "conf": 0.9993,
+   "retry": null
+  },
+  {
+   "bbox": [
+    108.8,
+    708.2,
+    531.5,
+    724.1
+   ],
+   "text": "sealant around the stern tube, filling existing gouge with epoxy and glassing around the",
+   "conf": 0.9936,
+   "retry": null
+  },
+  {
+   "bbox": [
+    299.6,
+    750.5,
+    309.6,
+    763.3
+   ],
+   "text": "7",
+   "conf": 1.0,
+   "retry": null
+  }
+ ]
+}
