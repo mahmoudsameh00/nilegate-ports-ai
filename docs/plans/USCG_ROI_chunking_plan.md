@@ -1,8 +1,8 @@
 # USCG Reports of Investigation (23) — Template-driven Ingestion, Chunking & IMO Coding Plan
 
-**Status: PROPOSED (2026-09-26)** — review §4 and approve before any notebook work.
+**Status: APPROVED (2026-09-26)** — the owner answered §4 on 2026-09-26 (one notebook; **OCR the image-only pages**; chunking chosen per content, no fixed rule; roles instead of names); the other §4 answers are adopted as proposed. Implementation details not fixed here are delegated to the implementing session, which records every decision and deviation in §6 (dated log).
 
-**Planned notebook:** `Notebooks/USCG_ROI_chunking.ipynb` (one notebook for the 23 reports — §4.1)
+**Planned notebook:** `Notebooks/USCG_ROI_chunking.ipynb` (one notebook for the 23 reports — §4.1, approved)
 **Primary input:** `Data/raw/unstructured/us_coast_guard_reports/*_ROI_Redacted.pdf` (23 files, 580 pages, 98 MB; ADR-007)
 **Companion source:** `Notebooks/IMO_MSC-MEPC_3_Circ_4_Rev_1_chunking.ipynb` and its field catalogue (`extracted/IMO_MSC-MEPC_3_Circ_4_Rev_1_extracted.json`, key `field_catalogue`, ADR-023)
 **Reference notebooks:** IMO (rows by baseline, grids from cell borders, numbered-item blocks, balanced splits, coverage audit), HbR (summary dedup policy, errata, access per unit). Closed plans in `docs/archive/`.
@@ -46,8 +46,11 @@ Observed anomalies already: BIG_STICK prints the heading "**5.** Conclusions" ab
 
 Same guarantees as the other notebooks (16-column schema, reviewed snapshots, errata with evidence, nothing flagged or pending, whole-corpus coverage audit, Final Checkpoint), plus two new ones:
 
+0. **Cost rule (owner):** never parse every PDF to learn the format. Learn it from seeded random samples and from the IMO template, fingerprint all reports cheaply, and look individually only at the abnormal ones.
 1. **Parse by template, not by file.** The ROI template (§0) is written once as a reviewed spec; every report is first *fingerprinted* against it (cheap, text-only); conforming reports go through one template-driven parser; only the reports that deviate are inspected individually.
-2. **Use the IMO circular as the coding vocabulary.** Each report gets an **IMO incident profile** coded with the IMO field catalogue — mechanically where the ROI prints the fact, by reviewed decision (with a quoted evidence sentence) where it is interpretation.
+2. **OCR where there is no text (owner decision).** Image-only pages are OCR'd (RapidOCR, installed with uv), not skipped; OCR text is marked as such (provenance `ocr`), passes a readability gate, and is cached so a re-run does not OCR again.
+3. **Chunking follows the content, not a fixed rule (owner decision).** Each section type gets the split that reads best on the samples (a paragraph, a numbered finding with its sub-items, a whole Determination of Cause, one vessel block…); `MAX_CHUNK_CHARS = 2000` stays a safety cap and chunks under 50 characters are still forbidden, but `MIN_CHUNK_CHARS` is a guideline, not a rule.
+4. **Use the IMO circular as the coding vocabulary.** Each report gets an **IMO incident profile** coded with the IMO field catalogue — mechanically where the ROI prints the fact, by reviewed decision (with a quoted evidence sentence) where it is interpretation.
 
 ## 2. What the IMO work gives this task
 
@@ -78,6 +81,7 @@ Uses: (1) retrieval can answer "which reports were a fall overboard / a collisio
 |---|---|---|
 | 0 | Setup: corpus list, per-file SHA-256, metadata, access | `document_type = uscg_report_of_investigation`, `source = United States Coast Guard`, level 1 / Operations (rbac_mapping §4); `filename` per chunk |
 | 1 | **Corpus inventory** (all 23, cheap) | pages, text chars per page, images, producer, page size; page text classes `text` / `ocr_layer` / `image_only` |
+| 1b | **OCR** of every `image_only` page that carries text, and quality check of the two OCR layers (VICAR_602, MERRICK) | RapidOCR on the PyMuPDF page render (≥ 300 dpi): detected boxes → text lines in PDF coordinates (px × 72 / dpi), with the recognizer's confidence per line; per-page cache with engine/model versions, dpi and render settings; readability gate (share of dictionary words, mean word length); photos without text stay images (→ figure gate); a page that fails the gate after OCR is excluded with its reason, never silently; OCR text goes through the same template parser as native text |
 | 2 | **Template spec** from the seeded sample | reviewed `ROI_TEMPLATE`: front-matter letters, sections 1–8 with title variants, numbering pattern, vessel labels, persons header, caption pattern, header/footer/letterhead patterns |
 | 3 | **Template fingerprint of all 23** (text-only regex) | per report: sections found and order, numbering continuity, vessel labels, persons table, captions → `conformant` / `deviating (what)` / `image_only`; reviewed snapshot; **3b: individual inspection of the deviating reports only** |
 | 4 | Template-driven structured extraction | letters, executive summary, vessel blocks, persons tables, figures (captions; photos `caption_only`, diagrams/charts through the ADR-020 gate), "Enclosures" lists |
@@ -86,27 +90,33 @@ Uses: (1) retrieval can answer "which reports were a fall overboard / a collisio
 | 9 | Units, errata, access, PII check | numbering slips recorded (BIG_STICK "5. Conclusions"); §4.6 |
 | 10–12 | Dedup | within report: Executive Summary non-canonical (§4.4); across reports: boilerplate kept in context (§4.5); cross-source vs the 619 chunks |
 | 13 | Save: ONE extracted (per-report layers + incident profiles), ONE cleaned file `{source, units, duplicate_audit, coverage_audit}` | |
-| 14–15 | Chunking + validation | chunk header = `USCG ROI <vessel> (MISLE <n>, <incident date>) — <section path>` so every chunk stands alone; one chunk per vessel block and per persons table; 6.1 Determination of Cause kept whole (event + causal factors); recommendations with the Commandant's action |
+| 14–15 | Chunking + validation | **best split per content, reviewed on the samples** (owner): chunk header = `USCG ROI <vessel> (MISLE <n>, <incident date>) — <section path>` so every chunk stands alone; candidates to decide on evidence: one chunk per vessel block and per persons table, 6.1 Determination of Cause whole (event + causal factors), a numbered finding with its sub-items, recommendations with the Commandant's action; the chosen split per section type and its reason are recorded in §6 and in the Final Checkpoint |
 | 16–18 | Schema, save/reload, cross-source | expected corpus = 619 + USCG chunks |
-| 19 | Coverage audit per report and for the corpus | 0 unaccounted; image-only pages `page_excluded:image_only` (§4.2) |
+| 19 | Coverage audit per report and for the corpus | 0 unaccounted; OCR lines verified against their chunks like native lines (disposition `in_chunks_ocr`); photo-only pages `page_excluded:photo`; a page that failed the OCR gate `ocr_unreadable` with its evidence |
 | 20 | **IMO incident profiles** + validation | every printed value traced to its line; every reviewed code has an evidence sentence id; codes exist in the catalogue |
 | Final | Final Checkpoint code + markdown | |
 
-## 4. Open questions for the owner (proposed answers)
+## 4. Decisions (owner, 2026-09-26)
 
-1. **One notebook for the 23 reports.** They share one template, so ADR-008 ("one notebook per source") is read as *the ROI corpus is one source*. Proposed: yes — one notebook, one extracted, one cleaned and one chunks file, `filename` per chunk (records a refinement of ADR-008).
-2. **The 4 image-only reports** (H20_BELOW, PROWLER_ATTESSA_IV, QUEEN_OF_THE_WEST, UNA_MAS). (a) OCR now — needs Tesseract installed on Windows + PyMuPDF OCR (new system dependency, an ADR); (b) **ingest their text front matter now, record the image-only pages as `page_excluded:image_only`, and plan OCR as a separate task** — proposed (b). The two OCR-layer reports (VICAR_602, MERRICK) are kept if they pass an OCR-quality check (share of dictionary words per page).
-3. **IMO incident profile**: stored in the extracted file (proposed yes) **and** as one curated `incident_profile` chunk per report whose every value carries its evidence (proposed yes; `provenance = curated_from_report`, ADR-020 rule: only values printed in the report).
-4. **Executive Summary** = a summary of its own report → non-canonical (HbR policy, ADR-019): sentences fully covered by Findings/Analysis/Conclusions are trimmed, new ones kept. Proposed yes.
-5. **Boilerplate across reports** (endorsement approvals, 1.1–1.4 preliminary statements, the 6.2–6.6 "no violations identified" findings): the same sentences in 23 reports would crowd retrieval. Proposed: kept **inside their report's chunks** (they are facts about that casualty) but never as standalone chunks; the standard preliminary statements (1.1–1.4) are merged with the report's first section chunk.
-6. **Personal names.** The reports are public, redacted releases (rbac_mapping §4: level 1) but some still print names of private persons (operators, deceased). Proposed: keep level 1 as mapped, keep the text as published, and **use roles, not names, in the incident profiles and chunk headers**.
-7. **`version_date`** = the date of the Commandant's action (final approval, printed in the first letter); the incident date goes into the chunk header and the profile. Proposed yes.
-8. **Sample size.** Seed 42, 4 reports; the sample is extended only if the Phase 3 fingerprint shows a variant not seen in it. Proposed yes.
+1. **One notebook for the 23 reports — approved.** The ROI corpus is one source (ADR-008 refined: one notebook per *source*, a source may be a corpus of same-template documents): one extracted, one cleaned and one chunks file, `filename` per chunk. Record the refinement as an ADR.
+2. **OCR — approved (owner: "do OCR").** The 4 image-only reports (H20_BELOW, PROWLER_ATTESSA_IV, QUEEN_OF_THE_WEST, UNA_MAS) and every image-only page that carries text in the other reports are OCR'd (Phase 1b). Engine (owner, 2026-09-26: "must install with uv"): **RapidOCR (`rapidocr` + `onnxruntime`, installed with uv — pure Python wheels, models bundled, no system install; owner decision 2026-09-26)**, added to `pyproject.toml` / `uv.lock` with pinned versions like the other dependencies. Tesseract is **not** used (it needs a system install). The implementing session first checks the engine on the image-only pages of the sample; if its quality fails the readability gate, it stops and asks before any other engine. Record the dependency and the OCR policy (cache, provenance, confidence, readability gate) as an ADR. The OCR cache is an artifact owned by this notebook. The two OCR-layer reports (VICAR_602, MERRICK) keep their layer if it passes the same gate, otherwise they are re-OCR'd.
+3. **IMO incident profile** in the extracted file **and** one curated `incident_profile` chunk per report whose every value carries its evidence — adopted as proposed (`provenance = curated_from_report`, ADR-020 rule: only values printed in the report).
+4. **Executive Summary non-canonical** (HbR policy, ADR-019): covered sentences trimmed, new ones kept — adopted as proposed.
+5. **Boilerplate across reports** kept inside each report's chunks, never as standalone chunks — adopted as proposed.
+6. **Roles instead of names — approved.** Incident profiles, chunk headers, titles and any curated text use roles ("the operator", "a deckhand", "the deceased passenger"), never personal names. Report text is kept as published (public redacted release, level 1 / Operations per rbac_mapping §4).
+7. **Chunking — owner: "the best split, not a fixed rule".** See §1.3 and Phase 14.
+8. **`version_date`** = date of the Commandant's action; incident date in the chunk header and the profile — adopted as proposed.
+9. **Sample:** seed 42, 4 reports (VICAR_602, CUMBERLAND_II, BIG_STICK, KIM_LY), extended only when the Phase 3 fingerprint shows an unseen variant — adopted as proposed; add one image-only report to the sample for the OCR path.
 
 ## 5. Validation targets
 
-- Inventory covers 23 files / 580 pages; every page has a text class; the image-only pages match §0.
+- Inventory covers 23 files / 580 pages; every page has a text class; the image-only pages match §0; every OCR'd page has its cache entry and its readability result.
 - Every report has a fingerprint row; every deviation is either handled by the parser or listed with its individual decision (Phase 3b).
 - Every vessel block has its printed labels; every persons row is a unit; numbering is continuous per section (slips recorded).
 - Every IMO code in a profile exists in the IMO field catalogue; every reviewed code has an evidence sentence id; printed values match their lines.
 - Coverage: every text line of every report has a disposition; 0 unaccounted.
+
+## 6. Implementation log
+
+- 2026-09-26 — Plan approved by the owner (§4). Implementation delegated to a new session (the coding assistant in Cursor).
+- 2026-09-26 — Owner: the OCR engine must install with uv → RapidOCR (`rapidocr` + `onnxruntime`) instead of Tesseract.

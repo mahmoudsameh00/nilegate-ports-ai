@@ -52,7 +52,7 @@ Today the system is **data preparation only**: Jupyter notebooks, files under `D
 | `unstructured/LPI_Methodology.pdf` (32 p.) | real | RAG | indicator definitions and methodology; includes an Egypt example (Figures 7–8, deliberately not extracted) |
 | `unstructured/HbR_Annual_report_2025_highlights.pdf` (Port of Rotterdam Authority, 85 p.) | real | RAG | port-authority annual report treated as NileGate's internal report: strategy, ESG, governance (level 1); own financial results (level 3, ADR-021) |
 | `unstructured/MSC-MEPC_3-Circ_4-Rev_1.pdf` (IMO, 31 p., 18 Nov 2014) | real | RAG + field catalogue | what must be reported about a marine casualty and which values each field takes; its machine-readable **field catalogue** (extracted file, ADR-023) is the schema for synthetic incidents and the coding vocabulary for the USCG reports |
-| `unstructured/us_coast_guard_reports/*.pdf` (23) | real | RAG | real incident narratives (ADR-007) |
+| `unstructured/us_coast_guard_reports/*.pdf` (23, 580 p.) | real | RAG + IMO-coded incident profiles (PLANNED) | real incident narratives (ADR-007); one shared ROI template; 4 reports have image-only bodies → OCR (PLANNED, `docs/plans/USCG_ROI_chunking_plan.md`) |
 | `unstructured/FBL_template.pdf` (FIATA) | real template | RAG | bill-of-lading concepts; template for synthetic FBLs |
 | Faker + seeds | synthetic | departments, roles, employees, vessels, containers, invoices | company data anchored to real ports and tariffs |
 | Live web search | live | agent tool (planned) | news, not corpus (ADR-011) |
@@ -162,6 +162,7 @@ user ─► employee ─► role ceiling + department ─► Qdrant payload filt
 
 pandas 3.0.5, numpy 2.2.4, geopandas 1.1.4, psycopg[binary] 3.3.5, pymupdf 1.28.2, pymupdf4llm (unused), pypdf 6.18.1, pyarrow, pillow, scikit-learn 1.9.1 (TF-IDF), faker 40.38.0, ipykernel.
 Not declared but referenced: `pdfplumber` (only in the never-run `ExtractTollRates.ipynb`).
+PLANNED (USCG notebook): RapidOCR (`rapidocr` + `onnxruntime`, added with `uv add`; bundled ONNX models, applied to PyMuPDF page renders).
 
 ## 9. Major architectural decisions
 
