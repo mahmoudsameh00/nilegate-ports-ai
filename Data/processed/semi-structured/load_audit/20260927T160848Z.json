@@ -1,0 +1,84 @@
+{
+ "load_run": "20260927T160848Z",
+ "loaded_at": "2026-09-27T16:08:48+00:00",
+ "mongo_version": "8.0.32",
+ "inputs": {
+  "aishub": {
+   "file": "Data/raw/semi-structured/AISHub sample.json",
+   "sha256": "c7511bf92eee1ea5289bfbdfb9ba7e361390f5cba9f92189d9c4497ed663c0b9"
+  },
+  "noaa": {
+   "file": "Data/raw/semi-structured/NOAA AccessAIS.csv",
+   "sha256": "22eca1f4f9c9a3fb4654c0d8045de3a533e06037f8074761bcf6ea946629b590"
+  },
+  "iftmin_sample": {
+   "file": "Data/raw/semi-structured/IFTMIN_D12A_sample.edi",
+   "sha256": "3d0ddc4c58acce8e1c736f31fd10f7b674b7a970f03d3aaced0a061e6a175edc"
+  }
+ },
+ "dispositions": {
+  "aishub|loaded": 9982,
+  "aishub|rejected:invalid_mmsi": 5,
+  "aishub|rejected:non_ship_mmsi": 13,
+  "noaa|loaded": 967,
+  "noaa|rejected:duplicate_mmsi_ts": 6,
+  "noaa|rejected:invalid_mmsi": 18,
+  "noaa|rejected:non_ship_mmsi": 8
+ },
+ "counts": {
+  "ais_positions": {
+   "noaa|real": 967,
+   "aishub|real": 9982
+  },
+  "ais_vessels": {
+   "aishub|real": 9982,
+   "noaa|real": 52
+  },
+  "edi_messages": {
+   "iftmin_sample|synthetic": 1
+  }
+ },
+ "schema_violations": {
+  "ais_positions": 0,
+  "ais_vessels": 0,
+  "edi_messages": 0
+ },
+ "duplicate_mmsi_ts": 0,
+ "real_vessels_linked": 0,
+ "indexes": {
+  "ais_positions": [
+   "loc_2dsphere",
+   "meta_1_ts_1",
+   "mmsi_ts"
+  ],
+  "ais_vessels": [
+   "imo",
+   "source_mmsi_unique",
+   "vessel_id"
+  ],
+  "edi_messages": [
+   "container_numbers",
+   "source_refs_unique",
+   "vessel_imo"
+  ]
+ },
+ "coverage": {
+  "aishub": {
+   "input_rows": 10000,
+   "in_mongodb": 9982,
+   "rejected": 18,
+   "unaccounted": 0
+  },
+  "noaa": {
+   "input_rows": 999,
+   "in_mongodb": 967,
+   "rejected": 32,
+   "unaccounted": 0
+  }
+ },
+ "content_sha256": {
+  "ais_positions": "6a2579f5250f8ab8c4bbd04da0cc21656171b0981f54f724df95213a68802a09",
+  "ais_vessels": "a78c901bb1b8d1e602314f6e4c1a7c2f4ff72df23c9c8083914437acb11fff9e",
+  "edi_messages": "7d8f4c7c08b48349758248de9f59101bb52867c93c6f16c6a834cb5c660221c3"
+ }
+}

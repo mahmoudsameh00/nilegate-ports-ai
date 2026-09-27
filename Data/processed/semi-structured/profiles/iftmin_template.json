@@ -1,0 +1,112 @@
+{
+ "source": {
+  "file": "Data/raw/semi-structured/IFTMIN_D12A_sample.edi",
+  "size_bytes": 530,
+  "sha256": "3d0ddc4c58acce8e1c736f31fd10f7b674b7a970f03d3aaced0a061e6a175edc",
+  "bom": null,
+  "crlf": 0,
+  "lf_only": 19,
+  "non_ascii_bytes": 0,
+  "head": "UNA:+.? '\nUNB+UNOC:3+SHIPPER+PORTCARRIER+260911:1916+000001'"
+ },
+ "message_type": "IFTMIN:D:12A:UN",
+ "separators": {
+  "comp": ":",
+  "elem": "+",
+  "dec": ".",
+  "rel": "?",
+  "seg": "'"
+ },
+ "segments": [
+  {
+   "tag": "UNB",
+   "qualifier": null,
+   "elements": 5
+  },
+  {
+   "tag": "UNH",
+   "qualifier": null,
+   "elements": 2
+  },
+  {
+   "tag": "BGM",
+   "qualifier": "610",
+   "elements": 3
+  },
+  {
+   "tag": "DTM",
+   "qualifier": "137",
+   "elements": 1
+  },
+  {
+   "tag": "FTX",
+   "qualifier": "AAI",
+   "elements": 4
+  },
+  {
+   "tag": "NAD",
+   "qualifier": "CZ",
+   "elements": 2
+  },
+  {
+   "tag": "NAD",
+   "qualifier": "CN",
+   "elements": 2
+  },
+  {
+   "tag": "LOC",
+   "qualifier": "9",
+   "elements": 2
+  },
+  {
+   "tag": "LOC",
+   "qualifier": "11",
+   "elements": 2
+  },
+  {
+   "tag": "TDT",
+   "qualifier": "20",
+   "elements": 8
+  },
+  {
+   "tag": "DTM",
+   "qualifier": "132",
+   "elements": 1
+  },
+  {
+   "tag": "GID",
+   "qualifier": null,
+   "elements": 2
+  },
+  {
+   "tag": "FTX",
+   "qualifier": "AAA",
+   "elements": 4
+  },
+  {
+   "tag": "MEA",
+   "qualifier": "AAE",
+   "elements": 3
+  },
+  {
+   "tag": "EQD",
+   "qualifier": "CN",
+   "elements": 6
+  },
+  {
+   "tag": "SEL",
+   "qualifier": null,
+   "elements": 1
+  },
+  {
+   "tag": "UNT",
+   "qualifier": null,
+   "elements": 2
+  },
+  {
+   "tag": "UNZ",
+   "qualifier": null,
+   "elements": 2
+  }
+ ]
+}

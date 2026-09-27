@@ -211,3 +211,7 @@ Uses: (1) retrieval can answer "which reports were a fall overboard / a collisio
 ### 2026-09-27 — §6 log entry: open points closed (owner delegated)
 - Letters' restated recommendations: kept by decision (ADR-019 extension). Raster figures: `caption_only` by rule, no render review needed (ADR-020 extension). Incident profiles: printed facts + 3 reviewed codes only; interpretive tables not coded (ADR-023 extension). Notebooks moved to `Notebooks/rag/`; `Notebooks/_scratch/` (cell files, states, logs, renders) deleted.
 
+### 2026-09-27 — §6 log entry: figure captions become metadata (owner review)
+- The 204 raster captions (55 "Figures" chunks) are no longer chunked: they name images the system cannot show and add little text the reports do not already print (median 11–18 % new content words, mostly image annotations). They stay in the extracted file. New totals: 2,998 units → 2,996 after dedup (+23 profiles), **1,544 chunks**, corpus **2,163**, coverage 18,999 lines (captions → `metadata`), 0 unaccounted. ADR-020 extension updated. The implementation record above keeps the first run's numbers (1,609 / 2,228) for history.
+- IMO circular chunks re-examined against the incident profiles: kept (procedure + field/code dictionary; the profiles are instances coded with it).
+

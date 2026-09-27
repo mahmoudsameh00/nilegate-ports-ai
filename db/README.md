@@ -1,19 +1,34 @@
-# Database files (PostgreSQL `ports_logistics`)
+# Database files
+
+Two stores (ADR-001): PostgreSQL/PostGIS is the relational system of record; MongoDB holds the semi-structured AIS / EDI data.
 
 | Path | Purpose |
 |---|---|
-| `schema_snapshot.sql` | `pg_dump --schema-only` of the live database. **The schema source of truth.** Current file: 2026-09-23, after migrations 001–003. |
-| `verify_readonly.sql` | Read-only audit: row counts, columns, constraints, indexes, data-consistency checks. It forces `default_transaction_read_only = on`. |
-| `audit/` | Saved outputs of `verify_readonly.sql`. Latest: `2026-09-23_after_migrations_report.txt`. |
-| `migrations/NNN_*.sql` | Every schema change, numbered, applied in order, never edited after being applied. |
+| `schema_snapshot.sql` | `pg_dump --schema-only` of the live PostgreSQL database. **The schema source of truth** (ADR-016). Current file: 2026-09-27, after migrations 001–009. |
+| `verify_readonly.sql` | Read-only PostgreSQL audit: row counts, columns, constraints, indexes, data-consistency checks (§13 vessel MMSI, §14 integrity constraints and indexes, §15 roles, comments, statistics). It forces `default_transaction_read_only = on`. |
+| `check_constraints_reject.sql` | Negative test of migration 006: 14 invalid writes, each must be rejected; everything is rolled back. |
+| `create_readonly_user.ps1` / `check_readonly_user.py` | Create the read-only login user from `.env` (`PG_RO_*`, run by the owner) / check it from the host (SELECT works, every write refused). |
+| `audit/` | Saved outputs. Latest: `2026-09-27_after_006_009_report.txt` (all checks 0, 0 errors) and `2026-09-27_check_constraints_reject.txt` (14/14 PASS). |
+| `migrations/NNN_*.sql` | Every PostgreSQL schema change, numbered, applied in order, never edited after being applied. |
+| `reference/` | Reference data used by migrations: `itu_mid_table.csv` (ITU Maritime Identification Digits, captured 2026-09-27 from https://www.itu.int/gladapp/Allocation/MIDs) and `flag_country_mid.csv` (reviewed `vessels.flag_country` → MID mapping used by migration 005). |
+| `mongo/` | MongoDB container `ports-mongo`: pinned image, commands, numbered `mongosh` scripts and their audit outputs (see `mongo/README.md`). |
+| `export_vessels_mirror.py` | Refreshes `Data/processed/synthetic/vessels.csv` from PostgreSQL for database-owned columns (`mmsi`); read-only on the database. |
 
-## Migration status
+## Migration status (PostgreSQL)
 
 | Migration | Status |
 |---|---|
 | `001_drop_accepted_currencies.sql` | APPLIED 2026-09-23 (output: BEGIN / DROP TABLE / COMMIT) |
 | `002_create_documents.sql` | APPLIED 2026-09-23 (BEGIN / CREATE TABLE / CREATE INDEX / COMMIT) |
 | `003_drop_employees_status.sql` | APPLIED 2026-09-23 (BEGIN / ALTER TABLE / COMMIT) |
+| `004_add_vessels_mmsi.sql` | APPLIED 2026-09-27 (BEGIN / ALTER TABLE / COMMENT / COMMIT) |
+| `005_fill_vessels_mmsi.sql` | APPLIED 2026-09-27 (BEGIN / CREATE TABLE / INSERT 0 161 / DO / UPDATE 500 / DO / ALTER TABLE / COMMIT) |
+| `006_constraints_and_indexes.sql` | APPLIED 2026-09-27 (32 CHECK + 1 UNIQUE constraints, 10 FK indexes, 2 GIST indexes; 0 violations) |
+| `007_readonly_role.sql` | APPLIED 2026-09-27 (`ports_readonly` NOLOGIN, SELECT only, default privileges) |
+| `008_comments.sql` | APPLIED 2026-09-27 (comments on every table and column except `documents` columns) |
+| `009_documents_comments.sql` | APPLIED 2026-09-27 (`documents` column comments) |
+
+After applying migrations, refresh the planner statistics: `docker exec ports-postgres psql -U postgres -d ports_logistics -X -c "ANALYZE;"`.
 
 Update this table after applying a migration.
 
@@ -22,7 +37,7 @@ Update this table after applying a migration.
 Apply one migration:
 
 ```powershell
-docker cp db\migrations\001_drop_accepted_currencies.sql ports-postgres:/tmp/m.sql
+docker cp db\migrations\005_fill_vessels_mmsi.sql ports-postgres:/tmp/m.sql
 docker exec ports-postgres psql -U postgres -d ports_logistics -X -v ON_ERROR_STOP=1 -f /tmp/m.sql
 ```
 
@@ -40,3 +55,37 @@ docker cp db\verify_readonly.sql ports-postgres:/tmp/verify_readonly.sql
 docker exec ports-postgres sh -c "psql -U postgres -d ports_logistics -X -f /tmp/verify_readonly.sql > /tmp/verify_report.txt 2>&1"
 docker cp ports-postgres:/tmp/verify_report.txt db\audit\YYYY-MM-DD_verify_report.txt   # replace YYYY-MM-DD with today
 ```
+
+Refresh the `vessels.csv` mirror after a change to a database-owned column (`mmsi`, plan decision D7). The export
+writes only when every generator-owned column is identical to the database, and keeps the file's CRLF line endings:
+
+```powershell
+uv run python db/export_vessels_mirror.py
+```
+
+## Container `ports-postgres` (ADR-034)
+
+Re-created on 2026-09-27 on the same volume and image, published on the **loopback addresses only** (IPv4 and IPv6, because
+`PGHOST=localhost` resolves to `::1` first on Windows; with IPv4 only, every connection waited 5 s for the IPv6 attempt):
+
+```powershell
+docker stop ports-postgres; docker rm ports-postgres   # the data lives in the named volume, not in the container
+docker run -d --name ports-postgres -p 127.0.0.1:5432:5432 -p "[::1]:5432:5432" -v ports-postgres-data:/var/lib/postgresql/data postgis/postgis:16-3.5
+```
+
+The `POSTGRES_*` init variables are not needed: the volume is already initialised. Verified: data identical before / after
+(500 / 19,990 / 1,000 rows, 71 constraints), port 5432 closed on every LAN address, `SyntheticGenerator.ipynb` 28/28.
+
+## Known points
+
+- An orphan anonymous Docker volume from 2026-09-12 (`2da3fd51…`, 108 MB) holds an **old PostgreSQL 16 cluster** (5
+  databases, last written 2026-09-12 — most likely the first copy of the database, before the named volume). Not deleted:
+  deleting data is the owner's call. To look inside read-only, or to delete it once it is not needed:
+
+```powershell
+docker run --rm -v 2da3fd511a99a7fab61d2aadc48b260818bf07b1eae8054a0a827ab5b3cdecc2:/v:ro --entrypoint sh postgis/postgis:16-3.5 -c 'ls -la /v; cat /v/PG_VERSION'
+docker volume rm 2da3fd511a99a7fab61d2aadc48b260818bf07b1eae8054a0a827ab5b3cdecc2
+```
+
+- `pg_hba.conf` trusts connections made **inside** the container (image default); from the host every login needs a
+  password (`scram-sha-256`), and the port is reachable from this machine only.

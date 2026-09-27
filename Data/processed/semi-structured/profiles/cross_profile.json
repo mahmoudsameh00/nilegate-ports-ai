@@ -1,0 +1,18 @@
+{
+ "sources": {
+  "aishub": "c7511bf92eee1ea5289bfbdfb9ba7e361390f5cba9f92189d9c4497ed663c0b9",
+  "noaa": "22eca1f4f9c9a3fb4654c0d8045de3a533e06037f8074761bcf6ea946629b590",
+  "iftmin": "3d0ddc4c58acce8e1c736f31fd10f7b674b7a970f03d3aaced0a061e6a175edc"
+ },
+ "profile": {
+  "mmsi_overlap_aishub_noaa": 3,
+  "imo_overlap_aishub_noaa": 1,
+  "real_valid_imo": 3928,
+  "real_imo_equal_to_our_imo": [],
+  "our_vessels": 500,
+  "our_imo_check_digit_ok": 50,
+  "our_containers": 1000,
+  "our_container_iso6346_ok": 101,
+  "our_flag_countries": 161
+ }
+}

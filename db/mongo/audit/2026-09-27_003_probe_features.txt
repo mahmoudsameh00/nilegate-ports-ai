@@ -1,0 +1,24 @@
+﻿{
+  server: '8.0.32',
+  create_ts_with_validator_and_action: 'error: InvalidOptions',
+  create_ts_with_validator_only: 'error: InvalidOptions',
+  create_ts_plain: 'ok',
+  is_timeseries: 'timeseries',
+  valid_insert: 'ok',
+  invalid_insert_rejected: 'NOT rejected',
+  index_2dsphere_measurement: 'ok',
+  index_meta_time: 'ok',
+  unique_index_on_ts: 'error: InvalidOptions',
+  geo_query: 2,
+  collection_options: {
+    timeseries: {
+      timeField: 'ts',
+      metaField: 'meta',
+      granularity: 'minutes',
+      bucketMaxSpanSeconds: 86400
+    }
+  },
+  jsonschema_audit_query: 1,
+  regular_collection_validator_rejects: 'rejected (undefined)',
+  probe_db_dropped: true
+}

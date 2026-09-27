@@ -114,12 +114,19 @@ def cmd_run(a) -> int:
     SCRATCH.mkdir(parents=True, exist_ok=True)
     log = SCRATCH / f"run_{Path(a.nb).stem}.log"
     env = dict(os.environ, PYTHONIOENCODING="utf-8")
+    nb = Path(a.nb).resolve()                      # absolute: nbconvert runs from the notebook's folder
+    before = nb.stat().st_mtime
     with open(log, "w", encoding="utf-8") as fh:
         rc = subprocess.run([sys.executable, "-m", "jupyter", "nbconvert", "--to", "notebook", "--execute", "--inplace",
-                             f"--ExecutePreprocessor.timeout={a.timeout}", str(a.nb)],
-                            cwd=Path(a.nb).resolve().parent, env=env, stdout=fh, stderr=subprocess.STDOUT).returncode
+                             f"--ExecutePreprocessor.timeout={a.timeout}", str(nb)],
+                            cwd=nb.parent, env=env, stdout=fh, stderr=subprocess.STDOUT).returncode
     print(f"nbconvert exit {rc} (log: {log.relative_to(ROOT)})")
-    return summary(load(a.nb)) or (1 if rc else 0)
+    if rc != 0 or nb.stat().st_mtime == before:
+        # never report the outputs of an older run as if they were this run's
+        print("RUN FAILED — the notebook was not re-executed; last log lines:")
+        print("\n".join(log.read_text(encoding="utf-8", errors="replace").splitlines()[-15:]))
+        return 1
+    return summary(load(nb))
 
 
 def cmd_test(a) -> int:

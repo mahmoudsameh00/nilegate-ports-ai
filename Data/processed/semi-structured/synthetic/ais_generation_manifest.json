@@ -1,0 +1,112 @@
+{
+ "generator": "Notebooks/semi_structured/AIS_generator.ipynb",
+ "seed": 42,
+ "asof_utc": "2026-09-13T00:00:00+00:00",
+ "params": {
+  "harbour_kn": 6.7,
+  "teleport_kn": 30.0,
+  "move_dt_s": 600,
+  "stat_dt_s": 3600,
+  "jitter_s": 30,
+  "approach_nm": 10.0,
+  "anchor_before_nm": 5.0,
+  "pre_departure_h": 6,
+  "type_params": {
+   "Containerships": [
+    70,
+    16.0,
+    20.0
+   ],
+   "General Cargo / Multi-Purpose / Heavy Lift Vessels": [
+    70,
+    11.0,
+    14.0
+   ],
+   "Dry Bulk Vessels": [
+    70,
+    11.0,
+    14.0
+   ],
+   "Vehicles Carriers": [
+    70,
+    16.0,
+    19.0
+   ],
+   "Roll-On/Roll-Off (Ro/Ro) Vessels": [
+    70,
+    15.0,
+    19.0
+   ],
+   "Crude Oil Tankers": [
+    80,
+    12.0,
+    15.0
+   ],
+   "Petroleum Product Tankers": [
+    80,
+    12.0,
+    15.0
+   ],
+   "Chemical Tankers & Other Liquid Bulk Tankers": [
+    80,
+    12.0,
+    15.0
+   ],
+   "Liquefied Natural Gas (LNG) Carriers": [
+    80,
+    16.0,
+    19.0
+   ],
+   "Liquefied Petroleum Gas (LPG) Carriers": [
+    80,
+    14.0,
+    17.0
+   ],
+   "Cruise Ships": [
+    60,
+    16.0,
+    20.0
+   ],
+   "Other Vessels": [
+    90,
+    10.0,
+    14.0
+   ],
+   "Special Floating Units": [
+    90,
+    5.0,
+    10.0
+   ]
+  },
+  "status_navstat": {
+   "In Transit": 0,
+   "Anchored": 1,
+   "At Port": 5,
+   "Completed": 5
+  }
+ },
+ "inputs": {
+  "vessels_rows_sha256": "c3ebe2146068e31836df6ffe1b5f68c64a94d64a0a5a54d8a68211b3086f188d",
+  "vessels": 500,
+  "ports": 837,
+  "port_connections": 19990,
+  "profiles": [
+   "noaa_profile.json",
+   "aishub_profile.json"
+  ]
+ },
+ "outputs": {
+  "ais_positions_synthetic.parquet": {
+   "rows": 1310619,
+   "content_sha256": "2c38de137971aca585893625b747813d55a49b45177e0cdd68baab5710103ae5"
+  },
+  "ais_vessels_synthetic.parquet": {
+   "rows": 500,
+   "content_sha256": "6327fb306660dba5d9b5582c90f704a15850c49be6e40f3914415244dd983144"
+  },
+  "voyages_synthetic.parquet": {
+   "rows": 500,
+   "content_sha256": "ce87ae9889d94d73250efdeaa8ad796b901cb587014207923d2915ca888c1b29"
+  }
+ }
+}

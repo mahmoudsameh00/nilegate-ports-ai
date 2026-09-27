@@ -1,0 +1,137 @@
+{
+ "source": {
+  "file": "Data/raw/semi-structured/IFTMIN_D12A_sample.edi",
+  "size_bytes": 530,
+  "sha256": "3d0ddc4c58acce8e1c736f31fd10f7b674b7a970f03d3aaced0a061e6a175edc",
+  "bom": null,
+  "crlf": 0,
+  "lf_only": 19,
+  "non_ascii_bytes": 0,
+  "head": "UNA:+.? '\nUNB+UNOC:3+SHIPPER+PORTCARRIER+260911:1916+000001'"
+ },
+ "profile": {
+  "separators": {
+   "comp": ":",
+   "elem": "+",
+   "dec": ".",
+   "rel": "?",
+   "seg": "'"
+  },
+  "segments": 18,
+  "tags_in_order": [
+   "UNB",
+   "UNH",
+   "BGM",
+   "DTM",
+   "FTX",
+   "NAD",
+   "NAD",
+   "LOC",
+   "LOC",
+   "TDT",
+   "DTM",
+   "GID",
+   "FTX",
+   "MEA",
+   "EQD",
+   "SEL",
+   "UNT",
+   "UNZ"
+  ],
+  "unt_declared": 17,
+  "unt_actual": 16,
+  "unh_unt_ref_match": true,
+  "unb_unz_ref_match": true,
+  "unz_message_count": 1,
+  "messages": 1,
+  "qualifiers": {
+   "BGM": [
+    "610"
+   ],
+   "DTM": [
+    "132",
+    "137"
+   ],
+   "FTX": [
+    "AAA",
+    "AAI"
+   ],
+   "NAD": [
+    "CN",
+    "CZ"
+   ],
+   "LOC": [
+    "11",
+    "9"
+   ],
+   "TDT": [
+    "20"
+   ],
+   "MEA": [
+    "AAE"
+   ],
+   "EQD": [
+    "CN"
+   ]
+  },
+  "locodes_in_ports": {
+   "9": true,
+   "11": true
+  },
+  "vessel_imo_present": false,
+  "voyage_present": false,
+  "self_described_synthetic": true
+ },
+ "business_keys": {
+  "interchange_ref": "000001",
+  "sender": "SHIPPER",
+  "recipient": "PORTCARRIER",
+  "prepared": "20260911 1916",
+  "message_ref": "000001",
+  "message_type": "IFTMIN:D:12A:UN",
+  "document_code": "610",
+  "document_number": "IFT-20260911-0001",
+  "dates": {
+   "137": "20260911",
+   "132": "20260913"
+  },
+  "parties": {
+   "CZ": "EGSHIP",
+   "CN": "NLRECV"
+  },
+  "locations": {
+   "9": "EGALY",
+   "11": "NLRTM"
+  },
+  "transport": [
+   {
+    "stage": "20",
+    "conveyance_ref": "",
+    "mode": "1",
+    "carrier": "CARRIER",
+    "vessel_id": "VESSEL123",
+    "vessel_id_code_list": "146",
+    "vessel_name": "MV OCEAN SAMPLE"
+   }
+  ],
+  "equipment": [
+   {
+    "qualifier": "CN",
+    "number": "MSCU1234567",
+    "size_type": "45G1",
+    "iso6346_ok": false
+   }
+  ],
+  "measures": [
+   {
+    "qualifier": "AAE",
+    "unit": "KGM",
+    "value": "12500"
+   }
+  ],
+  "free_text": {
+   "AAI": "Transport instruction for containerized sea freight",
+   "AAA": "General cargo - synthetic sample"
+  }
+ }
+}

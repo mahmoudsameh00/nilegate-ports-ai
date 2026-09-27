@@ -130,4 +130,49 @@ FROM calc;
 SELECT status, count(*) FROM invoices GROUP BY 1 ORDER BY 1;
 SELECT min(invoice_date), max(invoice_date) FROM invoices;
 
+\echo '### 13. VESSEL MMSI (migrations 004-005, ADR-028)'
+-- expected: 500 | 500 | 0 | 0 | 0 | 0  (rows, distinct, null, bad format, flags with >1 MID, formula mismatches)
+SELECT count(*)                                                        AS vessels,
+       count(DISTINCT mmsi)                                            AS distinct_mmsi,
+       count(*) FILTER (WHERE mmsi IS NULL)                            AS null_mmsi,
+       count(*) FILTER (WHERE mmsi !~ '^[2-7][0-9]{8}$')               AS bad_format,
+       (SELECT count(*) FROM (SELECT flag_country FROM vessels GROUP BY 1
+                              HAVING count(DISTINCT left(mmsi, 3)) > 1) x) AS flags_with_several_mids,
+       count(*) FILTER (WHERE right(mmsi, 6) <> lpad(((vessel_id * 7919 + 42) % 1000000)::text, 6, '0'))
+                                                                       AS formula_mismatch
+FROM vessels;
+
+\echo '### 14. INTEGRITY CONSTRAINTS AND INDEXES (migration 006, ADR-033)'
+-- expected: CHECK per table (containers 5, documents 5, employees 1, invoices 5, port_connections 3, ports 6, roles 1,
+--           toll_rate_bands 5, vessels 7), toll_rate_bands_band_key present, every FK column indexed, 2 GIST indexes
+SELECT conrelid::regclass AS tbl, count(*) FILTER (WHERE contype = 'c') AS checks, count(*) FILTER (WHERE contype = 'u') AS uniques,
+       count(*) FILTER (WHERE contype = 'f') AS fks
+FROM pg_constraint WHERE connamespace = 'public'::regnamespace AND conrelid <> 'spatial_ref_sys'::regclass
+GROUP BY 1 ORDER BY 1::text;
+SELECT count(*) AS fk_columns_without_index
+FROM pg_constraint c JOIN pg_attribute a ON a.attrelid = c.conrelid AND a.attnum = c.conkey[1]
+WHERE c.contype = 'f' AND c.connamespace = 'public'::regnamespace
+  AND NOT EXISTS (SELECT 1 FROM pg_index i WHERE i.indrelid = c.conrelid AND i.indkey[0] = a.attnum);
+SELECT indexrelid::regclass AS gist_index FROM pg_index i JOIN pg_class c ON c.oid = i.indexrelid
+JOIN pg_am am ON am.oid = c.relam WHERE am.amname = 'gist' AND i.indrelid IN ('ports'::regclass, 'port_connections'::regclass) ORDER BY 1::text;
+-- expected 0: port_connections.country1/2 are the LOCODE prefixes (ISO alpha-2), ports.country holds names
+SELECT count(*) AS connection_country_code_mismatch FROM port_connections
+WHERE country1 <> left(port1_locode, 2) OR country2 <> left(port2_locode, 2);
+
+\echo '### 15. ACCESS, DOCUMENTATION, STATISTICS (migrations 007-009, ADR-033, ADR-034)'
+SELECT rolname, rolsuper, rolcanlogin FROM pg_roles WHERE rolname !~ '^pg_' ORDER BY 1;
+SELECT count(*) FILTER (WHERE has_table_privilege('ports_readonly', c.oid, 'SELECT')) AS readonly_can_select,
+       count(*) FILTER (WHERE has_table_privilege('ports_readonly', c.oid, 'INSERT,UPDATE,DELETE,TRUNCATE')) AS readonly_can_write,
+       count(*) AS public_tables
+FROM pg_class c WHERE c.relnamespace = 'public'::regnamespace AND c.relkind = 'r';
+-- expected 0 | 0: every public table and every column (except the PostGIS system table) has a comment
+SELECT count(*) FILTER (WHERE obj_description(c.oid, 'pg_class') IS NULL) AS tables_without_comment,
+       (SELECT count(*) FROM pg_attribute a JOIN pg_class t ON t.oid = a.attrelid
+        WHERE t.relnamespace = 'public'::regnamespace AND t.relkind = 'r' AND t.relname <> 'spatial_ref_sys'
+          AND a.attnum > 0 AND NOT a.attisdropped AND col_description(t.oid, a.attnum) IS NULL) AS columns_without_comment
+FROM pg_class c WHERE c.relnamespace = 'public'::regnamespace AND c.relkind = 'r' AND c.relname <> 'spatial_ref_sys';
+-- expected 0: planner statistics exist for every project table
+SELECT count(*) AS tables_never_analyzed FROM pg_stat_user_tables
+WHERE schemaname = 'public' AND relname <> 'spatial_ref_sys' AND last_analyze IS NULL AND last_autoanalyze IS NULL;
+
 \echo '### END'

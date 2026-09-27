@@ -1,501 +1,501 @@
-imo_number,vessel_name,vessel_type,flag_country,scnt_tons,origin_locode,destination_locode,condition,status
-9000001,Special Voyager 001,Special Floating Units,"Korea, Republic of",11577.44,PKGWD,MXCOA,Laden,In Transit
-9000002,Petroleum Voyager 002,Petroleum Product Tankers,Oman,102474.82,ESALC,CRMOB,Ballast,In Transit
-9000003,Petroleum Voyager 003,Petroleum Product Tankers,Bangladesh,35139.78,BZBZE,IDSOQ,Laden,Anchored
-9000004,Other Voyager 004,Other Vessels,Mozambique,27474.6,ITCVV,USNTD,Ballast,Anchored
-9000005,Crude Voyager 005,Crude Oil Tankers,"Taiwan, Province of China",228848.17,GBGRG,MYSDK,Ballast,In Transit
-9000006,Liquefied Voyager 006,Liquefied Petroleum Gas (LPG) Carriers,Curaçao,95806.88,NOTOS,DOCAU,Ballast,In Transit
-9000007,Chemical Voyager 007,Chemical Tankers & Other Liquid Bulk Tankers,Wallis and Futuna,49090.63,UYMVD,CDBNW,Laden,Completed
-9000008,General Voyager 008,General Cargo / Multi-Purpose / Heavy Lift Vessels,Slovenia,6437.21,NIRAM,JPFKY,Ballast,At Port
-9000009,Other Voyager 009,Other Vessels,Marshall Islands,3942.98,JPTKY,ITSVN,Laden,Completed
-9000010,Petroleum Voyager 010,Petroleum Product Tankers,Poland,58878.56,UYPTP,JPIWK,Laden,In Transit
-9000011,Liquefied Voyager 011,Liquefied Petroleum Gas (LPG) Carriers,Tunisia,67677.17,MZMPM,MGTMM,Laden,At Port
-9000012,Dry Voyager 012,Dry Bulk Vessels,Mayotte,108225.56,KNCHA,GBLIV,Ballast,In Transit
-9000013,Special Voyager 013,Special Floating Units,Nigeria,68972.11,ITCTA,MHKWA,Laden,In Transit
-9000014,Crude Voyager 014,Crude Oil Tankers,Côte d'Ivoire,242488.51,SESTO,MGNOS,Laden,Completed
-9000015,Cruise Voyager 015,Cruise Ships,Samoa,132691.47,NOHAU,IRBND,Ballast,In Transit
-9000016,Special Voyager 016,Special Floating Units,Kuwait,46155.76,MDGIU,FITOR,Ballast,Anchored
-9000017,General Voyager 017,General Cargo / Multi-Purpose / Heavy Lift Vessels,Italy,62949.78,SEPIT,PRSJU,Laden,At Port
-9000018,Petroleum Voyager 018,Petroleum Product Tankers,Senegal,114099.98,ECPBO,FRPOV,Laden,Anchored
-9000019,General Voyager 019,General Cargo / Multi-Purpose / Heavy Lift Vessels,Peru,42152.22,RUVYP,RUBRK,Ballast,At Port
-9000020,Vehicles Voyager 020,Vehicles Carriers,Algeria,86774.07,ARPMY,MAPTM,Ballast,Anchored
-9000021,Chemical Voyager 021,Chemical Tankers & Other Liquid Bulk Tankers,Viet Nam,10701.07,UAYUZ,GBABD,Laden,Completed
-9000022,Other Voyager 022,Other Vessels,Guam,13537.76,BRMAO,SOBBO,Laden,Completed
-9000023,Liquefied Voyager 023,Liquefied Natural Gas (LNG) Carriers,Ireland,154667.1,CAMTR,INHAL,Laden,In Transit
-9000024,Dry Voyager 024,Dry Bulk Vessels,United Arab Emirates,109257.67,USBPT,DJJIB,Ballast,At Port
-9000025,Petroleum Voyager 025,Petroleum Product Tankers,Saint Kitts and Nevis,139577.5,UYMVD,NODRM,Laden,In Transit
-9000026,Cruise Voyager 026,Cruise Ships,Bulgaria,142572.92,COTRB,PHCEB,Laden,Completed
-9000027,Vehicles Voyager 027,Vehicles Carriers,Albania,77754.27,ESSAG,JPTAK,Laden,In Transit
-9000028,Cruise Voyager 028,Cruise Ships,Israel,69239.31,IRASA,DOPOP,Ballast,In Transit
-9000029,Special Voyager 029,Special Floating Units,"Virgin Islands, U.S.",65162.87,USEPI,COBAQ,Laden,In Transit
-9000030,Petroleum Voyager 030,Petroleum Product Tankers,Japan,52698.58,HNPCR,ESTAR,Laden,In Transit
-9000031,Other Voyager 031,Other Vessels,Bahrain,31739.6,ITTPS,CNNSA,Ballast,In Transit
-9000032,Liquefied Voyager 032,Liquefied Petroleum Gas (LPG) Carriers,Equatorial Guinea,29290.77,AUPBT,IRBUZ,Laden,Anchored
-9000033,Cruise Voyager 033,Cruise Ships,Albania,90669.63,KHKOS,USCRP,Ballast,In Transit
-9000034,Petroleum Voyager 034,Petroleum Product Tankers,Tonga,99870.46,PFPPT,TRLMA,Ballast,Completed
-9000035,Crude Voyager 035,Crude Oil Tankers,Congo,203642.54,JPNGS,DERSK,Ballast,Anchored
-9000036,Containerships Voyager 036,Containerships,Haiti,173026.14,KRKUV,IDSRG,Ballast,In Transit
-9000037,Dry Voyager 037,Dry Bulk Vessels,Saint Vincent and the Grenadines,57873.39,KRKAN,CNWEF,Laden,In Transit
-9000038,Vehicles Voyager 038,Vehicles Carriers,Comoros,84422.62,CYLMS,SAJUB,Laden,In Transit
-9000039,Roll-On/Roll-Off Voyager 039,Roll-On/Roll-Off (Ro/Ro) Vessels,Guadeloupe,19458.54,SESTO,CNDCB,Ballast,In Transit
-9000040,General Voyager 040,General Cargo / Multi-Purpose / Heavy Lift Vessels,Viet Nam,19299.01,USCAV,USCRP,Ballast,In Transit
-9000041,Other Voyager 041,Other Vessels,Bulgaria,49773.42,ESVGO,JPTKY,Laden,In Transit
-9000042,Liquefied Voyager 042,Liquefied Petroleum Gas (LPG) Carriers,Equatorial Guinea,96933.52,GLJHS,PHOZC,Laden,Anchored
-9000043,Crude Voyager 043,Crude Oil Tankers,Gibraltar,19791.99,AOSZA,BRRIG,Laden,In Transit
-9000044,Vehicles Voyager 044,Vehicles Carriers,Peru,12610.59,IDJKT,CNNTG,Laden,At Port
-9000045,Liquefied Voyager 045,Liquefied Petroleum Gas (LPG) Carriers,Mauritania,41570.0,GBSCR,KRTSN,Laden,At Port
-9000046,General Voyager 046,General Cargo / Multi-Purpose / Heavy Lift Vessels,Malaysia,46358.75,GBFXT,CVPAL,Ballast,In Transit
-9000047,Other Voyager 047,Other Vessels,Eritrea,16052.1,MDGIU,SENRK,Ballast,At Port
-9000048,Containerships Voyager 048,Containerships,Sierra Leone,187468.19,ARMDQ,VNDAD,Laden,In Transit
-9000049,Liquefied Voyager 049,Liquefied Petroleum Gas (LPG) Carriers,Chile,51576.7,FIPOR,PAONX,Laden,In Transit
-9000050,Dry Voyager 050,Dry Bulk Vessels,Mauritius,89322.36,EGPSD,MZUEL,Laden,At Port
-9000051,Vehicles Voyager 051,Vehicles Carriers,Spain,33440.98,JPTHS,DZALG,Ballast,In Transit
-9000052,Petroleum Voyager 052,Petroleum Product Tankers,Montenegro,112135.25,FRSET,MUPMA,Laden,Anchored
-9000053,Liquefied Voyager 053,Liquefied Petroleum Gas (LPG) Carriers,Benin,69374.72,MACAS,BZBZE,Ballast,Completed
-9000054,Crude Voyager 054,Crude Oil Tankers,Bahamas,32228.05,TRLMA,MXGYM,Laden,In Transit
-9000055,Dry Voyager 055,Dry Bulk Vessels,Saint Vincent and the Grenadines,128511.34,LRMLW,GBHUL,Ballast,At Port
-9000056,Petroleum Voyager 056,Petroleum Product Tankers,Guyana,14060.85,MUPLU,FRLRH,Laden,Anchored
-9000057,Cruise Voyager 057,Cruise Ships,Brazil,87353.51,TTPOS,ESMLN,Ballast,In Transit
-9000058,Containerships Voyager 058,Containerships,Iraq,194578.27,BZBGK,PHGES,Laden,At Port
-9000059,Chemical Voyager 059,Chemical Tankers & Other Liquid Bulk Tankers,United Kingdom,62849.07,THBKK,ITRAN,Laden,Completed
-9000060,Containerships Voyager 060,Containerships,Guam,163100.49,TRPAM,BEGNE,Ballast,Anchored
-9000061,General Voyager 061,General Cargo / Multi-Purpose / Heavy Lift Vessels,Kuwait,56354.22,PHMNL,VUSAN,Ballast,In Transit
-9000062,Other Voyager 062,Other Vessels,Italy,5850.73,BSNAS,AIAXA,Laden,Anchored
-9000063,Roll-On/Roll-Off Voyager 063,Roll-On/Roll-Off (Ro/Ro) Vessels,Jordan,29923.7,USMRH,ITSVN,Laden,At Port
-9000064,General Voyager 064,General Cargo / Multi-Purpose / Heavy Lift Vessels,"Moldova, Republic of",23650.07,CNSHP,TNTUN,Ballast,At Port
-9000065,General Voyager 065,General Cargo / Multi-Purpose / Heavy Lift Vessels,Belgium,47886.75,DKSKA,NOSKN,Laden,Completed
-9000066,Liquefied Voyager 066,Liquefied Natural Gas (LNG) Carriers,Denmark,48570.85,MDGIU,BSNAS,Ballast,In Transit
-9000067,Containerships Voyager 067,Containerships,Algeria,66167.08,IEDUB,CATOR,Ballast,Completed
-9000068,Liquefied Voyager 068,Liquefied Petroleum Gas (LPG) Carriers,United Arab Emirates,26962.81,NGPHC,USBAL,Laden,In Transit
-9000069,Petroleum Voyager 069,Petroleum Product Tankers,Malaysia,142484.55,NOSVG,JMKIN,Laden,Anchored
-9000070,Liquefied Voyager 070,Liquefied Natural Gas (LNG) Carriers,Nigeria,101139.6,JPWAK,THHKT,Ballast,At Port
-9000071,Vehicles Voyager 071,Vehicles Carriers,Qatar,17092.34,TRIZM,JPTRG,Laden,At Port
-9000072,Liquefied Voyager 072,Liquefied Natural Gas (LNG) Carriers,Madagascar,84972.03,AEAUH,NOBGO,Laden,In Transit
-9000073,Cruise Voyager 073,Cruise Ships,Saint Vincent and the Grenadines,94932.62,NOLAR,ZACPT,Ballast,At Port
-9000074,Vehicles Voyager 074,Vehicles Carriers,Greece,49952.69,USMSY,PHOZC,Laden,In Transit
-9000075,Special Voyager 075,Special Floating Units,Comoros,63477.62,NOTAE,CYLMS,Ballast,In Transit
-9000076,Liquefied Voyager 076,Liquefied Petroleum Gas (LPG) Carriers,Albania,16440.69,CISPY,KNCHA,Laden,At Port
-9000077,Special Voyager 077,Special Floating Units,Romania,57779.25,PEILQ,MYPGU,Ballast,In Transit
-9000078,Dry Voyager 078,Dry Bulk Vessels,Denmark,132243.43,AEQIW,RUGDX,Ballast,In Transit
-9000079,Containerships Voyager 079,Containerships,Belize,191803.38,COBUN,YTLON,Laden,Completed
-9000080,Petroleum Voyager 080,Petroleum Product Tankers,Gibraltar,70099.89,USSEA,YTLON,Ballast,Completed
-9000081,Roll-On/Roll-Off Voyager 081,Roll-On/Roll-Off (Ro/Ro) Vessels,"Tanzania, United Republic of",50174.23,PEIQT,BRSUA,Ballast,Completed
-9000082,Other Voyager 082,Other Vessels,Kuwait,43144.0,USPME,LBBEY,Ballast,Anchored
-9000083,Vehicles Voyager 083,Vehicles Carriers,Uruguay,51036.72,JPOSA,MXCOA,Laden,Anchored
-9000084,Liquefied Voyager 084,Liquefied Petroleum Gas (LPG) Carriers,Costa Rica,28628.08,NOIKR,DZMOS,Laden,In Transit
-9000085,General Voyager 085,General Cargo / Multi-Purpose / Heavy Lift Vessels,Côte d'Ivoire,48882.54,NGCBQ,IRBUZ,Ballast,In Transit
-9000086,Vehicles Voyager 086,Vehicles Carriers,Trinidad and Tobago,49262.81,CNFQG,INPRT,Ballast,Completed
-9000087,Cruise Voyager 087,Cruise Ships,Martinique,142448.68,AUMEL,SRPBM,Ballast,At Port
-9000088,Chemical Voyager 088,Chemical Tankers & Other Liquid Bulk Tankers,Guinea,25291.79,SAYNB,TRISK,Laden,At Port
-9000089,Liquefied Voyager 089,Liquefied Natural Gas (LNG) Carriers,Norway,89733.76,BRIGI,SAKAC,Ballast,Anchored
-9000090,Roll-On/Roll-Off Voyager 090,Roll-On/Roll-Off (Ro/Ro) Vessels,Bangladesh,73804.7,ITTRS,DKFRC,Ballast,At Port
-9000091,Special Voyager 091,Special Floating Units,Spain,3196.65,JPMII,TRTZX,Ballast,In Transit
-9000092,Liquefied Voyager 092,Liquefied Natural Gas (LNG) Carriers,Nigeria,80656.62,IRASA,VCKTN,Ballast,Anchored
-9000093,General Voyager 093,General Cargo / Multi-Purpose / Heavy Lift Vessels,Costa Rica,20199.71,TRIZT,KRMOK,Ballast,In Transit
-9000094,Vehicles Voyager 094,Vehicles Carriers,Vanuatu,9948.13,PACTB,ITLIV,Laden,Anchored
-9000095,Special Voyager 095,Special Floating Units,Israel,4505.68,BRNVT,KRTJI,Laden,At Port
-9000096,Liquefied Voyager 096,Liquefied Petroleum Gas (LPG) Carriers,Kiribati,14369.66,KEMBA,EGDAM,Laden,At Port
-9000097,Liquefied Voyager 097,Liquefied Natural Gas (LNG) Carriers,Seychelles,142703.7,GFDDC,IEDUB,Laden,Anchored
-9000098,Dry Voyager 098,Dry Bulk Vessels,Bangladesh,193049.99,ECGYE,GIGIB,Ballast,At Port
-9000099,General Voyager 099,General Cargo / Multi-Purpose / Heavy Lift Vessels,Colombia,28369.16,PACSO,INMAA,Laden,In Transit
-9000100,Containerships Voyager 100,Containerships,Ecuador,63808.62,MGTLE,IDPNK,Laden,In Transit
-9000101,General Voyager 101,General Cargo / Multi-Purpose / Heavy Lift Vessels,Tunisia,46644.97,CNNTG,CAHAL,Ballast,In Transit
-9000102,General Voyager 102,General Cargo / Multi-Purpose / Heavy Lift Vessels,Philippines,57740.83,DZGHZ,UAILK,Ballast,Anchored
-9000103,General Voyager 103,General Cargo / Multi-Purpose / Heavy Lift Vessels,Libya,13153.45,CUSCU,JPOIT,Ballast,At Port
-9000104,Other Voyager 104,Other Vessels,Cabo Verde,29827.49,NOMAY,KRPUS,Ballast,Completed
-9000105,Liquefied Voyager 105,Liquefied Petroleum Gas (LPG) Carriers,Qatar,75546.68,GBSCR,INKRI,Ballast,In Transit
-9000106,Chemical Voyager 106,Chemical Tankers & Other Liquid Bulk Tankers,Saint Lucia,16183.51,IRBND,PGMAG,Ballast,In Transit
-9000107,Cruise Voyager 107,Cruise Ships,Argentina,108165.73,MXESE,ESVGO,Laden,In Transit
-9000108,Other Voyager 108,Other Vessels,Saint Kitts and Nevis,20618.19,ESVLC,SGSIN,Ballast,At Port
-9000109,Roll-On/Roll-Off Voyager 109,Roll-On/Roll-Off (Ro/Ro) Vessels,Myanmar,37509.44,AUADL,CYLMS,Laden,In Transit
-9000110,Liquefied Voyager 110,Liquefied Petroleum Gas (LPG) Carriers,Albania,32008.19,GNCKY,PTPDL,Ballast,In Transit
-9000111,Other Voyager 111,Other Vessels,Viet Nam,27744.23,PAROD,MZMNC,Ballast,In Transit
-9000112,Liquefied Voyager 112,Liquefied Petroleum Gas (LPG) Carriers,Ecuador,13824.28,IDSUB,NOHVI,Laden,In Transit
-9000113,Other Voyager 113,Other Vessels,Ghana,24467.83,PGBUA,HNSLO,Ballast,Completed
-9000114,Liquefied Voyager 114,Liquefied Petroleum Gas (LPG) Carriers,Mauritius,31032.15,PLSWI,HRSPU,Laden,Anchored
-9000115,Dry Voyager 115,Dry Bulk Vessels,Marshall Islands,57039.33,CLPUQ,ESSVQ,Laden,At Port
-9000116,Containerships Voyager 116,Containerships,Montenegro,100721.35,ARROS,GDSTG,Ballast,At Port
-9000117,Chemical Voyager 117,Chemical Tankers & Other Liquid Bulk Tankers,Angola,16380.37,CLLQN,KRMOK,Laden,Anchored
-9000118,General Voyager 118,General Cargo / Multi-Purpose / Heavy Lift Vessels,Canada,34930.51,GHTKD,JPHHE,Laden,In Transit
-9000119,Cruise Voyager 119,Cruise Ships,Ecuador,142877.59,COTRB,KRKUV,Ballast,At Port
-9000120,Containerships Voyager 120,Containerships,Qatar,125591.58,TRHAY,CVPAL,Ballast,Completed
-9000121,Liquefied Voyager 121,Liquefied Natural Gas (LNG) Carriers,Lithuania,157626.67,TRYPO,NOBOO,Laden,At Port
-9000122,Other Voyager 122,Other Vessels,Senegal,5412.06,SOKMU,INPAV,Laden,In Transit
-9000123,Petroleum Voyager 123,Petroleum Product Tankers,Colombia,26087.39,GRVOL,ESSDR,Laden,In Transit
-9000124,Roll-On/Roll-Off Voyager 124,Roll-On/Roll-Off (Ro/Ro) Vessels,Bahrain,56081.58,AIAXA,NGLKK,Laden,In Transit
-9000125,Liquefied Voyager 125,Liquefied Natural Gas (LNG) Carriers,Cambodia,132478.01,UYPTP,CNQZJ,Ballast,Anchored
-9000126,Special Voyager 126,Special Floating Units,"Taiwan, Province of China",59184.06,USVAN,ILHFA,Laden,At Port
-9000127,Special Voyager 127,Special Floating Units,China,15324.45,MEBAR,FOKOL,Laden,In Transit
-9000128,Liquefied Voyager 128,Liquefied Natural Gas (LNG) Carriers,Uruguay,115207.05,GBPME,MYTPP,Laden,At Port
-9000129,Liquefied Voyager 129,Liquefied Natural Gas (LNG) Carriers,Equatorial Guinea,131957.39,MUPMA,BRMAO,Ballast,In Transit
-9000130,Cruise Voyager 130,Cruise Ships,New Caledonia,15580.51,TZDAR,PHMNL,Ballast,In Transit
-9000131,Liquefied Voyager 131,Liquefied Petroleum Gas (LPG) Carriers,Aruba,96267.29,GEPTI,HNPCA,Ballast,At Port
-9000132,Containerships Voyager 132,Containerships,Vanuatu,152472.42,AIAXA,COCTG,Ballast,Completed
-9000133,Dry Voyager 133,Dry Bulk Vessels,Benin,199398.26,USBAL,JPIWK,Laden,At Port
-9000134,General Voyager 134,General Cargo / Multi-Purpose / Heavy Lift Vessels,Greenland,23998.28,KITRW,DZAZW,Ballast,In Transit
-9000135,Roll-On/Roll-Off Voyager 135,Roll-On/Roll-Off (Ro/Ro) Vessels,Hong Kong,25192.77,SESTO,YEMKX,Laden,At Port
-9000136,Chemical Voyager 136,Chemical Tankers & Other Liquid Bulk Tankers,Thailand,21687.11,EGALY,TNTUN,Laden,At Port
-9000137,Vehicles Voyager 137,Vehicles Carriers,Grenada,48887.75,CLPUQ,IDKUM,Ballast,At Port
-9000138,Roll-On/Roll-Off Voyager 138,Roll-On/Roll-Off (Ro/Ro) Vessels,India,51156.47,SLFNA,CLLQN,Ballast,At Port
-9000139,Liquefied Voyager 139,Liquefied Natural Gas (LNG) Carriers,Estonia,90098.58,MYSBW,AUNTL,Laden,Completed
-9000140,Cruise Voyager 140,Cruise Ships,Mexico,121903.92,NICIO,GBBEL,Laden,At Port
-9000141,Petroleum Voyager 141,Petroleum Product Tankers,Ecuador,36031.0,EETLL,VNUIH,Laden,At Port
-9000142,Other Voyager 142,Other Vessels,Turkey,14947.15,NGAPP,MVMLE,Ballast,Completed
-9000143,Liquefied Voyager 143,Liquefied Petroleum Gas (LPG) Carriers,Haiti,46765.07,FRBES,RULED,Laden,Completed
-9000144,Liquefied Voyager 144,Liquefied Natural Gas (LNG) Carriers,Djibouti,143628.02,TRBDM,NZBLU,Ballast,Anchored
-9000145,Liquefied Voyager 145,Liquefied Natural Gas (LNG) Carriers,Yemen,136168.16,HNPCA,GLJHS,Ballast,Completed
-9000146,Roll-On/Roll-Off Voyager 146,Roll-On/Roll-Off (Ro/Ro) Vessels,Honduras,44470.7,NZPOE,NOSUN,Ballast,At Port
-9000147,Chemical Voyager 147,Chemical Tankers & Other Liquid Bulk Tankers,Latvia,69828.93,MYSDK,JPOSA,Ballast,In Transit
-9000148,Containerships Voyager 148,Containerships,Albania,85101.14,NOHYR,PLSZZ,Ballast,In Transit
-9000149,Special Voyager 149,Special Floating Units,Bermuda,79343.17,JPOMZ,FRMTX,Laden,In Transit
-9000150,Cruise Voyager 150,Cruise Ships,Cyprus,56479.26,DKAAR,USGFP,Ballast,In Transit
-9000151,Dry Voyager 151,Dry Bulk Vessels,Colombia,83765.79,JPOTR,FRURO,Ballast,Anchored
-9000152,Liquefied Voyager 152,Liquefied Natural Gas (LNG) Carriers,Vanuatu,74169.8,MYBKI,SEOXE,Laden,Completed
-9000153,Special Voyager 153,Special Floating Units,Senegal,86004.55,ROCND,NOHLA,Ballast,Completed
-9000154,Crude Voyager 154,Crude Oil Tankers,Madagascar,187150.54,JPKKJ,JPHTC,Laden,Anchored
-9000155,General Voyager 155,General Cargo / Multi-Purpose / Heavy Lift Vessels,Cyprus,68505.3,SLFNA,JPIMB,Ballast,In Transit
-9000156,Liquefied Voyager 156,Liquefied Natural Gas (LNG) Carriers,"Congo, The Democratic Republic of the",164547.85,CISPY,NOMJF,Ballast,In Transit
-9000157,General Voyager 157,General Cargo / Multi-Purpose / Heavy Lift Vessels,Kiribati,11044.32,DJJIB,TOTBU,Laden,In Transit
-9000158,Petroleum Voyager 158,Petroleum Product Tankers,Saint Kitts and Nevis,92595.29,RUNVS,ITPOZ,Ballast,Completed
-9000159,Dry Voyager 159,Dry Bulk Vessels,Wallis and Futuna,48741.12,JPKWS,KRPTK,Ballast,At Port
-9000160,Containerships Voyager 160,Containerships,Guyana,95724.38,MYPKG,LYTIP,Laden,In Transit
-9000161,Chemical Voyager 161,Chemical Tankers & Other Liquid Bulk Tankers,"Taiwan, Province of China",79036.83,NLTNZ,JPKCZ,Ballast,At Port
-9000162,Liquefied Voyager 162,Liquefied Natural Gas (LNG) Carriers,Denmark,51874.72,RUULU,AUFRE,Laden,In Transit
-9000163,Chemical Voyager 163,Chemical Tankers & Other Liquid Bulk Tankers,Aruba,46835.33,MYTWU,NLBOT,Ballast,In Transit
-9000164,Cruise Voyager 164,Cruise Ships,Belize,131109.44,USANC,PLSZZ,Ballast,Anchored
-9000165,Liquefied Voyager 165,Liquefied Natural Gas (LNG) Carriers,French Polynesia,144118.56,ITVDL,ILASH,Laden,At Port
-9000166,Cruise Voyager 166,Cruise Ships,Yemen,45087.75,SDPZU,PEPAI,Laden,At Port
-9000167,Special Voyager 167,Special Floating Units,Uruguay,64810.89,NOFRO,USGLS,Laden,At Port
-9000168,Other Voyager 168,Other Vessels,Turkey,7004.88,NLBOT,NOODD,Laden,In Transit
-9000169,Containerships Voyager 169,Containerships,Cameroon,110184.51,PTLEI,DJJIB,Ballast,Anchored
-9000170,Liquefied Voyager 170,Liquefied Natural Gas (LNG) Carriers,Myanmar,166247.83,AUDPO,USILG,Ballast,Anchored
-9000171,Roll-On/Roll-Off Voyager 171,Roll-On/Roll-Off (Ro/Ro) Vessels,Jordan,77142.78,FJSUV,SCPOV,Ballast,Completed
-9000172,Containerships Voyager 172,Containerships,Sweden,113675.96,CVMIN,USIJX,Laden,In Transit
-9000173,Petroleum Voyager 173,Petroleum Product Tankers,Sri Lanka,69853.55,LBKYE,RUKGD,Ballast,Anchored
-9000174,Chemical Voyager 174,Chemical Tankers & Other Liquid Bulk Tankers,Bangladesh,10451.0,JPISS,ALDRZ,Ballast,Completed
-9000175,Liquefied Voyager 175,Liquefied Petroleum Gas (LPG) Carriers,Mauritius,65469.93,JPIWK,YTLON,Ballast,In Transit
-9000176,Crude Voyager 176,Crude Oil Tankers,Algeria,284147.15,NOBGO,BGBOJ,Laden,In Transit
-9000177,Vehicles Voyager 177,Vehicles Carriers,Equatorial Guinea,17888.08,UYPTP,PTPRG,Ballast,At Port
-9000178,Other Voyager 178,Other Vessels,Cyprus,8148.88,TRBDM,JPOTR,Ballast,At Port
-9000179,Liquefied Voyager 179,Liquefied Natural Gas (LNG) Carriers,Saint Vincent and the Grenadines,25234.61,PTPRG,ITBRI,Ballast,Completed
-9000180,Chemical Voyager 180,Chemical Tankers & Other Liquid Bulk Tankers,Guyana,9749.66,MMRGN,PTPIC,Ballast,In Transit
-9000181,Liquefied Voyager 181,Liquefied Natural Gas (LNG) Carriers,Curaçao,50369.37,ESFRO,VCKTN,Laden,At Port
-9000182,Cruise Voyager 182,Cruise Ships,Netherlands,145953.06,CLIQQ,USPAE,Laden,Completed
-9000183,Containerships Voyager 183,Containerships,Honduras,115092.71,CNNTG,SRPBM,Laden,At Port
-9000184,Liquefied Voyager 184,Liquefied Petroleum Gas (LPG) Carriers,Peru,34198.84,FRLPE,USGLS,Laden,In Transit
-9000185,Dry Voyager 185,Dry Bulk Vessels,Guatemala,197542.88,DZMOS,KRINC,Laden,At Port
-9000186,Crude Voyager 186,Crude Oil Tankers,Comoros,43881.95,PHGES,USGLC,Ballast,In Transit
-9000187,Liquefied Voyager 187,Liquefied Natural Gas (LNG) Carriers,Ghana,28383.84,PKGWD,TRIZT,Laden,Anchored
-9000188,Roll-On/Roll-Off Voyager 188,Roll-On/Roll-Off (Ro/Ro) Vessels,Oman,37517.19,PRSJU,CKAIT,Laden,At Port
-9000189,Liquefied Voyager 189,Liquefied Petroleum Gas (LPG) Carriers,Yemen,94650.73,CDBNW,PGPOM,Ballast,At Port
-9000190,Crude Voyager 190,Crude Oil Tankers,"Tanzania, United Republic of",22943.5,AUBWT,SESDL,Laden,At Port
-9000191,Roll-On/Roll-Off Voyager 191,Roll-On/Roll-Off (Ro/Ro) Vessels,Seychelles,8658.79,CNZJG,NOLAR,Laden,In Transit
-9000192,Liquefied Voyager 192,Liquefied Natural Gas (LNG) Carriers,Nigeria,119890.8,GYGEO,ESCEU,Ballast,Completed
-9000193,Vehicles Voyager 193,Vehicles Carriers,Ukraine,33015.29,BZBZE,IEORK,Laden,Anchored
-9000194,Petroleum Voyager 194,Petroleum Product Tankers,Honduras,128360.53,JPOIT,THSRI,Laden,In Transit
-9000195,Liquefied Voyager 195,Liquefied Petroleum Gas (LPG) Carriers,Turkey,42553.73,UYPTP,SEPIT,Laden,In Transit
-9000196,Chemical Voyager 196,Chemical Tankers & Other Liquid Bulk Tankers,Albania,53878.41,PTSIE,FRPOV,Laden,In Transit
-9000197,Petroleum Voyager 197,Petroleum Product Tankers,Portugal,16704.82,DEEME,PLSZZ,Laden,At Port
-9000198,Cruise Voyager 198,Cruise Ships,Estonia,143927.45,GBBLY,NOSAT,Ballast,In Transit
-9000199,Special Voyager 199,Special Floating Units,Canada,94142.42,TRLMA,PEPAI,Ballast,At Port
-9000200,Chemical Voyager 200,Chemical Tankers & Other Liquid Bulk Tankers,United Kingdom,10080.84,CAMTR,IRBND,Ballast,In Transit
-9000201,Petroleum Voyager 201,Petroleum Product Tankers,Algeria,54466.76,ESVGO,PTPIC,Ballast,At Port
-9000202,Containerships Voyager 202,Containerships,Sierra Leone,88676.92,GAPOG,SVSAL,Laden,At Port
-9000203,Special Voyager 203,Special Floating Units,Guinea-Bissau,83031.35,MGEHL,BRIGI,Ballast,Anchored
-9000204,Liquefied Voyager 204,Liquefied Natural Gas (LNG) Carriers,Guinea-Bissau,167446.0,PAPTY,AGSJO,Laden,At Port
-9000205,General Voyager 205,General Cargo / Multi-Purpose / Heavy Lift Vessels,Belgium,5801.39,PHZAM,JPIMB,Laden,Anchored
-9000206,Liquefied Voyager 206,Liquefied Petroleum Gas (LPG) Carriers,French Guiana,38867.05,UYPTP,NZLYT,Ballast,In Transit
-9000207,Chemical Voyager 207,Chemical Tankers & Other Liquid Bulk Tankers,Cuba,62593.18,GBPOO,IDLUW,Laden,In Transit
-9000208,Containerships Voyager 208,Containerships,Libya,125478.45,LVRIX,CNZZU,Ballast,At Port
-9000209,Roll-On/Roll-Off Voyager 209,Roll-On/Roll-Off (Ro/Ro) Vessels,Iceland,49744.85,TRBDM,MVMLE,Laden,In Transit
-9000210,Petroleum Voyager 210,Petroleum Product Tankers,Bulgaria,44637.23,MAAGA,IDBIT,Ballast,In Transit
-9000211,General Voyager 211,General Cargo / Multi-Purpose / Heavy Lift Vessels,India,68926.75,CLSAI,ARBHI,Ballast,Completed
-9000212,Containerships Voyager 212,Containerships,Nigeria,31760.79,KRUSN,NALUD,Laden,In Transit
-9000213,Other Voyager 213,Other Vessels,Gambia,21817.42,ESSPC,ROCND,Laden,At Port
-9000214,Special Voyager 214,Special Floating Units,Brazil,80716.92,CNRZH,SEOSK,Ballast,In Transit
-9000215,Petroleum Voyager 215,Petroleum Product Tankers,Latvia,129730.17,GEPTI,TRYPO,Ballast,Anchored
-9000216,General Voyager 216,General Cargo / Multi-Purpose / Heavy Lift Vessels,Nigeria,20976.55,SYLTK,AUSYD,Laden,Anchored
-9000217,Cruise Voyager 217,Cruise Ships,Cabo Verde,74413.57,MSPLY,PRSJU,Ballast,Anchored
-9000218,Liquefied Voyager 218,Liquefied Petroleum Gas (LPG) Carriers,Costa Rica,44696.3,SESTO,CVRAI,Ballast,Completed
-9000219,Other Voyager 219,Other Vessels,Greece,17305.91,NOSVE,USBPT,Laden,At Port
-9000220,Petroleum Voyager 220,Petroleum Product Tankers,Panama,80998.91,IDTNJ,TRHAY,Ballast,Anchored
-9000221,Special Voyager 221,Special Floating Units,Faroe Islands,81596.18,JPUKB,DOMAN,Ballast,In Transit
-9000222,Cruise Voyager 222,Cruise Ships,Colombia,31401.77,SIKOP,JPSMN,Laden,Completed
-9000223,Special Voyager 223,Special Floating Units,Mauritania,49664.64,SCPOV,GBDVR,Ballast,At Port
-9000224,Cruise Voyager 224,Cruise Ships,Senegal,100018.86,JMMBJ,NOMAY,Ballast,In Transit
-9000225,Petroleum Voyager 225,Petroleum Product Tankers,Morocco,71931.4,JPHTC,NOAVE,Laden,In Transit
-9000226,Petroleum Voyager 226,Petroleum Product Tankers,"Congo, The Democratic Republic of the",48629.95,USSCK,BRVIX,Ballast,Anchored
-9000227,Petroleum Voyager 227,Petroleum Product Tankers,Peru,97765.97,CVMIN,IQBSR,Ballast,At Port
-9000228,Vehicles Voyager 228,Vehicles Carriers,"Virgin Islands, U.S.",95651.99,PHSFS,CASJB,Laden,In Transit
-9000229,Roll-On/Roll-Off Voyager 229,Roll-On/Roll-Off (Ro/Ro) Vessels,Germany,41605.28,CNFQG,USSAN,Ballast,Completed
-9000230,Petroleum Voyager 230,Petroleum Product Tankers,Kuwait,77168.7,GRSKG,BZBGK,Ballast,Completed
-9000231,Vehicles Voyager 231,Vehicles Carriers,Portugal,54661.06,GBBEL,PTFDF,Ballast,In Transit
-9000232,Containerships Voyager 232,Containerships,Somalia,70981.59,IDPLM,CLMJS,Ballast,In Transit
-9000233,Petroleum Voyager 233,Petroleum Product Tankers,Cayman Islands,85020.59,RUZAR,MXTAM,Laden,In Transit
-9000234,Cruise Voyager 234,Cruise Ships,Samoa,102905.69,PACTB,NOFRK,Ballast,In Transit
-9000235,Other Voyager 235,Other Vessels,Paraguay,46931.11,NOFRK,FIVKO,Ballast,Anchored
-9000236,Special Voyager 236,Special Floating Units,Ghana,70431.67,PHSFS,MHKWA,Laden,At Port
-9000237,General Voyager 237,General Cargo / Multi-Purpose / Heavy Lift Vessels,Mexico,36085.71,AUBNE,PTCNL,Laden,Completed
-9000238,Chemical Voyager 238,Chemical Tankers & Other Liquid Bulk Tankers,Jordan,75918.12,AUPBT,IDSRG,Laden,In Transit
-9000239,Liquefied Voyager 239,Liquefied Natural Gas (LNG) Carriers,Equatorial Guinea,155108.54,DKCPH,CAMTR,Laden,At Port
-9000240,Containerships Voyager 240,Containerships,United Kingdom,125516.14,IDMES,PTVDP,Laden,In Transit
-9000241,Other Voyager 241,Other Vessels,Uruguay,38669.34,VNHPH,GBTEE,Laden,In Transit
-9000242,Special Voyager 242,Special Floating Units,Montenegro,72098.77,USNYC,INIXE,Ballast,In Transit
-9000243,Liquefied Voyager 243,Liquefied Petroleum Gas (LPG) Carriers,Anguilla,32327.85,VNHPH,USCRP,Laden,In Transit
-9000244,Cruise Voyager 244,Cruise Ships,Montenegro,147821.57,VNUIH,THSRI,Ballast,At Port
-9000245,General Voyager 245,General Cargo / Multi-Purpose / Heavy Lift Vessels,Palau,67672.5,ZARCB,INCOK,Laden,Completed
-9000246,Crude Voyager 246,Crude Oil Tankers,Germany,194147.82,PTPRV,ESTAR,Laden,In Transit
-9000247,Containerships Voyager 247,Containerships,Faroe Islands,36260.91,USPME,CKAIT,Ballast,In Transit
-9000248,Liquefied Voyager 248,Liquefied Petroleum Gas (LPG) Carriers,Turkey,82036.92,PAONX,BHMIN,Laden,In Transit
-9000249,Chemical Voyager 249,Chemical Tankers & Other Liquid Bulk Tankers,Jordan,20390.69,CNZZU,PTSIE,Laden,In Transit
-9000250,Petroleum Voyager 250,Petroleum Product Tankers,Faroe Islands,126358.91,JPKIJ,NOTAE,Laden,In Transit
-9000251,Roll-On/Roll-Off Voyager 251,Roll-On/Roll-Off (Ro/Ro) Vessels,Anguilla,56597.54,FITOR,SIKOP,Ballast,At Port
-9000252,Petroleum Voyager 252,Petroleum Product Tankers,Hong Kong,5793.57,ISREY,FRLEH,Ballast,In Transit
-9000253,Liquefied Voyager 253,Liquefied Natural Gas (LNG) Carriers,Saint Kitts and Nevis,58022.44,ESCAS,CLANF,Ballast,At Port
-9000254,Cruise Voyager 254,Cruise Ships,Peru,73995.91,EEKND,BRITJ,Laden,At Port
-9000255,Cruise Voyager 255,Cruise Ships,"Tanzania, United Republic of",43871.34,FRBAS,NGLKK,Laden,At Port
-9000256,Liquefied Voyager 256,Liquefied Petroleum Gas (LPG) Carriers,Cuba,57925.04,IDDJJ,JPTRG,Ballast,In Transit
-9000257,Vehicles Voyager 257,Vehicles Carriers,Honduras,56687.79,USPAE,CAMTR,Laden,In Transit
-9000258,Roll-On/Roll-Off Voyager 258,Roll-On/Roll-Off (Ro/Ro) Vessels,Cayman Islands,6352.15,SADMM,PTSET,Laden,In Transit
-9000259,Petroleum Voyager 259,Petroleum Product Tankers,Senegal,53685.97,PHCBO,JPSKT,Laden,Anchored
-9000260,Other Voyager 260,Other Vessels,French Polynesia,37955.61,FIHMN,CGPNR,Ballast,Anchored
-9000261,Dry Voyager 261,Dry Bulk Vessels,Angola,166585.58,MHKWA,YTLON,Laden,Anchored
-9000262,Petroleum Voyager 262,Petroleum Product Tankers,Myanmar,108258.62,VNC8Q,BRSLZ,Laden,In Transit
-9000263,Liquefied Voyager 263,Liquefied Petroleum Gas (LPG) Carriers,Gabon,88807.46,NOHVI,NOFRK,Ballast,Completed
-9000264,Vehicles Voyager 264,Vehicles Carriers,Tunisia,49972.98,BRSLZ,SAJUB,Laden,In Transit
-9000265,Containerships Voyager 265,Containerships,Libya,14321.79,JPSMN,NOSKN,Laden,Anchored
-9000266,General Voyager 266,General Cargo / Multi-Purpose / Heavy Lift Vessels,Romania,62374.57,PLGDN,USGFP,Ballast,Completed
-9000267,Roll-On/Roll-Off Voyager 267,Roll-On/Roll-Off (Ro/Ro) Vessels,Grenada,56289.27,PTPIC,USPFN,Ballast,Anchored
-9000268,Other Voyager 268,Other Vessels,Guinea-Bissau,21512.73,TTPOS,IDSOQ,Ballast,In Transit
-9000269,Petroleum Voyager 269,Petroleum Product Tankers,"Venezuela, Bolivarian Republic of",51204.23,NLBOT,NOBVK,Ballast,In Transit
-9000270,Roll-On/Roll-Off Voyager 270,Roll-On/Roll-Off (Ro/Ro) Vessels,French Polynesia,30069.12,CASJF,PGPOM,Ballast,In Transit
-9000271,Containerships Voyager 271,Containerships,El Salvador,189841.35,CNWIH,KMYVA,Ballast,In Transit
-9000272,Containerships Voyager 272,Containerships,Fiji,151230.11,GBGRG,BRNVT,Ballast,In Transit
-9000273,Petroleum Voyager 273,Petroleum Product Tankers,Philippines,37691.32,JPMUR,PTLIS,Ballast,Completed
-9000274,Crude Voyager 274,Crude Oil Tankers,Puerto Rico,183502.97,MANDR,USPME,Ballast,In Transit
-9000275,Petroleum Voyager 275,Petroleum Product Tankers,Sweden,87366.5,DETRV,PTLIS,Ballast,At Port
-9000276,Liquefied Voyager 276,Liquefied Petroleum Gas (LPG) Carriers,Croatia,96130.97,BEZEE,PHOZC,Ballast,At Port
-9000277,Vehicles Voyager 277,Vehicles Carriers,"Venezuela, Bolivarian Republic of",16187.29,TRDRC,LCCAS,Laden,Completed
-9000278,Liquefied Voyager 278,Liquefied Natural Gas (LNG) Carriers,Estonia,131036.9,BBBGI,INCOK,Laden,Completed
-9000279,Roll-On/Roll-Off Voyager 279,Roll-On/Roll-Off (Ro/Ro) Vessels,Cabo Verde,16294.54,PAPAM,USNFF,Ballast,At Port
-9000280,Other Voyager 280,Other Vessels,Malta,3714.48,EGEDK,NCNOU,Laden,Anchored
-9000281,Other Voyager 281,Other Vessels,Dominica,32066.15,USMIA,PRSJU,Laden,In Transit
-9000282,Liquefied Voyager 282,Liquefied Petroleum Gas (LPG) Carriers,Bermuda,79622.44,JPMJR,USIJX,Laden,In Transit
-9000283,Cruise Voyager 283,Cruise Ships,Eritrea,61647.56,USTPA,ESSCT,Laden,In Transit
-9000284,General Voyager 284,General Cargo / Multi-Purpose / Heavy Lift Vessels,Ghana,69972.06,PEIQT,AUBWT,Ballast,Anchored
-9000285,Cruise Voyager 285,Cruise Ships,China,20325.1,NOHLA,JPMYJ,Ballast,At Port
-9000286,Vehicles Voyager 286,Vehicles Carriers,El Salvador,37728.9,USBOS,ESSCT,Laden,Anchored
-9000287,Dry Voyager 287,Dry Bulk Vessels,Grenada,88225.8,CLSAI,ESACE,Laden,In Transit
-9000288,Dry Voyager 288,Dry Bulk Vessels,New Zealand,66564.17,NICIO,ITNAP,Ballast,Anchored
-9000289,Liquefied Voyager 289,Liquefied Natural Gas (LNG) Carriers,Egypt,51408.31,ESSCT,MXCOA,Ballast,At Port
-9000290,Petroleum Voyager 290,Petroleum Product Tankers,Mauritania,76878.25,GLGOH,IDBLW,Laden,In Transit
-9000291,Cruise Voyager 291,Cruise Ships,Kiribati,110888.59,IEORK,NOTRD,Laden,Anchored
-9000292,Crude Voyager 292,Crude Oil Tankers,Martinique,28960.74,JPMAI,TNSFA,Ballast,At Port
-9000293,Containerships Voyager 293,Containerships,Belgium,116566.75,ITMDC,JPKCZ,Ballast,Completed
-9000294,Vehicles Voyager 294,Vehicles Carriers,"Korea, Republic of",32518.81,NOARD,AUFRE,Ballast,In Transit
-9000295,Petroleum Voyager 295,Petroleum Product Tankers,Turkey,104226.2,GBABD,USGFP,Ballast,At Port
-9000296,Chemical Voyager 296,Chemical Tankers & Other Liquid Bulk Tankers,Namibia,49319.5,NOHFT,PEILQ,Ballast,Completed
-9000297,Dry Voyager 297,Dry Bulk Vessels,Denmark,152851.0,CMDLA,GBBLY,Ballast,In Transit
-9000298,Petroleum Voyager 298,Petroleum Product Tankers,Christmas Island,42318.34,KRTJI,FJSUV,Laden,In Transit
-9000299,General Voyager 299,General Cargo / Multi-Purpose / Heavy Lift Vessels,French Guiana,60627.31,TRGEM,KRKUV,Ballast,Completed
-9000300,Other Voyager 300,Other Vessels,Cook Islands,15979.39,SOKMU,GBGRG,Ballast,At Port
-9000301,Liquefied Voyager 301,Liquefied Natural Gas (LNG) Carriers,Djibouti,99579.24,CVMIN,SEGOT,Ballast,Completed
-9000302,Liquefied Voyager 302,Liquefied Petroleum Gas (LPG) Carriers,Montenegro,59167.72,CLARI,CLIQQ,Ballast,At Port
-9000303,Special Voyager 303,Special Floating Units,Argentina,67415.8,MXVER,DKSKA,Laden,In Transit
-9000304,Liquefied Voyager 304,Liquefied Natural Gas (LNG) Carriers,Poland,136401.29,SOMGQ,SEUME,Laden,In Transit
-9000305,Cruise Voyager 305,Cruise Ships,Madagascar,88654.36,PTCNL,ESSVQ,Laden,In Transit
-9000306,Roll-On/Roll-Off Voyager 306,Roll-On/Roll-Off (Ro/Ro) Vessels,Sudan,61859.12,MXMZT,JMKIN,Laden,In Transit
-9000307,Petroleum Voyager 307,Petroleum Product Tankers,Jamaica,60903.85,USMOB,NZAKL,Ballast,Anchored
-9000308,Liquefied Voyager 308,Liquefied Petroleum Gas (LPG) Carriers,Brazil,61041.37,SESDL,BRMAO,Laden,In Transit
-9000309,Other Voyager 309,Other Vessels,Viet Nam,16985.51,AOLAD,COCTG,Laden,At Port
-9000310,Vehicles Voyager 310,Vehicles Carriers,Greenland,18279.19,INIXZ,NOHOY,Ballast,Completed
-9000311,Other Voyager 311,Other Vessels,Djibouti,42208.8,IDBIT,NOTOS,Ballast,Anchored
-9000312,Liquefied Voyager 312,Liquefied Natural Gas (LNG) Carriers,Nicaragua,95982.82,AUADL,PTPDL,Laden,Completed
-9000313,Cruise Voyager 313,Cruise Ships,Somalia,53074.9,PGKIM,MRNDB,Laden,At Port
-9000314,Liquefied Voyager 314,Liquefied Natural Gas (LNG) Carriers,Mauritania,174731.31,USCHS,TRHAY,Laden,Anchored
-9000315,Cruise Voyager 315,Cruise Ships,Slovenia,77262.83,CVRAI,JPHHE,Ballast,In Transit
-9000316,Special Voyager 316,Special Floating Units,Dominican Republic,24598.56,GBTIL,MZBEW,Laden,In Transit
-9000317,Chemical Voyager 317,Chemical Tankers & Other Liquid Bulk Tankers,India,34664.86,TRPAM,MUPLU,Ballast,At Port
-9000318,Cruise Voyager 318,Cruise Ships,Congo,138872.93,PHOZC,PGPOM,Laden,At Port
-9000319,Vehicles Voyager 319,Vehicles Carriers,Ghana,35879.71,JPTMK,AUBEL,Ballast,In Transit
-9000320,Dry Voyager 320,Dry Bulk Vessels,Guyana,93553.72,DKEBJ,NZMAP,Ballast,At Port
-9000321,Other Voyager 321,Other Vessels,Sri Lanka,34196.92,USTPA,MYBKI,Ballast,In Transit
-9000322,Liquefied Voyager 322,Liquefied Petroleum Gas (LPG) Carriers,Malta,29342.63,NLRTM,ITNAP,Ballast,Anchored
-9000323,Other Voyager 323,Other Vessels,Panama,35396.92,NOHLA,AUCNS,Ballast,In Transit
-9000324,Cruise Voyager 324,Cruise Ships,New Zealand,104727.11,QAMES,SEKSD,Laden,In Transit
-9000325,Liquefied Voyager 325,Liquefied Natural Gas (LNG) Carriers,Saint Vincent and the Grenadines,172850.19,CNYTN,NZTRG,Ballast,Anchored
-9000326,Liquefied Voyager 326,Liquefied Petroleum Gas (LPG) Carriers,Kenya,21802.66,DOBCC,MTMAR,Ballast,In Transit
-9000327,Cruise Voyager 327,Cruise Ships,Belize,113724.74,JPSEN,KHKOS,Laden,At Port
-9000328,Crude Voyager 328,Crude Oil Tankers,Anguilla,34558.4,NOSVG,PECLL,Laden,At Port
-9000329,Dry Voyager 329,Dry Bulk Vessels,Timor-Leste,4020.74,ESFUE,GBABD,Ballast,At Port
-9000330,Liquefied Voyager 330,Liquefied Petroleum Gas (LPG) Carriers,Madagascar,76079.28,MYPKG,NOKRS,Laden,Completed
-9000331,Petroleum Voyager 331,Petroleum Product Tankers,"Bonaire, Sint Eustatius and Saba",98887.91,JOAQJ,DKGRE,Laden,In Transit
-9000332,Dry Voyager 332,Dry Bulk Vessels,Bermuda,186982.75,BRSLZ,SEOSK,Laden,Completed
-9000333,Liquefied Voyager 333,Liquefied Natural Gas (LNG) Carriers,Lithuania,160278.91,ARMDQ,NLRTM,Laden,Completed
-9000334,Chemical Voyager 334,Chemical Tankers & Other Liquid Bulk Tankers,Ghana,24195.81,JPMAI,EGPSD,Ballast,Completed
-9000335,Dry Voyager 335,Dry Bulk Vessels,Indonesia,170658.77,AEAJM,MVMLE,Laden,In Transit
-9000336,Other Voyager 336,Other Vessels,Croatia,23216.27,KWSWK,PEILQ,Laden,Anchored
-9000337,Containerships Voyager 337,Containerships,Indonesia,62529.73,LVRIX,SEVAG,Laden,At Port
-9000338,Special Voyager 338,Special Floating Units,Nigeria,89755.75,TRTEK,CMDLA,Laden,In Transit
-9000339,Petroleum Voyager 339,Petroleum Product Tankers,New Caledonia,30162.84,FJLTK,AOSZA,Laden,In Transit
-9000340,General Voyager 340,General Cargo / Multi-Purpose / Heavy Lift Vessels,Nicaragua,17250.97,SAJUB,MGEHL,Ballast,At Port
-9000341,Cruise Voyager 341,Cruise Ships,Comoros,11601.0,JPOTK,PLGDY,Laden,At Port
-9000342,Roll-On/Roll-Off Voyager 342,Roll-On/Roll-Off (Ro/Ro) Vessels,Cameroon,26624.09,SYTTS,MMRGN,Ballast,At Port
-9000343,Special Voyager 343,Special Floating Units,Singapore,91654.97,NLBOT,PTPIC,Laden,In Transit
-9000344,Dry Voyager 344,Dry Bulk Vessels,Seychelles,97201.83,VCKTN,RUDUD,Ballast,In Transit
-9000345,Vehicles Voyager 345,Vehicles Carriers,Iceland,91715.7,SEVAG,DMRSU,Laden,At Port
-9000346,Cruise Voyager 346,Cruise Ships,"Venezuela, Bolivarian Republic of",132238.91,CNZZU,DEBRE,Ballast,In Transit
-9000347,Cruise Voyager 347,Cruise Ships,Israel,25709.23,ESCAD,BZBZE,Laden,In Transit
-9000348,Vehicles Voyager 348,Vehicles Carriers,Montserrat,46974.85,MAPTM,INBOM,Ballast,In Transit
-9000349,Vehicles Voyager 349,Vehicles Carriers,Eritrea,47320.86,CLSAI,UYPTP,Ballast,At Port
-9000350,Crude Voyager 350,Crude Oil Tankers,Maldives,169845.17,LBKYE,UYMVD,Laden,In Transit
-9000351,Crude Voyager 351,Crude Oil Tankers,Bahamas,225012.32,GIGIB,CNSHK,Ballast,In Transit
-9000352,Petroleum Voyager 352,Petroleum Product Tankers,Anguilla,82551.04,CNDGG,CNNTG,Laden,In Transit
-9000353,Dry Voyager 353,Dry Bulk Vessels,Tunisia,154487.5,SVAQJ,JPMAI,Ballast,In Transit
-9000354,General Voyager 354,General Cargo / Multi-Purpose / Heavy Lift Vessels,Costa Rica,31949.06,PYASU,PTVEL,Laden,At Port
-9000355,Chemical Voyager 355,Chemical Tankers & Other Liquid Bulk Tankers,Gibraltar,11253.39,DMRSU,SEGOT,Laden,Anchored
-9000356,Liquefied Voyager 356,Liquefied Petroleum Gas (LPG) Carriers,Malta,83812.52,SEHEL,BDCGP,Ballast,At Port
-9000357,Vehicles Voyager 357,Vehicles Carriers,Kuwait,45292.16,QAMES,ITVDL,Ballast,In Transit
-9000358,Liquefied Voyager 358,Liquefied Natural Gas (LNG) Carriers,Dominican Republic,50156.87,PGKIM,SRPBM,Laden,Anchored
-9000359,General Voyager 359,General Cargo / Multi-Purpose / Heavy Lift Vessels,India,43429.7,ASPPG,JPTYO,Laden,In Transit
-9000360,Crude Voyager 360,Crude Oil Tankers,Belize,136700.11,LBKYE,MZUEL,Laden,Anchored
-9000361,General Voyager 361,General Cargo / Multi-Purpose / Heavy Lift Vessels,"Congo, The Democratic Republic of the",31288.43,DOPOP,ITBRI,Laden,At Port
-9000362,Liquefied Voyager 362,Liquefied Natural Gas (LNG) Carriers,Namibia,57465.84,PHCEB,GEPTI,Ballast,In Transit
-9000363,Dry Voyager 363,Dry Bulk Vessels,Tonga,197182.03,CUMOA,ITGOA,Ballast,In Transit
-9000364,Vehicles Voyager 364,Vehicles Carriers,Senegal,95109.42,PHMNL,GUPIT,Ballast,At Port
-9000365,Crude Voyager 365,Crude Oil Tankers,Qatar,291825.62,JPMII,KMYVA,Ballast,At Port
-9000366,General Voyager 366,General Cargo / Multi-Purpose / Heavy Lift Vessels,Guinea,11296.01,PTVDP,IDBEN,Ballast,In Transit
-9000367,Liquefied Voyager 367,Liquefied Petroleum Gas (LPG) Carriers,Mayotte,31472.17,NGLOS,FRBAS,Laden,At Port
-9000368,General Voyager 368,General Cargo / Multi-Purpose / Heavy Lift Vessels,"Korea, Republic of",39452.79,FIPRS,SAJED,Ballast,In Transit
-9000369,Special Voyager 369,Special Floating Units,Curaçao,8367.51,USPME,PTPRG,Laden,In Transit
-9000370,General Voyager 370,General Cargo / Multi-Purpose / Heavy Lift Vessels,China,47483.36,IDTRK,BZBGK,Laden,Anchored
-9000371,Cruise Voyager 371,Cruise Ships,Angola,111402.73,FIVKO,ITBRI,Laden,Completed
-9000372,Chemical Voyager 372,Chemical Tankers & Other Liquid Bulk Tankers,Haiti,25648.67,ARZAE,IRASA,Laden,Anchored
-9000373,Containerships Voyager 373,Containerships,Palau,98389.57,KHKOS,MYMKZ,Laden,In Transit
-9000374,Liquefied Voyager 374,Liquefied Petroleum Gas (LPG) Carriers,Qatar,56103.77,TRHAY,MXPMS,Ballast,At Port
-9000375,Chemical Voyager 375,Chemical Tankers & Other Liquid Bulk Tankers,Cook Islands,26056.94,PLGDY,CKAIT,Ballast,In Transit
-9000376,Other Voyager 376,Other Vessels,Puerto Rico,23739.78,NOIKR,INCCU,Ballast,In Transit
-9000377,Cruise Voyager 377,Cruise Ships,Australia,130971.88,PKGWD,FRDKK,Ballast,At Port
-9000378,Cruise Voyager 378,Cruise Ships,United Kingdom,91080.01,TRGEB,NLBOT,Laden,In Transit
-9000379,General Voyager 379,General Cargo / Multi-Purpose / Heavy Lift Vessels,Hong Kong,40315.48,KRPUS,BRITJ,Ballast,In Transit
-9000380,Roll-On/Roll-Off Voyager 380,Roll-On/Roll-Off (Ro/Ro) Vessels,Benin,77421.14,JPMYJ,PHTAG,Ballast,In Transit
-9000381,Containerships Voyager 381,Containerships,Guyana,73674.35,FJLTK,PEMRI,Ballast,In Transit
-9000382,Vehicles Voyager 382,Vehicles Carriers,Bahrain,99080.74,CNDCB,CVRAI,Laden,Completed
-9000383,Special Voyager 383,Special Floating Units,Finland,5327.18,AGSJO,TRPAM,Laden,In Transit
-9000384,Dry Voyager 384,Dry Bulk Vessels,Portugal,4800.87,BZBZE,VEPLA,Laden,At Port
-9000385,Special Voyager 385,Special Floating Units,Bulgaria,93423.42,AUFRE,JPTAK,Laden,In Transit
-9000386,Vehicles Voyager 386,Vehicles Carriers,Morocco,44077.16,AUADL,DETRV,Ballast,In Transit
-9000387,Other Voyager 387,Other Vessels,Denmark,33864.63,USILG,HRSPU,Laden,At Port
-9000388,Liquefied Voyager 388,Liquefied Petroleum Gas (LPG) Carriers,French Polynesia,20809.34,DEBRV,KRMOK,Ballast,Anchored
-9000389,Petroleum Voyager 389,Petroleum Product Tankers,Kiribati,57838.58,SYTTS,VNSGN,Laden,Completed
-9000390,Liquefied Voyager 390,Liquefied Petroleum Gas (LPG) Carriers,Vanuatu,31397.51,CNZJG,JPOTK,Laden,In Transit
-9000391,General Voyager 391,General Cargo / Multi-Purpose / Heavy Lift Vessels,El Salvador,27024.7,AOMSZ,CLSVE,Laden,Anchored
-9000392,Petroleum Voyager 392,Petroleum Product Tankers,Nicaragua,76479.18,UAODS,JPMUR,Laden,Completed
-9000393,Crude Voyager 393,Crude Oil Tankers,Albania,72781.12,MYBTU,GBHRW,Ballast,In Transit
-9000394,Petroleum Voyager 394,Petroleum Product Tankers,Kiribati,103611.03,MXPRO,EGPSD,Laden,In Transit
-9000395,Chemical Voyager 395,Chemical Tankers & Other Liquid Bulk Tankers,Fiji,3221.33,INPAV,HNPCA,Ballast,Completed
-9000396,Liquefied Voyager 396,Liquefied Natural Gas (LNG) Carriers,Russian Federation,45992.04,JPTYO,GBHRW,Ballast,In Transit
-9000397,Other Voyager 397,Other Vessels,Costa Rica,7427.55,MRNKC,PGBUA,Ballast,In Transit
-9000398,General Voyager 398,General Cargo / Multi-Purpose / Heavy Lift Vessels,Palau,17017.94,CNWEF,NZBLU,Ballast,Completed
-9000399,Chemical Voyager 399,Chemical Tankers & Other Liquid Bulk Tankers,"Virgin Islands, U.S.",4310.8,MVMLE,USCAV,Ballast,In Transit
-9000400,Vehicles Voyager 400,Vehicles Carriers,Montserrat,94408.57,TZDAR,IDJKT,Ballast,In Transit
-9000401,Cruise Voyager 401,Cruise Ships,China,51353.13,KRTSN,PAPAM,Laden,In Transit
-9000402,General Voyager 402,General Cargo / Multi-Purpose / Heavy Lift Vessels,Russian Federation,50105.72,JPIMI,FRRAD,Ballast,In Transit
-9000403,Petroleum Voyager 403,Petroleum Product Tankers,Philippines,3763.7,NOEGE,USNFF,Ballast,In Transit
-9000404,Petroleum Voyager 404,Petroleum Product Tankers,Jamaica,30546.59,USNTD,FIHKO,Ballast,In Transit
-9000405,Petroleum Voyager 405,Petroleum Product Tankers,Pakistan,55025.4,CYLMS,IDMES,Ballast,Completed
-9000406,Crude Voyager 406,Crude Oil Tankers,Cuba,91094.97,SAJED,USBPT,Laden,At Port
-9000407,Dry Voyager 407,Dry Bulk Vessels,Liberia,138007.25,GPPTP,FITOR,Ballast,In Transit
-9000408,Dry Voyager 408,Dry Bulk Vessels,Trinidad and Tobago,15463.63,UAYUZ,MXESE,Ballast,At Port
-9000409,Petroleum Voyager 409,Petroleum Product Tankers,Senegal,56085.36,KRTSN,PEPAI,Ballast,At Port
-9000410,Liquefied Voyager 410,Liquefied Petroleum Gas (LPG) Carriers,Antigua and Barbuda,46870.44,FIKOK,NOBGO,Ballast,In Transit
-9000411,Cruise Voyager 411,Cruise Ships,Netherlands,63184.59,NOSAT,USGFP,Ballast,Anchored
-9000412,Special Voyager 412,Special Floating Units,New Caledonia,97435.42,FIKEM,NLVLI,Laden,At Port
-9000413,Dry Voyager 413,Dry Bulk Vessels,Suriname,193021.2,NOHOY,NGLKK,Ballast,Completed
-9000414,Containerships Voyager 414,Containerships,Saudi Arabia,52272.74,PTVDP,MXPRO,Ballast,In Transit
-9000415,Cruise Voyager 415,Cruise Ships,Hong Kong,37972.01,ESALC,HTCAP,Laden,Completed
-9000416,Roll-On/Roll-Off Voyager 416,Roll-On/Roll-Off (Ro/Ro) Vessels,Marshall Islands,75609.07,INVTZ,USEPI,Laden,Anchored
-9000417,Containerships Voyager 417,Containerships,Finland,160033.9,LTKLJ,BRITJ,Ballast,In Transit
-9000418,Special Voyager 418,Special Floating Units,Paraguay,15837.25,TRLMA,USGLC,Laden,In Transit
-9000419,Cruise Voyager 419,Cruise Ships,Djibouti,77092.86,SESTO,DKGRE,Ballast,At Port
-9000420,Containerships Voyager 420,Containerships,Guinea,193843.47,MZMPM,WSAPW,Laden,In Transit
-9000421,Liquefied Voyager 421,Liquefied Petroleum Gas (LPG) Carriers,Tunisia,66444.96,PGMAG,GBTYN,Laden,At Port
-9000422,Special Voyager 422,Special Floating Units,Nicaragua,67908.45,SESOE,RUVVO,Ballast,In Transit
-9000423,Petroleum Voyager 423,Petroleum Product Tankers,Grenada,41034.54,CASQA,RUARH,Laden,In Transit
-9000424,General Voyager 424,General Cargo / Multi-Purpose / Heavy Lift Vessels,Cameroon,32951.36,MANDR,HNPCR,Laden,In Transit
-9000425,Crude Voyager 425,Crude Oil Tankers,Cuba,147417.47,NLBOT,TRELI,Laden,Anchored
-9000426,Other Voyager 426,Other Vessels,Viet Nam,7512.92,NOGLO,NZNPE,Laden,At Port
-9000427,Chemical Voyager 427,Chemical Tankers & Other Liquid Bulk Tankers,"Virgin Islands, U.S.",39140.68,USEPI,PEPIO,Ballast,In Transit
-9000428,Crude Voyager 428,Crude Oil Tankers,Nauru,244004.85,EGDAM,BDCGP,Laden,At Port
-9000429,Dry Voyager 429,Dry Bulk Vessels,Grenada,186194.72,PHZAM,KMMUT,Laden,At Port
-9000430,Chemical Voyager 430,Chemical Tankers & Other Liquid Bulk Tankers,Thailand,45668.22,VNVUT,JOAQJ,Laden,In Transit
-9000431,Special Voyager 431,Special Floating Units,Singapore,43497.38,BRIGI,PHPPS,Laden,In Transit
-9000432,General Voyager 432,General Cargo / Multi-Purpose / Heavy Lift Vessels,India,27829.67,NAWVB,IRBUZ,Ballast,Anchored
-9000433,Containerships Voyager 433,Containerships,Guinea,160221.57,GHTEM,DOCAU,Laden,In Transit
-9000434,Liquefied Voyager 434,Liquefied Petroleum Gas (LPG) Carriers,Benin,46839.94,LRMLW,KITRW,Ballast,At Port
-9000435,Cruise Voyager 435,Cruise Ships,French Polynesia,64956.16,EETLL,NZWLG,Ballast,At Port
-9000436,Special Voyager 436,Special Floating Units,Oman,70745.84,NLMOE,IQBSR,Laden,At Port
-9000437,Chemical Voyager 437,Chemical Tankers & Other Liquid Bulk Tankers,Guinea-Bissau,11193.21,NOBOO,EGSOK,Ballast,At Port
-9000438,Vehicles Voyager 438,Vehicles Carriers,Martinique,41904.01,IDLUW,FIRAU,Ballast,In Transit
-9000439,Roll-On/Roll-Off Voyager 439,Roll-On/Roll-Off (Ro/Ro) Vessels,Guatemala,51933.63,MYKCH,JPMUR,Laden,At Port
-9000440,Dry Voyager 440,Dry Bulk Vessels,Canada,39858.42,USSAN,ITPOZ,Ballast,Completed
-9000441,Roll-On/Roll-Off Voyager 441,Roll-On/Roll-Off (Ro/Ro) Vessels,Kenya,13513.17,ZAELS,RUULU,Ballast,In Transit
-9000442,Roll-On/Roll-Off Voyager 442,Roll-On/Roll-Off (Ro/Ro) Vessels,Guadeloupe,35003.54,USNYC,AUWEI,Laden,At Port
-9000443,Containerships Voyager 443,Containerships,Morocco,153406.04,NGONN,BRPEC,Laden,At Port
-9000444,Dry Voyager 444,Dry Bulk Vessels,Bermuda,156805.82,GBFOY,PKKHI,Laden,At Port
-9000445,Liquefied Voyager 445,Liquefied Natural Gas (LNG) Carriers,Brazil,144018.08,PTLIS,EGEDK,Ballast,At Port
-9000446,General Voyager 446,General Cargo / Multi-Purpose / Heavy Lift Vessels,Kuwait,8066.73,JPOTK,RUPKC,Ballast,Completed
-9000447,Crude Voyager 447,Crude Oil Tankers,Cabo Verde,137671.04,NZWLG,ZARCB,Ballast,Completed
-9000448,Petroleum Voyager 448,Petroleum Product Tankers,Mozambique,117017.85,JPMJR,INVTZ,Ballast,Completed
-9000449,Cruise Voyager 449,Cruise Ships,Finland,98587.89,GBTEE,ISGRF,Laden,Anchored
-9000450,Containerships Voyager 450,Containerships,"Moldova, Republic of",16574.78,PAPTY,DKEBJ,Laden,In Transit
-9000451,Other Voyager 451,Other Vessels,Gabon,14985.42,GBTIL,MGEHL,Laden,In Transit
-9000452,Containerships Voyager 452,Containerships,Samoa,158209.75,CNDCB,MXGYM,Laden,Anchored
-9000453,Dry Voyager 453,Dry Bulk Vessels,Kuwait,52186.42,OMSLL,NOLAR,Ballast,At Port
-9000454,Cruise Voyager 454,Cruise Ships,Paraguay,98536.28,JPCHB,TRBDM,Ballast,In Transit
-9000455,Containerships Voyager 455,Containerships,Gabon,176624.39,CYLMS,SEUME,Ballast,At Port
-9000456,Chemical Voyager 456,Chemical Tankers & Other Liquid Bulk Tankers,Mauritania,37466.26,AUTSV,NOORK,Laden,Completed
-9000457,Other Voyager 457,Other Vessels,Papua New Guinea,5110.51,VNDAD,JPIWK,Laden,Anchored
-9000458,General Voyager 458,General Cargo / Multi-Purpose / Heavy Lift Vessels,Bermuda,16030.27,TRYPO,IRASA,Ballast,In Transit
-9000459,Liquefied Voyager 459,Liquefied Natural Gas (LNG) Carriers,Kiribati,74040.82,GHTEM,ESVIL,Ballast,Anchored
-9000460,Special Voyager 460,Special Floating Units,Senegal,76344.28,CISPY,DEWVN,Ballast,In Transit
-9000461,Dry Voyager 461,Dry Bulk Vessels,Israel,89933.33,AEAUH,TRTZX,Laden,Completed
-9000462,Liquefied Voyager 462,Liquefied Natural Gas (LNG) Carriers,Samoa,45436.39,MXATM,CYLMS,Ballast,In Transit
-9000463,Chemical Voyager 463,Chemical Tankers & Other Liquid Bulk Tankers,Canada,53831.69,JPNAO,GBTEE,Ballast,At Port
-9000464,Other Voyager 464,Other Vessels,Samoa,35122.35,JPISS,TRYPO,Laden,Anchored
-9000465,Crude Voyager 465,Crude Oil Tankers,Oman,67959.25,CNYPG,FIPOR,Laden,At Port
-9000466,Roll-On/Roll-Off Voyager 466,Roll-On/Roll-Off (Ro/Ro) Vessels,Ecuador,3715.09,MYMKZ,NZNPE,Ballast,At Port
-9000467,Roll-On/Roll-Off Voyager 467,Roll-On/Roll-Off (Ro/Ro) Vessels,Germany,8453.78,RULED,CUMAR,Laden,In Transit
-9000468,Liquefied Voyager 468,Liquefied Natural Gas (LNG) Carriers,Spain,41940.69,TRALI,YEADE,Laden,In Transit
-9000469,Cruise Voyager 469,Cruise Ships,Uruguay,11186.46,JPKIJ,GBLGP,Ballast,Anchored
-9000470,Special Voyager 470,Special Floating Units,Saint Vincent and the Grenadines,74952.75,TOTBU,ISGRF,Laden,In Transit
-9000471,Petroleum Voyager 471,Petroleum Product Tankers,Romania,23581.93,ESGIJ,HNSLO,Ballast,Completed
-9000472,Chemical Voyager 472,Chemical Tankers & Other Liquid Bulk Tankers,Tunisia,63703.98,KRTJI,MXGYM,Laden,In Transit
-9000473,Cruise Voyager 473,Cruise Ships,Bangladesh,94001.1,INENR,MXTUX,Ballast,In Transit
-9000474,Cruise Voyager 474,Cruise Ships,Myanmar,81333.16,RUDUD,SEGVX,Laden,Anchored
-9000475,Containerships Voyager 475,Containerships,Dominican Republic,191160.94,BJCOO,RUZAR,Laden,At Port
-9000476,Cruise Voyager 476,Cruise Ships,Namibia,19941.68,ARROS,PLSWI,Laden,In Transit
-9000477,Cruise Voyager 477,Cruise Ships,Guatemala,68920.89,ESBCN,MGTMM,Ballast,Completed
-9000478,Containerships Voyager 478,Containerships,American Samoa,19233.41,HNPCA,CNNSA,Ballast,In Transit
-9000479,Crude Voyager 479,Crude Oil Tankers,Madagascar,284860.6,SEOXE,CAHAL,Ballast,In Transit
-9000480,General Voyager 480,General Cargo / Multi-Purpose / Heavy Lift Vessels,Singapore,6687.52,DKSKA,DMRSU,Laden,In Transit
-9000481,Liquefied Voyager 481,Liquefied Natural Gas (LNG) Carriers,United Kingdom,32643.45,INCCU,VICHA,Ballast,In Transit
-9000482,Special Voyager 482,Special Floating Units,Togo,76440.8,JPKIJ,MGDIE,Laden,In Transit
-9000483,General Voyager 483,General Cargo / Multi-Purpose / Heavy Lift Vessels,"Korea, Republic of",51367.13,JPOSA,CNCFD,Laden,Completed
-9000484,Petroleum Voyager 484,Petroleum Product Tankers,Mexico,69645.66,INHAL,CLSAI,Laden,In Transit
-9000485,Other Voyager 485,Other Vessels,Cook Islands,7291.98,ARPMY,GBLIV,Ballast,At Port
-9000486,Containerships Voyager 486,Containerships,Portugal,165388.84,LBBEY,GBTYN,Laden,Anchored
-9000487,Liquefied Voyager 487,Liquefied Natural Gas (LNG) Carriers,Belgium,137269.73,ERMSW,TNSFA,Ballast,Anchored
-9000488,Liquefied Voyager 488,Liquefied Natural Gas (LNG) Carriers,Martinique,103816.67,LYKHO,OMSOH,Laden,At Port
-9000489,Vehicles Voyager 489,Vehicles Carriers,Guadeloupe,39211.77,BRITJ,GBHRW,Ballast,In Transit
-9000490,Containerships Voyager 490,Containerships,Algeria,25066.46,GDSTG,LVRIX,Laden,Anchored
-9000491,Crude Voyager 491,Crude Oil Tankers,Bahamas,17991.18,ARROS,KNCHA,Ballast,In Transit
-9000492,Dry Voyager 492,Dry Bulk Vessels,Samoa,38255.3,BRSSZ,ESSVQ,Ballast,In Transit
-9000493,Liquefied Voyager 493,Liquefied Petroleum Gas (LPG) Carriers,Libya,42793.15,PEMRI,NOIKR,Laden,At Port
-9000494,Petroleum Voyager 494,Petroleum Product Tankers,Jordan,76800.02,CLMJS,HRSPU,Laden,Completed
-9000495,Petroleum Voyager 495,Petroleum Product Tankers,Mexico,131917.71,MXPMS,TRALI,Ballast,In Transit
-9000496,Roll-On/Roll-Off Voyager 496,Roll-On/Roll-Off (Ro/Ro) Vessels,Kiribati,3613.63,INHZR,NGLKK,Ballast,Anchored
-9000497,Liquefied Voyager 497,Liquefied Petroleum Gas (LPG) Carriers,Ireland,47464.82,IDBDJ,BGVAR,Laden,In Transit
-9000498,General Voyager 498,General Cargo / Multi-Purpose / Heavy Lift Vessels,Suriname,2649.81,DZORN,NZTRG,Laden,Completed
-9000499,Crude Voyager 499,Crude Oil Tankers,Maldives,228884.1,PTVDP,PHPPS,Laden,In Transit
-9000500,Liquefied Voyager 500,Liquefied Petroleum Gas (LPG) Carriers,"Moldova, Republic of",43141.95,CNDGG,FOKOL,Laden,In Transit
+imo_number,vessel_name,vessel_type,flag_country,scnt_tons,origin_locode,destination_locode,condition,status,mmsi
+9000001,Special Voyager 001,Special Floating Units,"Korea, Republic of",11577.44,PKGWD,MXCOA,Laden,In Transit,440007961
+9000002,Petroleum Voyager 002,Petroleum Product Tankers,Oman,102474.82,ESALC,CRMOB,Ballast,In Transit,461015880
+9000003,Petroleum Voyager 003,Petroleum Product Tankers,Bangladesh,35139.78,BZBZE,IDSOQ,Laden,Anchored,405023799
+9000004,Other Voyager 004,Other Vessels,Mozambique,27474.6,ITCVV,USNTD,Ballast,Anchored,650031718
+9000005,Crude Voyager 005,Crude Oil Tankers,"Taiwan, Province of China",228848.17,GBGRG,MYSDK,Ballast,In Transit,416039637
+9000006,Liquefied Voyager 006,Liquefied Petroleum Gas (LPG) Carriers,Curaçao,95806.88,NOTOS,DOCAU,Ballast,In Transit,306047556
+9000007,Chemical Voyager 007,Chemical Tankers & Other Liquid Bulk Tankers,Wallis and Futuna,49090.63,UYMVD,CDBNW,Laden,Completed,578055475
+9000008,General Voyager 008,General Cargo / Multi-Purpose / Heavy Lift Vessels,Slovenia,6437.21,NIRAM,JPFKY,Ballast,At Port,278063394
+9000009,Other Voyager 009,Other Vessels,Marshall Islands,3942.98,JPTKY,ITSVN,Laden,Completed,538071313
+9000010,Petroleum Voyager 010,Petroleum Product Tankers,Poland,58878.56,UYPTP,JPIWK,Laden,In Transit,261079232
+9000011,Liquefied Voyager 011,Liquefied Petroleum Gas (LPG) Carriers,Tunisia,67677.17,MZMPM,MGTMM,Laden,At Port,672087151
+9000012,Dry Voyager 012,Dry Bulk Vessels,Mayotte,108225.56,KNCHA,GBLIV,Ballast,In Transit,226095070
+9000013,Special Voyager 013,Special Floating Units,Nigeria,68972.11,ITCTA,MHKWA,Laden,In Transit,657102989
+9000014,Crude Voyager 014,Crude Oil Tankers,Côte d'Ivoire,242488.51,SESTO,MGNOS,Laden,Completed,619110908
+9000015,Cruise Voyager 015,Cruise Ships,Samoa,132691.47,NOHAU,IRBND,Ballast,In Transit,561118827
+9000016,Special Voyager 016,Special Floating Units,Kuwait,46155.76,MDGIU,FITOR,Ballast,Anchored,447126746
+9000017,General Voyager 017,General Cargo / Multi-Purpose / Heavy Lift Vessels,Italy,62949.78,SEPIT,PRSJU,Laden,At Port,247134665
+9000018,Petroleum Voyager 018,Petroleum Product Tankers,Senegal,114099.98,ECPBO,FRPOV,Laden,Anchored,663142584
+9000019,General Voyager 019,General Cargo / Multi-Purpose / Heavy Lift Vessels,Peru,42152.22,RUVYP,RUBRK,Ballast,At Port,760150503
+9000020,Vehicles Voyager 020,Vehicles Carriers,Algeria,86774.07,ARPMY,MAPTM,Ballast,Anchored,605158422
+9000021,Chemical Voyager 021,Chemical Tankers & Other Liquid Bulk Tankers,Viet Nam,10701.07,UAYUZ,GBABD,Laden,Completed,574166341
+9000022,Other Voyager 022,Other Vessels,Guam,13537.76,BRMAO,SOBBO,Laden,Completed,338174260
+9000023,Liquefied Voyager 023,Liquefied Natural Gas (LNG) Carriers,Ireland,154667.1,CAMTR,INHAL,Laden,In Transit,250182179
+9000024,Dry Voyager 024,Dry Bulk Vessels,United Arab Emirates,109257.67,USBPT,DJJIB,Ballast,At Port,470190098
+9000025,Petroleum Voyager 025,Petroleum Product Tankers,Saint Kitts and Nevis,139577.5,UYMVD,NODRM,Laden,In Transit,341198017
+9000026,Cruise Voyager 026,Cruise Ships,Bulgaria,142572.92,COTRB,PHCEB,Laden,Completed,207205936
+9000027,Vehicles Voyager 027,Vehicles Carriers,Albania,77754.27,ESSAG,JPTAK,Laden,In Transit,201213855
+9000028,Cruise Voyager 028,Cruise Ships,Israel,69239.31,IRASA,DOPOP,Ballast,In Transit,428221774
+9000029,Special Voyager 029,Special Floating Units,"Virgin Islands, U.S.",65162.87,USEPI,COBAQ,Laden,In Transit,379229693
+9000030,Petroleum Voyager 030,Petroleum Product Tankers,Japan,52698.58,HNPCR,ESTAR,Laden,In Transit,431237612
+9000031,Other Voyager 031,Other Vessels,Bahrain,31739.6,ITTPS,CNNSA,Ballast,In Transit,408245531
+9000032,Liquefied Voyager 032,Liquefied Petroleum Gas (LPG) Carriers,Equatorial Guinea,29290.77,AUPBT,IRBUZ,Laden,Anchored,631253450
+9000033,Cruise Voyager 033,Cruise Ships,Albania,90669.63,KHKOS,USCRP,Ballast,In Transit,201261369
+9000034,Petroleum Voyager 034,Petroleum Product Tankers,Tonga,99870.46,PFPPT,TRLMA,Ballast,Completed,570269288
+9000035,Crude Voyager 035,Crude Oil Tankers,Congo,203642.54,JPNGS,DERSK,Ballast,Anchored,615277207
+9000036,Containerships Voyager 036,Containerships,Haiti,173026.14,KRKUV,IDSRG,Ballast,In Transit,336285126
+9000037,Dry Voyager 037,Dry Bulk Vessels,Saint Vincent and the Grenadines,57873.39,KRKAN,CNWEF,Laden,In Transit,375293045
+9000038,Vehicles Voyager 038,Vehicles Carriers,Comoros,84422.62,CYLMS,SAJUB,Laden,In Transit,616300964
+9000039,Roll-On/Roll-Off Voyager 039,Roll-On/Roll-Off (Ro/Ro) Vessels,Guadeloupe,19458.54,SESTO,CNDCB,Ballast,In Transit,329308883
+9000040,General Voyager 040,General Cargo / Multi-Purpose / Heavy Lift Vessels,Viet Nam,19299.01,USCAV,USCRP,Ballast,In Transit,574316802
+9000041,Other Voyager 041,Other Vessels,Bulgaria,49773.42,ESVGO,JPTKY,Laden,In Transit,207324721
+9000042,Liquefied Voyager 042,Liquefied Petroleum Gas (LPG) Carriers,Equatorial Guinea,96933.52,GLJHS,PHOZC,Laden,Anchored,631332640
+9000043,Crude Voyager 043,Crude Oil Tankers,Gibraltar,19791.99,AOSZA,BRRIG,Laden,In Transit,236340559
+9000044,Vehicles Voyager 044,Vehicles Carriers,Peru,12610.59,IDJKT,CNNTG,Laden,At Port,760348478
+9000045,Liquefied Voyager 045,Liquefied Petroleum Gas (LPG) Carriers,Mauritania,41570.0,GBSCR,KRTSN,Laden,At Port,654356397
+9000046,General Voyager 046,General Cargo / Multi-Purpose / Heavy Lift Vessels,Malaysia,46358.75,GBFXT,CVPAL,Ballast,In Transit,533364316
+9000047,Other Voyager 047,Other Vessels,Eritrea,16052.1,MDGIU,SENRK,Ballast,At Port,625372235
+9000048,Containerships Voyager 048,Containerships,Sierra Leone,187468.19,ARMDQ,VNDAD,Laden,In Transit,667380154
+9000049,Liquefied Voyager 049,Liquefied Petroleum Gas (LPG) Carriers,Chile,51576.7,FIPOR,PAONX,Laden,In Transit,725388073
+9000050,Dry Voyager 050,Dry Bulk Vessels,Mauritius,89322.36,EGPSD,MZUEL,Laden,At Port,645395992
+9000051,Vehicles Voyager 051,Vehicles Carriers,Spain,33440.98,JPTHS,DZALG,Ballast,In Transit,224403911
+9000052,Petroleum Voyager 052,Petroleum Product Tankers,Montenegro,112135.25,FRSET,MUPMA,Laden,Anchored,262411830
+9000053,Liquefied Voyager 053,Liquefied Petroleum Gas (LPG) Carriers,Benin,69374.72,MACAS,BZBZE,Ballast,Completed,610419749
+9000054,Crude Voyager 054,Crude Oil Tankers,Bahamas,32228.05,TRLMA,MXGYM,Laden,In Transit,308427668
+9000055,Dry Voyager 055,Dry Bulk Vessels,Saint Vincent and the Grenadines,128511.34,LRMLW,GBHUL,Ballast,At Port,375435587
+9000056,Petroleum Voyager 056,Petroleum Product Tankers,Guyana,14060.85,MUPLU,FRLRH,Laden,Anchored,750443506
+9000057,Cruise Voyager 057,Cruise Ships,Brazil,87353.51,TTPOS,ESMLN,Ballast,In Transit,710451425
+9000058,Containerships Voyager 058,Containerships,Iraq,194578.27,BZBGK,PHGES,Laden,At Port,425459344
+9000059,Chemical Voyager 059,Chemical Tankers & Other Liquid Bulk Tankers,United Kingdom,62849.07,THBKK,ITRAN,Laden,Completed,232467263
+9000060,Containerships Voyager 060,Containerships,Guam,163100.49,TRPAM,BEGNE,Ballast,Anchored,338475182
+9000061,General Voyager 061,General Cargo / Multi-Purpose / Heavy Lift Vessels,Kuwait,56354.22,PHMNL,VUSAN,Ballast,In Transit,447483101
+9000062,Other Voyager 062,Other Vessels,Italy,5850.73,BSNAS,AIAXA,Laden,Anchored,247491020
+9000063,Roll-On/Roll-Off Voyager 063,Roll-On/Roll-Off (Ro/Ro) Vessels,Jordan,29923.7,USMRH,ITSVN,Laden,At Port,438498939
+9000064,General Voyager 064,General Cargo / Multi-Purpose / Heavy Lift Vessels,"Moldova, Republic of",23650.07,CNSHP,TNTUN,Ballast,At Port,214506858
+9000065,General Voyager 065,General Cargo / Multi-Purpose / Heavy Lift Vessels,Belgium,47886.75,DKSKA,NOSKN,Laden,Completed,205514777
+9000066,Liquefied Voyager 066,Liquefied Natural Gas (LNG) Carriers,Denmark,48570.85,MDGIU,BSNAS,Ballast,In Transit,219522696
+9000067,Containerships Voyager 067,Containerships,Algeria,66167.08,IEDUB,CATOR,Ballast,Completed,605530615
+9000068,Liquefied Voyager 068,Liquefied Petroleum Gas (LPG) Carriers,United Arab Emirates,26962.81,NGPHC,USBAL,Laden,In Transit,470538534
+9000069,Petroleum Voyager 069,Petroleum Product Tankers,Malaysia,142484.55,NOSVG,JMKIN,Laden,Anchored,533546453
+9000070,Liquefied Voyager 070,Liquefied Natural Gas (LNG) Carriers,Nigeria,101139.6,JPWAK,THHKT,Ballast,At Port,657554372
+9000071,Vehicles Voyager 071,Vehicles Carriers,Qatar,17092.34,TRIZM,JPTRG,Laden,At Port,466562291
+9000072,Liquefied Voyager 072,Liquefied Natural Gas (LNG) Carriers,Madagascar,84972.03,AEAUH,NOBGO,Laden,In Transit,647570210
+9000073,Cruise Voyager 073,Cruise Ships,Saint Vincent and the Grenadines,94932.62,NOLAR,ZACPT,Ballast,At Port,375578129
+9000074,Vehicles Voyager 074,Vehicles Carriers,Greece,49952.69,USMSY,PHOZC,Laden,In Transit,237586048
+9000075,Special Voyager 075,Special Floating Units,Comoros,63477.62,NOTAE,CYLMS,Ballast,In Transit,616593967
+9000076,Liquefied Voyager 076,Liquefied Petroleum Gas (LPG) Carriers,Albania,16440.69,CISPY,KNCHA,Laden,At Port,201601886
+9000077,Special Voyager 077,Special Floating Units,Romania,57779.25,PEILQ,MYPGU,Ballast,In Transit,264609805
+9000078,Dry Voyager 078,Dry Bulk Vessels,Denmark,132243.43,AEQIW,RUGDX,Ballast,In Transit,219617724
+9000079,Containerships Voyager 079,Containerships,Belize,191803.38,COBUN,YTLON,Laden,Completed,312625643
+9000080,Petroleum Voyager 080,Petroleum Product Tankers,Gibraltar,70099.89,USSEA,YTLON,Ballast,Completed,236633562
+9000081,Roll-On/Roll-Off Voyager 081,Roll-On/Roll-Off (Ro/Ro) Vessels,"Tanzania, United Republic of",50174.23,PEIQT,BRSUA,Ballast,Completed,674641481
+9000082,Other Voyager 082,Other Vessels,Kuwait,43144.0,USPME,LBBEY,Ballast,Anchored,447649400
+9000083,Vehicles Voyager 083,Vehicles Carriers,Uruguay,51036.72,JPOSA,MXCOA,Laden,Anchored,770657319
+9000084,Liquefied Voyager 084,Liquefied Petroleum Gas (LPG) Carriers,Costa Rica,28628.08,NOIKR,DZMOS,Laden,In Transit,321665238
+9000085,General Voyager 085,General Cargo / Multi-Purpose / Heavy Lift Vessels,Côte d'Ivoire,48882.54,NGCBQ,IRBUZ,Ballast,In Transit,619673157
+9000086,Vehicles Voyager 086,Vehicles Carriers,Trinidad and Tobago,49262.81,CNFQG,INPRT,Ballast,Completed,362681076
+9000087,Cruise Voyager 087,Cruise Ships,Martinique,142448.68,AUMEL,SRPBM,Ballast,At Port,347688995
+9000088,Chemical Voyager 088,Chemical Tankers & Other Liquid Bulk Tankers,Guinea,25291.79,SAYNB,TRISK,Laden,At Port,632696914
+9000089,Liquefied Voyager 089,Liquefied Natural Gas (LNG) Carriers,Norway,89733.76,BRIGI,SAKAC,Ballast,Anchored,257704833
+9000090,Roll-On/Roll-Off Voyager 090,Roll-On/Roll-Off (Ro/Ro) Vessels,Bangladesh,73804.7,ITTRS,DKFRC,Ballast,At Port,405712752
+9000091,Special Voyager 091,Special Floating Units,Spain,3196.65,JPMII,TRTZX,Ballast,In Transit,224720671
+9000092,Liquefied Voyager 092,Liquefied Natural Gas (LNG) Carriers,Nigeria,80656.62,IRASA,VCKTN,Ballast,Anchored,657728590
+9000093,General Voyager 093,General Cargo / Multi-Purpose / Heavy Lift Vessels,Costa Rica,20199.71,TRIZT,KRMOK,Ballast,In Transit,321736509
+9000094,Vehicles Voyager 094,Vehicles Carriers,Vanuatu,9948.13,PACTB,ITLIV,Laden,Anchored,576744428
+9000095,Special Voyager 095,Special Floating Units,Israel,4505.68,BRNVT,KRTJI,Laden,At Port,428752347
+9000096,Liquefied Voyager 096,Liquefied Petroleum Gas (LPG) Carriers,Kiribati,14369.66,KEMBA,EGDAM,Laden,At Port,529760266
+9000097,Liquefied Voyager 097,Liquefied Natural Gas (LNG) Carriers,Seychelles,142703.7,GFDDC,IEDUB,Laden,Anchored,664768185
+9000098,Dry Voyager 098,Dry Bulk Vessels,Bangladesh,193049.99,ECGYE,GIGIB,Ballast,At Port,405776104
+9000099,General Voyager 099,General Cargo / Multi-Purpose / Heavy Lift Vessels,Colombia,28369.16,PACSO,INMAA,Laden,In Transit,730784023
+9000100,Containerships Voyager 100,Containerships,Ecuador,63808.62,MGTLE,IDPNK,Laden,In Transit,735791942
+9000101,General Voyager 101,General Cargo / Multi-Purpose / Heavy Lift Vessels,Tunisia,46644.97,CNNTG,CAHAL,Ballast,In Transit,672799861
+9000102,General Voyager 102,General Cargo / Multi-Purpose / Heavy Lift Vessels,Philippines,57740.83,DZGHZ,UAILK,Ballast,Anchored,548807780
+9000103,General Voyager 103,General Cargo / Multi-Purpose / Heavy Lift Vessels,Libya,13153.45,CUSCU,JPOIT,Ballast,At Port,642815699
+9000104,Other Voyager 104,Other Vessels,Cabo Verde,29827.49,NOMAY,KRPUS,Ballast,Completed,617823618
+9000105,Liquefied Voyager 105,Liquefied Petroleum Gas (LPG) Carriers,Qatar,75546.68,GBSCR,INKRI,Ballast,In Transit,466831537
+9000106,Chemical Voyager 106,Chemical Tankers & Other Liquid Bulk Tankers,Saint Lucia,16183.51,IRBND,PGMAG,Ballast,In Transit,343839456
+9000107,Cruise Voyager 107,Cruise Ships,Argentina,108165.73,MXESE,ESVGO,Laden,In Transit,701847375
+9000108,Other Voyager 108,Other Vessels,Saint Kitts and Nevis,20618.19,ESVLC,SGSIN,Ballast,At Port,341855294
+9000109,Roll-On/Roll-Off Voyager 109,Roll-On/Roll-Off (Ro/Ro) Vessels,Myanmar,37509.44,AUADL,CYLMS,Laden,In Transit,506863213
+9000110,Liquefied Voyager 110,Liquefied Petroleum Gas (LPG) Carriers,Albania,32008.19,GNCKY,PTPDL,Ballast,In Transit,201871132
+9000111,Other Voyager 111,Other Vessels,Viet Nam,27744.23,PAROD,MZMNC,Ballast,In Transit,574879051
+9000112,Liquefied Voyager 112,Liquefied Petroleum Gas (LPG) Carriers,Ecuador,13824.28,IDSUB,NOHVI,Laden,In Transit,735886970
+9000113,Other Voyager 113,Other Vessels,Ghana,24467.83,PGBUA,HNSLO,Ballast,Completed,627894889
+9000114,Liquefied Voyager 114,Liquefied Petroleum Gas (LPG) Carriers,Mauritius,31032.15,PLSWI,HRSPU,Laden,Anchored,645902808
+9000115,Dry Voyager 115,Dry Bulk Vessels,Marshall Islands,57039.33,CLPUQ,ESSVQ,Laden,At Port,538910727
+9000116,Containerships Voyager 116,Containerships,Montenegro,100721.35,ARROS,GDSTG,Ballast,At Port,262918646
+9000117,Chemical Voyager 117,Chemical Tankers & Other Liquid Bulk Tankers,Angola,16380.37,CLLQN,KRMOK,Laden,Anchored,603926565
+9000118,General Voyager 118,General Cargo / Multi-Purpose / Heavy Lift Vessels,Canada,34930.51,GHTKD,JPHHE,Laden,In Transit,316934484
+9000119,Cruise Voyager 119,Cruise Ships,Ecuador,142877.59,COTRB,KRKUV,Ballast,At Port,735942403
+9000120,Containerships Voyager 120,Containerships,Qatar,125591.58,TRHAY,CVPAL,Ballast,Completed,466950322
+9000121,Liquefied Voyager 121,Liquefied Natural Gas (LNG) Carriers,Lithuania,157626.67,TRYPO,NOBOO,Laden,At Port,277958241
+9000122,Other Voyager 122,Other Vessels,Senegal,5412.06,SOKMU,INPAV,Laden,In Transit,663966160
+9000123,Petroleum Voyager 123,Petroleum Product Tankers,Colombia,26087.39,GRVOL,ESSDR,Laden,In Transit,730974079
+9000124,Roll-On/Roll-Off Voyager 124,Roll-On/Roll-Off (Ro/Ro) Vessels,Bahrain,56081.58,AIAXA,NGLKK,Laden,In Transit,408981998
+9000125,Liquefied Voyager 125,Liquefied Natural Gas (LNG) Carriers,Cambodia,132478.01,UYPTP,CNQZJ,Ballast,Anchored,514989917
+9000126,Special Voyager 126,Special Floating Units,"Taiwan, Province of China",59184.06,USVAN,ILHFA,Laden,At Port,416997836
+9000127,Special Voyager 127,Special Floating Units,China,15324.45,MEBAR,FOKOL,Laden,In Transit,412005755
+9000128,Liquefied Voyager 128,Liquefied Natural Gas (LNG) Carriers,Uruguay,115207.05,GBPME,MYTPP,Laden,At Port,770013674
+9000129,Liquefied Voyager 129,Liquefied Natural Gas (LNG) Carriers,Equatorial Guinea,131957.39,MUPMA,BRMAO,Ballast,In Transit,631021593
+9000130,Cruise Voyager 130,Cruise Ships,New Caledonia,15580.51,TZDAR,PHMNL,Ballast,In Transit,540029512
+9000131,Liquefied Voyager 131,Liquefied Petroleum Gas (LPG) Carriers,Aruba,96267.29,GEPTI,HNPCA,Ballast,At Port,307037431
+9000132,Containerships Voyager 132,Containerships,Vanuatu,152472.42,AIAXA,COCTG,Ballast,Completed,576045350
+9000133,Dry Voyager 133,Dry Bulk Vessels,Benin,199398.26,USBAL,JPIWK,Laden,At Port,610053269
+9000134,General Voyager 134,General Cargo / Multi-Purpose / Heavy Lift Vessels,Greenland,23998.28,KITRW,DZAZW,Ballast,In Transit,331061188
+9000135,Roll-On/Roll-Off Voyager 135,Roll-On/Roll-Off (Ro/Ro) Vessels,Hong Kong,25192.77,SESTO,YEMKX,Laden,At Port,477069107
+9000136,Chemical Voyager 136,Chemical Tankers & Other Liquid Bulk Tankers,Thailand,21687.11,EGALY,TNTUN,Laden,At Port,567077026
+9000137,Vehicles Voyager 137,Vehicles Carriers,Grenada,48887.75,CLPUQ,IDKUM,Ballast,At Port,330084945
+9000138,Roll-On/Roll-Off Voyager 138,Roll-On/Roll-Off (Ro/Ro) Vessels,India,51156.47,SLFNA,CLLQN,Ballast,At Port,419092864
+9000139,Liquefied Voyager 139,Liquefied Natural Gas (LNG) Carriers,Estonia,90098.58,MYSBW,AUNTL,Laden,Completed,276100783
+9000140,Cruise Voyager 140,Cruise Ships,Mexico,121903.92,NICIO,GBBEL,Laden,At Port,345108702
+9000141,Petroleum Voyager 141,Petroleum Product Tankers,Ecuador,36031.0,EETLL,VNUIH,Laden,At Port,735116621
+9000142,Other Voyager 142,Other Vessels,Turkey,14947.15,NGAPP,MVMLE,Ballast,Completed,271124540
+9000143,Liquefied Voyager 143,Liquefied Petroleum Gas (LPG) Carriers,Haiti,46765.07,FRBES,RULED,Laden,Completed,336132459
+9000144,Liquefied Voyager 144,Liquefied Natural Gas (LNG) Carriers,Djibouti,143628.02,TRBDM,NZBLU,Ballast,Anchored,621140378
+9000145,Liquefied Voyager 145,Liquefied Natural Gas (LNG) Carriers,Yemen,136168.16,HNPCA,GLJHS,Ballast,Completed,473148297
+9000146,Roll-On/Roll-Off Voyager 146,Roll-On/Roll-Off (Ro/Ro) Vessels,Honduras,44470.7,NZPOE,NOSUN,Ballast,At Port,334156216
+9000147,Chemical Voyager 147,Chemical Tankers & Other Liquid Bulk Tankers,Latvia,69828.93,MYSDK,JPOSA,Ballast,In Transit,275164135
+9000148,Containerships Voyager 148,Containerships,Albania,85101.14,NOHYR,PLSZZ,Ballast,In Transit,201172054
+9000149,Special Voyager 149,Special Floating Units,Bermuda,79343.17,JPOMZ,FRMTX,Laden,In Transit,310179973
+9000150,Cruise Voyager 150,Cruise Ships,Cyprus,56479.26,DKAAR,USGFP,Ballast,In Transit,209187892
+9000151,Dry Voyager 151,Dry Bulk Vessels,Colombia,83765.79,JPOTR,FRURO,Ballast,Anchored,730195811
+9000152,Liquefied Voyager 152,Liquefied Natural Gas (LNG) Carriers,Vanuatu,74169.8,MYBKI,SEOXE,Laden,Completed,576203730
+9000153,Special Voyager 153,Special Floating Units,Senegal,86004.55,ROCND,NOHLA,Ballast,Completed,663211649
+9000154,Crude Voyager 154,Crude Oil Tankers,Madagascar,187150.54,JPKKJ,JPHTC,Laden,Anchored,647219568
+9000155,General Voyager 155,General Cargo / Multi-Purpose / Heavy Lift Vessels,Cyprus,68505.3,SLFNA,JPIMB,Ballast,In Transit,209227487
+9000156,Liquefied Voyager 156,Liquefied Natural Gas (LNG) Carriers,"Congo, The Democratic Republic of the",164547.85,CISPY,NOMJF,Ballast,In Transit,676235406
+9000157,General Voyager 157,General Cargo / Multi-Purpose / Heavy Lift Vessels,Kiribati,11044.32,DJJIB,TOTBU,Laden,In Transit,529243325
+9000158,Petroleum Voyager 158,Petroleum Product Tankers,Saint Kitts and Nevis,92595.29,RUNVS,ITPOZ,Ballast,Completed,341251244
+9000159,Dry Voyager 159,Dry Bulk Vessels,Wallis and Futuna,48741.12,JPKWS,KRPTK,Ballast,At Port,578259163
+9000160,Containerships Voyager 160,Containerships,Guyana,95724.38,MYPKG,LYTIP,Laden,In Transit,750267082
+9000161,Chemical Voyager 161,Chemical Tankers & Other Liquid Bulk Tankers,"Taiwan, Province of China",79036.83,NLTNZ,JPKCZ,Ballast,At Port,416275001
+9000162,Liquefied Voyager 162,Liquefied Natural Gas (LNG) Carriers,Denmark,51874.72,RUULU,AUFRE,Laden,In Transit,219282920
+9000163,Chemical Voyager 163,Chemical Tankers & Other Liquid Bulk Tankers,Aruba,46835.33,MYTWU,NLBOT,Ballast,In Transit,307290839
+9000164,Cruise Voyager 164,Cruise Ships,Belize,131109.44,USANC,PLSZZ,Ballast,Anchored,312298758
+9000165,Liquefied Voyager 165,Liquefied Natural Gas (LNG) Carriers,French Polynesia,144118.56,ITVDL,ILASH,Laden,At Port,546306677
+9000166,Cruise Voyager 166,Cruise Ships,Yemen,45087.75,SDPZU,PEPAI,Laden,At Port,473314596
+9000167,Special Voyager 167,Special Floating Units,Uruguay,64810.89,NOFRO,USGLS,Laden,At Port,770322515
+9000168,Other Voyager 168,Other Vessels,Turkey,7004.88,NLBOT,NOODD,Laden,In Transit,271330434
+9000169,Containerships Voyager 169,Containerships,Cameroon,110184.51,PTLEI,DJJIB,Ballast,Anchored,613338353
+9000170,Liquefied Voyager 170,Liquefied Natural Gas (LNG) Carriers,Myanmar,166247.83,AUDPO,USILG,Ballast,Anchored,506346272
+9000171,Roll-On/Roll-Off Voyager 171,Roll-On/Roll-Off (Ro/Ro) Vessels,Jordan,77142.78,FJSUV,SCPOV,Ballast,Completed,438354191
+9000172,Containerships Voyager 172,Containerships,Sweden,113675.96,CVMIN,USIJX,Laden,In Transit,265362110
+9000173,Petroleum Voyager 173,Petroleum Product Tankers,Sri Lanka,69853.55,LBKYE,RUKGD,Ballast,Anchored,417370029
+9000174,Chemical Voyager 174,Chemical Tankers & Other Liquid Bulk Tankers,Bangladesh,10451.0,JPISS,ALDRZ,Ballast,Completed,405377948
+9000175,Liquefied Voyager 175,Liquefied Petroleum Gas (LPG) Carriers,Mauritius,65469.93,JPIWK,YTLON,Ballast,In Transit,645385867
+9000176,Crude Voyager 176,Crude Oil Tankers,Algeria,284147.15,NOBGO,BGBOJ,Laden,In Transit,605393786
+9000177,Vehicles Voyager 177,Vehicles Carriers,Equatorial Guinea,17888.08,UYPTP,PTPRG,Ballast,At Port,631401705
+9000178,Other Voyager 178,Other Vessels,Cyprus,8148.88,TRBDM,JPOTR,Ballast,At Port,209409624
+9000179,Liquefied Voyager 179,Liquefied Natural Gas (LNG) Carriers,Saint Vincent and the Grenadines,25234.61,PTPRG,ITBRI,Ballast,Completed,375417543
+9000180,Chemical Voyager 180,Chemical Tankers & Other Liquid Bulk Tankers,Guyana,9749.66,MMRGN,PTPIC,Ballast,In Transit,750425462
+9000181,Liquefied Voyager 181,Liquefied Natural Gas (LNG) Carriers,Curaçao,50369.37,ESFRO,VCKTN,Laden,At Port,306433381
+9000182,Cruise Voyager 182,Cruise Ships,Netherlands,145953.06,CLIQQ,USPAE,Laden,Completed,244441300
+9000183,Containerships Voyager 183,Containerships,Honduras,115092.71,CNNTG,SRPBM,Laden,At Port,334449219
+9000184,Liquefied Voyager 184,Liquefied Petroleum Gas (LPG) Carriers,Peru,34198.84,FRLPE,USGLS,Laden,In Transit,760457138
+9000185,Dry Voyager 185,Dry Bulk Vessels,Guatemala,197542.88,DZMOS,KRINC,Laden,At Port,332465057
+9000186,Crude Voyager 186,Crude Oil Tankers,Comoros,43881.95,PHGES,USGLC,Ballast,In Transit,616472976
+9000187,Liquefied Voyager 187,Liquefied Natural Gas (LNG) Carriers,Ghana,28383.84,PKGWD,TRIZT,Laden,Anchored,627480895
+9000188,Roll-On/Roll-Off Voyager 188,Roll-On/Roll-Off (Ro/Ro) Vessels,Oman,37517.19,PRSJU,CKAIT,Laden,At Port,461488814
+9000189,Liquefied Voyager 189,Liquefied Petroleum Gas (LPG) Carriers,Yemen,94650.73,CDBNW,PGPOM,Ballast,At Port,473496733
+9000190,Crude Voyager 190,Crude Oil Tankers,"Tanzania, United Republic of",22943.5,AUBWT,SESDL,Laden,At Port,674504652
+9000191,Roll-On/Roll-Off Voyager 191,Roll-On/Roll-Off (Ro/Ro) Vessels,Seychelles,8658.79,CNZJG,NOLAR,Laden,In Transit,664512571
+9000192,Liquefied Voyager 192,Liquefied Natural Gas (LNG) Carriers,Nigeria,119890.8,GYGEO,ESCEU,Ballast,Completed,657520490
+9000193,Vehicles Voyager 193,Vehicles Carriers,Ukraine,33015.29,BZBZE,IEORK,Laden,Anchored,272528409
+9000194,Petroleum Voyager 194,Petroleum Product Tankers,Honduras,128360.53,JPOIT,THSRI,Laden,In Transit,334536328
+9000195,Liquefied Voyager 195,Liquefied Petroleum Gas (LPG) Carriers,Turkey,42553.73,UYPTP,SEPIT,Laden,In Transit,271544247
+9000196,Chemical Voyager 196,Chemical Tankers & Other Liquid Bulk Tankers,Albania,53878.41,PTSIE,FRPOV,Laden,In Transit,201552166
+9000197,Petroleum Voyager 197,Petroleum Product Tankers,Portugal,16704.82,DEEME,PLSZZ,Laden,At Port,263560085
+9000198,Cruise Voyager 198,Cruise Ships,Estonia,143927.45,GBBLY,NOSAT,Ballast,In Transit,276568004
+9000199,Special Voyager 199,Special Floating Units,Canada,94142.42,TRLMA,PEPAI,Ballast,At Port,316575923
+9000200,Chemical Voyager 200,Chemical Tankers & Other Liquid Bulk Tankers,United Kingdom,10080.84,CAMTR,IRBND,Ballast,In Transit,232583842
+9000201,Petroleum Voyager 201,Petroleum Product Tankers,Algeria,54466.76,ESVGO,PTPIC,Ballast,At Port,605591761
+9000202,Containerships Voyager 202,Containerships,Sierra Leone,88676.92,GAPOG,SVSAL,Laden,At Port,667599680
+9000203,Special Voyager 203,Special Floating Units,Guinea-Bissau,83031.35,MGEHL,BRIGI,Ballast,Anchored,630607599
+9000204,Liquefied Voyager 204,Liquefied Natural Gas (LNG) Carriers,Guinea-Bissau,167446.0,PAPTY,AGSJO,Laden,At Port,630615518
+9000205,General Voyager 205,General Cargo / Multi-Purpose / Heavy Lift Vessels,Belgium,5801.39,PHZAM,JPIMB,Laden,Anchored,205623437
+9000206,Liquefied Voyager 206,Liquefied Petroleum Gas (LPG) Carriers,French Guiana,38867.05,UYPTP,NZLYT,Ballast,In Transit,745631356
+9000207,Chemical Voyager 207,Chemical Tankers & Other Liquid Bulk Tankers,Cuba,62593.18,GBPOO,IDLUW,Laden,In Transit,323639275
+9000208,Containerships Voyager 208,Containerships,Libya,125478.45,LVRIX,CNZZU,Ballast,At Port,642647194
+9000209,Roll-On/Roll-Off Voyager 209,Roll-On/Roll-Off (Ro/Ro) Vessels,Iceland,49744.85,TRBDM,MVMLE,Laden,In Transit,251655113
+9000210,Petroleum Voyager 210,Petroleum Product Tankers,Bulgaria,44637.23,MAAGA,IDBIT,Ballast,In Transit,207663032
+9000211,General Voyager 211,General Cargo / Multi-Purpose / Heavy Lift Vessels,India,68926.75,CLSAI,ARBHI,Ballast,Completed,419670951
+9000212,Containerships Voyager 212,Containerships,Nigeria,31760.79,KRUSN,NALUD,Laden,In Transit,657678870
+9000213,Other Voyager 213,Other Vessels,Gambia,21817.42,ESSPC,ROCND,Laden,At Port,629686789
+9000214,Special Voyager 214,Special Floating Units,Brazil,80716.92,CNRZH,SEOSK,Ballast,In Transit,710694708
+9000215,Petroleum Voyager 215,Petroleum Product Tankers,Latvia,129730.17,GEPTI,TRYPO,Ballast,Anchored,275702627
+9000216,General Voyager 216,General Cargo / Multi-Purpose / Heavy Lift Vessels,Nigeria,20976.55,SYLTK,AUSYD,Laden,Anchored,657710546
+9000217,Cruise Voyager 217,Cruise Ships,Cabo Verde,74413.57,MSPLY,PRSJU,Ballast,Anchored,617718465
+9000218,Liquefied Voyager 218,Liquefied Petroleum Gas (LPG) Carriers,Costa Rica,44696.3,SESTO,CVRAI,Ballast,Completed,321726384
+9000219,Other Voyager 219,Other Vessels,Greece,17305.91,NOSVE,USBPT,Laden,At Port,237734303
+9000220,Petroleum Voyager 220,Petroleum Product Tankers,Panama,80998.91,IDTNJ,TRHAY,Ballast,Anchored,351742222
+9000221,Special Voyager 221,Special Floating Units,Faroe Islands,81596.18,JPUKB,DOMAN,Ballast,In Transit,231750141
+9000222,Cruise Voyager 222,Cruise Ships,Colombia,31401.77,SIKOP,JPSMN,Laden,Completed,730758060
+9000223,Special Voyager 223,Special Floating Units,Mauritania,49664.64,SCPOV,GBDVR,Ballast,At Port,654765979
+9000224,Cruise Voyager 224,Cruise Ships,Senegal,100018.86,JMMBJ,NOMAY,Ballast,In Transit,663773898
+9000225,Petroleum Voyager 225,Petroleum Product Tankers,Morocco,71931.4,JPHTC,NOAVE,Laden,In Transit,242781817
+9000226,Petroleum Voyager 226,Petroleum Product Tankers,"Congo, The Democratic Republic of the",48629.95,USSCK,BRVIX,Ballast,Anchored,676789736
+9000227,Petroleum Voyager 227,Petroleum Product Tankers,Peru,97765.97,CVMIN,IQBSR,Ballast,At Port,760797655
+9000228,Vehicles Voyager 228,Vehicles Carriers,"Virgin Islands, U.S.",95651.99,PHSFS,CASJB,Laden,In Transit,379805574
+9000229,Roll-On/Roll-Off Voyager 229,Roll-On/Roll-Off (Ro/Ro) Vessels,Germany,41605.28,CNFQG,USSAN,Ballast,Completed,211813493
+9000230,Petroleum Voyager 230,Petroleum Product Tankers,Kuwait,77168.7,GRSKG,BZBGK,Ballast,Completed,447821412
+9000231,Vehicles Voyager 231,Vehicles Carriers,Portugal,54661.06,GBBEL,PTFDF,Ballast,In Transit,263829331
+9000232,Containerships Voyager 232,Containerships,Somalia,70981.59,IDPLM,CLMJS,Ballast,In Transit,666837250
+9000233,Petroleum Voyager 233,Petroleum Product Tankers,Cayman Islands,85020.59,RUZAR,MXTAM,Laden,In Transit,319845169
+9000234,Cruise Voyager 234,Cruise Ships,Samoa,102905.69,PACTB,NOFRK,Ballast,In Transit,561853088
+9000235,Other Voyager 235,Other Vessels,Paraguay,46931.11,NOFRK,FIVKO,Ballast,Anchored,755861007
+9000236,Special Voyager 236,Special Floating Units,Ghana,70431.67,PHSFS,MHKWA,Laden,At Port,627868926
+9000237,General Voyager 237,General Cargo / Multi-Purpose / Heavy Lift Vessels,Mexico,36085.71,AUBNE,PTCNL,Laden,Completed,345876845
+9000238,Chemical Voyager 238,Chemical Tankers & Other Liquid Bulk Tankers,Jordan,75918.12,AUPBT,IDSRG,Laden,In Transit,438884764
+9000239,Liquefied Voyager 239,Liquefied Natural Gas (LNG) Carriers,Equatorial Guinea,155108.54,DKCPH,CAMTR,Laden,At Port,631892683
+9000240,Containerships Voyager 240,Containerships,United Kingdom,125516.14,IDMES,PTVDP,Laden,In Transit,232900602
+9000241,Other Voyager 241,Other Vessels,Uruguay,38669.34,VNHPH,GBTEE,Laden,In Transit,770908521
+9000242,Special Voyager 242,Special Floating Units,Montenegro,72098.77,USNYC,INIXE,Ballast,In Transit,262916440
+9000243,Liquefied Voyager 243,Liquefied Petroleum Gas (LPG) Carriers,Anguilla,32327.85,VNHPH,USCRP,Laden,In Transit,301924359
+9000244,Cruise Voyager 244,Cruise Ships,Montenegro,147821.57,VNUIH,THSRI,Ballast,At Port,262932278
+9000245,General Voyager 245,General Cargo / Multi-Purpose / Heavy Lift Vessels,Palau,67672.5,ZARCB,INCOK,Laden,Completed,511940197
+9000246,Crude Voyager 246,Crude Oil Tankers,Germany,194147.82,PTPRV,ESTAR,Laden,In Transit,211948116
+9000247,Containerships Voyager 247,Containerships,Faroe Islands,36260.91,USPME,CKAIT,Ballast,In Transit,231956035
+9000248,Liquefied Voyager 248,Liquefied Petroleum Gas (LPG) Carriers,Turkey,82036.92,PAONX,BHMIN,Laden,In Transit,271963954
+9000249,Chemical Voyager 249,Chemical Tankers & Other Liquid Bulk Tankers,Jordan,20390.69,CNZZU,PTSIE,Laden,In Transit,438971873
+9000250,Petroleum Voyager 250,Petroleum Product Tankers,Faroe Islands,126358.91,JPKIJ,NOTAE,Laden,In Transit,231979792
+9000251,Roll-On/Roll-Off Voyager 251,Roll-On/Roll-Off (Ro/Ro) Vessels,Anguilla,56597.54,FITOR,SIKOP,Ballast,At Port,301987711
+9000252,Petroleum Voyager 252,Petroleum Product Tankers,Hong Kong,5793.57,ISREY,FRLEH,Ballast,In Transit,477995630
+9000253,Liquefied Voyager 253,Liquefied Natural Gas (LNG) Carriers,Saint Kitts and Nevis,58022.44,ESCAS,CLANF,Ballast,At Port,341003549
+9000254,Cruise Voyager 254,Cruise Ships,Peru,73995.91,EEKND,BRITJ,Laden,At Port,760011468
+9000255,Cruise Voyager 255,Cruise Ships,"Tanzania, United Republic of",43871.34,FRBAS,NGLKK,Laden,At Port,674019387
+9000256,Liquefied Voyager 256,Liquefied Petroleum Gas (LPG) Carriers,Cuba,57925.04,IDDJJ,JPTRG,Ballast,In Transit,323027306
+9000257,Vehicles Voyager 257,Vehicles Carriers,Honduras,56687.79,USPAE,CAMTR,Laden,In Transit,334035225
+9000258,Roll-On/Roll-Off Voyager 258,Roll-On/Roll-Off (Ro/Ro) Vessels,Cayman Islands,6352.15,SADMM,PTSET,Laden,In Transit,319043144
+9000259,Petroleum Voyager 259,Petroleum Product Tankers,Senegal,53685.97,PHCBO,JPSKT,Laden,Anchored,663051063
+9000260,Other Voyager 260,Other Vessels,French Polynesia,37955.61,FIHMN,CGPNR,Ballast,Anchored,546058982
+9000261,Dry Voyager 261,Dry Bulk Vessels,Angola,166585.58,MHKWA,YTLON,Laden,Anchored,603066901
+9000262,Petroleum Voyager 262,Petroleum Product Tankers,Myanmar,108258.62,VNC8Q,BRSLZ,Laden,In Transit,506074820
+9000263,Liquefied Voyager 263,Liquefied Petroleum Gas (LPG) Carriers,Gabon,88807.46,NOHVI,NOFRK,Ballast,Completed,626082739
+9000264,Vehicles Voyager 264,Vehicles Carriers,Tunisia,49972.98,BRSLZ,SAJUB,Laden,In Transit,672090658
+9000265,Containerships Voyager 265,Containerships,Libya,14321.79,JPSMN,NOSKN,Laden,Anchored,642098577
+9000266,General Voyager 266,General Cargo / Multi-Purpose / Heavy Lift Vessels,Romania,62374.57,PLGDN,USGFP,Ballast,Completed,264106496
+9000267,Roll-On/Roll-Off Voyager 267,Roll-On/Roll-Off (Ro/Ro) Vessels,Grenada,56289.27,PTPIC,USPFN,Ballast,Anchored,330114415
+9000268,Other Voyager 268,Other Vessels,Guinea-Bissau,21512.73,TTPOS,IDSOQ,Ballast,In Transit,630122334
+9000269,Petroleum Voyager 269,Petroleum Product Tankers,"Venezuela, Bolivarian Republic of",51204.23,NLBOT,NOBVK,Ballast,In Transit,775130253
+9000270,Roll-On/Roll-Off Voyager 270,Roll-On/Roll-Off (Ro/Ro) Vessels,French Polynesia,30069.12,CASJF,PGPOM,Ballast,In Transit,546138172
+9000271,Containerships Voyager 271,Containerships,El Salvador,189841.35,CNWIH,KMYVA,Ballast,In Transit,359146091
+9000272,Containerships Voyager 272,Containerships,Fiji,151230.11,GBGRG,BRNVT,Ballast,In Transit,520154010
+9000273,Petroleum Voyager 273,Petroleum Product Tankers,Philippines,37691.32,JPMUR,PTLIS,Ballast,Completed,548161929
+9000274,Crude Voyager 274,Crude Oil Tankers,Puerto Rico,183502.97,MANDR,USPME,Ballast,In Transit,358169848
+9000275,Petroleum Voyager 275,Petroleum Product Tankers,Sweden,87366.5,DETRV,PTLIS,Ballast,At Port,265177767
+9000276,Liquefied Voyager 276,Liquefied Petroleum Gas (LPG) Carriers,Croatia,96130.97,BEZEE,PHOZC,Ballast,At Port,238185686
+9000277,Vehicles Voyager 277,Vehicles Carriers,"Venezuela, Bolivarian Republic of",16187.29,TRDRC,LCCAS,Laden,Completed,775193605
+9000278,Liquefied Voyager 278,Liquefied Natural Gas (LNG) Carriers,Estonia,131036.9,BBBGI,INCOK,Laden,Completed,276201524
+9000279,Roll-On/Roll-Off Voyager 279,Roll-On/Roll-Off (Ro/Ro) Vessels,Cabo Verde,16294.54,PAPAM,USNFF,Ballast,At Port,617209443
+9000280,Other Voyager 280,Other Vessels,Malta,3714.48,EGEDK,NCNOU,Laden,Anchored,215217362
+9000281,Other Voyager 281,Other Vessels,Dominica,32066.15,USMIA,PRSJU,Laden,In Transit,325225281
+9000282,Liquefied Voyager 282,Liquefied Petroleum Gas (LPG) Carriers,Bermuda,79622.44,JPMJR,USIJX,Laden,In Transit,310233200
+9000283,Cruise Voyager 283,Cruise Ships,Eritrea,61647.56,USTPA,ESSCT,Laden,In Transit,625241119
+9000284,General Voyager 284,General Cargo / Multi-Purpose / Heavy Lift Vessels,Ghana,69972.06,PEIQT,AUBWT,Ballast,Anchored,627249038
+9000285,Cruise Voyager 285,Cruise Ships,China,20325.1,NOHLA,JPMYJ,Ballast,At Port,412256957
+9000286,Vehicles Voyager 286,Vehicles Carriers,El Salvador,37728.9,USBOS,ESSCT,Laden,Anchored,359264876
+9000287,Dry Voyager 287,Dry Bulk Vessels,Grenada,88225.8,CLSAI,ESACE,Laden,In Transit,330272795
+9000288,Dry Voyager 288,Dry Bulk Vessels,New Zealand,66564.17,NICIO,ITNAP,Ballast,Anchored,512280714
+9000289,Liquefied Voyager 289,Liquefied Natural Gas (LNG) Carriers,Egypt,51408.31,ESSCT,MXCOA,Ballast,At Port,622288633
+9000290,Petroleum Voyager 290,Petroleum Product Tankers,Mauritania,76878.25,GLGOH,IDBLW,Laden,In Transit,654296552
+9000291,Cruise Voyager 291,Cruise Ships,Kiribati,110888.59,IEORK,NOTRD,Laden,Anchored,529304471
+9000292,Crude Voyager 292,Crude Oil Tankers,Martinique,28960.74,JPMAI,TNSFA,Ballast,At Port,347312390
+9000293,Containerships Voyager 293,Containerships,Belgium,116566.75,ITMDC,JPKCZ,Ballast,Completed,205320309
+9000294,Vehicles Voyager 294,Vehicles Carriers,"Korea, Republic of",32518.81,NOARD,AUFRE,Ballast,In Transit,440328228
+9000295,Petroleum Voyager 295,Petroleum Product Tankers,Turkey,104226.2,GBABD,USGFP,Ballast,At Port,271336147
+9000296,Chemical Voyager 296,Chemical Tankers & Other Liquid Bulk Tankers,Namibia,49319.5,NOHFT,PEILQ,Ballast,Completed,659344066
+9000297,Dry Voyager 297,Dry Bulk Vessels,Denmark,152851.0,CMDLA,GBBLY,Ballast,In Transit,219351985
+9000298,Petroleum Voyager 298,Petroleum Product Tankers,Christmas Island,42318.34,KRTJI,FJSUV,Laden,In Transit,516359904
+9000299,General Voyager 299,General Cargo / Multi-Purpose / Heavy Lift Vessels,French Guiana,60627.31,TRGEM,KRKUV,Ballast,Completed,745367823
+9000300,Other Voyager 300,Other Vessels,Cook Islands,15979.39,SOKMU,GBGRG,Ballast,At Port,518375742
+9000301,Liquefied Voyager 301,Liquefied Natural Gas (LNG) Carriers,Djibouti,99579.24,CVMIN,SEGOT,Ballast,Completed,621383661
+9000302,Liquefied Voyager 302,Liquefied Petroleum Gas (LPG) Carriers,Montenegro,59167.72,CLARI,CLIQQ,Ballast,At Port,262391580
+9000303,Special Voyager 303,Special Floating Units,Argentina,67415.8,MXVER,DKSKA,Laden,In Transit,701399499
+9000304,Liquefied Voyager 304,Liquefied Natural Gas (LNG) Carriers,Poland,136401.29,SOMGQ,SEUME,Laden,In Transit,261407418
+9000305,Cruise Voyager 305,Cruise Ships,Madagascar,88654.36,PTCNL,ESSVQ,Laden,In Transit,647415337
+9000306,Roll-On/Roll-Off Voyager 306,Roll-On/Roll-Off (Ro/Ro) Vessels,Sudan,61859.12,MXMZT,JMKIN,Laden,In Transit,662423256
+9000307,Petroleum Voyager 307,Petroleum Product Tankers,Jamaica,60903.85,USMOB,NZAKL,Ballast,Anchored,339431175
+9000308,Liquefied Voyager 308,Liquefied Petroleum Gas (LPG) Carriers,Brazil,61041.37,SESDL,BRMAO,Laden,In Transit,710439094
+9000309,Other Voyager 309,Other Vessels,Viet Nam,16985.51,AOLAD,COCTG,Laden,At Port,574447013
+9000310,Vehicles Voyager 310,Vehicles Carriers,Greenland,18279.19,INIXZ,NOHOY,Ballast,Completed,331454932
+9000311,Other Voyager 311,Other Vessels,Djibouti,42208.8,IDBIT,NOTOS,Ballast,Anchored,621462851
+9000312,Liquefied Voyager 312,Liquefied Natural Gas (LNG) Carriers,Nicaragua,95982.82,AUADL,PTPDL,Laden,Completed,350470770
+9000313,Cruise Voyager 313,Cruise Ships,Somalia,53074.9,PGKIM,MRNDB,Laden,At Port,666478689
+9000314,Liquefied Voyager 314,Liquefied Natural Gas (LNG) Carriers,Mauritania,174731.31,USCHS,TRHAY,Laden,Anchored,654486608
+9000315,Cruise Voyager 315,Cruise Ships,Slovenia,77262.83,CVRAI,JPHHE,Ballast,In Transit,278494527
+9000316,Special Voyager 316,Special Floating Units,Dominican Republic,24598.56,GBTIL,MZBEW,Laden,In Transit,327502446
+9000317,Chemical Voyager 317,Chemical Tankers & Other Liquid Bulk Tankers,India,34664.86,TRPAM,MUPLU,Ballast,At Port,419510365
+9000318,Cruise Voyager 318,Cruise Ships,Congo,138872.93,PHOZC,PGPOM,Laden,At Port,615518284
+9000319,Vehicles Voyager 319,Vehicles Carriers,Ghana,35879.71,JPTMK,AUBEL,Ballast,In Transit,627526203
+9000320,Dry Voyager 320,Dry Bulk Vessels,Guyana,93553.72,DKEBJ,NZMAP,Ballast,At Port,750534122
+9000321,Other Voyager 321,Other Vessels,Sri Lanka,34196.92,USTPA,MYBKI,Ballast,In Transit,417542041
+9000322,Liquefied Voyager 322,Liquefied Petroleum Gas (LPG) Carriers,Malta,29342.63,NLRTM,ITNAP,Ballast,Anchored,215549960
+9000323,Other Voyager 323,Other Vessels,Panama,35396.92,NOHLA,AUCNS,Ballast,In Transit,351557879
+9000324,Cruise Voyager 324,Cruise Ships,New Zealand,104727.11,QAMES,SEKSD,Laden,In Transit,512565798
+9000325,Liquefied Voyager 325,Liquefied Natural Gas (LNG) Carriers,Saint Vincent and the Grenadines,172850.19,CNYTN,NZTRG,Ballast,Anchored,375573717
+9000326,Liquefied Voyager 326,Liquefied Petroleum Gas (LPG) Carriers,Kenya,21802.66,DOBCC,MTMAR,Ballast,In Transit,634581636
+9000327,Cruise Voyager 327,Cruise Ships,Belize,113724.74,JPSEN,KHKOS,Laden,At Port,312589555
+9000328,Crude Voyager 328,Crude Oil Tankers,Anguilla,34558.4,NOSVG,PECLL,Laden,At Port,301597474
+9000329,Dry Voyager 329,Dry Bulk Vessels,Timor-Leste,4020.74,ESFUE,GBABD,Ballast,At Port,550605393
+9000330,Liquefied Voyager 330,Liquefied Petroleum Gas (LPG) Carriers,Madagascar,76079.28,MYPKG,NOKRS,Laden,Completed,647613312
+9000331,Petroleum Voyager 331,Petroleum Product Tankers,"Bonaire, Sint Eustatius and Saba",98887.91,JOAQJ,DKGRE,Laden,In Transit,306621231
+9000332,Dry Voyager 332,Dry Bulk Vessels,Bermuda,186982.75,BRSLZ,SEOSK,Laden,Completed,310629150
+9000333,Liquefied Voyager 333,Liquefied Natural Gas (LNG) Carriers,Lithuania,160278.91,ARMDQ,NLRTM,Laden,Completed,277637069
+9000334,Chemical Voyager 334,Chemical Tankers & Other Liquid Bulk Tankers,Ghana,24195.81,JPMAI,EGPSD,Ballast,Completed,627644988
+9000335,Dry Voyager 335,Dry Bulk Vessels,Indonesia,170658.77,AEAJM,MVMLE,Laden,In Transit,525652907
+9000336,Other Voyager 336,Other Vessels,Croatia,23216.27,KWSWK,PEILQ,Laden,Anchored,238660826
+9000337,Containerships Voyager 337,Containerships,Indonesia,62529.73,LVRIX,SEVAG,Laden,At Port,525668745
+9000338,Special Voyager 338,Special Floating Units,Nigeria,89755.75,TRTEK,CMDLA,Laden,In Transit,657676664
+9000339,Petroleum Voyager 339,Petroleum Product Tankers,New Caledonia,30162.84,FJLTK,AOSZA,Laden,In Transit,540684583
+9000340,General Voyager 340,General Cargo / Multi-Purpose / Heavy Lift Vessels,Nicaragua,17250.97,SAJUB,MGEHL,Ballast,At Port,350692502
+9000341,Cruise Voyager 341,Cruise Ships,Comoros,11601.0,JPOTK,PLGDY,Laden,At Port,616700421
+9000342,Roll-On/Roll-Off Voyager 342,Roll-On/Roll-Off (Ro/Ro) Vessels,Cameroon,26624.09,SYTTS,MMRGN,Ballast,At Port,613708340
+9000343,Special Voyager 343,Special Floating Units,Singapore,91654.97,NLBOT,PTPIC,Laden,In Transit,563716259
+9000344,Dry Voyager 344,Dry Bulk Vessels,Seychelles,97201.83,VCKTN,RUDUD,Ballast,In Transit,664724178
+9000345,Vehicles Voyager 345,Vehicles Carriers,Iceland,91715.7,SEVAG,DMRSU,Laden,At Port,251732097
+9000346,Cruise Voyager 346,Cruise Ships,"Venezuela, Bolivarian Republic of",132238.91,CNZZU,DEBRE,Ballast,In Transit,775740016
+9000347,Cruise Voyager 347,Cruise Ships,Israel,25709.23,ESCAD,BZBZE,Laden,In Transit,428747935
+9000348,Vehicles Voyager 348,Vehicles Carriers,Montserrat,46974.85,MAPTM,INBOM,Ballast,In Transit,348755854
+9000349,Vehicles Voyager 349,Vehicles Carriers,Eritrea,47320.86,CLSAI,UYPTP,Ballast,At Port,625763773
+9000350,Crude Voyager 350,Crude Oil Tankers,Maldives,169845.17,LBKYE,UYMVD,Laden,In Transit,455771692
+9000351,Crude Voyager 351,Crude Oil Tankers,Bahamas,225012.32,GIGIB,CNSHK,Ballast,In Transit,308779611
+9000352,Petroleum Voyager 352,Petroleum Product Tankers,Anguilla,82551.04,CNDGG,CNNTG,Laden,In Transit,301787530
+9000353,Dry Voyager 353,Dry Bulk Vessels,Tunisia,154487.5,SVAQJ,JPMAI,Ballast,In Transit,672795449
+9000354,General Voyager 354,General Cargo / Multi-Purpose / Heavy Lift Vessels,Costa Rica,31949.06,PYASU,PTVEL,Laden,At Port,321803368
+9000355,Chemical Voyager 355,Chemical Tankers & Other Liquid Bulk Tankers,Gibraltar,11253.39,DMRSU,SEGOT,Laden,Anchored,236811287
+9000356,Liquefied Voyager 356,Liquefied Petroleum Gas (LPG) Carriers,Malta,83812.52,SEHEL,BDCGP,Ballast,At Port,215819206
+9000357,Vehicles Voyager 357,Vehicles Carriers,Kuwait,45292.16,QAMES,ITVDL,Ballast,In Transit,447827125
+9000358,Liquefied Voyager 358,Liquefied Natural Gas (LNG) Carriers,Dominican Republic,50156.87,PGKIM,SRPBM,Laden,Anchored,327835044
+9000359,General Voyager 359,General Cargo / Multi-Purpose / Heavy Lift Vessels,India,43429.7,ASPPG,JPTYO,Laden,In Transit,419842963
+9000360,Crude Voyager 360,Crude Oil Tankers,Belize,136700.11,LBKYE,MZUEL,Laden,Anchored,312850882
+9000361,General Voyager 361,General Cargo / Multi-Purpose / Heavy Lift Vessels,"Congo, The Democratic Republic of the",31288.43,DOPOP,ITBRI,Laden,At Port,676858801
+9000362,Liquefied Voyager 362,Liquefied Natural Gas (LNG) Carriers,Namibia,57465.84,PHCEB,GEPTI,Ballast,In Transit,659866720
+9000363,Dry Voyager 363,Dry Bulk Vessels,Tonga,197182.03,CUMOA,ITGOA,Ballast,In Transit,570874639
+9000364,Vehicles Voyager 364,Vehicles Carriers,Senegal,95109.42,PHMNL,GUPIT,Ballast,At Port,663882558
+9000365,Crude Voyager 365,Crude Oil Tankers,Qatar,291825.62,JPMII,KMYVA,Ballast,At Port,466890477
+9000366,General Voyager 366,General Cargo / Multi-Purpose / Heavy Lift Vessels,Guinea,11296.01,PTVDP,IDBEN,Ballast,In Transit,632898396
+9000367,Liquefied Voyager 367,Liquefied Petroleum Gas (LPG) Carriers,Mayotte,31472.17,NGLOS,FRBAS,Laden,At Port,226906315
+9000368,General Voyager 368,General Cargo / Multi-Purpose / Heavy Lift Vessels,"Korea, Republic of",39452.79,FIPRS,SAJED,Ballast,In Transit,440914234
+9000369,Special Voyager 369,Special Floating Units,Curaçao,8367.51,USPME,PTPRG,Laden,In Transit,306922153
+9000370,General Voyager 370,General Cargo / Multi-Purpose / Heavy Lift Vessels,China,47483.36,IDTRK,BZBGK,Laden,Anchored,412930072
+9000371,Cruise Voyager 371,Cruise Ships,Angola,111402.73,FIVKO,ITBRI,Laden,Completed,603937991
+9000372,Chemical Voyager 372,Chemical Tankers & Other Liquid Bulk Tankers,Haiti,25648.67,ARZAE,IRASA,Laden,Anchored,336945910
+9000373,Containerships Voyager 373,Containerships,Palau,98389.57,KHKOS,MYMKZ,Laden,In Transit,511953829
+9000374,Liquefied Voyager 374,Liquefied Petroleum Gas (LPG) Carriers,Qatar,56103.77,TRHAY,MXPMS,Ballast,At Port,466961748
+9000375,Chemical Voyager 375,Chemical Tankers & Other Liquid Bulk Tankers,Cook Islands,26056.94,PLGDY,CKAIT,Ballast,In Transit,518969667
+9000376,Other Voyager 376,Other Vessels,Puerto Rico,23739.78,NOIKR,INCCU,Ballast,In Transit,358977586
+9000377,Cruise Voyager 377,Cruise Ships,Australia,130971.88,PKGWD,FRDKK,Ballast,At Port,503985505
+9000378,Cruise Voyager 378,Cruise Ships,United Kingdom,91080.01,TRGEB,NLBOT,Laden,In Transit,232993424
+9000379,General Voyager 379,General Cargo / Multi-Purpose / Heavy Lift Vessels,Hong Kong,40315.48,KRPUS,BRITJ,Ballast,In Transit,477001343
+9000380,Roll-On/Roll-Off Voyager 380,Roll-On/Roll-Off (Ro/Ro) Vessels,Benin,77421.14,JPMYJ,PHTAG,Ballast,In Transit,610009262
+9000381,Containerships Voyager 381,Containerships,Guyana,73674.35,FJLTK,PEMRI,Ballast,In Transit,750017181
+9000382,Vehicles Voyager 382,Vehicles Carriers,Bahrain,99080.74,CNDCB,CVRAI,Laden,Completed,408025100
+9000383,Special Voyager 383,Special Floating Units,Finland,5327.18,AGSJO,TRPAM,Laden,In Transit,230033019
+9000384,Dry Voyager 384,Dry Bulk Vessels,Portugal,4800.87,BZBZE,VEPLA,Laden,At Port,263040938
+9000385,Special Voyager 385,Special Floating Units,Bulgaria,93423.42,AUFRE,JPTAK,Laden,In Transit,207048857
+9000386,Vehicles Voyager 386,Vehicles Carriers,Morocco,44077.16,AUADL,DETRV,Ballast,In Transit,242056776
+9000387,Other Voyager 387,Other Vessels,Denmark,33864.63,USILG,HRSPU,Laden,At Port,219064695
+9000388,Liquefied Voyager 388,Liquefied Petroleum Gas (LPG) Carriers,French Polynesia,20809.34,DEBRV,KRMOK,Ballast,Anchored,546072614
+9000389,Petroleum Voyager 389,Petroleum Product Tankers,Kiribati,57838.58,SYTTS,VNSGN,Laden,Completed,529080533
+9000390,Liquefied Voyager 390,Liquefied Petroleum Gas (LPG) Carriers,Vanuatu,31397.51,CNZJG,JPOTK,Laden,In Transit,576088452
+9000391,General Voyager 391,General Cargo / Multi-Purpose / Heavy Lift Vessels,El Salvador,27024.7,AOMSZ,CLSVE,Laden,Anchored,359096371
+9000392,Petroleum Voyager 392,Petroleum Product Tankers,Nicaragua,76479.18,UAODS,JPMUR,Laden,Completed,350104290
+9000393,Crude Voyager 393,Crude Oil Tankers,Albania,72781.12,MYBTU,GBHRW,Ballast,In Transit,201112209
+9000394,Petroleum Voyager 394,Petroleum Product Tankers,Kiribati,103611.03,MXPRO,EGPSD,Laden,In Transit,529120128
+9000395,Chemical Voyager 395,Chemical Tankers & Other Liquid Bulk Tankers,Fiji,3221.33,INPAV,HNPCA,Ballast,Completed,520128047
+9000396,Liquefied Voyager 396,Liquefied Natural Gas (LNG) Carriers,Russian Federation,45992.04,JPTYO,GBHRW,Ballast,In Transit,273135966
+9000397,Other Voyager 397,Other Vessels,Costa Rica,7427.55,MRNKC,PGBUA,Ballast,In Transit,321143885
+9000398,General Voyager 398,General Cargo / Multi-Purpose / Heavy Lift Vessels,Palau,17017.94,CNWEF,NZBLU,Ballast,Completed,511151804
+9000399,Chemical Voyager 399,Chemical Tankers & Other Liquid Bulk Tankers,"Virgin Islands, U.S.",4310.8,MVMLE,USCAV,Ballast,In Transit,379159723
+9000400,Vehicles Voyager 400,Vehicles Carriers,Montserrat,94408.57,TZDAR,IDJKT,Ballast,In Transit,348167642
+9000401,Cruise Voyager 401,Cruise Ships,China,51353.13,KRTSN,PAPAM,Laden,In Transit,412175561
+9000402,General Voyager 402,General Cargo / Multi-Purpose / Heavy Lift Vessels,Russian Federation,50105.72,JPIMI,FRRAD,Ballast,In Transit,273183480
+9000403,Petroleum Voyager 403,Petroleum Product Tankers,Philippines,3763.7,NOEGE,USNFF,Ballast,In Transit,548191399
+9000404,Petroleum Voyager 404,Petroleum Product Tankers,Jamaica,30546.59,USNTD,FIHKO,Ballast,In Transit,339199318
+9000405,Petroleum Voyager 405,Petroleum Product Tankers,Pakistan,55025.4,CYLMS,IDMES,Ballast,Completed,463207237
+9000406,Crude Voyager 406,Crude Oil Tankers,Cuba,91094.97,SAJED,USBPT,Laden,At Port,323215156
+9000407,Dry Voyager 407,Dry Bulk Vessels,Liberia,138007.25,GPPTP,FITOR,Ballast,In Transit,636223075
+9000408,Dry Voyager 408,Dry Bulk Vessels,Trinidad and Tobago,15463.63,UAYUZ,MXESE,Ballast,At Port,362230994
+9000409,Petroleum Voyager 409,Petroleum Product Tankers,Senegal,56085.36,KRTSN,PEPAI,Ballast,At Port,663238913
+9000410,Liquefied Voyager 410,Liquefied Petroleum Gas (LPG) Carriers,Antigua and Barbuda,46870.44,FIKOK,NOBGO,Ballast,In Transit,304246832
+9000411,Cruise Voyager 411,Cruise Ships,Netherlands,63184.59,NOSAT,USGFP,Ballast,Anchored,244254751
+9000412,Special Voyager 412,Special Floating Units,New Caledonia,97435.42,FIKEM,NLVLI,Laden,At Port,540262670
+9000413,Dry Voyager 413,Dry Bulk Vessels,Suriname,193021.2,NOHOY,NGLKK,Ballast,Completed,765270589
+9000414,Containerships Voyager 414,Containerships,Saudi Arabia,52272.74,PTVDP,MXPRO,Ballast,In Transit,403278508
+9000415,Cruise Voyager 415,Cruise Ships,Hong Kong,37972.01,ESALC,HTCAP,Laden,Completed,477286427
+9000416,Roll-On/Roll-Off Voyager 416,Roll-On/Roll-Off (Ro/Ro) Vessels,Marshall Islands,75609.07,INVTZ,USEPI,Laden,Anchored,538294346
+9000417,Containerships Voyager 417,Containerships,Finland,160033.9,LTKLJ,BRITJ,Ballast,In Transit,230302265
+9000418,Special Voyager 418,Special Floating Units,Paraguay,15837.25,TRLMA,USGLC,Laden,In Transit,755310184
+9000419,Cruise Voyager 419,Cruise Ships,Djibouti,77092.86,SESTO,DKGRE,Ballast,At Port,621318103
+9000420,Containerships Voyager 420,Containerships,Guinea,193843.47,MZMPM,WSAPW,Laden,In Transit,632326022
+9000421,Liquefied Voyager 421,Liquefied Petroleum Gas (LPG) Carriers,Tunisia,66444.96,PGMAG,GBTYN,Laden,At Port,672333941
+9000422,Special Voyager 422,Special Floating Units,Nicaragua,67908.45,SESOE,RUVVO,Ballast,In Transit,350341860
+9000423,Petroleum Voyager 423,Petroleum Product Tankers,Grenada,41034.54,CASQA,RUARH,Laden,In Transit,330349779
+9000424,General Voyager 424,General Cargo / Multi-Purpose / Heavy Lift Vessels,Cameroon,32951.36,MANDR,HNPCR,Laden,In Transit,613357698
+9000425,Crude Voyager 425,Crude Oil Tankers,Cuba,147417.47,NLBOT,TRELI,Laden,Anchored,323365617
+9000426,Other Voyager 426,Other Vessels,Viet Nam,7512.92,NOGLO,NZNPE,Laden,At Port,574373536
+9000427,Chemical Voyager 427,Chemical Tankers & Other Liquid Bulk Tankers,"Virgin Islands, U.S.",39140.68,USEPI,PEPIO,Ballast,In Transit,379381455
+9000428,Crude Voyager 428,Crude Oil Tankers,Nauru,244004.85,EGDAM,BDCGP,Laden,At Port,544389374
+9000429,Dry Voyager 429,Dry Bulk Vessels,Grenada,186194.72,PHZAM,KMMUT,Laden,At Port,330397293
+9000430,Chemical Voyager 430,Chemical Tankers & Other Liquid Bulk Tankers,Thailand,45668.22,VNVUT,JOAQJ,Laden,In Transit,567405212
+9000431,Special Voyager 431,Special Floating Units,Singapore,43497.38,BRIGI,PHPPS,Laden,In Transit,563413131
+9000432,General Voyager 432,General Cargo / Multi-Purpose / Heavy Lift Vessels,India,27829.67,NAWVB,IRBUZ,Ballast,Anchored,419421050
+9000433,Containerships Voyager 433,Containerships,Guinea,160221.57,GHTEM,DOCAU,Laden,In Transit,632428969
+9000434,Liquefied Voyager 434,Liquefied Petroleum Gas (LPG) Carriers,Benin,46839.94,LRMLW,KITRW,Ballast,At Port,610436888
+9000435,Cruise Voyager 435,Cruise Ships,French Polynesia,64956.16,EETLL,NZWLG,Ballast,At Port,546444807
+9000436,Special Voyager 436,Special Floating Units,Oman,70745.84,NLMOE,IQBSR,Laden,At Port,461452726
+9000437,Chemical Voyager 437,Chemical Tankers & Other Liquid Bulk Tankers,Guinea-Bissau,11193.21,NOBOO,EGSOK,Ballast,At Port,630460645
+9000438,Vehicles Voyager 438,Vehicles Carriers,Martinique,41904.01,IDLUW,FIRAU,Ballast,In Transit,347468564
+9000439,Roll-On/Roll-Off Voyager 439,Roll-On/Roll-Off (Ro/Ro) Vessels,Guatemala,51933.63,MYKCH,JPMUR,Laden,At Port,332476483
+9000440,Dry Voyager 440,Dry Bulk Vessels,Canada,39858.42,USSAN,ITPOZ,Ballast,Completed,316484402
+9000441,Roll-On/Roll-Off Voyager 441,Roll-On/Roll-Off (Ro/Ro) Vessels,Kenya,13513.17,ZAELS,RUULU,Ballast,In Transit,634492321
+9000442,Roll-On/Roll-Off Voyager 442,Roll-On/Roll-Off (Ro/Ro) Vessels,Guadeloupe,35003.54,USNYC,AUWEI,Laden,At Port,329500240
+9000443,Containerships Voyager 443,Containerships,Morocco,153406.04,NGONN,BRPEC,Laden,At Port,242508159
+9000444,Dry Voyager 444,Dry Bulk Vessels,Bermuda,156805.82,GBFOY,PKKHI,Laden,At Port,310516078
+9000445,Liquefied Voyager 445,Liquefied Natural Gas (LNG) Carriers,Brazil,144018.08,PTLIS,EGEDK,Ballast,At Port,710523997
+9000446,General Voyager 446,General Cargo / Multi-Purpose / Heavy Lift Vessels,Kuwait,8066.73,JPOTK,RUPKC,Ballast,Completed,447531916
+9000447,Crude Voyager 447,Crude Oil Tankers,Cabo Verde,137671.04,NZWLG,ZARCB,Ballast,Completed,617539835
+9000448,Petroleum Voyager 448,Petroleum Product Tankers,Mozambique,117017.85,JPMJR,INVTZ,Ballast,Completed,650547754
+9000449,Cruise Voyager 449,Cruise Ships,Finland,98587.89,GBTEE,ISGRF,Laden,Anchored,230555673
+9000450,Containerships Voyager 450,Containerships,"Moldova, Republic of",16574.78,PAPTY,DKEBJ,Laden,In Transit,214563592
+9000451,Other Voyager 451,Other Vessels,Gabon,14985.42,GBTIL,MGEHL,Laden,In Transit,626571511
+9000452,Containerships Voyager 452,Containerships,Samoa,158209.75,CNDCB,MXGYM,Laden,Anchored,561579430
+9000453,Dry Voyager 453,Dry Bulk Vessels,Kuwait,52186.42,OMSLL,NOLAR,Ballast,At Port,447587349
+9000454,Cruise Voyager 454,Cruise Ships,Paraguay,98536.28,JPCHB,TRBDM,Ballast,In Transit,755595268
+9000455,Containerships Voyager 455,Containerships,Gabon,176624.39,CYLMS,SEUME,Ballast,At Port,626603187
+9000456,Chemical Voyager 456,Chemical Tankers & Other Liquid Bulk Tankers,Mauritania,37466.26,AUTSV,NOORK,Laden,Completed,654611106
+9000457,Other Voyager 457,Other Vessels,Papua New Guinea,5110.51,VNDAD,JPIWK,Laden,Anchored,553619025
+9000458,General Voyager 458,General Cargo / Multi-Purpose / Heavy Lift Vessels,Bermuda,16030.27,TRYPO,IRASA,Ballast,In Transit,310626944
+9000459,Liquefied Voyager 459,Liquefied Natural Gas (LNG) Carriers,Kiribati,74040.82,GHTEM,ESVIL,Ballast,Anchored,529634863
+9000460,Special Voyager 460,Special Floating Units,Senegal,76344.28,CISPY,DEWVN,Ballast,In Transit,663642782
+9000461,Dry Voyager 461,Dry Bulk Vessels,Israel,89933.33,AEAUH,TRTZX,Laden,Completed,428650701
+9000462,Liquefied Voyager 462,Liquefied Natural Gas (LNG) Carriers,Samoa,45436.39,MXATM,CYLMS,Ballast,In Transit,561658620
+9000463,Chemical Voyager 463,Chemical Tankers & Other Liquid Bulk Tankers,Canada,53831.69,JPNAO,GBTEE,Ballast,At Port,316666539
+9000464,Other Voyager 464,Other Vessels,Samoa,35122.35,JPISS,TRYPO,Laden,Anchored,561674458
+9000465,Crude Voyager 465,Crude Oil Tankers,Oman,67959.25,CNYPG,FIPOR,Laden,At Port,461682377
+9000466,Roll-On/Roll-Off Voyager 466,Roll-On/Roll-Off (Ro/Ro) Vessels,Ecuador,3715.09,MYMKZ,NZNPE,Ballast,At Port,735690296
+9000467,Roll-On/Roll-Off Voyager 467,Roll-On/Roll-Off (Ro/Ro) Vessels,Germany,8453.78,RULED,CUMAR,Laden,In Transit,211698215
+9000468,Liquefied Voyager 468,Liquefied Natural Gas (LNG) Carriers,Spain,41940.69,TRALI,YEADE,Laden,In Transit,224706134
+9000469,Cruise Voyager 469,Cruise Ships,Uruguay,11186.46,JPKIJ,GBLGP,Ballast,Anchored,770714053
+9000470,Special Voyager 470,Special Floating Units,Saint Vincent and the Grenadines,74952.75,TOTBU,ISGRF,Laden,In Transit,375721972
+9000471,Petroleum Voyager 471,Petroleum Product Tankers,Romania,23581.93,ESGIJ,HNSLO,Ballast,Completed,264729891
+9000472,Chemical Voyager 472,Chemical Tankers & Other Liquid Bulk Tankers,Tunisia,63703.98,KRTJI,MXGYM,Laden,In Transit,672737810
+9000473,Cruise Voyager 473,Cruise Ships,Bangladesh,94001.1,INENR,MXTUX,Ballast,In Transit,405745729
+9000474,Cruise Voyager 474,Cruise Ships,Myanmar,81333.16,RUDUD,SEGVX,Laden,Anchored,506753648
+9000475,Containerships Voyager 475,Containerships,Dominican Republic,191160.94,BJCOO,RUZAR,Laden,At Port,327761567
+9000476,Cruise Voyager 476,Cruise Ships,Namibia,19941.68,ARROS,PLSWI,Laden,In Transit,659769486
+9000477,Cruise Voyager 477,Cruise Ships,Guatemala,68920.89,ESBCN,MGTMM,Ballast,Completed,332777405
+9000478,Containerships Voyager 478,Containerships,American Samoa,19233.41,HNPCA,CNNSA,Ballast,In Transit,559785324
+9000479,Crude Voyager 479,Crude Oil Tankers,Madagascar,284860.6,SEOXE,CAHAL,Ballast,In Transit,647793243
+9000480,General Voyager 480,General Cargo / Multi-Purpose / Heavy Lift Vessels,Singapore,6687.52,DKSKA,DMRSU,Laden,In Transit,563801162
+9000481,Liquefied Voyager 481,Liquefied Natural Gas (LNG) Carriers,United Kingdom,32643.45,INCCU,VICHA,Ballast,In Transit,232809081
+9000482,Special Voyager 482,Special Floating Units,Togo,76440.8,JPKIJ,MGDIE,Laden,In Transit,671817000
+9000483,General Voyager 483,General Cargo / Multi-Purpose / Heavy Lift Vessels,"Korea, Republic of",51367.13,JPOSA,CNCFD,Laden,Completed,440824919
+9000484,Petroleum Voyager 484,Petroleum Product Tankers,Mexico,69645.66,INHAL,CLSAI,Laden,In Transit,345832838
+9000485,Other Voyager 485,Other Vessels,Cook Islands,7291.98,ARPMY,GBLIV,Ballast,At Port,518840757
+9000486,Containerships Voyager 486,Containerships,Portugal,165388.84,LBBEY,GBTYN,Laden,Anchored,263848676
+9000487,Liquefied Voyager 487,Liquefied Natural Gas (LNG) Carriers,Belgium,137269.73,ERMSW,TNSFA,Ballast,Anchored,205856595
+9000488,Liquefied Voyager 488,Liquefied Natural Gas (LNG) Carriers,Martinique,103816.67,LYKHO,OMSOH,Laden,At Port,347864514
+9000489,Vehicles Voyager 489,Vehicles Carriers,Guadeloupe,39211.77,BRITJ,GBHRW,Ballast,In Transit,329872433
+9000490,Containerships Voyager 490,Containerships,Algeria,25066.46,GDSTG,LVRIX,Laden,Anchored,605880352
+9000491,Crude Voyager 491,Crude Oil Tankers,Bahamas,17991.18,ARROS,KNCHA,Ballast,In Transit,308888271
+9000492,Dry Voyager 492,Dry Bulk Vessels,Samoa,38255.3,BRSSZ,ESSVQ,Ballast,In Transit,561896190
+9000493,Liquefied Voyager 493,Liquefied Petroleum Gas (LPG) Carriers,Libya,42793.15,PEMRI,NOIKR,Laden,At Port,642904109
+9000494,Petroleum Voyager 494,Petroleum Product Tankers,Jordan,76800.02,CLMJS,HRSPU,Laden,Completed,438912028
+9000495,Petroleum Voyager 495,Petroleum Product Tankers,Mexico,131917.71,MXPMS,TRALI,Ballast,In Transit,345919947
+9000496,Roll-On/Roll-Off Voyager 496,Roll-On/Roll-Off (Ro/Ro) Vessels,Kiribati,3613.63,INHZR,NGLKK,Ballast,Anchored,529927866
+9000497,Liquefied Voyager 497,Liquefied Petroleum Gas (LPG) Carriers,Ireland,47464.82,IDBDJ,BGVAR,Laden,In Transit,250935785
+9000498,General Voyager 498,General Cargo / Multi-Purpose / Heavy Lift Vessels,Suriname,2649.81,DZORN,NZTRG,Laden,Completed,765943704
+9000499,Crude Voyager 499,Crude Oil Tankers,Maldives,228884.1,PTVDP,PHPPS,Laden,In Transit,455951623
+9000500,Liquefied Voyager 500,Liquefied Petroleum Gas (LPG) Carriers,"Moldova, Republic of",43141.95,CNDGG,FOKOL,Laden,In Transit,214959542

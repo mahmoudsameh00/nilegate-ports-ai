@@ -1,0 +1,8 @@
+﻿1. vessel {"mmsi":"440007961","name":"Special Voyager 001","destination_locode":"MXCOA"} last fix {"ts":"2026-09-12T23:59:48.000Z","loc":{"type":"Point","coordinates":[18.21394977330887,47.96700895080213]},"navstat":0,"sog":9.2}
+   plan: mmsi_ts
+2. MMSIs at anchor near EGALY: 0
+3. IFTMIN for IMO 9000001: {"keys":{"voyage":"2608-001","locodes":{"9":"PKGWD","11":"MXCOA"},"container_numbers":["NGCU0000098","NGCU0000281","NGCU0000478"]}}
+   plan: vessel_imo
+4. ais_positions [{"_id":"real","n":10949},{"_id":"synthetic","n":889950}]
+4. ais_vessels [{"_id":"real","n":10034},{"_id":"synthetic","n":500}]
+4. edi_messages [{"_id":"synthetic","n":435}]

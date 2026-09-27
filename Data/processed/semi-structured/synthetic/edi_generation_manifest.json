@@ -1,0 +1,17 @@
+{
+ "generator": "Notebooks/semi_structured/EDI_generator.ipynb",
+ "seed": 42,
+ "inputs": {
+  "containers": 1000,
+  "vessels": 500,
+  "invoices": 1000,
+  "voyages_content_sha256": "ce87ae9889d94d73250efdeaa8ad796b901cb587014207923d2915ca888c1b29",
+  "template": "profiles/iftmin_template.json"
+ },
+ "outputs": {
+  "edi_messages_synthetic.jsonl": {
+   "rows": 434,
+   "sha256": "11977a415fac5862b46ef9e8beb779ce55353f9722974b6ddc95716ae5679274"
+  }
+ }
+}

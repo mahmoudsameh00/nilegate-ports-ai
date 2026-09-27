@@ -1,0 +1,7 @@
+﻿PASS  create+insert in project db: expected allowed, got allowed
+PASS  collMod in project db: expected refused, got refused (Unauthorized)
+PASS  drop in project db: expected allowed, got allowed
+PASS  insert in another db: expected refused, got refused (Unauthorized)
+PASS  list users: expected refused, got refused (Unauthorized)
+PASS  list all databases (full): expected refused, got refused (Unauthorized)
+✅ app user privileges as designed

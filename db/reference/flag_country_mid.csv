@@ -1,0 +1,162 @@
+flag_country,mid,method,itu_label
+Albania,201,auto,Albania (Republic of)
+Algeria,605,auto,Algeria (People's Democratic Republic of)
+American Samoa,559,auto,United States of America - American Samoa
+Angola,603,auto,Angola (Republic of)
+Anguilla,301,auto,United Kingdom of Great Britain and Northern Ireland - Anguilla
+Antigua and Barbuda,304,auto,Antigua and Barbuda
+Argentina,701,name_form,Argentine Republic
+Aruba,307,auto,Netherlands (Kingdom of the) - Aruba
+Australia,503,auto,Australia
+Bahamas,308,auto,Bahamas (Commonwealth of the)
+Bahrain,408,auto,Bahrain (Kingdom of)
+Bangladesh,405,auto,Bangladesh (People's Republic of)
+Belgium,205,auto,Belgium
+Belize,312,auto,Belize
+Benin,610,auto,Benin (Republic of)
+Bermuda,310,auto,United Kingdom of Great Britain and Northern Ireland - Bermuda
+"Bonaire, Sint Eustatius and Saba",306,auto,"Netherlands (Kingdom of the) - Bonaire, Sint Eustatius and Saba"
+Brazil,710,auto,Brazil (Federative Republic of)
+Bulgaria,207,auto,Bulgaria (Republic of)
+Cabo Verde,617,auto,Cabo Verde (Republic of)
+Cambodia,514,auto,Cambodia (Kingdom of)
+Cameroon,613,auto,Cameroon (Republic of)
+Canada,316,auto,Canada
+Cayman Islands,319,auto,United Kingdom of Great Britain and Northern Ireland - Cayman Islands
+Chile,725,auto,Chile
+China,412,auto,China (People's Republic of)
+Christmas Island,516,auto,Australia - Christmas Island (Indian Ocean)
+Colombia,730,auto,Colombia (Republic of)
+Comoros,616,auto,Comoros (Union of the)
+Congo,615,auto,Congo (Republic of the)
+"Congo, The Democratic Republic of the",676,name_form,Democratic Republic of the Congo
+Cook Islands,518,auto,New Zealand - Cook Islands
+Costa Rica,321,auto,Costa Rica
+Croatia,238,auto,Croatia (Republic of)
+Cuba,323,auto,Cuba
+Curaçao,306,auto,Netherlands (Kingdom of the) - Curaçao
+Cyprus,209,auto,Cyprus (Republic of)
+Côte d'Ivoire,619,auto,Côte d'Ivoire (Republic of)
+Denmark,219,auto,Denmark
+Djibouti,621,auto,Djibouti (Republic of)
+Dominica,325,auto,Dominica (Commonwealth of)
+Dominican Republic,327,auto,Dominican Republic
+Ecuador,735,auto,Ecuador
+Egypt,622,auto,Egypt (Arab Republic of)
+El Salvador,359,auto,El Salvador (Republic of)
+Equatorial Guinea,631,auto,Equatorial Guinea (Republic of)
+Eritrea,625,auto,Eritrea
+Estonia,276,auto,Estonia (Republic of)
+Faroe Islands,231,auto,Denmark - Faroe Islands
+Fiji,520,auto,Fiji (Republic of)
+Finland,230,auto,Finland
+French Guiana,745,name_form,France - Guiana (French Department of)
+French Polynesia,546,auto,France - French Polynesia
+Gabon,626,name_form,Gabonese Republic
+Gambia,629,auto,Gambia (Republic of the)
+Germany,211,auto,Germany (Federal Republic of)
+Ghana,627,auto,Ghana
+Gibraltar,236,auto,United Kingdom of Great Britain and Northern Ireland - Gibraltar
+Greece,237,auto,Greece
+Greenland,331,auto,Denmark - Greenland
+Grenada,330,auto,Grenada
+Guadeloupe,329,auto,France - Guadeloupe (French Department of)
+Guam,338,sovereign_fallback,United States of America
+Guatemala,332,auto,Guatemala (Republic of)
+Guinea,632,auto,Guinea (Republic of)
+Guinea-Bissau,630,auto,Guinea-Bissau (Republic of)
+Guyana,750,auto,Guyana
+Haiti,336,auto,Haiti (Republic of)
+Honduras,334,auto,Honduras (Republic of)
+Hong Kong,477,auto,China (People's Republic of) - Hong Kong (Special Administrative Region of China)
+Iceland,251,auto,Iceland
+India,419,auto,India (Republic of)
+Indonesia,525,auto,Indonesia (Republic of)
+Iraq,425,auto,Iraq (Republic of)
+Ireland,250,auto,Ireland
+Israel,428,auto,Israel (State of)
+Italy,247,auto,Italy
+Jamaica,339,auto,Jamaica
+Japan,431,auto,Japan
+Jordan,438,auto,Jordan (Hashemite Kingdom of)
+Kenya,634,auto,Kenya (Republic of)
+Kiribati,529,auto,Kiribati (Republic of)
+"Korea, Republic of",440,name_form,Korea (Republic of)
+Kuwait,447,auto,Kuwait (State of)
+Latvia,275,auto,Latvia (Republic of)
+Liberia,636,auto,Liberia (Republic of)
+Libya,642,auto,Libya (State of)
+Lithuania,277,auto,Lithuania (Republic of)
+Madagascar,647,auto,Madagascar (Republic of)
+Malaysia,533,auto,Malaysia
+Maldives,455,auto,Maldives (Republic of)
+Malta,215,auto,Malta
+Marshall Islands,538,auto,Marshall Islands (Republic of the)
+Martinique,347,auto,France - Martinique (French Department of)
+Mauritania,654,auto,Mauritania (Islamic Republic of)
+Mauritius,645,auto,Mauritius (Republic of)
+Mayotte,226,sovereign_fallback,France
+Mexico,345,auto,Mexico
+"Moldova, Republic of",214,name_form,Moldova (Republic of)
+Montenegro,262,auto,Montenegro
+Montserrat,348,auto,United Kingdom of Great Britain and Northern Ireland - Montserrat
+Morocco,242,auto,Morocco (Kingdom of)
+Mozambique,650,auto,Mozambique (Republic of)
+Myanmar,506,auto,Myanmar (Union of)
+Namibia,659,auto,Namibia (Republic of)
+Nauru,544,name_form,Republic of Naoero
+Netherlands,244,auto,Netherlands (Kingdom of the)
+New Caledonia,540,auto,France - New Caledonia
+New Zealand,512,auto,New Zealand
+Nicaragua,350,auto,Nicaragua
+Nigeria,657,auto,Nigeria (Federal Republic of)
+Norway,257,auto,Norway
+Oman,461,auto,Oman (Sultanate of)
+Pakistan,463,auto,Pakistan (Islamic Republic of)
+Palau,511,auto,Palau (Republic of)
+Panama,351,auto,Panama (Republic of)
+Papua New Guinea,553,auto,Papua New Guinea
+Paraguay,755,auto,Paraguay (Republic of)
+Peru,760,auto,Peru
+Philippines,548,auto,Philippines (Republic of the)
+Poland,261,auto,Poland (Republic of)
+Portugal,263,auto,Portugal
+Puerto Rico,358,auto,United States of America - Puerto Rico
+Qatar,466,auto,Qatar (State of)
+Romania,264,auto,Romania
+Russian Federation,273,auto,Russian Federation
+Saint Kitts and Nevis,341,auto,Saint Kitts and Nevis (Federation of)
+Saint Lucia,343,auto,Saint Lucia
+Saint Vincent and the Grenadines,375,auto,Saint Vincent and the Grenadines
+Samoa,561,auto,Samoa (Independent State of)
+Saudi Arabia,403,auto,Saudi Arabia (Kingdom of)
+Senegal,663,auto,Senegal (Republic of)
+Seychelles,664,auto,Seychelles (Republic of)
+Sierra Leone,667,auto,Sierra Leone
+Singapore,563,auto,Singapore (Republic of)
+Slovenia,278,auto,Slovenia (Republic of)
+Somalia,666,auto,Somalia (Federal Republic of)
+Spain,224,auto,Spain
+Sri Lanka,417,auto,Sri Lanka (Democratic Socialist Republic of)
+Sudan,662,auto,Sudan (Republic of the)
+Suriname,765,auto,Suriname (Republic of)
+Sweden,265,auto,Sweden
+"Taiwan, Province of China",416,name_form,China (People's Republic of) - Taiwan (Province of China)
+"Tanzania, United Republic of",674,name_form,Tanzania (United Republic of)
+Thailand,567,auto,Thailand
+Timor-Leste,550,auto,Timor-Leste (Democratic Republic of)
+Togo,671,name_form,Togolese Republic
+Tonga,570,auto,Tonga (Kingdom of)
+Trinidad and Tobago,362,auto,Trinidad and Tobago
+Tunisia,672,auto,Tunisia
+Turkey,271,name_form,Republic of Türkiye
+Ukraine,272,auto,Ukraine
+United Arab Emirates,470,auto,United Arab Emirates
+United Kingdom,232,name_form,United Kingdom of Great Britain and Northern Ireland
+Uruguay,770,auto,Uruguay (Eastern Republic of)
+Vanuatu,576,auto,Vanuatu (Republic of)
+"Venezuela, Bolivarian Republic of",775,name_form,Venezuela (Bolivarian Republic of)
+Viet Nam,574,auto,Viet Nam (Socialist Republic of)
+"Virgin Islands, U.S.",379,name_form,United States of America - United States Virgin Islands
+Wallis and Futuna,578,name_form,France - Wallis and Futuna Islands
+Yemen,473,auto,Yemen (Republic of)

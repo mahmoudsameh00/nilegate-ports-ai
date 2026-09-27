@@ -45,8 +45,11 @@ Qdrant filter (conceptual): `sensitivity_level <= role_level OR (department == u
 
 | Collection | Level | Owner department |
 |---|---:|---|
-| `ais_events` | 1 | Operations |
-| `edi_messages` | 1 | Operations (can move to 2 later if commercial values must be restricted) |
+| `ais_positions` (time-series; real + synthetic fixes) | 1 | Operations |
+| `ais_vessels` (static / voyage data per MMSI) | 1 | Operations |
+| `edi_messages` | 1 | Operations (synthetic IFTMIN carries no amounts; can move to 2 later if commercial values must be restricted) |
+
+Every document carries `sensitivity_level` and `department` (as the chunks do), so the rule in §1 can be applied as a query predicate. Names replace the earlier `ais_events` (ADR-029). Implemented 2026-09-27: every document of the three collections carries level 1 / Operations (validated by the loader's schema audit).
 
 ## 4. Documents (RAG corpus)
 

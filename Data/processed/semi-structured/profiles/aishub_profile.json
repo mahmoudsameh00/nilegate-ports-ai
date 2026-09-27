@@ -1,0 +1,110 @@
+{
+ "source": {
+  "file": "Data/raw/semi-structured/AISHub sample.json",
+  "size_bytes": 5022280,
+  "sha256": "c7511bf92eee1ea5289bfbdfb9ba7e361390f5cba9f92189d9c4497ed663c0b9",
+  "bom": null,
+  "crlf": 0,
+  "lf_only": 210001,
+  "non_ascii_bytes": 0,
+  "head": "[\n    {\n        \"MMSI\": \"257465900\",\n        \"TSTAMP\": \"2024"
+ },
+ "format": 1,
+ "profile": {
+  "records": 10000,
+  "time_utc": {
+   "min": "2024-11-19T20:00:26+00:00",
+   "max": "2024-11-19T20:30:28+00:00",
+   "unparsed": 0
+  },
+  "duplicates": {
+   "exact": 0,
+   "mmsi": 0,
+   "mmsi_ts": 0
+  },
+  "mmsi_class": {
+   "ship": 9982,
+   "aid_to_navigation": 5,
+   "invalid": 5,
+   "craft_with_parent_ship": 3,
+   "handheld_vhf": 4,
+   "sart_mob_epirb": 1
+  },
+  "imo_state": {
+   "placeholder": 6050,
+   "valid": 3903,
+   "absent": 41,
+   "invalid_check_digit": 6
+  },
+  "callsign": {
+   "placeholder_or_empty": 1119,
+   "present": 8881
+  },
+  "position_issue": {},
+  "not_available": {
+   "sog": 25,
+   "cog": 2320,
+   "heading": 5050
+  },
+  "sog_quantiles": {
+   "0.5": 0.0,
+   "0.9": 7.1,
+   "0.99": 17.0,
+   "1.0": 54.4
+  },
+  "navstat": {
+   "0": 2792,
+   "1": 661,
+   "2": 12,
+   "3": 84,
+   "4": 28,
+   "5": 2603,
+   "6": 4,
+   "7": 141,
+   "8": 119,
+   "9": 14,
+   "11": 19,
+   "12": 79,
+   "13": 7,
+   "15": 3437
+  },
+  "ship_type_category": {
+   "passenger": 755,
+   "not available": 383,
+   "cargo": 2173,
+   "tanker": 889,
+   "pleasure craft": 1617,
+   "sailing": 954,
+   "search and rescue": 116,
+   "reserved / invalid": 152,
+   "tug": 678,
+   "military ops": 46,
+   "fishing": 803,
+   "other type": 592,
+   "dredging / underwater ops": 180,
+   "law enforcement": 67,
+   "port tender": 64,
+   "towing": 140,
+   "pilot vessel": 102,
+   "high speed craft": 122,
+   "wing in ground": 57,
+   "medical transport": 4,
+   "towing (large)": 20,
+   "anti-pollution": 14,
+   "noncombatant ship": 6,
+   "diving ops": 25
+  },
+  "static_missing_rows": 41,
+  "dims_unknown": 562,
+  "draught_zero": 4215,
+  "dest": {
+   "empty": 3881,
+   "locode_like": 1582,
+   "locode_in_ports": 883
+  },
+  "eta": {
+   "valid": 5293,
+   "not_available": 4707
+  }
+ }
+}
