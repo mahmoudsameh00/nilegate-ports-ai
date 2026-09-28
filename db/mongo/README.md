@@ -83,4 +83,4 @@ uv run python tools/nb.py run "$PWD\Notebooks\semi_structured\MongoDB_loader.ipy
 - `002`: 6/6 PASS. `003` on 8.0.32: time-series + `$jsonSchema` validator → `InvalidOptions`; unique index on
   time-series → `InvalidOptions`; `2dsphere` on `loc` and `meta.mmsi + ts` → OK; `$nor/$jsonSchema` audit query works;
   a regular collection with a validator rejects invalid documents.
-- `004`: the latest fix of a vessel uses `mmsi_ts`; the IFTMIN lookup by IMO uses `vessel_imo`.
+- `004`: the latest fix of a vessel uses `mmsi_ts`; the IFTMIN lookup by IMO uses `vessel_imo`; the lookup by invoice number uses `invoice_number` (376 messages carry one, 2026-09-28).

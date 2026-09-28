@@ -21,3 +21,4 @@ Data/raw/
 *.log
 
 Notebooks/_scratch/
+Data/processed/semi-structured/synthetic/*.parquet

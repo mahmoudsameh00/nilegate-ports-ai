@@ -175,4 +175,12 @@ FROM pg_class c WHERE c.relnamespace = 'public'::regnamespace AND c.relkind = 'r
 SELECT count(*) AS tables_never_analyzed FROM pg_stat_user_tables
 WHERE schemaname = 'public' AND relname <> 'spatial_ref_sys' AND last_analyze IS NULL AND last_autoanalyze IS NULL;
 
+\echo '### 16. RAG DOCUMENT REGISTRY (migration 010, ADR-035)'
+-- expected: 29 | 2163 | 765 | 29 | 0 | 29
+SELECT count(*) AS documents, sum(chunk_count) AS chunks, sum(page_count) AS pages, count(DISTINCT sha256) AS distinct_sha256,
+       count(*) FILTER (WHERE ingested_at IS NOT NULL) AS ingested_into_qdrant,
+       count(*) FILTER (WHERE document_id ~ '^[a-z0-9_]+$') AS slug_format_ok
+FROM documents;
+SELECT p.department_name, d.sensitivity_level, count(*) FROM documents d JOIN departments p USING (department_id) GROUP BY 1, 2 ORDER BY 1, 2;
+
 \echo '### END'

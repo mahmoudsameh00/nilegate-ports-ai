@@ -1,0 +1,11 @@
+﻿1. vessel {"mmsi":"440007961","name":"Special Voyager 001","destination_locode":"MXCOA"} last fix {"ts":"2026-09-12T23:50:04.000Z","sog":9.1,"navstat":0,"loc":{"type":"Point","coordinates":[30.550578343802684,32.265463759491915]}}
+   plan: mmsi_ts
+2. MMSIs at anchor near EGALY: 0
+3. IFTMIN for IMO 9000001: {"keys":{"voyage":"2608-001","locodes":{"9":"PKGWD","11":"MXCOA"},"container_numbers":["NGCU0000098","NGCU0000281","NGCU0000478"]}}
+   plan: vessel_imo
+3b. IFTMIN for invoice INV-0000923 : {"message_ref":"000001","keys":{"vessel_imo":"9000001","voyage":"2608-001","container_numbers":["NGCU0000098","NGCU0000281","NGCU0000478"]}}
+    plan: invoice_number
+    messages with an invoice reference: 376
+4. ais_positions [{"_id":"real","n":10949},{"_id":"synthetic","n":1310619}]
+4. ais_vessels [{"_id":"real","n":10034},{"_id":"synthetic","n":500}]
+4. edi_messages [{"_id":"synthetic","n":435}]

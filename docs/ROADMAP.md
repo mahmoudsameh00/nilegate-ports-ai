@@ -11,7 +11,7 @@ Labels: `DONE`, `IN PROGRESS`, `PARTIAL`, `NEXT`, `PLANNED`, `PROPOSED`, `DEFERR
 
 | Area | Status | Notes |
 |---|---|---|
-| Docker + PostgreSQL 16.9 / PostGIS 3.5.2 | DONE (closed) | verified 2026-09-23; closed 2026-09-27: container re-created on the loopback addresses only, read-only group role (ADR-034) |
+| Docker + PostgreSQL 16.9 / PostGIS 3.5.2 | DONE (closed) | verified 2026-09-23; closed 2026-09-27: container re-created on 127.0.0.1 only, read-only group role (ADR-034) |
 | Docker + MongoDB 8.0.32 (`ports-mongo`, 127.0.0.1 only, app user) | DONE | 2026-09-27; privilege check 6/6, feature probe in `db/mongo/audit/` (ADR-027) |
 | ports (837), port_connections (19,990) | DONE | verified |
 | toll_rate_bands (177) | DONE | verified; how the CSV was extracted from the PDF is undocumented |
@@ -23,7 +23,7 @@ Labels: `DONE`, `IN PROGRESS`, `PARTIAL`, `NEXT`, `PLANNED`, `PROPOSED`, `DEFERR
 | Migrations 004–005: `vessels.mmsi` (add, fill from the ITU MID table) | DONE | applied 2026-09-27; verify §13 all zero (ADR-028) |
 | Migrations 006–009: integrity constraints, FK / GIST indexes, read-only role, comments | DONE | applied 2026-09-27 (ADR-033, ADR-034); negative test 14/14 rejected; `ANALYZE` done |
 | Schema snapshot + audit after migrations | DONE | 2026-09-27 (after 009): §13–§15 all zero, 0 errors |
-| RAG corpus inventory | PARTIAL | per-document classification exists in each notebook; the `documents` table exists but is empty |
+| RAG corpus inventory + `documents` registry | DONE | 2026-09-27: 29 rows (migration 010, ADR-035), equal to `Data/processed/rag/documents.csv` |
 | FBL chunking | DONE | 31 chunks |
 | LPI Methodology chunking | DONE | 94 chunks; cross-source concat check = 129 rows |
 | Suez Notes chunking | DONE | 4 chunks |
@@ -49,11 +49,11 @@ RAG ingestion order (do not skip ahead): inventory → metadata → extraction �
 
 **Required**
 - Decide the next step (no active plan).
-- Fill `documents` rows for every chunked source.
 - Embedding model, Qdrant, retrieval with the RBAC filter.
 
-**Owner action (credentials are the owner's)**
-- Create the read-only login user: `powershell -NoProfile -ExecutionPolicy Bypass -File db\create_readonly_user.ps1` (adds `PG_RO_*` to `.env`, creates the user, checks it). The role itself is tested (8/8).
+**Owner actions** — done 2026-09-28: the read-only login user exists (`db/check_readonly_user.py` 8/8 PASS); the orphan Docker volume was deleted.
+
+**Embedding readiness (checked 2026-09-28, read-only):** 2,163 chunks, 16 columns, unique `chunk_id`; 0 empty texts, 0 `char_count` mismatches, 0 over 2,000 chars, 0 under 50, 0 duplicate texts; levels 1 (2,158) / 3 (5); every department in `departments`; every chunk file name in `documents` and every `chunk_count` equal. Nothing blocks the embedding phase.
 
 **Recommended (PROPOSED)** — the former list (CHECK constraints, toll band UNIQUE, FK and GIST indexes, read-only role, vessel type ↔ category link) was applied on 2026-09-27 (migrations 006–007, ADR-033 / ADR-034). Nothing is pending on the PostgreSQL schema.
 
@@ -68,18 +68,18 @@ RAG ingestion order (do not skip ahead): inventory → metadata → extraction �
 ## Known issues
 
 - Git: the USCG WIP up to Phase 4 is committed (e89ef95); the finished notebook, its three artifacts (extracted, cleaned, chunks) and the 2026-09-27 docs (archive, ADR-024–026, ARCHITECTURE, ROADMAP) are to be committed by the owner. Seen from the Linux VM, several data files show as modified only because of CRLF line endings (no content change).
-- Cleaned-file format differs by source: LPI Connecting to Compete and HbR store `{source, units, duplicate_audit, coverage_audit}`, older sources store a plain list of units. The future ingestion loader must accept both (or the older files are migrated then).
+- Cleaned-file format differs by source: LPI Connecting to Compete and HbR store `{source, units, duplicate_audit, coverage_audit}`, older sources store a plain list of units. Not blocking: the embedding phase reads the chunk parquet files (one schema), not the cleaned files.
 - The old DB password was committed in notebooks before ADR-015 (local development container only).
 - `Notebooks/synthetic/SyntheticGenerator.ipynb` was fixed on 2026-09-23 (paths, `%pip`, currencies, indentation, `rate_sdr_per_ton`, date anchoring, validation cell) and on 2026-09-27 (ADR-017 drift, database-owned `mmsi`). Re-running it reproduces employees, vessels and containers exactly (28/28, re-checked after the PostgreSQL container was re-created).
 - The notebooks have no automated tests. Validation lives in assertion cells.
 - `sensitivity_level` / `department` now vary within one source (HbR, ADR-021): the future `documents` rows and the Qdrant payload must carry them per chunk; a document-level value is not enough.
 - `toll_rate_bands.csv` extraction method is undocumented (the never-run `ExtractTollRates.ipynb` probe was deleted on 2026-09-27).
-- `pymupdf4llm` is a dependency but is not used by any notebook (EXPERIMENTAL).
+- ~~`pymupdf4llm` unused dependency~~ removed 2026-09-27 (`uv remove`; also drops pymupdf-layout and tabulate, used nowhere).
 - Semi-structured phase (2026-09-27), open points:
   - ~~Synthetic AIS routes crossing land~~ closed 2026-09-27: sea paths per leg (`searoute`), open-sea fixes on land 49 % → 0.96 % (canals and narrow waterways only); MongoDB reloaded (1,321,568 positions), audit all pass (ADR-032 amendment).
-  - ~~EDI `RFF+IV` to a 2025 invoice~~ closed 2026-09-27: removed; the 2026 voyages are the operational timeline, invoices are 2025 history (ADR-032 amendment).
+  - EDI ↔ invoices: linked 2026-09-28 by owner decision (`RFF+IV` = the vessel's latest invoice, 376 messages; the flow is mimicked, dates are not aligned; audited, `edi_invoice_mismatch = 0`; ADR-032 amendment 2).
   - Our `imo_number` / `container_number` are sequential and mostly fail their check digits (kept by owner decision Q-A).
-  - ~~`ports-postgres` on all interfaces~~ closed 2026-09-27 (loopback only, ADR-034). The orphan anonymous Docker volume (2026-09-12, 108 MB) is an old PostgreSQL 16 cluster: deleting it is the owner's call (commands in `db/README.md`).
+  - ~~`ports-postgres` on all interfaces~~ closed 2026-09-27 (loopback only, ADR-034). ~~Orphan Docker volume~~ deleted by the owner 2026-09-28.
   - `SyntheticGenerator.ipynb` could not have passed before 2026-09-27: it still built `employees.status` (ADR-017 drift). Fixed (draw kept), full run 28/28 with all CSVs identical.
   - Test runs of the loader left extra reports in `Data/processed/semi-structured/load_audit/`; only the latest run describes the current MongoDB content (the owner may delete the older ones).
 - Unstructured data closed (2026-09-27): all 7 raw PDF sources are chunked (corpus 2,163); the three USCG open points were closed as recorded decisions (ADR-019, ADR-020 and ADR-023 extensions: letters' restated recommendations kept; raster figures caption_only by rule; profiles code printed facts only). Notebooks reorganised into `Notebooks/rag/`, `structured/`, `synthetic/`; `Notebooks/_scratch/` emptied.

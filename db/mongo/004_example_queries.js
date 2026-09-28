@@ -25,6 +25,14 @@ const m = d.edi_messages.findOne({ "keys.vessel_imo": "9000001" }, { _id: 0, "ke
 print("3. IFTMIN for IMO 9000001:", JSON.stringify(m));
 print("   plan:", planOf(d.edi_messages.find({ "keys.vessel_imo": "9000001" }).explain()));
 
+// 3b. the document flow: from an invoice number (PostgreSQL invoices) to its transport instruction and containers
+const withInv = d.edi_messages.findOne({ "keys.invoice_number": { $ne: null }, source: "synthetic_edi" }, { _id: 0, "keys.invoice_number": 1 });
+const byInv = d.edi_messages.findOne({ "keys.invoice_number": withInv.keys.invoice_number },
+  { _id: 0, message_ref: 1, "keys.vessel_imo": 1, "keys.voyage": 1, "keys.container_numbers": 1 });
+print("3b. IFTMIN for invoice", withInv.keys.invoice_number, ":", JSON.stringify(byInv));
+print("    plan:", planOf(d.edi_messages.find({ "keys.invoice_number": withInv.keys.invoice_number }).explain()));
+print("    messages with an invoice reference:", d.edi_messages.countDocuments({ "keys.invoice_number": { $ne: null } }));
+
 // 4. counts per collection and kind
 ["ais_positions", "ais_vessels", "edi_messages"].forEach(c => {
   const key = c === "ais_positions" ? "$meta.real_or_synthetic" : "$real_or_synthetic";

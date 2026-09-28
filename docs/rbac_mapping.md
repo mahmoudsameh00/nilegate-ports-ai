@@ -41,7 +41,7 @@ Qdrant filter (conceptual): `sensitivity_level <= role_level OR (department == u
 | `invoices` | 2 | Finance | financial data. Finance employees get access through their department |
 | `audit_log` (planned, API phase) | 3 | IT | security audit trail, CEO only |
 
-## 3. Semi-structured (MongoDB, planned)
+## 3. Semi-structured (MongoDB, implemented 2026-09-27)
 
 | Collection | Level | Owner department |
 |---|---:|---|
@@ -49,7 +49,7 @@ Qdrant filter (conceptual): `sensitivity_level <= role_level OR (department == u
 | `ais_vessels` (static / voyage data per MMSI) | 1 | Operations |
 | `edi_messages` | 1 | Operations (synthetic IFTMIN carries no amounts; can move to 2 later if commercial values must be restricted) |
 
-Every document carries `sensitivity_level` and `department` (as the chunks do), so the rule in §1 can be applied as a query predicate. Names replace the earlier `ais_events` (ADR-029). Implemented 2026-09-27: every document of the three collections carries level 1 / Operations (validated by the loader's schema audit).
+Every document carries `sensitivity_level` and `department` (as the chunks do), so the rule in §1 can be applied as a query predicate. Names replace the earlier `ais_events` (ADR-029). `edi_messages.keys.invoice_number` is a reference to a level-2 / Finance invoice, not its content (no amounts, D14), so the collection stays level 1; reading the invoice itself still needs level 2 or the Finance department. Implemented 2026-09-27: every document of the three collections carries level 1 / Operations (validated by the loader's schema audit).
 
 ## 4. Documents (RAG corpus)
 

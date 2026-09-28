@@ -1,6 +1,6 @@
 {
- "load_run": "20260927T161848Z",
- "loaded_at": "2026-09-27T16:18:48+00:00",
+ "load_run": "20260928T111702Z",
+ "loaded_at": "2026-09-28T11:17:02+00:00",
  "mongo_version": "8.0.32",
  "inputs": {
   "aishub": {
@@ -13,7 +13,7 @@
   },
   "synthetic_ais": {
    "file": "Data/processed/semi-structured/synthetic/ais_generation_manifest.json",
-   "sha256": "89bd236a1ae623c8b81afc3f7acd99546bf1795446606927877b1e8b967f9d7a"
+   "sha256": "485e9e03092b93fdb334b46280502e455b3ba0d5b9fea02607cafe4312b1583b"
   },
   "iftmin_sample": {
    "file": "Data/raw/semi-structured/IFTMIN_D12A_sample.edi",
@@ -28,13 +28,13 @@
   "noaa|rejected:duplicate_mmsi_ts": 6,
   "noaa|rejected:invalid_mmsi": 18,
   "noaa|rejected:non_ship_mmsi": 8,
-  "synthetic_ais|loaded": 889950
+  "synthetic_ais|loaded": 1310619
  },
  "counts": {
   "ais_positions": {
-   "synthetic_ais|synthetic": 889950,
    "noaa|real": 967,
-   "aishub|real": 9982
+   "aishub|real": 9982,
+   "synthetic_ais|synthetic": 1310619
   },
   "ais_vessels": {
    "aishub|real": 9982,
@@ -66,6 +66,7 @@
   ],
   "edi_messages": [
    "container_numbers",
+   "invoice_number",
    "source_refs_unique",
    "vessel_imo"
   ]
@@ -84,16 +85,16 @@
    "unaccounted": 0
   },
   "synthetic_ais": {
-   "input_rows": 889950,
-   "in_mongodb": 889950,
+   "input_rows": 1310619,
+   "in_mongodb": 1310619,
    "rejected": 0,
    "unaccounted": 0
   }
  },
  "content_sha256": {
-  "ais_positions": "518f30878ceaf8ab026adbfee8d804a8e5f8572e65107187cdc69ef4d58296c1",
-  "ais_vessels": "30655a017b2a9e8dac2ee4cc26183bd85469581b8f891f09e04c09475a6a00c1",
-  "edi_messages": "ac8d034b71820a6858dcee5a0fec43606ebebf92ffd31f894286be76d1553420"
+  "ais_positions": "992c706592048b0ea2470c5111ae516bd578307d1efb7773702cb7a3b40e972d",
+  "ais_vessels": "a72e61018cba057d68e8aeae698f486ab50a28bbafe49dd50ca130eae7d2c45c",
+  "edi_messages": "1abe4b6fca431a5ead559f6342d28d9f00e1c4f729266885de57607c4315b0a2"
  },
  "consistency_audit": {
   "positions_pair_mismatch": 0,
@@ -117,9 +118,13 @@
   "in_transit_not_under_way": 0,
   "max_implied_kn": 19.82,
   "teleport_steps": 0,
+  "open_sea_fixes": 1261893,
+  "open_sea_fixes_on_land": 12156,
   "edi_voyage_mismatch": 0,
   "edi_arrival_mismatch": 0,
   "edi_instruction_after_first_fix": 0,
+  "edi_with_invoice": 376,
+  "edi_invoice_mismatch": 0,
   "real_shared_mmsi": 0,
   "real_shared_imo": 0,
   "real_shared_call_sign": 0,

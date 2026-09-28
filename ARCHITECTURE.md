@@ -26,11 +26,11 @@ Today the system is **data preparation only**: Jupyter notebooks, files under `D
 
 | Component | State | Details |
 |---|---|---|
-| PostgreSQL 16.9 + PostGIS 3.5.2 (Docker container `ports-postgres`, image `postgis/postgis:16-3.5`, db `ports_logistics`, port 5432, volume `ports-postgres-data`) | IMPLEMENTED (closed 2026-09-27) | Schema verified 2026-09-27 after migrations 001–009 (`db/schema_snapshot.sql`, audit `db/audit/2026-09-27_after_006_009_report.txt`). Roles: `postgres` superuser + `ports_readonly` group role (SELECT only, ADR-034; the login user is created by the owner). Published on the loopback addresses only (`127.0.0.1` and `[::1]`, ADR-034). Extensions: postgis, postgis_topology, postgis_tiger_geocoder, fuzzystrmatch (the last three ship with the image and are unused). |
+| PostgreSQL 16.9 + PostGIS 3.5.2 (Docker container `ports-postgres`, image `postgis/postgis:16-3.5`, db `ports_logistics`, port 5432, volume `ports-postgres-data`) | IMPLEMENTED (closed 2026-09-27) | Schema verified 2026-09-27 after migrations 001–009 (`db/schema_snapshot.sql`, audit `db/audit/2026-09-27_after_006_009_report.txt`). Roles: `postgres` superuser + `ports_readonly` group role (SELECT only, ADR-034; the login user is created by the owner). Published on `127.0.0.1` only (ADR-034). Extensions: postgis, postgis_topology, postgis_tiger_geocoder, fuzzystrmatch (the last three ship with the image and are unused). |
 | Structured ETL notebooks (`Notebooks/structured/`: `ExtractPortsAttributes`, `ExtractPortsConnection`) | IMPLEMENTED (partly reproducible) | The toll CSV's origin is undocumented (the never-run `ExtractTollRates` probe was deleted 2026-09-27). The code that loaded `ports` into the DB is not in the repo. |
 | Synthetic data notebook (`SyntheticGenerator`) | IMPLEMENTED | Faker/random seed 42, hire dates anchored to 2026-09-13. It reproduces employees, vessels and containers exactly (re-confirmed 2026-09-27: 28/28 cells, all three CSVs identical) and verifies them against the CSVs (never overwrites); database-owned columns (`vessels.mmsi`) are declared in `DB_OWNED_COLUMNS` and not compared. 2026-09-27: the leftover `employees.status` (ADR-017 drift) was removed, keeping its random draw. Invoices are rebuilt only to validate the pricing; the DB is canonical (ADR-013). |
 | RAG ingestion notebooks, one per source (ADR-008) | IMPLEMENTED for FBL, LPI Methodology, Suez Notes, LPI Connecting to Compete, HbR annual report 2025, IMO casualty-reporting circular | PyMuPDF extraction → cleaned logical units → (dedup) → semantic chunks in the 16-column schema |
-| `documents` registry table | IMPLEMENTED (empty) | migration 002, ADR-009 |
+| `documents` registry table | IMPLEMENTED (29 rows, 2026-09-27) | migration 002 (table), 010 (rows); `Notebooks/rag/Documents_registry.ipynb`; ADR-009, ADR-035 |
 | Embedding model, Qdrant | PLANNED | model not chosen |
 | MongoDB 8.0.32 (Docker container `ports-mongo`, image `mongo:8.0.32` pinned by digest, db `ports_logistics`, port `127.0.0.1:27017` only, volume `ports-mongo-data`) | IMPLEMENTED (2026-09-27) | Root user for administration + application user `readWrite` on `ports_logistics` only (ADR-027); commands, scripts and audit outputs in `db/mongo/`. Collections `ais_positions` (time-series), `ais_vessels`, `edi_messages` — see §5A. |
 | Semi-structured notebooks (`Notebooks/semi_structured/`) | IMPLEMENTED | `AIS_EDI_profiling` (samples → reviewed profiles), `AIS_generator` (500 synthetic tracks, files), `EDI_generator` (434 synthetic IFTMIN, files), `MongoDB_loader` (the only writer to MongoDB, ADR-031: real + synthetic, reload, consistency audit). |
@@ -74,7 +74,7 @@ Source of truth: `db/schema_snapshot.sql`. Audit output: `db/audit/2026-09-27_af
 | `vessels` | 500 | `vessel_id` serial | imo_number varchar(7) UNIQUE, vessel_name, vessel_type, flag_country, scnt_tons numeric, origin_locode, destination_locode, condition, status, **mmsi varchar(9) UNIQUE** (CHECK `^[2-7][0-9]{8}$`; migrations 004–005, ADR-028) |
 | `containers` | 1,000 | `container_id` serial | container_number varchar(11) UNIQUE, container_type, size_ft int, status, vessel_id, origin_locode, destination_locode |
 | `invoices` | 1,000 | `invoice_id` serial | invoice_number text UNIQUE, vessel_id, toll_rate_band_id `null`, invoice_date date, scnt_tons numeric, rate_sdr_per_ton numeric `null`, amount numeric, description `null`, status |
-| `documents` | 0 | `document_id` text | filename, title, source, real_or_synthetic, document_type, department_id → departments, sensitivity_level 1–3, version_date, ingestion_scope, source_url, sha256 UNIQUE, file_size_bytes, page_count, chunk_count, ingested_at, created_at. CHECKs: real_or_synthetic ∈ {real, synthetic}, sensitivity_level 1–3, file_size_bytes > 0, page_count > 0, chunk_count ≥ 0. Index on department_id. Empty until the first document is registered (ADR-009) |
+| `documents` | 29 | `document_id` text | filename, title, source, real_or_synthetic, document_type, department_id → departments, sensitivity_level 1–3, version_date, ingestion_scope, source_url, sha256 UNIQUE, file_size_bytes, page_count, chunk_count, ingested_at, created_at. CHECKs: real_or_synthetic ∈ {real, synthetic}, sensitivity_level 1–3, file_size_bytes > 0, page_count > 0, chunk_count ≥ 0. Index on department_id. One row per raw file of the RAG corpus (6 sources + 23 USCG reports), filled by migration 010 (ADR-035); `ingested_at` NULL until Qdrant |
 
 `accepted_currencies` was dropped (migration 001, ADR-003).
 
@@ -116,11 +116,11 @@ Database `ports_logistics` in `ports-mongo` (MongoDB 8.0.32). Written only by `N
 |---|---|---:|---|---|
 | `ais_positions` | time-series (`timeField: ts`, `metaField: meta`, granularity `minutes`) | 1,321,568 = 9,982 AISHub + 967 NOAA (real) + 1,310,619 synthetic | `meta{mmsi, imo, source, real_or_synthetic, load_run, source_sha256}`, `loc` GeoJSON Point, `sog`, `cog`, `heading`, `navstat`, `src_row`; indexes `mmsi_ts` (meta.mmsi + ts), `loc_2dsphere`, and `meta_1_ts_1` (created by MongoDB) | none possible on the server (8.0.32 refuses `$jsonSchema` and unique indexes on time-series) → checked in the loader + post-load `$jsonSchema` audit (0 violations); no duplicate (mmsi, ts) |
 | `ais_vessels` | regular | 10,534 = 9,982 AISHub + 52 NOAA (real) + 500 synthetic | unique (`source`, `mmsi`); `imo`; `vessel_id` (synthetic only; real = null) | server `$jsonSchema` validator (`error`, `strict`) |
-| `edi_messages` | regular | 435 = 1 sample template (flag `unt_count_mismatch`) + 434 synthetic IFTMIN | unique (`source`, `interchange_ref`, `message_ref`); `keys.vessel_imo`; `keys.container_numbers` | server `$jsonSchema` validator |
+| `edi_messages` | regular | 435 = 1 sample template (flag `unt_count_mismatch`) + 434 synthetic IFTMIN | unique (`source`, `interchange_ref`, `message_ref`); `keys.vessel_imo`; `keys.container_numbers`; `keys.invoice_number` | server `$jsonSchema` validator |
 
 Every document carries provenance (source file / manifest, its sha256, load run, generator + seed for synthetic data) and `sensitivity_level = 1`, `department = Operations` (`docs/rbac_mapping.md` §3). Real vessels are reference data, never linked to PostgreSQL (ADR-028). The consistency audit of the loader (identities, UN/LOCODEs, containers, start / end ports, no teleporting, at sea, EDI ↔ AIS voyages, no shared identifiers) is a hard gate: all checks pass.
 
-**Synthetic data rules (ADR-032):** tracks for the 500 vessels cover each vessel's current voyage up to the as-of instant `2026-09-13T00:00Z` (earliest departure 2026-06-24), consistent with `vessels.status`; the port sequence is the shortest path over `port_connections` and every leg follows a **sea path** (`searoute`, MARNET; 2 vessels without a network path sail one direct sea leg); 0.96 % of the open-sea fixes fall on land in a 1 km mask, all in canals / narrow waterways; fixes every 10 min under way / 60 min stationary; harbour speed and the teleport threshold come from the NOAA profile, open-sea speeds are documented defaults. IFTMIN: one message per vessel's consignment (its containers), dates and voyage number from the AIS voyage, no invoice reference and no amounts (invoices are 2025 history, ADR-032 amendment).
+**Synthetic data rules (ADR-032):** tracks for the 500 vessels cover each vessel's current voyage up to the as-of instant `2026-09-13T00:00Z` (earliest departure 2026-06-24), consistent with `vessels.status`; the port sequence is the shortest path over `port_connections` and every leg follows a **sea path** (`searoute`, MARNET; 2 vessels without a network path sail one direct sea leg); 0.96 % of the open-sea fixes fall on land in a 1 km mask, all in canals / narrow waterways; fixes every 10 min under way / 60 min stationary; harbour speed and the teleport threshold come from the NOAA profile, open-sea speeds are documented defaults. IFTMIN: one message per vessel's consignment (its containers), dates and voyage number from the AIS voyage, `RFF+IV` = the vessel's latest invoice (376 of 434 messages; the flow is mimicked, dates are not aligned — ADR-032 amendment 2), no amounts.
 
 ## 5. RAG chunk layer (IMPLEMENTED as files)
 
@@ -190,7 +190,7 @@ user ─► employee ─► role ceiling + department ─► Qdrant payload filt
 
 ## 8. Dependencies (`pyproject.toml`, Python 3.13, uv)
 
-pandas 3.0.5, numpy 2.2.4, geopandas 1.1.4, psycopg[binary] 3.3.5, pymupdf 1.28.2, pymupdf4llm (unused), pypdf 6.18.1, pyarrow, pillow, scikit-learn 1.9.1 (TF-IDF), faker 40.38.0, ipykernel.
+pandas 3.0.5, numpy 2.2.4, geopandas 1.1.4, psycopg[binary] 3.3.5, pymupdf 1.28.2, pypdf 6.18.1, pyarrow, pillow, scikit-learn 1.9.1 (TF-IDF), faker 40.38.0, ipykernel.
 Added for the USCG notebook (2026-09-26, `uv add`): rapidocr 3.9.2 + onnxruntime 1.30.0 (OCR, ADR-025), scipy 1.18.1 (figure regions on scans), nbconvert 7.17.1 (notebook execution into logs).
 Added for the semi-structured phase (2026-09-27, `uv add`): pymongo 4.18.2 (+ dnspython 2.8.0), searoute 1.6.0 (+ geojson 3.3.0; sea paths), global-land-mask 1.0.0 (land check). scipy is also used for the AIS routing (`scipy.sparse.csgraph`).
 
@@ -232,12 +232,13 @@ Added for the semi-structured phase (2026-09-27, `uv add`): pymongo 4.18.2 (+ dn
 | 032 | Synthetic AIS / EDI rules: seeds, profile-derived parameters, routes over the port network, consistency audit gate |
 | 033 | The database enforces its integrity (CHECK / UNIQUE, FK and GIST indexes) and describes itself (comments) |
 | 034 | Database access: loopback-only ports; read-only group role for tools and agents |
+| 035 | RAG document registry: one row per raw file, stable slugs, versions by fingerprint |
 
 ## 10. Open architectural questions
 
 1. Embedding model (local sentence-transformers vs API). It fixes the Qdrant vector size and cost.
-2. `document_id` slugs, and whether one row per file version is enough (a new version = new sha256 = new row), or explicit version history is needed.
+2. ~~`document_id` slugs and versions.~~ Answered 2026-09-27 (ADR-035): stable slugs, one row per raw file, a new file version = a new row.
 3. ~~Whether the proposed CHECK constraints and indexes should be applied before the agent phase.~~ Answered 2026-09-27: applied (migration 006, ADR-033).
-4. Where the shared "event timeline" for causal consistency lives (PostgreSQL table vs generator-only config). Answered for this phase (ADR-032 amendment): the 2026 operational timeline is `voyages_synthetic.parquet` (AIS + EDI); invoices are 2025 history and are not referenced by EDI. A shared timeline with incidents is decided with the causal-consistency phase.
+4. Where the shared "event timeline" for causal consistency lives (PostgreSQL table vs generator-only config). Answered for this phase (ADR-032 amendment): the 2026 operational timeline is `voyages_synthetic.parquet` (AIS + EDI); invoices are 2025 history; EDI references them (`RFF+IV`) to mimic the document flow (ADR-032 amendment 2). A shared timeline with incidents is decided with the causal-consistency phase.
 5. ~~Synthetic AIS routes crossing land.~~ Answered 2026-09-27: sea paths per leg (`searoute`); open-sea fixes on land 49 % → 0.96 % (ADR-032 amendment).
 6. ~~Loopback binding of `ports-postgres` and a read-only role.~~ Answered 2026-09-27: both done (ADR-034).
