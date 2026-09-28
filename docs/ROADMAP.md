@@ -31,8 +31,8 @@ Labels: `DONE`, `IN PROGRESS`, `PARTIAL`, `NEXT`, `PLANNED`, `PROPOSED`, `DEFERR
 | HbR annual report chunking | DONE | 2026-09-26: 352 chunks (347 level 1 / Operations, 5 level 3 / Finance — ADR-021); 602 units → 593 after within-source dedup (9 suppressed, 1 trimmed); 3 source errata excluded (ADR-022); cross-source concat = 550 rows; whole-PDF coverage: 4,151 lines, 0 unaccounted; nothing flagged or pending |
 | IMO circular chunking (`MSC-MEPC_3-Circ_4-Rev_1.pdf`) | DONE | 2026-09-26: 69 chunks (all level 1 / Operations); field catalogue (117 fields, 30 option tables / 553 options) in the extracted file (ADR-023); 689 units, 55 by-design repeats kept, nothing suppressed; 2 source errata excluded (ADR-022, one clause-level) + 1 empty option; cross-source concat = 619 rows; whole-PDF coverage: 2,329 lines, 0 unaccounted; nothing flagged or pending |
 | USCG ×23 chunking + IMO incident profiles | DONE | 2026-09-27: 23 reports / 580 pages (115 image-only pages OCR'd with RapidOCR, ADR-025); one notebook for the corpus (ADR-024); 3,223 units (23 incident profiles, 407 values traced) → Executive Summary 49 sentences trimmed, 2 units dropped; 1 source erratum excluded (ADR-022); 1,544 chunks, all level 1 / Operations (figure captions kept as metadata, 2026-09-27); roles in curated text (ADR-026); cross-source concat = 2,163 rows; coverage: 18,999 lines, 0 unaccounted; open points closed as ADR extensions |
-| Embedding model choice | PLANNED | `Data/embeddings/` is empty |
-| Qdrant setup, collection, controlled ingestion, retrieval | PLANNED | |
+| Embedding model choice | NEXT | plan PROPOSED (bake-off of free API models: Jina v5-text-small, Voyage voyage-4, Gemini embedding 2, on a golden set) |
+| Qdrant setup, collection, controlled ingestion, retrieval | NEXT | same plan (container `ports-qdrant`, collection `nilegate_docs`) |
 | RBAC-filtered retrieval | PLANNED | rule decided (ADR-006) |
 | MongoDB + AIS/EDI profiling, generators, loader | DONE | 2026-09-27: `Notebooks/semi_structured/` (profiling 28 cells, AIS generator 22, EDI generator 16, loader 32; all 0 errors); 1,321,568 / 10,534 / 435 documents; 0 schema violations, 0 unaccounted records, consistency audit all pass (incl. tracks at sea); idempotent (ADR-029 – ADR-032) |
 | Synthetic incidents / synthetic FBLs | PLANNED (optional) | |
@@ -48,7 +48,7 @@ RAG ingestion order (do not skip ahead): inventory → metadata → extraction �
 ## Missing work
 
 **Required**
-- Decide the next step (no active plan).
+- RAG retrieval (embeddings, Qdrant, RBAC-filtered search, evaluation): plan PROPOSED 2026-09-28 — `docs/plans/RAG_Embeddings_Qdrant_plan.md` (decisions D1–D8 at the start of the next session; free API embeddings / reranker, Qdrant hybrid; design in `docs/RETRIEVAL_FLOW.md`).
 - Embedding model, Qdrant, retrieval with the RBAC filter.
 
 **Owner actions** — done 2026-09-28: the read-only login user exists (`db/check_readonly_user.py` 8/8 PASS); the orphan Docker volume was deleted.
