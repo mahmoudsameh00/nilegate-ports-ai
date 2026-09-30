@@ -1,7 +1,8 @@
 # Plan — RAG retrieval: embeddings (API), Qdrant hybrid search, RBAC, reranking, evaluation
 
-- **Status:** PROPOSED (2026-09-28, revised the same day with the owner's direction: free API providers for embeddings
-  and reranking, hybrid search). To be approved at the start of the next session (§4 Decisions).
+- **Status:** APPROVED (2026-09-28). Proposed and revised the same day (free API providers for embeddings and
+  reranking, hybrid search); decisions D1–D8 answered by the owner at the start of the implementation session (§4,
+  "Answers"). Handoff: `Notebooks/_scratch/rag_retrieval_handoff.md`.
 - **Goal:** turn the 2,163 reviewed chunks into a searchable, access-controlled **hybrid** index (dense + BM25) with an
   optional reranking stage, and **prove with numbers** that the right chunks come back for the right user. This builds
   the `search_documents` tool of `docs/RETRIEVAL_FLOW.md`; the Supervisor, the other tools and answer generation come
@@ -74,8 +75,10 @@ go in `Notebooks/retrieval/`; shared client code stays inside the notebooks (no 
 
 ### Phase 1 — Golden set first (before any model runs)
 Notebook `Golden_set.ipynb` → `Data/processed/rag/eval/golden_set.jsonl`.
-- ~40 questions written from the chunks (60 % English / 40 % Egyptian Arabic), each with its expected `chunk_id`s
-  (1–3) and `document_id`.
+- 40 English questions written from the chunks, each with its expected `chunk_id`s (1–3) and `document_id`; 24 of
+  them also written in Egyptian Arabic with the same expected ids (**paired**, D7) → 64 queries (≈ 62 % / 38 %).
+- Written as a user would ask (no copying of distinctive chunk phrases, except in identifier questions), and reviewed
+  by the owner before the set is frozen (reviewed snapshot + file hash).
 - Every source covered in proportion to its size; the question types of `docs/RETRIEVAL_FLOW.md` §3 (rows 1–3, 5, 9)
   are included.
 - ≥ 6 **identifier questions** (circular number, MISLE number, vessel name, LOCODE), which test BM25.
@@ -174,3 +177,17 @@ Recommended option first.
   cases.
 - **D8 — Working mode.** the assistant runs notebooks, uv, Docker and scripts; the owner runs git and anything writing `.env`
   (as in the data-processing phase).
+
+### Answers (owner, 2026-09-28)
+- **D1:** bake-off of all three (Gemini included: the corpus is public reports, no employee data is sent). **Selection
+  rule fixed before any model runs:** primary metric = mean of recall@10 on the English and on the Arabic queries
+  (equal weight); a difference smaller than two questions' worth (≈ 5 points) is a tie, and a tie goes to Jina (one key
+  for embeddings and reranker). MRR, per-source recall, latency and failures are reported, not deciding.
+- **D2:** Jina `jina-reranker-v3.5`, kept only if Phase 7 shows a gain; Voyage `rerank-3` as the alternative.
+- **D3:** Qdrant in Docker as proposed. **D4:** server-side BM25 if the probe finds it, else `fastembed`.
+- **D5:** measured in Phase 2 (note: USCG chunks already start with a header, so `title + text` repeats it there).
+- **D6:** LPI Methodology pilot, then all chunks.
+- **D7:** 40 English questions + 24 Egyptian Arabic twins of them (same expected ids, 64 queries) + ≥ 6 identifier
+  questions + 8 RBAC cases (including a Finance employee: the department never unlocks level 3); owner review before
+  freezing.
+- **D8:** as proposed; deletions (`Remove-Item`) are blocked by the settings and are listed for the owner.
