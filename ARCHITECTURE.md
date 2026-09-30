@@ -31,7 +31,7 @@ Today the system is **data preparation only**: Jupyter notebooks, files under `D
 | Synthetic data notebook (`SyntheticGenerator`) | IMPLEMENTED | Faker/random seed 42, hire dates anchored to 2026-09-13. It reproduces employees, vessels and containers exactly (re-confirmed 2026-09-27: 28/28 cells, all three CSVs identical) and verifies them against the CSVs (never overwrites); database-owned columns (`vessels.mmsi`) are declared in `DB_OWNED_COLUMNS` and not compared. 2026-09-27: the leftover `employees.status` (ADR-017 drift) was removed, keeping its random draw. Invoices are rebuilt only to validate the pricing; the DB is canonical (ADR-013). |
 | RAG ingestion notebooks, one per source (ADR-008) | IMPLEMENTED for FBL, LPI Methodology, Suez Notes, LPI Connecting to Compete, HbR annual report 2025, IMO casualty-reporting circular | PyMuPDF extraction → cleaned logical units → (dedup) → semantic chunks in the 16-column schema |
 | `documents` registry table | IMPLEMENTED (29 rows, 2026-09-27) | migration 002 (table), 010 (rows); `Notebooks/rag/Documents_registry.ipynb`; ADR-009, ADR-035 |
-| Embedding model, Qdrant | PLANNED | model not chosen |
+| Embedding model, Qdrant | PLANNED | plan APPROVED 2026-09-28: `docs/plans/RAG_Embeddings_Qdrant_plan.md` (model chosen by the Phase 2 bake-off) |
 | MongoDB 8.0.32 (Docker container `ports-mongo`, image `mongo:8.0.32` pinned by digest, db `ports_logistics`, port `127.0.0.1:27017` only, volume `ports-mongo-data`) | IMPLEMENTED (2026-09-27) | Root user for administration + application user `readWrite` on `ports_logistics` only (ADR-027); commands, scripts and audit outputs in `db/mongo/`. Collections `ais_positions` (time-series), `ais_vessels`, `edi_messages` — see §5A. |
 | Semi-structured notebooks (`Notebooks/semi_structured/`) | IMPLEMENTED | `AIS_EDI_profiling` (samples → reviewed profiles), `AIS_generator` (500 synthetic tracks, files), `EDI_generator` (434 synthetic IFTMIN, files), `MongoDB_loader` (the only writer to MongoDB, ADR-031: real + synthetic, reload, consistency audit). |
 | Agents, tool layer, API (FastAPI mentioned), auth, audit_log | PLANNED | ADR-012, ADR-014 |
@@ -236,7 +236,7 @@ Added for the semi-structured phase (2026-09-27, `uv add`): pymongo 4.18.2 (+ dn
 
 ## 10. Open architectural questions
 
-1. Embedding model (local sentence-transformers vs API). It fixes the Qdrant vector size and cost.
+1. Embedding model (local sentence-transformers vs API). It fixes the Qdrant vector size and cost. → Answered by the APPROVED plan (2026-09-28, `docs/plans/RAG_Embeddings_Qdrant_plan.md`): free API models compared in a bake-off on a golden set.
 2. ~~`document_id` slugs and versions.~~ Answered 2026-09-27 (ADR-035): stable slugs, one row per raw file, a new file version = a new row.
 3. ~~Whether the proposed CHECK constraints and indexes should be applied before the agent phase.~~ Answered 2026-09-27: applied (migration 006, ADR-033).
 4. Where the shared "event timeline" for causal consistency lives (PostgreSQL table vs generator-only config). Answered for this phase (ADR-032 amendment): the 2026 operational timeline is `voyages_synthetic.parquet` (AIS + EDI); invoices are 2025 history; EDI references them (`RFF+IV`) to mimic the document flow (ADR-032 amendment 2). A shared timeline with incidents is decided with the causal-consistency phase.
