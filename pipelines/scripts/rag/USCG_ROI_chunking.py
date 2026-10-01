@@ -1,18 +1,18 @@
 """Phase 0 — Setup & Configuration
 
-Converted from Notebooks/rag/USCG_ROI_chunking.ipynb (2026-10-01) by tools/nb_to_script.py: same cells, same order; `# %% cell N` = notebook cell N.
-Run from the project root: uv run python tools/run.py pipelines/scripts/rag/USCG_ROI_chunking.py
+Origin:  Converted from Notebooks/rag/USCG_ROI_chunking.ipynb (archived in docs/archive/notebooks/).
+         Refactored (ADR-036 D3), cleanup level (2026-10-01): the notebook's phases, code and validations are unchanged;
+         cell markers, Jupyter display() and the conversion helpers became plain sections and print(); proven by
+         `uv run python tools/nb_to_script.py check USCG_ROI_chunking` (AST equal to the archived notebook).
+Run:     uv run python tools/run.py pipelines/scripts/rag/USCG_ROI_chunking.py  (from the project root)
 
 Reads:   Data/raw/unstructured/us_coast_guard_reports/*.pdf (23); Data/processed/rag/extracted/ (the IMO field catalogue)
 Writes:  Data/processed/rag/extracted|cleaned|chunks/ (the USCG ROI files); Data/processed/rag/ocr_cache/USCG_ROI/ (one JSON per OCR'd page, reused when present); review aids in Notebooks/_scratch/ (git-ignored)
 Re-run:  safe: rewrites the same artifacts; OCR runs only for pages missing from the cache
 Final Checkpoint (what was done, problems, fixes): pipelines/checkpoints/rag/USCG_ROI_chunking.md
 """
-from IPython.display import display  # outside Jupyter it prints the value (added by the conversion)
 
-# %% [markdown] cell 0
-# # Phase 0 — Setup & Configuration
-#
+# %% Phase 0 — Setup & Configuration
 # This notebook ingests the **23 United States Coast Guard Reports of Investigation (ROI)** in
 # `Data/raw/unstructured/us_coast_guard_reports/` (`<VESSEL>_<MISLE>_ROI_Redacted.pdf`, 580 pages) as **one source**:
 # a corpus of documents written on the same ROI template (plan §4.1 — one notebook, one extracted, one cleaned and one
@@ -37,7 +37,6 @@ from IPython.display import display  # outside Jupyter it prints the value (adde
 #
 # Plan: `docs/plans/USCG_ROI_chunking_plan.md` (§4 decisions, §6 implementation log).
 
-# %% cell 1
 # =========================================================
 # 0.1 Imports & Environment
 # =========================================================
@@ -60,7 +59,6 @@ print("pandas :", pd.__version__)
 print("numpy  :", np.__version__)
 print("pymupdf:", pymupdf.__version__)
 
-# %% cell 2
 # =========================================================
 # 0.2 Locate the corpus folder and list the reports
 # =========================================================
@@ -88,7 +86,6 @@ print("Corpus folder:", CORPUS_DIR)
 print("Reports      :", len(REPORT_IDS))
 print(reports_df.to_string(index=False))
 
-# %% cell 3
 # =========================================================
 # 0.3 Open the PDFs + PDF access helpers
 # =========================================================
@@ -112,7 +109,6 @@ def page_dict(report_id: str, p: int) -> dict:
 print("Documents opened:", len(docs))
 print("Pages per report:", {rid: len(d) for rid, d in docs.items()})
 
-# %% cell 4
 # =========================================================
 # 0.4 Inspect PDF metadata (producer tells how each file was made)
 # =========================================================
@@ -125,9 +121,8 @@ metadata_df = pd.DataFrame([
     for rid, d in docs.items()
 ])
 with pd.option_context("display.max_colwidth", 50):
-    display(metadata_df)
+    print(metadata_df)
 
-# %% cell 5
 # =========================================================
 # 0.5 Define project and output paths
 # =========================================================
@@ -152,7 +147,6 @@ print("Chunks dir    :", CHUNKS_DIR)
 print("OCR cache dir :", OCR_CACHE_DIR)
 print("Scratch dir   :", SCRATCH_DIR)
 
-# %% cell 6
 # =========================================================
 # 0.6 Define source and pipeline configuration
 # =========================================================
@@ -195,7 +189,6 @@ print("MAX_CHUNK_CHARS    :", MAX_CHUNK_CHARS, "(safety cap)")
 print("FRAGMENT_MIN_CHARS :", FRAGMENT_MIN_CHARS)
 print("CHUNK_PREFIX       :", CHUNK_PREFIX)
 
-# %% cell 7
 # =========================================================
 # 0.7 Source file fingerprints (one SHA-256 per report)
 # =========================================================
@@ -216,10 +209,9 @@ reports_df["file_size"] = reports_df["filename"].map(lambda f: (CORPUS_DIR / f).
 reports_df["pages"] = reports_df["report_id"].map(lambda rid: len(docs[rid]))
 SHA_OF = dict(zip(reports_df["report_id"], reports_df["sha256"]))
 
-display(reports_df[["report_id", "misle", "pages", "file_size", "sha256"]])
+print(reports_df[["report_id", "misle", "pages", "file_size", "sha256"]])
 print(f"Total: {reports_df['pages'].sum()} pages, {reports_df['file_size'].sum():,} bytes")
 
-# %% cell 8
 # =========================================================
 # 0.8 Seeded random sample (the template is learned from these reports only)
 # =========================================================
@@ -236,7 +228,6 @@ OCR_SAMPLE_REPORT = min(IMAGE_ONLY_BODY_REPORTS, key=lambda rid: len(docs[rid]))
 print("Seeded sample (seed 42):", SAMPLE_REPORTS)
 print("OCR sample report      :", OCR_SAMPLE_REPORT, f"({len(docs[OCR_SAMPLE_REPORT])} pages)")
 
-# %% cell 9
 # =========================================================
 # 0.9 Phase 0 validation
 # =========================================================
@@ -260,9 +251,8 @@ assert not any(b.get("type") == 1 for b in page_dict("BIG_STICK", 2)["blocks"]),
 print("✅ Phase 0 validation passed.")
 print("Reports:", len(REPORT_IDS), "| pages:", int(reports_df["pages"].sum()), "| sample:", SAMPLE_REPORTS, "+", OCR_SAMPLE_REPORT)
 
-# %% [markdown] cell 10
-# # Phase 1 — Corpus Inventory (all 23 reports, cheap)
-#
+
+# %% Phase 1 — Corpus Inventory (all 23 reports, cheap)
 # One row per physical page of every report, from cheap PyMuPDF calls only (no layout parsing): characters and words
 # of the text layer, image placements and the share of the page covered by the largest image, and a **text trace**
 # summary — how many characters are drawn invisibly (render mode 3, the classic OCR layer) and how many use Acrobat's
@@ -282,7 +272,6 @@ print("Reports:", len(REPORT_IDS), "| pages:", int(reports_df["pages"].sum()), "
 # TOO_SHORT (p.4). MERRICK's body (p.7–19) is an invisible Paper-Capture layer. QUEEN_OF_THE_WEST p.22 has an
 # invisible layer made only of spaces → `image_only`.
 
-# %% cell 11
 # =========================================================
 # 1.1 Build the page inventory of all reports
 # =========================================================
@@ -321,7 +310,6 @@ pages_df = pd.DataFrame(page_records)
 print("Page inventory created:", len(pages_df), "pages of", pages_df["report_id"].nunique(), "reports")
 print("Columns:", list(pages_df.columns))
 
-# %% cell 12
 # =========================================================
 # 1.2 Page text classes
 # =========================================================
@@ -347,10 +335,9 @@ summary_df["pages"] = summary_df.sum(axis=1)
 summary_df["image_only_pages"] = pages_df[pages_df["text_class"] == "image_only"].groupby("report_id")["page_number"].agg(list)
 summary_df["ocr_layer_pages"] = pages_df[pages_df["text_class"] == "ocr_layer"].groupby("report_id")["page_number"].agg(list)
 with pd.option_context("display.max_rows", None, "display.max_colwidth", 80):
-    display(summary_df)
+    print(summary_df)
 print("Class counts:", pages_df["text_class"].value_counts().to_dict())
 
-# %% cell 13
 # =========================================================
 # 1.3 Inventory statistics + the OCR-layer pages
 # =========================================================
@@ -361,10 +348,9 @@ print(pages_df.groupby("text_class")[["char_count", "word_count"]].sum().to_stri
 
 ocr_layer_df = pages_df[pages_df["text_class"] == "ocr_layer"]
 with pd.option_context("display.max_rows", None, "display.max_colwidth", 70):
-    display(ocr_layer_df[["report_id", "page_number", "char_count", "visible_chars", "invisible_chars",
+    print(ocr_layer_df[["report_id", "page_number", "char_count", "visible_chars", "invisible_chars",
                           "star_font_chars", "max_image_cover", "class_reason"]])
 
-# %% cell 14
 # =========================================================
 # 1.4 Phase 1 validation
 # =========================================================
@@ -401,9 +387,8 @@ print("Pages:", len(pages_df), "| classes:", pages_df["text_class"].value_counts
 print("Image-only pages:", sum(map(len, REVIEWED_IMAGE_ONLY.values())), "in", len(REVIEWED_IMAGE_ONLY), "reports")
 print("OCR-layer pages :", sum(map(len, REVIEWED_OCR_LAYER.values())), "in", len(REVIEWED_OCR_LAYER), "reports")
 
-# %% [markdown] cell 15
-# # Phase 1b — OCR of the pages without a usable text layer (RapidOCR)
-#
+
+# %% Phase 1b — OCR of the pages without a usable text layer (RapidOCR)
 # Owner decision (plan §4.2): image-only pages are **OCR'd, not skipped**, with RapidOCR (`rapidocr` + `onnxruntime`,
 # installed with uv, models bundled in the package — no system install, no download).
 #
@@ -429,7 +414,6 @@ print("OCR-layer pages :", sum(map(len, REVIEWED_OCR_LAYER.values())), "in", len
 # All `image_only` pages are OCR'd (a photo is only known to be a photo once OCR finds no text on it), and the 19
 # `ocr_layer` pages too, so that their existing layer can be compared with an independent reading (1b.4).
 
-# %% cell 16
 # =========================================================
 # 1b.1 OCR engine, settings and cache key
 # =========================================================
@@ -470,7 +454,6 @@ def ocr_cache_path(rid: str, p: int) -> Path:
 
 print(json.dumps({"settings": OCR_SETTINGS, "engine": OCR_ENGINE_INFO}, indent=1))
 
-# %% cell 17
 # =========================================================
 # 1b.2 OCR one page (render -> detect + recognise -> retry weak lines -> PDF coordinates), cached
 # =========================================================
@@ -524,7 +507,6 @@ def ocr_page(rid: str, p: int) -> tuple[dict, str]:
 
 print("OCR helpers ready. Cache:", OCR_CACHE_DIR.relative_to(PROJECT_ROOT))
 
-# %% cell 18
 # =========================================================
 # 1b.3 OCR every image_only and ocr_layer page (first run ~15 min; later runs read the cache)
 # =========================================================
@@ -543,9 +525,8 @@ for k, r in enumerate(OCR_TARGETS.itertuples(), start=1):
 print(f"OCR pages: {len(ocr_results)} | from cache: {ocr_origin['cache']} | newly OCR'd: {ocr_origin['ocr']} "
       f"| {time.time() - t_start:.0f}s")
 
-# %% [markdown] cell 19
-# ### 1b.4–1b.7 Figures inside scanned pages, readability gate, OCR-layer check
-#
+
+# %% 1b.4–1b.7 Figures inside scanned pages, readability gate, OCR-layer check
 # **Measured on the OCR output (1b.3):** none of the 115 `image_only` pages is a bare photo — every one carries text:
 # scanned letters, scanned body pages, cover pages, and body pages that contain a **figure** (photo, nautical chart,
 # dive-computer screen). RapidOCR also reads the text *inside* those figures: chart soundings ("28 | 36 | 36 | 35",
@@ -584,7 +565,6 @@ print(f"OCR pages: {len(ocr_results)} | from cache: {ocr_origin['cache']} | newl
 # **OCR noise (1b.7).** A reading below 0.80 confidence of at most two characters is a mark, not text (reviewed on the
 # renders: the letterhead seal read as "3", a signature pen stroke read as "V"); it is recorded as `ocr_noise`.
 
-# %% cell 20
 # =========================================================
 # 1b.4 Graphic regions of the scanned pages (text masked out) -> figure-internal lines
 # =========================================================
@@ -693,9 +673,8 @@ print("Figure-internal lines:", scan_lines_df.groupby("source")["figure_internal
 print("Graphic regions:", graphics_df.groupby(["source", "kind"]).size().to_dict())
 fig_pages = scan_lines_df[scan_lines_df["figure_internal"]].groupby(["report_id", "page_number", "source"]).size()
 with pd.option_context("display.max_rows", None):
-    display(fig_pages.rename("figure_internal_lines"))
+    print(fig_pages.rename("figure_internal_lines"))
 
-# %% cell 21
 # =========================================================
 # 1b.5 Readability gate (body lines only)
 # =========================================================
@@ -728,9 +707,8 @@ gate_df = pd.DataFrame(gate_records)
 print("Dictionary:", len(OCR_VOCAB), "words | thresholds: dict_share >=", GATE_MIN_DICT_SHARE, "| mean_conf >=", GATE_MIN_MEAN_CONF)
 print("Gate:", gate_df.groupby(["source", "gate"]).size().to_dict())
 with pd.option_context("display.max_rows", None):
-    display(gate_df.sort_values("dict_share").head(12))
+    print(gate_df.sort_values("dict_share").head(12))
 
-# %% cell 22
 # =========================================================
 # 1b.6 OCR layers: gate + word agreement with the independent RapidOCR reading
 # =========================================================
@@ -752,9 +730,8 @@ for (rid, p), grp in scan_lines_df[scan_lines_df["text_class"] == "ocr_layer"].g
                         "layer_gate": g.at[(rid, p, "layer"), "gate"]})
 layer_check_df = pd.DataFrame(layer_check)
 layer_check_df["decision"] = np.where(layer_check_df["layer_gate"] == "pass", "keep_layer", "re_ocr")
-display(layer_check_df)
+print(layer_check_df)
 
-# %% cell 23
 # =========================================================
 # 1b.7 Text source of every page + weak OCR lines
 # =========================================================
@@ -786,11 +763,10 @@ print("Text source per page:", pages_df["text_source"].value_counts().to_dict())
 print(f"Used scanned-page lines: {len(used)} | figure-internal {int(used['figure_internal'].sum())} "
       f"| OCR noise {int(used['ocr_noise'].sum())} | weak body lines (< {OCR_NOISE_MAX_CONF}) {len(weak)}")
 with pd.option_context("display.max_rows", None, "display.max_colwidth", 90):
-    display(weak[["report_id", "page_number", "line_no", "conf", "ocr_noise", "text"]])
+    print(weak[["report_id", "page_number", "line_no", "conf", "ocr_noise", "text"]])
     print("Figure-internal lines of >= 6 words (reviewed on the renders):")
-    display(used[used["figure_internal"] & used["text"].str.split().str.len().ge(6)][["report_id", "page_number", "text"]])
+    print(used[used["figure_internal"] & used["text"].str.split().str.len().ge(6)][["report_id", "page_number", "text"]])
 
-# %% cell 24
 # =========================================================
 # 1b.8 Phase 1b validation
 # =========================================================
@@ -835,9 +811,8 @@ print(f"OCR'd pages: {len(ocr_results)} (cache) | text source: {pages_df['text_s
 print(f"Gate: all {len(gate_df)} page readings pass | lowest dict share {lowest['dict_share']} ({REVIEWED_MIN_DICT_PAGE[0]} p.{REVIEWED_MIN_DICT_PAGE[1]})")
 print(f"Scanned lines used: {len(used)} | figure-internal {int(used['figure_internal'].sum())} | OCR noise {int(used['ocr_noise'].sum())}")
 
-# %% [markdown] cell 25
-# # Phase 2 — Line and row tables + ROI template spec (learned from the sample)
-#
+
+# %% Phase 2 — Line and row tables + ROI template spec (learned from the sample)
 # **One line table for the whole corpus (2.1).** Every text line of every page, whatever its source, in one shape:
 # native lines come from `page_dict()` (superscript footnote markers split off, as in the IMO notebook), scanned pages
 # contribute the lines chosen in Phase 1b (RapidOCR on `image_only` pages, the kept layer on `ocr_layer` pages) with their
@@ -866,7 +841,6 @@ print(f"Scanned lines used: {len(used)} | figure-internal {int(used['figure_inte
 # | Layout | page number at the bottom centre (arabic or roman), "Enclosure (1)" footer, running header on PROWLER_ATTESSA_IV / QUEEN_OF_THE_WEST, table of contents (CAROL_ANN, CONCHRD, PROWLER_ATTESSA_IV, SPIRIT_OF_BOSTON) | |
 # | Signature block | NAME in capitals, rank ", U.S. Coast Guard", office lines ("By Direction", "Chief, …") | the signature itself is usually redacted (black box) |
 
-# %% cell 26
 # =========================================================
 # 2.1 Unified line table (native + OCR, all 23 reports)
 # =========================================================
@@ -959,7 +933,6 @@ print("Character repairs:", dict(text_repairs))
 print("Native lines inside an image placement:", int(lines_df["in_image"].sum()),
       "| OCR figure-internal:", int(lines_df["figure_internal"].sum()), "| OCR noise:", int(lines_df["ocr_noise"].sum()))
 
-# %% cell 27
 # =========================================================
 # 2.2 Rows by baseline
 # =========================================================
@@ -1031,7 +1004,6 @@ print(f"Rows: {len(rows_df)} from {len(lines_df)} lines | rows with several segm
 print(rows_df.loc[(rows_df["report_id"] == "BIG_STICK") & rows_df["text"].str.contains("Recommendations$"),
                   ["page_number", "text", "segments"]].to_string())
 
-# %% cell 28
 # =========================================================
 # 2.3 ROI template spec (reviewed, 2026-09-26)
 # =========================================================
@@ -1116,7 +1088,6 @@ assert section_of("Actions Taken Since the Incident") == (7, None) and section_o
 assert section_of("Findings of Fact:") == (4, None) and section_of("8.1. Safety Recommendation:") is None
 print("ROI template ready:", len(LETTER_RE), "letter headings,", len(SECTION_RE), "sections")
 
-# %% cell 29
 # =========================================================
 # 2.4 Phase 2 validation
 # =========================================================
@@ -1138,9 +1109,8 @@ assert lines_df["provenance"].value_counts().to_dict() == REVIEWED_LINES, lines_
 print("✅ Phase 2 validation passed.")
 print("Lines:", len(lines_df), REVIEWED_LINES, "| rows:", len(rows_df))
 
-# %% [markdown] cell 30
-# # Phase 3 — Template fingerprint of all 23 reports (text only) + 3b individual inspection of the deviating ones
-#
+
+# %% Phase 3 — Template fingerprint of all 23 reports (text only) + 3b individual inspection of the deviating ones
 # Every report is compared with the ROI template of Phase 2 using the row texts only (no layout parsing): cover page,
 # letter headings, the start of the investigating officer's report, the eight sections (found, order, printed number),
 # vessel-block labels, persons table, figure captions, table of contents, running header. What differs from the
@@ -1150,7 +1120,6 @@ print("Lines:", len(lines_df), REVIEWED_LINES, "| rows:", len(rows_df))
 # decision: how the parser handles it. The reviewed list is asserted against the computed one, so a new or vanished
 # deviation stops the notebook.
 
-# %% cell 31
 # =========================================================
 # 3.1 Fingerprint
 # =========================================================
@@ -1243,11 +1212,10 @@ def deviations_of(f) -> list[str]:
 fingerprint_df["deviations"] = fingerprint_df.apply(deviations_of, axis=1)
 fingerprint_df["status"] = np.where(fingerprint_df["deviations"].map(len) == 0, "conformant", "deviating")
 with pd.option_context("display.max_rows", None, "display.max_colwidth", 120, "display.width", 250):
-    display(fingerprint_df[["report_id", "sections", "printed", "vessel_blocks", "persons_header", "captions",
+    print(fingerprint_df[["report_id", "sections", "printed", "vessel_blocks", "persons_header", "captions",
                             "running_header_rows", "status", "deviations"]])
 print(fingerprint_df["status"].value_counts().to_dict())
 
-# %% cell 32
 # =========================================================
 # 3.2 (3b) Individual inspection of the deviating reports — reviewed decisions (2026-09-26)
 # =========================================================
@@ -1296,9 +1264,8 @@ assert actual_dev == reviewed_dev, {
 deviation_decisions_df = pd.DataFrame([{"report_id": k, "deviation": d, "decision": t}
                                        for k, v in REVIEWED_DEVIATIONS.items() for d, t in v.items()])
 with pd.option_context("display.max_colwidth", 140, "display.max_rows", None):
-    display(deviation_decisions_df)
+    print(deviation_decisions_df)
 
-# %% cell 33
 # =========================================================
 # 3.3 Phase 3 validation
 # =========================================================
@@ -1321,9 +1288,8 @@ print("✅ Phase 3 validation passed.")
 print("Fingerprint:", fingerprint_df["status"].value_counts().to_dict(), "| deviations reviewed:", len(deviation_decisions_df),
       "| numbering slips:", NUMBERING_SLIPS)
 
-# %% [markdown] cell 34
-# # Phase 4 — Template-driven structured extraction
-#
+
+# %% Phase 4 — Template-driven structured extraction
 # One parser for all 23 reports (plan §1.1): it walks the rows of each report in reading order and gives every row a
 # **role** from the ROI template (Phase 2) and the reviewed deviations (3b). No row is left without a role.
 #
@@ -1344,7 +1310,6 @@ print("Fingerprint:", fingerprint_df["status"].value_counts().to_dict(), "| devi
 # Letters are delimited by their headings; the report body starts at its heading or, where none is printed
 # (CUYAHOGA, LITTLE_G), at "1. Preliminary Statement" (3b).
 
-# %% cell 35
 # =========================================================
 # 4.1 Row roles
 # =========================================================
@@ -1567,7 +1532,6 @@ roles_df = pd.DataFrame(role_records)
 rows_df = rows_df.drop(columns=["role"], errors="ignore").merge(roles_df, on="row_id", how="left")
 print(rows_df["role"].value_counts().to_dict())
 
-# %% cell 36
 # =========================================================
 # 4.2 Document parts (letters, report sections), dates, incident date, vessel label
 # =========================================================
@@ -1688,9 +1652,8 @@ meta_df["incident_date"] = meta_df["report_id"].map(INCIDENT_DATE_OF)
 meta_df["version_date"] = meta_df["report_id"].map(VERSION_DATE_OF)
 print("Report metadata:", meta_df.shape, "| missing values:", meta_df.isna().sum()[lambda s: s > 0].to_dict())
 print("Parts per kind:", parts_df.groupby("part").size().to_dict())
-display(meta_df.head(5))
+print(meta_df.head(5))
 
-# %% cell 37
 # =========================================================
 # 4.3 Tables: vessel / vehicle blocks (Section 2) and persons tables (Section 3)
 # =========================================================
@@ -1901,16 +1864,15 @@ persons_none_rows = persons_df[none_rows]
 persons_df = persons_df[~none_rows].reset_index(drop=True)
 print("Persons:", len(persons_df), "in", persons_df["report_id"].nunique(), "reports | reports without persons:",
       sorted(set(REPORT_IDS) - set(persons_df["report_id"])))
-display(persons_df[["report_id", "table_no", "relationship", "sex", "age", "status"]].head(5))
+print(persons_df[["report_id", "table_no", "relationship", "sex", "age", "status"]].head(5))
 print("Vessel / vehicle fields:", len(vessel_fields_df), "| unknown labels:",
       vessel_fields_df.loc[vessel_fields_df["field"].isna(), ["report_id", "label_printed", "value"]].values.tolist()[:10])
 print("Blocks per kind:", vessel_fields_df.drop_duplicates(["report_id", "block_no"])["block_kind"].value_counts().to_dict(),
       "| reports:", vessel_fields_df["report_id"].nunique())
-display(vessel_fields_df[["report_id", "block_no", "block_kind", "field", "value"]].head(5))
+print(vessel_fields_df[["report_id", "block_no", "block_kind", "field", "value"]].head(5))
 
-# %% [markdown] cell 38
-# ### 4.4–4.7 Persons, figures, enclosures, table of contents, validation
-#
+
+# %% 4.4–4.7 Persons, figures, enclosures, table of contents, validation
 # - **Persons (4.4):** the printed relationship/position is the role label (plan §4.6: roles, never names); class
 #   `crew` / `passenger` / `other` and outcome `dead_or_missing` / `injured` / `uninjured`, plus `survivor_unspecified`
 #   for the memorandum's survivor table (it does not say whether a survivor was injured, so nothing is guessed).
@@ -1920,7 +1882,6 @@ display(vessel_fields_df[["report_id", "block_no", "block_kind", "field", "value
 # - **Enclosures and TOC (4.6):** metadata only; they cross-check that the parser found every announced part and section.
 # - **Validation (4.7):** structural asserts + a reviewed snapshot of every count.
 
-# %% cell 39
 # =========================================================
 # 4.4 Persons: role label, class and outcome (plan §4.6: roles, never names)
 # =========================================================
@@ -1954,9 +1915,8 @@ persons_statement.setdefault("SPIRIT_OF_BOSTON", ["no persons section printed"])
 print("Persons:", len(persons_df), "| class:", persons_df["person_class"].value_counts().to_dict(),
       "| outcome:", persons_df["outcome"].value_counts(dropna=False).to_dict())
 print("Reports with a persons statement instead of a table:", sorted(persons_statement))
-display(persons_df[["report_id", "role_label", "person_class", "outcome"]].head(5))
+print(persons_df[["report_id", "role_label", "person_class", "outcome"]].head(5))
 
-# %% cell 40
 # =========================================================
 # 4.5 Figures and tables: caption units, image region, value gate (ADR-020)
 # =========================================================
@@ -2029,9 +1989,8 @@ print("Caption units:", len(figures_df), "| class:", figures_df["figure_class"].
       "| without region:", int(figures_df["region"].isna().sum()), "| caption rows used:",
       sum(map(len, figures_df["row_ids"])), "of", len(cap))
 print("Printed figure numbers used twice:", sorted(FIGURE_NUMBER_REPEATS))
-display(figures_df[["figure_id", "page_number", "figure_class", "caption"]].head(5))
+print(figures_df[["figure_id", "page_number", "figure_class", "caption"]].head(5))
 
-# %% cell 41
 # =========================================================
 # 4.6 "Enclosures" lists and the table of contents, cross-checked against the parts and sections found
 # =========================================================
@@ -2093,7 +2052,6 @@ print("Enclosure items:", len(enclosures_df), "in", enclosures_df["report_id"].n
 print("TOC entries:", len(toc_df), "in", toc_df["report_id"].nunique(), "reports | not found:",
       toc_df.loc[~toc_df["found"], ["report_id", "no", "title"]].values.tolist()[:8])
 
-# %% cell 42
 # =========================================================
 # 4.7 Phase 4 validation
 # =========================================================
@@ -2151,9 +2109,8 @@ print("Phase 4:", len(meta_df), "reports |", len(parts_df), "parts |", actual["v
       actual["persons"], "persons |", len(figures_df), "caption units |", actual["enclosures"], "enclosure items |",
       actual["toc"], "TOC entries")
 
-# %% [markdown] cell 43
-# # Phase 5 — Notes / footnotes and superscripts
-#
+
+# %% Phase 5 — Notes / footnotes and superscripts
 # Policy as in the IMO / LPI notebooks: a **note registry** per report (`note_no → text`), every inline marker resolved
 # to its note, one reviewed **policy** per note — `informative` (appended to the paragraph that cites it as
 # `Note: …` in Phase 9), `citation_only` (an evidence reference — exhibit, transcript, website — kept as metadata of
@@ -2177,7 +2134,6 @@ print("Phase 4:", len(meta_df), "reports |", len(parts_df), "parts |", actual["v
 # SPIRIT_OF_BOSTON **List of Figures / List of Tables** (last pages, small type) was taken for footnotes by the
 # Phase 4 zone rule; it is a list of captions and becomes metadata (`figure_list`), cross-checked against the captions.
 
-# %% cell 44
 # =========================================================
 # 5.1 Superscripts: note markers, restored ordinals / exponents / trademark signs
 # =========================================================
@@ -2252,9 +2208,8 @@ superscripts_df["disposition"] = np.where(superscripts_df["kind"] == "note_ref",
 assert superscripts_df["disposition"].notna().all(), superscripts_df[superscripts_df["disposition"].isna()]
 print("Superscripts:", len(superscripts_df), superscripts_df["kind"].value_counts().to_dict(),
       "| restored lines:", len(restored_lines))
-display(superscripts_df[superscripts_df["kind"] != "note_ref"][["report_id", "page_number", "marker", "kind"]].head(5))
+print(superscripts_df[superscripts_df["kind"] != "note_ref"][["report_id", "page_number", "marker", "kind"]].head(5))
 
-# %% cell 45
 # =========================================================
 # 5.2 Note registry: native footnote zone + OCR footnotes; List of Figures / Tables -> metadata
 # =========================================================
@@ -2339,9 +2294,8 @@ notes_df = pd.DataFrame(note_records).sort_values(["report_id", "note_no"]).rese
 for rid, g in notes_df.groupby("report_id"):
     assert g["note_no"].tolist() == list(range(1, len(g) + 1)), (rid, g["note_no"].tolist())
 print("Notes:", len(notes_df), notes_df.groupby("report_id").size().to_dict())
-display(notes_df[["report_id", "note_no", "text"]].head(5))
+print(notes_df[["report_id", "note_no", "text"]].head(5))
 
-# %% cell 46
 # =========================================================
 # 5.3 Note references and policies
 # =========================================================
@@ -2385,7 +2339,6 @@ assert actual_inf == REVIEWED_INFORMATIVE, actual_inf
 print("Note policies:", notes_df["policy"].value_counts().to_dict(), "| references:", len(note_refs_df),
       note_refs_df["source"].value_counts().to_dict())
 
-# %% cell 47
 # =========================================================
 # 5.4 Phase 5 validation
 # =========================================================
@@ -2415,9 +2368,8 @@ print("✅ Phase 5 validation passed.")
 print("Phase 5:", len(notes_df), "notes in", notes_df["report_id"].nunique(), "reports |", len(note_refs_df),
       "references |", int(superscripts_df["disposition"].eq("restored").sum()), "superscripts restored")
 
-# %% [markdown] cell 48
-# # Phases 6–8 — Body, numbered paragraphs, sections
-#
+
+# %% Phases 6–8 — Body, numbered paragraphs, sections
 # **Phase 6 (body).** The body is what Phase 4 left with the role `body`, minus what is already a structured unit or
 # metadata: the vessel/vehicle table cells and the persons tables (4.3), their printed column headers and block titles,
 # the persons statements ("None", "There were no deceased…" → the persons unit), and the **acronym lists** (CONCHRD's
@@ -2443,7 +2395,6 @@ print("Phase 5:", len(notes_df), "notes in", notes_df["report_id"].nunique(), "r
 # section (the eight ROI sections, whatever title variant is printed) → sub-heading path. This becomes the chunk
 # header `USCG ROI <vessel> (MISLE <n>, <incident date>) — <section path>` (plan §3, Phase 14).
 
-# %% cell 49
 # =========================================================
 # 6.1 Body rows: exclusions (structured units, table headers, persons statements, glossaries)
 # =========================================================
@@ -2533,9 +2484,8 @@ for rid, g in rows_df[rows_df["body_role"] == "glossary"].sort_values(["page_num
 glossary_df = pd.DataFrame(glossary_records)
 print("Body rows:", rows_df["body_role"].value_counts().to_dict())
 print("Glossary entries:", glossary_df.groupby("report_id").size().to_dict())
-display(glossary_df.head(3))
+print(glossary_df.head(3))
 
-# %% cell 50
 # =========================================================
 # 6.2 Paragraphs (reading order, page breaks, figures in the middle of a paragraph)
 # =========================================================
@@ -2625,7 +2575,6 @@ print("Paragraphs:", len(paragraphs_df), "| kinds:", paragraphs_df["kind"].value
       "| across pages:", int((paragraphs_df["page_end"] > paragraphs_df["page_start"]).sum()))
 print("Paragraph length: median", int(paragraphs_df["n_chars"].median()), "| max", int(paragraphs_df["n_chars"].max()))
 
-# %% cell 51
 # =========================================================
 # 7.1 Numbering: printed number, depth, owning number, sub-headings
 # =========================================================
@@ -2682,7 +2631,6 @@ paragraphs_df["title"] = np.where(paragraphs_df["is_subheading"],
 print("Numbered:", int((paragraphs_df["kind"] == "numbered").sum()), "| depth:",
       paragraphs_df["depth"].value_counts().sort_index().to_dict(), "| sub-headings:", int(paragraphs_df["is_subheading"].sum()))
 
-# %% cell 52
 # =========================================================
 # 7.2 Numbering continuity (reviewed exceptions)
 # =========================================================
@@ -2708,9 +2656,8 @@ for (rid, part, sec), g in paragraphs_df[paragraphs_df["kind"] == "numbered"].gr
         chain = [p.number]
 numbering_issues_df = pd.DataFrame(numbering_issues, columns=["report_id", "number", "issue", "context"])
 print("Numbering issues:", len(numbering_issues_df), numbering_issues_df["issue"].value_counts().to_dict())
-display(numbering_issues_df.head(40))
+print(numbering_issues_df.head(40))
 
-# %% cell 53
 # =========================================================
 # 8.1 Sections: part -> sub-part -> canonical section -> sub-heading path
 # =========================================================
@@ -2770,7 +2717,6 @@ print("Paragraph paths:", paragraphs_df["parent_chunk"].nunique(), "parents |",
       int(paragraphs_df["sub_chunk"].notna().sum()), "paragraphs under a sub-heading")
 print("Example header:", paragraphs_df.loc[paragraphs_df["sub_chunk"].notna(), "header"].iloc[0])
 
-# %% cell 54
 # =========================================================
 # 8.2 Phases 6–8 validation
 # =========================================================
@@ -2812,9 +2758,8 @@ print("✅ Phases 6–8 validation passed.")
 print("Phases 6–8:", len(paragraphs_df), "paragraphs |", actual["subheadings"], "sub-headings |",
       len(glossary_df), "glossary entries |", len(numbering_issues_df), "reviewed numbering exceptions")
 
-# %% [markdown] cell 55
-# # Phase 9 — Unified logical units, errata, access and personal data
-#
+
+# %% Phase 9 — Unified logical units, errata, access and personal data
 # One pre-chunking table (`units_df`) with a single authoritative text field (`content`):
 #
 # | unit_type | Source | One unit = |
@@ -2846,7 +2791,6 @@ print("Phases 6–8:", len(paragraphs_df), "paragraphs |", actual["subheadings"]
 # **Access (ADR-021).** Every unit is level 1 / Operations (`docs/rbac_mapping.md` §4: a public federal report). The
 # money keyword pre-filter still lists every candidate unit, and each gets the reviewed decision with its reason.
 
-# %% cell 56
 # =========================================================
 # 9.1 Logical units
 # =========================================================
@@ -2979,9 +2923,8 @@ for n in note_refs_df[note_refs_df["anchor"] == "paragraph"].itertuples():
     else:
         units_df.at[i, "redacted_notes"] += 1
 print("Units:", len(units_df), units_df["unit_type"].value_counts().to_dict())
-display(units_df[["unit_id", "unit_type", "parent_chunk", "content"]].head(3))
+print(units_df[["unit_id", "unit_type", "parent_chunk", "content"]].head(3))
 
-# %% cell 57
 # =========================================================
 # 9.2 Errata (ADR-022) and recorded numbering slips
 # =========================================================
@@ -3008,7 +2951,6 @@ for rid, num in sorted(REVIEWED_NUMBERING):
 errata_df = pd.DataFrame(errata_records)
 print("Errata / recorded slips:", errata_df["kind"].value_counts().to_dict())
 
-# %% cell 58
 # =========================================================
 # 9.3 Access (ADR-021) and personal data (plan §4.6)
 # =========================================================
@@ -3037,7 +2979,6 @@ print("Access candidates:", len(access_candidates), "-> all level 1 / Operations
       "signer names excluded:", len(signer_names), "| individual parties by role:", len(INDIVIDUAL_PARTIES),
       "| honorific names in report text (kept as published):", int(honorific_mentions))
 
-# %% cell 59
 # =========================================================
 # 9.4 Phase 9 validation
 # =========================================================
@@ -3067,9 +3008,8 @@ print("✅ Phase 9 validation passed.")
 print("Phase 9:", len(units_df), "units |", len(errata_df), "errata / recorded slips |", len(access_candidates),
       "access candidates reviewed")
 
-# %% [markdown] cell 60
-# # Phases 10–12 — Deduplication (ADR-010, ADR-019)
-#
+
+# %% Phases 10–12 — Deduplication (ADR-010, ADR-019)
 # Dedup happens on the units, before chunking:
 #
 # - **10 — within a report: the Executive Summary is non-canonical** (plan §4.4, the HbR policy of ADR-019). Each of
@@ -3087,7 +3027,6 @@ print("Phase 9:", len(units_df), "units |", len(errata_df), "errata / recorded s
 # - **12 — across sources:** every unit sentence is compared with the 619 chunks of the other sources (same test);
 #   a covered sentence would be removed under the canonical-source policy (the earlier source is canonical).
 
-# %% cell 61
 # =========================================================
 # 10.1 Sentences and the coverage test
 # =========================================================
@@ -3154,7 +3093,6 @@ assert sentences("The U.S. Coast Guard (O.N. 588734) arrived. It left at 2 p.m. 
     ["The U.S. Coast Guard (O.N. 588734) arrived.", "It left at 2 p.m. Then it sank."]
 print("Sentence tools ready.")
 
-# %% cell 62
 # =========================================================
 # 10.2 Within a report: Executive Summary (non-canonical) trimmed against the report
 # =========================================================
@@ -3196,7 +3134,6 @@ n_trim = sum(r["action"] == "trimmed" for r in dup_records)
 print("Executive Summary:", len(exec_units), "units |", n_trim, "covered sentences trimmed |", len(exec_dropped),
       "units dropped | letters: restated sentences kept:", restated)
 
-# %% cell 63
 # =========================================================
 # 11–12 Across reports (boilerplate kept) and across sources (canonical-source policy)
 # =========================================================
@@ -3222,9 +3159,8 @@ for u in units_df.itertuples():
 duplicate_audit_df = pd.DataFrame(dup_records + cross)
 print("Across reports: boilerplate sentences kept in context:", len(boilerplate), "| across sources:", len(other_chunks),
       "chunks in", len(OTHER_CHUNK_FILES), "files -> covered unit sentences:", len(cross))
-display(duplicate_audit_df.groupby(["scope", "action"]).size())
+print(duplicate_audit_df.groupby(["scope", "action"]).size())
 
-# %% cell 64
 # =========================================================
 # 12.1 Phases 10–12 validation
 # =========================================================
@@ -3244,9 +3180,8 @@ print("✅ Phases 10–12 validation passed.")
 print("Phases 10–12:", n_trim, "summary sentences trimmed |", len(exec_dropped), "summary units dropped |",
       len(boilerplate), "boilerplate sentences kept in context | 0 cross-source duplicates |", len(units_df), "units")
 
-# %% [markdown] cell 65
-# # Phase 12b — IMO incident profiles (plan §4.3, ADR-023)
-#
+
+# %% Phase 12b — IMO incident profiles (plan §4.3, ADR-023)
 # One **incident profile per report**, coded with the field catalogue of the IMO circular MSC-MEPC.3/Circ.4/Rev.1
 # (read from the IMO notebook's extracted file, key `field_catalogue`). Rule (ADR-020): **only values printed in the
 # report**, each with its evidence:
@@ -3264,7 +3199,6 @@ print("Phases 10–12:", n_trim, "summary sentences trimmed |", len(exec_dropped
 # Individual owners stay roles (plan §4.6). The profile becomes one curated chunk per report (Phase 14), and the whole
 # profile with its evidence goes to the extracted file (Phase 13).
 
-# %% cell 66
 # =========================================================
 # 12b.1 Field catalogue and reviewed codes
 # =========================================================
@@ -3323,7 +3257,6 @@ def evidence_of(rid: str, needle: str) -> dict:
 
 print("IMO catalogue:", len(FIELD), "fields,", len(catalogue["option_tables"]), "option tables | reviewed reports:", len(REVIEWED_CODES))
 
-# %% cell 67
 # =========================================================
 # 12b.2 Profiles
 # =========================================================
@@ -3400,7 +3333,6 @@ units_df["redacted_notes"] = units_df["redacted_notes"].fillna(0).astype(int)
 print("Profiles:", len(profiles), "| values:", len(profile_df), profile_df["basis"].value_counts().to_dict())
 print(profile_text("KIM_LY")[:600])
 
-# %% cell 68
 # =========================================================
 # 12b.3 Phase 12b validation (the full trace of every value is Phase 20)
 # =========================================================
@@ -3423,9 +3355,8 @@ assert actual == REVIEWED_PHASE12B, actual
 print("✅ Phase 12b validation passed.")
 print("Phase 12b:", len(profiles), "incident profiles |", len(profile_df), "values |", len(codes), "reviewed codes")
 
-# %% [markdown] cell 69
-# # Phase 13 — Save extracted + cleaned artifacts
-#
+
+# %% Phase 13 — Save extracted + cleaned artifacts
 # One file per layer (plan §3):
 # - `extracted/USCG_ROI_extracted.json` — the raw structured layer **per report**: file, SHA-256, MISLE number, vessel
 #   label, incident and version dates, page classes and OCR use, document parts and printed section titles, vessel /
@@ -3437,7 +3368,6 @@ print("Phase 12b:", len(profiles), "incident profiles |", len(profile_df), "valu
 #
 # Both are reloaded from disk and re-validated.
 
-# %% cell 70
 # =========================================================
 # 13.1 Write
 # =========================================================
@@ -3489,7 +3419,6 @@ CLEANED_PATH.write_text(json.dumps(cleaned, ensure_ascii=False, indent=1, defaul
 print("Saved:", EXTRACTED_PATH.name, f"{EXTRACTED_PATH.stat().st_size / 1e6:.1f} MB |", CLEANED_PATH.name,
       f"{CLEANED_PATH.stat().st_size / 1e6:.1f} MB")
 
-# %% cell 71
 # =========================================================
 # 13.2 Reload and re-validate
 # =========================================================
@@ -3507,9 +3436,8 @@ assert len(cl["duplicate_audit"]) == len(duplicate_audit_df)
 print("✅ Phase 13 validation passed.")
 print("Phase 13:", len(ex["reports"]), "report layers |", len(cl["units"]), "units |", len(cl["duplicate_audit"]), "audit rows")
 
-# %% [markdown] cell 72
-# # Phases 14–15 — Chunking and validation
-#
+
+# %% Phases 14–15 — Chunking and validation
 # Owner's rule (plan §4.7): **the best split per content, not a fixed rule**. Every chunk stands alone: its first line
 # is the header `USCG ROI <vessel> (MISLE <n>, <incident date>) — <section path>`. A chunk never crosses a document
 # part, sub-part or report section, never mixes access levels (all level 1 here), and a unit is never cut unless it is
@@ -3530,7 +3458,6 @@ print("Phase 13:", len(ex["reports"]), "report layers |", len(cl["units"]), "uni
 # than the budget (`MAX_CHUNK_CHARS` minus the header) is split into the **fewest balanced parts** at unit, then
 # sentence boundaries. Tables and the profile are never merged with prose. Figure captions are metadata (Phase 9).
 
-# %% cell 73
 # =========================================================
 # 14.1 Reading order and groups
 # =========================================================
@@ -3594,7 +3521,6 @@ for rid, g in units_df.groupby("report_id", sort=True):
             cur = None                     # prose: one group per unit, joined by the packing below
 print("Groups:", len(group_records), Counter(g["kind"] for g in group_records))
 
-# %% cell 74
 # =========================================================
 # 14.2 Packing and balanced splits
 # =========================================================
@@ -3690,7 +3616,6 @@ print("Size: median", int(chunks_raw["char_count"].median()), "| max", int(chunk
       "| below MIN:", int((chunks_raw["char_count"] < MIN_CHUNK_CHARS).sum()), "| split groups:",
       int((chunks_raw["n_parts"] > 1).sum()))
 
-# %% cell 75
 # =========================================================
 # 14.3 Chunk table (16-column schema, ARCHITECTURE §5)
 # =========================================================
@@ -3716,9 +3641,8 @@ chunks_df = pd.DataFrame({
     "version_date": chunks_raw["report_id"].map(lambda r: day(meta_of.at[r, "version_date"])),
 })[SCHEMA]
 print("Chunk table:", chunks_df.shape)
-display(chunks_df[["chunk_id", "unit_type", "char_count", "sub_chunk"]].head(5))
+print(chunks_df[["chunk_id", "unit_type", "char_count", "sub_chunk"]].head(5))
 
-# %% cell 76
 # =========================================================
 # 15.1 Phases 14–15 validation (reviewed on the samples)
 # =========================================================
@@ -3761,14 +3685,12 @@ print("Phases 14–15:", len(chunks_df), "chunks | median", int(chunks_df["char_
       actual["below_min"], "whole short pieces below MIN (a table, a one-paragraph section) |", actual["split_chunks"],
       "parts of balanced splits")
 
-# %% [markdown] cell 77
-# # Phases 16–18 — Schema, save / reload, cross-source check
-#
+
+# %% Phases 16–18 — Schema, save / reload, cross-source check
 # The chunks are checked against the unified 16-column schema and the dtypes of the existing corpus, saved as
 # `chunks/USCG_ROI_chunks.parquet`, reloaded from disk and compared cell by cell, and concatenated with the 619 chunks
 # of the other sources (unique `chunk_id`, same columns and dtypes, valid department and level).
 
-# %% cell 78
 # =========================================================
 # 16–18 Schema, save / reload, cross-source
 # =========================================================
@@ -3793,9 +3715,8 @@ print("✅ Phases 16–18 validation passed.")
 print("Phases 16–18:", CHUNKS_PATH.name, "|", len(reloaded), "chunks reloaded | corpus:", len(other_chunks), "+",
       len(reloaded), "=", len(corpus), "chunks | levels:", corpus["sensitivity_level"].value_counts().to_dict())
 
-# %% [markdown] cell 79
-# # Phase 19 — Coverage audit (every line of the 23 reports)
-#
+
+# %% Phase 19 — Coverage audit (every line of the 23 reports)
 # Proof that nothing was dropped silently: **every line** of Phase 2 (`lines_df`, native and OCR) gets exactly one
 # disposition:
 #
@@ -3814,7 +3735,6 @@ print("Phases 16–18:", CHUNKS_PATH.name, "|", len(reloaded), "chunks reloaded 
 #
 # The line-level result is added to the single cleaned file (`coverage_audit`).
 
-# %% cell 80
 # =========================================================
 # 19.1 Line dispositions
 # =========================================================
@@ -3896,9 +3816,8 @@ for ln in lines_df.itertuples():
                          "provenance": ln.provenance, "disposition": d})
 coverage_df = pd.DataFrame(dispositions)
 print("Lines:", len(coverage_df), coverage_df["disposition"].value_counts().to_dict())
-display(coverage_df[coverage_df["disposition"] == "UNACCOUNTED"].merge(lines_df[["line_key", "text"]], on="line_key").head(20))
+print(coverage_df[coverage_df["disposition"] == "UNACCOUNTED"].merge(lines_df[["line_key", "text"]], on="line_key").head(20))
 
-# %% cell 81
 # =========================================================
 # 19.2 Coverage validation + cleaned file update
 # =========================================================
@@ -3926,14 +3845,12 @@ print("Phase 19:", len(coverage_df), "lines | 0 unaccounted |", len(pages_withou
       "pages carry no chunk text (covers, letterhead-only, photo pages) |",
       int(coverage_df["disposition"].eq("in_chunks_ocr").sum()), "OCR lines verified in their chunks")
 
-# %% [markdown] cell 82
-# # Phase 20 — IMO incident profiles: trace and validation
-#
+
+# %% Phase 20 — IMO incident profiles: trace and validation
 # Every printed value is traced to the line(s) it was read from; every count is recomputed from the rows; every
 # reviewed code has an evidence sentence that still exists (unit id + sentence number, same text) and a code that
 # exists in the IMO catalogue. The date is traced to the title / cover lines that print it.
 
-# %% cell 83
 # =========================================================
 # 20.1 Trace every profile value
 # =========================================================
@@ -3990,7 +3907,6 @@ assert trace_df.loc[trace_df["basis"] == "printed", "lines"].map(len).gt(0).all(
 print("✅ Phase 20 validation passed.")
 print("Phase 20:", len(trace_df), "profile values traced |", trace_df["basis"].value_counts().to_dict())
 
-# %% cell 84
 # =========================================================
 # Final Checkpoint — pipeline summary (every number below was asserted in its phase)
 # =========================================================
@@ -4023,6 +3939,3 @@ assert (chunks_df["sensitivity_level"] == 1).all() and (chunks_df["department"] 
 for k, v in final_summary.items():
     print(f"{k:45s} {v}")
 print("✅ Final Checkpoint passed.")
-
-# %% [markdown] cell 85
-# Final Checkpoint: see pipelines/checkpoints/rag/USCG_ROI_chunking.md

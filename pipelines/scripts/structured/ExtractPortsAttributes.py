@@ -1,172 +1,97 @@
-"""ExtractPortsAttributes
+"""Ports: UN/LOCODE-attributed GeoJSON → Data/processed/structured/ports.csv (the mirror of the PostgreSQL table `ports`).
 
-Converted from Notebooks/structured/ExtractPortsAttributes.ipynb (2026-10-01) by tools/nb_to_script.py: same cells, same order; `# %% cell N` = notebook cell N.
-Run from the project root: uv run python tools/run.py pipelines/scripts/structured/ExtractPortsAttributes.py
+Origin:  Converted from Notebooks/structured/ExtractPortsAttributes.ipynb (archived in docs/archive/notebooks/).
+         Refactored (ADR-036 D3) 2026-10-01: same steps, same output file byte for byte; the notebook's exploration
+         prints are replaced by assertions and a short summary.
+Run:     uv run python tools/run.py pipelines/scripts/structured/ExtractPortsAttributes.py  (from the project root)
 
 Reads:   Data/raw/structured/attributed_ports.geojson
 Writes:  Data/processed/structured/ports.csv
 Re-run:  safe: rewrites the same CSV
+
+Steps
+1. Read the GeoJSON. The file is latin-1 text followed by a .NET "System.IO.MemoryStream" dump; only the part before
+   that marker is JSON.
+2. One row per feature: LOCODE, Name, Country, Function, Status, outflows, lon, lat.
+3. Duplicate LOCODEs (the same port listed twice): keep the first occurrence.
+4. Validate: unique 5-character LOCODEs, 8-character Function codes, 2-character Status codes, no nulls, valid
+   coordinates, no negative outflows, 837 ports (the row count of `ports` in PostgreSQL).
+5. Write the CSV.
 """
-from IPython.display import display  # outside Jupyter it prints the value (added by the conversion)
-
-
-def _display_result(value):
-    """A notebook shows the value of a cell's last expression unless it is None (added by the conversion)."""
-    if value is not None:
-        display(value)
-
-# %% cell 0
 import json
 from pathlib import Path
+
+import pandas as pd
 
 PROJECT_ROOT = next(
     root for root in [Path.cwd(), *Path.cwd().parents]
     if (root / "Data").is_dir() and (root / "pyproject.toml").exists()
 )
+RAW_FILE = PROJECT_ROOT / "Data" / "raw" / "structured" / "attributed_ports.geojson"
+OUT_FILE = PROJECT_ROOT / "Data" / "processed" / "structured" / "ports.csv"
+EXPECTED_PORTS = 837   # rows of `ports` in PostgreSQL (ARCHITECTURE §4)
 
-file_path = PROJECT_ROOT / "Data" / "raw" / "structured" / "attributed_ports.geojson"
 
-with open(file_path, "rb") as f:
-    raw = f.read()
+def load_features(path: Path) -> list[dict]:
+    """Return the GeoJSON features; the text after the 'System.IO.MemoryStream' marker is not JSON."""
+    text = path.read_bytes().decode("latin-1").split("System.IO.MemoryStream")[0]
+    return json.loads(text)["features"]
 
-text = raw.decode("latin-1")
 
-text = text.split("System.IO.MemoryStream")[0]
+def ports_frame(features: list[dict]) -> pd.DataFrame:
+    """One row per feature, in file order."""
+    rows = []
+    for feature in features:
+        properties = feature["properties"]
+        lon, lat = feature["geometry"]["coordinates"][:2]
+        rows.append({
+            "LOCODE": properties["LOCODE"],
+            "Name": properties["Name"],
+            "Country": properties["Country"],
+            "Function": properties["Function"],
+            "Status": properties["Status"],
+            "outflows": properties["outflows"],
+            "lon": lon,
+            "lat": lat,
+        })
+    return pd.DataFrame(rows)
 
-data = json.loads(text)
 
-print(type(data))
-print(data.keys())
+def report_duplicates(features: list[dict], ports: pd.DataFrame) -> None:
+    """Print each duplicated LOCODE with its names, so the 'keep first' rule can be reviewed in the log."""
+    duplicated = set(ports.loc[ports["LOCODE"].duplicated(keep=False), "LOCODE"])
+    print(f"duplicate LOCODE rows: {int(ports['LOCODE'].duplicated().sum())} ({len(duplicated)} codes)")
+    for feature in features:
+        p = feature["properties"]
+        if p["LOCODE"] in duplicated:
+            print(f"  {p['LOCODE']} | Name: {p['Name']} | NameWoDiac: {p['NameWoDiac']}")
 
-# %% cell 1
-first_port = data["features"][0]
 
-print(first_port.keys())
-print(first_port["properties"])
-print(first_port["geometry"])
+def validate(ports: pd.DataFrame) -> None:
+    assert ports["LOCODE"].is_unique, "duplicate LOCODEs left"
+    assert int(ports.isnull().sum().sum()) == 0, ports.isnull().sum().to_dict()
+    assert set(ports["LOCODE"].str.len()) == {5}, "every LOCODE has 5 characters"
+    assert set(ports["Function"].str.len()) == {8}, "every Function code has 8 characters"
+    assert set(ports["Status"].str.len()) == {2}, "every Status code has 2 characters"
+    assert ports["lon"].between(-180, 180).all() and ports["lat"].between(-90, 90).all(), "invalid coordinates"
+    assert (ports["outflows"] >= 0).all(), "negative outflows"
+    assert len(ports) == EXPECTED_PORTS, f"{len(ports)} ports, expected {EXPECTED_PORTS}"
 
-# %% cell 2
-print(len(data["features"]))
 
-# %% cell 3
-ports = []
+def main() -> None:
+    features = load_features(RAW_FILE)
+    print(f"features in the GeoJSON: {len(features)}")
+    ports = ports_frame(features)
+    report_duplicates(features, ports)
+    ports = ports.drop_duplicates(subset=["LOCODE"], keep="first").reset_index(drop=True)
+    validate(ports)
+    print(f"ports: {len(ports)} | lon {ports['lon'].min()} to {ports['lon'].max()} | "
+          f"lat {ports['lat'].min()} to {ports['lat'].max()} | outflows {ports['outflows'].min()} to "
+          f"{ports['outflows'].max()}")
+    print(f"Status values: {sorted(ports['Status'].unique())}")
+    ports.to_csv(OUT_FILE, index=False)
+    print(f"✅ ports validation passed: {len(ports)} rows written to {OUT_FILE.relative_to(PROJECT_ROOT).as_posix()}")
 
-for feature in data["features"]:
-    properties = feature["properties"]
-    coordinates = feature["geometry"]["coordinates"]
 
-    port = {
-        "LOCODE": properties["LOCODE"],
-        "Name": properties["Name"],
-        "Country": properties["Country"],
-        "Function": properties["Function"],
-        "Status": properties["Status"],
-        "outflows": properties["outflows"],
-        "lon": coordinates[0],
-        "lat": coordinates[1]
-    }
-
-    ports.append(port)
-
-print(len(ports))
-print(ports[0])
-
-# %% cell 4
-import pandas as pd
-
-ports_df = pd.DataFrame(ports)
-
-print(ports_df.shape)
-print(ports_df.columns.tolist())
-print(ports_df.head())
-
-# %% cell 5
-print("NULL values:")
-print(ports_df.isnull().sum())
-
-print("\nDuplicate LOCODEs:")
-print(ports_df["LOCODE"].duplicated().sum())
-
-print("\nData types:")
-print(ports_df.dtypes)
-
-# %% cell 6
-duplicates = ports_df[
-    ports_df["LOCODE"].duplicated(keep=False)
-].sort_values("LOCODE")
-
-print(duplicates.to_string(index=False))
-
-# %% cell 7
-for feature in data["features"]:
-    locode = feature["properties"]["LOCODE"]
-
-    if locode in duplicates["LOCODE"].values:
-        print(
-            locode,
-            "| Name:", feature["properties"]["Name"],
-            "| NameWoDiac:", feature["properties"]["NameWoDiac"]
-        )
-
-# %% cell 8
-ports_df = ports_df.drop_duplicates(
-    subset=["LOCODE"],
-    keep="first"
-).reset_index(drop=True)
-
-print(ports_df.shape)
-print(ports_df["LOCODE"].duplicated().sum())
-
-# %% cell 9
-print("Shape:", ports_df.shape)
-
-print("\nNULL values:")
-print(ports_df.isnull().sum())
-
-print("\nDuplicate LOCODEs:")
-print(ports_df["LOCODE"].duplicated().sum())
-
-print("\nCoordinate ranges:")
-print("Longitude:", ports_df["lon"].min(), "to", ports_df["lon"].max())
-print("Latitude :", ports_df["lat"].min(), "to", ports_df["lat"].max())
-
-print("\nOutflows:")
-print("Min:", ports_df["outflows"].min())
-print("Max:", ports_df["outflows"].max())
-
-# %% cell 10
-print("Unique Status values:")
-print(sorted(ports_df["Status"].unique()))
-
-print("\nUnique Function values:")
-print(sorted(ports_df["Function"].unique()))
-
-print("\nLOCODE length distribution:")
-print(ports_df["LOCODE"].str.len().value_counts().sort_index())
-
-# %% cell 11
-print("LOCODE lengths:")
-print(ports_df["LOCODE"].str.len().value_counts())
-
-print("\nFunction lengths:")
-print(ports_df["Function"].str.len().value_counts())
-
-print("\nStatus lengths:")
-print(ports_df["Status"].str.len().value_counts())
-
-print("\nNegative outflows:")
-print((ports_df["outflows"] < 0).sum())
-
-print("\nInvalid coordinates:")
-print(
-    (
-        (ports_df["lon"] < -180) |
-        (ports_df["lon"] > 180) |
-        (ports_df["lat"] < -90) |
-        (ports_df["lat"] > 90)
-    ).sum()
-)
-
-# %% cell 12
-ports_df.to_csv(PROJECT_ROOT / "Data" / "processed" / "structured" / "ports.csv", index=False)
-_display_result(ports_df.shape)
+if __name__ == "__main__":
+    main()

@@ -1,18 +1,18 @@
 """Phase 0 — Setup & Configuration
 
-Converted from Notebooks/rag/HbR_Annual_report_2025_chunking.ipynb (2026-10-01) by tools/nb_to_script.py: same cells, same order; `# %% cell N` = notebook cell N.
-Run from the project root: uv run python tools/run.py pipelines/scripts/rag/HbR_Annual_report_2025_chunking.py
+Origin:  Converted from Notebooks/rag/HbR_Annual_report_2025_chunking.ipynb (archived in docs/archive/notebooks/).
+         Refactored (ADR-036 D3), cleanup level (2026-10-01): the notebook's phases, code and validations are unchanged;
+         cell markers, Jupyter display() and the conversion helpers became plain sections and print(); proven by
+         `uv run python tools/nb_to_script.py check HbR_Annual_report_2025_chunking` (AST equal to the archived notebook).
+Run:     uv run python tools/run.py pipelines/scripts/rag/HbR_Annual_report_2025_chunking.py  (from the project root)
 
 Reads:   Data/raw/unstructured/HbR_Annual_report_2025_highlights.pdf
 Writes:  Data/processed/rag/extracted|cleaned|chunks/ (the HbR files); review aids in Notebooks/_scratch/ (git-ignored)
 Re-run:  safe: rewrites the same three artifacts
 Final Checkpoint (what was done, problems, fixes): pipelines/checkpoints/rag/HbR_Annual_report_2025_chunking.md
 """
-from IPython.display import display  # outside Jupyter it prints the value (added by the conversion)
 
-# %% [markdown] cell 0
-# # Phase 0 — Setup & Configuration
-#
+# %% Phase 0 — Setup & Configuration
 # This phase initializes the environment and defines the source and pipeline configuration for the
 # **Port of Rotterdam Authority — Annual Report 2025 (highlights)** ingestion pipeline
 # (`HbR_Annual_report_2025_highlights.pdf`, 85 landscape pages).
@@ -33,7 +33,6 @@ from IPython.display import display  # outside Jupyter it prints the value (adde
 #
 # No transformation of the PDF content is performed in this phase.
 
-# %% cell 1
 # =========================================================
 # 0.1 Imports & Environment
 # =========================================================
@@ -54,7 +53,6 @@ print("pandas :", pd.__version__)
 print("numpy  :", np.__version__)
 print("pymupdf:", pymupdf.__version__)
 
-# %% cell 2
 # =========================================================
 # 0.2 Locate the source PDF
 # =========================================================
@@ -74,7 +72,6 @@ if PDF_PATH is None:
 print("PDF found successfully.")
 print("PDF path :", PDF_PATH)
 
-# %% cell 3
 # =========================================================
 # 0.3 Open the source PDF + PDF access helpers
 # =========================================================
@@ -101,7 +98,6 @@ print("Document name :", PDF_PATH.name)
 print("Total pages   :", len(doc))
 print("Image blocks in page_dict(3):", sum(b.get("type") == 1 for b in page_dict(3)["blocks"]))
 
-# %% cell 4
 # =========================================================
 # 0.4 Inspect PDF metadata
 # =========================================================
@@ -112,7 +108,6 @@ print("PDF metadata:")
 for key, value in pdf_metadata.items():
     print(f"{key:12}: {value}")
 
-# %% cell 5
 # =========================================================
 # 0.5 Define project and output paths
 # =========================================================
@@ -135,7 +130,6 @@ print("Cleaned dir      :", CLEANED_DIR)
 print("Chunks dir       :", CHUNKS_DIR)
 print("Scratch dir      :", SCRATCH_DIR)
 
-# %% cell 6
 # =========================================================
 # 0.6 Define source and pipeline configuration
 # =========================================================
@@ -182,7 +176,6 @@ print("MIN_CHUNK_CHARS :", MIN_CHUNK_CHARS)
 print("MAX_CHUNK_CHARS :", MAX_CHUNK_CHARS)
 print("CHUNK_PREFIX    :", CHUNK_PREFIX)
 
-# %% cell 7
 # =========================================================
 # 0.7 Source file fingerprint
 # =========================================================
@@ -206,7 +199,6 @@ print("File  :", PDF_PATH.name)
 print("Size  :", f"{SOURCE_FILE_SIZE:,}", "bytes")
 print("SHA256:", SOURCE_SHA256)
 
-# %% cell 8
 # =========================================================
 # 0.8 Phase 0 validation
 # =========================================================
@@ -234,9 +226,8 @@ print("Pages :", len(doc))
 print("Source:", SOURCE_NAME)
 print("SHA256:", SOURCE_SHA256)
 
-# %% [markdown] cell 9
-# # Phase 1 — Page Inventory
-#
+
+# %% Phase 1 — Page Inventory
 # This phase creates a raw page-level inventory of the source PDF, before any classification,
 # structural parsing, table/figure extraction, cleaning, deduplication or chunking.
 #
@@ -252,7 +243,6 @@ print("SHA256:", SOURCE_SHA256)
 # (git-ignored) so the layout can be inspected outside the project environment. The export is never read
 # back by this notebook.
 
-# %% cell 10
 # =========================================================
 # 1.1 Build page inventory
 # =========================================================
@@ -285,7 +275,6 @@ print("Page inventory created successfully.")
 print("Rows   :", len(pages_df))
 print("Columns:", list(pages_df.columns))
 
-# %% cell 11
 # =========================================================
 # 1.2 Inventory statistics
 # =========================================================
@@ -304,7 +293,6 @@ print(pages_df[["text_block_count", "image_count", "image_placements", "drawing_
 print("\nPage sizes (width x height):")
 print(pages_df.groupby(["page_width", "page_height"]).size())
 
-# %% cell 12
 # =========================================================
 # 1.3 Inventory preview (all pages)
 # =========================================================
@@ -315,10 +303,9 @@ preview_df["text_preview"] = (
 )
 
 with pd.option_context("display.max_rows", None, "display.max_colwidth", 160):
-    display(preview_df[["page_number", "word_count", "line_count", "text_block_count",
+    print(preview_df[["page_number", "word_count", "line_count", "text_block_count",
                         "image_count", "image_placements", "drawing_count", "link_count", "text_preview"]])
 
-# %% cell 13
 # =========================================================
 # 1.4 Flag unusual pages (no text / very little text / images / many drawings)
 # =========================================================
@@ -332,10 +319,9 @@ special_pages_df = pages_df[
 ].copy()
 
 with pd.option_context("display.max_rows", None):
-    display(special_pages_df[["page_number", "word_count", "text_block_count",
+    print(special_pages_df[["page_number", "word_count", "text_block_count",
                               "image_count", "image_placements", "drawing_count"]])
 
-# %% cell 14
 # =========================================================
 # 1.5 Raw text inspection of selected pages
 # =========================================================
@@ -352,7 +338,6 @@ for page_number in inspection_pages:
     print(text_preview[:900] if text_preview else "[NO TEXT]")
     print()
 
-# %% cell 15
 # =========================================================
 # 1.6 Review aid: export the raw PyMuPDF layout to Notebooks/_scratch/state (git-ignored)
 # =========================================================
@@ -401,7 +386,6 @@ state_path = STATE_DIR / f"{SOURCE_NAME}_layout.json"
 state_path.write_text(json.dumps(layout_export, ensure_ascii=False), encoding="utf-8")
 print(f"Saved review aid: {state_path.relative_to(PROJECT_ROOT)} ({state_path.stat().st_size:,} bytes)")
 
-# %% cell 16
 # =========================================================
 # 1.7 Phase 1 validation
 # =========================================================
@@ -427,9 +411,8 @@ print("Pages without text    :", pages_df.loc[pages_df["word_count"] == 0, "page
 print("Pages with images     :", int((pages_df["image_placements"] > 0).sum()))
 print("Pages with >60 drawings:", pages_df.loc[pages_df["drawing_count"] > 60, "page_number"].tolist())
 
-# %% [markdown] cell 17
-# # Phase 2 — Page Classification
-#
+
+# %% Phase 2 — Page Classification
 # Each page receives a class label and a human-readable reason. Rules are derived from observed page
 # signals (2.1), never from hard-coded page numbers; a reviewed snapshot (2.4) guards the result.
 #
@@ -445,7 +428,6 @@ print("Pages with >60 drawings:", pages_df.loc[pages_df["drawing_count"] > 60, "
 # - Non-retrieval: `cover_image`, `contents`, `chapter_divider` (their headings are still used as metadata in Phase 3)
 # - Retrieval: `content`, `credits` (publisher / contact facts, kept as one unit — plan §3.4)
 
-# %% cell 18
 # =========================================================
 # 2.1 Page signals (inspection only — no decisions yet)
 # =========================================================
@@ -491,12 +473,11 @@ for p in range(1, len(doc) + 1):
 signals_df = pd.DataFrame(signal_records)
 
 with pd.option_context("display.max_rows", None, "display.max_colwidth", 110):
-    display(signals_df)
+    print(signals_df)
 
 print("\nNav bar present on", int(signals_df["has_nav"].sum()), "pages;",
       "active label found on", int(signals_df["active_nav"].notna().sum()))
 
-# %% cell 19
 # =========================================================
 # 2.2 Inspect ambiguous pages (raw lines)
 # =========================================================
@@ -516,7 +497,6 @@ for p in AMBIGUOUS:
     print("-" * 100)
     print("\n".join(lines[:25]) if lines else "[NO TEXT]")
 
-# %% cell 20
 # =========================================================
 # 2.3 Page classification rules
 # =========================================================
@@ -554,12 +534,11 @@ page_class_df[["page_class", "reason"]] = pd.DataFrame(rows, index=signals_df.in
 page_class_df["keep_for_retrieval"] = page_class_df["page_class"].isin(RETRIEVAL_CLASSES)
 
 with pd.option_context("display.max_rows", None, "display.max_colwidth", 90):
-    display(page_class_df)
+    print(page_class_df)
 
 print("\nClass counts:")
 print(page_class_df["page_class"].value_counts())
 
-# %% cell 21
 # =========================================================
 # 2.4 Phase 2 validation
 # =========================================================
@@ -601,9 +580,8 @@ print("Excluded pages  :", page_class_df.loc[~page_class_df["keep_for_retrieval"
       .values.tolist())
 print("Pages per chapter (nav):", retrieval.groupby("active_nav", sort=False).size().to_dict())
 
-# %% [markdown] cell 22
-# # Phase 3 — Structure Reconnaissance
-#
+
+# %% Phase 3 — Structure Reconnaissance
 # Goal: build a confirmed `section_map` (headings, levels, physical positions) from the visible
 # typography, cross-checked against three independent sources in the PDF itself:
 #
@@ -619,7 +597,6 @@ print("Pages per chapter (nav):", retrieval.groupby("active_nav", sort=False).si
 # subsections numbered Bold 10pt (`4.2.1 …`), headings Bold 10pt, sub-headings Bold 8.5pt, minor/box
 # headings: a whole line in Bold 8pt.
 
-# %% cell 23
 # =========================================================
 # 3.1 Line table, zones, body font size
 # =========================================================
@@ -678,9 +655,8 @@ print("Zones            :", lines_df["zone"].value_counts().to_dict())
 print("BODY_FONT / SIZE :", BODY_FONT, BODY_FONT_SIZE)
 print("\nFont profile (retrieval pages, body zone):")
 with pd.option_context("display.max_colwidth", 60, "display.max_rows", 60):
-    display(size_profile)
+    print(size_profile)
 
-# %% cell 24
 # =========================================================
 # 3.2 Header / footer zones and printed page numbers
 # =========================================================
@@ -703,7 +679,6 @@ print("PAGE_OFFSET (physical - printed):", PAGE_OFFSET)
 print("Pages without a printed number   :",
       sorted(set(range(1, len(doc) + 1)) - set(footer["page_number"])))
 
-# %% cell 25
 # =========================================================
 # 3.3 Chemical subscripts (CO2, NO2, PM10, PM2.5)
 # =========================================================
@@ -779,9 +754,8 @@ print(f"Subscript lines: {len(subscripts_df)} on pages {sorted(subscripts_df['pa
 print(f"Small digit lines NOT treated as subscripts (no host line with a token): {len(orphan_subs)} "
       f"on pages {sorted({o[0] for o in orphan_subs})} (chart values / axis ticks)")
 with pd.option_context("display.max_colwidth", 100, "display.max_rows", None):
-    display(subscripts_df[["page_number", "x0", "y0", "size", "text", "host_text"]])
+    print(subscripts_df[["page_number", "x0", "y0", "size", "text", "host_text"]])
 
-# %% cell 26
 # =========================================================
 # 3.4 Chapters and numbered sections from the Contents page and the chapter dividers
 # =========================================================
@@ -834,13 +808,12 @@ chapter_of_title = {t: next((c for c in CHAPTERS if c.upper() == clean_heading(t
                     for t in div_titles}
 
 print("Chapters from Contents:")
-display(toc_chapters)
+print(toc_chapters)
 print("\nDivider titles -> chapter:", chapter_of_title)
 print("\nNumbered divider entries:")
 with pd.option_context("display.max_rows", None):
-    display(divider_entries)
+    print(divider_entries)
 
-# %% cell 27
 # =========================================================
 # 3.5 Heading candidates (font-role based)
 # =========================================================
@@ -904,10 +877,9 @@ heading_cand_df = pd.DataFrame(groups)
 print(f"Heading candidates: {len(heading_cand_df)}")
 print(heading_cand_df["role"].value_counts().to_string())
 print("\nMulti-line headings:")
-display(heading_cand_df[heading_cand_df["n_lines"] > 1][["page_number", "role", "n_lines", "text"]])
+print(heading_cand_df[heading_cand_df["n_lines"] > 1][["page_number", "role", "n_lines", "text"]])
 print("\nNon-heading lines deliberately excluded:", NOT_A_HEADING)
 
-# %% cell 28
 # =========================================================
 # 3.6 Build section_map (levels, names, reading order, hierarchy path)
 # =========================================================
@@ -970,9 +942,8 @@ section_map.insert(0, "heading_id", [f"h{i:03d}" for i in range(1, len(section_m
 
 print(f"section_map: {len(section_map)} headings", section_map["role"].value_counts().to_dict())
 with pd.option_context("display.max_rows", None, "display.max_colwidth", 70):
-    display(section_map[["heading_id", "page_number", "column", "y0", "level", "role", "heading_text", "subsection"]])
+    print(section_map[["heading_id", "page_number", "column", "y0", "level", "role", "heading_text", "subsection"]])
 
-# %% cell 29
 # =========================================================
 # 3.7 PDF outline (inspected; used as an independent cross-check in 3.8)
 # =========================================================
@@ -982,7 +953,6 @@ print(f"PDF outline entries: {len(outline)}")
 for level, title, page in outline[:60]:
     print(f"{'  ' * (level - 1)}[{level}] p{page}: {title}")
 
-# %% cell 30
 # =========================================================
 # 3.8 Phase 3 validation
 # =========================================================
@@ -1069,9 +1039,8 @@ print(f"Numbered entries: {len(divider_entries)} (all found)")
 print(f"PAGE_OFFSET     : {PAGE_OFFSET} | zones: header y1 <= {NAV_MAX_Y1}, footer y0 >= {FOOTER_MIN_Y0}")
 print(f"BODY font       : {BODY_FONT} {BODY_FONT_SIZE}pt")
 
-# %% [markdown] cell 31
-# # Phase 4 — Structured Extraction
-#
+
+# %% Phase 4 — Structured Extraction
 # Goal: turn every structured element into semantic units, and record the physical region (page + bbox)
 # of each one so body extraction (Phase 6) can exclude it. The report has **no figure or table numbers**,
 # so ids are page-based (`tab_p13`, `fig_p33a`, …).
@@ -1095,7 +1064,6 @@ print(f"BODY font       : {BODY_FONT} {BODY_FONT_SIZE}pt")
 #
 # Renders are temporary review aids in `Notebooks/_scratch/figure_renders/` (git-ignored).
 
-# %% cell 32
 # =========================================================
 # 4.1 Span table, text helpers, structured-element reconnaissance
 # =========================================================
@@ -1209,9 +1177,8 @@ print(f"Spans (body zone, retrieval pages): {len(spans_df)}")
 print("Header bands by kind:", bands_df["kind"].value_counts().to_dict())
 print("'Focal point:' lines :", len(iro_starts), "on pages", iro_starts["page_number"].tolist())
 with pd.option_context("display.max_rows", None, "display.max_colwidth", 90):
-    display(bands_df[["page_number", "column", "x0", "y0", "x1", "y1", "n_cols", "kind", "text"]])
+    print(bands_df[["page_number", "column", "x0", "y0", "x1", "y1", "n_cols", "kind", "text"]])
 
-# %% cell 33
 # =========================================================
 # 4.2 Generic table grid extraction (span level)
 # =========================================================
@@ -1334,7 +1301,6 @@ for t in raw_tables:
     print(f"  {t['table_id']:8} p{b.page_number} col{b.column} y{b.y0:.0f}-{t['ext']['y1'].max():.0f} "
           f"cols={b.n_cols} lines={len(t['ext'])} | header: {t['header_cols']}")
 
-# %% cell 34
 # =========================================================
 # 4.3 Table spec (reviewed 2026-09-25) + table_row units
 # =========================================================
@@ -1525,12 +1491,11 @@ for t in raw_tables:
 print(f"✅ Table units built: {len(table_units_df)} rows from {len(table_meta_df)} tables")
 print("Errata applied:", len(errata_used))
 with pd.option_context("display.max_colwidth", 110, "display.max_rows", None):
-    display(table_meta_df[["table_id", "page_number", "n_rows", "title", "note"]])
+    print(table_meta_df[["table_id", "page_number", "n_rows", "title", "note"]])
 for uid in ["tab_p13_r01", "tab_p25_r08", "tab_p55_r03", "tab_p82a_r04", "tab_p83a_r13", "tab_p73b_r02", "tab_p40_r01"]:
     print("\n---", uid)
     print(table_units_df.set_index("unit_id").at[uid, "content"])
 
-# %% cell 35
 # =========================================================
 # 4.4 Impacts, risks and opportunities (IRO) boxes -> one `iro_box` unit per ESG theme
 # =========================================================
@@ -1604,7 +1569,6 @@ print(iro_units_df.set_index("unit_id").at["iro_p27", "content"])
 print()
 print(iro_units_df.set_index("unit_id").at["iro_p65", "content"])
 
-# %% cell 36
 # =========================================================
 # 4.5 Text boxes ("spotlight" boxes, 7.25pt prose with a bold title) -> `box` units
 # =========================================================
@@ -1663,7 +1627,6 @@ print(f"✅ Text boxes: {len(box_units_df)}")
 for r in box_units_df.itertuples():
     print(f"\n--- {r.unit_id} ({len(r.content)} chars)\n{r.content[:400]} …")
 
-# %% cell 37
 # =========================================================
 # 4.6 Milestone cards ("2.1 Milestones 2025", four columns per page) -> `milestone` units
 # =========================================================
@@ -1707,9 +1670,8 @@ assert milestone_units_df["row_label"].tolist() == REVIEWED_MILESTONES, mileston
 
 print(f"✅ Milestone cards: {len(milestone_units_df)}")
 with pd.option_context("display.max_colwidth", 140):
-    display(milestone_units_df[["unit_id", "n_lines", "content"]])
+    print(milestone_units_df[["unit_id", "n_lines", "content"]])
 
-# %% cell 38
 # =========================================================
 # 4.7 Graphics inventory, regions and text elements
 # =========================================================
@@ -1839,9 +1801,8 @@ assert set(zip(chart_lines["page_number"], chart_lines["block_no"], chart_lines[
 print("Image placements:", images_df["kind"].value_counts().to_dict())
 print("Dense vector drawings (page, column, n):", dense.values.tolist())
 print("Chart text lines:", len(chart_lines))
-display(figure_regions_df)
+print(figure_regions_df)
 
-# %% cell 39
 # =========================================================
 # 4.8 (prep) Render graphic regions + element dumps for review
 # =========================================================
@@ -1862,7 +1823,6 @@ for r in figure_regions_df.itertuples():
 saved = sorted(p.name for p in REVIEW_DIR.glob(f"{SOURCE_NAME}_*"))
 print(f"Saved {len(saved)} review files to {REVIEW_DIR.relative_to(PROJECT_ROOT)}")
 
-# %% cell 40
 # =========================================================
 # 4.9 Chart evidence: which printed number belongs to which year / step?
 # =========================================================
@@ -1930,7 +1890,6 @@ assert abs(19.1 + sum(v for k, v in FIG_P33B_STEPS.items() if k not in ("2024", 
     "Waterfall steps must add up (within rounding) from 2024 to 2030."
 assert FIG_P13_TOTALS["2025"] == [291.4], "Chart total must equal the prose (gross investments EUR 291.4 million)."
 
-# %% cell 41
 # =========================================================
 # 4.10 Value gate — reviewed decisions (2026-09-25)
 # =========================================================
@@ -2007,9 +1966,8 @@ assert set(figure_regions_df["ref"]) == set(GRAPHICS), "Every graphic (including
 print("✅ Value gate recorded:", figure_gate_df["decision"].value_counts().to_dict(),
       f"| photos skipped: {len(photo_gate_df)} | decorative icons: {int((images_df['kind'] == 'decorative_icon').sum())}")
 with pd.option_context("display.max_colwidth", 120):
-    display(figure_gate_df[["figure_id", "page_number", "graphic_kind", "decision", "reason"]])
+    print(figure_gate_df[["figure_id", "page_number", "graphic_kind", "decision", "reason"]])
 
-# %% cell 42
 # =========================================================
 # 4.11 Figure units (curated descriptions, reviewed against the renders on 2026-09-25)
 # =========================================================
@@ -2155,7 +2113,6 @@ print(f"✅ Figure units built: {len(figure_units_df)} (all 'full'; skipped: "
 for r in figure_units_df.itertuples():
     print("\n" + "=" * 100 + f"\n{r.unit_id} ({len(r.content)} chars)\n{r.content}")
 
-# %% cell 43
 # =========================================================
 # 4.12 Phase 4 QA — structured units + structured regions
 # =========================================================
@@ -2217,12 +2174,11 @@ print("✅ Phase 4 validation passed.")
 print("Structured units :", len(structured_units_df), structured_units_df["unit_type"].value_counts().to_dict())
 print("Regions          :", len(structured_regions_df), structured_regions_df["kind"].value_counts().to_dict())
 print("Figure gate      :", figure_gate_df["decision"].value_counts().to_dict(), "| photos skipped:", len(photo_gate_df))
-display(structured_units_df.assign(chars=structured_units_df["content"].str.len())
+print(structured_units_df.assign(chars=structured_units_df["content"].str.len())
         .groupby("unit_type")["chars"].describe()[["count", "min", "mean", "max"]])
 
-# %% [markdown] cell 44
-# # Phase 5 — Notes / Footnotes
-#
+
+# %% Phase 5 — Notes / Footnotes
 # The reference pipeline links endnote markers to a notes registry. **This report has no footnotes or endnotes**:
 # there is no Notes page, and the only small digit spans next to prose are the chemical subscripts
 # (CO2, NO2, PM10, PM2.5) already re-inserted in Phase 3.
@@ -2234,7 +2190,6 @@ display(structured_units_df.assign(chars=structured_units_df["content"].str.len(
 # - **5.2** validation: zero note markers, zero note registry entries, every small digit line accounted for
 #   (subscript or chart label).
 
-# %% cell 45
 # =========================================================
 # 5.1 Note-marker scan (span level)
 # =========================================================
@@ -2276,7 +2231,6 @@ print(f"Superscript-style marker spans inside prose lines: {len(note_markers_df)
 print(f"'Notes' / 'Sources' headings on retrieval pages    : {len(note_headings)}")
 print("Small digit-only lines by explanation:", small_digits["accounted_as"].value_counts().to_dict())
 
-# %% cell 46
 # =========================================================
 # 5.2 Phase 5 validation
 # =========================================================
@@ -2293,9 +2247,8 @@ print("✅ Phase 5 validation passed: no footnotes/endnotes in this report.")
 print(f"Chemical subscripts: 28 (merged in Phase 3) | chart labels: "
       f"{int((small_digits['accounted_as'] == 'chart_label').sum())} (Phase 4 figure elements)")
 
-# %% [markdown] cell 47
-# # Phase 6 — Body Extraction + Cleaning
-#
+
+# %% Phase 6 — Body Extraction + Cleaning
 # Goal: extract only the body prose of the retrieval pages, cleaned and with physical position,
 # excluding everything handled in Phases 3–5.
 #
@@ -2311,7 +2264,6 @@ print(f"Chemical subscripts: 28 (merged in Phase 3) | chart labels: "
 # - **6.4** duplication check against structured units
 # - **6.5** body audit + validation
 
-# %% cell 48
 # =========================================================
 # 6.1 Structural boundaries: tag every line on retrieval pages
 # =========================================================
@@ -2342,10 +2294,9 @@ print("Lines by reason:", rl["reason"].value_counts().to_dict())
 print("\nsection_map headings (typographic) vs lines tagged 'heading':",
       int((section_map["role"] != "implied_section").sum()), "headings /", int((rl["reason"] == "heading").sum()), "lines")
 print("\nBody-line fonts (preview for 6.5):")
-display(rl[rl["reason"] == "body"].groupby(["font", "size"]).agg(
+print(rl[rl["reason"] == "body"].groupby(["font", "size"]).agg(
     lines=("text", "size"), pages=("page_number", "nunique"), example=("text", "first")))
 
-# %% cell 49
 # =========================================================
 # 6.2 Bullet detection (vector bullets) + line-break rules
 # =========================================================
@@ -2383,7 +2334,6 @@ assert line_break_type("(PM2.5 and PM10) -") == "none"
 
 print(f"Vector bullets found: {len(bullets_df)} on {bullets_df['page_number'].nunique()} pages")
 
-# %% cell 50
 # =========================================================
 # 6.3 Body-line extraction
 # =========================================================
@@ -2422,9 +2372,8 @@ print(f"Bullet starts     : {int(body_lines_df['is_bullet_start'].sum())} | vect
       f"{used_bullets} of {len(bullets_df)}")
 print(f"Lines with a merged subscript: {int(body_lines_df['has_subscript'].sum())}")
 with pd.option_context("display.max_colwidth", 90):
-    display(body_lines_df[body_lines_df["is_bullet_start"]].head(6)[["line_uid", "x0", "text"]])
+    print(body_lines_df[body_lines_df["is_bullet_start"]].head(6)[["line_uid", "x0", "text"]])
 
-# %% cell 51
 # =========================================================
 # 6.4 Duplication check: body lines vs structured units
 # =========================================================
@@ -2455,7 +2404,7 @@ print(f"Table-font (7.25pt) lines left in body : {len(table_font_leaks)}")
 print(f"Body lines that are also structured lines: {len(body_keys & structured_line_keys)}")
 print(f"Body lines whose text also occurs in a structured unit (textual repeats): {len(overlaps_df)}")
 with pd.option_context("display.max_colwidth", 90):
-    display(overlaps_df)
+    print(overlaps_df)
 assert table_font_leaks.empty, "Structured text leaked into body."
 assert not (body_keys & structured_line_keys), "A physical line is both body and structured."
 # reviewed 2026-09-25: the repeats are legitimate — the purpose quote also appears in a milestone card,
@@ -2467,7 +2416,6 @@ assert repeats == REVIEWED_TEXT_REPEATS, f"Textual repeats changed: {repeats}"
 assert set(overlaps_df["line_uid"]) - set(REVIEWED_TEXT_REPEATS) <= {"p25_b9_l3"}, "Unexpected textual repeat."
 print("✅ No structured-element leakage into body text.")
 
-# %% cell 52
 # =========================================================
 # 6.5 Body audit + Phase 6 validation
 # =========================================================
@@ -2511,9 +2459,8 @@ print(f"Excluded   : {excluded_lines_df['reason'].value_counts().to_dict()}")
 print(f"Bullets    : {int(body_lines_df['is_bullet_start'].sum())} | hyphen breaks: "
       f"{int((body_lines_df['line_break'] == 'hyphen').sum())}")
 
-# %% [markdown] cell 53
-# # Phase 7 — Paragraph Reconstruction
-#
+
+# %% Phase 7 — Paragraph Reconstruction
 # Goal: rebuild complete paragraphs from the Phase 6 body lines, in true reading order, including
 # paragraphs that continue across a column or a page.
 #
@@ -2527,7 +2474,6 @@ print(f"Bullets    : {int(body_lines_df['is_bullet_start'].sum())} | hyphen brea
 # whenever the previous line did not end a sentence; a heading or a structured element (table, box, graphic)
 # between two lines always ends the paragraph.
 
-# %% cell 54
 # =========================================================
 # 7.1 Layout profile: leading, paragraph gap, indents
 # =========================================================
@@ -2567,7 +2513,6 @@ print("dy distribution (top):", rb["dy"].value_counts().head(8).to_dict())
 print("dx distribution (top):", rb["dx"].value_counts().head(8).to_dict())
 print("dx of bullet lines    :", rb.loc[rb["is_bullet_start"], "dx"].value_counts().to_dict())
 
-# %% cell 55
 # =========================================================
 # 7.2 Paragraph boundary rules
 # =========================================================
@@ -2634,9 +2579,8 @@ trans_df = pd.DataFrame({
 }).iloc[1:]
 print("\nColumn / page transitions that CONTINUE a paragraph:")
 with pd.option_context("display.max_rows", None, "display.max_colwidth", 45):
-    display(trans_df[trans_df["decision"] == "CONTINUE"])
+    print(trans_df[trans_df["decision"] == "CONTINUE"])
 
-# %% cell 56
 # =========================================================
 # 7.3 Reconstruct paragraphs
 # =========================================================
@@ -2668,10 +2612,9 @@ print(f"Paragraphs: {len(paragraphs_df)} | spanning >1 page: "
       f"{int((paragraphs_df['page_start'] != paragraphs_df['page_end']).sum())}")
 print("Size (chars):", paragraphs_df["char_count"].describe()[["min", "50%", "max"]].to_dict())
 with pd.option_context("display.max_rows", 40, "display.max_colwidth", 90):
-    display(paragraphs_df[["paragraph_id", "page_start", "page_end", "boundary_reason", "char_count", "text"]]
+    print(paragraphs_df[["paragraph_id", "page_start", "page_end", "boundary_reason", "char_count", "text"]]
             .assign(text=paragraphs_df["text"].str[:90]))
 
-# %% cell 57
 # =========================================================
 # 7.4 Paragraph validation
 # =========================================================
@@ -2702,9 +2645,9 @@ print(f"Paragraphs starting lowercase : {len(starts_lower)}")
 print(f"Paragraphs without an ending  : {len(no_end)}")
 with pd.option_context("display.max_colwidth", 130, "display.max_rows", None):
     if len(starts_lower):
-        display(starts_lower[["paragraph_id", "page_start", "boundary_reason", "text"]])
+        print(starts_lower[["paragraph_id", "page_start", "boundary_reason", "text"]])
     if len(no_end):
-        display(no_end[["paragraph_id", "page_start", "boundary_reason", "text"]].assign(text=no_end["text"].str[-110:]))
+        print(no_end[["paragraph_id", "page_start", "boundary_reason", "text"]].assign(text=no_end["text"].str[-110:]))
 
 # Reviewed 2026-09-25: all are list items (bullets continue an introducing sentence ending in ':'),
 # the foreword signature, and the address lines of the credits page — no broken paragraph.
@@ -2736,9 +2679,8 @@ assert len(paragraphs_df) == 426
 print(f"\n✅ Phase 7 validation passed. Paragraphs: {len(paragraphs_df)} "
       f"{paragraphs_df['boundary_reason'].value_counts().to_dict()}")
 
-# %% [markdown] cell 58
-# # Phase 8 — Section / Subsection Assignment
-#
+
+# %% Phase 8 — Section / Subsection Assignment
 # Every unit is assigned by **physical position**: the last heading that precedes it in the band-aware
 # reading order `(page, band, column, y)` of Phase 7. Unlike the LPI reports, tables and graphics here are
 # unnumbered and never referenced by number, and they sit where they belong (right under the heading or
@@ -2746,7 +2688,6 @@ print(f"\n✅ Phase 7 validation passed. Paragraphs: {len(paragraphs_df)} "
 # columns of the band above it. `subsection` is the full heading path below the chapter, e.g.
 # `4.2 Double Materiality Analysis > 4.2.1 Climate mitigation > Activities > Reducing greenhouse gas … > Fleet renewal`.
 
-# %% cell 59
 # =========================================================
 # 8.1 Heading positions in reading order + locate()
 # =========================================================
@@ -2774,7 +2715,6 @@ def region_rkey(region_id: str) -> tuple:
 
 print(f"Headings in reading order: {len(heading_seq)} | first: {heading_seq['heading_text'].iloc[0]!r}")
 
-# %% cell 60
 # =========================================================
 # 8.2 Assign paragraph sections
 # =========================================================
@@ -2783,7 +2723,6 @@ paragraphs_df["section"] = loc.map(lambda d: d["section"])
 paragraphs_df["subsection_path"] = loc.map(lambda d: d["subsection_path"])
 paragraphs_df["heading_id"] = loc.map(lambda d: d["heading_id"])
 
-# %% cell 61
 # =========================================================
 # 8.3 Assign structured-unit sections (physical position of the element's region)
 # =========================================================
@@ -2798,7 +2737,6 @@ for key in ("section", "subsection_path", "heading_id"):
     structured_units_df[key] = sloc.map(lambda d, k=key: d[k])
 structured_units_df["section_basis"] = "physical_position"
 
-# %% cell 62
 # =========================================================
 # 8.4 Validate assignment
 # =========================================================
@@ -2831,12 +2769,11 @@ summary = (paragraphs_df.assign(subsection=paragraphs_df["subsection_path"].map(
 print("✅ Phase 8 validation passed.")
 print(f"Paragraph locations: {len(summary)} distinct section/subsection paths")
 with pd.option_context("display.max_rows", 60, "display.max_colwidth", 110):
-    display(structured_units_df.assign(subsection=structured_units_df["subsection_path"].map(" > ".join))
+    print(structured_units_df.assign(subsection=structured_units_df["subsection_path"].map(" > ".join))
             .drop_duplicates("subsection")[["unit_id", "unit_type", "section", "subsection"]])
 
-# %% [markdown] cell 63
-# # Phase 9 — Unified Logical Units + per-unit access control
-#
+
+# %% Phase 9 — Unified Logical Units + per-unit access control
 # One pre-chunking table with a single authoritative text field (`content`): paragraphs + table rows +
 # IRO boxes + text boxes + milestone cards + figures.
 #
@@ -2849,7 +2786,6 @@ with pd.option_context("display.max_rows", 60, "display.max_colwidth", 110):
 #   level 1 / Operations.
 # - **9.4** validation.
 
-# %% cell 64
 # =========================================================
 # 9.1 Combine paragraphs + structured units (reading order)
 # =========================================================
@@ -2884,7 +2820,6 @@ units_df["subsection"] = units_df["subsection_path"].map(lambda p: " > ".join(p)
 
 print("Units:", len(units_df), units_df["unit_type"].value_counts().to_dict())
 
-# %% cell 65
 # =========================================================
 # 9.2 Source errata in prose (reviewed 2026-09-25)
 # =========================================================
@@ -2910,10 +2845,9 @@ for e in PROSE_ERRATA:
     units_df.at[i, "content"] = " ".join(units_df.at[i, "content"].replace(e["match"], "").split())
     errata_log.append({"unit_id": units_df.at[i, "unit_id"], "removed": e["match"], "evidence": e["evidence"]})
 errata_df = pd.DataFrame(errata_log)
-display(errata_df)
+print(errata_df)
 print(units_df.set_index("unit_id").at[errata_df["unit_id"].iloc[0], "content"])
 
-# %% cell 66
 # =========================================================
 # 9.3 Access control per unit (sensitivity_level / department) — reviewed 2026-09-25
 # =========================================================
@@ -2997,12 +2931,11 @@ access_df = pd.DataFrame(access_records)
 units_df = units_df.merge(access_df[["unit_id", "sensitivity_level", "department", "access_code"]], on="unit_id")
 
 print("Candidates reviewed:", len(candidates), "| level 3 / Finance:", len(FINANCIAL_UNITS))
-display(access_df.groupby(["sensitivity_level", "department", "access_code"]).size().rename("units"))
+print(access_df.groupby(["sensitivity_level", "department", "access_code"]).size().rename("units"))
 with pd.option_context("display.max_colwidth", 100):
-    display(units_df.loc[units_df["sensitivity_level"] == 3, ["unit_id", "unit_type", "page_start", "subsection"]]
+    print(units_df.loc[units_df["sensitivity_level"] == 3, ["unit_id", "unit_type", "page_start", "subsection"]]
             .drop_duplicates("subsection"))
 
-# %% cell 67
 # =========================================================
 # 9.4 Validate units
 # =========================================================
@@ -3032,9 +2965,8 @@ print("Access:", units_df.groupby(["sensitivity_level", "department"]).size().to
 print("Units > MAX_CHUNK_CHARS (to be split at chunking):",
       units_df.loc[units_df["content"].str.len() > MAX_CHUNK_CHARS, "unit_id"].tolist())
 
-# %% [markdown] cell 68
-# # Phase 10 — Duplicate Detection (within-source and cross-source)
-#
+
+# %% Phase 10 — Duplicate Detection (within-source and cross-source)
 # Deterministic, no embeddings (ADR-010 / ADR-019):
 #
 # 1. exact duplicates by normalized-text hash;
@@ -3049,7 +2981,6 @@ print("Units > MAX_CHUNK_CHARS (to be split at chunking):",
 # four existing sources (LPI Methodology, LPI Connecting to Compete, FBL, Suez Notes); no overlap is expected.
 # The unit `content` is never modified in this phase.
 
-# %% cell 69
 # =========================================================
 # 10.1 Comparison normalization, sentences, content tokens, number signatures
 # =========================================================
@@ -3123,7 +3054,6 @@ def items_of(u: dict) -> list[str]:
 
 print("Thresholds:", {"CANDIDATE_SIM": CANDIDATE_SIM, "SENTENCE_MATCH": SENTENCE_MATCH, "PARAPHRASE_MATCH": PARAPHRASE_MATCH})
 
-# %% cell 70
 # =========================================================
 # 10.2 Reference corpus: cleaned units of the existing sources
 # =========================================================
@@ -3151,7 +3081,6 @@ def load_reference_units() -> list[dict]:
 reference_units = load_reference_units()
 print("Reference units:", pd.Series([r["source"] for r in reference_units]).value_counts().to_dict())
 
-# %% cell 71
 # =========================================================
 # 10.3 Exact hash duplicates + candidate blocking
 # =========================================================
@@ -3193,7 +3122,6 @@ for i, u in enumerate(unit_dicts_all):
 print(f"Candidate pairs: {len(candidates)} (cross={sum(c[0] == 'cross' for c in candidates)}, "
       f"within={sum(c[0] == 'within' for c in candidates)})")
 
-# %% cell 72
 # =========================================================
 # 10.4 Item-level comparison
 # =========================================================
@@ -3260,14 +3188,13 @@ pairs_df["relationship"] = pairs_df.apply(relationship, axis=1)
 pairs_df["unique_information_flag"] = pairs_df["items_covered"] < pairs_df["items_total"]
 
 print("Relationships:")
-display(pairs_df.groupby(["scope", "relationship"]).size().rename("pairs"))
+print(pairs_df.groupby(["scope", "relationship"]).size().rename("pairs"))
 with pd.option_context("display.max_rows", None, "display.max_colwidth", 60):
-    display(pairs_df[pairs_df["items_covered"] > 0].sort_values(["scope", "unit_id"])[
+    print(pairs_df[pairs_df["items_covered"] > 0].sort_values(["scope", "unit_id"])[
         ["scope", "unit_id", "candidate_unit_id", "similarity_score", "items_covered", "items_total", "relationship"]])
 
-# %% [markdown] cell 73
-# # Phase 11 — Duplicate Decisions
-#
+
+# %% Phase 11 — Duplicate Decisions
 # Canonical-source policy (ADR-019 applied within one document):
 #
 # - The **thematic chapters** (3 The Port of Rotterdam Authority, 4 ESG report, 5 Governance, and the financial
@@ -3282,7 +3209,6 @@ with pd.option_context("display.max_rows", None, "display.max_colwidth", 60):
 #
 # Every decision, every candidate pair and every removed item goes into the duplicate audit.
 
-# %% cell 74
 # =========================================================
 # 11.1 Canonical policy
 # =========================================================
@@ -3316,7 +3242,6 @@ def union_coverage(unit_id: str, canonical_only: bool) -> tuple[list, list, list
     uncovered = [items[k] for k in range(len(items)) if k not in covered_by]
     return covered, uncovered, sorted(set(covered_by.values()))
 
-# %% cell 75
 # =========================================================
 # 11.2 Unit decisions
 # =========================================================
@@ -3355,11 +3280,10 @@ audit_pairs_df = pairs_df.assign(
    "normalized_hash", "uncovered_items"]]
 
 print("Unit-level decisions:")
-display(decisions_df.groupby(["relationship", "action"]).size().rename("units"))
+print(decisions_df.groupby(["relationship", "action"]).size().rename("units"))
 with pd.option_context("display.max_rows", None, "display.max_colwidth", 110):
-    display(decisions_df[decisions_df["action"] != "keep"][["unit_id", "relationship", "action", "canonical_unit_ids", "reason"]])
+    print(decisions_df[decisions_df["action"] != "keep"][["unit_id", "relationship", "action", "canonical_unit_ids", "reason"]])
 
-# %% cell 76
 # =========================================================
 # 11.3 Post-dedup corpus
 # =========================================================
@@ -3383,14 +3307,12 @@ for r in final_units_df[final_units_df["dedup_action"] == "trim_duplicate_senten
     print(f"--- {r.unit_id} (trimmed):\n{r.content}")
 print(f"\nUnits: {len(units_df)} -> post-dedup: {len(final_units_df)}")
 
-# %% [markdown] cell 77
-# # Phase 12 — Final Logical-Unit QA
-#
+
+# %% Phase 12 — Final Logical-Unit QA
 # Gate before chunking: every unit is kept or suppressed with a canonical mapping, every table and every kept
 # graphic is still represented, trims removed only repeated items, access levels are intact, and the decisions
 # match the reviewed snapshot.
 
-# %% cell 78
 # =========================================================
 # 12.1 Coverage and suppression checks
 # =========================================================
@@ -3433,11 +3355,10 @@ assert not pairs_df["scope"].eq("cross").any(), "Cross-source candidates appeare
 print("✅ Final logical-unit QA passed.")
 print(f"Units: {len(units_df)} -> kept {len(final_units_df)} | suppressed {len(suppressed)} | trimmed {len(trimmed)} | "
       f"kept contextual {len(REVIEWED_KEEP_CONTEXTUAL)} | manual review pending 0")
-display(final_units_df.groupby(["unit_type", "sensitivity_level"]).size().rename("kept units"))
+print(final_units_df.groupby(["unit_type", "sensitivity_level"]).size().rename("kept units"))
 
-# %% [markdown] cell 79
-# # Phase 13 — Save Extracted + Cleaned Artifacts
-#
+
+# %% Phase 13 — Save Extracted + Cleaned Artifacts
 # One file per layer:
 # - `extracted/HbR_Annual_report_2025_extracted.json` — raw structured layer: page classes, section map,
 #   subscripts, tables (spec + meta), structured regions, graphics (gate, elements, photos), bullets, body lines,
@@ -3447,7 +3368,6 @@ display(final_units_df.groupby(["unit_type", "sensitivity_level"]).size().rename
 #
 # Each file is reloaded from disk and re-validated.
 
-# %% cell 80
 # =========================================================
 # 13. Save extracted + cleaned artifacts, then reload and validate
 # =========================================================
@@ -3517,9 +3437,8 @@ assert sorted(p.name for p in CLEANED_DIR.glob(f"{SOURCE_NAME}_*")) == [LOGICAL_
 for p in (EXTRACTED_PATH, LOGICAL_UNITS_PATH):
     print(f"Saved + reloaded: {p.name:50} {p.stat().st_size:>10,} bytes")
 
-# %% [markdown] cell 81
-# # Phase 14 — Semantic Chunking
-#
+
+# %% Phase 14 — Semantic Chunking
 # Same philosophy as the other notebooks, plus one new rule for access control:
 #
 # - **Paragraphs** are never split; adjacent paragraphs of the same section/subsection are grouped while short
@@ -3539,7 +3458,6 @@ for p in (EXTRACTED_PATH, LOGICAL_UNITS_PATH):
 #
 # `chunk_id` = `hbr2025_<logical_unit>_chunk_<n>`.
 
-# %% cell 82
 # =========================================================
 # 14.1 Chunking rules
 # =========================================================
@@ -3580,7 +3498,6 @@ def make_chunk(units: list[dict], unit_type: str, logical_unit: str, part: int, 
         "source_unit_ids": [u["unit_id"] for u in units],
     }
 
-# %% cell 83
 # =========================================================
 # 14.2 Paragraph chunks
 # =========================================================
@@ -3631,7 +3548,6 @@ for (section, heading, _, _), us in SECTION_BLOCKS.items():
 
 print(f"Paragraph units: {len(paragraph_units) + len(block_unit_ids)} -> paragraph chunks: {len(chunk_records)}")
 
-# %% cell 84
 # =========================================================
 # 14.3 Structured chunks (table groups, boxes, cards, figures)
 # =========================================================
@@ -3678,18 +3594,16 @@ order_of = {uid: k for k, uid in enumerate(final_units_df["unit_id"])}
 chunk_records.sort(key=lambda r: order_of[r["source_unit_ids"][0]])
 
 print(f"Kept units: {len(unit_dicts)} -> chunks: {len(chunk_records)}")
-display(pd.Series([r["unit_type"] for r in chunk_records]).value_counts().rename("chunks"))
+print(pd.Series([r["unit_type"] for r in chunk_records]).value_counts().rename("chunks"))
 print("\nTable chunks:")
-display(pd.DataFrame([{"chunk_id": r["chunk_id"], "rows": len(r["source_unit_ids"]), "chars": len(r["text"]),
+print(pd.DataFrame([{"chunk_id": r["chunk_id"], "rows": len(r["source_unit_ids"]), "chars": len(r["text"]),
                        "level": r["sensitivity_level"]} for r in chunk_records if r["unit_type"] == "table_row"]))
 
-# %% [markdown] cell 85
-# # Phase 15 — Chunk Validation
-#
+
+# %% Phase 15 — Chunk Validation
 # Size and ID checks, content preservation of every kept unit, no suppressed unit re-entering, no chunk crossing a
 # section/subsection boundary, and **no chunk mixing access levels or departments**.
 
-# %% cell 86
 # =========================================================
 # 15.1 Size checks
 # =========================================================
@@ -3702,7 +3616,6 @@ assert (chunk_sizes >= FRAGMENT_MIN_CHARS).all(), \
 chunk_ids = [r["chunk_id"] for r in chunk_records]
 assert len(chunk_ids) == len(set(chunk_ids)), "Duplicate chunk_id."
 
-# %% cell 87
 # =========================================================
 # 15.2 Coverage checks
 # =========================================================
@@ -3723,7 +3636,6 @@ for uid, u in units_by_id.items():
 suppressed_ids = set(suppressed["unit_id"])
 assert not any(set(r["source_unit_ids"]) & suppressed_ids for r in chunk_records), "A suppressed unit re-entered."
 
-# %% cell 88
 # =========================================================
 # 15.3 Provenance + access checks
 # =========================================================
@@ -3746,17 +3658,15 @@ print("Chunk size:", chunk_sizes.describe()[["count", "min", "50%", "mean", "max
 print(f"Below MIN_CHUNK_CHARS: {int((chunk_sizes < MIN_CHUNK_CHARS).sum())} "
       "(complete short statements or one-row tables alone in their subsection; none below FRAGMENT_MIN_CHARS)")
 print(f"Level-3 / Finance chunks: {len(lvl3_chunks)} {[r['chunk_id'] for r in lvl3_chunks]}")
-display(pd.DataFrame([{"chunk_id": r["chunk_id"], "chars": len(r["text"]), "text": r["text"][:80]}
+print(pd.DataFrame([{"chunk_id": r["chunk_id"], "chars": len(r["text"]), "text": r["text"][:80]}
                       for r in sorted(chunk_records, key=lambda r: len(r["text"]))[:8]]))
 
-# %% [markdown] cell 89
-# # Phase 16 — Unified 16-Column Schema (ADR-009)
-#
+
+# %% Phase 16 — Unified 16-Column Schema (ADR-009)
 # Identical schema, dtypes and validator as the other notebooks. `parent_chunk` = chapter, `sub_chunk` = subsection
 # heading path (list), document metadata from Phase 0 — except `sensitivity_level` and `department`, which come
 # **from each chunk** (Phase 9 decision per unit). Audit and dedup metadata stay in their own files.
 
-# %% cell 90
 # =========================================================
 # 16.1 Schema definition (identical to the other notebooks — ADR-009)
 # =========================================================
@@ -3789,7 +3699,6 @@ def validate_chunk_schema(chunks_df: pd.DataFrame, label: str) -> None:
     failed = [n for n, ok in checks.items() if not ok]
     assert not failed, f"{label}: failed checks -> {failed}"
 
-# %% cell 91
 # =========================================================
 # 16.2 Metadata mapping (document metadata + per-chunk access)
 # =========================================================
@@ -3812,24 +3721,21 @@ chunks_df = pd.DataFrame([
     for r in chunk_records
 ])[list(CHUNK_SCHEMA)].astype(CHUNK_SCHEMA)
 
-# %% cell 92
 # =========================================================
 # 16.3 Schema validation
 # =========================================================
 validate_chunk_schema(chunks_df, f"{SOURCE_NAME} chunks")
 assert chunks_df["department"].isin(KNOWN_DEPARTMENTS).all()
 assert set(zip(chunks_df["sensitivity_level"], chunks_df["department"])) == {(1, "Operations"), (3, "Finance")}
-display(chunks_df[["page", "unit_type", "logical_unit", "chunk_id", "parent_chunk", "title", "char_count",
+print(chunks_df[["page", "unit_type", "logical_unit", "chunk_id", "parent_chunk", "title", "char_count",
                    "sensitivity_level", "department"]].head(10))
-display(chunks_df.groupby(["sensitivity_level", "department"]).size().rename("chunks"))
-display(chunks_df[list(chunk_metadata)].drop_duplicates())
+print(chunks_df.groupby(["sensitivity_level", "department"]).size().rename("chunks"))
+print(chunks_df[list(chunk_metadata)].drop_duplicates())
 
-# %% [markdown] cell 93
-# # Phase 17 — Save + Reload
-#
+
+# %% Phase 17 — Save + Reload
 # The Parquet file on disk — not the in-memory frame — is the artifact that must pass validation.
 
-# %% cell 94
 # =========================================================
 # 17.1 Save Parquet / 17.2 Reload / 17.3 Revalidate
 # =========================================================
@@ -3848,14 +3754,12 @@ assert reloaded_df["sub_chunk"].map(as_list).tolist() == chunks_df["sub_chunk"].
 
 print(f"✅ Saved and revalidated: {CHUNKS_PATH.name} ({CHUNKS_PATH.stat().st_size:,} bytes, {len(reloaded_df)} chunks)")
 
-# %% [markdown] cell 95
-# # Phase 18 — Cross-Source Validation
-#
+
+# %% Phase 18 — Cross-Source Validation
 # The new chunks must concatenate cleanly with the four existing chunk files (FBL, LPI Methodology, Suez Notes,
 # LPI Connecting to Compete): same columns, same order, same dtypes, no `chunk_id` collision. This source is the
 # first with level-3 chunks, so the corpus-level access profile is printed as well.
 
-# %% cell 96
 # =========================================================
 # 18.1 Compare schemas / 18.2 dtypes / 18.3 chunk_id collisions / 18.4 concatenate
 # =========================================================
@@ -3882,13 +3786,12 @@ assert len(combined_chunks_df) == 198 + len(reloaded_df), "The existing corpus i
 print("===================================")
 print("UNIFIED SCHEMA CROSS-SOURCE CHECK: PASSED")
 print("===================================")
-display(combined_chunks_df.groupby(["filename", "document_type"]).size().rename("chunks"))
-display(combined_chunks_df.groupby(["sensitivity_level", "department"]).size().rename("chunks"))
+print(combined_chunks_df.groupby(["filename", "document_type"]).size().rename("chunks"))
+print(combined_chunks_df.groupby(["sensitivity_level", "department"]).size().rename("chunks"))
 print("Combined rows:", len(combined_chunks_df))
 
-# %% [markdown] cell 97
-# # Phase 19 — Whole-PDF Coverage Audit
-#
+
+# %% Phase 19 — Whole-PDF Coverage Audit
 # Proof that nothing was dropped silently. **Every text line of all 85 pages** receives exactly one disposition:
 #
 # | Disposition | Meaning |
@@ -3908,7 +3811,6 @@ print("Combined rows:", len(combined_chunks_df))
 # `-1.5%` also appears legitimately in another row. The line-level result is added to the single cleaned file
 # (`cleaned/…_logical_units.json`, key `coverage_audit`).
 
-# %% cell 98
 # =========================================================
 # 19.1 Lookups: chunk text per unit / table / figure, removed items, physical table rows
 # =========================================================
@@ -4003,7 +3905,6 @@ for d in suppressed.itertuples():
 print(f"Chunk corpus: {len(chunk_corpus):,} letters | erratum cells located: {len(ERRATUM_CELLS)} | "
       f"cells of suppressed rows: {len(SUPPRESSED_CELLS)} | units with removed items: {sorted(REMOVED)}")
 
-# %% cell 99
 # =========================================================
 # 19.2 Line-level disposition of the WHOLE PDF (all pages, every text line)
 # =========================================================
@@ -4068,7 +3969,6 @@ coverage_df = lines_df[["page_number", "block_no", "line_no", "y0", "font", "tex
 print(f"Lines in PDF: {len(coverage_df)} on {coverage_df['page_number'].nunique()} pages")
 print(coverage_df["disposition"].value_counts().to_dict())
 
-# %% cell 100
 # =========================================================
 # 19.3 Coverage summary + assertions + coverage_audit in the cleaned file
 # =========================================================
@@ -4076,7 +3976,7 @@ unaccounted = coverage_df[coverage_df["disposition"] == "UNACCOUNTED"]
 print(f"UNACCOUNTED lines: {len(unaccounted)}")
 if len(unaccounted):
     with pd.option_context("display.max_rows", None, "display.max_colwidth", 80):
-        display(unaccounted[["page_number", "y0", "text", "detail"]])
+        print(unaccounted[["page_number", "y0", "text", "detail"]])
 assert unaccounted.empty, "Some PDF lines are not accounted for."
 assert len(coverage_df) == len(lines_df)
 TEXTLESS_PAGES = sorted(set(pages_df["page_number"]) - set(coverage_df["page_number"]))
@@ -4105,14 +4005,14 @@ for pid in ["P030", "P031", "P032", "P033"]:
 summary = coverage_df.groupby("disposition").agg(lines=("text", "size"), chars=("chars", "sum"))
 summary["share_chars"] = (summary["chars"] / summary["chars"].sum()).round(3)
 print("\nWhere every line of the PDF went:")
-display(summary.sort_values("chars", ascending=False))
+print(summary.sort_values("chars", ascending=False))
 print("\nRemoved on purpose (every one with its reason):")
 with pd.option_context("display.max_colwidth", 120, "display.max_rows", None):
-    display(coverage_df[coverage_df["disposition"].isin(["erratum_excluded", "trimmed_duplicate", "suppressed_duplicate"])]
+    print(coverage_df[coverage_df["disposition"].isin(["erratum_excluded", "trimmed_duplicate", "suppressed_duplicate"])]
             [["page_number", "disposition", "text", "detail"]].assign(detail=lambda d: d["detail"].str[:90]))
 print("\nPer page (lines):")
 with pd.option_context("display.max_rows", None, "display.max_columns", None):
-    display(coverage_df.pivot_table(index="page_number", columns="disposition", values="text",
+    print(coverage_df.pivot_table(index="page_number", columns="disposition", values="text",
                                     aggfunc="count", fill_value=0))
 
 # add the coverage audit to the single cleaned file, then reload and check
@@ -4129,7 +4029,6 @@ assert len(re_cleaned["units"]) == len(final_units_df)
 assert sorted(p.name for p in CLEANED_DIR.glob(f"{SOURCE_NAME}_*")) == [LOGICAL_UNITS_PATH.name]
 print(f"\n✅ Whole-PDF coverage audit passed: {len(coverage_df)} lines, 0 unaccounted. Added to: {LOGICAL_UNITS_PATH.name}")
 
-# %% cell 101
 # =========================================================
 # Final Checkpoint
 # =========================================================
@@ -4168,6 +4067,3 @@ print("Flagged units         : none")
 print("\nArtifacts:")
 for p in (EXTRACTED_PATH, LOGICAL_UNITS_PATH, CHUNKS_PATH):
     print(f"  {p.relative_to(PROJECT_ROOT)}  ({p.stat().st_size:,} bytes)")
-
-# %% [markdown] cell 102
-# Final Checkpoint: see pipelines/checkpoints/rag/HbR_Annual_report_2025_chunking.md

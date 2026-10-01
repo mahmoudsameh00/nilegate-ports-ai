@@ -8,7 +8,8 @@
 - Always reports which files under Data/processed/ and db/migrations/ the run changed or created (SHA-256 before /
   after; no git needed), so "the outputs did not change" is checked on every run.
 - --compare: also compares the validation lines with the saved outputs of the source notebook named in the script's
-  header ("Converted from Notebooks/....ipynb"), for the notebooks → scripts verification.
+  header ("Converted from Notebooks/....ipynb"): identical, or (after a refactor) every notebook line kept in order with
+  new validation lines added; anything else is a failure.
 Exit code 1 when the script fails or --compare finds a difference.
 """
 import argparse
@@ -61,6 +62,11 @@ ORDER = [
     "rag/FBL_chunking", "rag/IMO_MSC-MEPC_3_Circ_4_Rev_1_chunking", "rag/USCG_ROI_chunking",
     "rag/HbR_Annual_report_2025_chunking", "rag/LPI_methodology_chunking", "rag/LPI_Connecting_to_Compete_chunking",
 ]
+
+
+def is_subsequence(want: list[str], got: list[str]) -> bool:
+    it = iter(got)
+    return all(any(g == w for g in it) for w in want)
 
 
 def main() -> int:
@@ -124,6 +130,10 @@ def run_one(script: Path, timeout: int, compare: bool) -> int:
             print("compare: source notebook not found"); bad = True
         elif ok == want:
             print(f"compare: ✅ identical validation lines ({len(ok)}) to {nb.relative_to(ROOT)}")
+        elif is_subsequence(want, ok):
+            # a refactor may add validations (new ✅ lines) but never drop or change the notebook's own lines
+            print(f"compare: ✅ all {len(want)} notebook validation lines kept, in order, + {len(ok) - len(want)} new "
+                  f"({nb.relative_to(ROOT)})")
         else:
             bad = True
             print(f"compare: DIFFERENT — script {len(ok)} lines, notebook {len(want)} lines")

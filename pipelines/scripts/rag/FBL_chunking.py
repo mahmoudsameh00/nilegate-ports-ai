@@ -1,24 +1,18 @@
 """FBL Bill of Lading — Logical-Unit Chunking Pipeline
 
-Converted from Notebooks/rag/FBL_chunking.ipynb (2026-10-01) by tools/nb_to_script.py: same cells, same order; `# %% cell N` = notebook cell N.
-Run from the project root: uv run python tools/run.py pipelines/scripts/rag/FBL_chunking.py
+Origin:  Converted from Notebooks/rag/FBL_chunking.ipynb (archived in docs/archive/notebooks/).
+         Refactored (ADR-036 D3), cleanup level (2026-10-01): the notebook's phases, code and validations are unchanged;
+         cell markers, Jupyter display() and the conversion helpers became plain sections and print(); proven by
+         `uv run python tools/nb_to_script.py check FBL_chunking` (AST equal to the archived notebook).
+Run:     uv run python tools/run.py pipelines/scripts/rag/FBL_chunking.py  (from the project root)
 
 Reads:   Data/raw/unstructured/FBL_template.pdf
 Writes:  Data/processed/rag/extracted|cleaned|chunks/ (the FBL files)
 Re-run:  safe: rewrites the same three artifacts
 Final Checkpoint (what was done, problems, fixes): pipelines/checkpoints/rag/FBL_chunking.md
 """
-from IPython.display import display  # outside Jupyter it prints the value (added by the conversion)
 
-
-def _display_result(value):
-    """A notebook shows the value of a cell's last expression unless it is None (added by the conversion)."""
-    if value is not None:
-        display(value)
-
-# %% [markdown] cell 0
-# # FBL Bill of Lading — Logical-Unit Chunking Pipeline
-#
+# %% FBL Bill of Lading — Logical-Unit Chunking Pipeline
 # This notebook is the FBL-specific half of the Ports & Logistics AI RAG chunking pipeline. It was split out of a combined FBL + Suez Canal notebook so each resource has its own self-contained, checkpointed pipeline — the Suez Canal Transit Dues notes are processed the same way in the sibling notebook `Suez_logical_unit_chunking.ipynb`. Both notebooks are organized like the LPI Methodology chunking notebook: classify → extract → build structure-aware logical units → chunk → validate against the shared schema → save → checkpoint.
 #
 # **Document:** `FBL_template.pdf` — the FIATA Negotiable Multimodal Transport Bill of Lading template (3 PDF pages).
@@ -29,14 +23,12 @@ def _display_result(value):
 #
 # `classification → reconstructed text → logical units → chunks → unified schema → saved files`
 
-# %% [markdown] cell 1
-# ## 1. Document Classification
-#
+
+# %% 1. Document Classification
 # Every document in the RAG corpus is classified before extraction, using the same fields as the Suez Canal Notes and LPI Methodology documents: `source`, `real_or_synthetic`, `document_type`, `department`, `sensitivity_level`, `version_date`, and `ingestion_scope`. This keeps document-level metadata consistent across the project's document classification table.
 #
 # `FBL_template.pdf` is a real, publicly issued FIATA template — not project-synthetic data — so it carries no confidential business data, and the whole 3-page document is in scope for retrieval (`ingestion_scope: full_document`).
 
-# %% cell 2
 import pandas as pd
 
 fbl_classification = pd.DataFrame([{
@@ -52,14 +44,12 @@ fbl_classification = pd.DataFrame([{
 
 print(fbl_classification.to_string(index=False))
 
-# %% [markdown] cell 3
-# ## 2. Content Extraction and Reconstruction
-#
+
+# %% 2. Content Extraction and Reconstruction
 # The FBL requires document-specific processing because its PDF structure is different from a standard text document: it contains a form page, multi-column content, definitions, numbered clauses and subclauses, and explanatory sections. Page-level `get_text()` extraction alone is not sufficient here.
 #
 # This step loads the PDF and reconstructs clean, page-aware text using each page's actual block coordinates. It only repairs PDF-extraction artifacts (broken characters, spacing, mis-ordered columns); it does not change any wording, so the reconstructed text stays source-faithful. The result is divided into logical units in Section 3, and only into retrieval chunks in Section 4.
 
-# %% cell 4
 from pathlib import Path
 
 # Locate the project root by walking up from the notebook's folder until the
@@ -82,7 +72,6 @@ if PROJECT_ROOT is None:
 fbl_path = PROJECT_ROOT / PDF_RELATIVE_PATH
 PROCESSED_RAG_DIR = PROJECT_ROOT / "Data" / "processed" / "rag"
 
-# %% cell 5
 import fitz
 import re
 
@@ -804,16 +793,14 @@ fbl_text = reconstruct_fbl(fbl_path)
 
 print(fbl_text)
 
-# %% [markdown] cell 6
-# ## 3. Structure-Aware Logical Unit Extraction
-#
+
+# %% 3. Structure-Aware Logical Unit Extraction
 # After reconstructing the FBL text, the document is divided according to its logical structure.
 #
 # Page 1 is preserved as the FBL form, while Page 2 is divided into Definitions and Clauses 1–19. Page 3 is represented by its explanatory sections.
 #
 # The parser also validates that all top-level clauses from 1 to 19 are detected in the expected order.
 
-# %% cell 7
 import re
 
 def parse_fbl_logical_units(fbl_text):
@@ -1105,12 +1092,10 @@ def parse_fbl_logical_units(fbl_text):
 
     return units
 
-# %% cell 8
 fbl_units = parse_fbl_logical_units(fbl_text)
 
-# %% [markdown] cell 9
-# ### 3.1 Normalize the Logical-Unit Text
-#
+
+# %% 3.1 Normalize the Logical-Unit Text
 # The reconstructed text still carries three PDF-layout artifacts that are not part of the document's wording:
 #
 # 1. **Hard line wraps.** Page 2 prints the Definitions and Clauses 1–19 in narrow columns, so almost every sentence is broken across several lines (and one column break leaves a stray blank line inside Clause 8). Page-3 sections are already single paragraphs, so without this step the two halves of the document would be formatted differently.
@@ -1119,7 +1104,6 @@ fbl_units = parse_fbl_logical_units(fbl_text)
 #
 # Line breaks are re-joined only where the PDF broke a sentence; every structural break is kept — the clause heading, each subclause (`6.1.`), each list item (`a)`), each definition (`–`), and each new paragraph. The form stays one field label per line. The cell asserts that every non-form unit keeps exactly the same words in the same order, so this step changes layout only, not content.
 
-# %% cell 10
 # Units whose text comes from page 2's prose (Definitions + Clauses 1–19)
 # keep the PDF's visual line wrapping; the form (page 1) is line-oriented
 # by design and the page-3 sections are already single paragraphs.
@@ -1250,7 +1234,6 @@ print("Characters after normalization: ", sum(len(u["text"]) for u in fbl_units)
 print("Word sequence preserved in all non-form units: True")
 print("Duplicated words removed from the form:", removed_words)
 
-# %% cell 11
 for i, unit in enumerate(fbl_units):
 
     print(
@@ -1262,12 +1245,11 @@ for i, unit in enumerate(fbl_units):
         f"{unit['title']}"
     )
 
-# %% cell 12
 fbl_units_df = pd.DataFrame(fbl_units)
 
 fbl_units_df["char_count"] = fbl_units_df["text"].str.len()
 
-_display_result(fbl_units_df[
+print(fbl_units_df[
     [
         "logical_unit",
         "title",
@@ -1275,14 +1257,12 @@ _display_result(fbl_units_df[
     ]
 ].sort_values("char_count", ascending=False))
 
-# %% [markdown] cell 13
-# ### 3.2 Identifying Large Logical Units
-#
+
+# %% 3.2 Identifying Large Logical Units
 # The extracted logical units are inspected by character count to identify units that may be too large for a single retrieval chunk.
 #
 # A threshold of 2000 characters is used for this inspection. Large clauses are then examined at the subclause level so that any required splitting follows the document's existing structure.
 
-# %% cell 14
 large_units = [
     unit for unit in fbl_units
     if len(unit["text"]) > 2000
@@ -1301,7 +1281,6 @@ for unit in large_units:
     print("=" * 80)
     print(unit["text"])
 
-# %% cell 15
 large_clauses = [
     unit for unit in fbl_units
     if unit["logical_unit"] in ["clause_6", "clause_8", "clause_13"]
@@ -1334,16 +1313,14 @@ for unit in large_clauses:
             f" → {len(subclause_text)} chars"
         )
 
-# %% [markdown] cell 16
-# ## 4. Structure-Aware Chunking
-#
+
+# %% 4. Structure-Aware Chunking
 # Large FBL clauses are split using their natural subclause boundaries rather than arbitrary character positions.
 #
 # Clauses 6, 8, and 13 are divided according to predefined groups of subclauses. The parent clause heading is retained in every resulting chunk so that each chunk remains understandable when retrieved independently.
 #
 # FBL's own structure is expressed in legal clauses and subclauses, but the resulting chunks store that relationship in the generic `parent_chunk` / `sub_chunk` fields of the unified schema (defined in Section 5). Keeping the field names generic lets other resource types — sections, articles, list items, and so on — reuse the same schema without being described as "clauses".
 
-# %% cell 17
 import re
 
 
@@ -1483,16 +1460,13 @@ def build_fbl_final_chunks(fbl_units, threshold=2000):
 
     return final_chunks
 
-# %% cell 18
 fbl_chunks = build_fbl_final_chunks(fbl_units)
 
-# %% cell 19
 fbl_chunks_df = pd.DataFrame(fbl_chunks)
 
 print("Total final chunks:", len(fbl_chunks_df))
 
-# %% cell 20
-_display_result(fbl_chunks_df[
+print(fbl_chunks_df[
     [
         "chunk_id",
         "logical_unit",
@@ -1502,14 +1476,12 @@ _display_result(fbl_chunks_df[
     ]
 ])
 
-# %% [markdown] cell 21
-# ### 4.1 Validate the Chunks
-#
+
+# %% 4.1 Validate the Chunks
 # The final FBL chunks are validated for size, empty content, duplicate identifiers, and overall chunk distribution.
 #
 # Additional validation checks that the original subclauses remain fully preserved after splitting.
 
-# %% cell 22
 # =========================================================
 # Validate final FBL chunks
 # =========================================================
@@ -1546,7 +1518,6 @@ print(
     fbl_chunks_df["chunk_id"].duplicated().sum()
 )
 
-# %% cell 23
 # =========================================================
 # Content preservation validation
 # =========================================================
@@ -1565,7 +1536,6 @@ print("Original logical-unit characters:", original_chars)
 print("Final chunk characters:", chunked_chars)
 print("Difference:", original_chars - chunked_chars)
 
-# %% cell 24
 # =========================================================
 # Validate that every subclause is preserved
 # =========================================================
@@ -1616,7 +1586,6 @@ for clause_number in [6, 8, 13]:
             f"→ preserved: {preserved}"
         )
 
-# %% cell 25
 # Final FBL chunking validation
 
 print("Total chunks:", len(fbl_chunks_df))
@@ -1653,17 +1622,14 @@ print(
     ]
 )
 
-# %% [markdown] cell 26
-# ## 5. Unified Chunk Schema
-#
+
+# %% 5. Unified Chunk Schema
 # The FBL chunks are mapped onto the same 16-column chunk schema used for the Suez Canal Notes and LPI Methodology chunks, so all three resource types can live in one retrieval table. `parent_chunk` / `sub_chunk` hold the FBL clause/subclause numbers, but the field names stay generic so other resource types (sections, articles, list items, …) can reuse the same schema. Document-level metadata — filename, source, document type, department, sensitivity level, version date — is attached alongside the structural fields already produced during chunking.
 
-# %% [markdown] cell 27
-# ### 5.1 Schema Definition and Validator
-#
+
+# %% 5.1 Schema Definition and Validator
 # `CHUNK_SCHEMA` and its two helpers (`normalize_chunk_schema`, `validate_chunk_schema`) are the same code used in the Suez Canal Notes and LPI notebooks. Defining them here keeps this notebook runnable on its own.
 
-# %% cell 28
 # =========================================================
 # Canonical flexible chunk schema
 # =========================================================
@@ -1787,12 +1753,10 @@ def validate_chunk_schema(chunks_df, label):
     print(f"{label}: all checks passed ({len(chunks_df)} chunks)\n")
     return checks
 
-# %% [markdown] cell 29
-# ### 5.2 Map FBL Chunks to the Schema
-#
+
+# %% 5.2 Map FBL Chunks to the Schema
 # Attach the FBL document-level metadata to every chunk — read directly from the Section 1 classification table, so chunk metadata always matches the corpus-wide classification — then normalize column order and nullable dtypes with `normalize_chunk_schema`. This step only standardizes structure — it does not rewrite any chunk text.
 
-# %% cell 30
 # Document-level metadata is taken from the Section 1 classification table,
 # so the chunks always carry the corpus-wide classification values.
 fbl_document = fbl_classification.iloc[0]
@@ -1820,7 +1784,7 @@ print("\nShape:")
 print(fbl_chunks_df.shape)
 
 print("\nMetadata sample:")
-display(
+print(
     fbl_chunks_df[
         [
             "filename",
@@ -1841,12 +1805,10 @@ display(
     ].head()
 )
 
-# %% [markdown] cell 31
-# ### 5.3 Validate the FBL Chunks
-#
+
+# %% 5.3 Validate the FBL Chunks
 # Run the shared schema validator against the FBL chunks — this is the FBL_chunk test — then inspect the document-level metadata that was attached to confirm every chunk carries a single, consistent set of values.
 
-# %% cell 32
 # 5.3 Metadata & schema validation for FBL chunks
 validate_chunk_schema(fbl_chunks_df, "FBL_chunks")
 
@@ -1861,7 +1823,7 @@ required_metadata = [
 ]
 
 print("Unique document-level metadata:")
-display(
+print(
     fbl_chunks_df[required_metadata]
     .drop_duplicates()
 )
@@ -1869,12 +1831,10 @@ display(
 print("\nChunk count:", len(fbl_chunks_df))
 print("Unique chunk IDs:", fbl_chunks_df["chunk_id"].nunique())
 
-# %% [markdown] cell 33
-# ### 5.4 Schema Generality Check
-#
+
+# %% 5.4 Schema Generality Check
 # A short, synthetic check — not derived from any PDF — confirming the same schema and validator accept a resource type that has no page number, no parent/sub-chunk relationship, and no natural title (for example, one turn of an audio-call transcript). This is the same probe used to sign off the schema before the Suez Canal Notes notebook adopted it; it is not run again there.
 
-# %% cell 34
 # A non-PDF probe proves the schema stays stable for a resource type
 # that has no pages, parent/sub-chunk relationships, or a title.
 probe_text = "Example audio transcript segment."
@@ -1900,12 +1860,10 @@ validate_chunk_schema(resource_schema_probe, "Non-PDF schema probe")
 assert resource_schema_probe["page"].isna().all()
 assert resource_schema_probe["parent_chunk"].isna().all()
 
-# %% [markdown] cell 35
-# ## 6. Save the Chunks and Verify
-#
+
+# %% 6. Save the Chunks and Verify
 # Persist the reconstructed text, the normalized logical units, and the final chunks so later stages (embeddings, Qdrant ingestion) can reuse them without re-running the FBL-specific extraction and chunking logic above.
 
-# %% cell 36
 # =========================================================
 # Save FBL processing artifacts
 # =========================================================
@@ -1962,12 +1920,10 @@ print(extracted_path)
 print(cleaned_path)
 print(chunks_parquet_path)
 
-# %% [markdown] cell 37
-# ### 6.1 Reload and Verify Saved FBL Chunks
-#
+
+# %% 6.1 Reload and Verify Saved FBL Chunks
 # Reload the chunks that were just written to disk and re-run the shared schema validator against them. This confirms the parquet file on disk — not just the in-memory DataFrame — satisfies the canonical schema.
 
-# %% cell 38
 import pandas as pd
 
 chunks_path = PROCESSED_RAG_DIR / "chunks" / "FBL_template_chunks.parquet"
@@ -1977,7 +1933,4 @@ chunks_df = pd.read_parquet(chunks_path)
 validate_chunk_schema(chunks_df, "FBL_chunks (reloaded from disk)")
 
 print(f"Total chunks: {len(chunks_df)}")
-display(chunks_df)
-
-# %% [markdown] cell 39
-# Final Checkpoint: see pipelines/checkpoints/rag/FBL_chunking.md
+print(chunks_df)

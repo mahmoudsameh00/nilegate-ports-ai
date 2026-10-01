@@ -1,7 +1,10 @@
 """MongoDB loader — AIS + EDI (the only writer to MongoDB)
 
-Converted from Notebooks/semi_structured/MongoDB_loader.ipynb (2026-10-01) by tools/nb_to_script.py: same cells, same order; `# %% cell N` = notebook cell N.
-Run from the project root: uv run python tools/run.py pipelines/scripts/semi_structured/MongoDB_loader.py
+Origin:  Converted from Notebooks/semi_structured/MongoDB_loader.ipynb (archived in docs/archive/notebooks/).
+         Refactored (ADR-036 D3), cleanup level (2026-10-01): the notebook's phases, code and validations are unchanged;
+         cell markers, Jupyter display() and the conversion helpers became plain sections and print(); proven by
+         `uv run python tools/nb_to_script.py check MongoDB_loader` (AST equal to the archived notebook).
+Run:     uv run python tools/run.py pipelines/scripts/semi_structured/MongoDB_loader.py  (from the project root)
 
 Reads:   Data/raw/semi-structured/; Data/processed/semi-structured/; PostgreSQL
 Writes:  MongoDB ports_logistics: drops and reloads ais_positions, ais_vessels, edi_messages (ADR-031, the only MongoDB writer); a new timestamped report in Data/processed/semi-structured/load_audit/ per run
@@ -9,9 +12,7 @@ Re-run:  idempotent (same documents after every run); each run adds one new load
 Final Checkpoint (what was done, problems, fixes): pipelines/checkpoints/semi_structured/MongoDB_loader.md
 """
 
-# %% [markdown] cell 0
-# # MongoDB loader — AIS + EDI (the only writer to MongoDB)
-#
+# %% MongoDB loader — AIS + EDI (the only writer to MongoDB)
 # Plan: `docs/plans/SemiStructured_MongoDB_plan.md`, Phases 5 and 8 (ADR-029, ADR-031).
 #
 # **What it does.** Reads the real samples (`Data/raw/semi-structured/`) and the synthetic generator artifacts
@@ -27,13 +28,11 @@ Final Checkpoint (what was done, problems, fixes): pipelines/checkpoints/semi_st
 # **Access.** The notebook connects as the application user (`readWrite` on `ports_logistics` only, ADR-027) and reads
 # PostgreSQL read-only. Credentials come from `.env` and are never printed.
 
-# %% [markdown] cell 1
-# ## Phase 1 — Setup, connections and input fingerprints
-#
+
+# %% Phase 1 — Setup, connections and input fingerprints
 # The raw samples must be the ones the profiling notebook reviewed: their `sha256` is compared with the saved profiles,
 # so a changed sample stops the load instead of being loaded silently.
 
-# %% cell 2
 import hashlib
 import json
 import os
@@ -98,19 +97,16 @@ print("mongo server:", client.server_info()["version"], "| database:", mdb.name,
 with pg_connect() as conn:
     print("postgres vessels:", conn.execute("select count(*), count(mmsi) from vessels").fetchone())
 
-# %% cell 3
 # ---- Phase 1 validation ------------------------------------------------------------------------------------------
 assert mdb.command("ping")["ok"] == 1.0
 assert sha == profile_sha, "a raw sample changed since it was profiled: re-run AIS_EDI_profiling.ipynb first"
 print("✅ Phase 1 validation passed.")
 
-# %% [markdown] cell 4
-# ## Phase 2 — Parsing helpers (copied from the profiling notebook)
-#
+
+# %% Phase 2 — Parsing helpers (copied from the profiling notebook)
 # The notebooks have no shared `.py` module yet, so the helpers validated in `AIS_EDI_profiling.ipynb` are copied here.
 # A silent divergence is caught in Phases 3–4: the counts they produce are compared with the saved profiles.
 
-# %% cell 5
 IMO_PLACEHOLDERS = {"0", "1234567", "0000000", "9999999"}
 CALLSIGN_PLACEHOLDERS = {"", "0", "0000000", "DATAHUB", "NONE", "UNKNOWN"}
 PORT_LOCODES = set(pd.read_csv(ROOT / "Data" / "processed" / "structured" / "ports.csv", dtype=str)["LOCODE"])
@@ -257,9 +253,8 @@ assert imo_check_ok("IMO9074729") and not imo_check_ok("1234568") and real_imo("
 assert mmsi_class("211234567") == "ship" and dest_locode("NL RTM") == "NLRTM"
 print("✅ Phase 2 validation passed.")
 
-# %% [markdown] cell 6
-# ## Phase 3 — Real AIS: normalise, give every record a disposition
-#
+
+# %% Phase 3 — Real AIS: normalise, give every record a disposition
 # **Positions.** Every source row gets exactly one disposition, decided in this order: `invalid_mmsi`, `non_ship_mmsi`
 # (AtoN, SART, handheld, craft of a parent ship: our model is ships), `position_unavailable`, `duplicate_mmsi_ts`
 # (a time-series collection cannot enforce uniqueness, so the loader does — the first row wins), else `loaded`.
@@ -270,7 +265,6 @@ print("✅ Phase 2 validation passed.")
 # (IMO `0` / `1234567`, call sign `DATAHUB` / `0000000`, dimensions 0, draught 0, ETA `00-00 24:60`); ETA keeps its raw
 # `MM-DD HH:MM` text because AIS sends no year. Real vessels are never linked to PostgreSQL (`vessel_id: null`, ADR-028).
 
-# %% cell 7
 ais_raw = pd.DataFrame(json.loads(INPUTS["aishub"].read_text(encoding="utf-8"))).astype(str)
 noaa_raw = pd.read_csv(INPUTS["noaa"], dtype=str, keep_default_na=False)
 
@@ -303,7 +297,6 @@ pos_real = pd.concat([
 pos_real.loc[pos_real["navstat"].notna() & ~pos_real["navstat"].between(0, 15), "navstat"] = np.nan
 print(pos_real.groupby(["source", "disposition"]).size().to_string())
 
-# %% cell 8
 def vessel_frame_aishub(df: pd.DataFrame, ts: pd.Series) -> pd.DataFrame:
     a, b, c, d = (num(df[k]) for k in "ABCD")
     length, beam, draught = (a + b), (c + d), num(df["DRAUGHT"])
@@ -346,7 +339,6 @@ ves_real["ship_type_category"] = ves_real["ship_type"].map(ship_type_category)
 print("vessels by source:", dict(Counter(ves_real["source"])), "| non-ship / invalid MMSIs not kept:",
       dict(Counter(ves_rejected["source"])))
 
-# %% cell 9
 # ---- Phase 3 validation ------------------------------------------------------------------------------------------
 prof_a = json.loads((PROFILES / "aishub_profile.json").read_text(encoding="utf-8"))["profile"]
 prof_n = json.loads((PROFILES / "noaa_profile.json").read_text(encoding="utf-8"))["profile"]
@@ -375,15 +367,13 @@ else:
     print("snapshot pending review:", json.dumps(actual_3))
 print("✅ Phase 3 validation passed.")
 
-# %% [markdown] cell 10
-# ## Phase 4 — EDI sample: parse into one `edi_messages` document
-#
+
+# %% Phase 4 — EDI sample: parse into one `edi_messages` document
 # The sample is a self-described synthetic template (profiling Phase 6), so it is stored with
 # `real_or_synthetic = "synthetic"` and `source = "iftmin_sample"`. The raw text is kept verbatim; the parsed segments
 # (tag + elements + components) and the business keys are what tools query. Its wrong `UNT` segment count (17 declared,
 # 16 actual) is recorded in `flags`, not corrected: the document is stored as sent.
 
-# %% cell 11
 def edi_document(raw_text: str, source: str, real_or_synthetic: str, provenance: dict) -> dict:
     seps, segs = edi_tokenize(raw_text)
     tags = [el(s, 0) for s in segs]
@@ -427,7 +417,6 @@ d = edi_real[0]
 print({k: d[k] for k in ("message_ref", "interchange_ref", "message_type", "version", "document_number", "flags")})
 print("keys:", d["keys"])
 
-# %% cell 12
 # ---- Phase 4 validation ------------------------------------------------------------------------------------------
 assert d["flags"] == ["unt_count_mismatch"] and d["keys"]["vessel_imo"] is None and d["keys"]["voyage"] is None
 assert d["keys"]["locodes"] == {"9": "EGALY", "11": "NLRTM"} and d["keys"]["container_numbers"] == ["MSCU1234567"]
@@ -435,9 +424,8 @@ assert len(d["segments"]) == 18 and d["raw"] == INPUTS["iftmin_sample"].read_tex
 SYNTHETIC = {"positions": [], "vessels": [], "edi": []}  # filled by the synthetic phases, when present
 print("✅ Phase 4 validation passed.")
 
-# %% [markdown] cell 13
-# ## Phase 5 — Synthetic artifacts: verify the manifests, normalise like the real data
-#
+
+# %% Phase 5 — Synthetic artifacts: verify the manifests, normalise like the real data
 # The generators wrote files with manifests (`AIS_generator.ipynb`, `EDI_generator.ipynb`). The loader recomputes each
 # artifact's content hash and compares it with its manifest, so a partially written or edited artifact stops the load.
 # Synthetic rows then go through **the same rules** as the real rows (MMSI class, positions, duplicates) — they are
@@ -446,7 +434,6 @@ print("✅ Phase 4 validation passed.")
 # Provenance of a synthetic document: `source_file` = the generator's manifest, `source_sha256` = the manifest's hash
 # (the manifest holds the content hash of every output file), `generator` = notebook, seed and as-of instant.
 
-# %% cell 14
 def content_sha(df: pd.DataFrame) -> str:
     return hashlib.sha256(pd.util.hash_pandas_object(df, index=False).to_numpy().tobytes()).hexdigest()
 
@@ -501,7 +488,6 @@ SYNTHETIC = {"positions": [p], "vessels": [v], "edi": edi_syn}
 print("synthetic positions:", p["disposition"].value_counts().to_dict(), "| vessels:", len(v), "| edi:", len(edi_syn),
       "| edi flags:", Counter(f for d in edi_syn for f in d["flags"]))
 
-# %% cell 15
 # ---- Phase 5 validation ------------------------------------------------------------------------------------------
 assert (p["disposition"] == "loaded").all(), "a synthetic fix broke a loading rule"
 assert len(v) == 500 and v["mmsi"].is_unique and len(edi_syn) == 434
@@ -510,9 +496,8 @@ assert all(d["keys"]["vessel_imo"] and d["keys"]["voyage"] for d in edi_syn)
 assert not set(v["mmsi"]) & set(ves_real["mmsi"]), "a synthetic MMSI equals a real one (ADR-028)"
 print("✅ Phase 5 validation passed.")
 
-# %% [markdown] cell 16
-# ## Load — collection specs, validators and indexes
-#
+
+# %% Load — collection specs, validators and indexes
 # The specs follow plan §3.2a. The feature probe on MongoDB 8.0.32 (`db/mongo/003_probe_features.js`,
 # `db/mongo/audit/`) decided how each collection is validated:
 #
@@ -525,7 +510,6 @@ print("✅ Phase 5 validation passed.")
 # The same schema dictionaries serve as server validators and as audit queries (`{$nor: [schema]}` must match 0
 # documents), so the rule is written once.
 
-# %% cell 17
 STR_OR_NULL, DBL_OR_NULL, INT_OR_NULL = ["string", "null"], ["double", "null"], ["int", "long", "null"]
 RBAC_PROPS = {"sensitivity_level": {"bsonType": ["int", "long"], "enum": [1]},
               "department": {"bsonType": "string", "enum": ["Operations"]}}
@@ -609,14 +593,12 @@ COLLECTIONS = list(SCHEMAS)
 # `meta` object, so `mmsi_ts` (meta.mmsi + ts) is still the one that serves "track of one vessel" queries.
 AUTO_INDEXES = {"ais_positions": ["meta_1_ts_1"], "ais_vessels": [], "edi_messages": []}
 
-# %% [markdown] cell 18
-# ## Load — build the documents
-#
+
+# %% Load — build the documents
 # Real and synthetic frames are concatenated here (`SYNTHETIC` is filled by the synthetic phases when the generator
 # artifacts exist). Only `loaded` rows become documents; rejected rows stay in the dispositions for the coverage audit.
 # Values are converted to plain Python types (`NaN`/`NA` → `None`, numbers → `float`/`int`) so BSON types match the schema.
 
-# %% cell 19
 def clean(v):
     if v is None or v is pd.NA or (isinstance(v, float) and np.isnan(v)):
         return None
@@ -685,14 +667,12 @@ assert pos_loaded["imo"].dropna().str.fullmatch(r"\d{7}").all()
 print("documents to load:", {"ais_positions": len(pos_loaded), "ais_vessels": len(vessels_all), "edi_messages": len(edi_all)})
 print("✅ Build validation passed.")
 
-# %% [markdown] cell 20
-# ## Load — drop, recreate, insert
-#
+
+# %% Load — drop, recreate, insert
 # Only the three collections of this notebook are dropped. Validators and time-series options are set at creation (the
 # application user has no `collMod`, by design). Inserts are unordered batches: one bad document would fail its batch
 # with a `BulkWriteError` listing it, which stops the notebook.
 
-# %% cell 21
 BATCH = 50_000
 for name in COLLECTIONS:
     mdb.drop_collection(name)
@@ -720,15 +700,13 @@ inserted = {"ais_positions": insert_batches(mdb.ais_positions, position_docs(pos
             "edi_messages": insert_batches(mdb.edi_messages, iter(edi_all))}
 print("inserted:", inserted)
 
-# %% [markdown] cell 22
-# ## Load — reload from MongoDB and re-validate
-#
+
+# %% Load — reload from MongoDB and re-validate
 # Everything below reads **from MongoDB**, not from the frames: counts per collection / source / kind, the `$jsonSchema`
 # audit (0 violations), the index list, no duplicate (`mmsi`, `ts`), coverage (every input record is either a document
 # — found by `source` + `src_row` — or a reviewed rejection; 0 unaccounted), and a content hash that excludes the
 # run-specific fields (`load_run`, `loaded_at`, `_id`), so a second run over the same inputs must give the same hash.
 
-# %% cell 23
 def group_counts(coll, key: str) -> dict:
     return {r["_id"]: r["n"] for r in coll.aggregate([{"$group": {"_id": key, "n": {"$sum": 1}}}])}
 
@@ -775,7 +753,6 @@ print("indexes:", index_names)
 print("coverage:", coverage)
 print("hashes:", {k: v[:16] for k, v in hashes.items()})
 
-# %% cell 24
 # ---- Reload validation -------------------------------------------------------------------------------------------
 assert inserted == {"ais_positions": len(pos_loaded), "ais_vessels": len(vessels_all), "edi_messages": len(edi_all)}
 assert sum(db_counts["ais_positions"].values()) == len(pos_loaded)
@@ -788,9 +765,8 @@ assert mdb.ais_positions.find_one({}, {"_id": 1}) is not None and "timeseries" i
     mdb.command("listCollections", filter={"name": "ais_positions"})["cursor"]["firstBatch"][0]["type"])
 print("✅ Reload validation passed.")
 
-# %% [markdown] cell 25
-# ## Consistency audit against PostgreSQL (hard gate, plan Phase 8)
-#
+
+# %% Consistency audit against PostgreSQL (hard gate, plan Phase 8)
 # Read **from MongoDB** and compared with PostgreSQL (read-only), so the audit tests what tools will actually query:
 #
 # 1. every synthetic `mmsi` / `imo` pair (positions and vessels) equals `vessels`; every synthetic vessel is there once;
@@ -803,7 +779,6 @@ print("✅ Reload validation passed.")
 #    arrival are those of the AIS voyage, and every invoice reference (`RFF+IV`) exists in PostgreSQL for the same vessel;
 # 6. real data references nothing in PostgreSQL and shares no identifier with it (MMSI, IMO, call sign).
 
-# %% cell 26
 with pg_connect() as conn:
     def pgf(sql):
         cur = conn.execute(sql)
@@ -912,7 +887,6 @@ audit["real_shared_call_sign"] = len(set(rv["call_sign"].dropna()) & set(sv["cal
 audit["real_linked_to_pg"] = mdb.ais_vessels.count_documents({"real_or_synthetic": "real", "vessel_id": {"$ne": None}})
 print(json.dumps(audit, indent=1))
 
-# %% cell 27
 # ---- Consistency audit validation --------------------------------------------------------------------------------
 REVIEWED_AUDIT = {
     "positions_pair_mismatch": 0, "vessels_pair_mismatch": 0, "synthetic_vessels_vs_pg": [500, 500, 500, 500],
@@ -929,15 +903,13 @@ assert audit["max_implied_kn"] <= teleport_kn
 assert audit["open_sea_fixes_on_land"] / audit["open_sea_fixes"] < 0.015 and audit["open_sea_fixes_on_land"] == 12156, audit
 print("✅ Consistency audit passed.")
 
-# %% [markdown] cell 28
-# ## Load report and Final Checkpoint
-#
+
+# %% Load report and Final Checkpoint
 # Each run writes `Data/processed/semi-structured/load_audit/<load_run>.json` (counts, dispositions, audits, index list,
 # content hashes, input fingerprints) and `<load_run>_rejected.csv` (every rejected input row with its reason). The
 # reviewed snapshot compares the counts **and the content hashes**: a second run over the same inputs must reproduce the
 # same MongoDB content exactly (idempotency).
 
-# %% cell 29
 AUDIT_DIR.mkdir(parents=True, exist_ok=True)
 report = {
     "load_run": LOAD_RUN, "loaded_at": LOADED_AT.isoformat(), "mongo_version": client.server_info()["version"],
@@ -955,7 +927,6 @@ reloaded_report = json.loads((AUDIT_DIR / f"{LOAD_RUN}.json").read_text(encoding
 assert reloaded_report["content_sha256"] == hashes and reloaded_report["coverage"] == json.loads(json.dumps(coverage))
 print("report:", (AUDIT_DIR / f"{LOAD_RUN}.json").relative_to(ROOT), "| rejected rows:", len(rejected))
 
-# %% cell 30
 final = {"counts": db_counts, "coverage_unaccounted": {s: c["unaccounted"] for s, c in coverage.items()},
          "schema_violations": schema_violations, "content_sha256": hashes}
 REVIEWED_FINAL = {  # reviewed 2026-09-28, sea-path tracks + EDI invoice links (identical on consecutive runs = idempotent)
@@ -972,6 +943,3 @@ if json.loads(json.dumps(final)) != REVIEWED_FINAL:
     print("snapshot pending review:", json.dumps(final))
     raise AssertionError("MongoDB content changed")
 print("✅ Final Checkpoint validation passed.")
-
-# %% [markdown] cell 31
-# Final Checkpoint: see pipelines/checkpoints/semi_structured/MongoDB_loader.md

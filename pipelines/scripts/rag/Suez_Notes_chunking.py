@@ -1,24 +1,18 @@
 """Suez Canal Transit Dues — Notes Logical-Unit Chunking Pipeline
 
-Converted from Notebooks/rag/Suez_Notes_chunking.ipynb (2026-10-01) by tools/nb_to_script.py: same cells, same order; `# %% cell N` = notebook cell N.
-Run from the project root: uv run python tools/run.py pipelines/scripts/rag/Suez_Notes_chunking.py
+Origin:  Converted from Notebooks/rag/Suez_Notes_chunking.ipynb (archived in docs/archive/notebooks/).
+         Refactored (ADR-036 D3), cleanup level (2026-10-01): the notebook's phases, code and validations are unchanged;
+         cell markers, Jupyter display() and the conversion helpers became plain sections and print(); proven by
+         `uv run python tools/nb_to_script.py check Suez_Notes_chunking` (AST equal to the archived notebook).
+Run:     uv run python tools/run.py pipelines/scripts/rag/Suez_Notes_chunking.py  (from the project root)
 
 Reads:   Data/raw/unstructured/Transit_Dues_Rates.pdf
 Writes:  Data/processed/rag/extracted|cleaned|chunks/ (the Suez Notes files)
 Re-run:  safe: rewrites the same three artifacts
 Final Checkpoint (what was done, problems, fixes): pipelines/checkpoints/rag/Suez_Notes_chunking.md
 """
-from IPython.display import display  # outside Jupyter it prints the value (added by the conversion)
 
-
-def _display_result(value):
-    """A notebook shows the value of a cell's last expression unless it is None (added by the conversion)."""
-    if value is not None:
-        display(value)
-
-# %% [markdown] cell 0
-# # Suez Canal Transit Dues — Notes Logical-Unit Chunking Pipeline
-#
+# %% Suez Canal Transit Dues — Notes Logical-Unit Chunking Pipeline
 # This notebook is the Suez Canal Notes half of the Ports & Logistics AI RAG chunking pipeline. It was split out of a combined FBL + Suez Canal notebook so each resource has its own self-contained, checkpointed pipeline — the FBL Bill of Lading is processed the same way in the sibling notebook `FBL_logical_unit_chunking.ipynb`. Both notebooks are organized like the LPI Methodology chunking notebook: classify → extract → build structure-aware logical units → chunk → validate against the shared schema → save → checkpoint.
 #
 # **Document:** `Transit_Dues_Rates.pdf` — the Suez Canal Authority's transit-dues tariff document (4 PDF pages). Only page 4's "Notes" section is in scope for retrieval; the numeric rate tables stay in PostgreSQL as structured data.
@@ -29,14 +23,12 @@ def _display_result(value):
 #
 # `classification → raw page text → isolated Notes text → cleaned text → logical units → semantic groups → chunks → unified schema → saved files`
 
-# %% [markdown] cell 1
-# ## 1. Document Classification
-#
+
+# %% 1. Document Classification
 # Every document in the RAG corpus is classified before extraction, using the same fields as the FBL and LPI Methodology documents: `source`, `real_or_synthetic`, `document_type`, `department`, `sensitivity_level`, `version_date`, and `ingestion_scope`.
 #
 # `Transit_Dues_Rates.pdf` is a real Suez Canal Authority tariff schedule. Unlike FBL, it has a **narrow ingestion scope**: the numeric transit-dues tables stay in PostgreSQL as structured operational data, and only the "Notes" section on page 4 — the qualitative rules that don't fit a rate table (special-vessel definitions, accepted payment currencies, inspection-refusal consequences, …) — is relevant for retrieval (`ingestion_scope: notes_only`).
 
-# %% cell 2
 import pandas as pd
 
 suez_classification = pd.DataFrame([{
@@ -52,12 +44,10 @@ suez_classification = pd.DataFrame([{
 
 print(suez_classification.to_string(index=False))
 
-# %% [markdown] cell 3
-# ## 2. Load the Document
-#
+
+# %% 2. Load the Document
 # Import the required libraries and resolve the project root, the input path for the Suez Canal Transit Dues document, and the output folder. We will process only page 4, which contains the "Notes" section.
 
-# %% cell 4
 import re
 import pandas as pd
 from pathlib import Path
@@ -82,12 +72,10 @@ PROCESSED_RAG_DIR = PROJECT_ROOT / "Data" / "processed" / "rag"
 
 print("PDF exists:", pdf_path.exists())
 
-# %% [markdown] cell 5
-# ## 3. Extract the Notes Section
-#
+
+# %% 3. Extract the Notes Section
 # The Suez PDF contains four pages, but only page 4 is relevant for this source. We intentionally exclude the vessel-rate tables and extract only the section starting from "Notes:". No semantic rewriting is performed at this stage.
 
-# %% cell 6
 import fitz  # PyMuPDF
 
 doc = fitz.open(pdf_path)
@@ -99,7 +87,6 @@ page_4_text = doc[3].get_text("text")
 
 print(page_4_text)
 
-# %% cell 7
 extracted_path = PROCESSED_RAG_DIR / "extracted" / "suez_notes_extracted.txt"
 
 extracted_path.parent.mkdir(parents=True, exist_ok=True)
@@ -112,12 +99,10 @@ extracted_path.write_text(
 print("Extracted text saved to:")
 print(extracted_path)
 
-# %% [markdown] cell 8
-# ## 4. Isolate the Notes Section
-#
+
+# %% 4. Isolate the Notes Section
 # Locate the "Notes:" heading and discard everything before it. This guarantees that the rate tables from page 4 are not accidentally included in the Suez Notes chunks.
 
-# %% cell 9
 notes_start = page_4_text.find("Notes:")
 
 if notes_start == -1:
@@ -127,12 +112,10 @@ notes_text = page_4_text[notes_start:].strip()
 
 print(notes_text)
 
-# %% [markdown] cell 10
-# ## 5. Clean the Notes Text
-#
+
+# %% 5. Clean the Notes Text
 # The cleaning here is intentionally conservative. We only normalize excessive whitespace, line breaks caused by PDF extraction, and spacing around the text. We do NOT rewrite the regulatory content or change terminology.
 
-# %% cell 11
 def clean_pdf_text(text):
     # Normalize line endings
     text = text.replace("\r\n", "\n").replace("\r", "\n")
@@ -150,12 +133,10 @@ clean_notes_text = clean_pdf_text(notes_text)
 
 print(clean_notes_text)
 
-# %% [markdown] cell 12
-# ## 6. Save the Cleaned Text
-#
+
+# %% 6. Save the Cleaned Text
 # Persist the cleaned Notes text to disk before structural parsing begins, so this intermediate result can be inspected or reused independently of the chunking logic below.
 
-# %% cell 13
 cleaned_path = PROCESSED_RAG_DIR / "cleaned" / "suez_notes_cleaned.txt"
 
 cleaned_path.parent.mkdir(parents=True, exist_ok=True)
@@ -168,9 +149,8 @@ cleaned_path.write_text(
 print("Cleaned text saved to:")
 print(cleaned_path)
 
-# %% [markdown] cell 14
-# ## 7. Structure-Aware Logical Unit Detection
-#
+
+# %% 7. Structure-Aware Logical Unit Detection
 # Instead of relying only on the extracted text, use the PDF's text-block structure to preserve natural logical boundaries. The pipeline should:
 #
 # 1. Extract text blocks with their layout information.
@@ -181,7 +161,6 @@ print(cleaned_path)
 #
 # No source-specific phrases are hardcoded.
 
-# %% cell 15
 import fitz
 import re
 
@@ -199,19 +178,16 @@ for i, block in enumerate(blocks):
     print(f"y={y0:.2f} → {y1:.2f}")
     print(repr(text))
 
-# %% [markdown] cell 16
-# ## 8. Extract and Reconstruct Logical Units from PDF Layout
-#
+
+# %% 8. Extract and Reconstruct Logical Units from PDF Layout
 # Use PDF text blocks as the structural source of truth, then reconstruct top-level logical units from them.
 
-# %% [markdown] cell 17
-# ### 8.1 Extract Note Blocks
-#
+
+# %% 8.1 Extract Note Blocks
 # A logical unit starts when a block contains a bullet marker (`-`) and continues across subsequent lines/blocks until the next top-level bullet marker.
 #
 # Nested markers such as `a.` and `b.` remain part of their parent unit. This approach is source-agnostic and preserves the original source text.
 
-# %% cell 18
 def extract_note_blocks(page):
     """
     Extract text blocks belonging to the Notes section.
@@ -250,14 +226,12 @@ for i, block in enumerate(note_blocks, 1):
     print(f"\n--- Note Block {i} ---")
     print(block)
 
-# %% [markdown] cell 19
-# ### 8.2 Reconstruct Top-Level Logical Units
-#
+
+# %% 8.2 Reconstruct Top-Level Logical Units
 # Reconstruct logical units from the extracted PDF blocks. The parser detects top-level bullet markers while preserving continuations across lines and blocks.
 #
 # Nested items such as `a.` and `b.` are not treated as separate logical units.
 
-# %% cell 20
 def reconstruct_logical_units(note_blocks):
     """
     Reconstruct top-level logical units from PDF blocks.
@@ -337,14 +311,12 @@ for i, unit in enumerate(logical_units, 1):
     print(f"\n--- Logical Unit {i} ---")
     print(unit["text"])
 
-# %% [markdown] cell 21
-# ## 9. Semantic Grouping of Logical Units
-#
+
+# %% 9. Semantic Grouping of Logical Units
 # Group adjacent logical units when they are semantically related and the resulting chunk remains within the configured size limit. Logical units are never split internally.
 #
 # The algorithm therefore preserves structural boundaries while allowing related units to form larger retrieval chunks. No source-specific content or rules are hardcoded.
 
-# %% cell 22
 # %pip install -q scikit-learn
 
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -419,7 +391,6 @@ def semantic_group_units(
 
     return grouped
 
-# %% cell 23
 semantic_groups = semantic_group_units(
     logical_units,
     max_chars=1800,
@@ -439,17 +410,14 @@ for i, group in enumerate(semantic_groups, 1):
     print("Characters:", len(text))
     print(text)
 
-# %% [markdown] cell 24
-# ## 10. Unified Chunk Schema
-#
+
+# %% 10. Unified Chunk Schema
 # The Suez Notes chunks are mapped onto the same 16-column chunk schema used for the FBL and LPI Methodology chunks, so all three resource types can live in one retrieval table.
 
-# %% [markdown] cell 25
-# ### 10.1 Schema Definition and Validator
-#
+
+# %% 10.1 Schema Definition and Validator
 # `CHUNK_SCHEMA` and its two helpers (`normalize_chunk_schema`, `validate_chunk_schema`) are the same code used in the FBL and LPI notebooks. In the original combined notebook this pipeline relied on the FBL section's definitions having already run earlier in the same kernel; defining them here makes this notebook runnable on its own.
 
-# %% cell 26
 # =========================================================
 # Canonical flexible chunk schema
 # =========================================================
@@ -573,14 +541,12 @@ def validate_chunk_schema(chunks_df, label):
     print(f"{label}: all checks passed ({len(chunks_df)} chunks)\n")
     return checks
 
-# %% [markdown] cell 27
-# ### 10.2 Build the Chunk DataFrame
-#
+
+# %% 10.2 Build the Chunk DataFrame
 # Convert the semantic groups into final chunks using the common project-wide schema. Document-level metadata is read directly from the Section 1 classification table, so chunk metadata always matches the corpus-wide classification. The source text remains unchanged.
 #
 # Source and RBAC metadata are stored for validation and retrieval filtering, not as part of the generated answer — the same applies to every identifying field (including `filename` and `chunk_id`): none of them should be echoed verbatim into a user-facing answer unless the design explicitly calls for citing sources.
 
-# %% cell 28
 def build_chunk_dataframe(
     semantic_groups,
     page,
@@ -656,7 +622,6 @@ def build_chunk_dataframe(
     # field order and nullable types; it does not rewrite chunk data.
     return normalize_chunk_schema(pd.DataFrame(rows))
 
-# %% cell 29
 # Descriptive metadata improves standalone retrieval without changing text.
 suez_chunk_descriptors = [
     {
@@ -698,11 +663,10 @@ suez_chunks_df = build_chunk_dataframe(
     chunk_descriptors=suez_chunk_descriptors
 )
 
-_display_result(suez_chunks_df)
+print(suez_chunks_df)
 
-# %% [markdown] cell 30
-# ## 11. Validate the Unified Chunk Schema
-#
+
+# %% 11. Validate the Unified Chunk Schema
 # Run the same shared validator used for the FBL chunks — this is the Suez_chunk test — to confirm this dataset follows the identical schema used across the project.
 #
 # Validation includes:
@@ -714,23 +678,19 @@ _display_result(suez_chunks_df)
 # - sensitivity levels
 # - source metadata
 
-# %% cell 31
 validate_chunk_schema(suez_chunks_df, "Suez_chunks")
 
 print("Rows:", len(suez_chunks_df))
 print("Columns:", len(suez_chunks_df.columns))
 
-# %% [markdown] cell 32
-# ## 12. Save the Chunks and Verify
-#
+
+# %% 12. Save the Chunks and Verify
 # Persist the final Suez Notes chunks so they can be combined with the FBL and LPI chunks into the unified RAG chunks table, then reload them from disk and re-verify.
 
-# %% [markdown] cell 33
-# ### 12.1 Save Suez Chunks
-#
+
+# %% 12.1 Save Suez Chunks
 # Persist the final Suez Notes chunks so they can be combined with the FBL chunks (and any future resource) into the unified RAG chunks table.
 
-# %% cell 34
 chunks_path = PROCESSED_RAG_DIR / "chunks" / "suez_notes_chunks.parquet"
 
 chunks_path.parent.mkdir(parents=True, exist_ok=True)
@@ -745,12 +705,10 @@ print(chunks_path)
 
 print("Final chunks:", len(suez_chunks_df))
 
-# %% [markdown] cell 35
-# ### 12.2 Reload and Verify Saved Suez Chunks
-#
+
+# %% 12.2 Reload and Verify Saved Suez Chunks
 # Reload the chunks that were just written to disk and re-run the shared schema validator against them — the same reload-and-verify pattern used in the FBL and LPI notebooks. This confirms the parquet file on disk — not just the in-memory DataFrame — satisfies the canonical schema.
 
-# %% cell 36
 chunks_path = PROCESSED_RAG_DIR / "chunks" / "suez_notes_chunks.parquet"
 
 suez_df = pd.read_parquet(chunks_path)
@@ -759,9 +717,8 @@ validate_chunk_schema(suez_df, "Suez_chunks (reloaded)")
 
 print("Suez shape:", suez_df.shape)
 
-# %% [markdown] cell 37
-# ### Note — Source Attribution in Generated Answers
-#
+
+# %% Note — Source Attribution in Generated Answers
 # The schema deliberately links every chunk to its source in metadata (`source`, `filename`, `chunk_id`) for retrieval filtering and RBAC — that part is settled and should stay as-is.
 #
 # Separately, some chunk **text** itself names the issuing body (e.g. the Suez Notes chunk that quotes "Suez Canal Authority's rules and regulations"). That text must stay verbatim — rewriting or scrubbing a regulatory source's own wording would misrepresent it and is a compliance risk, not a cleanup task.
@@ -771,6 +728,3 @@ print("Suez shape:", suez_df.shape)
 # - Do not forward raw `chunk_id` or `filename` values into the LLM's context — they are retrieval/RBAC metadata, not answer content.
 # - Add an explicit instruction in the generation system prompt telling the model to describe the regulation generically (e.g. "canal transit regulations") unless the user asks which authority issued it.
 # - If specific answers must never name the source even when asked, that is a prompt/business-logic decision to make deliberately, not a side effect of chunk cleaning.
-
-# %% [markdown] cell 38
-# Final Checkpoint: see pipelines/checkpoints/rag/Suez_Notes_chunking.md

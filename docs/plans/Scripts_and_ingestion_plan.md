@@ -186,3 +186,23 @@ first), static report. 4. Owner runs each script locally and sends the summary. 
   the notebook paths on purpose.
 - **Part A is complete.** Open: (1) D3 refactors, optional, one script at a time with the same local check;
   (2) part B (PDF ingestion) after the RAG plan. **Next: owner decides refactor now vs. resume RAG retrieval.**
+- 2026-10-01, D3 refactor DONE in the cloud, **local verification pending**. Owner: "take your time; the flow and the
+  outputs are what matter". Two levels (ADR-036 amendment, `pipelines/README.md`):
+  - Level A, by hand (functions + `main()`, assertions instead of exploration prints): ExtractPortsAttributes,
+    ExtractPortsConnection (INSERT → `insert_port_connections()`, only with `--insert`, refuses a non-empty table),
+    SyntheticGenerator (unused `get_toll_band_id` removed; random-draw order kept — vessels.csv and containers.csv
+    regenerated identical here), Documents_registry (migration 010 re-rendered byte-identical from the mirror here),
+    EDI_generator. New assertions were checked against the committed CSVs where possible. pyflakes clean.
+  - Level B, generated (`nb_to_script.py clean`): the 7 RAG scripts, AIS_EDI_profiling, AIS_generator, MongoDB_loader;
+    `check` proves AST equality with the archived notebooks (negative test: a changed argument and a removed line are
+    caught, a comment edit is not).
+  - `tools/run.py --compare` now accepts the notebook's ✅ lines kept in order plus new ones (level A adds a few).
+  - Deviation from D3's wording ("never committed without its local verification"): the refactor has to be committed
+    to reach the owner's machine; it is marked pending here until the local run passes.
+  - Load reports: the run of 2026-10-01 created `load_audit/20261001T092224Z.json` + `_rejected.csv` on the owner's
+    machine. Not useless: every MongoDB document now carries `load_run = 20261001T092224Z`, so this is the report of the
+    current database content; the committed 20260928 pair is the stale one. Owner to decide (recommended: commit the
+    new pair, `git rm` the old pair).
+- **Next (owner, local):** `git pull`, then `uv run python tools/run.py all --compare`; expected: 15/15 exit 0,
+  `compare: ✅`, `files changed: 0` (MongoDB_loader creates a new load report by design). Then close this plan
+  (archive it; RAG retrieval plan becomes the only active plan).

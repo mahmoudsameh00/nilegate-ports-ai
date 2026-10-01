@@ -1,24 +1,18 @@
 """Synthetic AIS generator — tracks for our 500 vessels
 
-Converted from Notebooks/semi_structured/AIS_generator.ipynb (2026-10-01) by tools/nb_to_script.py: same cells, same order; `# %% cell N` = notebook cell N.
-Run from the project root: uv run python tools/run.py pipelines/scripts/semi_structured/AIS_generator.py
+Origin:  Converted from Notebooks/semi_structured/AIS_generator.ipynb (archived in docs/archive/notebooks/).
+         Refactored (ADR-036 D3), cleanup level (2026-10-01): the notebook's phases, code and validations are unchanged;
+         cell markers, Jupyter display() and the conversion helpers became plain sections and print(); proven by
+         `uv run python tools/nb_to_script.py check AIS_generator` (AST equal to the archived notebook).
+Run:     uv run python tools/run.py pipelines/scripts/semi_structured/AIS_generator.py  (from the project root)
 
-Reads:   Data/processed/semi-structured/profiles/; PostgreSQL (vessels, ports)
+Reads:   Data/processed/semi-structured/profiles/; PostgreSQL (vessels, ports, port_connections; read-only)
 Writes:  Data/processed/semi-structured/synthetic/ (AIS parquet files + ais_generation_manifest.json)
 Re-run:  safe: fixed seed, rewrites the same files
 Final Checkpoint (what was done, problems, fixes): pipelines/checkpoints/semi_structured/AIS_generator.md
 """
-from IPython.display import display  # outside Jupyter it prints the value (added by the conversion)
 
-
-def _display_result(value):
-    """A notebook shows the value of a cell's last expression unless it is None (added by the conversion)."""
-    if value is not None:
-        display(value)
-
-# %% [markdown] cell 0
-# # Synthetic AIS generator — tracks for our 500 vessels
-#
+# %% Synthetic AIS generator — tracks for our 500 vessels
 # Plan: `docs/plans/SemiStructured_MongoDB_plan.md`, Phase 6 (ADR-028, ADR-032). Output: files only, in
 # `Data/processed/semi-structured/synthetic/` — the loader notebook is the only writer to MongoDB (ADR-031).
 #
@@ -30,13 +24,11 @@ def _display_result(value):
 # Every vessel gets its own random stream `default_rng([42, vessel_id])`, so a vessel's track does not depend on the
 # order in which vessels are processed.
 
-# %% [markdown] cell 1
-# ## Phase 1 — Inputs
-#
+
+# %% Phase 1 — Inputs
 # PostgreSQL is read in a read-only transaction. The row counts and a hash of the vessel rows go into the generation
 # manifest, so an artifact can always be traced to the database state it was generated from.
 
-# %% cell 2
 import hashlib
 import json
 import os
@@ -90,16 +82,14 @@ prof_aishub = json.loads((SEMI / "profiles" / "aishub_profile.json").read_text(e
 vessel_rows_sha = hashlib.sha256(vessels.to_csv(index=False).encode()).hexdigest()
 print("vessels:", len(vessels), "| ports:", len(ports), "| connections:", len(conns), "| vessels sha:", vessel_rows_sha[:12])
 
-# %% cell 3
 # ---- Phase 1 validation ------------------------------------------------------------------------------------------
 assert len(vessels) == 500 and vessels["mmsi"].notna().all() and vessels["mmsi"].is_unique
 assert len(ports) == 837 and len(conns) == 19990
 assert (conns["npts"] == 2).all(), "a connection has intermediate vertices: the leg model below assumes 2-point lines"
 print("✅ Phase 1 validation passed.")
 
-# %% [markdown] cell 4
-# ## Phase 2 — Parameters: what comes from the profiles, what is a documented default
-#
+
+# %% Phase 2 — Parameters: what comes from the profiles, what is a documented default
 # | Parameter | Value | Source |
 # |---|---|---|
 # | Harbour speed (first / last 10 nm of a voyage) | NOAA median implied speed of moving steps | profile (`noaa_profile.json`) |
@@ -113,7 +103,6 @@ print("✅ Phase 1 validation passed.")
 # AIS ship-type codes for our 13 Suez vessel categories follow ITU-R M.1371 Table 53 (70 cargo, 80 tanker, 60 passenger,
 # 90 other). The open-sea speed ranges are typical service speeds per category; they are defaults, not measurements.
 
-# %% cell 5
 HARBOUR_KN = round(prof_noaa["implied_kn_moving"]["0.5"], 1)
 TELEPORT_KN = float(np.ceil(prof_noaa["implied_kn_moving"]["0.99"]))
 MOVE_DT_S, STAT_DT_S, JITTER_S = 600, 3600, 30
@@ -136,7 +125,6 @@ TYPE_PARAMS = {  # vessel_type: (AIS ship type code, service speed min kn, max k
 STATUS_NAVSTAT = {"In Transit": 0, "Anchored": 1, "At Port": 5, "Completed": 5}  # final NAVSTAT per status
 print({"HARBOUR_KN": HARBOUR_KN, "TELEPORT_KN": TELEPORT_KN})
 
-# %% cell 6
 # ---- Phase 2 validation ------------------------------------------------------------------------------------------
 assert set(TYPE_PARAMS) == set(vessels["vessel_type"]), set(vessels["vessel_type"]) ^ set(TYPE_PARAMS)
 assert set(STATUS_NAVSTAT) == set(vessels["status"])
@@ -144,9 +132,8 @@ assert all(lo < hi < TELEPORT_KN for _, lo, hi in TYPE_PARAMS.values()), "servic
 assert 4 < HARBOUR_KN < 10 and 25 <= TELEPORT_KN <= 40
 print("✅ Phase 2 validation passed.")
 
-# %% [markdown] cell 7
-# ## Phase 3 — Routes: port sequence over `port_connections`, sea path for every leg
-#
+
+# %% Phase 3 — Routes: port sequence over `port_connections`, sea path for every leg
 # **Port sequence (owner decision 6, D12).** Every connection is a 2-point line between two ports (checked in Phase 1),
 # so the network is a graph of ports. A vessel calls at the ports of the shortest path (by geodesic length) from its
 # origin to its destination (`scipy.sparse.csgraph.dijkstra`). A vessel whose destination is not in the origin's
@@ -162,7 +149,6 @@ print("✅ Phase 2 validation passed.")
 # The land check uses `global_land_mask` (1 km grid). Port points are UN/LOCODE town coordinates, mostly on land in a
 # 1 km grid (720 / 837), so the check applies to under-way fixes **more than 20 nm from every port of the route**.
 
-# %% cell 8
 R_NM = 3440.065
 port_idx = {l: i for i, l in enumerate(ports["locode"])}
 PORT_LL = ports.set_index("locode")[["lat", "lon"]].astype(float)
@@ -245,7 +231,6 @@ print("components:", n_comp, "| fallback routes:", sum(r["fallback"] for r in ro
       "| legs per route (median/max):", int(np.median([len(r["ports"]) - 1 for r in routes.values()])),
       max(len(r["ports"]) - 1 for r in routes.values()), "| route nm:", route_nm.describe()[["min", "50%", "max"]].round(0).to_dict())
 
-# %% cell 9
 # ---- Phase 3 validation ------------------------------------------------------------------------------------------
 for vid, r in routes.items():
     v = vessels.loc[vessels["vessel_id"] == vid].iloc[0]
@@ -268,9 +253,8 @@ else:
     print("snapshot pending review:", json.dumps(actual_3))
 print("✅ Phase 3 validation passed.")
 
-# %% [markdown] cell 10
-# ## Phase 4 — Voyage timeline per vessel, consistent with `vessels.status`
-#
+
+# %% Phase 4 — Voyage timeline per vessel, consistent with `vessels.status`
 # Each vessel's track covers its **current voyage**, from 6 h moored at the origin before departure until the as-of
 # instant (or until it stops reporting). This refines D10: a fixed 30-day window would cut long voyages (up to ~11,400
 # nm, i.e. more than 30 days for a slow unit) so their tracks would not start at the origin; the as-of instant stays
@@ -287,7 +271,6 @@ print("✅ Phase 3 validation passed.")
 # type in between. Moving fixes every 10 min, stationary fixes every 60 min, each ± 30 s. Reported values carry small
 # noise (SOG σ 0.2 kn, COG σ 1°, heading σ 2°; positions at berth / anchor jitter by metres), rounded like AIS.
 
-# %% cell 11
 def point_on_route(r: dict, s: np.ndarray):
     """Positions (lat, lon) and course (bearing to the end of the current leg) at along-route distances s (nm)."""
     i = np.clip(np.searchsorted(r["cum"], s, side="right") - 1, 0, len(r["cum"]) - 2)
@@ -398,7 +381,6 @@ tracks["navstat"] = tracks["navstat"].astype(int)
 print("fixes:", len(tracks), "| by phase:", tracks["phase"].value_counts().to_dict())
 print("departures:", voyages["departure_ts"].min(), "->", voyages["departure_ts"].max())
 
-# %% cell 12
 # ---- Phase 4 validation ------------------------------------------------------------------------------------------
 g = tracks.groupby("vessel_id")
 dt_s = g["ts"].diff().dt.total_seconds()
@@ -463,16 +445,14 @@ else:
     print("snapshot pending review:", json.dumps(actual_4))
 print("✅ Phase 4 validation passed.")
 
-# %% [markdown] cell 13
-# ## Phase 5 — Static records for `ais_vessels` (decision D9)
-#
+
+# %% Phase 5 — Static records for `ais_vessels` (decision D9)
 # One static / voyage record per vessel, as its AIS transponder would broadcast it: identity copied from PostgreSQL
 # (`mmsi`, `imo_number`, `vessel_name`, `vessel_id`), the AIS ship type of its category, destination = its destination
 # UN/LOCODE, ETA = the planned arrival in AIS form (`MM-DD HH:MM`, no year), transceiver class A (SOLAS ships).
 # PostgreSQL holds no dimensions or draught, so those stay `null` rather than invented. The call sign is synthetic and
 # visibly so (`NGX` + 4 digits, unique, drawn from a fixed stream); the loader checks it never equals a real call sign.
 
-# %% cell 14
 cs_rng = np.random.default_rng([SEED, 0])
 call_signs = [f"NGX{n:04d}" for n in cs_rng.choice(10_000, size=len(vessels), replace=False)]
 static = vessels[["vessel_id", "mmsi", "imo_number", "vessel_name", "vessel_type", "destination_locode"]].merge(
@@ -487,7 +467,6 @@ static = pd.DataFrame({
     "eta_raw": pd.to_datetime(static["arrival_ts"], utc=True).dt.strftime("%m-%d %H:%M"),
     "transceiver_class": "A", "last_seen": static["last_seen"]})
 
-# %% cell 15
 # ---- Phase 5 validation ------------------------------------------------------------------------------------------
 assert len(static) == 500 and static["mmsi"].is_unique and static["call_sign"].is_unique
 assert (static.set_index("vessel_id")[["mmsi", "imo", "name"]]
@@ -495,15 +474,13 @@ assert (static.set_index("vessel_id")[["mmsi", "imo", "name"]]
 assert static["ship_type_category"].notna().all() and static["eta_raw"].str.fullmatch(r"\d{2}-\d{2} \d{2}:\d{2}").all()
 print("✅ Phase 5 validation passed.")
 
-# %% [markdown] cell 16
-# ## Phase 6 — Save, reload, manifest
-#
+
+# %% Phase 6 — Save, reload, manifest
 # Three Parquet files and a manifest. `src_row` is the row number in `ais_positions_synthetic.parquet`: the loader stores
 # it in every document, so each synthetic fix can be traced back to its artifact row (the same coverage rule as for the
 # real samples). The manifest records the seed, the as-of instant, every parameter, the PostgreSQL row hash the tracks
 # were generated from, and a content hash per file (pandas row hashes, independent of Parquet encoding details).
 
-# %% cell 17
 OUT.mkdir(parents=True, exist_ok=True)
 positions_out = tracks[["vessel_id", "mmsi", "imo", "ts", "lat", "lon", "sog", "cog", "heading", "navstat", "phase"]].copy()
 positions_out.insert(0, "src_row", np.arange(len(positions_out)))
@@ -526,9 +503,8 @@ manifest = {
                "port_connections": len(conns), "profiles": ["noaa_profile.json", "aishub_profile.json"]},
     "outputs": {name: {"rows": len(df), "content_sha256": content_sha(df)} for name, df in files.items()},
 }
-_display_result((OUT / "ais_generation_manifest.json").write_text(json.dumps(manifest, indent=1, default=str) + "\n", encoding="utf-8"))
+(OUT / "ais_generation_manifest.json").write_text(json.dumps(manifest, indent=1, default=str) + "\n", encoding="utf-8")
 
-# %% cell 18
 # ---- Phase 6 validation ------------------------------------------------------------------------------------------
 reloaded = {name: pd.read_parquet(OUT / name) for name in files}
 for name, df in files.items():
@@ -548,10 +524,9 @@ else:
     print("snapshot pending review:", json.dumps(actual_6))
 print("✅ Phase 6 validation passed.")
 
-# %% [markdown] cell 19
-# ## Final Checkpoint
 
-# %% cell 20
+# %% Final Checkpoint
+
 final = {"vessels": len(vessels), "fixes": len(tracks), "fallback_routes": REVIEWED_3["fallback_vessels"],
          "status": vessels["status"].value_counts().sort_index().to_dict(),
          "max_implied_kn": actual_4["max_implied_kn"], "teleport_kn": TELEPORT_KN,
@@ -567,6 +542,3 @@ REVIEWED_FINAL = {"vessels": 500, "fixes": 1310619, "fallback_routes": [323, 442
 assert final == REVIEWED_FINAL, f"final summary changed: {final}"
 print(json.dumps(final, indent=1))
 print("✅ Final Checkpoint validation passed.")
-
-# %% [markdown] cell 21
-# Final Checkpoint: see pipelines/checkpoints/semi_structured/AIS_generator.md

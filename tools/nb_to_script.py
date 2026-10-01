@@ -2,7 +2,9 @@
 
   uv run python tools/nb_to_script.py convert [STEM ...]   write pipelines/scripts/<area>/<stem>.py
                                                             + pipelines/checkpoints/<area>/<stem>.md
+  uv run python tools/nb_to_script.py clean   [STEM ...]   refactor level B (see 'level B cleanup' below)
   uv run python tools/nb_to_script.py check   [STEM ...]   static proof that every script matches its notebook
+                                                            (refactored scripts: checkpoint + compile only)
 
 The script is in percent format (`# %% cell N` = code cell N of the notebook, `# %% [markdown] cell N` = markdown
 cell N as `# ` comment lines), so `uv run python <script>` runs it top to bottom and VS Code still shows the cells.
@@ -28,6 +30,7 @@ NB_DIR = ROOT / "docs" / "archive" / "notebooks"   # archived 2026-10-01 after t
 SCRIPTS = ROOT / "pipelines" / "scripts"
 CHECKPOINTS = ROOT / "pipelines" / "checkpoints"
 FC_RE = re.compile(r"final checkpoint", re.I)
+REFACTORED_TAG = "Refactored (ADR-036 D3)"   # a script with this in its header is no longer a 1:1 conversion
 WRAP = "_display_result("
 WRAP_T = "_display_tuple("       # a bare tuple `a, b`: wrapping it in _display_result( would pass two arguments
 DISABLED_TAG = "# DISABLED by the owner (2026-10-01): "
@@ -86,7 +89,7 @@ META = {
         writes="Data/processed/semi-structured/profiles/",
         rerun="safe: rewrites the same profiles"),
     "semi_structured/AIS_generator": dict(
-        reads="Data/processed/semi-structured/profiles/; PostgreSQL (vessels, ports)",
+        reads="Data/processed/semi-structured/profiles/; PostgreSQL (vessels, ports, port_connections; read-only)",
         writes="Data/processed/semi-structured/synthetic/ (AIS parquet files + ais_generation_manifest.json)",
         rerun="safe: fixed seed, rewrites the same files"),
     "semi_structured/EDI_generator": dict(
@@ -281,10 +284,17 @@ def keys(stems: list[str]) -> list[str]:
     return [k for k in allk if not stems or k.split("/")[1] in stems]
 
 
+def is_refactored(sp: Path) -> bool:
+    return sp.exists() and REFACTORED_TAG in sp.read_text(encoding="utf-8")[:3000]
+
+
 def cmd_convert(a) -> int:
     for key in keys(a.stems):
         script, md, st = build(key)
         sp, mp = paths(key)
+        if is_refactored(sp):
+            print(f"{key}: refactored script, not overwritten")
+            continue
         sp.parent.mkdir(parents=True, exist_ok=True)
         sp.write_text(script, encoding="utf-8", newline="\n")
         if md is not None:
@@ -327,6 +337,26 @@ def cmd_check(a) -> int:
         errs = []
         if not sp.exists():
             print(f"FAIL {key}: script missing"); bad += 1; continue
+        if is_refactored(sp) and CLEAN_TAG in sp.read_text(encoding="utf-8")[:3000]:
+            md_ok = fc is None or (mp.exists() and mp.read_text(encoding="utf-8").rstrip("\n") == src(cells[fc]).rstrip("\n"))
+            problem = prove_clean(key, sp.read_text(encoding="utf-8"))
+            if problem or not md_ok:
+                bad += 1; print(f"FAIL {key}: cleanup level: {problem or 'checkpoint differs'}")
+            else:
+                print(f"✅ {key}: cleanup level, AST equal to the archived notebook (display rules only), checkpoint kept")
+            continue
+        if is_refactored(sp):
+            md_ok = fc is None or (mp.exists() and mp.read_text(encoding="utf-8").rstrip("\n") == src(cells[fc]).rstrip("\n"))
+            try:
+                py_compile.compile(str(sp), doraise=True, cfile=str(ROOT / "Notebooks" / "_scratch" / "pyc" / sp.name) + "c")
+                comp = True
+            except py_compile.PyCompileError:
+                comp = False
+            if md_ok and comp:
+                print(f"✅ {key}: refactored (not a 1:1 copy; verified by tools/run.py --compare), checkpoint kept, compiles")
+            else:
+                bad += 1; print(f"FAIL {key}: refactored script: checkpoint {'ok' if md_ok else 'differs'}, compile {comp}")
+            continue
         got = parse_script(sp.read_text(encoding="utf-8"))
         want = [(c["cell_type"], i, src(c).rstrip("\n")) for i, c in enumerate(cells)
                 if src(c).strip() and c["cell_type"] in ("code", "markdown")]
@@ -360,13 +390,141 @@ def cmd_check(a) -> int:
     return 1 if bad else 0
 
 
+# ---------------------------------------------------------------------------------------------------- level B cleanup
+# Refactor level B (ADR-036 D3): the linear phase structure is kept (it is the flow, with a reviewed validation after
+# each phase); the notebook leftovers go. Generated from the ARCHIVED notebook, never from the converted script:
+#   - a markdown cell becomes a section: `# %% <its heading>` + its text as comment lines;
+#   - code cells follow without cell markers; Jupyter's implicit display of a cell's last bare expression becomes an
+#     explicit print(...) (a `.write_text(...)` result, a character count, is not printed);
+#   - display(x) becomes print(x) (outside Jupyter IPython's display() is print());
+#   - the Final Checkpoint narrative stays in pipelines/checkpoints/ (pointer in the header).
+# `check` proves it: the AST of the notebook's code cells, canonicalised by exactly those rules, equals the script's.
+CLEAN_TAG = "Refactored (ADR-036 D3), cleanup level"
+
+
+def _is_write_text(node: ast.AST) -> bool:
+    return isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute) and node.func.attr == "write_text"
+
+
+def _display_names(code: str) -> list[tuple[int, int]]:
+    """(line, col) of every `display` name that is called, last first (so replacements keep earlier offsets)."""
+    tree = ast.parse(code)
+    pos = [(n.func.lineno - 1, n.func.col_offset) for n in ast.walk(tree)
+           if isinstance(n, ast.Call) and isinstance(n.func, ast.Name) and n.func.id == "display"]
+    return sorted(pos, reverse=True)
+
+
+def clean_code(code: str) -> str:
+    lines = code.split("\n")
+    node = bare_expression(code)
+    if node is not None and not _is_write_text(node.value):
+        s, e = node.lineno - 1, node.end_lineno - 1
+        bare_tuple = isinstance(node.value, ast.Tuple) and not lines[s][node.col_offset:].startswith("(")
+        lines[e] = lines[e][:node.end_col_offset] + ("))" if bare_tuple else ")") + lines[e][node.end_col_offset:]
+        lines[s] = lines[s][:node.col_offset] + ("print((" if bare_tuple else "print(") + lines[s][node.col_offset:]
+    code = "\n".join(lines)
+    lines = code.split("\n")
+    for ln, col in _display_names(code):
+        assert lines[ln][col:col + 7] == "display"
+        lines[ln] = lines[ln][:col] + "print" + lines[ln][col + 7:]
+    return "\n".join(lines)
+
+
+def _section(text: str) -> str:
+    body = text.strip("\n").split("\n")
+    first = body[0].strip()
+    if first.startswith("#"):
+        head, rest = first.lstrip("#").strip(), body[1:]
+    else:
+        head, rest = "", body
+    while rest and not rest[0].strip():
+        rest = rest[1:]
+    out = f"# %% {head}".rstrip()
+    return out + ("\n" + md_comment("\n".join(rest)) if rest else "")
+
+
+def build_clean(key: str) -> str:
+    area, stem = key.split("/")
+    cells = json.loads(notebook_path(key).read_text(encoding="utf-8"))["cells"]
+    fc = fc_index(cells)
+    m = META[key]
+    head = [f'"""{title_of(cells, stem)}', "",
+            f"Origin:  Converted from Notebooks/{key}.ipynb (archived in docs/archive/notebooks/).",
+            f"         {CLEAN_TAG} (2026-10-01): the notebook's phases, code and validations are unchanged;",
+            "         cell markers, Jupyter display() and the conversion helpers became plain sections and print(); proven by",
+            f"         `uv run python tools/nb_to_script.py check {stem}` (AST equal to the archived notebook).",
+            f"Run:     uv run python tools/run.py pipelines/scripts/{area}/{stem}.py  (from the project root)", "",
+            f"Reads:   {m['reads']}", f"Writes:  {m['writes']}", f"Re-run:  {m['rerun']}"]
+    if fc is not None:
+        head.append(f"Final Checkpoint (what was done, problems, fixes): pipelines/checkpoints/{area}/{stem}.md")
+    head.append('"""')
+    body = []
+    for i, c in enumerate(cells):
+        text = src(c)
+        if not text.strip() or (c["cell_type"] == "markdown" and i == fc):
+            continue
+        if c["cell_type"] == "markdown":
+            body.append("\n" + _section(text))
+        elif c["cell_type"] == "code":
+            body.append(clean_code(text.rstrip("\n")))
+    return "\n".join(head) + "\n" + "\n\n".join(body) + "\n"
+
+
+def _canonical_notebook_body(cells: list[dict]) -> list[ast.stmt]:
+    """Statements of all code cells, with the two Jupyter display rules made explicit (independent of clean_code)."""
+    out = []
+    for c in cells:
+        if c["cell_type"] != "code" or not src(c).strip():
+            continue
+        tree = ast.parse(src(c))
+        for n in ast.walk(tree):
+            if isinstance(n, ast.Call) and isinstance(n.func, ast.Name) and n.func.id == "display":
+                n.func.id = "print"
+        last = tree.body[-1] if tree.body else None
+        if (isinstance(last, ast.Expr) and not src(c).rstrip().endswith(";") and not _is_write_text(last.value)
+                and not (isinstance(last.value, ast.Call) and isinstance(last.value.func, ast.Name)
+                         and last.value.func.id == "print")):
+            tree.body[-1] = ast.Expr(ast.Call(ast.Name("print", ast.Load()), [last.value], []))
+        out += tree.body
+    return out
+
+
+def prove_clean(key: str, script_text: str) -> str | None:
+    """None when the script's statements equal the canonicalised notebook's; else a description of the first difference."""
+    cells = json.loads(notebook_path(key).read_text(encoding="utf-8"))["cells"]
+    want = _canonical_notebook_body(cells)
+    got = ast.parse(script_text).body
+    if got and isinstance(got[0], ast.Expr) and isinstance(got[0].value, ast.Constant) and isinstance(got[0].value.value, str):
+        got = got[1:]  # the module docstring
+    if len(got) != len(want):
+        return f"{len(got)} statements vs {len(want)} in the notebook"
+    for k, (g, w) in enumerate(zip(got, want)):
+        if ast.dump(g) != ast.dump(w):
+            return f"statement {k} differs (script line {g.lineno})"
+    return None
+
+
+def cmd_clean(a) -> int:
+    for key in keys(a.stems):
+        sp, _ = paths(key)
+        if is_refactored(sp) and CLEAN_TAG not in sp.read_text(encoding="utf-8")[:3000]:
+            print(f"{key}: level A refactor, not touched"); continue
+        text = build_clean(key)
+        problem = prove_clean(key, text)
+        if problem:
+            print(f"FAIL {key}: {problem} (not written)"); return 1
+        sp.write_text(text, encoding="utf-8", newline="\n")
+        print(f"✅ {key}: cleaned, AST equal to the notebook ({text.count(chr(10))} lines)")
+    return 0
+
+
 def main() -> int:
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sp = p.add_subparsers(dest="cmd", required=True)
-    for n in ("convert", "check"):
+    for n in ("convert", "check", "clean"):
         s = sp.add_parser(n); s.add_argument("stems", nargs="*")
     a = p.parse_args()
-    return {"convert": cmd_convert, "check": cmd_check}[a.cmd](a)
+    return {"convert": cmd_convert, "check": cmd_check, "clean": cmd_clean}[a.cmd](a)
 
 
 if __name__ == "__main__":

@@ -1,7 +1,10 @@
 """AIS + EDI profiling (no database)
 
-Converted from Notebooks/semi_structured/AIS_EDI_profiling.ipynb (2026-10-01) by tools/nb_to_script.py: same cells, same order; `# %% cell N` = notebook cell N.
-Run from the project root: uv run python tools/run.py pipelines/scripts/semi_structured/AIS_EDI_profiling.py
+Origin:  Converted from Notebooks/semi_structured/AIS_EDI_profiling.ipynb (archived in docs/archive/notebooks/).
+         Refactored (ADR-036 D3), cleanup level (2026-10-01): the notebook's phases, code and validations are unchanged;
+         cell markers, Jupyter display() and the conversion helpers became plain sections and print(); proven by
+         `uv run python tools/nb_to_script.py check AIS_EDI_profiling` (AST equal to the archived notebook).
+Run:     uv run python tools/run.py pipelines/scripts/semi_structured/AIS_EDI_profiling.py  (from the project root)
 
 Reads:   Data/raw/semi-structured/ (AISHub sample, NOAA AccessAIS, IFTMIN sample)
 Writes:  Data/processed/semi-structured/profiles/
@@ -9,9 +12,7 @@ Re-run:  safe: rewrites the same profiles
 Final Checkpoint (what was done, problems, fixes): pipelines/checkpoints/semi_structured/AIS_EDI_profiling.md
 """
 
-# %% [markdown] cell 0
-# # AIS + EDI profiling (no database)
-#
+# %% AIS + EDI profiling (no database)
 # Plan: `docs/plans/SemiStructured_MongoDB_plan.md`, Phase 1 (notebook phases 1–8 = plan steps 1.1–1.8).
 #
 # **Why this notebook exists.** The MongoDB collections (`ais_positions`, `ais_vessels`, `edi_messages`) must be designed
@@ -21,9 +22,8 @@ Final Checkpoint (what was done, problems, fixes): pipelines/checkpoints/semi_st
 # Inputs (`Data/raw/semi-structured/`, never modified): `AISHub sample.json`, `NOAA AccessAIS.csv`,
 # `IFTMIN_D12A_sample.edi`. Reference data for cross-checks comes from the CSV mirrors in `Data/processed/`.
 
-# %% [markdown] cell 1
-# ## Phase 1 — Setup and file registry
-#
+
+# %% Phase 1 — Setup and file registry
 # Each input file gets a fingerprint (`sha256`, size), an encoding sniff (BOM, line endings) and a short look at its
 # first bytes. The registry is the provenance used later by the loader (`provenance.source_file`, `source_sha256`), so a
 # changed sample is detected instead of silently loaded.
@@ -31,7 +31,6 @@ Final Checkpoint (what was done, problems, fixes): pipelines/checkpoints/semi_st
 # The shared helpers are defined here because several phases use them: MMSI classification (AIS sources) and the
 # IMO check digit (AIS sources and our own `vessels.imo_number`).
 
-# %% cell 2
 import hashlib
 import json
 from collections import Counter
@@ -81,7 +80,6 @@ for k, v in source_files.items():
           f"crlf={v['crlf']} lf={v['lf_only']} non_ascii={v['non_ascii_bytes']}")
     print(f"        head: {v['head']!r}")
 
-# %% cell 3
 # ---- Shared helpers ----------------------------------------------------------------------------------------------
 
 
@@ -131,7 +129,6 @@ assert imo_check_ok(9074729) and imo_check_ok("IMO9074729")
 assert not imo_check_ok(9074728) and not imo_check_ok(0) and not imo_check_ok(None) and not imo_check_ok("")
 print("helpers ok")
 
-# %% cell 4
 # ---- Phase 1 validation ------------------------------------------------------------------------------------------
 assert all(p.exists() for p in INPUTS.values()), "missing input file"
 assert all(v["size_bytes"] > 0 for v in source_files.values())
@@ -149,9 +146,8 @@ else:
     print("snapshot pending review:", json.dumps(actual_1))
 print("✅ Phase 1 validation passed.")
 
-# %% [markdown] cell 5
-# ## Phase 2 — AISHub JSON: structure and coordinate format
-#
+
+# %% Phase 2 — AISHub JSON: structure and coordinate format
 # The AISHub web service usually answers with a two-element list: a header object (`ERROR`, `USERNAME`, `FORMAT`,
 # `RECORDS`) followed by the list of records. This is **checked, not assumed**. The header's `USERNAME` is an account
 # name, so it is never printed.
@@ -164,7 +160,6 @@ print("✅ Phase 1 validation passed.")
 # from the value ranges: all positions are degree-like → format 1. Every one of the 19 fields is a JSON string (numbers
 # included), and the time field is `TSTAMP`, not `TIME` — the loader must convert types explicitly.
 
-# %% cell 6
 with open(INPUTS["aishub"], encoding="utf-8-sig") as fh:
     ais_raw = json.load(fh)
 
@@ -190,7 +185,6 @@ print(f"fields: {len(field_counts)}")
 for k, n in field_counts.items():
     print(f"  {k:12} present {n:>6}  types {dict(field_types[k])}")
 
-# %% cell 7
 ais_df = pd.DataFrame(ais_records)
 lat_col = next((c for c in ais_df.columns if c.upper() in ("LATITUDE", "LAT")), None)
 lon_col = next((c for c in ais_df.columns if c.upper() in ("LONGITUDE", "LON")), None)
@@ -204,7 +198,6 @@ print(f"lat/lon columns: {lat_col}/{lon_col} | header FORMAT={header_format} | "
       f"share outside degree ranges={share_out_of_degrees:.3f} -> format used: {ais_format}")
 print("lat min/max:", lat.min(), lat.max(), "| lon min/max:", lon.min(), lon.max())
 
-# %% cell 8
 # ---- Phase 2 validation ------------------------------------------------------------------------------------------
 assert len(ais_records) > 0, "no AISHub records"
 if ais_header is not None and "RECORDS" in ais_header:
@@ -227,9 +220,8 @@ else:
     print("snapshot pending review:", json.dumps(actual_2))
 print("✅ Phase 2 validation passed.")
 
-# %% [markdown] cell 9
-# ## Phase 3 — AISHub JSON: field profile
-#
+
+# %% Phase 3 — AISHub JSON: field profile
 # Every field is a string in the source, so this phase first converts each one explicitly (empty string → missing) and
 # then checks it against its AIS meaning:
 #
@@ -251,7 +243,6 @@ print("✅ Phase 2 validation passed.")
 # 6,050 placeholders (mostly `0`), 6 bad check digits → IMO is optional in every schema. All positions are valid; the
 # sentinels hide 2,320 COG and 5,050 HEADING values. DEST is empty for 3,881 records and a known UN/LOCODE for 883.
 
-# %% cell 10
 import re
 from datetime import timezone
 
@@ -331,7 +322,6 @@ def dest_locode(dest: str) -> str | None:
     t = re.sub(r"[\s>._-]", "", str(dest).upper())
     return t if re.fullmatch(r"[A-Z]{2}[A-Z2-9]{3}", t) else None
 
-# %% cell 11
 a = pd.DataFrame(ais_records).astype(str)
 a_ts = pd.to_datetime(a["TSTAMP"].str.replace(" GMT", "", regex=False), format="%Y-%m-%d %H:%M:%S", errors="coerce", utc=True)
 a_pos = ais_clean_positions(num(a["LATITUDE"]), num(a["LONGITUDE"]), num(a["SOG"]), num(a["COG"]), num(a["HEADING"]))
@@ -374,7 +364,6 @@ for k, v in prof_aishub.items():
 print("NAVSTAT labels:", {k: NAVSTAT_LABELS.get(k) for k in prof_aishub["navstat"]})
 print("top DEST LOCODE matches:", Counter(a_dest_code[a_dest_code.isin(PORT_LOCODES)]).most_common(5))
 
-# %% cell 12
 # ---- Phase 3 validation ------------------------------------------------------------------------------------------
 assert prof_aishub["time_utc"]["unparsed"] == 0, "unparsed TSTAMP"
 assert sum(prof_aishub["mmsi_class"].values()) == len(a)
@@ -403,9 +392,8 @@ else:
     print("snapshot pending review:", json.dumps(actual_3))
 print("✅ Phase 3 validation passed.")
 
-# %% [markdown] cell 13
-# ## Phase 4 — NOAA AccessAIS CSV: field profile and track behaviour
-#
+
+# %% Phase 4 — NOAA AccessAIS CSV: field profile and track behaviour
 # NOAA's Marine Cadastre exports are already decoded (degrees, knots, UTC `BaseDateTime` without a zone suffix) and use
 # the same sentinels as raw AIS (HEADING 511, COG 360). Unlike AISHub, this sample holds **several fixes per vessel**, so
 # it is the source of the movement model:
@@ -427,7 +415,6 @@ print("✅ Phase 3 validation passed.")
 # harbour behaviour (tankers 6–7 kn, no moving cargo fixes at all); open-sea speeds cannot come from this sample and
 # will be documented defaults per ship-type category (plan risk "samples too small").
 
-# %% cell 14
 R_EARTH_NM = 3440.065
 
 
@@ -496,7 +483,6 @@ prof_noaa = {
 for k, v in prof_noaa.items():
     print(f"{k:24} {v}")
 
-# %% cell 15
 # ---- Phase 4 validation ------------------------------------------------------------------------------------------
 assert prof_noaa["time_utc"]["unparsed"] == 0, "unparsed BaseDateTime"
 assert sum(prof_noaa["mmsi_class"].values()) == len(n) and sum(prof_noaa["imo_state"].values()) == len(n)
@@ -523,9 +509,8 @@ else:
     print("snapshot pending review:", json.dumps(actual_4))
 print("✅ Phase 4 validation passed.")
 
-# %% [markdown] cell 16
-# ## Phase 5 — Cross-sample checks and our own identifiers
-#
+
+# %% Phase 5 — Cross-sample checks and our own identifiers
 # ADR-028 keeps real AIS vessels apart from our 500 synthetic vessels, so their identifier spaces must not overlap. This
 # phase measures that on both sides before any MMSI is generated:
 #
@@ -544,7 +529,6 @@ print("✅ Phase 4 validation passed.")
 # changed here; consequence for this phase: the loader, generators and audits must **not reject** our own vessels or
 # containers on check digits (checks apply to real data only), and the question is raised to the owner.
 
-# %% cell 17
 ISO6346_LETTERS = dict(zip("ABCDEFGHIJKLMNOPQRSTUVWXYZ",
                            [10, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 34, 35,
                             36, 37, 38]))
@@ -585,7 +569,6 @@ for k, v in prof_cross.items():
 print("sample of our IMO failing the check digit:", vessels_csv.loc[~our_imo_ok, "imo_number"].head(3).tolist())
 print("sample of our containers failing ISO 6346:", containers_csv.loc[~cont_ok, "container_number"].head(3).tolist())
 
-# %% cell 18
 # ---- Phase 5 validation ------------------------------------------------------------------------------------------
 assert prof_cross["our_vessels"] == 500 and prof_cross["our_containers"] == 1000
 assert vessels_csv["imo_number"].is_unique and containers_csv["container_number"].is_unique
@@ -602,9 +585,8 @@ else:
     print("snapshot pending review:", json.dumps(actual_5))
 print("✅ Phase 5 validation passed.")
 
-# %% [markdown] cell 19
-# ## Phase 6 — IFTMIN D12A: EDIFACT structure, qualifiers and business keys
-#
+
+# %% Phase 6 — IFTMIN D12A: EDIFACT structure, qualifiers and business keys
 # EDIFACT is a delimited text format. The optional `UNA` service string advice (exactly 6 characters after `UNA`) sets
 # the component separator, element separator, decimal mark, **release character** (escape) and segment terminator;
 # without `UNA` the defaults are `:+.? '`. A correct tokenizer must honour the release character (`?+` is a literal
@@ -623,7 +605,6 @@ print("✅ Phase 5 validation passed.")
 # there is **no voyage number** (TDT element 2 empty): the generator adds both (IMO in TDT, voyage in the conveyance
 # reference). Both UN/LOCODEs (`EGALY` loading, `NLRTM` discharge) are our ports; `MSCU1234567` fails ISO 6346.
 
-# %% cell 20
 def edi_tokenize(text: str) -> tuple[dict, list[list[list[str]]]]:
     """Split an EDIFACT interchange into segments -> elements -> components, honouring UNA and the release char."""
     text = text.replace("\r", "").replace("\n", "")
@@ -700,7 +681,6 @@ for k, v in prof_iftmin.items():
     print(f"{k:24} {v}")
 print("keys:", json.dumps(edi_keys)[:900])
 
-# %% cell 21
 # ---- Phase 6 validation ------------------------------------------------------------------------------------------
 assert tags[0] == "UNB" and tags[-1] == "UNZ" and tags[i_unh + 1] == "BGM", "envelope order"
 assert prof_iftmin["unh_unt_ref_match"] and prof_iftmin["unb_unz_ref_match"]
@@ -727,16 +707,14 @@ else:
     print("snapshot pending review:", json.dumps(actual_6))
 print("✅ Phase 6 validation passed.")
 
-# %% [markdown] cell 22
-# ## Phase 7 — Save the profiles and reload them from disk
-#
+
+# %% Phase 7 — Save the profiles and reload them from disk
 # One JSON profile per source goes to `Data/processed/semi-structured/profiles/`, plus the IFTMIN template for the
 # generator. Each file carries the source file registry entry (path, size, `sha256`), so a consumer can tell which
 # sample a profile describes. No timestamps are written: re-running the notebook on the same samples rewrites
 # byte-identical files. The files are reloaded and compared with the in-memory profiles (after a JSON round trip, which
 # turns integer dictionary keys such as NAVSTAT codes into strings).
 
-# %% cell 23
 def to_json(obj):
     """JSON-safe copy (numpy scalars -> Python, tuples -> lists)."""
     return json.loads(json.dumps(obj, default=lambda o: o.item() if hasattr(o, "item") else str(o)))
@@ -755,7 +733,6 @@ for name, content in profiles.items():
     (OUT / name).write_text(json.dumps(to_json(content), indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
 print({name: (OUT / name).stat().st_size for name in profiles})
 
-# %% cell 24
 # ---- Phase 7 validation ------------------------------------------------------------------------------------------
 reloaded = {name: json.loads((OUT / name).read_text(encoding="utf-8")) for name in profiles}
 for name, content in profiles.items():
@@ -771,10 +748,9 @@ REVIEWED_7 = ["aishub_profile.json", "cross_profile.json", "iftmin_profile.json"
 assert actual_7 == REVIEWED_7, f"unexpected files in {OUT}: {actual_7}"
 print("✅ Phase 7 validation passed.")
 
-# %% [markdown] cell 25
-# ## Phase 8 — Final Checkpoint
 
-# %% cell 26
+# %% Phase 8 — Final Checkpoint
+
 final = {
     "inputs": {k: v["size_bytes"] for k, v in source_files.items()},
     "aishub": {"records": prof_aishub["records"], "ship_mmsi": prof_aishub["mmsi_class"]["ship"],
@@ -801,6 +777,3 @@ REVIEWED_FINAL = {
 assert to_json(final) == REVIEWED_FINAL, f"final summary changed: {to_json(final)}"
 print(json.dumps(final, indent=1))
 print("✅ Final Checkpoint validation passed.")
-
-# %% [markdown] cell 27
-# Final Checkpoint: see pipelines/checkpoints/semi_structured/AIS_EDI_profiling.md

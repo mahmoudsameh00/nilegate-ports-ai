@@ -1,89 +1,40 @@
-"""ExtractPortsConnection
+"""Port connections: port-flows shapefile → Data/processed/structured/port_connections.csv (mirror of `port_connections`).
 
-Converted from Notebooks/structured/ExtractPortsConnection.ipynb (2026-10-01) by tools/nb_to_script.py: same cells, same order; `# %% cell N` = notebook cell N.
-Run from the project root: uv run python tools/run.py pipelines/scripts/structured/ExtractPortsConnection.py
+Origin:  Converted from Notebooks/structured/ExtractPortsConnection.ipynb (archived in docs/archive/notebooks/).
+         Refactored (ADR-036 D3) 2026-10-01: same steps, same output file byte for byte; exploration displays replaced by
+         assertions and a short summary. The original INSERT is kept as `insert_port_connections()` and runs only with
+         `--insert` (owner decision 2026-10-01: the table is complete, the project rules rule 2).
+Run:     uv run python tools/run.py pipelines/scripts/structured/ExtractPortsConnection.py  (from the project root)
 
-Reads:   Data/raw/structured/Port_flows/ (shapefile); PostgreSQL (ports, read only)
-Writes:  Data/processed/structured/port_connections.csv. The INSERT into port_connections (cell 21) is DISABLED (commented out, owner 2026-10-01): the table is complete (the project rules rule 2)
-Re-run:  safe: the database write is disabled; rewrites the same CSV
+Reads:   Data/raw/structured/Port_flows/port_flows.shp; PostgreSQL `ports` (read-only session)
+Writes:  Data/processed/structured/port_connections.csv
+Re-run:  safe: reads the database only and rewrites the same CSV (`--insert` refuses a non-empty table)
+
+Steps
+1. Read the shapefile (one LineString per port pair).
+2. Drop exact duplicate rows (same pair, flows and geometry).
+3. Validate against PostgreSQL: every Port1 / Port2 is a LOCODE of `ports`; flows are positive; 19,990 rows.
+4. Rename to the table's column names and write the CSV without the geometry.
 """
-from IPython.display import display  # outside Jupyter it prints the value (added by the conversion)
-
-
-def _display_result(value):
-    """A notebook shows the value of a cell's last expression unless it is None (added by the conversion)."""
-    if value is not None:
-        display(value)
-
-
-def _display_tuple(*values):
-    """A notebook cell ending in `a, b` shows the tuple (a, b) (added by the conversion)."""
-    display(values)
-
-# %% cell 0
-import geopandas as gpd
+import argparse
+import os
 from pathlib import Path
+
+import geopandas as gpd
+import psycopg
 
 PROJECT_ROOT = next(
     root for root in [Path.cwd(), *Path.cwd().parents]
     if (root / "Data").is_dir() and (root / "pyproject.toml").exists()
 )
-
-flow_gdf = gpd.read_file(PROJECT_ROOT / "Data" / "raw" / "structured" / "Port_flows" / "port_flows.shp")
-
-# %% cell 1
-_display_result(flow_gdf.shape)
-
-# %% cell 2
-flow_gdf.columns.tolist()
-_display_result(flow_gdf.head())
-
-# %% cell 3
-_display_result(flow_gdf.dtypes)
-
-# %% cell 4
-_display_result(flow_gdf.isna().sum())
-
-# %% cell 5
-_display_result(flow_gdf["geometry"].geom_type.value_counts())
-
-# %% cell 6
-_display_result(flow_gdf.crs)
-
-# %% cell 7
-_display_result(flow_gdf[["Port1", "Port2"]].head())
-
-# %% cell 8
-_display_result(flow_gdf[["Port1", "Port2"]].duplicated().sum())
-
-# %% cell 9
-dup_pairs = flow_gdf[
-    flow_gdf[["Port1", "Port2"]].duplicated(keep=False)
-]
-
-_display_result(dup_pairs.groupby(["Port1", "Port2"]).agg(
-    rows=("FLOWS", "size"),
-    unique_flows=("FLOWS", "nunique"),
-    unique_geometry=("geometry", "nunique"),
-).sort_values(
-    ["unique_flows", "unique_geometry"],
-    ascending=False
-).head(20))
-
-# %% cell 10
-flow_gdf = flow_gdf.drop_duplicates().reset_index(drop=True)
-_display_result(flow_gdf.shape)
-
-# %% cell 11
-# IPython magic removed (dependencies come from uv, the project rules rule 6): %pip install "psycopg[binary]"
-
-# %% cell 12
-import psycopg
-import os
-from pathlib import Path
+RAW_FILE = PROJECT_ROOT / "Data" / "raw" / "structured" / "Port_flows" / "port_flows.shp"
+OUT_FILE = PROJECT_ROOT / "Data" / "processed" / "structured" / "port_connections.csv"
+EXPECTED_ROWS = 19_990   # rows of `port_connections` in PostgreSQL (ARCHITECTURE §4)
+COLUMNS = {"Port1": "port1_locode", "Port2": "port2_locode", "FLOWS": "flows",
+           "Country1": "country1", "Country2": "country2", "geometry": "geom"}
 
 
-def load_env_file(filename=".env"):
+def load_env_file(filename: str = ".env") -> Path:
     """Load KEY=VALUE lines from the project's .env into os.environ (existing variables win)."""
     for folder in [Path.cwd(), *Path.cwd().parents]:
         env_path = folder / filename
@@ -97,94 +48,63 @@ def load_env_file(filename=".env"):
     raise FileNotFoundError(f"{filename} not found in {Path.cwd()} or its parents")
 
 
-load_env_file()
-
-
-def connect_db():
-    """Open a psycopg connection using the PG* variables from .env."""
+def connect_db(read_only: bool = True) -> psycopg.Connection:
+    """psycopg connection from the PG* variables of .env; read-only unless a write is intended."""
     return psycopg.connect(
-        host=os.environ["PGHOST"],
-        port=os.environ["PGPORT"],
-        dbname=os.environ["PGDATABASE"],
-        user=os.environ["PGUSER"],
-        password=os.environ["PGPASSWORD"],
+        host=os.environ["PGHOST"], port=os.environ["PGPORT"], dbname=os.environ["PGDATABASE"],
+        user=os.environ["PGUSER"], password=os.environ["PGPASSWORD"],
+        options="-c default_transaction_read_only=on" if read_only else "",
     )
 
-# %% cell 13
-conn = connect_db()
 
-ports_db = set(
-    row[0]
-    for row in conn.execute("SELECT locode FROM ports")
-)
+def insert_port_connections(conn: psycopg.Connection, flows: gpd.GeoDataFrame) -> None:
+    """How the table was loaded (2026-09): one INSERT per pair. Refuses to run on a non-empty table."""
+    existing = conn.execute("SELECT count(*) FROM port_connections").fetchone()[0]
+    if existing:
+        raise SystemExit(f"port_connections already holds {existing} rows: not inserting (the project rules rule 2)")
+    with conn.cursor() as cur:
+        for row in flows.itertuples(index=False):
+            cur.execute(
+                """
+                INSERT INTO port_connections (port1_locode, port2_locode, flows, country1, country2, geom)
+                VALUES (%s, %s, %s, %s, %s, ST_SetSRID(ST_GeomFromText(%s), 4326))
+                """,
+                (row.port1_locode, row.port2_locode, row.flows, row.country1, row.country2, row.geom.wkt),
+            )
+    conn.commit()
 
-# %% cell 14
-_display_result(len(ports_db))
 
-# %% cell 15
-invalid_port1 = set(flow_gdf["Port1"]) - ports_db
-invalid_port2 = set(flow_gdf["Port2"]) - ports_db
+def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("--insert", action="store_true", help="load the rows into an EMPTY port_connections table")
+    args = parser.parse_args()
 
-_display_tuple(len(invalid_port1), len(invalid_port2))
+    flows = gpd.read_file(RAW_FILE)
+    print(f"shapefile rows: {len(flows)} | columns: {flows.columns.tolist()} | crs: {flows.crs}")
+    print(f"geometry types: {flows.geometry.geom_type.value_counts().to_dict()}")
+    print(f"duplicate (Port1, Port2) rows before cleaning: {int(flows[['Port1', 'Port2']].duplicated().sum())}")
+    flows = flows.drop_duplicates().reset_index(drop=True)
+    print(f"rows after dropping exact duplicates: {len(flows)}")
 
-# %% cell 16
-_display_result(flow_gdf["FLOWS"].describe())
+    load_env_file()
+    with connect_db() as conn:
+        ports_db = {row[0] for row in conn.execute("SELECT locode FROM ports")}
+    unknown = (set(flows["Port1"]) | set(flows["Port2"])) - ports_db
+    assert not unknown, f"LOCODEs missing from ports: {sorted(unknown)[:10]}"
+    assert not flows[["Port1", "Port2"]].duplicated().any(), "a port pair appears twice after cleaning"
+    assert (flows["FLOWS"] > 0).all(), "flows must be positive"
+    assert len(flows) == EXPECTED_ROWS, f"{len(flows)} rows, expected {EXPECTED_ROWS}"
+    print(f"ports in the database: {len(ports_db)} | flows {flows['FLOWS'].min()} to {flows['FLOWS'].max()}")
 
-# %% cell 17
-_display_tuple(flow_gdf["FLOWS"].min(), flow_gdf["FLOWS"].max())
+    flows = flows.rename(columns=COLUMNS)
+    if args.insert:
+        with connect_db(read_only=False) as conn:
+            insert_port_connections(conn, flows)
+        print(f"inserted {len(flows)} rows into port_connections")
+    flows.drop(columns="geom").to_csv(OUT_FILE, index=False)
+    print(f"✅ port connections validation passed: {len(flows)} rows written to "
+          f"{OUT_FILE.relative_to(PROJECT_ROOT).as_posix()}")
 
-# %% cell 18
-flow_gdf = flow_gdf.rename(columns={
-    "Port1": "port1_locode",
-    "Port2": "port2_locode",
-    "FLOWS": "flows",
-    "Country1": "country1",
-    "Country2": "country2",
-    "geometry": "geom"
-})
 
-# %% cell 19
-_display_result(flow_gdf.columns.tolist())
-
-# %% cell 20
-conn = connect_db()
-
-# %% cell 21
-# DISABLED by the owner (2026-10-01): the INSERT into port_connections must not run again (completed table, the project rules rule 2); kept as the record of how the table was loaded
-#! with conn.cursor() as cur:
-#!     for row in flow_gdf.itertuples(index=False):
-#!         cur.execute(
-#!             """
-#!             INSERT INTO port_connections (
-#!                 port1_locode,
-#!                 port2_locode,
-#!                 flows,
-#!                 country1,
-#!                 country2,
-#!                 geom
-#!             )
-#!             VALUES (
-#!                 %s, %s, %s, %s, %s,
-#!                 ST_SetSRID(ST_GeomFromText(%s), 4326)
-#!             )
-#!             """,
-#!             (
-#!                 row.port1_locode,
-#!                 row.port2_locode,
-#!                 row.flows,
-#!                 row.country1,
-#!                 row.country2,
-#!                 row.geom.wkt
-#!             )
-#!         )
-#! 
-#! conn.commit()
-
-# %% cell 22
-_display_result(conn.close())
-
-# %% cell 23
-_display_result(flow_gdf.drop(columns="geom").to_csv(
-    PROJECT_ROOT / "Data" / "processed" / "structured" / "port_connections.csv",
-    index=False
-))
+if __name__ == "__main__":
+    main()

@@ -1,24 +1,18 @@
 """1. Page Classification
 
-Converted from Notebooks/rag/LPI_methodology_chunking.ipynb (2026-10-01) by tools/nb_to_script.py: same cells, same order; `# %% cell N` = notebook cell N.
-Run from the project root: uv run python tools/run.py pipelines/scripts/rag/LPI_methodology_chunking.py
+Origin:  Converted from Notebooks/rag/LPI_methodology_chunking.ipynb (archived in docs/archive/notebooks/).
+         Refactored (ADR-036 D3), cleanup level (2026-10-01): the notebook's phases, code and validations are unchanged;
+         cell markers, Jupyter display() and the conversion helpers became plain sections and print(); proven by
+         `uv run python tools/nb_to_script.py check LPI_methodology_chunking` (AST equal to the archived notebook).
+Run:     uv run python tools/run.py pipelines/scripts/rag/LPI_methodology_chunking.py  (from the project root)
 
 Reads:   Data/raw/unstructured/LPI_Methodology.pdf
 Writes:  Data/processed/rag/extracted|cleaned|chunks/ (the LPI Methodology files)
 Re-run:  safe: rewrites the same three artifacts
 Final Checkpoint (what was done, problems, fixes): pipelines/checkpoints/rag/LPI_methodology_chunking.md
 """
-from IPython.display import display  # outside Jupyter it prints the value (added by the conversion)
 
-
-def _display_result(value):
-    """A notebook shows the value of a cell's last expression unless it is None (added by the conversion)."""
-    if value is not None:
-        display(value)
-
-# %% [markdown] cell 0
-# # 1. Page Classification
-#
+# %% 1. Page Classification
 # Before extracting content, we classify each PDF page according to its role in the document.
 #
 # The goal is to separate:
@@ -33,7 +27,6 @@ def _display_result(value):
 #
 # At this stage, we only inspect and classify pages. No chunking or content extraction is performed yet.
 
-# %% cell 1
 from pathlib import Path
 import fitz  # PyMuPDF
 
@@ -57,7 +50,6 @@ doc = fitz.open(PDF_PATH)
 print(f"Document: {PDF_PATH.name}")
 print(f"Total pages: {len(doc)}")
 
-# %% cell 2
 # Build a lightweight inventory for every page
 import pandas as pd
 page_inventory = []
@@ -74,9 +66,8 @@ for page_number, page in enumerate(doc, start=1):
 
 pages_df = pd.DataFrame(page_inventory)
 
-_display_result(pages_df.head())
+print(pages_df.head())
 
-# %% cell 3
 # Inspect the beginning and end of the document
 
 for page_number in list(range(1, 11)) + list(range(len(doc) - 4, len(doc) + 1)):
@@ -89,9 +80,8 @@ for page_number in list(range(1, 11)) + list(range(len(doc) - 4, len(doc) + 1)):
     print(text[:800])
     print()
 
-# %% [markdown] cell 4
-# ## 1.1 Define Page Classification Rules
-#
+
+# %% 1.1 Define Page Classification Rules
 # Based on the initial inspection of the LPI 2.0 PDF, we classify pages into two broad groups:
 #
 # ### Retrieval-worthy
@@ -114,7 +104,6 @@ for page_number in list(range(1, 11)) + list(range(len(doc) - 4, len(doc) + 1)):
 #
 # For each page, we also store a classification reason so the decision can be inspected and validated later.
 
-# %% cell 5
 # =========================================================
 # 1.1 Page Classification Rules
 # =========================================================
@@ -183,7 +172,7 @@ pages_df = pd.concat(
     axis=1
 )
 
-_display_result(pages_df[
+print(pages_df[
     [
         "page_number",
         "word_count",
@@ -193,9 +182,8 @@ _display_result(pages_df[
     ]
 ])
 
-# %% [markdown] cell 6
-# ## 1.2 Validate Page Classification
-#
+
+# %% 1.2 Validate Page Classification
 # We validate the classification results before moving to content extraction.
 #
 # The validation checks:
@@ -205,7 +193,6 @@ _display_result(pages_df[
 # - Number of excluded pages
 # - Which pages are excluded from retrieval
 
-# %% cell 7
 # Classification validation
 
 total_pages = len(pages_df)
@@ -218,7 +205,7 @@ print(f"Retrieval pages:   {retrieval_pages}")
 print(f"Excluded pages:    {excluded_pages}")
 
 print("\nExcluded pages:")
-display(
+print(
     pages_df.loc[
         ~pages_df["keep_for_rag"],
         [
@@ -229,16 +216,14 @@ display(
     ]
 )
 
-# %% [markdown] cell 8
-# # 2. Content Extraction
-#
+
+# %% 2. Content Extraction
 # Only pages classified as retrieval-worthy are passed to the downstream extraction pipeline.
 #
 # At this stage, we create a clean working set containing only the substantive document pages.
 #
 # The excluded pages remain available in the original document, but they are not part of the main RAG extraction flow.
 
-# %% cell 9
 # Create the working set for downstream extraction
 
 content_pages_df = pages_df[
@@ -247,7 +232,7 @@ content_pages_df = pages_df[
 
 print(f"Pages entering content extraction: {len(content_pages_df)}")
 
-display(
+print(
     content_pages_df[
         [
             "page_number",
@@ -257,9 +242,8 @@ display(
     ].head()
 )
 
-# %% [markdown] cell 10
-# ## 2.1 Content-Type Inventory
-#
+
+# %% 2.1 Content-Type Inventory
 # Before choosing an extraction strategy, we inspect the structure of each retrieval page.
 #
 # For every page, we identify simple content signals such as:
@@ -273,7 +257,6 @@ display(
 #
 # No chunking or transformation is performed at this stage.
 
-# %% cell 11
 # Inspect the content structure of retrieval pages
 
 import re
@@ -316,11 +299,10 @@ content_structure_df = inspect_page_structure(
     content_pages_df
 )
 
-display(content_structure_df)
+print(content_structure_df)
 
-# %% [markdown] cell 12
-# ## 2.2 Detect Visual Candidates
-#
+
+# %% 2.2 Detect Visual Candidates
 # Images extracted from a PDF are not necessarily informative figures.
 #
 # Some images may be:
@@ -333,7 +315,6 @@ display(content_structure_df)
 #
 # We will use this information to distinguish decorative visuals from informational figures in the next step.
 
-# %% cell 13
 # Collect visual candidates from retrieval pages
 
 visual_candidates = []
@@ -365,18 +346,16 @@ for _, row in content_pages_df.iterrows():
 
 visual_candidates_df = pd.DataFrame(visual_candidates)
 
-display(visual_candidates_df)
+print(visual_candidates_df)
 
-# %% [markdown] cell 14
-# ## 2.3 Inspect Figure and Table Markers
-#
+
+# %% 2.3 Inspect Figure and Table Markers
 # Embedded image count is not sufficient to identify informational figures.
 #
 # Instead, we inspect explicit Figure and Table markers found in the extracted text.
 #
 # These markers will help us locate structured visual content and determine which pages require specialized extraction.
 
-# %% cell 15
 # Inspect explicit Figure and Table markers
 
 visual_markers = []
@@ -406,11 +385,10 @@ for _, row in content_pages_df.iterrows():
 
 visual_markers_df = pd.DataFrame(visual_markers)
 
-display(visual_markers_df)
+print(visual_markers_df)
 
-# %% [markdown] cell 16
-# ## 2.4 Inspect Figure and Table Caption Candidates
-#
+
+# %% 2.4 Inspect Figure and Table Caption Candidates
 # A page may mention a figure or table inside normal body text without containing the actual visual caption.
 #
 # Therefore, explicit Figure/Table references are not treated as captions automatically.
@@ -421,7 +399,6 @@ display(visual_markers_df)
 # - Actual Figure/Table captions
 # - Other structural references
 
-# %% cell 17
 # Inspect lines containing Figure/Table markers
 
 marker_contexts = []
@@ -447,9 +424,8 @@ for _, row in content_pages_df.iterrows():
 
 marker_contexts_df = pd.DataFrame(marker_contexts)
 
-display(marker_contexts_df)
+print(marker_contexts_df)
 
-# %% cell 18
 # Detect actual Figure/Table caption candidates
 
 caption_candidates = []
@@ -499,11 +475,10 @@ for _, row in content_pages_df.iterrows():
 
 captions_df = pd.DataFrame(caption_candidates)
 
-display(captions_df)
+print(captions_df)
 
-# %% [markdown] cell 19
-# ## 2.5 Validate Caption Candidates
-#
+
+# %% 2.5 Validate Caption Candidates
 # A structural marker such as `Figure N` or `Table N` is not sufficient by itself.
 #
 # Some body-text sentences can also start with a Figure/Table reference.
@@ -512,7 +487,6 @@ display(captions_df)
 #
 # The validation step identifies suspicious candidates that require a stricter detection rule.
 
-# %% cell 20
 # Inspect all caption candidates with their surrounding lines
 
 caption_validation = []
@@ -553,11 +527,10 @@ for _, row in captions_df.iterrows():
 
 caption_validation_df = pd.DataFrame(caption_validation)
 
-display(caption_validation_df)
+print(caption_validation_df)
 
-# %% [markdown] cell 21
-# ## 2.6 Refine Figure and Table Caption Detection
-#
+
+# %% 2.6 Refine Figure and Table Caption Detection
 # The initial caption detector produced one false positive:
 #
 # `Figure 5 presents the example ...`
@@ -576,7 +549,6 @@ display(caption_validation_df)
 #
 # We therefore use this structural pattern to reduce false positives while keeping the rule generic and reusable.
 
-# %% cell 22
 # Refined Figure/Table caption detection
 
 caption_candidates = []
@@ -626,18 +598,16 @@ for _, row in content_pages_df.iterrows():
 
 captions_df = pd.DataFrame(caption_candidates)
 
-display(captions_df)
+print(captions_df)
 
-# %% [markdown] cell 23
-# ## 2.7 Inspect Section Context
-#
+
+# %% 2.7 Inspect Section Context
 # Each Figure and Table must remain connected to the section in which it appears.
 #
 # Before automatically detecting section headings, we inspect the beginning of the relevant pages to understand how headings are represented in the extracted PDF text.
 #
 # This allows us to design a reliable heading-detection rule without relying on page numbers alone.
 
-# %% cell 24
 # Inspect the beginning of pages containing Figures/Tables
 
 element_pages = sorted(captions_df["page_number"].unique())
@@ -663,9 +633,8 @@ for page_number in element_pages:
 
     print()
 
-# %% [markdown] cell 25
-# ## 2.7.1 Detect Heading Candidates
-#
+
+# %% 2.7.1 Detect Heading Candidates
 # Before removing repeated headers and footers, we first inspect potential section headings.
 #
 # A heading candidate should be:
@@ -678,7 +647,6 @@ for page_number in element_pages:
 # At this stage, we only generate candidates for inspection.
 # No heading is accepted as a final section boundary yet.
 
-# %% cell 26
 # Detect potential heading candidates
 
 heading_candidates = []
@@ -737,18 +705,16 @@ for _, row in content_pages_df.iterrows():
 
 heading_candidates_df = pd.DataFrame(heading_candidates)
 
-display(heading_candidates_df)
+print(heading_candidates_df)
 
-# %% [markdown] cell 27
-# ## 2.7.2 Inspect the PDF Document Outline
-#
+
+# %% 2.7.2 Inspect the PDF Document Outline
 # Before building heuristic heading detection, we check whether the PDF already contains a structural outline (bookmarks).
 #
 # If available, the outline can provide reliable section and subsection boundaries without relying on text casing or line wrapping.
 #
 # The outline is used only as structural metadata; it does not affect the retrieval content itself.
 
-# %% cell 28
 # Inspect the PDF's built-in document outline
 
 toc = doc.get_toc()
@@ -759,9 +725,8 @@ for entry in toc:
     level, title, page = entry
     print(f"Level {level} | Page {page} | {title}")
 
-# %% [markdown] cell 29
-# ## 2.7.3 Validate the PDF Outline
-#
+
+# %% 2.7.3 Validate the PDF Outline
 # The PDF contains a built-in document outline with hierarchical section information.
 #
 # We will use this outline as the primary source for:
@@ -774,7 +739,6 @@ for entry in toc:
 #
 # This is necessary because a bookmark may point to a nearby page rather than the exact page where its heading appears.
 
-# %% cell 30
 # Convert the PDF outline into a DataFrame
 
 toc = doc.get_toc()
@@ -790,9 +754,8 @@ for level, title, page in toc:
 
 toc_df = pd.DataFrame(toc_records)
 
-display(toc_df)
+print(toc_df)
 
-# %% cell 31
 # Normalize text for matching headings across line breaks
 
 def normalize_for_match(text):
@@ -833,11 +796,10 @@ for _, row in toc_df.iterrows():
 
 toc_validation_df = pd.DataFrame(validation_records)
 
-display(toc_validation_df)
+print(toc_validation_df)
 
-# %% [markdown] cell 32
-# ## 2.7.4 Validate Outline Entries Against Page Headings
-#
+
+# %% 2.7.4 Validate Outline Entries Against Page Headings
 # The PDF outline provides the document hierarchy and approximate starting pages.
 #
 # To validate these boundaries, we compare each outline title with the upper portion of its target page and the preceding page.
@@ -850,7 +812,6 @@ display(toc_validation_df)
 #
 # The result will tell us which page actually contains the visible section heading.
 
-# %% cell 33
 # Normalize text while preserving word boundaries
 
 def normalize_heading_text(text: str) -> str:
@@ -916,11 +877,10 @@ for _, row in toc_df.iterrows():
 
 outline_validation_df = pd.DataFrame(outline_validation)
 
-display(outline_validation_df)
+print(outline_validation_df)
 
-# %% [markdown] cell 34
-# ## 2.7.5 Inspect Unresolved Outline Entries
-#
+
+# %% 2.7.5 Inspect Unresolved Outline Entries
 # Some outline titles could not be matched exactly because PDF text extraction may:
 #
 # - Split a heading across multiple lines.
@@ -931,7 +891,6 @@ display(outline_validation_df)
 #
 # This keeps the validation targeted and avoids introducing unnecessary heuristics.
 
-# %% cell 35
 # Inspect unresolved outline entries using title keywords
 
 STOPWORDS = {
@@ -993,11 +952,10 @@ for _, row in unresolved.iterrows():
 
 unresolved_inspection_df = pd.DataFrame(inspection_records)
 
-display(unresolved_inspection_df)
+print(unresolved_inspection_df)
 
-# %% [markdown] cell 36
-# ## 2.7.6 Build the Section Map
-#
+
+# %% 2.7.6 Build the Section Map
 # The PDF outline provides the document hierarchy, while the previous inspection validated the actual pages where section headings appear.
 #
 # We now create a canonical section map containing:
@@ -1009,7 +967,6 @@ display(unresolved_inspection_df)
 #
 # This map will later be used to assign every extracted chunk to its correct section and subsection.
 
-# %% cell 37
 # Canonical section map for retrieval-worthy content
 
 section_map = [
@@ -1131,11 +1088,10 @@ section_map = [
 
 section_map_df = pd.DataFrame(section_map)
 
-display(section_map_df)
+print(section_map_df)
 
-# %% [markdown] cell 38
-# # 3. Extract Figures and Tables
-#
+
+# %% 3. Extract Figures and Tables
 # The document pages have already been classified, and all confirmed Figures and Tables have been identified.
 #
 # We now extract these structured elements separately from the body text.
@@ -1147,25 +1103,22 @@ display(section_map_df)
 #
 # The extracted elements will later be converted into retrieval-ready units and enriched with section metadata.
 
-# %% [markdown] cell 39
-# ## 3.1 Table Extraction
-#
+
+# %% 3.1 Table Extraction
 # Tables are treated as structured information rather than ordinary text.
 #
 # Each table will first be extracted while preserving its rows and columns.
 #
 # We will inspect the extracted structure before converting table rows into RAG chunks.
 
-# %% cell 40
 # Extract candidate table pages from the confirmed caption inventory
 
 table_captions_df = captions_df[
     captions_df["content_type"] == "table"
 ].copy()
 
-display(table_captions_df)
+print(table_captions_df)
 
-# %% cell 41
 # Extract Table 1 using PyMuPDF
 
 table_page_number = int(
@@ -1190,7 +1143,6 @@ for i, table in enumerate(tables.tables, start=1):
     for row in extracted:
         print(row)
 
-# %% cell 42
 # Normalize formatting artifacts inside extracted table cells
 
 def normalize_table_cell(value):
@@ -1234,9 +1186,8 @@ table_1_df = pd.DataFrame(
     columns=table_1_headers
 )
 
-display(table_1_df)
+print(table_1_df)
 
-# %% cell 43
 # Convert each Table 1 row into an independent semantic unit
 
 table_1_units = []
@@ -1254,9 +1205,8 @@ for _, row in table_1_df.iterrows():
 
 table_1_units_df = pd.DataFrame(table_1_units)
 
-display(table_1_units_df)
+print(table_1_units_df)
 
-# %% cell 44
 # Generic table extraction and normalization
 
 def normalize_table_cell(value):
@@ -1341,9 +1291,8 @@ for table_number, table_df in extracted_tables.items():
 
 table_inventory_df = pd.DataFrame(table_inventory)
 
-display(table_inventory_df)
+print(table_inventory_df)
 
-# %% cell 45
 # Inspect the extracted tables
 
 for table_number, table_df in extracted_tables.items():
@@ -1352,11 +1301,10 @@ for table_number, table_df in extracted_tables.items():
     print(f"TABLE {table_number}")
     print("=" * 100)
 
-    display(table_df)
+    print(table_df)
 
     print()
 
-# %% cell 46
 BULLET_PATTERN = r"^[•●▪◦]\s*"
 
 
@@ -1378,7 +1326,6 @@ def normalize_table_cell(value):
 
     return value.strip()
 
-# %% cell 47
 def build_table_units(extracted_tables, table_captions_df):
 
     table_units = []
@@ -1450,16 +1397,13 @@ def build_table_units(extracted_tables, table_captions_df):
 
     return table_units
 
-# %% cell 48
 table_units = build_table_units(
     extracted_tables=extracted_tables,
     table_captions_df=table_captions_df,
 )
 
-# %% cell 49
 print(table_units[0]["content"])
 
-# %% cell 50
 from pprint import pprint
 
 for table_number in sorted(extracted_tables.keys()):
@@ -1482,9 +1426,8 @@ for table_number in sorted(extracted_tables.keys()):
 
         print()
 
-# %% [markdown] cell 51
-# ## 3.2 Figure Extraction
-#
+
+# %% 3.2 Figure Extraction
 # The confirmed Figure inventory is already available in `captions_df`.
 #
 # For each Figure, we will extract:
@@ -1497,7 +1440,6 @@ for table_number in sorted(extracted_tables.keys()):
 #
 # We first test the extraction on Figure 1 before generalizing the process to all Figures.
 
-# %% cell 52
 # 3.2.1 Extract Figure 1
 
 figure_1 = captions_df[
@@ -1519,7 +1461,6 @@ print("-" * 80)
 
 print(text.split(figure_1_caption, 1)[1])
 
-# %% cell 53
 # Separate Figure 1 content, source, and note
 
 figure_1_raw = text.split(
@@ -1568,7 +1509,6 @@ print("\nNOTE")
 print("=" * 80)
 print(figure_1_note)
 
-# %% cell 54
 # Normalize Figure 1 labels
 
 figure_1_labels = [
@@ -1591,14 +1531,13 @@ figure_1_labels = [
     "Discharge",
 ]
 
-display(
+print(
     pd.DataFrame({
         "figure_number": 1,
         "label": figure_1_labels
     })
 )
 
-# %% cell 55
 # Extract the Figure title without the "Figure N" prefix
 
 figure_1_title = re.sub(
@@ -1628,7 +1567,6 @@ figure_1_content = (
 
 print(figure_1_content)
 
-# %% cell 56
 figure_1_unit = {
     "unit_type": "figure",
     "figure_number": 1,
@@ -1637,9 +1575,8 @@ figure_1_unit = {
     "content": figure_1_content,
 }
 
-_display_result(figure_1_unit)
+print(figure_1_unit)
 
-# %% cell 57
 # Extract Figure 2
 
 figure_2 = captions_df[
@@ -1665,7 +1602,6 @@ print("\nFigure text:")
 print("-" * 80)
 print(figure_2_raw)
 
-# %% cell 58
 # Reconstruct Figure 2 from the extracted content
 
 figure_2_title = re.sub(
@@ -1743,7 +1679,6 @@ figure_2_structure = {
     },
 }
 
-# %% cell 59
 figure_2_content = (
     "The figure describes milestones in the air cargo supply chain. "
     "For export from origin: "
@@ -1763,7 +1698,6 @@ figure_2_content = (
 
 print(figure_2_content)
 
-# %% cell 60
 figure_2_unit = {
     "unit_type": "figure",
     "figure_number": 2,
@@ -1772,9 +1706,8 @@ figure_2_unit = {
     "content": figure_2_content,
 }
 
-_display_result(figure_2_unit)
+print(figure_2_unit)
 
-# %% cell 61
 # Extract Figure 3
 
 figure_3 = captions_df[
@@ -1800,7 +1733,6 @@ print("\nFigure text:")
 print("-" * 80)
 print(figure_3_raw)
 
-# %% cell 62
 # Reconstruct Figure 3
 
 figure_3_title = re.sub(
@@ -1876,7 +1808,6 @@ figure_3_structure = {
     ),
 }
 
-# %% cell 63
 # Build Figure 3 semantic content
 
 figure_3_content = (
@@ -1900,7 +1831,6 @@ figure_3_content = (
 
 print(figure_3_content)
 
-# %% cell 64
 # Store Figure 3 as a Figure unit
 
 figure_3_unit = {
@@ -1911,9 +1841,8 @@ figure_3_unit = {
     "content": figure_3_content,
 }
 
-_display_result(figure_3_unit)
+print(figure_3_unit)
 
-# %% cell 65
 # Extract Figure 4
 
 figure_4 = captions_df[
@@ -1939,7 +1868,6 @@ print("\nFigure text:")
 print("-" * 80)
 print(figure_4_raw)
 
-# %% cell 66
 # Reconstruct Figure 4
 
 figure_4_title = re.sub(
@@ -1977,9 +1905,8 @@ figure_4_structure = {
     ],
 }
 
-_display_result(figure_4_structure)
+print(figure_4_structure)
 
-# %% cell 67
 figure_4_content = (
     "The figure illustrates the relationship between vessel port turnaround "
     "time and container dwell-time measures across a port call. "
@@ -1996,7 +1923,6 @@ figure_4_content = (
 
 print(figure_4_content)
 
-# %% cell 68
 figure_4_unit = {
     "unit_type": "figure",
     "figure_number": 4,
@@ -2004,9 +1930,8 @@ figure_4_unit = {
     "logical_unit": figure_4_title,
     "content": figure_4_content,
 }
-_display_result(figure_4_unit)
+print(figure_4_unit)
 
-# %% cell 69
 # Extract Figure 5
 
 figure_5 = captions_df[
@@ -2032,7 +1957,6 @@ print("\nFigure text:")
 print("-" * 80)
 print(figure_5_raw)
 
-# %% cell 70
 # Reconstruct Figure 5
 
 figure_5_title = re.sub(
@@ -2122,7 +2046,6 @@ figure_5_structure = {
     "calculation": "76 + 9.5 + 2 = 87.5 days",
 }
 
-# %% cell 71
 # Build the semantic content representation
 
 event_text = " ".join(
@@ -2152,7 +2075,6 @@ figure_5_content = (
 
 print(figure_5_content)
 
-# %% cell 72
 # Store Figure 5 as a worked-example unit
 
 figure_5_unit = {
@@ -2163,9 +2085,8 @@ figure_5_unit = {
     "content": figure_5_content,
 }
 
-_display_result(figure_5_unit)
+print(figure_5_unit)
 
-# %% cell 73
 # Extract Figure 6 raw text
 
 figure_6 = captions_df[
@@ -2191,7 +2112,6 @@ print("\nFigure text:")
 print("-" * 80)
 print(figure_6_raw)
 
-# %% cell 74
 # Reconstruct Figure 6 from the visual relationships
 
 figure_6_title = re.sub(
@@ -2228,7 +2148,6 @@ figure_6_structure = {
     ),
 }
 
-# %% cell 75
 figure_6_content = (
     "The figure illustrates the elements used to measure ship turnaround time. "
     "A ship arrives at the port and later departs from the port, while activities "
@@ -2243,7 +2162,6 @@ figure_6_content = (
 
 print(figure_6_content)
 
-# %% cell 76
 figure_6_unit = {
     "unit_type": "figure",
     "figure_number": 6,
@@ -2252,11 +2170,10 @@ figure_6_unit = {
     "content": figure_6_content,
 }
 
-_display_result(figure_6_unit)
+print(figure_6_unit)
 
-# %% [markdown] cell 77
-# ## 3.3 Abbreviations (page 7)
-#
+
+# %% 3.3 Abbreviations (page 7)
 # Page 7 stays outside the body pipeline (its Acknowledgements text is not retrieval
 # content), but its Abbreviations table (LLDC, B2B, UPU, ...) is: it answers
 # "what does X stand for" questions directly.
@@ -2267,7 +2184,6 @@ _display_result(figure_6_unit)
 # points apart). The table becomes one `definitions` unit, the same unit type FBL
 # uses for its Definitions clause.
 
-# %% cell 78
 # =========================================================
 # 3.3 Extract the Abbreviations table (page 7)
 # =========================================================
@@ -2349,12 +2265,11 @@ abbreviations_unit = {
     "page_end": 7,
 }
 
-display(pd.DataFrame(abbreviations))
+print(pd.DataFrame(abbreviations))
 print(abbreviations_unit["content"])
 
-# %% [markdown] cell 79
-# # 4. Extract Remaining Body Text
-#
+
+# %% 4. Extract Remaining Body Text
 # The structured-content extraction stage has already handled the Tables,
 # Figures, and Worked Examples that belong to the retrieval corpus.
 #
@@ -2385,7 +2300,6 @@ print(abbreviations_unit["content"])
 #
 # ## 4.1 Structural Boundaries
 
-# %% cell 80
 # =========================================================
 # 4.1 Build generic structural boundaries
 # =========================================================
@@ -2477,7 +2391,6 @@ def get_figure_block_ranges(page, page_number, captions_df):
 
     return blocks, figure_ranges
 
-# %% cell 81
 test_pages = [13, 14, 17, 24, 29]
 
 for page_number in test_pages:
@@ -2510,9 +2423,8 @@ for page_number in test_pages:
                 f"{block['text'][:150]}"
             )
 
-# %% [markdown] cell 82
-# ## 4.2 Clean Text Artifacts
-#
+
+# %% 4.2 Clean Text Artifacts
 # PyMuPDF keeps soft hyphens (`U+00AD`) that mark possible line-break points, so
 # after whitespace normalization a word such as *measures* appears as `mea­ sures`.
 # Non-breaking hyphens (`U+2011`) and zero-width spaces are also present.
@@ -2520,7 +2432,6 @@ for page_number in test_pages:
 # `clean_body_text()` removes these so that the text is searchable and embeds
 # cleanly. The test cases below use strings taken from the real extraction output.
 
-# %% cell 83
 # =========================================================
 # 4.2 Text cleaning
 # =========================================================
@@ -2583,16 +2494,14 @@ for raw, expected in _cleaning_tests:
 
 print(f"clean_body_text: {len(_cleaning_tests)}/{len(_cleaning_tests)} tests passed")
 
-# %% [markdown] cell 84
-# ## 4.3 Extract Body Blocks
-#
+
+# %% 4.3 Extract Body Blocks
 # Final body-block extractor. It removes, in this order: repeated headers and page
 # numbers, Figure regions, Table regions, Table captions, and Source/Note lines.
 # The text of every kept block is cleaned with `clean_body_text()`.
 #
 # This replaces the three earlier experimental versions of the function.
 
-# %% cell 85
 # =========================================================
 # 4.3 Extract body blocks (final version)
 # =========================================================
@@ -2713,9 +2622,8 @@ def extract_body_blocks(
 
     return body_blocks
 
-# %% [markdown] cell 86
-# ## 4.4 Separate Footnotes
-#
+
+# %% 4.4 Separate Footnotes
 # Footnotes are detected from the PDF's actual block layout rather than from a
 # simple bottom-of-page cutoff. A page can contain several numbered notes in one
 # PDF text block, and a single note can continue across adjacent blocks.
@@ -2736,7 +2644,6 @@ def extract_body_blocks(
 # This is important for page 15: the `13` marker belongs to the turnaround-time
 # paragraph, and that relationship must survive into `paragraphs_df`.
 
-# %% cell 87
 # =========================================================
 # 4.4 Footnote separation
 # =========================================================
@@ -3176,10 +3083,9 @@ assert _body[1]["footnote_refs"] == [15]
 
 print("separate_footnotes: all tests passed")
 
-# %% [markdown] cell 88
-# ## 4.5 Run Extraction Across Retrieval Pages
 
-# %% cell 89
+# %% 4.5 Run Extraction Across Retrieval Pages
+
 # =========================================================
 # 4.5 Run across all retrieval-worthy pages
 # =========================================================
@@ -3223,10 +3129,10 @@ print(f"Footnotes:    {len(footnotes_df)}")
 print(f"Footnote issues to review: {len(footnote_issues_df)}")
 
 print("\n--- Footnotes separated from the body ---")
-display(footnotes_df)
+print(footnotes_df)
 
 print("\n--- Per-page body summary ---")
-display(
+print(
     body_blocks_raw_df
     .groupby("page_number")
     .agg(
@@ -3236,9 +3142,8 @@ display(
     .reset_index()
 )
 
-# %% [markdown] cell 90
-# ## 4.6 Drop Blocks Already Represented as Structured Units
-#
+
+# %% 4.6 Drop Blocks Already Represented as Structured Units
 # The Figure regions end at their `Source:` / `Note:` block, but a figure can have
 # trailing text after it. For example, on page 15 the sentence *"The elapsed time
 # between EMD and EMH/EMI ..."* is part of the Figure 3 unit **and** was also
@@ -3249,7 +3154,6 @@ display(
 # `dropped_duplicates_df`, so nothing disappears silently. Partial overlaps at
 # sentence level are only reported.
 
-# %% cell 91
 # =========================================================
 # 4.6 Remove body blocks duplicated by structured units
 # =========================================================
@@ -3323,14 +3227,13 @@ print(f"Dropped (whole block already in a structured unit): {len(dropped_duplica
 print(f"Body blocks after:  {len(body_blocks_df)}")
 
 print("\n--- Dropped duplicates ---")
-display(dropped_duplicates_df[["page_number", "block_index", "text"]])
+print(dropped_duplicates_df[["page_number", "block_index", "text"]])
 
 print("\n--- Partial sentence overlaps (review only, not dropped) ---")
-display(partial_duplicates_df)
+print(partial_duplicates_df)
 
-# %% [markdown] cell 92
-# ## 4.7 Body-Text Audit
-#
+
+# %% 4.7 Body-Text Audit
 # Checks that the body text is complete and clean:
 #
 # - Every retrieval page contributes body text
@@ -3343,7 +3246,6 @@ display(partial_duplicates_df)
 # `PASS` means zero findings. `REVIEW` means the listed rows should be looked at
 # before moving on.
 
-# %% cell 93
 # =========================================================
 # 4.7 Body-text audit
 # =========================================================
@@ -3456,18 +3358,16 @@ audit_rows.append((
 audit_df = pd.DataFrame(audit_rows, columns=["check", "findings", "detail"])
 audit_df["status"] = audit_df["findings"].map(lambda n: "PASS" if n == 0 else "REVIEW")
 
-display(audit_df[["check", "findings", "status", "detail"]])
+print(audit_df[["check", "findings", "status", "detail"]])
 
 print(f"\nInformational: {len(dropped_duplicates_df)} block(s) dropped as duplicates of structured units (see 4.6).")
 print(f"Informational: {len(footnotes_df)} footnote(s) separated from the body.")
 
-# %% [markdown] cell 94
-# ## 4.8 Inspect Extracted Body Text
-#
+
+# %% 4.8 Inspect Extracted Body Text
 # Final visual check on page 15: the body text as extracted, followed by the
 # footnotes that were separated from it.
 
-# %% cell 95
 # Inspect body text exactly as extracted (cleaned), plus separated footnotes
 
 raw_page_number = 15
@@ -3491,9 +3391,8 @@ for _, row in footnotes_df[footnotes_df["page_number"] == raw_page_number].iterr
     print(f"{row['footnote_number']}. {row['text']}")
     print()
 
-# %% [markdown] cell 96
-# # 5. Reconstruct Paragraphs
-#
+
+# %% 5. Reconstruct Paragraphs
 # The extraction stage now has clean body blocks with footnote text removed.
 # Step 5 first removes structural section/subsection headings from the body-block
 # stream using the validated `section_map`, then rebuilds paragraphs from the
@@ -3523,7 +3422,6 @@ for _, row in footnotes_df[footnotes_df["page_number"] == raw_page_number].iterr
 # - `page_end`
 # - `footnote_refs`
 
-# %% cell 97
 # =========================================================
 # 5. Reconstruct paragraphs
 # =========================================================
@@ -3617,7 +3515,7 @@ print(f"Structural heading blocks removed:    {len(heading_blocks_df)}")
 print(f"Body blocks entering reconstruction:  {len(body_blocks_for_paragraphs_df)}")
 
 print("\n--- Structural headings removed from the paragraph stream ---")
-display(
+print(
     heading_blocks_df[
         ["page_number", "block_index", "heading", "text"]
     ]
@@ -3805,11 +3703,10 @@ assert paragraph_location_df["paragraph_id"].tolist() == paragraphs_df["paragrap
 assert paragraph_location_df["text"].tolist() == paragraphs_df["text"].tolist()
 assert paragraph_location_df["footnote_refs"].tolist() == paragraphs_df["footnote_refs"].tolist()
 
-display(paragraphs_df.head(10))
+print(paragraphs_df.head(10))
 
-# %% [markdown] cell 98
-# ## 5.1 Step 5 Validation
-#
+
+# %% 5.1 Step 5 Validation
 # The validation focuses on the cases that motivated paragraph reconstruction:
 #
 # - Structural headings are removed before paragraph reconstruction and retained
@@ -3822,7 +3719,6 @@ display(paragraphs_df.head(10))
 # - Remaining paragraphs must not be exact structural-heading matches.
 # - A per-page paragraph count is displayed for review.
 
-# %% cell 99
 # =========================================================
 # 5.1 Step 5 validation
 # =========================================================
@@ -3856,7 +3752,7 @@ assert len(heading_blocks_df) == len(expected_heading_keys), (
 
 print(f"Validated structural headings removed: {len(heading_blocks_df)}")
 
-display(
+print(
     heading_blocks_df[
         ["page_number", "block_index", "heading", "text"]
     ]
@@ -3906,14 +3802,14 @@ paragraph_count_by_page = (
     .rename(columns={"page_start": "page_number"})
 )
 
-display(paragraph_count_by_page)
+print(paragraph_count_by_page)
 
 cross_page_paragraphs_df = paragraphs_df[
     paragraphs_df["page_start"] < paragraphs_df["page_end"]
 ].copy()
 
 print(f"\nCross-page paragraphs: {len(cross_page_paragraphs_df)}")
-display(
+print(
     cross_page_paragraphs_df[
         ["paragraph_id", "page_start", "page_end", "footnote_refs", "text"]
     ]
@@ -3938,7 +3834,7 @@ heading_like_remaining_df = paragraphs_df[
 ].copy()
 
 print(f"\nResidual heading-like paragraph candidates: {len(heading_like_remaining_df)}")
-display(
+print(
     heading_like_remaining_df[
         ["paragraph_id", "page_start", "page_end", "text"]
     ]
@@ -3946,9 +3842,8 @@ display(
 
 print("\nStep 5 validation complete: heading removal is corpus-wide and paragraph reconstruction is internally consistent.")
 
-# %% [markdown] cell 100
-# # 6. Footnote review and decision
-#
+
+# %% 6. Footnote review and decision
 # Footnotes remain separate from the paragraph text at the extraction stage.
 # For the RAG content used below, factual/explanatory footnotes are appended to
 # the paragraph content as `Note: ...`, while citation-only footnotes remain in
@@ -3961,7 +3856,6 @@ print("\nStep 5 validation complete: heading removal is corpus-wide and paragrap
 # Footnote 5 is citation-only (`Arvis et al. 2026.`), so it is **not** appended
 # as a Note. Its reference is retained on the paragraph that cites it.
 
-# %% cell 101
 # =========================================================
 # 6.1 Footnote review
 # =========================================================
@@ -4012,15 +3906,14 @@ print("Footnote 5 decision: citation-only -> metadata only.")
 print("\nFootnote 13 text:", footnote_13.iloc[0]["text"])
 print("Footnote 13 decision: informative -> append as `Note: ...`.")
 
-display(
+print(
     paragraphs_with_footnote_13[
         ["paragraph_id", "page_start", "page_end", "footnote_refs", "text"]
     ]
 )
 
-# %% [markdown] cell 102
-# # 7. Unified Units Table
-#
+
+# %% 7. Unified Units Table
 # The next table is the single pre-chunking unit layer. It combines:
 #
 # - reconstructed body paragraphs,
@@ -4034,7 +3927,6 @@ display(
 # PDF reading order, including two-column pages. This matters for pages 21, 26,
 # and 29 where subsections share the same page.
 
-# %% cell 103
 # =========================================================
 # 7.1 Build location-aware section/subsection map
 # =========================================================
@@ -4151,7 +4043,7 @@ heading_positions_df = heading_positions_df.sort_values(
 ).reset_index(drop=True)
 
 # Inspect the actual subsection transitions on the ambiguous pages.
-display(
+print(
     heading_positions_df[
         heading_positions_df["page_number"].isin([21, 26, 29])
     ][
@@ -4166,7 +4058,6 @@ display(
     ]
 )
 
-# %% cell 104
 # =========================================================
 # 7.2 Validate paragraph-location alignment
 # =========================================================
@@ -4181,7 +4072,6 @@ assert paragraph_location_df["footnote_refs"].tolist() == paragraphs_df["footnot
 
 print(f"Paragraphs with location metadata: {len(paragraph_location_df)}")
 
-# %% cell 105
 # =========================================================
 # 7.3 Helper: assign section/subsection by reading order
 # =========================================================
@@ -4231,7 +4121,7 @@ paragraphs_enriched_df = paragraphs_df.merge(
 )
 
 print("Paragraph section coverage:")
-display(
+print(
     paragraphs_enriched_df
     .groupby(["section", "subsection"], dropna=False)
     .size()
@@ -4239,7 +4129,6 @@ display(
     .reset_index()
 )
 
-# %% cell 106
 # =========================================================
 # 7.4 Assign section/subsection to structured units by caption location
 # =========================================================
@@ -4321,7 +4210,7 @@ structured_units.extend(
 structured_units_df = pd.DataFrame(structured_units)
 
 print("Structured-unit section assignment:")
-display(
+print(
     structured_units_df[
         [
             "unit_type",
@@ -4335,7 +4224,6 @@ display(
     ]
 )
 
-# %% cell 107
 # =========================================================
 # 7.5 Apply the footnote policy to the entire corpus
 # =========================================================
@@ -4444,7 +4332,7 @@ for number, note in footnote_text_map.items():
         )
 
 print("\nFootnote policy summary across the full corpus:")
-display(footnote_policy_df)
+print(footnote_policy_df)
 print(
     f"Informative footnotes: {(footnote_policy_df['policy'] == 'informative').sum()} | "
     f"Citation-only footnotes: {(footnote_policy_df['policy'] == 'citation_only').sum()} | "
@@ -4454,7 +4342,6 @@ print(
 # Keep the original concrete regression examples as examples only; the loop
 # above is the actual corpus-wide policy validation.
 
-# %% cell 108
 # =========================================================
 # 7.6 Build the unified units table
 # =========================================================
@@ -4546,12 +4433,12 @@ units_df = units_df.sort_values(
 
 print(f"Unified units: {len(units_df)}")
 print("By unit type:")
-display(
+print(
     units_df["unit_type"].value_counts().rename_axis("unit_type").reset_index(name="count")
 )
 
 print("\nUnified units preview:")
-display(
+print(
     units_df[
         [
             "unit_id",
@@ -4566,7 +4453,6 @@ display(
     ].head(25)
 )
 
-# %% cell 109
 # =========================================================
 # 7.7 Step 7 validation
 # =========================================================
@@ -4642,14 +4528,13 @@ unit_section_counts_df = (
     .reset_index()
 )
 
-display(unit_section_counts_df)
+print(unit_section_counts_df)
 
 print(
     "\nStep 7 validation complete: unified units are clean, "
     "section-aware, and footnote-aware."
 )
 
-# %% cell 110
 # =========================================================
 # 7.8 Final diagnostics before chunking
 # =========================================================
@@ -4706,7 +4591,7 @@ informative_units_df = units_df[
     )
 ].copy()
 
-display(
+print(
     informative_units_df[
         [
             "unit_id",
@@ -4719,24 +4604,21 @@ display(
     ]
 )
 
-# %% cell 111
 # 7.9 Final paragraph preview after structural-heading removal
 
-display(
+print(
     paragraphs_df[
         ["paragraph_id", "page_start", "page_end", "footnote_refs", "text"]
     ].head(12)
 )
 
-# %% [markdown] cell 112
-# # 8. Final content samples — one representative sample per unit type
-#
+
+# %% 8. Final content samples — one representative sample per unit type
 # This is the final inspection layer before downstream chunking. It intentionally
 # shows one complete `content` sample for every `unit_type` that exists in the
 # current corpus, so we can review the semantic shape of every unit family without
 # creating another text column such as `rag_text`.
 
-# %% cell 113
 # =========================================================
 # 8.1 Build the final content sample gallery
 # =========================================================
@@ -4767,11 +4649,10 @@ assert set(content_samples_df["unit_type"]) == set(units_df["unit_type"])
 assert content_samples_df["content"].map(lambda value: bool(str(value).strip())).all()
 
 print("\nFinal content samples — one complete sample per unit type:")
-display(content_samples_df)
+print(content_samples_df)
 
 print("\nUnit types represented:", sorted(content_samples_df["unit_type"].tolist()))
 
-# %% cell 114
 # =========================================================
 # 8.2 Full content viewer — text output
 # =========================================================
@@ -4795,9 +4676,8 @@ for _, row in units_df.iterrows():
     print("=" * 120)
     print()
 
-# %% [markdown] cell 115
-# # 9. Save Extracted and Cleaned Artifacts
-#
+
+# %% 9. Save Extracted and Cleaned Artifacts
 # The LPI pipeline follows the same persistence flow as the FBL and Suez
 # pipelines: **extracted → cleaned → chunks**, stored under
 # `processed/rag/{extracted, cleaned, chunks}`.
@@ -4808,10 +4688,9 @@ for _, row in units_df.iterrows():
 #   reconstruction, footnote policy, and section assignment.
 # - **chunks**: saved in Section 12, after chunking and schema mapping.
 
-# %% [markdown] cell 116
-# ## 9.1 Output Locations
 
-# %% cell 117
+# %% 9.1 Output Locations
+
 # =========================================================
 # 9.1 Output locations and JSON helper
 # =========================================================
@@ -4855,10 +4734,9 @@ def json_safe(value):
 
 print("Processed RAG folder:", PROCESSED_RAG_DIR)
 
-# %% [markdown] cell 118
-# ## 9.2 Save the Extracted Artifact
 
-# %% cell 119
+# %% 9.2 Save the Extracted Artifact
+
 # =========================================================
 # 9.2 Save extracted artifact
 # =========================================================
@@ -4892,10 +4770,9 @@ print(
     f"structured units: {len(extracted_payload['structured_units'])}"
 )
 
-# %% [markdown] cell 120
-# ## 9.3 Save the Cleaned Artifact
 
-# %% cell 121
+# %% 9.3 Save the Cleaned Artifact
+
 # =========================================================
 # 9.3 Save cleaned artifact (unified logical units)
 # =========================================================
@@ -4915,9 +4792,8 @@ print("Cleaned artifact saved:")
 print(cleaned_path)
 print(f"  logical units: {len(units_df)}")
 
-# %% [markdown] cell 122
-# # 10. Chunking
-#
+
+# %% 10. Chunking
 # The unit of retrieval is the smallest piece of text that answers a question on
 # its own, so chunk boundaries follow the meaning of the content, not a size
 # target:
@@ -4937,10 +4813,9 @@ print(f"  logical units: {len(units_df)}")
 # of common embedding models). It is a safety cap, not a target, and it is one
 # constant to adjust once the embedding model is chosen.
 
-# %% [markdown] cell 123
-# ## 10.1 Chunking Rules and Helpers
 
-# %% cell 124
+# %% 10.1 Chunking Rules and Helpers
+
 # =========================================================
 # 10.1 Chunking rules and helpers
 # =========================================================
@@ -5043,10 +4918,9 @@ def logical_unit_name(unit_id):
 
     raise ValueError(f"Unrecognized unit_id: {unit_id!r}")
 
-# %% [markdown] cell 125
-# ## 10.2 Build the Chunks
 
-# %% cell 126
+# %% 10.2 Build the Chunks
+
 # =========================================================
 # 10.2 Build chunks from the unified units
 # =========================================================
@@ -5153,7 +5027,7 @@ chunk_records.sort(
 print(f"Units: {len(unit_dicts)}  ->  chunks: {len(chunk_records)}")
 
 print("\nChunks by unit type:")
-display(
+print(
     pd.Series([r["unit_type"] for r in chunk_records])
     .value_counts()
     .rename_axis("unit_type")
@@ -5161,7 +5035,7 @@ display(
 )
 
 print("\nParagraph chunks built from more than one unit:")
-display(
+print(
     pd.DataFrame(
         [
             {
@@ -5177,7 +5051,7 @@ display(
 )
 
 print("\nStructured units split into several chunks:")
-display(
+print(
     pd.DataFrame(
         [
             {"chunk_id": r["chunk_id"], "chars": len(r["text"])}
@@ -5191,9 +5065,8 @@ display(
     )
 )
 
-# %% [markdown] cell 127
-# ## 10.3 Validate the Chunks
-#
+
+# %% 10.3 Validate the Chunks
 # Size cap, empty chunks, duplicate IDs, and content preservation, plus the
 # LPI-specific rules:
 #
@@ -5202,7 +5075,6 @@ display(
 # - no chunk crosses a section or subsection boundary,
 # - no minor heading is left as a standalone chunk.
 
-# %% cell 128
 # =========================================================
 # 10.3 Chunk validation
 # =========================================================
@@ -5262,7 +5134,7 @@ print("\nChunk size statistics:")
 print(chunk_sizes.describe())
 
 print("\nSmallest chunks:")
-display(
+print(
     pd.DataFrame(
         [
             {"chunk_id": r["chunk_id"], "chars": len(r["text"]), "text": r["text"][:90]}
@@ -5273,9 +5145,8 @@ display(
 
 print("\nChunk validation passed.")
 
-# %% [markdown] cell 129
-# # 11. Unified Chunk Schema
-#
+
+# %% 11. Unified Chunk Schema
 # The LPI chunks use the same 16-column schema as the FBL and Suez chunks. The
 # schema definition and validator below are the same code used in the FBL/Suez
 # notebook, so the three resources can be concatenated into one RAG chunks table.
@@ -5297,10 +5168,9 @@ print("\nChunk validation passed.")
 # `chunk_id`, informative footnotes are already inside `text`, and the
 # remaining values stay in the cleaned artifact.
 
-# %% [markdown] cell 130
-# ## 11.1 Schema Definition and Validator
 
-# %% cell 131
+# %% 11.1 Schema Definition and Validator
+
 # =========================================================
 # 11.1 Canonical chunk schema (same as the FBL / Suez notebook)
 # =========================================================
@@ -5408,14 +5278,12 @@ def validate_chunk_schema(chunks_df, label):
     print(f"{label}: all checks passed ({len(chunks_df)} chunks)\n")
     return checks
 
-# %% [markdown] cell 132
-# ## 11.2 Map the LPI Chunks to the Schema
-#
+
+# %% 11.2 Map the LPI Chunks to the Schema
 # `source`, `sensitivity_level`, and `version_date` come from the document itself
 # (`© 2026 The World Bank`, `Public Disclosure Authorized`). `document_type` and
 # `department` follow the naming used for the FBL and Suez documents.
 
-# %% cell 133
 # =========================================================
 # 11.2 Map LPI chunks to the unified schema
 # =========================================================
@@ -5451,7 +5319,7 @@ lpi_chunks_df = normalize_chunk_schema(
 )
 
 print("Shape:", lpi_chunks_df.shape)
-display(
+print(
     lpi_chunks_df[
         [
             "page", "unit_type", "logical_unit", "chunk_id",
@@ -5460,18 +5328,16 @@ display(
     ].head(12)
 )
 
-# %% [markdown] cell 134
-# ## 11.3 Validate the LPI Chunks
-#
+
+# %% 11.3 Validate the LPI Chunks
 # Run the shared validator against the LPI chunks, the same way it was run for the
 # FBL and Suez chunks.
 
-# %% cell 135
 # 11.3 Schema validation for LPI chunks
 validate_chunk_schema(lpi_chunks_df, "LPI_chunks")
 
 print("Unique document-level metadata:")
-display(
+print(
     lpi_chunks_df[
         [
             "filename", "source", "real_or_synthetic", "document_type",
@@ -5480,15 +5346,13 @@ display(
     ].drop_duplicates()
 )
 
-# %% [markdown] cell 136
-# # 12. Save Chunks and Verify
-#
+
+# %% 12. Save Chunks and Verify
 # Persist the final chunks, reload them from disk, and re-run the validator against
 # what was actually written. The reloaded LPI chunks are then compared with the
 # saved FBL and Suez chunks, which must have identical columns and dtypes and
 # non-colliding `chunk_id` values before the three sets are concatenated.
 
-# %% cell 137
 # =========================================================
 # 12.1 Save and reload the LPI chunks
 # =========================================================
@@ -5502,9 +5366,8 @@ print(lpi_chunks_path)
 
 lpi_reloaded_df = pd.read_parquet(lpi_chunks_path)
 
-_display_result(validate_chunk_schema(lpi_reloaded_df, "LPI_chunks (reloaded from disk)"))
+print(validate_chunk_schema(lpi_reloaded_df, "LPI_chunks (reloaded from disk)"))
 
-# %% cell 138
 # =========================================================
 # 12.2 Cross-source check against the FBL and Suez chunks
 # =========================================================
@@ -5542,6 +5405,3 @@ for label, frame in loaded_chunks.items():
     print(f"{label} rows: {len(frame)}")
 
 print("Combined rows:", len(combined_chunks_df))
-
-# %% [markdown] cell 139
-# Final Checkpoint: see pipelines/checkpoints/rag/LPI_methodology_chunking.md
