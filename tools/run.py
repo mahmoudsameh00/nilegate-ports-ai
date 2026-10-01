@@ -1,7 +1,8 @@
 """Run a pipeline script with a small, low-token summary (replaces `tools/nb.py run` for scripts).
 
   uv run python tools/run.py <script.py> [--timeout S] [--compare]
-  uv run python tools/run.py all [--from STEM] [--compare]   every script in ORDER, stops at the first failure
+  uv run python tools/run.py all [--from STEM] [--compare] [--with-mongo]   every script in ORDER, stops at the first
+                 failure; MongoDB_loader (reloads MongoDB, adds a load report) runs only with --with-mongo
   --hashseed N   run with PYTHONHASHSEED=N: two runs with different seeds that change a file reveal an output that
                  depends on string hashing (set / dict-of-set iteration order), i.e. a hidden nondeterminism
 
@@ -76,6 +77,7 @@ def main() -> int:
     p.add_argument("script"); p.add_argument("--timeout", type=int, default=7200)
     p.add_argument("--compare", action="store_true")
     p.add_argument("--from", dest="frm", help="with `all`: start at this script stem (resume after a fix)")
+    p.add_argument("--with-mongo", action="store_true", help="with `all`: also run MongoDB_loader")
     p.add_argument("--hashseed", help="run the script(s) with this PYTHONHASHSEED (nondeterminism check)")
     a = p.parse_args()
     if a.hashseed is not None:
@@ -88,6 +90,9 @@ def main() -> int:
             if not starts:
                 print(f"unknown stem: {a.frm}"); return 1
             keys = ORDER[starts[0]:]
+        if not a.with_mongo:
+            keys = [k for k in keys if k != "semi_structured/MongoDB_loader"]
+            print("MongoDB_loader skipped (reloads MongoDB and adds a load report; use --with-mongo to include it)")
         for k in keys:
             print(f"===== {k}", flush=True)
             if run_one(ROOT / "pipelines" / "scripts" / f"{k}.py", a.timeout, a.compare):

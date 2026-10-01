@@ -3,6 +3,7 @@
 Origin:  Converted from Notebooks/rag/USCG_ROI_chunking.ipynb (archived in docs/archive/notebooks/).
          Refactored (ADR-036 D3), cleanup level (2026-10-01): the notebook's phases, code and validations are unchanged;
          cell markers, Jupyter display() and the conversion helpers became plain sections and print(); proven by
+         Patched: covered_by depended on PYTHONHASHSEED when two units cover a sentence equally.
          `uv run python tools/nb_to_script.py check USCG_ROI_chunking` (AST equal to the archived notebook).
 Run:     uv run python tools/run.py pipelines/scripts/rag/USCG_ROI_chunking.py  (from the project root)
 
@@ -3083,7 +3084,8 @@ class SentenceIndex:
 
     def cover(self, s: str):
         cand = Counter(i for g in self.grams(s) for i in self.idx.get(g, ()))
-        for i, _ in cand.most_common(5):
+        # ties go to the earliest sentence in report order, not to set / hash order (owner decision 2026-10-01)
+        for i, _ in sorted(cand.items(), key=lambda kv: (-kv[1], kv[0]))[:5]:
             if is_covered(s, self.items[i][1]):
                 return self.items[i][0]
         return None

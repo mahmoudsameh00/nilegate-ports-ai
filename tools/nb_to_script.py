@@ -400,6 +400,30 @@ def cmd_check(a) -> int:
 #   - the Final Checkpoint narrative stays in pipelines/checkpoints/ (pointer in the header).
 # `check` proves it: the AST of the notebook's code cells, canonicalised by exactly those rules, equals the script's.
 CLEAN_TAG = "Refactored (ADR-036 D3), cleanup level"
+# Deliberate fixes on top of an archived notebook (owner-approved), applied to the notebook's code before both the
+# cleanup and the proof, so `check` proves "notebook + exactly these patches": {key: [(old, new, why)]}.
+PATCHES = {
+    "rag/USCG_ROI_chunking": [(
+        "        for i, _ in cand.most_common(5):\n",
+        "        # ties go to the earliest sentence in report order, not to set / hash order (owner decision 2026-10-01)\n"
+        "        for i, _ in sorted(cand.items(), key=lambda kv: (-kv[1], kv[0]))[:5]:\n",
+        "covered_by depended on PYTHONHASHSEED when two units cover a sentence equally",
+    )],
+}
+
+
+def patched(key: str, code: str) -> str:
+    for old, new, _ in PATCHES.get(key, []):
+        if old in code:
+            assert code.count(old) == 1, (key, old)
+            code = code.replace(old, new)
+    return code
+
+
+def check_patches_used(key: str, cells: list[dict]) -> None:
+    text = "\n".join(src(c) for c in cells if c["cell_type"] == "code")
+    for old, _, _ in PATCHES.get(key, []):
+        assert text.count(old) == 1, f"{key}: patch target found {text.count(old)} times"
 
 
 def _is_write_text(node: ast.AST) -> bool:
@@ -452,6 +476,7 @@ def build_clean(key: str) -> str:
             f"Origin:  Converted from Notebooks/{key}.ipynb (archived in docs/archive/notebooks/).",
             f"         {CLEAN_TAG} (2026-10-01): the notebook's phases, code and validations are unchanged;",
             "         cell markers, Jupyter display() and the conversion helpers became plain sections and print(); proven by",
+            *([f"         Patched: {why}." for _, _, why in PATCHES.get(key, [])]),
             f"         `uv run python tools/nb_to_script.py check {stem}` (AST equal to the archived notebook).",
             f"Run:     uv run python tools/run.py pipelines/scripts/{area}/{stem}.py  (from the project root)", "",
             f"Reads:   {m['reads']}", f"Writes:  {m['writes']}", f"Re-run:  {m['rerun']}"]
@@ -466,17 +491,17 @@ def build_clean(key: str) -> str:
         if c["cell_type"] == "markdown":
             body.append("\n" + _section(text))
         elif c["cell_type"] == "code":
-            body.append(clean_code(text.rstrip("\n")))
+            body.append(clean_code(patched(key, text).rstrip("\n")))
     return "\n".join(head) + "\n" + "\n\n".join(body) + "\n"
 
 
-def _canonical_notebook_body(cells: list[dict]) -> list[ast.stmt]:
+def _canonical_notebook_body(cells: list[dict], key: str = "") -> list[ast.stmt]:
     """Statements of all code cells, with the two Jupyter display rules made explicit (independent of clean_code)."""
     out = []
     for c in cells:
         if c["cell_type"] != "code" or not src(c).strip():
             continue
-        tree = ast.parse(src(c))
+        tree = ast.parse(patched(key, src(c)))
         for n in ast.walk(tree):
             if isinstance(n, ast.Call) and isinstance(n.func, ast.Name) and n.func.id == "display":
                 n.func.id = "print"
@@ -492,7 +517,8 @@ def _canonical_notebook_body(cells: list[dict]) -> list[ast.stmt]:
 def prove_clean(key: str, script_text: str) -> str | None:
     """None when the script's statements equal the canonicalised notebook's; else a description of the first difference."""
     cells = json.loads(notebook_path(key).read_text(encoding="utf-8"))["cells"]
-    want = _canonical_notebook_body(cells)
+    check_patches_used(key, cells)
+    want = _canonical_notebook_body(cells, key)
     got = ast.parse(script_text).body
     if got and isinstance(got[0], ast.Expr) and isinstance(got[0].value, ast.Constant) and isinstance(got[0].value.value, str):
         got = got[1:]  # the module docstring

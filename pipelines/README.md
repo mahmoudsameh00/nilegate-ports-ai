@@ -8,7 +8,7 @@ Run one script, or all of them in verification order, from the project root:
 
 ```text
 uv run python tools/run.py pipelines/scripts/<area>/<stem>.py [--compare]
-uv run python tools/run.py all --compare [--from <stem>]
+uv run python tools/run.py all --compare [--from <stem>] [--with-mongo] [--hashseed N]
 ```
 
 `tools/run.py` prints the ✅ validation lines, the errors and every file it changed or created under
@@ -21,7 +21,7 @@ notebook's saved outputs.
 | `structured/ExtractPortsConnection.py` | structured | A | `port_connections.csv` (19,990 pairs); the table load only with `--insert` on an empty table |
 | `synthetic/SyntheticGenerator.py` | synthetic | A | verifies employees / vessels / containers CSVs; checks invoice pricing (ADR-004, ADR-013) |
 | `rag/Documents_registry.py` | RAG | A | `documents.csv` + migration 010 (29 rows); database = mirror check |
-| `rag/FBL_chunking.py` … `rag/USCG_ROI_chunking.py` (7) | RAG | B | extracted / cleaned / chunks artifacts per source (2,163 chunks) |
+| `rag/FBL_chunking.py` … `rag/USCG_ROI_chunking.py` (7) | RAG | B (USCG + one listed patch) | extracted / cleaned / chunks artifacts per source (2,163 chunks) |
 | `semi_structured/AIS_EDI_profiling.py` | semi-structured | B | AIS / EDI profiles |
 | `semi_structured/AIS_generator.py` | semi-structured | B | synthetic AIS tracks, static records, voyages + manifest |
 | `semi_structured/EDI_generator.py` | semi-structured | A | synthetic IFTMIN messages + manifest |
@@ -33,6 +33,10 @@ notebook's saved outputs.
   structure is the flow and stays linear (`# %% <Phase title>` sections, narrative as comments); only Jupyter's
   display rules became `print()`. Proof: `uv run python tools/nb_to_script.py check` (AST equal to the notebook) plus
   the local run.
+
+`all` skips `MongoDB_loader` unless `--with-mongo` (each run reloads MongoDB and adds a load report; keep only the
+newest report: its `load_run` is stamped on every document). `--hashseed N` fixes `PYTHONHASHSEED`: two runs with
+different seeds that change a file reveal an output that depends on string-hash order (2026-10-01: none left).
 
 Order of `run.py all`: smallest first; `LPI_methodology_chunking` before `LPI_Connecting_to_Compete_chunking` (it reads
 its units); the generators before `MongoDB_loader`.
