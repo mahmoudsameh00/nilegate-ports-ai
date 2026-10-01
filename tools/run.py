@@ -58,6 +58,9 @@ def main() -> int:
     p.add_argument("--compare", action="store_true")
     a = p.parse_args()
     script = Path(a.script).resolve()
+    if not script.is_file() or script.suffix != ".py":
+        print(f"script not found: {a.script} (give the real path, e.g. pipelines/scripts/rag/FBL_chunking.py)")
+        return 1
     SCRATCH.mkdir(parents=True, exist_ok=True)
     log = SCRATCH / f"run_{script.stem}.log"
     env = dict(os.environ, PYTHONIOENCODING="utf-8", MPLBACKEND="Agg")
