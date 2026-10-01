@@ -1,7 +1,23 @@
 # Plan — Notebooks → scripts, and one ingestion script for new unstructured documents
 
-- **Status:** APPROVED (2026-10-01), decisions D1–D7 answered by the owner (§4, "Answers"). Branch
-  `feat/scripts-and-rag-ingestion`.
+- **Status:** IMPLEMENTED (2026-10-01). APPROVED the same day, decisions D1–D7 answered by the owner (§4, "Answers").
+  Branch `feat/scripts-and-rag-ingestion`.
+
+## Implementation record (2026-10-01)
+- **Results:** 15 notebooks → `pipelines/scripts/<area>/` (+ 12 Final Checkpoint narratives in
+  `pipelines/checkpoints/<area>/`), notebooks archived in `docs/archive/notebooks/`. Verified twice on the owner's
+  machine with `tools/run.py all --compare`: after the faithful conversion (15/15 exit 0, identical ✅ lines, 0 artifacts
+  changed) and after the D3 refactor ("ALL 15 SCRIPTS PASSED"). Refactor: level A (5 scripts, functions + `main()`),
+  level B (10 scripts, generated, AST-proven equal to the notebooks). Tools: `tools/nb_to_script.py`
+  (convert / clean / check), `tools/run.py` (run, `all`, `--compare`, SHA-256 report).
+- **Deviations** (details in "Progress / deviations"): layout per revised D1; only the closing narrative moves to the
+  `.md`; a converter bug (bare tuples) found and fixed before any run; ExtractPortsConnection's INSERT disabled by
+  owner decision, later `--insert` on an empty table only; the guard hook path made absolute; the refactor was
+  committed before its local check (the only way to reach the owner's machine) and passed; part B (PDF ingestion)
+  moved to the RAG plan as its Phase 8; the stale load report pair (20260928T111702Z) removed from git.
+- **Lasting decisions:** ADR-036 and its amendment (levels A / B, verification rule).
+- **Open, outside this plan:** SyntheticGenerator's employees do not regenerate on Linux (platform, ROADMAP known
+  issues); the guard hook's absolute path is untested inside the coding assistant on Windows.
 - **Goal:** (A) turn every notebook into a Python script **without changing what the code does or where anything
   sits**, keeping the closing "Final Checkpoint" markdown as a readable document; from then on all work is in scripts.
   (B) one ready script that takes a **new** unstructured raw document from `Data/raw/` through parsing, cleaning,
@@ -203,6 +219,6 @@ first), static report. 4. Owner runs each script locally and sends the summary. 
     machine. Not useless: every MongoDB document now carries `load_run = 20261001T092224Z`, so this is the report of the
     current database content; the committed 20260928 pair is the stale one. Owner to decide (recommended: commit the
     new pair, `git rm` the old pair).
-- **Next (owner, local):** `git pull`, then `uv run python tools/run.py all --compare`; expected: 15/15 exit 0,
-  `compare: ✅`, `files changed: 0` (MongoDB_loader creates a new load report by design). Then close this plan
-  (archive it; RAG retrieval plan becomes the only active plan).
+- 2026-10-01, local re-run after the refactor (owner): "ALL 15 SCRIPTS PASSED". Owner decision: delete the old load
+  audit → `20260928T111702Z.json` + `_rejected.csv` removed with `git rm`; the owner keeps only the newest local pair
+  (the run that produced the current MongoDB content). Plan closed.

@@ -3,7 +3,7 @@
 - **Status:** APPROVED (2026-09-28), decisions D1–D8 answered by the owner (§4, "Answers"). **Rewritten 2026-10-01**
   as a fresh start: every phase is a script (ADR-036), the work runs **on the owner's machine** (not a cloud session),
   nothing of Phase 0 counts as done, and a new Phase 8 adds the **PDF ingestion script** for future documents of the
-  RAG corpus (moved here from `docs/plans/Scripts_and_ingestion_plan.md` part B, owner decisions D5–D6 of that plan).
+  RAG corpus (moved here from `docs/archive/2026-10-01_Scripts_and_ingestion_plan.md` part B, owner decisions D5–D6 of that plan).
   The rewrite needs the owner's confirmation at the start of Phase 0 (D9–D11 are new). Handoff: §"Progress / deviations"
   below, committed.
 - **Goal:** turn the 2,163 reviewed chunks into a searchable, access-controlled **hybrid** index (dense + BM25) with an

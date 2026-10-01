@@ -1,4 +1,4 @@
-"""Convert the project notebooks into scripts without changing what the code does (plan: Scripts_and_ingestion_plan.md).
+"""Convert the project notebooks into scripts without changing what the code does (plan: docs/archive/2026-10-01_Scripts_and_ingestion_plan.md).
 
   uv run python tools/nb_to_script.py convert [STEM ...]   write pipelines/scripts/<area>/<stem>.py
                                                             + pipelines/checkpoints/<area>/<stem>.md
