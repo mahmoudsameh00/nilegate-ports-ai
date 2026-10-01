@@ -1,6 +1,7 @@
 # Plan — Notebooks → scripts, and one ingestion script for new unstructured documents
 
-- **Status:** PROPOSED (2026-10-01). Branch `feat/scripts-and-rag-ingestion`.
+- **Status:** APPROVED (2026-10-01), decisions D1–D7 answered by the owner (§4, "Answers"). Branch
+  `feat/scripts-and-rag-ingestion`.
 - **Goal:** (A) turn every notebook into a Python script **without changing what the code does or where anything
   sits**, keeping the closing "Final Checkpoint" markdown as a readable document; from then on all work is in scripts.
   (B) one ready script that takes a **new** unstructured raw document from `Data/raw/` through parsing, cleaning,
@@ -123,10 +124,24 @@ existing per-source scripts stay the reference for those sources; the generic sc
   upsert stages right after RAG Phases 2–5 (reusing their code) / *or* pause B until the RAG plan finishes.
 - **D7 — Old branch:** `feat/rag-retrieval` (identical to `master`) deleted on GitHub by the owner / *or* kept.
 
+### Answers (owner, 2026-10-01)
+- **D1:** companion `.md`, in the same folder as its script (as A1).
+- **D2:** notebooks move to `docs/archive/notebooks/<folder>/` after the local verification (row in
+  `docs/archive/README.md`).
+- **D3:** refactoring is allowed; what must not change is the **flow and the outputs**. Applied in two steps so the
+  outputs stay provable: (1) faithful conversion (A1–A4) verified locally against the committed artifacts; (2) then a
+  refactor per script, each re-verified locally with the same check (`git status --porcelain Data/` empty, same `✅`
+  lines). A refactor is never committed without its local verification.
+- **D4:** left to the assistant → wrap in `display(...)` (keeps what the notebook showed).
+- **D5:** PDF only (the ingestion script is a dedicated PDF agent).
+- **D6:** part B waits until the RAG plan is finished, then is built in one go (it reuses the RAG plan's embedding and
+  loader code). Steps 6–7 below move after the RAG plan.
+- **D7:** delete `feat/rag-retrieval` (done by the assistant 2026-10-01, it was identical to `master`).
+
 ## 5. Order of work (one step at a time, owner confirms each)
 1. Approve this plan (answers D1–D7). 2. Converter + static check, cloud. 3. Convert the 15 notebooks (smallest
 first), static report. 4. Owner runs each script locally and sends the summary. 5. Tooling / docs / ADR-036.
 6. Part B to the review gate. 7. Part B embed / upsert (after RAG Phases 2–5). 8. Close (archive, ROADMAP).
 
 ## Progress / deviations
-- 2026-10-01: plan written; nothing converted yet.
+- 2026-10-01: plan written and APPROVED; `feat/rag-retrieval` deleted on GitHub. Next: step 2 (converter + static check).
