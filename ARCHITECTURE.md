@@ -20,20 +20,21 @@ A learning/job-readiness project that models a fictional port & logistics compan
                                   Supervisor → Analytics Agent (PLANNED, ADR-012)
 ```
 
-Today the system is **data preparation only**: Jupyter notebooks, files under `Data/`, a PostgreSQL database and a MongoDB database (AIS + EDI, since 2026-09-27). There is no application code, API or agent yet. AIS and EDI serve tools / agents and analytics, **not RAG** (ADR-030).
+Today the system is **data preparation only**: pipeline scripts (`pipelines/scripts/`, converted from the notebooks on 2026-10-01, ADR-036), files under `Data/`, a PostgreSQL database and a MongoDB database (AIS + EDI, since 2026-09-27). There is no application code, API or agent yet. AIS and EDI serve tools / agents and analytics, **not RAG** (ADR-030).
 
 ## 2. Components
 
 | Component | State | Details |
 |---|---|---|
 | PostgreSQL 16.9 + PostGIS 3.5.2 (Docker container `ports-postgres`, image `postgis/postgis:16-3.5`, db `ports_logistics`, port 5432, volume `ports-postgres-data`) | IMPLEMENTED (closed 2026-09-27) | Schema verified 2026-09-27 after migrations 001–009 (`db/schema_snapshot.sql`, audit `db/audit/2026-09-27_after_006_009_report.txt`). Roles: `postgres` superuser + `ports_readonly` group role (SELECT only, ADR-034; the login user is created by the owner). Published on `127.0.0.1` only (ADR-034). Extensions: postgis, postgis_topology, postgis_tiger_geocoder, fuzzystrmatch (the last three ship with the image and are unused). |
-| Structured ETL notebooks (`Notebooks/structured/`: `ExtractPortsAttributes`, `ExtractPortsConnection`) | IMPLEMENTED (partly reproducible) | The toll CSV's origin is undocumented (the never-run `ExtractTollRates` probe was deleted 2026-09-27). The code that loaded `ports` into the DB is not in the repo. |
-| Synthetic data notebook (`SyntheticGenerator`) | IMPLEMENTED | Faker/random seed 42, hire dates anchored to 2026-09-13. It reproduces employees, vessels and containers exactly (re-confirmed 2026-09-27: 28/28 cells, all three CSVs identical) and verifies them against the CSVs (never overwrites); database-owned columns (`vessels.mmsi`) are declared in `DB_OWNED_COLUMNS` and not compared. 2026-09-27: the leftover `employees.status` (ADR-017 drift) was removed, keeping its random draw. Invoices are rebuilt only to validate the pricing; the DB is canonical (ADR-013). |
-| RAG ingestion notebooks, one per source (ADR-008) | IMPLEMENTED for FBL, LPI Methodology, Suez Notes, LPI Connecting to Compete, HbR annual report 2025, IMO casualty-reporting circular | PyMuPDF extraction → cleaned logical units → (dedup) → semantic chunks in the 16-column schema |
-| `documents` registry table | IMPLEMENTED (29 rows, 2026-09-27) | migration 002 (table), 010 (rows); `Notebooks/rag/Documents_registry.ipynb`; ADR-009, ADR-035 |
+| Structured ETL scripts (`pipelines/scripts/structured/`: `ExtractPortsAttributes`, `ExtractPortsConnection`) | IMPLEMENTED (partly reproducible) | The toll CSV's origin is undocumented (the never-run `ExtractTollRates` probe was deleted 2026-09-27). The code that loaded `ports` into the DB is not in the repo. |
+| Synthetic data script (`pipelines/scripts/synthetic/SyntheticGenerator.py`) | IMPLEMENTED | Faker/random seed 42, hire dates anchored to 2026-09-13. It reproduces employees, vessels and containers exactly (re-confirmed 2026-09-27: 28/28 cells, all three CSVs identical) and verifies them against the CSVs (never overwrites); database-owned columns (`vessels.mmsi`) are declared in `DB_OWNED_COLUMNS` and not compared. 2026-09-27: the leftover `employees.status` (ADR-017 drift) was removed, keeping its random draw. Invoices are rebuilt only to validate the pricing; the DB is canonical (ADR-013). |
+| RAG ingestion scripts, one per source (ADR-008, ADR-036; `pipelines/scripts/rag/`) | IMPLEMENTED for FBL, LPI Methodology, Suez Notes, LPI Connecting to Compete, HbR annual report 2025, IMO casualty-reporting circular | PyMuPDF extraction → cleaned logical units → (dedup) → semantic chunks in the 16-column schema |
+| `documents` registry table | IMPLEMENTED (29 rows, 2026-09-27) | migration 002 (table), 010 (rows); `pipelines/scripts/rag/Documents_registry.py`; ADR-009, ADR-035 |
 | Embedding model, Qdrant | PLANNED | plan APPROVED 2026-09-28: `docs/plans/RAG_Embeddings_Qdrant_plan.md` (model chosen by the Phase 2 bake-off) |
 | MongoDB 8.0.32 (Docker container `ports-mongo`, image `mongo:8.0.32` pinned by digest, db `ports_logistics`, port `127.0.0.1:27017` only, volume `ports-mongo-data`) | IMPLEMENTED (2026-09-27) | Root user for administration + application user `readWrite` on `ports_logistics` only (ADR-027); commands, scripts and audit outputs in `db/mongo/`. Collections `ais_positions` (time-series), `ais_vessels`, `edi_messages` — see §5A. |
-| Semi-structured notebooks (`Notebooks/semi_structured/`) | IMPLEMENTED | `AIS_EDI_profiling` (samples → reviewed profiles), `AIS_generator` (500 synthetic tracks, files), `EDI_generator` (434 synthetic IFTMIN, files), `MongoDB_loader` (the only writer to MongoDB, ADR-031: real + synthetic, reload, consistency audit). |
+| Semi-structured scripts (`pipelines/scripts/semi_structured/`) | IMPLEMENTED | `AIS_EDI_profiling` (samples → reviewed profiles), `AIS_generator` (500 synthetic tracks, files), `EDI_generator` (434 synthetic IFTMIN, files), `MongoDB_loader` (the only writer to MongoDB, ADR-031: real + synthetic, reload, consistency audit). |
+| Pipeline scripts + tooling (`pipelines/scripts/<area>/`, `pipelines/checkpoints/<area>/`, `tools/run.py`, `tools/nb_to_script.py`) | IMPLEMENTED (2026-10-01), local run verification pending | Percent-format scripts generated from the 15 notebooks: code cells identical except three listed changes, statically proven (`tools/nb_to_script.py check`); Final Checkpoint narratives in `pipelines/checkpoints/`. The notebooks stay in `Notebooks/` until the owner's local run, then move to `docs/archive/notebooks/` (ADR-036). |
 | Agents, tool layer, API (FastAPI mentioned), auth, audit_log | PLANNED | ADR-012, ADR-014 |
 | Power BI, evaluation harness, observability, Docker Compose | PLANNED / PROPOSED | see ROADMAP |
 | pgvector single store | ABANDONED | ADR-001 |
@@ -110,7 +111,7 @@ port_connections.country1/2 = left(port1/2_locode, 2)             (ISO alpha-2 c
 
 ## 5A. Semi-structured store (MongoDB) — IMPLEMENTED 2026-09-27
 
-Database `ports_logistics` in `ports-mongo` (MongoDB 8.0.32). Written only by `Notebooks/semi_structured/MongoDB_loader.ipynb` (drop + recreate of these three collections, ADR-031); last verified load: `Data/processed/semi-structured/load_audit/` (content hashes identical on consecutive runs).
+Database `ports_logistics` in `ports-mongo` (MongoDB 8.0.32). Written only by `pipelines/scripts/semi_structured/MongoDB_loader.py` (drop + recreate of these three collections, ADR-031); last verified load: `Data/processed/semi-structured/load_audit/` (content hashes identical on consecutive runs).
 
 | Collection | Kind | Documents | Keys and indexes | Validation |
 |---|---|---:|---|---|
@@ -145,7 +146,7 @@ Chunking rules: semantic boundaries first; `MIN_CHUNK_CHARS = 300` (short units 
 
 **Structured ETL (IMPLEMENTED):**
 ```text
-Data/raw/structured/*  ──notebook (pandas/geopandas, validate, dedup)──►  Data/processed/structured/*.csv
+Data/raw/structured/*  ──script (pandas/geopandas, validate, dedup)──►  Data/processed/structured/*.csv
                                                                          └─► PostgreSQL (psycopg INSERT, or manual load — UNCERTAIN for ports/toll bands)
 Faker (seed 42) + ports.csv + toll_rate_bands.csv ──SyntheticGenerator──► Data/processed/synthetic/*.csv (save_or_verify) ──► PostgreSQL
 invoices: finalized inside PostgreSQL; CSV is an export (ADR-013)
@@ -205,7 +206,7 @@ Added for the semi-structured phase (2026-09-27, `uv add`): pymongo 4.18.2 (+ dn
 | 005 | Suez PDF: tables → SQL, Notes → RAG |
 | 006 | RBAC = numeric ceiling OR owner department (≤ 2) |
 | 007 | 23 real USCG reports; synthetic incidents kept separate |
-| 008 | One ingestion notebook per source |
+| 008 | One ingestion notebook per source (a script per source since ADR-036) |
 | 009 | 16-column chunk schema; document metadata in `documents` |
 | 010 | Dedup logical units before chunking |
 | 011 | News via live web search |

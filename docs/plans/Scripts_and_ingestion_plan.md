@@ -80,7 +80,7 @@ Documents_registry only generates the migration file; both are verified locally 
 ### A5. After verification
 - Notebooks: deleted in one separate commit (git history keeps them with their outputs) — see D2.
 - `tools/nb.py` → `tools/run.py` (run a script with its log in `scripts/_scratch/run_<stem>.log`, print errors + `✅` lines;
-  `_scratch` git-ignored like today); skill `notebook-dev-loop` → `script-dev-loop`; guard hook `.ipynb` rule removed;
+  `_scratch` git-ignored like today); skill `notebook-dev-loop` → `script-dev-loop`; guard hook `.ipynb` rule kept (archived notebooks are still large, deviation);
   the project rules "Stack / Where things are / Conventions / Token discipline", ARCHITECTURE §2, ROADMAP, ADR-036.
 
 ## 3. Part B — `scripts/rag/ingest_new_documents.py`
@@ -125,7 +125,8 @@ existing per-source scripts stay the reference for those sources; the generic sc
 - **D7 — Old branch:** `feat/rag-retrieval` (identical to `master`) deleted on GitHub by the owner / *or* kept.
 
 ### Answers (owner, 2026-10-01)
-- **D1:** companion `.md`, in the same folder as its script (as A1).
+- **D1:** companion `.md`, kept apart from the script. Revised by the owner (2026-10-01): one main folder with a scripts
+  folder and a checkpoints folder inside → `pipelines/scripts/<area>/<stem>.py` + `pipelines/checkpoints/<area>/<stem>.md`.
 - **D2:** notebooks move to `docs/archive/notebooks/<folder>/` after the local verification (row in
   `docs/archive/README.md`).
 - **D3:** refactoring is allowed; what must not change is the **flow and the outputs**. Applied in two steps so the
@@ -145,4 +146,26 @@ first), static report. 4. Owner runs each script locally and sends the summary. 
 6. Part B to the review gate. 7. Part B embed / upsert (after RAG Phases 2–5). 8. Close (archive, ROADMAP).
 
 ## Progress / deviations
-- 2026-10-01: plan written and APPROVED; deleting `feat/rag-retrieval` was refused by the cloud git proxy (owner deletes it). Next: step 2 (converter + static check).
+- 2026-10-01: plan written and APPROVED; deleting `feat/rag-retrieval` was refused by the cloud git proxy (owner deletes it).
+- 2026-10-01, steps 2–3 DONE: `tools/nb_to_script.py` (convert + check) and `tools/run.py` (run, ✅ lines, SHA-256 report
+  of `Data/processed` + `db/migrations`, `--compare` with the notebook's saved ✅ lines). 15 scripts, 12 checkpoint
+  `.md` (the 3 structured / synthetic notebooks have no Final Checkpoint; nothing invented). `check`: ALL OK under
+  Python 3.13 (every cell equal; 40 cells with a wrapped last expression, 1 `%pip` commented, 4 empty cells skipped).
+  Deviations from §2: (a) layout per revised D1; (b) only the closing narrative cell moves to the `.md`, a
+  "## Final Checkpoint" heading cell before the last code cell (semi-structured notebooks) stays in the script; (c) the
+  converter's first version treated `%s` SQL placeholders as magics, caught by `check`, fixed (magics only in cells that
+  are not valid Python); (d) wrapping keeps Jupyter's rule "None is not shown", so `conn.commit()` etc. print nothing;
+  (e) strings that name the notebook inside outputs (AIS / EDI manifests, migration 010 header) are unchanged, so the
+  outputs stay byte-identical — they can be updated in the refactor step.
+- Step 5 DONE early (docs): ADR-036, skill `script-dev-loop` (replaces `notebook-dev-loop`), the project rules, ARCHITECTURE §2,
+  ROADMAP; RAG plan paused with ADR numbers shifted. `tools/nb.py` kept until the notebooks are archived.
+- Trial run in the cloud (only `SyntheticGenerator` has all inputs in git): fails at cell 3 (`employees.csv` regenerated
+  differently, nothing overwritten). The original notebook, executed here on a scratch copy, fails at the same cell →
+  environment (Linux), not the conversion; recorded in ROADMAP known issues. All other scripts need `Data/raw/` or the
+  databases → local only.
+- Guard hook: its relative path blocked every command after the shell changed directory; now
+  the local guard hook (owner approved). To confirm on Windows.
+- **Next (owner, local, step 4):** `uv sync`, then per script, smallest first:
+  `uv run python tools/run.py pipelines/scripts/<area>/<stem>.py --compare` → expect `compare: ✅ identical`,
+  `exit 0`, `files changed: 0` (MongoDB_loader adds one new load report by design; skip ExtractPortsConnection: DO NOT
+  RE-RUN). Then step 4b: archive the notebooks; then D3 refactors one script at a time with the same check.

@@ -1,6 +1,7 @@
 # Plan — RAG retrieval: embeddings (API), Qdrant hybrid search, RBAC, reranking, evaluation
 
-- **Status:** APPROVED (2026-09-28). Proposed and revised the same day (free API providers for embeddings and
+- **Status:** APPROVED (2026-09-28). **Paused at Phase 0 (2026-10-01)** while the notebooks become scripts
+  (`docs/plans/Scripts_and_ingestion_plan.md`); resumes as scripts, ADR numbers shifted by one (ADR-036 is taken). Proposed and revised the same day (free API providers for embeddings and
   reranking, hybrid search); decisions D1–D8 answered by the owner at the start of the implementation session (§4,
   "Answers"). Handoff: `Notebooks/_scratch/rag_retrieval_handoff.md`.
 - **Goal:** turn the 2,163 reviewed chunks into a searchable, access-controlled **hybrid** index (dense + BM25) with an
@@ -57,9 +58,10 @@ flowchart LR
 
 ## 3. Phases
 
-Every notebook follows `notebook-dev-loop` (cell files in `Notebooks/_scratch`, `tools/nb.py test` → `append` → `drift`
-→ `run`, absolute paths), a validation cell with a reviewed snapshot per phase, and a Final Checkpoint. New notebooks
-go in `Notebooks/retrieval/`; shared client code stays inside the notebooks (no `.py` modules yet).
+Every script follows `script-dev-loop` (ADR-036: percent-format cells, `tools/run.py`), a validation cell with a
+reviewed snapshot per phase, and a Final Checkpoint (narrative in `pipelines/checkpoints/retrieval/`). New scripts go in
+`pipelines/scripts/retrieval/` (the notebook names below become `<name>.py`); shared client code stays inside the scripts
+(no `.py` modules yet).
 
 ### Phase 0 — Session start, keys, approval
 - Answer §4, set `Status: APPROVED (date)`, open the handoff `Notebooks/_scratch/rag_retrieval_handoff.md`.
@@ -94,7 +96,7 @@ Notebook `Embedding_bakeoff.ipynb`.
 - Compare recall@5 / recall@10 / MRR — overall, per language (Arabic vs English), per source — plus latency and
   failures.
 - Also compare the embedded text: `text` vs `title + "\n\n" + text`.
-- Output: the choice → **ADR-036**. The candidates' vectors are kept only as scratch (git-ignored).
+- Output: the choice → **ADR-037**. The candidates' vectors are kept only as scratch (git-ignored).
 
 ### Phase 3 — Qdrant container
 - Same pattern as `ports-mongo`: image pinned to an exact version + digest, container `ports-qdrant`, volume
@@ -133,7 +135,7 @@ Notebook `Evaluation.ipynb`.
 - Compare **dense only / hybrid / hybrid + rerank** on the golden set: recall@k, MRR per source / language / type,
   identifier questions separately, latency.
 - Error analysis of every miss.
-- Default settings chosen by the numbers → **ADR-037** (collection, payload, RBAC filter, hybrid, rerank defaults).
+- Default settings chosen by the numbers → **ADR-038** (collection, payload, RBAC filter, hybrid, rerank defaults).
 - Results in `Data/processed/rag/eval/results_<date>.json`: the baseline the agents phase must not regress.
 
 ### Phase 8 — Close
@@ -191,3 +193,9 @@ Recommended option first.
   questions + 8 RBAC cases (including a Finance employee: the department never unlocks level 3); owner review before
   freezing.
 - **D8:** as proposed; deletions (`Remove-Item`) are blocked by the settings and are listed for the owner.
+
+## Progress / deviations
+- 2026-09-30: Phase 0 smoke test from the cloud session: Gemini `gemini-embedding-2` OK (HTTP 200, 2 vectors × 3,072
+  dims, no quota headers); Jina (embed + rerank) and Voyage refused by the session's network policy (proxy 403, the
+  providers were never reached, keys untested). To repeat locally.
+- 2026-10-01: paused for the notebooks → scripts task; phases written as scripts (ADR-036); ADR-036 / 037 → 037 / 038.
