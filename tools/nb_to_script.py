@@ -24,7 +24,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-NB_DIR = ROOT / "Notebooks"
+NB_DIR = ROOT / "docs" / "archive" / "notebooks"   # archived 2026-10-01 after the local run (ADR-036)
 SCRIPTS = ROOT / "pipelines" / "scripts"
 CHECKPOINTS = ROOT / "pipelines" / "checkpoints"
 FC_RE = re.compile(r"final checkpoint", re.I)

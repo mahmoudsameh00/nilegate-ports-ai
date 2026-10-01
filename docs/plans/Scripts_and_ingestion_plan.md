@@ -177,3 +177,13 @@ first), static report. 4. Owner runs each script locally and sends the summary. 
   it). Bare tuples now use `_display_tuple(...)`; 2 cells, both in ExtractPortsConnection; no other script affected.
 - Owner decision: ExtractPortsConnection joins the run; its INSERT cell (21) is disabled by the converter (commented
   with `#! `, a reason line, restorable; `check` proves it), so the script only reads PostgreSQL and rewrites the CSV.
+- 2026-10-01, step 4 DONE (owner, Windows): `tools/run.py all --compare` order, all 15 scripts exit 0, ✅ lines
+  identical to the notebooks' saved outputs, `files changed: 0` for every script (MongoDB_loader created its new load
+  report + rejected CSV by design). SyntheticGenerator passes on Windows (the Linux difference is a platform issue,
+  ROADMAP known issues). Documents_registry first failed only because PostgreSQL was down.
+- Step 4b DONE: notebooks moved to `docs/archive/notebooks/<area>/` (git mv; row in `docs/archive/README.md`);
+  `tools/nb_to_script.py` reads them there (`check` ALL OK), `tools/run.py --compare` finds them there.
+  `db/mongo/README.md` points to the script. Historical mentions (ADRs, migration 010 header, closed-phase docs) keep
+  the notebook paths on purpose.
+- **Part A is complete.** Open: (1) D3 refactors, optional, one script at a time with the same local check;
+  (2) part B (PDF ingestion) after the RAG plan. **Next: owner decides refactor now vs. resume RAG retrieval.**
