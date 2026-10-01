@@ -1,6 +1,7 @@
 """Run a pipeline script with a small, low-token summary (replaces `tools/nb.py run` for scripts).
 
   uv run python tools/run.py <script.py> [--timeout S] [--compare]
+  uv run python tools/run.py all [--from STEM] [--compare]   every script in ORDER, stops at the first failure
 
 - Runs the script from the project root, output to Notebooks/_scratch/run_<stem>.log (git-ignored).
 - Prints the exit code, every validation line (✅ / "validation passed") and, on failure, the traceback tail.
@@ -52,14 +53,43 @@ def notebook_ok_lines(script: Path) -> tuple[Path | None, list[str]]:
     return nb, lines
 
 
+# Verification order for `all`: smallest first; LPI Methodology before LPI Connecting to Compete (it reads its units).
+ORDER = [
+    "structured/ExtractPortsAttributes", "structured/ExtractPortsConnection", "rag/Documents_registry",
+    "semi_structured/EDI_generator", "semi_structured/AIS_generator", "rag/Suez_Notes_chunking",
+    "semi_structured/AIS_EDI_profiling", "synthetic/SyntheticGenerator", "semi_structured/MongoDB_loader",
+    "rag/FBL_chunking", "rag/IMO_MSC-MEPC_3_Circ_4_Rev_1_chunking", "rag/USCG_ROI_chunking",
+    "rag/HbR_Annual_report_2025_chunking", "rag/LPI_methodology_chunking", "rag/LPI_Connecting_to_Compete_chunking",
+]
+
+
 def main() -> int:
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("script"); p.add_argument("--timeout", type=int, default=7200)
     p.add_argument("--compare", action="store_true")
+    p.add_argument("--from", dest="frm", help="with `all`: start at this script stem (resume after a fix)")
     a = p.parse_args()
-    script = Path(a.script).resolve()
+    if a.script == "all":
+        keys = ORDER
+        if a.frm:
+            starts = [i for i, k in enumerate(ORDER) if k.split("/")[1] == a.frm]
+            if not starts:
+                print(f"unknown stem: {a.frm}"); return 1
+            keys = ORDER[starts[0]:]
+        for k in keys:
+            print(f"===== {k}", flush=True)
+            if run_one(ROOT / "pipelines" / "scripts" / f"{k}.py", a.timeout, a.compare):
+                print(f"STOPPED at {k}; resume with: uv run python tools/run.py all --compare --from {k.split('/')[1]}")
+                return 1
+        print(f"ALL {len(keys)} SCRIPTS PASSED")
+        return 0
+    return run_one(Path(a.script), a.timeout, a.compare)
+
+
+def run_one(script: Path, timeout: int, compare: bool) -> int:
+    script = script.resolve()
     if not script.is_file() or script.suffix != ".py":
-        print(f"script not found: {a.script} (give the real path, e.g. pipelines/scripts/rag/FBL_chunking.py)")
+        print(f"script not found: {script} (give the real path, e.g. pipelines/scripts/rag/FBL_chunking.py)")
         return 1
     SCRATCH.mkdir(parents=True, exist_ok=True)
     log = SCRATCH / f"run_{script.stem}.log"
@@ -69,7 +99,7 @@ def main() -> int:
     with open(log, "w", encoding="utf-8") as fh:
         try:
             rc = subprocess.run([sys.executable, str(script)], cwd=ROOT, env=env, stdout=fh, stderr=subprocess.STDOUT,
-                                timeout=a.timeout).returncode
+                                timeout=timeout).returncode
         except subprocess.TimeoutExpired:
             rc = "timeout"
     after = snapshot()
@@ -88,7 +118,7 @@ def main() -> int:
     for k in (changed + created + removed)[:30]:
         print(f"  {'changed' if k in changed else 'created' if k in created else 'removed'}: {k}")
     bad = rc != 0
-    if a.compare:
+    if compare:
         nb, want = notebook_ok_lines(script)
         if nb is None:
             print("compare: source notebook not found"); bad = True
