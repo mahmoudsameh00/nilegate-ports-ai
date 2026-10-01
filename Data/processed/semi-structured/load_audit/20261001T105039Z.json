@@ -1,6 +1,6 @@
 {
- "load_run": "20261001T095914Z",
- "loaded_at": "2026-10-01T09:59:14+00:00",
+ "load_run": "20261001T105039Z",
+ "loaded_at": "2026-10-01T10:50:39+00:00",
  "mongo_version": "8.0.32",
  "inputs": {
   "aishub": {
@@ -32,18 +32,18 @@
  },
  "counts": {
   "ais_positions": {
-   "noaa|real": 967,
+   "synthetic_ais|synthetic": 1310619,
    "aishub|real": 9982,
-   "synthetic_ais|synthetic": 1310619
+   "noaa|real": 967
   },
   "ais_vessels": {
-   "aishub|real": 9982,
    "noaa|real": 52,
-   "synthetic_ais|synthetic": 500
+   "synthetic_ais|synthetic": 500,
+   "aishub|real": 9982
   },
   "edi_messages": {
-   "iftmin_sample|synthetic": 1,
-   "synthetic_edi|synthetic": 434
+   "synthetic_edi|synthetic": 434,
+   "iftmin_sample|synthetic": 1
   }
  },
  "schema_violations": {
