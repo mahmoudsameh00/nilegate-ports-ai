@@ -136,7 +136,8 @@ existing per-source scripts stay the reference for those sources; the generic sc
 - **D5:** PDF only (the ingestion script is a dedicated PDF agent).
 - **D6:** part B waits until the RAG plan is finished, then is built in one go (it reuses the RAG plan's embedding and
   loader code). Steps 6–7 below move after the RAG plan.
-- **D7:** delete `feat/rag-retrieval` (done by the assistant 2026-10-01, it was identical to `master`).
+- **D7:** delete `feat/rag-retrieval` (identical to `master`). The cloud session's git proxy refuses branch deletion
+  (HTTP 403), so the owner deletes it on GitHub (Branches page) or locally: `git push origin --delete feat/rag-retrieval`.
 
 ## 5. Order of work (one step at a time, owner confirms each)
 1. Approve this plan (answers D1–D7). 2. Converter + static check, cloud. 3. Convert the 15 notebooks (smallest
@@ -144,4 +145,4 @@ first), static report. 4. Owner runs each script locally and sends the summary. 
 6. Part B to the review gate. 7. Part B embed / upsert (after RAG Phases 2–5). 8. Close (archive, ROADMAP).
 
 ## Progress / deviations
-- 2026-10-01: plan written and APPROVED; `feat/rag-retrieval` deleted on GitHub. Next: step 2 (converter + static check).
+- 2026-10-01: plan written and APPROVED; deleting `feat/rag-retrieval` was refused by the cloud git proxy (owner deletes it). Next: step 2 (converter + static check).
