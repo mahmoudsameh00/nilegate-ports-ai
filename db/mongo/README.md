@@ -10,7 +10,7 @@
 | `004_example_queries.js` | Queries the future tools will run (latest fix of a vessel, vessels at anchor near a port, containers on an IFTMIN) and the index each one uses. Run as the app user. |
 | `audit/` | Saved outputs of the scripts (`YYYY-MM-DD_NNN_*.txt`). |
 
-Collections and indexes are **not** created here: `Notebooks/semi_structured/MongoDB_loader.ipynb` is the only writer
+Collections and indexes are **not** created here: `pipelines/scripts/semi_structured/MongoDB_loader.py` is the only writer
 (ADR-031). Specs: `ARCHITECTURE.md` §5A.
 
 ## Pinned image (ADR-027)

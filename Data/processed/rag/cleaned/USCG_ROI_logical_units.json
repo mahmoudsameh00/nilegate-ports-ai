@@ -74662,7 +74662,7 @@
    "unit_id": "MICHIPICOTEN:u0031",
    "report_id": "MICHIPICOTEN",
    "sentence": "Chronic Overstressing .",
-   "covered_by": "MICHIPICOTEN:u0089",
+   "covered_by": "MICHIPICOTEN:u0082",
    "action": "trimmed"
   },
   {
@@ -74678,7 +74678,7 @@
    "unit_id": "MICHIPICOTEN:u0031",
    "report_id": "MICHIPICOTEN",
    "sentence": "Failure in Cargo Loading and Oversight.",
-   "covered_by": "MICHIPICOTEN:u0091",
+   "covered_by": "MICHIPICOTEN:u0084",
    "action": "trimmed"
   },
   {
@@ -74702,7 +74702,7 @@
    "unit_id": "MICHIPICOTEN:u0031",
    "report_id": "MICHIPICOTEN",
    "sentence": "Failure to Trim Cargo as Required by the International Maritime Solid Bulk Cargo Code Requirements.",
-   "covered_by": "MICHIPICOTEN:u0094",
+   "covered_by": "MICHIPICOTEN:u0087",
    "action": "trimmed"
   },
   {

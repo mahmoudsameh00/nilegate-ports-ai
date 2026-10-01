@@ -1,9 +1,11 @@
 # Roadmap & status
 
-Single place for project status. Last updated: 2026-09-30 (RAG retrieval plan APPROVED 2026-09-28; docs made consistent).
+Single place for project status. Last updated: 2026-10-01 (notebooks → scripts closed, ADR-036; RAG retrieval plan rewritten for a fresh local start).
 Labels: `DONE`, `IN PROGRESS`, `PARTIAL`, `NEXT`, `PLANNED`, `PROPOSED`, `DEFERRED`, `BLOCKED`.
 
 ## Current phase
+
+**Next: RAG retrieval, fresh start on the owner's machine** — `docs/plans/RAG_Embeddings_Qdrant_plan.md` (APPROVED 2026-09-28, rewritten 2026-10-01: phases as scripts, Phase 8 = PDF ingestion script for new corpus documents, new decisions D9–D11 to confirm). **Next step: Phase 0** (the owner puts `JINA_API_KEY`, `VOYAGE_API_KEY`, `GEMINI_API_KEY` in `.env`; the provider smoke test script; all three must pass before Phase 1). **Closed 2026-10-01: notebooks → scripts** (ADR-036, `docs/archive/2026-10-01_Scripts_and_ingestion_plan.md`): 15 scripts in `pipelines/` (`pipelines/README.md`), refactored (levels A / B) and verified 15/15 on the owner's machine; notebooks in `docs/archive/notebooks/`.
 
 **RAG, steps 3–5 (extraction, cleaning, chunking), done per source.** Done for 7 sources: FBL, LPI Methodology, Suez Notes, LPI Connecting to Compete, HbR annual report 2025, the IMO casualty-reporting circular and **the 23 USCG Reports of Investigation (finished 2026-09-27: 1,544 chunks, corpus 2,163)**. **Semi-structured phase DONE (2026-09-27, plan archived as `docs/archive/2026-09-27_SemiStructured_MongoDB_plan.md`): MongoDB 8.0.32 holds 1,321,568 AIS positions, 10,534 vessel records and 435 IFTMIN messages (real samples + synthetic data for our 500 vessels), loaded by one idempotent notebook with a consistency audit against PostgreSQL. Next step: RAG retrieval plan APPROVED 2026-09-28 (`docs/plans/RAG_Embeddings_Qdrant_plan.md`, decisions D1–D8 answered by the owner); implementation starts at Phase 0.** Closed plans in `docs/archive/`; reference notebooks: `Notebooks/rag/USCG_ROI_chunking.ipynb` (template corpora, OCR, incident profiles), `Notebooks/rag/IMO_MSC-MEPC_3_Circ_4_Rev_1_chunking.ipynb`, `Notebooks/rag/HbR_Annual_report_2025_chunking.ipynb`. The unstructured part (chunks) and the semi-structured part (MongoDB) are closed; still open: embeddings / Qdrant / retrieval.
 
@@ -31,7 +33,9 @@ Labels: `DONE`, `IN PROGRESS`, `PARTIAL`, `NEXT`, `PLANNED`, `PROPOSED`, `DEFERR
 | HbR annual report chunking | DONE | 2026-09-26: 352 chunks (347 level 1 / Operations, 5 level 3 / Finance — ADR-021); 602 units → 593 after within-source dedup (9 suppressed, 1 trimmed); 3 source errata excluded (ADR-022); cross-source concat = 550 rows; whole-PDF coverage: 4,151 lines, 0 unaccounted; nothing flagged or pending |
 | IMO circular chunking (`MSC-MEPC_3-Circ_4-Rev_1.pdf`) | DONE | 2026-09-26: 69 chunks (all level 1 / Operations); field catalogue (117 fields, 30 option tables / 553 options) in the extracted file (ADR-023); 689 units, 55 by-design repeats kept, nothing suppressed; 2 source errata excluded (ADR-022, one clause-level) + 1 empty option; cross-source concat = 619 rows; whole-PDF coverage: 2,329 lines, 0 unaccounted; nothing flagged or pending |
 | USCG ×23 chunking + IMO incident profiles | DONE | 2026-09-27: 23 reports / 580 pages (115 image-only pages OCR'd with RapidOCR, ADR-025); one notebook for the corpus (ADR-024); 3,223 units (23 incident profiles, 407 values traced) → Executive Summary 49 sentences trimmed, 2 units dropped; 1 source erratum excluded (ADR-022); 1,544 chunks, all level 1 / Operations (figure captions kept as metadata, 2026-09-27); roles in curated text (ADR-026); cross-source concat = 2,163 rows; coverage: 18,999 lines, 0 unaccounted; open points closed as ADR extensions |
-| Embedding model choice | NEXT | plan APPROVED 2026-09-28 (bake-off of free API models: Jina v5-text-small, Voyage voyage-4, Gemini embedding 2, on a golden set) |
+| Notebooks → scripts (ADR-036) | DONE | 2026-10-01: 15 scripts + 12 checkpoint `.md`; verified 15/15 locally after conversion and again after the D3 refactor (levels A / B); notebooks archived; plan archived |
+| PDF ingestion script (new raw PDF → parse → chunk → register → embed → Qdrant) | PLANNED | Phase 8 of the RAG retrieval plan (rewritten 2026-10-01), one-shot after Phases 0–7 |
+| Embedding model choice | NEXT | plan APPROVED 2026-09-28, rewritten 2026-10-01 for a fresh local start (bake-off of free API models: Jina v5-text-small, Voyage voyage-4, Gemini embedding 2, on a golden set) |
 | Qdrant setup, collection, controlled ingestion, retrieval | NEXT | same plan (container `ports-qdrant`, collection `nilegate_docs`) |
 | RBAC-filtered retrieval | PLANNED | rule decided (ADR-006) |
 | MongoDB + AIS/EDI profiling, generators, loader | DONE | 2026-09-27: `Notebooks/semi_structured/` (profiling 28 cells, AIS generator 22, EDI generator 16, loader 32; all 0 errors); 1,321,568 / 10,534 / 435 documents; 0 schema violations, 0 unaccounted records, consistency audit all pass (incl. tracks at sea); idempotent (ADR-029 – ADR-032) |
@@ -48,7 +52,7 @@ RAG ingestion order (do not skip ahead): inventory → metadata → extraction �
 ## Missing work
 
 **Required**
-- RAG retrieval (embeddings, Qdrant, RBAC-filtered search, evaluation): plan APPROVED 2026-09-28 — `docs/plans/RAG_Embeddings_Qdrant_plan.md` (decisions D1–D8 answered by the owner; implementation starts at Phase 0; free API embeddings / reranker, Qdrant hybrid; design in `docs/RETRIEVAL_FLOW.md`).
+- RAG retrieval (embeddings, Qdrant, RBAC-filtered search, evaluation): plan APPROVED 2026-09-28, rewritten 2026-10-01 for a fresh start on the owner's machine (scripts; Phase 8 = PDF ingestion script; no provider tested yet) — `docs/plans/RAG_Embeddings_Qdrant_plan.md` (decisions D1–D8 answered by the owner; implementation starts at Phase 0; free API embeddings / reranker, Qdrant hybrid; design in `docs/RETRIEVAL_FLOW.md`).
 - Embedding model, Qdrant, retrieval with the RBAC filter.
 
 **Owner actions** — done 2026-09-28: the read-only login user exists (`db/check_readonly_user.py` 8/8 PASS); the orphan Docker volume was deleted.
@@ -67,6 +71,9 @@ RAG ingestion order (do not skip ahead): inventory → metadata → extraction �
 
 ## Known issues
 
+- ~~USCG dedup labels depended on `PYTHONHASHSEED`~~ closed 2026-10-01: when two units covered an Executive Summary sentence equally, `covered_by` followed set / hash order (decisions — 49 trimmed, 390 restated — never changed; chunks unaffected). Fix (owner option A): ties go to the earliest sentence in report order (listed patch in `tools/nb_to_script.py`). The regenerated `USCG_ROI_logical_units.json` (3 labels: MICHIPICOTEN u0089→u0082, u0091→u0084, u0094→u0087, each the analysis section instead of the conclusion) is committed; it now reproduces under any seed. `run.py --hashseed 1` / `2` showed no other hash-order dependence.
+- `SyntheticGenerator` (notebook and script alike) does not reproduce `employees.csv` on Linux (cloud session, 2026-10-01): hire dates and then names differ from the first draw, with the same Faker 40.38.0, seed, reference date and with TZ=Africa/Cairo. On the owner's Windows machine the script passes (2026-10-01, `files changed: 0`), so the generator is reproducible there but not across platforms. Not caused by the conversion (the original notebook fails at the same cell on Linux).
+- The guard hook path is now the local guard hook (a relative path blocked every command once the shell changed directory); to confirm it still runs on the owner's Windows setup (the local script runs went through PowerShell, not the coding assistant, so they do not test it).
 - Git: the USCG WIP up to Phase 4 is committed (e89ef95); the finished notebook, its three artifacts (extracted, cleaned, chunks) and the 2026-09-27 docs (archive, ADR-024–026, ARCHITECTURE, ROADMAP) are to be committed by the owner. Seen from the Linux VM, several data files show as modified only because of CRLF line endings (no content change).
 - Cleaned-file format differs by source: LPI Connecting to Compete and HbR store `{source, units, duplicate_audit, coverage_audit}`, older sources store a plain list of units. Not blocking: the embedding phase reads the chunk parquet files (one schema), not the cleaned files.
 - The old DB password was committed in notebooks before ADR-015 (local development container only).
@@ -81,5 +88,5 @@ RAG ingestion order (do not skip ahead): inventory → metadata → extraction �
   - Our `imo_number` / `container_number` are sequential and mostly fail their check digits (kept by owner decision Q-A).
   - ~~`ports-postgres` on all interfaces~~ closed 2026-09-27 (loopback only, ADR-034). ~~Orphan Docker volume~~ deleted by the owner 2026-09-28.
   - `SyntheticGenerator.ipynb` could not have passed before 2026-09-27: it still built `employees.status` (ADR-017 drift). Fixed (draw kept), full run 28/28 with all CSVs identical.
-  - Test runs of the loader left extra reports in `Data/processed/semi-structured/load_audit/`; only the latest run describes the current MongoDB content (the owner may delete the older ones).
+  - ~~Extra load reports from test runs~~ cleaned 2026-10-01: the stale 20260928T111702Z pair was removed from git; each loader run adds one report and only the newest describes the current MongoDB content (its `load_run` is stamped on every document), so keep only the newest.
 - Unstructured data closed (2026-09-27): all 7 raw PDF sources are chunked (corpus 2,163); the three USCG open points were closed as recorded decisions (ADR-019, ADR-020 and ADR-023 extensions: letters' restated recommendations kept; raster figures caption_only by rule; profiles code printed facts only). Notebooks reorganised into `Notebooks/rag/`, `structured/`, `synthetic/`; `Notebooks/_scratch/` emptied.
