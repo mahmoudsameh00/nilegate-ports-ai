@@ -1,0 +1,132 @@
+# Plan — Notebooks → scripts, and one ingestion script for new unstructured documents
+
+- **Status:** PROPOSED (2026-10-01). Branch `feat/scripts-and-rag-ingestion`.
+- **Goal:** (A) turn every notebook into a Python script **without changing what the code does or where anything
+  sits**, keeping the closing "Final Checkpoint" markdown as a readable document; from then on all work is in scripts.
+  (B) one ready script that takes a **new** unstructured raw document from `Data/raw/` through parsing, cleaning,
+  chunking, registration, embedding and the Qdrant upsert.
+- **Relation to the active plan:** `docs/plans/RAG_Embeddings_Qdrant_plan.md` (APPROVED 2026-09-28) stays as it is and
+  is paused at Phase 0 (the Jina / Voyage smoke test could not reach the providers from the cloud session; Gemini
+  passed). Its Phases 1–7 will be written as scripts after part A. Part B's embedding and Qdrant stages depend on its
+  Phases 2–5 (model choice, container, collection), see D6.
+- **Touches:** the project rules conventions (notebooks → scripts), `tools/nb.py`, the local skills foldernotebook-dev-loop`,
+  the local assistant folderhooks/guard.py` (`.ipynb` read block), ARCHITECTURE §2, ROADMAP; a new ADR (next number: ADR-036, so the RAG
+  plan's ADR-036 / 037 become 037 / 038).
+
+---
+
+## 1. Starting point (verified 2026-10-01, read-only)
+
+15 notebooks, ~23,900 code lines, no IPython magics except one `%pip` (ExtractPortsConnection, forbidden by
+the project rules rule 6), no `input()`, no plotting.
+
+| Notebook | Cells (code / md) | Code lines | Final Checkpoint markdown | Script-only issues |
+|---|---|---:|---|---|
+| rag/LPI_methodology_chunking | 92 / 49 | 4,748 | cell 139 (an empty md cell follows) | 50 `display`, 10 bare trailing expressions |
+| rag/LPI_Connecting_to_Compete_chunking | 83 / 21 | 3,780 | last cell (129 lines) | 63 `display` |
+| rag/HbR_Annual_report_2025_chunking | 82 / 21 | 3,697 | last cell (120 lines) | 44 `display` |
+| rag/USCG_ROI_chunking | 67 / 19 | 3,484 | last cell (144 lines) | 24 `display` |
+| rag/IMO_MSC-MEPC_3_Circ_4_Rev_1_chunking | 70 / 21 | 2,680 | last cell (100 lines) | 38 `display` |
+| rag/FBL_chunking | 24 / 16 | 1,810 | last cell (85 lines) | 3 `display`, 2 bare |
+| rag/Suez_Notes_chunking | 18 / 22 | 577 | cell 38 | 1 bare |
+| rag/Documents_registry | 9 / 6 | 162 | cell 13 | — |
+| semi_structured/MongoDB_loader | 19 / 13 | 804 | cells 28 + 31 | writes MongoDB (idempotent, ADR-031) |
+| semi_structured/AIS_EDI_profiling | 18 / 10 | 618 | cells 25 + 27 | — |
+| semi_structured/AIS_generator | 13 / 9 | 433 | cells 19 + 21 | 1 bare |
+| semi_structured/EDI_generator | 9 / 7 | 255 | cells 13 + 15 | 1 bare |
+| synthetic/SyntheticGenerator | 28 / 1 | 651 | none | 6 bare |
+| structured/ExtractPortsAttributes | 14 / 0 | 130 | none | 1 bare |
+| structured/ExtractPortsConnection | 25 / 0 | 120 | none | 18 bare, `%pip`, **inserts into `port_connections`** |
+
+`Data/raw/` is not in git, and the databases run on the owner's machine, so **the scripts can be executed only
+locally**; the cloud session can verify the conversion statically (below).
+
+## 2. Part A — conversion
+
+### A1. Shape (recommended)
+- `scripts/` mirrors `Notebooks/`: `scripts/rag/LPI_methodology_chunking.py`, `scripts/semi_structured/…`, same stems.
+- **Percent format** (`# %%` code cell, `# %% [markdown]` markdown cell as `# ` comment lines) — the format
+  `tools/nb.py` cell files already use. A plain `uv run python scripts/rag/X.py` runs it top to bottom; VS Code still
+  shows it as runnable cells.
+- Every code cell is copied **byte for byte, in the same order**; every markdown cell stays at its place as a comment
+  block (the section headings and explanations keep their context).
+- The **Final Checkpoint** markdown goes to a companion file `scripts/<folder>/<stem>.md` (rendered tables and
+  headings, readable on GitHub), unchanged text. The script keeps a one-line pointer at its place. Notebooks without a
+  Final Checkpoint get no companion file (nothing is invented).
+- The conversion is done by a deterministic converter (`tools/nb_to_script.py`), never by retyping.
+
+### A2. The only changes a script needs (each listed, nothing else)
+| # | Change | Why | Where |
+|---|---|---|---|
+| 1 | one header line `from IPython.display import display` | `display()` exists only inside Jupyter; IPython is already installed and prints the same text repr | the 7 RAG notebooks that call it |
+| 2 | bare last-line expressions wrapped in `display(...)` | a script silently drops them; the notebook showed them | 40 cells (table above) |
+| 3 | `%pip install "psycopg[binary]"` removed | not valid Python; the project rules rule 6 (uv only; psycopg is in `pyproject.toml`) | ExtractPortsConnection |
+| 4 | a header docstring: source notebook, inputs, outputs, side effects, "safe to re-run?" | a script has no visible outputs to read from | all |
+
+### A3. Guarding side effects (no behaviour change)
+ExtractPortsConnection inserts into `port_connections` (completed table, the project rules rule 2: never rebuild). Its header
+says **DO NOT RE-RUN**, and it is excluded from the local verification run. MongoDB_loader is idempotent (ADR-031) and
+Documents_registry only generates the migration file; both are verified locally like the rest.
+
+### A4. Verification
+- **Cloud (static, before any commit of scripts):** for each script, the converter's reverse step rebuilds the cell
+  list and asserts: code cells equal the notebook's code cells except the listed changes (diff report saved), markdown
+  count and text equal, Final Checkpoint text in the `.md` equals the notebook cell, `python -m py_compile` passes.
+- **Local (owner, one script at a time, smallest first):** `uv run python scripts/…`, then
+  `git status --porcelain Data/` must be empty (tracked artifacts byte-identical) and the script's `✅` lines must equal
+  the notebook's saved ones (`tools/nb.py check` summary vs the script log).
+
+### A5. After verification
+- Notebooks: deleted in one separate commit (git history keeps them with their outputs) — see D2.
+- `tools/nb.py` → `tools/run.py` (run a script with its log in `scripts/_scratch/run_<stem>.log`, print errors + `✅` lines;
+  `_scratch` git-ignored like today); skill `notebook-dev-loop` → `script-dev-loop`; guard hook `.ipynb` rule removed;
+  the project rules "Stack / Where things are / Conventions / Token discipline", ARCHITECTURE §2, ROADMAP, ADR-036.
+
+## 3. Part B — `scripts/rag/ingest_new_documents.py`
+
+### B1. What it does
+```text
+Data/raw/unstructured/<new file>  +  its metadata entry (required, see B2)
+  → detect new: sha256 not in Data/processed/rag/documents.csv
+  → extract   : PyMuPDF text + layout; OCR (RapidOCR, ADR-025) only for image-only pages
+  → clean     : repeated headers / footers, hyphenation, page numbers → logical units (headings by font size)
+  → dedup     : within the source and against the existing corpus (unit level, before chunking)
+  → chunk     : semantic boundaries, MIN 300 / MAX 2000 chars, the 16-column schema (ARCHITECTURE §5)
+  → validate  : schema, dtypes, unique chunk_id, cross-source concat, reload from disk
+  → REVIEW GATE: writes a review report (flagged units, coverage) and stops; `--approve <document_id>` continues
+  → register  : row in documents.csv + generated migration db/migrations/NNN_*.sql (applied by the owner)
+  → embed     : chosen model (RAG plan Phase 2), files first into Data/embeddings/<model>/ (resumable)
+  → upsert    : Qdrant `nilegate_docs` through the loader's code (one writer, idempotent: UUID5(chunk_id))
+```
+Artifacts use the existing layout (`extracted/`, `cleaned/`, `chunks/`). Re-running on the same file changes nothing.
+
+### B2. Metadata is never guessed
+`sensitivity_level`, `department`, `document_type`, `source`, `real_or_synthetic`, `title`, `version_date`,
+`source_url` come from a metadata file the owner fills (`Data/raw/unstructured/_incoming.csv`, one row per new file).
+A file without a row is listed and skipped; there is no default sensitivity level.
+
+### B3. Honest limit
+The 7 existing sources each needed source-specific rules and manual review. A generic pipeline gives a correct but
+plainer result; this is why the review gate exists and why "when unsure, preserve and mark for review" applies. The
+existing per-source scripts stay the reference for those sources; the generic script never rewrites their artifacts.
+
+## 4. Decisions (recommended option first)
+- **D1 — Final Checkpoint location:** companion `.md` next to the script + pointer in the script / *or* kept inline as
+  a comment block only / *or* both.
+- **D2 — Notebooks after local verification:** delete (history keeps them) / *or* move to `docs/archive/notebooks/` /
+  *or* keep alongside the scripts.
+- **D3 — Large notebooks (up to 4,748 code lines):** convert as one script each, no refactor (refactoring into modules
+  would change code and is a later, separate task) / *or* split now.
+- **D4 — Bare expressions:** wrap in `display(...)` / *or* drop them.
+- **D5 — Input formats for part B:** PDF only (all 29 current raw files are PDF) / *or* PDF + DOCX + TXT/MD.
+- **D6 — Order of part B vs the RAG plan:** build B's stages up to the review gate + registration now, and its embed /
+  upsert stages right after RAG Phases 2–5 (reusing their code) / *or* pause B until the RAG plan finishes.
+- **D7 — Old branch:** `feat/rag-retrieval` (identical to `master`) deleted on GitHub by the owner / *or* kept.
+
+## 5. Order of work (one step at a time, owner confirms each)
+1. Approve this plan (answers D1–D7). 2. Converter + static check, cloud. 3. Convert the 15 notebooks (smallest
+first), static report. 4. Owner runs each script locally and sends the summary. 5. Tooling / docs / ADR-036.
+6. Part B to the review gate. 7. Part B embed / upsert (after RAG Phases 2–5). 8. Close (archive, ROADMAP).
+
+## Progress / deviations
+- 2026-10-01: plan written; nothing converted yet.
