@@ -3,9 +3,9 @@
 Converted from Notebooks/structured/ExtractPortsConnection.ipynb (2026-10-01) by tools/nb_to_script.py: same cells, same order; `# %% cell N` = notebook cell N.
 Run from the project root: uv run python tools/run.py pipelines/scripts/structured/ExtractPortsConnection.py
 
-Reads:   Data/raw/structured/Port_flows/ (shapefile); PostgreSQL (ports)
-Writes:  INSERTS INTO PostgreSQL port_connections; Data/processed/structured/port_connections.csv
-Re-run:  DO NOT RE-RUN: port_connections is a completed table (the project rules development rule 2). Kept as the record of how the table was built
+Reads:   Data/raw/structured/Port_flows/ (shapefile); PostgreSQL (ports, read only)
+Writes:  Data/processed/structured/port_connections.csv. The INSERT into port_connections (cell 21) is DISABLED (commented out, owner 2026-10-01): the table is complete (the project rules rule 2)
+Re-run:  safe: the database write is disabled; rewrites the same CSV
 """
 from IPython.display import display  # outside Jupyter it prints the value (added by the conversion)
 
@@ -14,6 +14,11 @@ def _display_result(value):
     """A notebook shows the value of a cell's last expression unless it is None (added by the conversion)."""
     if value is not None:
         display(value)
+
+
+def _display_tuple(*values):
+    """A notebook cell ending in `a, b` shows the tuple (a, b) (added by the conversion)."""
+    display(values)
 
 # %% cell 0
 import geopandas as gpd
@@ -120,13 +125,13 @@ _display_result(len(ports_db))
 invalid_port1 = set(flow_gdf["Port1"]) - ports_db
 invalid_port2 = set(flow_gdf["Port2"]) - ports_db
 
-_display_result(len(invalid_port1), len(invalid_port2))
+_display_tuple(len(invalid_port1), len(invalid_port2))
 
 # %% cell 16
 _display_result(flow_gdf["FLOWS"].describe())
 
 # %% cell 17
-_display_result(flow_gdf["FLOWS"].min(), flow_gdf["FLOWS"].max())
+_display_tuple(flow_gdf["FLOWS"].min(), flow_gdf["FLOWS"].max())
 
 # %% cell 18
 flow_gdf = flow_gdf.rename(columns={
@@ -145,34 +150,35 @@ _display_result(flow_gdf.columns.tolist())
 conn = connect_db()
 
 # %% cell 21
-with conn.cursor() as cur:
-    for row in flow_gdf.itertuples(index=False):
-        cur.execute(
-            """
-            INSERT INTO port_connections (
-                port1_locode,
-                port2_locode,
-                flows,
-                country1,
-                country2,
-                geom
-            )
-            VALUES (
-                %s, %s, %s, %s, %s,
-                ST_SetSRID(ST_GeomFromText(%s), 4326)
-            )
-            """,
-            (
-                row.port1_locode,
-                row.port2_locode,
-                row.flows,
-                row.country1,
-                row.country2,
-                row.geom.wkt
-            )
-        )
-
-_display_result(conn.commit())
+# DISABLED by the owner (2026-10-01): the INSERT into port_connections must not run again (completed table, the project rules rule 2); kept as the record of how the table was loaded
+#! with conn.cursor() as cur:
+#!     for row in flow_gdf.itertuples(index=False):
+#!         cur.execute(
+#!             """
+#!             INSERT INTO port_connections (
+#!                 port1_locode,
+#!                 port2_locode,
+#!                 flows,
+#!                 country1,
+#!                 country2,
+#!                 geom
+#!             )
+#!             VALUES (
+#!                 %s, %s, %s, %s, %s,
+#!                 ST_SetSRID(ST_GeomFromText(%s), 4326)
+#!             )
+#!             """,
+#!             (
+#!                 row.port1_locode,
+#!                 row.port2_locode,
+#!                 row.flows,
+#!                 row.country1,
+#!                 row.country2,
+#!                 row.geom.wkt
+#!             )
+#!         )
+#! 
+#! conn.commit()
 
 # %% cell 22
 _display_result(conn.close())

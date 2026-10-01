@@ -29,6 +29,16 @@ SCRIPTS = ROOT / "pipelines" / "scripts"
 CHECKPOINTS = ROOT / "pipelines" / "checkpoints"
 FC_RE = re.compile(r"final checkpoint", re.I)
 WRAP = "_display_result("
+WRAP_T = "_display_tuple("       # a bare tuple `a, b`: wrapping it in _display_result( would pass two arguments
+DISABLED_TAG = "# DISABLED by the owner (2026-10-01): "
+DISABLED_PREFIX = "#! "
+# Cells the owner asked to disable (kept as comments, restorable): {notebook key: {cell index: reason}}
+DISABLED = {
+    "structured/ExtractPortsConnection": {
+        21: "the INSERT into port_connections must not run again (completed table, the project rules rule 2); "
+            "kept as the record of how the table was loaded",
+    },
+}
 
 # What a reader needs before running a script (no outputs are visible in a script). Paths relative to the project root.
 META = {
@@ -97,10 +107,10 @@ META = {
         writes="Data/processed/structured/ports.csv",
         rerun="safe: rewrites the same CSV"),
     "structured/ExtractPortsConnection": dict(
-        reads="Data/raw/structured/Port_flows/ (shapefile); PostgreSQL (ports)",
-        writes="INSERTS INTO PostgreSQL port_connections; Data/processed/structured/port_connections.csv",
-        rerun="DO NOT RE-RUN: port_connections is a completed table (the project rules development rule 2). Kept as the "
-              "record of how the table was built"),
+        reads="Data/raw/structured/Port_flows/ (shapefile); PostgreSQL (ports, read only)",
+        writes="Data/processed/structured/port_connections.csv. The INSERT into port_connections (cell 21) is "
+               "DISABLED (commented out, owner 2026-10-01): the table is complete (the project rules rule 2)",
+        rerun="safe: the database write is disabled; rewrites the same CSV"),
 }
 
 
@@ -135,10 +145,12 @@ def bare_expression(code: str) -> ast.Expr | None:
     return tree.body[-1]
 
 
-def transform(code: str) -> tuple[str, list[str]]:
+def transform(code: str, disabled: str | None = None) -> tuple[str, list[str]]:
     """Return the script version of a code cell and the list of changes made (empty = byte-identical)."""
     changes = []
     lines = code.split("\n")
+    if disabled:
+        return "\n".join([DISABLED_TAG + disabled] + [DISABLED_PREFIX + l for l in lines]), ["disabled"]
     try:
         ast.parse(code)
         magic = []                                       # valid Python: `%s` inside a SQL string is not a magic
@@ -152,26 +164,30 @@ def transform(code: str) -> tuple[str, list[str]]:
     node = bare_expression(code)
     if node is not None:
         s, e = node.lineno - 1, node.end_lineno - 1
+        bare_tuple = isinstance(node.value, ast.Tuple) and not lines[s][node.col_offset:].startswith("(")
         lines[e] = lines[e][:node.end_col_offset] + ")" + lines[e][node.end_col_offset:]
-        lines[s] = lines[s][:node.col_offset] + WRAP + lines[s][node.col_offset:]
-        changes.append("wrap")
+        lines[s] = lines[s][:node.col_offset] + (WRAP_T if bare_tuple else WRAP) + lines[s][node.col_offset:]
+        changes.append("wrap_tuple" if bare_tuple else "wrap")
     return "\n".join(lines), changes
 
 
 def untransform(code: str) -> str:
     lines = code.split("\n")
+    if lines and lines[0].startswith(DISABLED_TAG):
+        assert all(l.startswith(DISABLED_PREFIX) for l in lines[1:])
+        return "\n".join(l[len(DISABLED_PREFIX):] for l in lines[1:])
     if any(l.startswith("# IPython magic removed") for l in lines):
         return "\n".join(l.split(": ", 1)[1] if l.startswith("# IPython magic removed") else l for l in lines)
     tree = ast.parse(code)
     last = tree.body[-1] if tree.body else None
     if (isinstance(last, ast.Expr) and isinstance(last.value, ast.Call) and isinstance(last.value.func, ast.Name)
-            and last.value.func.id == WRAP[:-1]):
-        node = last
+            and last.value.func.id in (WRAP[:-1], WRAP_T[:-1])):
+        node, w = last, WRAP if last.value.func.id == WRAP[:-1] else WRAP_T
         s, e = node.lineno - 1, node.end_lineno - 1
         assert lines[e][node.end_col_offset - 1] == ")"
         lines[e] = lines[e][:node.end_col_offset - 1] + lines[e][node.end_col_offset:]
-        assert lines[s][node.col_offset:].startswith(WRAP)
-        lines[s] = lines[s][:node.col_offset] + lines[s][node.col_offset + len(WRAP):]
+        assert lines[s][node.col_offset:].startswith(w)
+        lines[s] = lines[s][:node.col_offset] + lines[s][node.col_offset + len(w):]
     return "\n".join(lines)
 
 
@@ -193,7 +209,8 @@ def build(key: str) -> tuple[str, str | None, dict]:
     cells = json.loads(notebook_path(key).read_text(encoding="utf-8"))["cells"]
     fc = fc_index(cells)
     md_rel = f"pipelines/checkpoints/{area}/{stem}.md"
-    body, stats = [], {"code": 0, "markdown": 0, "skipped_empty": 0, "wrap": 0, "magic": 0, "fc": fc}
+    body, stats = [], {"code": 0, "markdown": 0, "skipped_empty": 0, "wrap": 0, "wrap_tuple": 0, "magic": 0, "disabled": 0,
+                     "fc": fc}
     for i, c in enumerate(cells):
         text = src(c)
         if not text.strip():
@@ -208,7 +225,7 @@ def build(key: str) -> tuple[str, str | None, dict]:
                 body.append(f"# %% [markdown] cell {i}\n{md_comment(text.rstrip(chr(10)))}")
         elif c["cell_type"] == "code":
             stats["code"] += 1
-            new, ch = transform(text)
+            new, ch = transform(text, DISABLED.get(key, {}).get(i))
             for k in ch:
                 stats[k] += 1
             body.append(f"# %% cell {i}\n{new.rstrip(chr(10))}")
@@ -228,7 +245,7 @@ def build(key: str) -> tuple[str, str | None, dict]:
     if fc is not None:
         head.append(f"Final Checkpoint (what was done, problems, fixes): {md_rel}")
     head.append('"""')
-    if re.search(r"\bdisplay\(", code_all) or stats["wrap"]:
+    if re.search(r"\bdisplay\(", code_all) or stats["wrap"] or stats["wrap_tuple"]:
         head.append("from IPython.display import display  # outside Jupyter it prints the value (added by the conversion)")
     if stats["wrap"]:
         head += [
@@ -238,6 +255,14 @@ def build(key: str) -> tuple[str, str | None, dict]:
             '    """A notebook shows the value of a cell\'s last expression unless it is None (added by the conversion)."""',
             "    if value is not None:",
             "        display(value)",
+        ]
+    if stats["wrap_tuple"]:
+        head += [
+            "",
+            "",
+            "def _display_tuple(*values):",
+            '    """A notebook cell ending in `a, b` shows the tuple (a, b) (added by the conversion)."""',
+            "    display(values)",
         ]
     script = "\n".join(head) + "\n\n" + code_all + "\n"
     md = src(cells[fc]).rstrip("\n") + "\n" if fc is not None else None
@@ -266,7 +291,8 @@ def cmd_convert(a) -> int:
             mp.parent.mkdir(parents=True, exist_ok=True)
             mp.write_text(md, encoding="utf-8", newline="\n")
         print(f"{key}: code {st['code']}, markdown {st['markdown']}, empty skipped {st['skipped_empty']}, "
-              f"wrapped {st['wrap']}, magic {st['magic']}, final checkpoint cell {st['fc']}")
+              f"wrapped {st['wrap']} + {st['wrap_tuple']} tuples, magic {st['magic']}, disabled {st['disabled']}, "
+              f"final checkpoint cell {st['fc']}")
     return 0
 
 

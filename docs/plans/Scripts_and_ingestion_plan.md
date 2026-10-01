@@ -169,3 +169,11 @@ first), static report. 4. Owner runs each script locally and sends the summary. 
   `uv run python tools/run.py pipelines/scripts/<area>/<stem>.py --compare` → expect `compare: ✅ identical`,
   `exit 0`, `files changed: 0` (MongoDB_loader adds one new load report by design; skip ExtractPortsConnection: DO NOT
   RE-RUN). Then step 4b: archive the notebooks; then D3 refactors one script at a time with the same check.
+- 2026-10-01, local run (owner) started: ExtractPortsAttributes ✅ (exit 0, files changed 0). Documents_registry
+  stopped at its PostgreSQL connection (`ConnectionTimeout`: the database was not reachable; Phase 1 ✅ before it,
+  nothing written) → re-run with `ports-postgres` up.
+- Converter fix found while reading ExtractPortsConnection: a cell ending in a bare tuple (`len(a), len(b)`) was
+  wrapped as `_display_result(len(a), len(b))` (two arguments → TypeError at run time; the static check could not see
+  it). Bare tuples now use `_display_tuple(...)`; 2 cells, both in ExtractPortsConnection; no other script affected.
+- Owner decision: ExtractPortsConnection joins the run; its INSERT cell (21) is disabled by the converter (commented
+  with `#! `, a reason line, restorable; `check` proves it), so the script only reads PostgreSQL and rewrites the CSV.
