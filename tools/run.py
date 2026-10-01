@@ -2,6 +2,8 @@
 
   uv run python tools/run.py <script.py> [--timeout S] [--compare]
   uv run python tools/run.py all [--from STEM] [--compare]   every script in ORDER, stops at the first failure
+  --hashseed N   run with PYTHONHASHSEED=N: two runs with different seeds that change a file reveal an output that
+                 depends on string hashing (set / dict-of-set iteration order), i.e. a hidden nondeterminism
 
 - Runs the script from the project root, output to Notebooks/_scratch/run_<stem>.log (git-ignored).
 - Prints the exit code, every validation line (✅ / "validation passed") and, on failure, the traceback tail.
@@ -74,7 +76,11 @@ def main() -> int:
     p.add_argument("script"); p.add_argument("--timeout", type=int, default=7200)
     p.add_argument("--compare", action="store_true")
     p.add_argument("--from", dest="frm", help="with `all`: start at this script stem (resume after a fix)")
+    p.add_argument("--hashseed", help="run the script(s) with this PYTHONHASHSEED (nondeterminism check)")
     a = p.parse_args()
+    if a.hashseed is not None:
+        os.environ["PYTHONHASHSEED"] = str(a.hashseed)
+    print(f"PYTHONHASHSEED={os.environ.get('PYTHONHASHSEED', 'random (not set)')}")
     if a.script == "all":
         keys = ORDER
         if a.frm:
