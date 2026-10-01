@@ -7,9 +7,8 @@
   (B) one ready script that takes a **new** unstructured raw document from `Data/raw/` through parsing, cleaning,
   chunking, registration, embedding and the Qdrant upsert.
 - **Relation to the active plan:** `docs/plans/RAG_Embeddings_Qdrant_plan.md` (APPROVED 2026-09-28) stays as it is and
-  is paused at Phase 0 (the Jina / Voyage smoke test could not reach the providers from the cloud session; Gemini
-  passed). Its Phases 1–7 will be written as scripts after part A. Part B's embedding and Qdrant stages depend on its
-  Phases 2–5 (model choice, container, collection), see D6.
+  is paused at Phase 0. 2026-10-01: rewritten for a fresh local start; **part B moved into it as its Phase 8**
+  (§3 below is kept as the original proposal only).
 - **Touches:** the project rules conventions (notebooks → scripts), `tools/nb.py`, the local skills foldernotebook-dev-loop`,
   the local assistant folderhooks/guard.py` (`.ipynb` read block), ARCHITECTURE §2, ROADMAP; a new ADR (next number: ADR-036, so the RAG
   plan's ADR-036 / 037 become 037 / 038).
@@ -83,7 +82,7 @@ Documents_registry only generates the migration file; both are verified locally 
   `_scratch` git-ignored like today); skill `notebook-dev-loop` → `script-dev-loop`; guard hook `.ipynb` rule kept (archived notebooks are still large, deviation);
   the project rules "Stack / Where things are / Conventions / Token discipline", ARCHITECTURE §2, ROADMAP, ADR-036.
 
-## 3. Part B — `scripts/rag/ingest_new_documents.py`
+## 3. Part B — `scripts/rag/ingest_new_documents.py` (MOVED 2026-10-01 to the RAG plan, Phase 8; kept for history)
 
 ### B1. What it does
 ```text
