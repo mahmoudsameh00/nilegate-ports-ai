@@ -22,3 +22,8 @@ Data/raw/
 
 Notebooks/_scratch/
 Data/processed/semi-structured/synthetic/*.parquet
+
+# Embedding vectors (ADR-037, owner 2026-10-05): only manifest.json is committed; it carries the hashes that prove
+# a local dense.parquet matches. The working cache of the embedding script is local too.
+Data/embeddings/*/dense*.parquet
+Data/embeddings/*/cache_*/

@@ -31,7 +31,8 @@ Today the system is **data preparation only**: pipeline scripts (`pipelines/scri
 | Synthetic data script (`pipelines/scripts/synthetic/SyntheticGenerator.py`) | IMPLEMENTED | Faker/random seed 42, hire dates anchored to 2026-09-13. It reproduces employees, vessels and containers exactly (re-confirmed 2026-09-27: 28/28 cells, all three CSVs identical) and verifies them against the CSVs (never overwrites); database-owned columns (`vessels.mmsi`) are declared in `DB_OWNED_COLUMNS` and not compared. 2026-09-27: the leftover `employees.status` (ADR-017 drift) was removed, keeping its random draw. Invoices are rebuilt only to validate the pricing; the DB is canonical (ADR-013). |
 | RAG ingestion scripts, one per source (ADR-008, ADR-036; `pipelines/scripts/rag/`) | IMPLEMENTED for FBL, LPI Methodology, Suez Notes, LPI Connecting to Compete, HbR annual report 2025, IMO casualty-reporting circular | PyMuPDF extraction → cleaned logical units → (dedup) → semantic chunks in the 16-column schema |
 | `documents` registry table | IMPLEMENTED (29 rows, 2026-09-27) | migration 002 (table), 010 (rows); `pipelines/scripts/rag/Documents_registry.py`; ADR-009, ADR-035 |
-| Embedding model, Qdrant | PLANNED | plan APPROVED 2026-09-28: `docs/plans/RAG_Embeddings_Qdrant_plan.md` (model chosen by the Phase 2 bake-off) |
+| Qdrant 1.19.1 (Docker container `ports-qdrant`, image `qdrant/qdrant:v1.19.1` pinned by digest, ports `127.0.0.1:6333` REST / `:6334` gRPC only, volume `ports-qdrant-data`) | IMPLEMENTED (container, 2026-10-02); collection PLANNED | API key on every request (`QDRANT_API_KEY`), telemetry off; probe 2026-10-02 all pass: server-side BM25 available (D4, no `fastembed`), ADR-006 filter inside both prefetches of a hybrid RRF query. Commands and audit in `db/qdrant/`. Collection `nilegate_docs` comes with the RAG plan Phase 5. |
+| Embedding model | IN PROGRESS | RAG plan Phase 2 bake-off (`pipelines/scripts/retrieval/Embedding_bakeoff.py`, golden set frozen 2026-10-02); choice → ADR-037 |
 | MongoDB 8.0.32 (Docker container `ports-mongo`, image `mongo:8.0.32` pinned by digest, db `ports_logistics`, port `127.0.0.1:27017` only, volume `ports-mongo-data`) | IMPLEMENTED (2026-09-27) | Root user for administration + application user `readWrite` on `ports_logistics` only (ADR-027); commands, scripts and audit outputs in `db/mongo/`. Collections `ais_positions` (time-series), `ais_vessels`, `edi_messages` — see §5A. |
 | Semi-structured scripts (`pipelines/scripts/semi_structured/`) | IMPLEMENTED | `AIS_EDI_profiling` (samples → reviewed profiles), `AIS_generator` (500 synthetic tracks, files), `EDI_generator` (434 synthetic IFTMIN, files), `MongoDB_loader` (the only writer to MongoDB, ADR-031: real + synthetic, reload, consistency audit). |
 | Pipeline scripts + tooling (`pipelines/scripts/<area>/`, `pipelines/checkpoints/<area>/`, `tools/run.py`, `tools/nb_to_script.py`) | IMPLEMENTED (2026-10-01), verified locally (15/15, again after the refactor) | Percent-format scripts generated from the 15 notebooks: code cells identical except three listed changes, statically proven (`tools/nb_to_script.py check`); Final Checkpoint narratives in `pipelines/checkpoints/`. Owner's local run 2026-10-01: all 15 exit 0, identical ✅ lines, 0 artifacts changed; the notebooks are archived in `docs/archive/notebooks/` (ADR-036). |
@@ -127,6 +128,13 @@ Every document carries provenance (source file / manifest, its sha256, load run,
 
 Chunk files are `Data/processed/rag/chunks/*.parquet` with the unified 16-column schema (ADR-009):
 `page, unit_type, logical_unit, chunk_id, parent_chunk, sub_chunk, title, text, char_count, filename, source, real_or_synthetic, document_type, department, sensitivity_level (Int64, 1–3), version_date (string)`.
+
+**Title / text rule (ADR-041, 2026-10-02), one for the whole corpus:** `title` = the chunk's full location label
+(document, section path, caption, clause number; for USCG the header `USCG ROI <vessel> (MISLE <n>, <date>) — <section
+path>`, for IMO annex parts the document path); `text` = the body only, never starting with its heading;
+`char_count = len(text)`. The unit embedded, indexed and handed to a model is `compose(title, text)` = title + newline +
+text (`pipelines/lib/chunks.py`, which also enforces the rule). Applied as the last phase of the owning chunking
+scripts; where the rules below say a header or path is "on every chunk", it now sits in `title`.
 
 | Source | Chunks | document_type | department | level | version_date |
 |---|---:|---|---|---:|---|

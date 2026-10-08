@@ -83,3 +83,10 @@ So the notebook works in **steps**. Each numbered section is one step. A step ma
 ## Scope note
 
 Cross-checking this document's chunks against the Suez Canal Notes and LPI chunks (same columns, same dtypes, no colliding `chunk_id`) is not repeated in this notebook — it is exercised once, at the project's integration point, in the LPI notebook's own Step 12.
+
+## Addendum 2026-10-02 — Title / text normalization (ADR-041)
+
+A last phase (appended to the script, proven by `tools/nb_to_script.py check`) normalizes the saved chunk file in
+place with `pipelines/lib/chunks.py`: a leading heading moves from `text` to `title` (`title` = the location label,
+`text` = the body only). Lossless, idempotent; chunk ids, order and count unchanged. Reviewed counts: heading_line 26, unchanged 5.
+Where this narrative says a header, path or caption is at the start of every chunk, it is now the chunk's `title`.

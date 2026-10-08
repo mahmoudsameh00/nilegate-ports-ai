@@ -1,0 +1,21 @@
+Qdrant probe 2026-10-02T21:28:05
+PASS  no API key → refused — HTTP 401
+PASS  wrong API key → refused — HTTP 401
+PASS  API key accepted, pinned version — version 1.19.1
+PASS  LAN address 172.21.160.1:6333 closed — ConnectionRefusedError
+PASS  LAN address 192.168.1.6:6333 closed — ConnectionRefusedError
+PASS  create collection (dense cosine + sparse bm25 with IDF) — {"result":true,"status":"ok","time":5.935625259}
+PASS  payload index sensitivity_level (integer) — {"result":{"operation_id":2,"status":"completed"},"status":"ok","time":15.676273793}
+PASS  payload index department (keyword) — {"result":{"operation_id":4,"status":"completed"},"status":"ok","time":10.917825163}
+INFO  D4 server-side BM25 on upsert: AVAILABLE (HTTP 200)
+PASS  4 points stored
+PASS  stored point carries a server-built bm25 vector — 8 terms
+PASS  bm25-only query finds the matching text — top ['suez']
+PASS  hybrid + bm25 RRF, filter in each prefetch: CEO (ceiling 3) — returned ['net_result', 'invoice', 'suez', 'overboard']
+PASS  hybrid + bm25 RRF, filter in each prefetch: Operations employee (ceiling 1) — returned ['suez', 'overboard']
+PASS  hybrid + bm25 RRF, filter in each prefetch: Finance employee (ceiling 1) — returned ['invoice', 'suez', 'overboard']
+PASS  hybrid + bm25 RRF, filter in each prefetch: Finance manager (ceiling 2) — returned ['invoice', 'suez', 'overboard']
+PASS  CEO: the level-3 point ranks first for its own question — top ['net_result']
+PASS  throwaway collection deleted
+PASS  no collection left behind — collections now []
+RESULT: ALL PASS | server-side BM25: yes

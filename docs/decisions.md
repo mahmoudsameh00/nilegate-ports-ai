@@ -221,6 +221,169 @@ Never delete an entry; supersede it with a new one. Sources for older entries ar
 - **Consequences:** `tools/run.py` replaces `tools/nb.py run`; skill `script-dev-loop` replaces `notebook-dev-loop`. `ExtractPortsConnection.py`: its INSERT into `port_connections` (cell 21) is disabled at the owner's request (kept as `#! ` comments, restorable by the converter), so the script is safe to re-run. A bare tuple `a, b` ending a cell is wrapped in `_display_tuple(...)` (shows the tuple, as Jupyter did). New pipelines (RAG retrieval, the PDF ingestion agent) are scripts.
 - **Amendment (2026-10-01, refactor D3):** two levels. **Level A** (functions + `main()`, assertions instead of exploration prints, by hand): ExtractPortsAttributes, ExtractPortsConnection (its INSERT became `insert_port_connections()`, run only with `--insert` and refused on a non-empty table), SyntheticGenerator (the random-draw order is kept; vessels.csv and containers.csv regenerated identical in the cloud session), Documents_registry (migration 010 re-rendered byte-identical from the mirror), EDI_generator. **Level B** (`tools/nb_to_script.py clean`, generated from the archived notebook): the 7 RAG chunking scripts, AIS_EDI_profiling, AIS_generator, MongoDB_loader keep their linear phase structure (the flow, with a reviewed validation after each phase) as `# %% <Phase title>` sections with the narrative as comments; Jupyter's implicit display of a last expression and `display()` become `print()`; `check` proves the AST equals the archived notebook's code under exactly those rules. Verification: `tools/run.py all --compare` on the owner's machine (same ✅ lines in order, new ones allowed for level A; `files changed: 0`).
 
+## ADR-037 — Embedding model: Gemini `gemini-embedding-2` (3,072 dimensions)
+- **Status:** Accepted (2026-10-05) for the model; **D5 decided 2026-10-08: the composed unit** (complete run,
+  `Data/processed/rag/eval/bakeoff_results.json`). RAG plan Phase 2; rule D1.
+- **D5 (stage 2, Gemini):** composed `title + newline + text` D1 0.912 (EN 0.950 / AR 0.875), balanced 0.812, identifier
+  hit@10 1.000 vs body only D1 0.867 (EN 0.900 / AR 0.833), balanced 0.772, identifier 0.778: the title helps in every
+  column and both languages (as for Voyage); the dense vector embeds `compose(title, text)` (ADR-041).
+- **Context:** Bake-off of three free API models on the frozen golden set (64 queries, 40 EN + 24 Egyptian Arabic
+  twins) and the frozen golden facts, after the title / text normalization (ADR-041), each embedding the composed
+  unit `title + newline + text` with its retrieval task parameters. `Embedding_bakeoff.py` stage 1, 2026-10-05.
+- **Results (stage 1, composed unit):**
+
+  | Model | D1 primary | hit@10 EN | hit@10 AR | Retrieval | Ranking | Context | Balanced | Identifier hit@10 |
+  |---|---|---|---|---|---|---|---|---|
+  | Gemini `gemini-embedding-2` (3,072) | **0.912** | 0.950 | 0.875 | 0.952 | 0.617 | 0.867 | **0.812** | 1.000 |
+  | Voyage `voyage-4` (1,024) | 0.804 | 0.900 | 0.708 | 0.906 | 0.563 | 0.804 | 0.758 | 0.667 |
+  | Jina `jina-embeddings-v5-text-small` (1,024) | 0.733 | 0.925 | 0.542 | 0.778 | 0.487 | 0.679 | 0.648 | 0.778 |
+
+- **Decision:** Gemini `gemini-embedding-2`, default dimension 3,072, `taskType` RETRIEVAL_DOCUMENT / RETRIEVAL_QUERY.
+  By rule D1 (mean hit@10 EN / AR; a gap under 5 points is a tie that goes to Jina): Gemini leads Voyage by 10.8
+  points. It also leads every ADR-040 dimension (reported, not deciding) and closes most of the Arabic gap (AR hit@10
+  0.875 vs 0.708), the plan's main quality risk.
+- **Consequences / reported (not deciding):**
+  - **Free-tier cap:** every text of a batch counts; ≈ 1,000-1,450 texts per day observed (exact cap UNCERTAIN). A full
+    re-embedding of the corpus takes ≈ 2 days; at query time each question is one embedding call, so the free tier
+    bounds the assistant to roughly a thousand questions a day. Moving to the paid tier is an owner decision.
+  - **Data use:** Gemini's free tier may use inputs for training. Accepted for this corpus (public reports, no
+    employee data; owner, D1). Never send non-public or personal data to the free tier.
+  - The Qdrant `dense` vector has 3,072 dimensions (cosine); storage ≈ 26.6 MB for 2,163 float32 vectors.
+  - Ranking stays the weakest dimension (nDCG@10 0.617) and context precision@8 ≈ 0.34 (EN): headroom for the Phase 7
+    reranker and Phase 6 context shaping, judged by the ADR-040 rule.
+  - Voyage limits confirmed by its 429 text: 3 RPM / 10K TPM without a payment method.
+
+## ADR-038 — Retrieval defaults: exact dense search + Jina reranker; no hybrid, no context shaping
+- **Status:** Accepted (2026-10-08). RAG plan Phase 7, decided by the ADR-040 rule (fixed before the run);
+  `pipelines/scripts/retrieval/Evaluation.py` → `Data/processed/rag/eval/results_2026-10-08.json`. Also records the
+  search-index and cache decisions taken with the owner the same day.
+- **Results** (64 golden queries through the real tool as the CEO; Gemini composed unit; balanced = mean of fact
+  recall@10, nDCG@10, sufficiency@8, each EN / AR averaged):
+
+  | Configuration | Balanced | Retrieval | Ranking | Context | Decision |
+  |---|---|---|---|---|---|
+  | dense (baseline) | 0.812 | 0.952 | 0.617 | 0.867 | — |
+  | hybrid (dense + BM25, RRF) | 0.766 | 0.900 | 0.564 | 0.833 | rejected: −0.046; AR ranking −0.090 |
+  | **dense + rerank** | **0.850** | 0.959 | **0.664** | **0.925** | **accepted: +0.037; worst drop AR ranking −0.019** |
+  | hybrid + rerank | 0.839 | 0.958 | 0.662 | 0.896 | rejected: +0.027 < 0.03; AR context −0.042 |
+  | dense + rerank + cap 2 per document | 0.602 | 0.720 | 0.449 | 0.637 | rejected: −0.247; AR context −0.375 |
+  | dense + rerank + near-duplicate removal | 0.842 | 0.959 | 0.643 | 0.925 | rejected: −0.007; EN ranking −0.025 |
+
+  RBAC leakage 0 in every configuration.
+- **Decision:** `search_documents` defaults = exact dense search (`SearchParams(exact=True)`), 24 candidates reranked
+  by Jina `jina-reranker-v3.5`, top k = 8; `hybrid=False`, `max_per_document=None`, `dedupe=False`. If the reranker
+  hits its rate limit at query time, the dense order is returned (`request["reranked"] = False`), never an error.
+  Search index: exact, not IVF / HNSW (owner rule "if IVF brings no gain, stay exact": `Search_index_benchmark.py`
+  shows IVF either less accurate or slower; Qdrant exact 11.3 ms vs HNSW 19.1 ms, identical results). Query cache:
+  in memory, persisted on disk (`QueryCache`; owner-suggested Redis benchmark: in-memory 0.2 µs, Redis 0.57 ms, the
+  former per-call file read 1.7 ms growing to 589 ms after 1,000 questions); Redis is revisited only if the API phase
+  runs several workers that must share a cache (ADR-018). gRPC and quantization: not used (owner).
+- **Why hybrid loses here:** BM25 matches words, and an Egyptian Arabic question shares no words with the English
+  corpus, so its BM25 list is noise that RRF mixes in (AR ranking −0.090). The `bm25` vectors stay in the collection
+  (identifier lookups, a future English-only or bilingual corpus), off by default.
+- **Why the per-document cap loses:** most answers come from one document (a USCG report, the Rotterdam report), and
+  their facts are spread over several chunks of it; capping at 2 per document throws those chunks away (fact recall
+  0.959 → 0.720). Near-duplicate removal is neutral on the facts (0.959 = 0.959, sufficiency equal) and slightly
+  worse on ranking: the reranker already orders restated copies sensibly.
+- **Consequences:** + ~0.6-1.5 s per question for the reranker (measured 590-1,480 ms; 30-60× the search) and a
+  second external API (Jina) with its own unpublished per-minute limit (graceful fallback above). The reranker lowers
+  identifier hit@10 1.000 → 0.889 (one of 9 identifier questions) and AR nDCG@10 0.597 → 0.578 (within the 0.02
+  allowance) while raising EN nDCG@10 0.637 → 0.751 and sufficiency@8 EN 0.900 → 0.975, AR 0.833 → 0.875. The
+  numbers are the baseline that the agents phase must not regress.
+
+## ADR-039 — Shared retrieval library `pipelines/lib/`; Qdrant point identity per document version
+- **Status:** Accepted (2026-10-02, owner answers D11 of the RAG plan and the point-id question). Amends ADR-036 ("no
+  shared `.py` modules yet") for the retrieval pipelines, and ADR-009 (payload gains `text_sha256`). Numbered 039
+  because 037 / 038 are reserved by the RAG plan for the embedding model and the retrieval defaults.
+- **Context:** Phases 2, 4, 5, 6 and 8 need the same embedding client, chunk-schema check and Qdrant writing code;
+  copies would drift. Qdrant detects no change by itself (it stores what the loader sends), and ADR-035 makes a
+  changed file a new version `<slug>_v2` without saying what happens to the old version's points: with point id =
+  UUID5(`chunk_id`), a version with fewer or renamed chunks would leave stale points that retrieval could return.
+- **Decision:**
+  - `pipelines/lib/` (imported after putting the project root on `sys.path`): `common` (root, `.env`, redaction),
+    `chunks` (the 16-column contract), `embeddings` (per-provider budgets, retries incl. Gemini's `retryDelay`, stop
+    on a wait > 15 min, resumable cache keyed by id + text SHA-256), `qdrant_store` (collection spec, point identity,
+    version-safe upsert, verification). Verified by `pipelines/scripts/retrieval/Lib_selftest.py` (no API call; a
+    throwaway Qdrant collection).
+  - Point id = UUID5(`document_id` + "/" + `chunk_id`) in a project namespace: a reload overwrites (never
+    duplicates); each version has its own points.
+  - `upsert_document` writes the new points first, then deletes every point of that document (and of the versions
+    it supersedes) not in the new set: no stale chunk survives and no moment returns zero results for it.
+    `verify_document` asserts exactly the expected ids per document.
+  - Payload = the 16 chunk columns + `document_id` + `text_sha256` (lets the loader see a changed text in Qdrant).
+  - BM25 is built by the server (`cloud_inference=True`; probe and self-test verified the stored sparse vector).
+  - Change routing: new file / new fingerprint → new version (ADR-035) → re-chunk → embed only changed texts →
+    upsert + stale cleanup; payload-only correction (e.g. a level) → payload update, no re-embedding; employee role /
+    department change → nothing in Qdrant (read from PostgreSQL at query time).
+- **Consequences:** `Embedding_bakeoff.py` now imports the client (refactor verified: Jina 0.754 and Voyage 0.825
+  recomputed from the cache with 0 API calls, identical). The Phase 5 loader and the Phase 8 ingestion script use
+  `qdrant_store` and never write Qdrant another way.
+- **Amendment (2026-10-08, derived filter fields):** the payload also carries `unit_kind` (one vocabulary of 12
+  kinds mapped from the 23 source-specific `unit_type` names in `qdrant_store.UNIT_KIND`, e.g. USCG "paragraphs" and
+  the other sources' "paragraph" are both `paragraph`; an unmapped unit_type stops the load) and `year` (the first four
+  digits of `version_date`, which mixes "2025" and "2024-04-06"; null when absent), both indexed. The chunk files are
+  unchanged. Measured with oracle filters (dense, exact): `document_type` +0.004 balanced, `document_id` +0.024
+  (AR hit@10 0.875 → 0.917): metadata filters mainly scope a question (kind, year, source) and pay off for accuracy
+  when a question names one document (entity resolution → `document_id`, agents phase).
+
+## ADR-040 — Retrieval evaluation at three levels: retrieval, ranking, context
+- **Status:** Accepted (2026-10-02, owner: "balance retrieval quality, ranking quality and context quality; do it the
+  right way for our data"). Fixes the deciding rule of RAG plan Phase 7 (→ ADR-038) **before** Phase 7 runs.
+- **Context:** The golden set labels 1-3 equivalent chunks per question; hit@k only says whether ONE was found.
+  Measured on the bake-off cache: q22 (three incidents) counted as found with two of them; only 13-15 % of the top-10
+  chunks were labelled, so the rest could not be judged; near-duplicate restated recommendations took slots.
+- **Decision:**
+  - **Golden facts** (`pipelines/scripts/retrieval/Golden_facts.py` → `Data/processed/rag/eval/golden_facts.jsonl`,
+    a separate file: the frozen golden set is untouched): 1-4 facts per English question (80), each a claim = groups
+    of regex alternatives that must all match one chunk (a USCG fact is vessel AND claim, because every chunk of a
+    report carries the vessel name). Validated: every fact stated by an expected chunk, the expected chunks together
+    state all facts, every expected chunk states >= 1 fact, no fact stated by more than 40 chunks (broadest: 12).
+    Arabic twins use their English question's facts (English corpus). Frozen by hash after the owner's review.
+  - **Metrics** (`pipelines/lib/evaluation.py`): retrieval = fact recall@10 (diagnostics hit@10, complete@10);
+    ranking = nDCG@10 with relevance = states >= 1 fact or is an expected id, ideal from the corpus-wide relevant set
+    (diagnostics MRR, hit@1, hit@5); context = sufficiency@8, all facts in the 8 chunks `search_documents` returns
+    (diagnostics precision@8, redundancy@8 = relevant chunks adding no new fact, facts per 1,000 chars). Each primary is
+    the mean of its English and Arabic values; **balanced score** = mean of the three primaries.
+  - **The embedding choice keeps D1** (fixed before any result): the dimensions are reported in ADR-037, never
+    deciding. Changing the rule after seeing that Jina gets q22 complete and Voyage not would shape it on known results.
+  - **Phase 7 rule (fixed now):** a configuration (hybrid, reranker, context shaping) replaces the baseline (dense
+    only, top-8, chosen model) only if the balanced score rises by >= 0.03 AND no primary falls by more than 0.02 in
+    either language AND RBAC leakage is 0. Latency (p50 / p95) is reported. A tie keeps the simpler configuration.
+- **Consequences:** first reading (cache, dense only, `text`): Jina balanced 0.672 (retrieval 0.803, ranking 0.514,
+  context 0.700), Voyage 0.756 (0.906 / 0.558 / 0.804). Ranking is the weakest dimension for both (relevant chunks are
+  found but not near the top) and context precision@8 is ~0.33 in English with redundancy@8 ~0.40: the measured
+  headroom for the Phase 7 reranker and for context shaping (near-duplicate removal). Arabic trails English in every
+  dimension. Four queries per model were hit@10 successes whose 8-chunk context misses a fact.
+
+## ADR-041 — One title / text rule for the whole corpus
+- **Status:** Accepted (2026-10-02, owner: "the whole corpus on one scheme; `title` is a feature separate from
+  `text`"). Supersedes the "header in every chunk's text" parts of ADR-024 (USCG) and ADR-023 (IMO document path
+  repeated in each part); the header / path content is kept, in `title`.
+- **Context:** Each source had made its own choice: every USCG chunk (1,544) started with a composed header line, 59
+  IMO annex chunks with the document path, FBL clauses with "N. <title>", HbR tables / figures / milestones / boxes and
+  LPI figures with their caption or heading, 10 LPI sections with a heading run into the first sentence; the rest
+  (461) had the body only. A model, BM25 and an embedding therefore saw the location label for some chunks and not
+  for others, and the bake-off's `title + text` variant duplicated it for USCG.
+- **Decision:**
+  - `title` = the chunk's full location label (document, section path, caption, clause number); `text` = the body
+    only, never starting with its heading. The unit embedded, indexed (BM25), judged (golden facts) and handed to a
+    model is `compose(title, text)` = title + newline + text, built only by `pipelines/lib/chunks.py`.
+  - `split_heading` (one function): a leading composed header line (USCG, IMO annex) or a first line equal to the
+    title plus at most a label / number ("Table:", "17.") moves to `title`; a "<title>. " run-in heading is removed;
+    anything else is content and stays (prose such as "Road infrastructure plays …" under the title "Road").
+    Lossless (old text = new title + newline or ". " + new text, up to whitespace) and idempotent, both asserted.
+  - Applied in the **owning** chunking scripts as an appended last phase (`tools/nb_to_script.py` APPENDED, proven by
+    `check`: notebook + patches + exactly this phase), after their own validations and coverage audits, which keep
+    validating the chunking itself. Chunk boundaries, ids, order and the count (2,163) are unchanged: the frozen golden
+    set, the golden facts and `documents.chunk_count` stay valid; no migration.
+  - Contract (`pipelines/lib/chunks.check`): no chunk keeps a heading in `text`; `text` non-empty and <= 2,000
+    characters; the composed unit >= 50 characters (5 USCG bodies are short once the header moved, e.g.
+    "Administrative Recommendation: None.", kept with their title, owner decision).
+- **Consequences:** 1,702 chunks normalized (1,603 header lines, 89 heading lines, 10 run-in headings), 461 unchanged.
+  For 1,683 of them the composed unit equals the former text exactly, so their cached embeddings stay valid (the cache
+  is keyed by text SHA-256). The bake-off embeds the composed unit (stage 1) and tests the body alone (stage 2, D5);
+  `qdrant_store` builds BM25 from the composed unit (vessel names and MISLE numbers are in `title`).
+
 ---
 
 ## Dropped (history)
