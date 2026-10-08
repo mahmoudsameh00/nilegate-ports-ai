@@ -512,6 +512,8 @@ Recommended option first.
   document an employee uploads at inference time; open decisions D12-D17. Session closed here.
 
 ### SESSION HANDOFF (2026-10-08) — read this first in the next session
+- **Git:** all work of Phases 0-7 is committed and pushed on branch **`feat/rag-retrieval`** (not merged). The owner
+  opens the pull request only when Phase 8 and Phase 9 are finished; keep working on this branch.
 - **Done:** Phases 0-7. Model Gemini `gemini-embedding-2`, composed unit (ADR-037); title / text rule (ADR-041);
   three-level evaluation (ADR-040); shared library `pipelines/lib/` (ADR-039 + amendment: `unit_kind`, `year`);
   Qdrant `nilegate_docs` loaded (2,163 points); `search_documents` in `pipelines/lib/retrieval.py` with defaults
