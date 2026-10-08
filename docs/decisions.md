@@ -384,6 +384,119 @@ Never delete an entry; supersede it with a new one. Sources for older entries ar
   is keyed by text SHA-256). The bake-off embeds the composed unit (stage 1) and tests the body alone (stage 2, D5);
   `qdrant_store` builds BM25 from the composed unit (vessel names and MISLE numbers are in `title`).
 
+## ADR-042 — Inference-time uploads: one company document shape, a validator, and layered injection screening
+- **Status:** Accepted (2026-10-08, owner answers D12-D17 and Q1-Q8 of the RAG plan, Phase 8). Spec for people:
+  `docs/templates/NileGate_document_v1.md`; code `pipelines/lib/uploads.py`, `upload_reader.py`, `screening.py`.
+- **Context:** an employee may upload a document while talking to the assistant. A generic parser for any layout
+  needed per-source rules and a human review gate for the 7 corpus sources; an inference-time path cannot hold a
+  review gate. Uploaded text is untrusted (the project rules rule 5) and may carry prompt injection, hidden text or active
+  content.
+- **Decision:**
+  - **One fixed shape, "NileGate Document v1" (D15):** PDF or DOCX (Q6) with a text layer; a `key: value` metadata
+    block between `NILEGATE-DOC v1` and `END-METADATA` (9 required fields, closed vocabularies, `document_code`
+    `NG-<DEPT>-<TYPE>-<NNNN>` consistent with department and type); numbered bold / Heading-style sections, `1. Purpose`
+    and `2. Scope` required, depth <= 3, no gaps; a footer `NileGate · <code> · page N of M · level L` equal to the
+    block. Limits (Q7): 5 MB, 30 pages, 60,000 body characters, DOCX <= 25 MB uncompressed. One section = one logical
+    unit, split at paragraph then sentence boundaries above 2,000 characters; corpus chunk contract and title / text
+    rule (ADR-041), `unit_type` `section` (unit_kind `paragraph`). Because the shape is fixed, parsing is exact and the
+    same document as PDF or DOCX gives the same chunks (measured).
+  - **The uploader's access bounds the label (D13, ADR-006):** a document whose (level, department) the uploader
+    could not see is refused (`E_LEVEL_ABOVE_UPLOADER`).
+  - **Reading in a child process** (`python -m pipelines.lib.upload_reader`, 30 s timeout): a hanging or crashing
+    parser takes only the child down. DOCX XML through `defusedxml`.
+  - **Screening in four layers:** (1) file level — PDF `/JavaScript /JS /Launch /EmbeddedFiles /RichMedia /XFA /AcroForm
+    /AA /SubmitForm /GoToR`, non-https links, form fields; DOCX macros, embedded / OLE objects, ActiveX, external
+    relationships (remote templates), `altChunk`, DDE / INCLUDE fields; zip-bomb guard; encryption → the whole file is
+    refused; (2) hidden text — PDF render mode 3 / opacity 0, < 4 pt, white, off-page; DOCX `vanish`, hidden styles,
+    white, < 4 pt; comments and deleted tracked changes are never read; (3) visible text — NFKC, invisible / bidi /
+    tag characters removed (more than 3 refuse the file), patterns in English, MSA and Egyptian Arabic for override,
+    role change, role markers, prompt reveal, exfiltration URLs, tool calls, markdown beacons, base64 blobs, plus a
+    whitespace-free form for the strongest phrases (a PDF turns zero-width characters into spaces); (4) handling —
+    every upload result is labelled `trust="untrusted_upload"` and the agents phase must quote it as data, never
+    follow it (the guarantee does not rest on detection).
+  - **Q8:** a section with hidden text or a pattern hit is **removed and reported**, the rest is accepted; a hit in a
+    required part (metadata block, footer, header) refuses; nothing left → refused.
+- **Validation** (`Upload_validation.py`, 52 fixtures from `Upload_fixtures.py`): every case gets exactly its expected
+  verdict (8 clean accepted with nothing removed; 13 visible-text attacks, 11 hidden-text, 9 file-level, 11 shape
+  errors); **0 false positives on the 2,163 corpus chunks**; PDF / DOCX parity 3/3; reader timeout and crash refused;
+  validation p95 ≈ 0.26 s.
+- **Consequences:** + exact parsing, one clear message per problem, no review gate needed for a conversation upload.
+  − documents not made from the template are refused (by design); the patterns catch known shapes only (layer 4 is
+  the real guarantee); scanned documents are not accepted at inference time.
+
+## ADR-043 — Conversation uploads: memory-only session store, a local ONNX embedding lane, two labelled lists
+- **Status:** Accepted (2026-10-08). The local model is **`BAAI/bge-m3`**, chosen by the rule fixed before any run
+  (measured after the project moved to `D:\Project`, which freed the disk space it needed); floor 0.45 and DirectML
+  deferred by owner decision (below). `pipelines/lib/session_store.py`,
+  `local_embeddings.py`, `retrieval.py` (`session=`); measured by `Upload_eval.py` →
+  `Data/processed/rag/eval/uploads/upload_eval_2026-10-08.json`.
+- **Decision:**
+  - **Storage (D12, D14):** an accepted upload lives only in process memory (`SessionStore`): rows + vectors, owned by
+    one employee, gone at session close or after 8 h; at most 5 documents / 300 chunks (Q7). Nothing is written to
+    disk, Qdrant, PostgreSQL or the query cache (asserted: `Data/` tree and Qdrant count unchanged). The original bytes
+    are kept in memory only for a manager (a promotion needs them). Redis with a TTL is the multi-worker form later
+    (ADR-018).
+  - **Embedding (D16, ADR-037, Q1):** every session upload is embedded **locally with ONNX Runtime** — no upload text
+    leaves the machine, no Gemini quota is spent, one vector space and one floor. Models are exported once by
+    `tools/export_onnx.py` (fp32 + weight-only int8 / int4, MatMulNBits; checked against PyTorch, min cosine fp32
+    1.0). Measured (32 chunks of 4 documents, 30 English + 30 Egyptian Arabic questions; rule: hit@3 >= 0.85 EN and
+    >= 0.75 AR):
+
+    | Model | hit@3 EN | hit@3 AR | AR on the Arabic document | 32 chunks (CPU) |
+    |---|---|---|---|---|
+    | `mesolitica/llama2-embedding-600m-8k` (owner's pick; Malay-trained, Llama-2 tokenizer) | 0.767 | 0.167 | 0.833 | 10-17 s |
+    | `intfloat/multilingual-e5-base` | 0.933 | 0.500 | 1.000 | 1.4-1.9 s |
+    | **`BAAI/bge-m3`** (1,024 d, CLS pooling, MIT) | **1.000** | **1.000** (MRR 0.95) | 1.000 | 4.6-6.8 s |
+
+    Only bge-m3 meets the rule (the owner's model misses both thresholds, e5-base the Arabic one): it is the
+    session-lane model. The owner's model also loses dynamic int8 quantization (min cosine 0.809: Llama activation
+    outliers), which weight-only int8 fixes (0.99998); bge-m3 weight-only int8 0.99975, int4 0.952 (same hit@3).
+  - **Runtime settings (measured, i7-9750H):** fp32 (weight-only int8 / int4 are smaller but slower on this CPU),
+    6 threads = the physical cores (12 logical threads were 5 % faster on a quiet machine but 30 % slower on a busy
+    one), batch 8; upload of a 3-page PDF ≈ 3-4 s end to end, session lane ≈ 62-82 ms per question.
+    DirectML on the GTX 1660 Ti (throwaway venv): bge-m3 embeds the 32 chunks in 1.1 s vs 6.8 s on the CPU,
+    identical vectors, but a single question 107 ms vs 60 ms; adopting it means replacing `onnxruntime` with
+    `onnxruntime-directml` project-wide (RapidOCR too): deferred (below).
+  - **Merge (D17, Q4 "least problems"):** `search_documents(..., session=)` returns the corpus `results` exactly as
+    before plus `session_results` (at most 3, above the model's floor, `trust="untrusted_upload"`, `lane="session"`).
+    The corpus query is the employee's question only (Q2: never expanded with upload text). **Baseline preserved by
+    construction and measured:** with a session holding all 4 documents, the 64 golden questions return identical
+    corpus results; balanced dense 0.812 = baseline, dense + rerank 0.8495 = baseline (ADR-038), 0 Gemini calls.
+  - **Floor (M2): 0.45 for bge-m3 — owner decision (2026-10-08) after the first full run.** The rule fixed before the
+    run (keep upload chunks out of >= 95 % of golden corpus questions) gave 0.52: hit@3 EN 0.967 / AR 0.733, the
+    Arabic one under its threshold. The owner moved the rule to >= 80 % keep-out → 0.45: hit@3 EN 1.000 / AR 0.900,
+    9 of 64 golden questions (14.1 %) also get upload chunks. Why: the session list is separate and labelled, so an
+    extra off-topic upload chunk costs little, while a hidden relevant one costs the employee their own document.
+    Other points measured: 0.38 → 1.000 / 0.967 with 45.3 %; none → 1.000 / 1.000. The floor is computed from the
+    ranked scores (an interpolated quantile let one question too many through: fixed), and `Upload_eval.py` asserts
+    that the chosen model still meets the thresholds with its floor.
+  - **DirectML: deferred (owner decision 2026-10-08)** to the API / deployment phase: it would replace `onnxruntime`
+    for the whole project (RapidOCR included), and ≈ 3 s per small upload on the CPU is acceptable for now.
+  - **Access (D13):** a session belongs to one employee (search, upload, get by anyone else → `PermissionError`);
+    expiry / close empties it; every session result is re-checked with `allowed()` (ADR-006). Isolation 15/15.
+- **Consequences:** + uploads never touch the shared corpus, the baseline cannot move, private text stays local.
+  − bge-m3 is a 2.2 GB model (≈ 3 s per small upload on the CPU; DirectML would cut it 6×); two vector spaces mean no
+  joint ranking of upload and corpus chunks (by design: two lists).
+
+## ADR-044 — Promotion of a manager's upload to the corpus
+- **Status:** Accepted (2026-10-08, D12, D14, Q3, Q5, Q8). `session_store.request_promotion`,
+  `pipelines/scripts/retrieval/Upload_promotion.py`.
+- **Decision:** only a **manager**, for a document of **their own department**, on an explicit request, and only if
+  screening removed nothing; then (and only then) the original file is persisted to `Data/incoming/promotion/<id>/`
+  (git-ignored) with `request.json`. The owner reviews offline (`--review`: SHA-256, re-validation with the
+  requester's *current* role, corpus contract, near-duplicates against the corpus, `review.md`), approves
+  (`--approve`: staged chunk file, registry row, migration draft) or rejects. **Data policy (Q5, ADR-037):**
+  approval requires `data_origin: public` and `personal_data: no`, unless `.env` declares `GEMINI_TIER=paid`.
+  `--commit` registers the document like its siblings — same contract, model (Gemini), payload, collection and
+  `documents` table (generated migration, applied by the owner) — after the owner has copied the raw file into
+  `Data/raw/unstructured/company/` (checked by SHA-256); its files live in `Data/processed/rag/promoted/` so the
+  corpus scripts' reviewed counts (2,163) stay valid; then upsert (`qdrant_store`, ADR-039), verification and a
+  retrieval + RBAC check. Nothing is automatic.
+- **Validation:** `Upload_promotion.py --selftest` 11/11 — employee, other department and screened document refused;
+  internal document reviewed but approval refused by the data policy; a public document committed to a throwaway
+  collection (8 points), found by its manager, invisible to a Finance employee (level 2), re-commit idempotent
+  (0 chunk embeddings), `nilegate_docs` untouched (2,163).
+
 ---
 
 ## Dropped (history)

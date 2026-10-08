@@ -151,7 +151,7 @@ Script `Evaluation.py`.
 - Default settings chosen by the numbers → **ADR-038** (collection, payload, RBAC filter, hybrid, rerank defaults).
 - Results in `Data/processed/rag/eval/results_<date>.json`: the baseline the agents phase must not regress.
 
-### Phase 8 — RE-SCOPED 2026-10-08 (owner): documents uploaded at inference time — PROPOSED, to design first
+### Phase 8 — RE-SCOPED 2026-10-08 (owner): documents uploaded at inference time — IMPLEMENTED 2026-10-08 (session-lane model bge-m3, floor 0.45, DirectML deferred; see "Progress / deviations")
 The owner's intent for Phase 8 is **not** (only) a batch script for new corpus PDFs, but: **an employee uploads a PDF
 (or another document) while using the assistant; how does the system handle it?** The batch design below is kept as
 reference (it holds the reusable steps: detect, extract / OCR, clean, chunk under the contract, embed, upsert), but
@@ -193,6 +193,197 @@ the next session starts by writing the inference-time design as PROPOSED and get
   method and its tests (D13 / D16); the embedding path for uploads that may hold non-public data (D16); the session
   store for conversation-only uploads (D14); the promotion flow for a manager (D12: request, review, registration
   through the normal path, migration by the owner); the merge in `search_documents` and its measurement (D17).
+
+#### Phase 8 design — inference-time uploads (written 2026-10-08 on D12-D17; Q1-Q8 answered; implemented the same day — deviations in "Progress / deviations")
+
+```text
+employee uploads a file in a conversation (session_id, employee_id)
+  → G0 hard gates     : magic bytes %PDF-, size, pages, not encrypted                (stop at once, one reason)
+  → G1 PDF safety     : no JavaScript / launch / embedded files / forms; parse in a child process with a timeout
+  → G2 shape          : metadata block, field vocabularies, heading numbering, required sections, text layer
+  → G3 screening      : normalize (NFKC, strip zero-width / bidi), hidden-text check, injection patterns EN + AR
+     (G1-G3 collect ALL reasons → one ValidationReport; any reason = refused, nothing is kept)
+  → chunk             : one section = one logical unit; MIN 300 / MAX 2000; title / text rule (ADR-041); 16 columns
+  → embed (upload path, D16 → §d)                     → SessionStore (memory only, TTL, owner = employee_id)
+  → search_documents(query, employee_id, session=…)   → corpus lane (unchanged) + session lane (§e)
+  → manager only, on explicit request: promotion request → review → registration like the siblings (§b)
+```
+
+**a. The company document shape — "NileGate Document v1" (D15).** One template the whole company uses (issued as a
+Word / PDF template; the spec goes to `docs/templates/NileGate_document_v1.md`). Because the company controls the
+shape, the parser is exact instead of heuristic (no layout guessing, no review gate needed for a session upload).
+- **File:** PDF only (v1) with a text layer; ≤ 5 MB, ≤ 30 pages, ≤ 60,000 body characters (≈ ≤ 60 chunks). No OCR at
+  inference time: an image-only page is refused ("export the document from the template, do not scan it").
+- **Metadata block** (first page, before any heading), one `key: value` per line between `NILEGATE-DOC v1` and
+  `END-METADATA`; every field required, nothing guessed (D9 spirit):
+
+  | Field | Rule | Why |
+  |---|---|---|
+  | `document_code` | `NG-<DEPT>-<TYPE>-<NNNN>`, e.g. `NG-OPS-PRC-0042` | stable slug → `document_id` on promotion (ADR-035) |
+  | `title` | 10-200 chars | the citation and the `title` prefix of every chunk |
+  | `document_type` | `policy`, `procedure`, `circular`, `report`, `minutes`, `guideline` (closed list) | metadata filter, payload |
+  | `department` | one of the 5 rows of `departments` | owner department (ADR-006) |
+  | `sensitivity_level` | 1, 2 or 3 | ADR-006 level; see the access rule in §e |
+  | `version_date` | `YYYY-MM-DD` | payload `version_date` / `year` |
+  | `language` | `en` or `ar` | test sets, later per-language metrics |
+  | `data_origin` | `public` or `internal` | decides the embedding path (§d) |
+  | `personal_data` | `yes` or `no` | `yes` forces the local path (§d) and is refused for promotion unless reviewed |
+
+  `real_or_synthetic` is not a field: every NileGate document is `synthetic` in this project (fictional company);
+  the system sets it.
+- **Headings:** numbered `1.`, `1.1`, `1.1.1` (depth ≤ 3), strictly increasing; required `1. Purpose` and `2. Scope`;
+  any further numbered sections; optional last `References`. A section = one logical unit (split at paragraph
+  boundaries above 2,000 chars, merged with the next sibling below 300) — the corpus chunking rules, deterministic.
+  Chunk `title` = `<title> — <section path>` and `text` = body only (ADR-041; built with `chunks.compose`).
+- **Allowed content:** paragraphs, bullet lists, simple tables (read as text rows), figures with a `Figure N:` caption
+  (caption kept, image ignored — the ADR-020 caption-only rule). Not allowed: active content, attachments, form
+  fields, links other than `https://`, text outside the page box, hidden text (§c).
+- **Page footer:** `NileGate · <document_code> · page N of M · level <L>` on every page — removed by an exact pattern,
+  and cross-checked against the metadata block (a footer code / level that differs = refused: it catches a pasted
+  page from another document).
+- **Validator** `validate_upload(file_bytes, uploader) → ValidationReport{accepted, document, reasons[]}`; each reason
+  = `{code, field_or_section, message}` (English; the assistant translates). G0 stops at the first failure; G1-G3
+  collect every reason so the employee fixes everything in one round. Codes: `E_NOT_PDF`, `E_TOO_LARGE`,
+  `E_TOO_MANY_PAGES`, `E_ENCRYPTED`, `E_ACTIVE_CONTENT`, `E_EMBEDDED_FILE`, `E_PARSE_TIMEOUT`, `E_NO_TEXT_LAYER`,
+  `E_NO_METADATA_BLOCK`, `E_BAD_FIELD`, `E_LEVEL_ABOVE_UPLOADER`, `E_HEADINGS`, `E_MISSING_SECTION`,
+  `E_FOOTER_MISMATCH`, `E_HIDDEN_TEXT`, `E_CONTROL_CHARS`, `E_INJECTION`, `E_SESSION_FULL`.
+
+**b. The two paths.**
+- **Conversation-only (default, every role):** accepted → chunks + vectors in `SessionStore` (process memory),
+  keyed by `session_id`, owned by one `employee_id`, expiring at session end or after a TTL (8 h), whichever comes
+  first; at most 5 uploads / 300 chunks per session. Nothing is written to disk, Qdrant, PostgreSQL or the query
+  cache (`embed_with_cache` is *not* used for uploads: it writes files). The original bytes are dropped after
+  parsing. When the API phase runs several workers, the same interface moves to Redis with a TTL (ADR-018) —
+  not now.
+- **Manager promotion (D12):** allowed only if the uploader's role is `manager` (or `ceo`), the document's
+  `department` is the manager's department (Q3), the upload passed validation in this session, and the manager asks
+  explicitly. Then, and only then, the file is persisted: `Data/incoming/promotion/<request_id>/` (git-ignored; never
+  `Data/raw/`) with `request.json` (who, when, sha256, metadata block, validation report). Review is offline, by the
+  owner (the human gate the inference path cannot hold): `Upload_promotion.py --review <id>` re-runs validation and
+  screening, shows the chunks, the declared level and a near-duplicate check against the corpus (`retrieval.shingles`);
+  `--approve <id>` produces exactly the sibling artifacts: chunk parquet (16 columns, `chunks.check`), a
+  `documents.csv` row + generated migration (owner applies), embeddings files (Gemini, `embed_with_cache`, §d), the
+  `qdrant_store.upsert_document` + `verify_document` load, and a retrieval check (a question from the document finds
+  it; RBAC enforced). The owner copies the raw file into `Data/raw/unstructured/company/` (the assistant never writes
+  `Data/raw/`). `--reject <id> --reason …` records the decision. No automatic step anywhere.
+
+**c. Injection screening and untrusted text (D13 / D16).** Three layers, because no single one is enough:
+1. **File level (G1):** PyMuPDF inspection — `/JavaScript`, `/JS`, `/Launch`, `/OpenAction`, `/EmbeddedFiles`,
+   `/AcroForm` / `XFA`, non-https link annotations → refused. Parsing runs in a child process with a timeout and the
+   G0 size / page caps (a malformed PDF can hang or crash a parser; malware is never executed or stored).
+2. **Hidden text (G3):** spans with render mode 3 (invisible), font size < 4 pt, text colour ≈ background, text
+   outside the page box, text in the PDF Info / XMP metadata that is not the template's → refused. Hidden text is
+   the classic carrier of an injection a human reviewer never sees.
+3. **Visible text patterns (G3):** after NFKC and removal of zero-width / bidi controls (their presence above a
+   small count is itself `E_CONTROL_CHARS`), a pattern list in English and Arabic (incl. Egyptian forms) for
+   instruction-override ("ignore / disregard previous instructions", "تجاهل التعليمات"), role / prompt markers
+   (`system:`, `<|im_start|>`, "you are now", "system prompt"), tool-call / exfiltration shapes (JSON tool calls,
+   "send … to http", markdown images with query strings), long base64 blobs. A hit refuses the upload and names the
+   section and a redacted excerpt.
+- **Honest limit:** patterns catch known shapes, not a cleverly paraphrased instruction. The guarantee therefore
+  does not rest on detection: **(4) handling** — every session-lane result carries `trust: "untrusted_upload"` and
+  its uploader / document code; the contract (written into `docs/RETRIEVAL_FLOW.md` for the agents phase) is that
+  such text is quoted as data inside delimiters, never followed, never allowed to trigger a tool call. Corpus text
+  keeps its own provenance label.
+- **Tests:** a fixture generator writes template PDFs with PyMuPDF (synthetic NileGate documents): clean ones (EN /
+  AR, all content kinds) and one attack per vector — visible injection EN / AR / Egyptian, split by zero-width
+  characters, in a table, white text, 1 pt text, off-page text, Info / XMP injection, JavaScript, embedded file,
+  encrypted, scanned page, wrong / missing metadata, level above the uploader, footer mismatch, oversize. Expected
+  code per fixture, asserted: **every attack refused with its code, every clean fixture accepted**. False-positive
+  check: layer 3 run over the 2,163 corpus chunks (real regulatory prose) → expected 0 hits, each hit reviewed.
+
+**d. Embedding path for uploads (D16, ADR-037).** ADR-037 forbids sending non-public or personal data to Gemini's
+free tier; the Jina reranker is also a third party, so the same rule is applied to it.
+- `data_origin: public` and `personal_data: no` → may use the corpus path (Gemini, Jina) — same vector space.
+- otherwise → **local path (recommended, Q1):** a multilingual ONNX embedding model run on the CPU
+  (`onnxruntime` is already installed for RapidOCR); candidates `intfloat/multilingual-e5-small` (384 d, ~0.45 GB)
+  and `multilingual-e5-large` (1,024 d, ~2.2 GB), chosen on the upload test set (§e), Arabic weighted as in D1. The
+  text never leaves the machine. No reranker on this lane (a local cross-encoder is a later option if measured
+  worth it).
+- **Consequence:** two vector spaces (Gemini 3,072 for the corpus, local for private uploads), so scores of the two
+  lanes are not comparable → the merge in §e does not mix them by score.
+- **Also open (Q2):** the *question* itself still goes to Gemini (free tier); a question about a private upload may
+  quote private content.
+
+**e. Retrieval with uploads (D13 / D17).** `search(query, employee_id, session=None, …)`:
+- **Corpus lane:** the existing ADR-038 path, unchanged (same filter, same reranker, k = 8). With `session=None` or
+  an empty session it is the same call → the baseline cannot move.
+- **Session lane:** only if `session.owner == employee_id` (else `PermissionError`); cosine over the session's
+  chunk vectors in memory (≤ 300 × 1,024 floats, < 1 ms); a chunk enters only above a floor τ calibrated on the
+  upload test set (the score that keeps off-topic upload chunks out of ≥ 95 % of golden queries); at most 3.
+- **Merge (recommended, Q4): two labelled lists** — `results` (corpus, as today) + `session_results` (uploads,
+  `trust: "untrusted_upload"`). Corpus results are never displaced, so the golden-set baseline is preserved by
+  construction, and the provenance label needed by §c stays explicit. Alternative: interleave into the 8 slots
+  (one list, but it can push out corpus chunks and needs a common score).
+- **No widening (D13):** an upload is visible only in its owner's session; a different employee, a different
+  session or an expired session sees nothing. At upload, `E_LEVEL_ABOVE_UPLOADER` refuses a document whose
+  (`sensitivity_level`, `department`) the uploader could not see under ADR-006 (`retrieval.allowed`), so the session
+  never holds a label the uploader is not entitled to; `allowed()` is re-checked on every session result (defence in
+  depth, as in the corpus lane). Promotion assigns access only through the reviewed `documents` row and the chunk
+  payload, exactly like the siblings.
+- **Measurement (script `Upload_eval.py`, thresholds fixed before the run, ADR-040 style):**
+  M1 regression — 64 golden queries with no session vs with an empty session: identical corpus results (ids and
+  order), 0 extra API calls. M2 distractor — a session holding 3 off-topic company documents: corpus lane identical
+  again; session-lane false inclusion ≤ 5 % of golden queries (calibrates τ). M3 upload questions — 3 synthetic
+  NileGate documents × 8 questions + Arabic twins with expected section ids: session-lane hit@3 and fact recall
+  (`evaluation.FactMatcher`), per language; decides the local model. M4 isolation — another employee / session /
+  expired session gets 0 session results; Qdrant point count and the `Data/` tree unchanged after every
+  conversation-only upload. M5 latency — validation + chunk + embed p50 / p95 for 1, 10, 30 pages; session-lane
+  overhead per question.
+
+**f. Reused vs new.**
+- **Reused, unchanged:** `chunks` (`COLUMNS`, `compose`, `split_heading`, `check`), `retrieval` (`User`, `allowed`,
+  `rbac_filter`, the corpus path of `Retriever.search`, `shingles` / `near_duplicate` for the promotion duplicate
+  check), `embeddings` (`Embedder`, `Budget`, `embed_with_cache` — promotion and public uploads only), `qdrant_store`
+  (`upsert_document`, `verify_document` — promotion only), `evaluation` (`FactMatcher`, `QueryJudge`), `common`
+  (`load_env`, `redact`); the `Documents_registry` pattern (CSV mirror + generated migration) for promotion.
+- **Changed:** `retrieval.Retriever.search` gains the optional `session` argument and `SearchResult.session_results`
+  (default path byte-identical).
+- **New:** `pipelines/lib/uploads.py` (template spec, `validate_upload`, chunking of a template document),
+  `pipelines/lib/screening.py` (G1-G3), `pipelines/lib/session_store.py` (memory, TTL, owner check),
+  `pipelines/lib/local_embeddings.py` (ONNX model wrapper); scripts `Upload_fixtures.py`, `Upload_validation.py`,
+  `Upload_eval.py`, `Upload_promotion.py`; `docs/templates/NileGate_document_v1.md`. File list, tests, measurements
+  and ADR numbers come in the implementation plan, after the answers to Q1-Q8.
+
+**Open points (owner, recommended option first):**
+- **Q1 Private uploads — embedding:** local ONNX model (no data leaves the machine) / Gemini paid tier (same space,
+  costs money) / refuse non-public uploads.
+- **Q2 The question text** still goes to Gemini free tier for the corpus lane: accept as a known limit (the
+  session lane embeds it locally) / skip the corpus lane when a session holds a private upload.
+- **Q3 Promotion department:** only the manager's own department / any department the manager names.
+- **Q4 Merge:** two labelled lists (`results` + `session_results`) / interleave into the same 8 slots.
+- **Q5 Promoting a non-public / personal-data document:** blocked until the paid Gemini tier is enabled (keeps
+  D14 "exactly like the siblings" and ADR-037) / a second local-vector collection for internal documents.
+- **Q6 File types v1:** PDF only / PDF + DOCX.
+- **Q7 Limits:** 5 MB, 30 pages, 5 uploads / 300 chunks per session, TTL 8 h / other values.
+- **Q8 An injection hit:** refuse the whole upload / accept without the flagged section and say so.
+
+**Owner answers (2026-10-08, second round) and what they settle** — the owner also said "take your time, work with
+every permission you need, message me when done": read as the go-ahead to implement Phase 8 on this design.
+- **Q1:** ONNX Runtime, with the model the owner picked (`mesolitica/llama2-embedding-600m-8k`), run with the best
+  settings / accelerator found. Found while reading its card: trained on **Malay** pairs only, Llama-2 tokenizer
+  (32k, weak Arabic coverage), 2 layers, 1,536 d, mean pooling, normalized. Because Arabic questions are the plan's
+  main risk (ADR-037), it is **measured, not assumed**: rule fixed before any run — the owner's model is the default
+  and is kept if it meets the M3 thresholds (session-lane hit@3 ≥ 0.85 EN and ≥ 0.75 AR); if it does not, the best
+  multilingual alternative that meets them (`google/embeddinggemma-300m`, ONNX, 100+ languages incl. Arabic) is used
+  and the owner is told. Settings measured: fp32 / int8, CPU threads, GPU (GTX 1660 Ti) if a provider fits.
+- **Q2 (owner: "do the right thing"):** accept as a known limit, with a guard: the corpus-lane query is the
+  employee's question only, never expanded with upload text; the session lane embeds the question locally. The
+  general issue (questions go to the free tier) is ADR-037's and is revisited with the paid tier.
+- **Q3:** the manager's own department only.
+- **Q4 (owner: "least problems"):** two labelled lists (`results` + `session_results`).
+- **Q5 (owner: "do the right thing"):** a promotion is approved only for `data_origin: public` and
+  `personal_data: no`, unless `.env` declares `GEMINI_TIER=paid` (Google's paid tier does not train on inputs);
+  otherwise `--approve` refuses with that reason. A document whose upload lost sections to screening (Q8) cannot be
+  promoted: the manager fixes the source first (the corpus stays clean).
+- **Q6:** PDF and DOCX. DOCX is read with `zipfile` + `defusedxml` (untrusted XML); refused: macros (`vbaProject`),
+  external relationships, embedded / OLE objects, ActiveX, `altChunk`, DDE / INCLUDE fields; hidden text =
+  `w:vanish`, white text, < 4 pt, deleted tracked changes, comments are never read.
+- **Q7 ("what fits"):** PDF ≤ 5 MB / 30 pages; DOCX ≤ 5 MB, uncompressed ≤ 25 MB (zip-bomb guard); body ≤ 60,000
+  chars; 5 uploads / 300 chunks per session; TTL 8 h.
+- **Q8:** accept without the flagged section and say so. File-level threats (active content, macros, embedded files,
+  encryption) still refuse the whole file (no section to remove); a hit inside the metadata block refuses (it is
+  required); a document left with no section is refused.
 
 #### Former Phase 8 design (batch ingestion of new corpus PDFs; reference)
 Script `pipelines/scripts/rag/ingest_new_pdfs.py` — a dedicated PDF agent (PDF only): a new PDF placed in
@@ -510,11 +701,77 @@ Recommended option first.
   **Next: Phase 8** (PDF ingestion script) after the owner's go; Phase 9 closes the plan.
 - 2026-10-08 **Phase 8 re-scoped by the owner** (see Phase 8 above): the question is how the system handles a
   document an employee uploads at inference time; open decisions D12-D17. Session closed here.
+- 2026-10-08 **Phase 8 design written (PROPOSED)** on D12-D17: "Phase 8 design — inference-time uploads" (§a-§f),
+  open points Q1-Q8 for the owner. Docker: `ports-qdrant` and `ports-postgres` up, `ports-mongo` exited (not needed).
+  Next: owner answers Q1-Q8 → implementation plan (files, tests, measurements, ADR numbers) → approval.
+- 2026-10-08 **Phase 8 IMPLEMENTED** (owner: Q1-Q8 answered, "take your time, all permissions, message me when done"
+  = go-ahead; implementation plan and implementation done in one pass, ADR-042 – ADR-044):
+  - **Library** (`pipelines/lib/`): `upload_reader` (PDF / DOCX → lines + file-level / hidden-text findings, run in a
+    child process), `screening` (patterns EN / MSA / Egyptian + whitespace-free form), `uploads` (template,
+    `validate_upload`, chunking), `local_embeddings` (ONNX Runtime), `session_store` (memory-only store, session lane,
+    promotion request); `retrieval.search(..., session=, session_k=3)` + `SearchResult.session_results`;
+    `qdrant_store.UNIT_KIND["section"] = "paragraph"`. Dependencies (`uv add`): defusedxml 0.7.1, tokenizers 0.22.1.
+  - **Scripts** (`pipelines/scripts/retrieval/`): `Upload_fixtures.py` ✅ (52 cases, deterministic except the AES
+    fixture), `Upload_validation.py` ✅ 6/6 (every verdict as expected, 0 corpus false positives, parity 3/3, reader
+    timeout / crash refused, p95 0.26 s), `Upload_eval.py` ✅ 8/8 (796 s, 64 Jina calls, 0 Gemini calls for golden
+    questions), `Upload_promotion.py --selftest` ✅ 11/11 (throwaway collection, dropped); regression:
+    `Lib_selftest.py` ✅, `Retrieval.py` ✅ 6/6, both `files changed: 0`. `tools/export_onnx.py` (throwaway venv).
+  - **Docs:** `docs/templates/NileGate_document_v1.md` + example DOCX; ARCHITECTURE (component, flow, dependencies,
+    ADR table 036-044); RETRIEVAL_FLOW §2.1 (the untrusted-upload contract for the agents phase); pipelines/README.
+  - **Results:** baseline unchanged with a session holding 4 uploads (dense 0.812, dense + rerank 0.8495, identical
+    corpus results for all 64 golden questions); isolation 15/15; upload of a 3-page PDF ≈ 0.84 s; session lane
+    ≈ 18 ms per question.
+  - **Deviations:** (1) **Q1 model:** the owner's `mesolitica/llama2-embedding-600m-8k` (Malay-trained) misses both
+    thresholds fixed before the run (hit@3 EN 0.767 / AR 0.167; AR on the Arabic document 0.833); `multilingual-e5-base`
+    is better (0.933 / 0.500) but also misses the Arabic one → used **PROVISIONALLY** (`Upload_eval` prints ⚠️ and
+    snapshots `meets_rule=False`). `BAAI/bge-m3` (official ONNX, 2.3 GB) not tried: **2.8 GB free on C:**, and
+    `Remove-Item` is denied for the assistant. (2) Precision rule refined after the quick scratch timings: the fastest variant
+    within 0.02 hit@3 of fp32 (weight-only int8 / int4 are slower on this CPU) → fp32, 12 threads, batch 8. Dynamic int8
+    broke the Llama model (cosine 0.809) → weight-only MatMulNBits (0.99998). (3) Session uploads always use the local
+    model (design §d allowed Gemini for public uploads: dropped — one space, one floor, no quota). (4) The floor rule
+    (95 % keep-out → 0.81) also hides relevant chunks (EN 0.933 → 0.800): applied as ruled, alternatives measured.
+    (5) Promoted documents live in `Data/processed/rag/promoted/` (+ `documents_promoted.csv`), not `chunks/`: the
+    corpus scripts assert 2,163; same contract, table, model, payload and collection. (6) `transformers` 4.57 cannot
+    be traced to ONNX (vmap masks): the export builds the 4D causal mask itself (equal to the native path, cosine 1.0).
+    (7) uv could not unpack sympy for `uv run --with` (file lock): a throwaway venv in the scratchpad instead.
+    (8) DirectML (GTX 1660 Ti) measured in a throwaway venv (5-10× faster for chunks, slower for one question); not
+    adopted (would replace `onnxruntime` project-wide).
 
-### SESSION HANDOFF (2026-10-08) — read this first in the next session
+- 2026-10-08 **Project moved to `D:\Project`** (owner: C: had 2.6 GB free). Copied with robocopy (2,020 files,
+  6.7 GB, 0 failed) without `.venv` (rebuilt with `uv sync`), `models/hf/` (export sources, re-downloadable) and this
+  session's throwaway helpers; Docker uses named volumes only (nothing to change). Old path replaced in every text
+  file of the new tree at the byte level (22 files, 86 occurrences: the archived notebooks' outputs and the
+  `_scratch` run logs; no script or doc held an absolute path); 5 stale `.pyc` in `_scratch/pyc` keep the old path
+  (regenerated by Python). The assistant memory copied to the new project key. Checks from D:: `Upload_validation.py` ✅
+  (`files changed: 0`); `tools/nb_to_script.py check` reports 6 FAILED "checkpoint differs" for six RAG chunking
+  scripts — **identical on the old copy before the move** (pre-existing, offered as a separate task). Deletions are
+  denied for the assistant by the local assistant foldersettings.json`: the old folder and the clean-up list are for the owner.
+- 2026-10-08 **bge-m3 measured on D: → the session-lane model** (closes deviation 1 above): `BAAI/bge-m3`
+  (`pytorch_model.bin`, loaded with weights_only; exported fp32 / weight-only int8 0.99975 / int4 0.952 by
+  `tools/export_onnx.py`, CLS pooling added) — hit@3 EN 1.000 / AR 1.000 (MRR 0.95), the only candidate meeting the
+  rule. `Upload_eval.py` ✅ 8/8 (2,315 s): choice bge-m3 / fp32 (`meets_rule=True`); floor **0.52** (computed from the
+  ranked scores — the interpolated quantile let 4 of 64 through, fixed); with the floor EN 0.967 / AR 0.733,
+  alternatives 0.45 → 1.000 / 0.900 (14.1 % inclusion); baseline identical (0.812 / 0.8495); isolation 15/15; upload
+  of a 3-page PDF 3.1 s, session lane 82 ms (p95 0.24 s). Phase 2 timings now warm up and take the best of 2 (a cold
+  fp32 run had made int8 look faster). DirectML for bge-m3: 32 chunks 1.1 s vs 6.8 s CPU, a question 107 vs 60 ms.
+  ADR-043 rewritten accordingly.
+- 2026-10-08 **Owner decisions** ("موافق على قراراتك"): floor rule 95 % → 80 % keep-out → bge-m3 floor 0.45
+  (`session_store.FLOORS`, `Upload_eval.FLOOR_KEEP_OUT`; Upload_eval now also asserts the chosen model meets the
+  thresholds with its floor); DirectML deferred. The owner's first `Remove-Item` of the old C: copy failed ("in use":
+  his terminal had the old `.venv` activated there, and this the assistant session still ran in it).
+- 2026-10-08 **Final Upload_eval run on D:** ✅ 8/8 (1,614 s): bge-m3 / fp32, floor 0.45 → hit@3 EN 1.000 / AR 0.900
+  (passes), 9 of 64 golden questions get session results; baseline identical (0.812 / 0.8495); isolation 15/15; upload
+  4.1 s, session lane 62 ms. Threads default = physical cores (6): the machine was busy (the owner's editor
+  indexing D:) and 12 logical threads were 30 % slower there. Containers had exited (Docker restart): `docker start
+  ports-postgres ports-qdrant`. **State check:** the owner's `Remove-Item -Recurse` on the old C: folder had already
+  deleted every file in it (only the empty, in-use folder is left; C: free 2.6 → 16.7 GB); nothing was lost: the copy
+  was complete before (0 failed), only D: was edited after it, and D:'s last commit is `8c96dd4`, the session's start.
+  The HF cache, `models/hf/` and the scratch helpers were already removed by the owner.
+
+### SESSION HANDOFF (2026-10-08, after Phase 8) — read this first in the next session
 - **Git:** all work of Phases 0-7 is committed and pushed on branch **`feat/rag-retrieval`** (not merged). The owner
   opens the pull request only when Phase 8 and Phase 9 are finished; keep working on this branch.
-- **Done:** Phases 0-7. Model Gemini `gemini-embedding-2`, composed unit (ADR-037); title / text rule (ADR-041);
+- **Done:** Phases 0-8 (Phase 8 not yet committed: the owner runs git). Model Gemini `gemini-embedding-2`, composed unit (ADR-037); title / text rule (ADR-041);
   three-level evaluation (ADR-040); shared library `pipelines/lib/` (ADR-039 + amendment: `unit_kind`, `year`);
   Qdrant `nilegate_docs` loaded (2,163 points); `search_documents` in `pipelines/lib/retrieval.py` with defaults
   exact dense + Jina rerank, no hybrid, no shaping (ADR-038; baseline `Data/processed/rag/eval/results_2026-10-08.json`,
@@ -524,10 +781,17 @@ Recommended option first.
   Retrieval, Evaluation, Lib_selftest; `db/qdrant/` (container + probe).
 - **Needs at run time:** Docker Desktop with `ports-qdrant` and `ports-postgres` started (`docker start ...`); `.env`
   keys (GEMINI, JINA, VOYAGE, QDRANT, PG_RO_*).
-- **Open / next:** Phase 8 re-scoped → D12-D17 **answered by the owner** (see "Owner answers" under Phase 8); next:
-  write the inference-time upload design as PROPOSED on those answers (incl. the company document shape, injection
-  screening, upload embedding path, session store, manager promotion flow, retrieval merge), owner approval, then
-  implement; Phase 9 closes the plan (archive, `documents.ingested_at` migration, ARCHITECTURE / DATA_MAP /
+- **Phase 8 done** (see the 2026-10-08 "Phase 8 IMPLEMENTED" entry above; ADR-042 – ADR-044). Phase 8 scripts:
+  Upload_fixtures, Upload_validation, Upload_eval, Upload_promotion (`--selftest`); local models in `models/onnx/`
+  (git-ignored, rebuilt by `tools/export_onnx.py` from `models/hf/`).
+- **Project location:** `D:\Project` since 2026-10-08 (the old `C:\Users\terbo\Desktop\Project` is a stale copy for
+  the owner to delete). Session-lane model: `BAAI/bge-m3` (ADR-043).
+- **Owner decisions (2026-10-08, "agreed with your decisions"):** floor 0.45 (80 % keep-out; hit@3 EN 1.000 / AR
+  0.900), DirectML deferred to the API phase (ADR-043). **Deletions for the owner** (denied for the assistant): the
+  old C: copy (close every terminal / editor / the assistant session opened on it first: "in use"); `D:\Project\models\hf\bge-m3\` (2.2 GB, export done); `%USERPROFILE%\.cache\huggingface` (1.7 GB, a
+  stalled download); `D:\Project\Notebooks\_scratch\` try_m3.py, try_floor.py, bench_providers.*, bench_texts.json,
+  pyc\ at task close. The ONNX variants in `models/onnx/` stay: `Upload_eval.py` re-measures every candidate.
+- **Open / next:** Phase 9 closes the plan (archive, `documents.ingested_at` migration, ARCHITECTURE / DATA_MAP /
   RETRIEVAL_FLOW / the project rules stack updates, `Notebooks/_scratch/` emptied by the owner — deletions are blocked for
   the assistant). Known notes: the reranker adds ~0.6-1.5 s and has an unpublished Jina limit (graceful fallback); the
   per-question PostgreSQL connection costs ~18 ms (pool later); Gemini free tier ≈ 1,000-1,450 texts / day.

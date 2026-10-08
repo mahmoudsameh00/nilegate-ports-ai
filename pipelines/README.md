@@ -37,10 +37,18 @@ notebook's saved outputs.
 | `retrieval/Retrieval.py` | retrieval | A | nothing (validates `search_documents`: exactness, RBAC matrix, filters, cache, rate, latency) |
 | `retrieval/Evaluation.py` | retrieval | A | `rag/eval/results_<date>.json` (configurations by the ADR-040 rule → ADR-038) |
 | `retrieval/Lib_selftest.py` | retrieval | A | nothing (checks `pipelines/lib/`; throwaway Qdrant collection) |
+| `retrieval/Upload_fixtures.py` | retrieval | B-style phases | `rag/eval/uploads/fixtures/` (52 cases: clean NileGate documents + attacks), `expected.json`, `upload_questions.jsonl`; `docs/templates/NileGate_document_v1_example.docx` |
+| `retrieval/Upload_validation.py` | retrieval | B-style phases | `rag/eval/uploads/validation_report.json` (every fixture verdict, corpus false positives 0, PDF / DOCX parity) |
+| `retrieval/Upload_eval.py` | retrieval | B-style phases | `rag/eval/uploads/upload_eval_<date>.json` (local model choice, settings, floor, corpus baseline with a session, isolation, latency) |
+| `retrieval/Upload_promotion.py` | retrieval | A (CLI) | promotion requests in `Data/incoming/promotion/` (review / approve / commit); `--selftest` uses a throwaway collection |
 
 The retrieval scripts are not in `run.py all` (they call paid / rate-limited APIs or need `ports-qdrant`). They share
 `pipelines/lib/` (ADR-039): `common`, `chunks`, `embeddings`, `qdrant_store`, `evaluation` (ADR-040: retrieval /
-ranking / context metrics).
+ranking / context metrics), and for documents uploaded at inference time (RAG plan Phase 8): `upload_reader`
+(PDF / DOCX reading in a child process, file-level and hidden-text findings), `screening` (injection patterns),
+`uploads` (the "NileGate Document v1" shape, `validate_upload`, chunking), `local_embeddings` (ONNX Runtime model),
+`session_store` (conversation-only uploads in memory, the session lane, promotion requests). The local ONNX models
+are exported once by `tools/export_onnx.py` into `models/onnx/` (git-ignored).
 
 - **Level A**: rewritten by hand as functions and `main()`; exploration prints became assertions. Proof: the local run
   (`--compare`: the notebook's ✅ lines kept in order, new ones allowed; `files changed: 0`).

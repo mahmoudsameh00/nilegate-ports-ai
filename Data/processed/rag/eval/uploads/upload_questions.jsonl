@@ -1,0 +1,60 @@
+{"qid": "u01", "lang": "en", "question": "How soon must a technician record the PTI result in the system?", "document": "D1", "section": "3.1", "expected": "ng_ops_prc_0042_s3_1"}
+{"qid": "u01_ar", "lang": "ar", "question": "الفني لازم يسجل نتيجة الفحص في السيستم في خلال قد إيه؟", "document": "D1", "section": "3.1", "expected": "ng_ops_prc_0042_s3_1"}
+{"qid": "u02", "lang": "en", "question": "What is the minimum insulation resistance in the reefer electrical check?", "document": "D1", "section": "4.2", "expected": "ng_ops_prc_0042_s4_2"}
+{"qid": "u02_ar", "lang": "ar", "question": "أقل مقاومة عزل مسموح بيها في الفحص الكهربائي للحاوية المبردة كام؟", "document": "D1", "section": "4.2", "expected": "ng_ops_prc_0042_s4_2"}
+{"qid": "u03", "lang": "en", "question": "What size of hole makes a reefer fail the visual check?", "document": "D1", "section": "4.1", "expected": "ng_ops_prc_0042_s4_1"}
+{"qid": "u03_ar", "lang": "ar", "question": "الخرم لو حجمه قد إيه الحاوية المبردة تسقط في الفحص النظري؟", "document": "D1", "section": "4.1", "expected": "ng_ops_prc_0042_s4_1"}
+{"qid": "u04", "lang": "en", "question": "What temperature tolerance applies to chilled cargo?", "document": "D1", "section": "5", "expected": "ng_ops_prc_0042_s5"}
+{"qid": "u04_ar", "lang": "ar", "question": "إيه نسبة السماح في درجة الحرارة للبضاعة المبردة؟", "document": "D1", "section": "5", "expected": "ng_ops_prc_0042_s5"}
+{"qid": "u05", "lang": "en", "question": "Within how many hours must a failed reefer go to the repair area?", "document": "D1", "section": "6", "expected": "ng_ops_prc_0042_s6"}
+{"qid": "u05_ar", "lang": "ar", "question": "الحاوية اللي سقطت في الفحص لازم تروح منطقة الصيانة في خلال كام ساعة؟", "document": "D1", "section": "6", "expected": "ng_ops_prc_0042_s6"}
+{"qid": "u06", "lang": "en", "question": "How long are pre-trip inspection records kept?", "document": "D1", "section": "7", "expected": "ng_ops_prc_0042_s7"}
+{"qid": "u06_ar", "lang": "ar", "question": "سجلات فحص ما قبل الرحلة بتتحفظ لمدة قد إيه؟", "document": "D1", "section": "7", "expected": "ng_ops_prc_0042_s7"}
+{"qid": "u07", "lang": "en", "question": "Who signs off the daily PTI log?", "document": "D1", "section": "3.3", "expected": "ng_ops_prc_0042_s3_3"}
+{"qid": "u07_ar", "lang": "ar", "question": "مين اللي بيوقع على سجل الفحص اليومي؟", "document": "D1", "section": "3.3", "expected": "ng_ops_prc_0042_s3_3"}
+{"qid": "u08", "lang": "en", "question": "How long may the pull-down test take for a 40-foot reefer?", "document": "D1", "section": "4.3", "expected": "ng_ops_prc_0042_s4_3"}
+{"qid": "u08_ar", "lang": "ar", "question": "اختبار التبريد للحاوية الأربعين قدم ممكن ياخد قد إيه؟", "document": "D1", "section": "4.3", "expected": "ng_ops_prc_0042_s4_3"}
+{"qid": "u09", "lang": "en", "question": "What causes a documentary customs hold?", "document": "D2", "section": "3.1", "expected": "ng_cus_cir_0007_s3_1"}
+{"qid": "u09_ar", "lang": "ar", "question": "إيه اللي بيعمل حجز مستندي في الجمارك؟", "document": "D2", "section": "3.1", "expected": "ng_cus_cir_0007_s3_1"}
+{"qid": "u10", "lang": "en", "question": "How far in advance must an X-ray scanning slot be booked?", "document": "D2", "section": "3.2", "expected": "ng_cus_cir_0007_s3_2"}
+{"qid": "u10_ar", "lang": "ar", "question": "لازم نحجز ميعاد الأشعة قبلها بقد إيه؟", "document": "D2", "section": "3.2", "expected": "ng_cus_cir_0007_s3_2"}
+{"qid": "u11", "lang": "en", "question": "Which certificate is needed to lift a veterinary hold?", "document": "D2", "section": "3.3", "expected": "ng_cus_cir_0007_s3_3"}
+{"qid": "u11_ar", "lang": "ar", "question": "محتاجين شهادة إيه عشان نفك الحجز البيطري؟", "document": "D2", "section": "3.3", "expected": "ng_cus_cir_0007_s3_3"}
+{"qid": "u12", "lang": "en", "question": "What is required before a held container can be released?", "document": "D2", "section": "4", "expected": "ng_cus_cir_0007_s4"}
+{"qid": "u12_ar", "lang": "ar", "question": "إيه المطلوب قبل ما الحاوية المحجوزة تتفرج عنها؟", "document": "D2", "section": "4", "expected": "ng_cus_cir_0007_s4"}
+{"qid": "u13", "lang": "en", "question": "How many free storage days are there during a customs hold?", "document": "D2", "section": "5", "expected": "ng_cus_cir_0007_s5"}
+{"qid": "u13_ar", "lang": "ar", "question": "كام يوم تخزين ببلاش أثناء الحجز الجمركي؟", "document": "D2", "section": "5", "expected": "ng_cus_cir_0007_s5"}
+{"qid": "u14", "lang": "en", "question": "What is the daily storage charge per TEU after day 10 of a hold?", "document": "D2", "section": "5", "expected": "ng_cus_cir_0007_s5"}
+{"qid": "u14_ar", "lang": "ar", "question": "رسوم التخزين اليومية للحاوية بعد اليوم العاشر من الحجز كام؟", "document": "D2", "section": "5", "expected": "ng_cus_cir_0007_s5"}
+{"qid": "u15", "lang": "en", "question": "When are long customs holds reported to the customs manager?", "document": "D2", "section": "6", "expected": "ng_cus_cir_0007_s6"}
+{"qid": "u15_ar", "lang": "ar", "question": "الحجوزات الطويلة بتتبلغ لمدير الجمارك إمتى؟", "document": "D2", "section": "6", "expected": "ng_cus_cir_0007_s6"}
+{"qid": "u16", "lang": "en", "question": "Where are containers taken for a physical customs examination?", "document": "D2", "section": "3.2", "expected": "ng_cus_cir_0007_s3_2"}
+{"qid": "u16_ar", "lang": "ar", "question": "الحاويات بتروح فين عشان التفتيش الفعلي؟", "document": "D2", "section": "3.2", "expected": "ng_cus_cir_0007_s3_2"}
+{"qid": "u17", "lang": "en", "question": "What is the night shift allowance?", "document": "D3", "section": "4", "expected": "ng_hr_pol_0015_s4"}
+{"qid": "u17_ar", "lang": "ar", "question": "بدل الوردية الليلي كام؟", "document": "D3", "section": "4", "expected": "ng_hr_pol_0015_s4"}
+{"qid": "u18", "lang": "en", "question": "How many overtime hours are allowed per month?", "document": "D3", "section": "5.1", "expected": "ng_hr_pol_0015_s5_1"}
+{"qid": "u18_ar", "lang": "ar", "question": "مسموح بكام ساعة أوفر تايم في الشهر؟", "document": "D3", "section": "5.1", "expected": "ng_hr_pol_0015_s5_1"}
+{"qid": "u19", "lang": "en", "question": "How is overtime paid on public holidays?", "document": "D3", "section": "5.2", "expected": "ng_hr_pol_0015_s5_2"}
+{"qid": "u19_ar", "lang": "ar", "question": "الأوفر تايم في الإجازات الرسمية بيتحسب إزاي؟", "document": "D3", "section": "5.2", "expected": "ng_hr_pol_0015_s5_2"}
+{"qid": "u20", "lang": "en", "question": "What is the minimum rest between two shifts?", "document": "D3", "section": "3", "expected": "ng_hr_pol_0015_s3"}
+{"qid": "u20_ar", "lang": "ar", "question": "أقل راحة بين ورديتين قد إيه؟", "document": "D3", "section": "3", "expected": "ng_hr_pol_0015_s3"}
+{"qid": "u21", "lang": "en", "question": "Who must approve overtime before it is worked?", "document": "D3", "section": "5.1", "expected": "ng_hr_pol_0015_s5_1"}
+{"qid": "u21_ar", "lang": "ar", "question": "مين لازم يوافق على الأوفر تايم قبل ما نشتغله؟", "document": "D3", "section": "5.1", "expected": "ng_hr_pol_0015_s5_1"}
+{"qid": "u22", "lang": "en", "question": "By which date must hours reach payroll?", "document": "D3", "section": "6", "expected": "ng_hr_pol_0015_s6"}
+{"qid": "u22_ar", "lang": "ar", "question": "الساعات لازم توصل للمرتبات قبل يوم كام؟", "document": "D3", "section": "6", "expected": "ng_hr_pol_0015_s6"}
+{"qid": "u23", "lang": "en", "question": "Within how many days must time off in lieu be taken?", "document": "D3", "section": "5.2", "expected": "ng_hr_pol_0015_s5_2"}
+{"qid": "u23_ar", "lang": "ar", "question": "الإجازة البديلة عن الأوفر تايم لازم تتاخد في خلال كام يوم؟", "document": "D3", "section": "5.2", "expected": "ng_hr_pol_0015_s5_2"}
+{"qid": "u24", "lang": "en", "question": "How often do shift rosters rotate?", "document": "D3", "section": "3", "expected": "ng_hr_pol_0015_s3"}
+{"qid": "u24_ar", "lang": "ar", "question": "جدول الورديات بيتغير كل قد إيه؟", "document": "D3", "section": "3", "expected": "ng_hr_pol_0015_s3"}
+{"qid": "u25", "lang": "en", "question": "What is the maximum truck speed inside the container yard?", "document": "D4", "section": "4", "expected": "ng_ops_gdl_0003_s4"}
+{"qid": "u25_ar", "lang": "ar", "question": "إيه أقصى سرعة للشاحنات جوه ساحة الحاويات؟", "document": "D4", "section": "4", "expected": "ng_ops_gdl_0003_s4"}
+{"qid": "u26", "lang": "en", "question": "What safety distance must be kept from a crane while it is lifting?", "document": "D4", "section": "5", "expected": "ng_ops_gdl_0003_s5"}
+{"qid": "u26_ar", "lang": "ar", "question": "لازم أبعد قد إيه عن الونش وهو بيرفع؟", "document": "D4", "section": "5", "expected": "ng_ops_gdl_0003_s5"}
+{"qid": "u27", "lang": "en", "question": "Which personal protective equipment is required in the yard?", "document": "D4", "section": "3", "expected": "ng_ops_gdl_0003_s3"}
+{"qid": "u27_ar", "lang": "ar", "question": "إيه معدات الوقاية المطلوبة في الساحة؟", "document": "D4", "section": "3", "expected": "ng_ops_gdl_0003_s3"}
+{"qid": "u28", "lang": "en", "question": "How quickly must an incident in the yard be reported to the supervisor?", "document": "D4", "section": "6", "expected": "ng_ops_gdl_0003_s6"}
+{"qid": "u28_ar", "lang": "ar", "question": "لازم أبلغ المشرف عن الحادثة في خلال قد إيه؟", "document": "D4", "section": "6", "expected": "ng_ops_gdl_0003_s6"}
+{"qid": "u29", "lang": "en", "question": "What is the internal emergency number?", "document": "D4", "section": "6", "expected": "ng_ops_gdl_0003_s6"}
+{"qid": "u29_ar", "lang": "ar", "question": "رقم الطوارئ الداخلي كام؟", "document": "D4", "section": "6", "expected": "ng_ops_gdl_0003_s6"}
+{"qid": "u30", "lang": "en", "question": "Who do the yard safety guidelines apply to?", "document": "D4", "section": "2", "expected": "ng_ops_gdl_0003_s2"}
+{"qid": "u30_ar", "lang": "ar", "question": "إرشادات السلامة دي بتنطبق على مين؟", "document": "D4", "section": "2", "expected": "ng_ops_gdl_0003_s2"}

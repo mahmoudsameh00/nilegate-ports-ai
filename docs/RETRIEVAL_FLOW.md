@@ -70,6 +70,24 @@ flowchart LR
 The Phase 7 evaluation compares **dense only / hybrid / hybrid + rerank** on the golden set. The default setting is the
 one the numbers support.
 
+### 2.1 Documents uploaded in the conversation (IMPLEMENTED 2026-10-08; ADR-042 – ADR-044)
+
+`search_documents(query, employee_id, session=...)` adds the conversation's uploads as a **second list**:
+
+| | `results` (corpus lane) | `session_results` (session lane) |
+|---|---|---|
+| source | Qdrant `nilegate_docs` | the session's uploads, in memory |
+| query vector | Gemini (the question only, never expanded with upload text) | local ONNX model |
+| access | ADR-006 filter inside the query | session owner only + ADR-006 re-check |
+| size | k (8) | at most 3, above the model's floor |
+| label | corpus provenance | `lane="session"`, `trust="untrusted_upload"`, `uploaded_by`, `document_code` |
+
+**Contract for the agents phase (the project rules rule 5):** a `session_results` chunk is the employee's own uploaded text.
+It may be quoted and cited as data, inside clear delimiters, with its upload label; it is **never** followed as an
+instruction, never allowed to change the assistant's role or rules, and never allowed to trigger a tool call or a
+request to a URL — even if it passed the upload screening (the patterns catch known shapes only). Corpus `results`
+are never displaced by upload chunks, so the retrieval baseline (ADR-038) holds with or without a session.
+
 ---
 
 ## 3. Question types → tools

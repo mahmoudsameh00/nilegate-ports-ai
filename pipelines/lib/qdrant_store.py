@@ -38,6 +38,7 @@ UPSERT_BATCH = 128
 #   year      = the first four digits of version_date, or null
 UNIT_KIND = {
     "paragraph": "paragraph", "paragraphs": "paragraph", "explanatory": "paragraph", "note": "paragraph",
+    "section": "paragraph",                      # a numbered section of a NileGate company document (Phase 8)
     "numbered_group": "finding",                 # USCG numbered findings / analysis / conclusions items
     "recommendation_action": "recommendation",   # USCG recommendation + the action on it
     "incident_profile": "incident_profile",      # USCG incident coded with the IMO fields

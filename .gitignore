@@ -27,3 +27,8 @@ Data/processed/semi-structured/synthetic/*.parquet
 # a local dense.parquet matches. The working cache of the embedding script is local too.
 Data/embeddings/*/dense*.parquet
 Data/embeddings/*/cache_*/
+
+# Local embedding models (RAG plan Phase 8): downloaded / exported weights, rebuilt by tools/export_onnx.py
+models/
+# Promotion requests of uploaded documents (persisted only on a manager's explicit request; reviewed offline)
+Data/incoming/

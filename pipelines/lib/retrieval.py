@@ -57,6 +57,9 @@ class SearchResult:
     request: dict                       # what was sent to Qdrant (filters per prefetch), for audit and tests
     timing_ms: dict = field(default_factory=dict)
     api_calls: dict = field(default_factory=dict)
+    # Phase 8: the conversation's uploads (session lane), a separate list labelled trust="untrusted_upload"; the
+    # corpus `results` above are never displaced by them (owner Q4).
+    session_results: list[dict] = field(default_factory=list)
 
 
 def rbac_filter(user: User) -> models.Filter:
@@ -212,11 +215,17 @@ class Retriever:
 
     def search(self, query: str, employee_id: int, k: int = 8, filters: dict | None = None, hybrid: bool = False,
                rerank: bool = True, max_per_document: int | None = None, dedupe: bool = False,
-               candidates: int = 24) -> SearchResult:
+               candidates: int = 24, session=None, session_k: int = 3) -> SearchResult:
         """`max_per_document` and `dedupe` shape the context (see `near_duplicate`); both only drop candidates and
-        let the next ones move up, so k chunks are still returned when the candidates allow it."""
+        let the next ones move up, so k chunks are still returned when the candidates allow it.
+
+        `session` (a `session_store.Session`, Phase 8) adds the conversation's uploads as `session_results` (at most
+        `session_k`). The corpus lane is the same call with or without it: the question sent to Gemini is the
+        question only, never expanded with upload text (owner Q2)."""
         t0 = time.perf_counter()
         user = self.user(employee_id)
+        if session is not None and session.employee_id != employee_id:
+            raise PermissionError(f"session {session.session_id} belongs to another employee")
         flt = models.Filter(must=[rbac_filter(user), *metadata_conditions(filters)])
         t1 = time.perf_counter()
         calls_before = self.embedder.calls
@@ -272,8 +281,15 @@ class Retriever:
         timing = {"user_ms": (t1 - t0) * 1000, "embed_ms": (t2 - t1) * 1000, "qdrant_ms": (t3 - t2) * 1000,
                   "rerank_ms": (t4 - t3) * 1000, "total_ms": (time.perf_counter() - t0) * 1000}
         request["reranked"] = reranked  # False when rerank was off, or skipped because its rate limit was reached
+        session_out = []
+        if session is not None:
+            t5 = time.perf_counter()
+            session_out, info = session.search(query, user, filters, k=session_k)
+            request["session"] = info
+            timing["session_ms"] = (time.perf_counter() - t5) * 1000
+            timing["total_ms"] = (time.perf_counter() - t0) * 1000
         return SearchResult(out, user, request, {k_: round(v, 1) for k_, v in timing.items()},
-                            {"embedding": self.embedder.calls - calls_before})
+                            {"embedding": self.embedder.calls - calls_before}, session_out)
 
 
 _default: Retriever | None = None

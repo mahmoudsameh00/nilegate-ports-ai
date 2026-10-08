@@ -36,6 +36,7 @@ Today the system is **data preparation only**: pipeline scripts (`pipelines/scri
 | MongoDB 8.0.32 (Docker container `ports-mongo`, image `mongo:8.0.32` pinned by digest, db `ports_logistics`, port `127.0.0.1:27017` only, volume `ports-mongo-data`) | IMPLEMENTED (2026-09-27) | Root user for administration + application user `readWrite` on `ports_logistics` only (ADR-027); commands, scripts and audit outputs in `db/mongo/`. Collections `ais_positions` (time-series), `ais_vessels`, `edi_messages` — see §5A. |
 | Semi-structured scripts (`pipelines/scripts/semi_structured/`) | IMPLEMENTED | `AIS_EDI_profiling` (samples → reviewed profiles), `AIS_generator` (500 synthetic tracks, files), `EDI_generator` (434 synthetic IFTMIN, files), `MongoDB_loader` (the only writer to MongoDB, ADR-031: real + synthetic, reload, consistency audit). |
 | Pipeline scripts + tooling (`pipelines/scripts/<area>/`, `pipelines/checkpoints/<area>/`, `tools/run.py`, `tools/nb_to_script.py`) | IMPLEMENTED (2026-10-01), verified locally (15/15, again after the refactor) | Percent-format scripts generated from the 15 notebooks: code cells identical except three listed changes, statically proven (`tools/nb_to_script.py check`); Final Checkpoint narratives in `pipelines/checkpoints/`. Owner's local run 2026-10-01: all 15 exit 0, identical ✅ lines, 0 artifacts changed; the notebooks are archived in `docs/archive/notebooks/` (ADR-036). |
+| Inference-time uploads (RAG plan Phase 8; `pipelines/lib/upload_reader.py`, `screening.py`, `uploads.py`, `local_embeddings.py`, `session_store.py`; `search_documents(..., session=)`) | IMPLEMENTED as a library (2026-10-08); local model `BAAI/bge-m3` (ADR-043) | One company document shape "NileGate Document v1" (PDF / DOCX) validated at upload, layered injection screening, conversation-only storage in memory, local ONNX embeddings (no upload text leaves the machine), corpus results + separate `session_results` labelled `untrusted_upload`, manager promotion through an offline review (ADR-042 – ADR-044). Validated: 52 fixtures, 0 corpus false positives, baseline unchanged with a session, isolation 15/15, promotion self-test 11/11. |
 | Agents, tool layer, API (FastAPI mentioned), auth, audit_log | PLANNED | ADR-012, ADR-014 |
 | Power BI, evaluation harness, observability, Docker Compose | PLANNED / PROPOSED | see ROADMAP |
 | pgvector single store | ABANDONED | ADR-001 |
@@ -190,6 +191,19 @@ user ─► employee ─► role ceiling + department ─► Qdrant payload filt
      ─► authorized chunks only ─► ranking ─► cited passages ─► LLM
 ```
 
+**Documents uploaded in a conversation (IMPLEMENTED as a library, 2026-10-08; ADR-042 – ADR-044):**
+```text
+PDF / DOCX bytes ─► G0 type (magic bytes) + size ─► child process: upload_reader (file-level + hidden-text findings)
+   ─► metadata block + uploader access (ADR-006) + footer + numbered sections ─► screening (sections with hidden
+      text / injection removed and reported; required parts refuse) ─► chunks (corpus contract, ADR-041)
+   ─► local ONNX embeddings ─► SessionStore (memory only, owner = employee, TTL 8 h)
+search_documents(question, employee, session) ─► corpus lane (unchanged: Gemini query, RBAC, rerank) = results
+                                             └► session lane (local query vector, floor, ≤ 3)   = session_results
+                                                (trust = "untrusted_upload": data, never instructions)
+manager + own department + explicit request ─► Data/incoming/promotion/<id>/ ─► owner: review → approve → commit
+   (raw file copied by the owner; Data/processed/rag/promoted/; documents row via migration; Gemini; nilegate_docs)
+```
+
 ## 7. Interfaces
 
 - **No API exists.** FastAPI is mentioned for later (PLANNED).
@@ -202,6 +216,7 @@ user ─► employee ─► role ceiling + department ─► Qdrant payload filt
 pandas 3.0.5, numpy 2.2.4, geopandas 1.1.4, psycopg[binary] 3.3.5, pymupdf 1.28.2, pypdf 6.18.1, pyarrow, pillow, scikit-learn 1.9.1 (TF-IDF), faker 40.38.0, ipykernel.
 Added for the USCG notebook (2026-09-26, `uv add`): rapidocr 3.9.2 + onnxruntime 1.30.0 (OCR, ADR-025), scipy 1.18.1 (figure regions on scans), nbconvert 7.17.1 (notebook execution into logs).
 Added for the semi-structured phase (2026-09-27, `uv add`): pymongo 4.18.2 (+ dnspython 2.8.0), searoute 1.6.0 (+ geojson 3.3.0; sea paths), global-land-mask 1.0.0 (land check). scipy is also used for the AIS routing (`scipy.sparse.csgraph`).
+Added for inference-time uploads (2026-10-08, `uv add`): defusedxml 0.7.1 (untrusted DOCX XML), tokenizers 0.22.1 (local ONNX models; brings huggingface-hub, hf-xet, fsspec). The export of the local models (`tools/export_onnx.py`) needs torch / transformers / onnx only once, in a throwaway environment, not in the project.
 
 ## 9. Major architectural decisions
 
@@ -242,6 +257,15 @@ Added for the semi-structured phase (2026-09-27, `uv add`): pymongo 4.18.2 (+ dn
 | 033 | The database enforces its integrity (CHECK / UNIQUE, FK and GIST indexes) and describes itself (comments) |
 | 034 | Database access: loopback-only ports; read-only group role for tools and agents |
 | 035 | RAG document registry: one row per raw file, stable slugs, versions by fingerprint |
+| 036 | Pipelines are scripts (percent format); notebooks archived |
+| 037 | Embedding model: Gemini `gemini-embedding-2` (3,072 d), composed unit; never non-public data on the free tier |
+| 038 | Retrieval defaults: exact dense + Jina rerank; no hybrid, no context shaping |
+| 039 | Shared library `pipelines/lib/`; Qdrant point id per document version |
+| 040 | Retrieval evaluation at three levels (retrieval, ranking, context) |
+| 041 | One title / text rule for the whole corpus |
+| 042 | Inference-time uploads: one company document shape, validator, layered injection screening |
+| 043 | Conversation uploads: memory-only session store, local ONNX lane, two labelled result lists |
+| 044 | Promotion of a manager's upload to the corpus: request → offline review → registration like the siblings |
 
 ## 10. Open architectural questions
 
