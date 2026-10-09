@@ -18,7 +18,6 @@ dependencies = [
     "pyarrow>=25.0.1",
     "pymongo==4.18.2",
     "pymupdf==1.28.2",
-    "pypdf==6.18.1",
     "qdrant-client==1.19.1",
     "rapidocr==3.9.2",
     "scikit-learn==1.9.1",
