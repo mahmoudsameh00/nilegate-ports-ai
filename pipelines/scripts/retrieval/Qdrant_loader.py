@@ -1,6 +1,6 @@
 """Load Qdrant `nilegate_docs` from the chunk files and the Phase 4 vectors (RAG plan Phase 5; the only writer).
 
-Plan:    docs/plans/RAG_Embeddings_Qdrant_plan.md, Phase 5 (pilot D6: LPI Methodology, then all chunks).
+Plan:    docs/archive/2026-10-08_RAG_Embeddings_Qdrant_plan.md, Phase 5 (pilot D6: LPI Methodology, then all chunks).
 Run:     uv run python tools/run.py pipelines/scripts/retrieval/Qdrant_loader.py  (project root; ports-qdrant up)
 
 Reads:   Data/processed/rag/chunks/*.parquet (contract incl. ADR-041); Data/processed/rag/documents.csv (document_id);

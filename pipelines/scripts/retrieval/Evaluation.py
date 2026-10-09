@@ -1,6 +1,6 @@
 """Phase 7: evaluate `search_documents` configurations and choose the defaults by the ADR-040 rule (→ ADR-038).
 
-Plan:    docs/plans/RAG_Embeddings_Qdrant_plan.md, Phase 7; rule fixed in ADR-040 before this script ran.
+Plan:    docs/archive/2026-10-08_RAG_Embeddings_Qdrant_plan.md, Phase 7; rule fixed in ADR-040 before this script ran.
 Run:     uv run python tools/run.py pipelines/scripts/retrieval/Evaluation.py  (ports-qdrant and ports-postgres up)
 
 Reads:   the frozen golden set + golden facts; Qdrant `nilegate_docs`; PostgreSQL (read-only, RBAC); the query cache

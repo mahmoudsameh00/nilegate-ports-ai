@@ -1,6 +1,27 @@
 # Plan — RAG retrieval: embeddings (API), Qdrant hybrid search, RBAC, reranking, evaluation
 
-- **Status:** APPROVED (2026-09-28), decisions D1–D8 answered by the owner (§4, "Answers"). **Rewritten 2026-10-01**
+## Implementation record (read this first)
+
+- **Status: IMPLEMENTED (2026-10-08)** — Phases 0–9 done on the owner's machine; archived the same day.
+- **Results:** Gemini `gemini-embedding-2` (3,072 d) on the composed unit `title + text` won the bake-off (0.912 vs
+  Voyage 0.804, Jina 0.733; ADR-037, ADR-041); Qdrant `nilegate_docs` holds the 2,163 chunks of 29 documents (UUID5
+  point ids, payload = chunk columns + `document_id` + `text_sha256`, loader idempotent; ADR-039); `search_documents`
+  (`pipelines/lib/retrieval.py`) applies RBAC inside Qdrant, exact dense + Jina rerank (ADR-038: balanced 0.812 →
+  0.850, RBAC leakage 0 over an 88-search matrix; hybrid and context shaping built but rejected by the ADR-040 rule);
+  conversation uploads (Phase 8, ADR-042 – ADR-044) with a local `BAAI/bge-m3` lane, floor 0.45, baseline unchanged;
+  `documents.ingested_at` filled by migration 011.
+- **Deviations (details in "Progress / deviations"):** the plan's hybrid default was not adopted (measured, no gain);
+  Jina was the recommended embedding default but Gemini won; Phase 8 was re-scoped by the owner from "a PDF ingestion
+  script for new corpus documents" to "documents uploaded at inference time" (+ manager promotion); the owner's local
+  model (llama2-embedding-600m-8k) missed the thresholds → bge-m3; the project moved to `D:\Project`; Phase 9 also
+  moved the bake-off vectors out of `_scratch`, removed the two rejected local models and added a 20 % speed margin to
+  the precision rule (see the Phase 9 entry).
+- **Lasting decisions:** ADR-037 – ADR-044 (+ amendments of 2026-10-08 to ADR-037, ADR-038, ADR-043, ADR-044).
+- **Next:** the agents phase (Supervisor + tools; `docs/ROADMAP.md`).
+
+---
+
+- **Status (original):** APPROVED (2026-09-28), decisions D1–D8 answered by the owner (§4, "Answers"). **Rewritten 2026-10-01**
   as a fresh start: every phase is a script (ADR-036), the work runs **on the owner's machine** (not a cloud session),
   nothing of Phase 0 counts as done, and a new Phase 8 adds the **PDF ingestion script** for future documents of the
   RAG corpus (moved here from `docs/archive/2026-10-01_Scripts_and_ingestion_plan.md` part B, owner decisions D5–D6 of that plan).
@@ -768,7 +789,39 @@ Recommended option first.
   was complete before (0 failed), only D: was edited after it, and D:'s last commit is `8c96dd4`, the session's start.
   The HF cache, `models/hf/` and the scratch helpers were already removed by the owner.
 
-### SESSION HANDOFF (2026-10-08, after Phase 8) — read this first in the next session
+- 2026-10-08 **Phase 9 (close) IMPLEMENTED** (owner: "start Phase 9, check for anything unneeded or duplicated, close
+  RAG, open the Qdrant dashboard"; decisions asked and answered in the session):
+  - **Found:** `Notebooks/_scratch/bakeoff/` (504 files, 110 MB) was a hidden dependency — `Retrieval.py`,
+    `Lib_selftest.py` and `Search_index_benchmark.py` assert on it and `Embeddings.py` seeds from it, so emptying
+    `_scratch` (this phase's own step) would have broken them. → moved to `Data/embeddings/bakeoff/` (git-ignored),
+    five scripts' paths updated; the three re-ran ✅, `files changed: 0` (ADR-037 amendment).
+  - **Found:** `Documents_registry.py` asserted `ingested_at` IS NULL, so migration 011 alone would have broken it; and
+    `Upload_promotion.py --commit` registered promoted documents without `ingested_at`. → migration
+    `011_documents_ingested_at.sql` (29 rows = 2026-10-08 16:58:18+03, the last full `Qdrant_loader` run; guarded:
+    29 rows / 2,163 chunks, not applied twice), the registry script asserts that value, `verify_readonly.sql` §16
+    expects 29; the promotion migration carries `ingested_at` (written once, after the Qdrant verification) — self-test
+    ✅ 12/12 (ADR-044 amendment).
+  - **Removed (owner):** `llama2-embedding-600m-8k` and `multilingual-e5-base` (6.4 GB) moved to
+    `models/_rejected_delete_me/` for the owner to delete; `Upload_eval.py` reuses their recorded rows.
+  - **Found on the re-run:** the precision rule picked int4 for being 33 ms (0.5 %) faster than fp32 — timing noise;
+    owner: a smaller precision must also be >= 20 % faster (`MIN_SPEEDUP`; ADR-043 amendment).
+    Re-run ✅ 8/8 (1,472 s): llama2 / e5 from the recorded rows (⚠️), bge-m3 measured — fp32 6.9 s, int8 9.5 s, int4
+    ≈ fp32 (not 20 % faster) → **bge-m3 / fp32** (unchanged); floor 0.45 → hit@3 EN 1.000 / AR 0.900; baseline
+    identical with a session (dense 0.812, dense + rerank 0.8495); isolation 15/15; upload 3.8 s, session lane 58 ms
+    p50; only `upload_eval_2026-10-08.json` rewritten.
+  - **Migration 011 applied** (by the assistant, at the owner's request): `UPDATE 29`; `ANALYZE` (statistics had been reset
+    by the unclean Docker shutdown: 9 tables never analyzed); `verify_readonly.sql` equal to the 010 audit except §16
+    ingested 0 → 29, 0 errors (`db/audit/2026-10-08_after_011_report.txt`); `Documents_registry.py` ✅,
+    `files changed: 0`.
+  - **Kept (owner, "as is"):** the `bm25` sparse vector stays in `nilegate_docs`, unused by default (ADR-038
+    amendment); the owner opened the Qdrant dashboard (`http://127.0.0.1:6333/dashboard`) and read the collection info.
+  - **Docs:** ARCHITECTURE §1 / §2 / §4 / §6 / §7 / §8 / §10, ROADMAP, DATA_MAP §1 / §2.4 / §3 / §6 / §7, RETRIEVAL_FLOW
+    (document tool IMPLEMENTED, measured stack), the project rules, pipelines/README, db/README.
+  - **Reported, not changed:** `load_env` re-implemented in `Golden_set.py` / `Provider_smoke_test.py` (written
+    before `pipelines/lib/`; frozen outputs, a re-run costs API calls) and in the standalone `db/` helpers; `pypdf`
+    imported nowhere (candidate for `uv remove`); `pillow` / `pyarrow` pinned with `>=`, not `==`.
+
+### SESSION HANDOFF (2026-10-08, after Phase 8; superseded by the Phase 9 entry above — the plan is closed)
 - **Git:** all work of Phases 0-7 is committed and pushed on branch **`feat/rag-retrieval`** (not merged). The owner
   opens the pull request only when Phase 8 and Phase 9 are finished; keep working on this branch.
 - **Done:** Phases 0-8 (Phase 8 not yet committed: the owner runs git). Model Gemini `gemini-embedding-2`, composed unit (ADR-037); title / text rule (ADR-041);

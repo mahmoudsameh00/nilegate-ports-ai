@@ -1,6 +1,6 @@
 """Provider smoke test (RAG plan Phase 0): one tiny call per embedding provider + one rerank call.
 
-Plan:    docs/plans/RAG_Embeddings_Qdrant_plan.md, Phase 0 (all three embedding providers must pass before Phase 1).
+Plan:    docs/archive/2026-10-08_RAG_Embeddings_Qdrant_plan.md, Phase 0 (all three embedding providers must pass before Phase 1).
 Run:     uv run python tools/run.py pipelines/scripts/retrieval/Provider_smoke_test.py  (from the project root)
 
 Reads:   .env (JINA_API_KEY, VOYAGE_API_KEY, GEMINI_API_KEY); the network (4 small HTTPS calls)

@@ -1,10 +1,10 @@
 """Embed the whole corpus with the chosen model, files first (RAG plan Phase 4; ADR-037 model, ADR-041 embedded unit).
 
-Plan:    docs/plans/RAG_Embeddings_Qdrant_plan.md, Phase 4.
+Plan:    docs/archive/2026-10-08_RAG_Embeddings_Qdrant_plan.md, Phase 4.
 Run:     uv run python tools/run.py pipelines/scripts/retrieval/Embeddings.py  (from the project root)
 
 Reads:   Data/processed/rag/chunks/*.parquet (the contract incl. ADR-041); .env (GEMINI_API_KEY, only if vectors are
-         missing); optionally the bake-off cache Notebooks/_scratch/bakeoff/gemini/ (seed, read-only)
+         missing); optionally the bake-off cache Data/embeddings/bakeoff/gemini/ (seed, read-only)
 Writes:  Data/embeddings/gemini-embedding-2/dense_<variant>.parquet (chunk_id, text_sha256, vector) — git-ignored;
          Data/embeddings/gemini-embedding-2/manifest.json — committed (model, task, dimension, variant, the hash of
          every embedded text and of the vector file); Data/embeddings/gemini-embedding-2/cache_<variant>/ — git-ignored
@@ -45,7 +45,7 @@ OUT_DIR = ROOT / "Data" / "embeddings" / MODEL
 CACHE = OUT_DIR / f"cache_{VARIANT}"
 DENSE = OUT_DIR / f"dense_{VARIANT}.parquet"
 MANIFEST = OUT_DIR / "manifest.json"
-BAKEOFF_CACHE = ROOT / "Notebooks" / "_scratch" / "bakeoff" / PROVIDER / {"composed": "doc", "body": "doc_body"}[VARIANT]
+BAKEOFF_CACHE = ROOT / "Data" / "embeddings" / "bakeoff" / PROVIDER / {"composed": "doc", "body": "doc_body"}[VARIANT]
 REVIEWED = {"vectors": 2163, "dim": DIM, "files": 29}  # reviewed 2026-10-05
 
 

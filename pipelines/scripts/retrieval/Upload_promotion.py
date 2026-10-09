@@ -1,7 +1,7 @@
 """Promotion of a manager's upload to the corpus (RAG plan Phase 8 §b; owner decisions D12, D14, Q3, Q5, Q8):
 request (in the conversation) → review (offline, by the owner) → approval → registration like the siblings.
 
-Plan:    docs/plans/RAG_Embeddings_Qdrant_plan.md, Phase 8.
+Plan:    docs/archive/2026-10-08_RAG_Embeddings_Qdrant_plan.md, Phase 8.
 Run:     uv run python pipelines/scripts/retrieval/Upload_promotion.py --list
          uv run python pipelines/scripts/retrieval/Upload_promotion.py --review <request_id>
          uv run python pipelines/scripts/retrieval/Upload_promotion.py --approve <request_id> [--commit]
@@ -168,7 +168,7 @@ def approve(folder: Path) -> dict:
            "ingestion_scope": None, "source_url": None, "sha256": req["sha256"], "file_size_bytes": len(data),
            "page_count": rep.stats.get("pages"), "chunk_count": len(rows)}
     pd.DataFrame([row], columns=REGISTRY_COLUMNS).to_csv(stage / "documents_row.csv", index=False)
-    (stage / "migration.sql").write_text(migration_sql(row, "NNN"), encoding="utf-8")
+    (stage / "migration.sql").write_text(migration_sql(row, "NNN", None), encoding="utf-8")
     decision = {"approved": True, "approved_at": dt.datetime.now().isoformat(timespec="seconds"),
                 "document_id": doc["document_id"], "chunks": len(rows), "data_policy": policy,
                 "next": "copy the original file to Data/raw/unstructured/company/, then --approve <id> --commit"}
@@ -184,8 +184,10 @@ def lit(v) -> str:
     return "'" + str(v).replace("'", "''") + "'"
 
 
-def migration_sql(row: dict, number: str) -> str:
-    vals = ", ".join(lit(row[c]) for c in REGISTRY_COLUMNS)
+def migration_sql(row: dict, number: str, ingested_at: str | None) -> str:
+    """The registry row as a migration; `ingested_at` = when --commit upserted the document into Qdrant (NULL in the
+    preview written at approval)."""
+    vals = ", ".join(lit(row[c]) for c in REGISTRY_COLUMNS) + f", {lit(ingested_at)}::timestamptz"
     return f"""-- =====================================================================
 -- {number} — Register the promoted company document {row['document_id']}
 -- Decisions: ADR-035 (registry row per raw file), RAG plan Phase 8 (manager promotion, owner review).
@@ -195,13 +197,13 @@ BEGIN;
 
 INSERT INTO public.documents (document_id, filename, title, source, real_or_synthetic, document_type, department_id,
                               sensitivity_level, version_date, ingestion_scope, source_url, sha256, file_size_bytes,
-                              page_count, chunk_count)
+                              page_count, chunk_count, ingested_at)
 SELECT v.document_id, v.filename, v.title, v.source, v.real_or_synthetic, v.document_type, d.department_id,
        v.sensitivity_level, v.version_date, v.ingestion_scope, v.source_url, v.sha256, v.file_size_bytes, v.page_count,
-       v.chunk_count
+       v.chunk_count, v.ingested_at
 FROM (VALUES
     ({vals})
-) AS v ({', '.join(REGISTRY_COLUMNS)})
+) AS v ({', '.join(REGISTRY_COLUMNS)}, ingested_at)
 JOIN public.departments d ON d.department_name = v.department;
 
 DO $$
@@ -244,9 +246,6 @@ def commit(folder: Path, collection: str = qdrant_store.COLLECTION, out_dir: Pat
     have = pd.read_csv(reg) if reg.exists() else pd.DataFrame(columns=REGISTRY_COLUMNS)
     have = pd.concat([have[have.document_id != doc_id], pd.DataFrame([row])], ignore_index=True)
     have[REGISTRY_COLUMNS].to_csv(reg, index=False)
-    existing = sorted(migrations.glob(f"*_register_{doc_id}.sql"))
-    mig = existing[0] if existing else migrations / f"{next_migration_number(migrations)}_register_{doc_id}.sql"
-    mig.write_text(migration_sql(row, mig.name[:3]), encoding="utf-8")
 
     rows = frame.to_dict("records")
     composed = [chunks.compose(r["title"], r["text"]) for r in rows]
@@ -259,6 +258,13 @@ def commit(folder: Path, collection: str = qdrant_store.COLLECTION, out_dir: Pat
     payloads = [qdrant_store.payload(r, doc_id, embeddings.sha256_text(t)) for r, t in zip(rows, composed)]
     up = qdrant_store.upsert_document(client, doc_id, payloads, dense.tolist(), name=collection)
     qdrant_store.verify_document(client, doc_id, [r["chunk_id"] for r in rows], name=collection)
+    # the migration is written once the points are verified, so its ingested_at is the first load time; a re-commit
+    # keeps it unchanged (a migration is never edited, it may already be applied)
+    existing = sorted(migrations.glob(f"*_register_{doc_id}.sql"))
+    mig = existing[0] if existing else migrations / f"{next_migration_number(migrations)}_register_{doc_id}.sql"
+    if not existing:
+        loaded_at = dt.datetime.now().astimezone().isoformat(timespec="seconds")
+        mig.write_text(migration_sql(row, mig.name[:3], loaded_at), encoding="utf-8")
 
     # retrieval check: the title as a question finds the document for its own department's manager; RBAC holds for
     # an employee of another department (no chunk above their access is returned)
@@ -340,6 +346,7 @@ def selftest() -> None:
         cm = commit(r["folder"], collection=test_collection, out_dir=r["folder"] / "commit_out",
                     migrations=r["folder"] / "commit_out", require_raw=False,
                     vector_cache=root / "vector_cache")
+        first_sql = (ROOT / cm["migration"]).read_text(encoding="utf-8")
         again = commit(r["folder"], collection=test_collection, out_dir=r["folder"] / "commit_out",
                        migrations=r["folder"] / "commit_out", require_raw=False, vector_cache=root / "vector_cache")
     finally:
@@ -347,6 +354,8 @@ def selftest() -> None:
     results["public_committed"] = cm["upsert"]["upserted"] == 8 and cm["upsert"]["stale_removed"] == 0
     results["recommit_idempotent"] = again["upsert"] == {"upserted": 8, "stale_removed": 0} and \
         again["gemini_calls"] == 1  # only the retrieval-check question: the 8 chunk vectors come from the cache
+    results["migration_has_ingested_at"] = "::timestamptz" in first_sql and "NULL::timestamptz" not in first_sql and \
+        (ROOT / again["migration"]).read_text(encoding="utf-8") == first_sql  # written once, never rewritten
     results["manager_finds_it"] = cm["retrieval_checks"]["owner_department_manager"]["found"] >= 1
     results["other_employee_blocked"] = cm["retrieval_checks"]["other_department_employee"]["found"] == 0
     results["corpus_untouched"] = qdrant_store.connect().count(qdrant_store.COLLECTION, exact=True).count == 2163

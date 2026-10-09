@@ -1,6 +1,6 @@
 """Golden facts: the information each golden question needs, so retrieval can be judged at the information level.
 
-Plan:    docs/plans/RAG_Embeddings_Qdrant_plan.md (evaluation framework, ADR-040). Complements the frozen golden set
+Plan:    docs/archive/2026-10-08_RAG_Embeddings_Qdrant_plan.md (evaluation framework, ADR-040). Complements the frozen golden set
          (Golden_set.py), which it never changes.
 Run:     uv run python tools/run.py pipelines/scripts/retrieval/Golden_facts.py  (from the project root)
 

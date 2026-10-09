@@ -1,11 +1,11 @@
 """Search index benchmark: exact search vs IVF (and Qdrant's own exact / HNSW) on our vectors (input to ADR-038).
 
-Plan:    docs/plans/RAG_Embeddings_Qdrant_plan.md (owner, 2026-10-08: "compare exact with IVF; if there is no
+Plan:    docs/archive/2026-10-08_RAG_Embeddings_Qdrant_plan.md (owner, 2026-10-08: "compare exact with IVF; if there is no
          difference, stay on exact").
 Run:     uv run python tools/run.py pipelines/scripts/retrieval/Search_index_benchmark.py  (ports-qdrant up)
 
 Reads:   Data/embeddings/gemini-embedding-2/dense_composed.parquet + manifest; the frozen golden set; the cached Gemini
-         query vectors (Notebooks/_scratch/bakeoff/gemini/query; no API call); Qdrant `nilegate_docs` (read only)
+         query vectors (Data/embeddings/bakeoff/gemini/query; no API call); Qdrant `nilegate_docs` (read only)
 Writes:  nothing
 Re-run:  safe; deterministic (KMeans random_state 42)
 
@@ -36,7 +36,7 @@ from pipelines.lib import common, embeddings, qdrant_store  # noqa: E402
 EMB_DIR = ROOT / "Data" / "embeddings" / "gemini-embedding-2"
 GOLDEN = ROOT / "Data" / "processed" / "rag" / "eval" / "golden_set.jsonl"
 GOLDEN_SHA256 = "a187b4966f250211d7498b87d34d56b518af41d851cf8570716fce01f2dbb8bc"
-QUERY_CACHE = ROOT / "Notebooks" / "_scratch" / "bakeoff" / "gemini" / "query"
+QUERY_CACHE = ROOT / "Data" / "embeddings" / "bakeoff" / "gemini" / "query"
 K = 10
 NLIST = 46            # ≈ sqrt(2,163), the usual starting point
 NPROBES = (1, 2, 4, 8, 16)

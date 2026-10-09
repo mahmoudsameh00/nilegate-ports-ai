@@ -2,7 +2,7 @@
 
 Run:     uv run python tools/run.py pipelines/scripts/retrieval/Lib_selftest.py  (project root; needs ports-qdrant up)
 
-Reads:   Data/processed/rag/chunks/*.parquet; the bake-off cache (Notebooks/_scratch/bakeoff/jina/, read-only); .env
+Reads:   Data/processed/rag/chunks/*.parquet; the bake-off cache (Data/embeddings/bakeoff/jina/, read-only); .env
 Writes:  nothing under Data/; a temporary cache folder in Notebooks/_scratch/ and a temporary Qdrant collection
          `selftest_tmp`, both deleted at the end
 Re-run:  safe; 0 embedding API calls (a fake embedder stands in for the provider)
@@ -108,7 +108,7 @@ class NoCalls:
         raise AssertionError("the bake-off cache should be complete: no API call allowed")
 
 
-jina_doc = ROOT / "Notebooks" / "_scratch" / "bakeoff" / "jina" / "doc"
+jina_doc = ROOT / "Data" / "embeddings" / "bakeoff" / "jina" / "doc"
 units = [chunks.compose(t, x) for t, x in zip(df.title, df.text)]
 cached = embeddings.load_cache(jina_doc)
 served = [(i, u) for i, u in zip(df.chunk_id, units) if cached.get(i, ("",))[0] == embeddings.sha256_text(u)]

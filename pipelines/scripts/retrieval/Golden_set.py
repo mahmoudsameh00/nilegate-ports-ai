@@ -1,6 +1,6 @@
 """Golden set (RAG plan Phase 1): the questions every retrieval setting is measured on, written BEFORE any model runs.
 
-Plan:    docs/plans/RAG_Embeddings_Qdrant_plan.md, Phase 1 (decision D7).
+Plan:    docs/archive/2026-10-08_RAG_Embeddings_Qdrant_plan.md, Phase 1 (decision D7).
 Run:     uv run python tools/run.py pipelines/scripts/retrieval/Golden_set.py  (from the project root)
 
 Reads:   Data/processed/rag/chunks/*.parquet; Data/processed/rag/documents.csv; PostgreSQL through the read-only user

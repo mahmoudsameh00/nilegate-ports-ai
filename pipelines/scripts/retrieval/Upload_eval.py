@@ -1,11 +1,12 @@
 """Phase 8 measurements of the session lane (conversation uploads): the local model, its runtime settings, the score
 floor, the corpus baseline with uploads present, isolation, and latency (design §d, §e: M1-M5).
 
-Plan:    docs/plans/RAG_Embeddings_Qdrant_plan.md, Phase 8 (owner answers Q1, Q2, Q4).
+Plan:    docs/archive/2026-10-08_RAG_Embeddings_Qdrant_plan.md, Phase 8 (owner answers Q1, Q2, Q4).
 Run:     uv run python tools/run.py pipelines/scripts/retrieval/Upload_eval.py  (ports-qdrant and ports-postgres up;
-         the local models exported by tools/export_onnx.py under models/onnx/)
+         bge-m3 exported by tools/export_onnx.py under models/onnx/; the rejected candidates are optional)
 Reads:   the upload fixtures and questions (Upload_fixtures.py); the frozen golden set and golden facts; the baseline
-         Data/processed/rag/eval/results_2026-10-08.json; Qdrant `nilegate_docs` (read only)
+         Data/processed/rag/eval/results_2026-10-08.json; the reviewed upload_eval_2026-10-08.json (rows of candidates
+         not exported here); Qdrant `nilegate_docs` (read only)
 Writes:  Data/processed/rag/eval/uploads/upload_eval_<date>.json; the query cache may gain nothing (every golden
          question is cached); Jina: up to 64 rerank calls (M1 with the default reranker), memoized
 Re-run:  safe; the golden questions make no Gemini call (asserted); the two isolation questions of Phase 6 cost one
@@ -14,7 +15,8 @@ Re-run:  safe; the golden questions make no Gemini call (asserted); the two isol
 Rules fixed before any run (plan, owner answers 2026-10-08):
 - Model (Q1): the owner's model `llama2-embedding-600m-8k` is kept if it reaches session-lane hit@3 >= 0.85 on the
   English and >= 0.75 on the Arabic upload questions; otherwise the best candidate that reaches both is used and the
-  owner is told. int8 replaces fp32 only if it loses no more than 0.02 hit@3 in either language.
+  owner is told. int8 replaces fp32 only if it loses no more than 0.02 hit@3 in either language (and, since the plan's
+  close, is at least 20 % faster: MIN_SPEEDUP).
 - Floor (M2): the smallest score that keeps upload chunks out of >= 95 % of the 64 golden (corpus) questions,
   rounded up to 0.01; then M3 is re-measured with the floor applied. Changed by the owner after the first full run
   to >= 80 % (FLOOR_KEEP_OUT below); the chosen model must still meet the thresholds with its floor.
@@ -59,6 +61,7 @@ OWNER_MODEL = "llama2-embedding-600m-8k"
 CANDIDATES = [OWNER_MODEL, "multilingual-e5-base", "bge-m3"]
 HIT3_MIN = {"en": 0.85, "ar": 0.75}
 INT8_MAX_LOSS = 0.02
+MIN_SPEEDUP = 0.20  # a smaller precision must also be >= 20 % faster than fp32: a laptop's timings vary by +-20 %
 PRECISIONS = ("fp32", "int8", "int4")
 # Reviewed outcome of Phase 2 (2026-10-08): the owner's model and e5-base miss the Arabic threshold; bge-m3 (measured
 # once the project moved to D:) meets both thresholds.
@@ -119,10 +122,18 @@ def passes(m: dict) -> bool:
     return all(m[lang]["hit@3"] >= HIT3_MIN[lang] for lang in HIT3_MIN)
 
 
+# A candidate not exported here keeps its measured rows from the reviewed report, labelled "recorded": the two rejected
+# models were deleted at the plan's close (owner, 2026-10-08: 6.4 GB); a re-run measures every model that is present.
+RECORDED = UP / "upload_eval_2026-10-08.json"
 available = [c for c in CANDIDATES if (local_embeddings.MODELS_DIR / c / "manifest.json").exists()]
-assert OWNER_MODEL in available, "the owner's model must be exported first (tools/export_onnx.py)"
+assert session_store.LOCAL_MODEL in available, "the session-lane model must be exported first (tools/export_onnx.py)"
+recorded = json.loads(RECORDED.read_text(encoding="utf-8"))["m3_choice_table"]
 choice_table, vectors = {}, {}
-for name in available:
+for name in CANDIDATES:
+    if name not in available:
+        choice_table.update({f"{name}/{p}": {**recorded[f"{name}/{p}"], "recorded": RECORDED.name} for p in PRECISIONS})
+        print(f"⚠️ {name} is not exported here: its rows are the recorded ones of {RECORDED.name}")
+        continue
     for prec in PRECISIONS:
         emb = local_embeddings.LocalEmbedder(name, precision=prec)
         emb.embed(texts[:4], "passage")  # warm-up: ONNX Runtime allocates on the first runs (a cold fp32 run lost)
@@ -145,11 +156,14 @@ for name in available:
 
 
 def pick_precision(name: str) -> str:
-    """The fastest variant whose hit@3 is within INT8_MAX_LOSS of fp32 in both languages (weight-only int8 / int4
-    save memory but are not faster on this CPU: MatMulNBits dequantizes the weights at run time)."""
+    """fp32 unless a smaller variant keeps hit@3 within INT8_MAX_LOSS of fp32 in both languages AND is at least
+    MIN_SPEEDUP faster; then the fastest such variant (weight-only int8 / int4 save memory but are not faster on this
+    CPU: MatMulNBits dequantizes the weights at run time). The margin (owner, 2026-10-08) keeps timing noise from
+    deciding: a Phase 9 re-run picked int4 for being 33 ms (0.5 %) faster than fp32."""
     ref = choice_table[f"{name}/fp32"]
-    ok = [p for p in PRECISIONS if all(ref[lang]["hit@3"] - choice_table[f"{name}/{p}"][lang]["hit@3"]
-                                       <= INT8_MAX_LOSS for lang in HIT3_MIN)]
+    ok = [p for p in PRECISIONS if p == "fp32" or (
+          all(ref[lang]["hit@3"] - choice_table[f"{name}/{p}"][lang]["hit@3"] <= INT8_MAX_LOSS for lang in HIT3_MIN)
+          and choice_table[f"{name}/{p}"]["passages_ms"] <= (1 - MIN_SPEEDUP) * ref["passages_ms"])]
     return min(ok, key=lambda p: choice_table[f"{name}/{p}"]["passages_ms"])
 
 
@@ -158,14 +172,14 @@ def mean_hit3(name: str, prec: str) -> float:
 
 
 owner_prec = pick_precision(OWNER_MODEL)
-passing = [(n, pick_precision(n)) for n in available if choice_table[f"{n}/{pick_precision(n)}"]["passes"]]
+passing = [(n, pick_precision(n)) for n in CANDIDATES if choice_table[f"{n}/{pick_precision(n)}"]["passes"]]
 if (OWNER_MODEL, owner_prec) in passing:
     MODEL, PREC, MEETS, why = OWNER_MODEL, owner_prec, True, "the owner's model meets the thresholds"
 elif passing:
     MODEL, PREC = max(passing, key=lambda c: mean_hit3(*c))
     MEETS, why = True, f"the owner's model misses the thresholds; {MODEL} meets them"
 else:  # nobody meets the rule: the best candidate is used PROVISIONALLY and the owner decides (never silent)
-    MODEL, PREC = max(((n, pick_precision(n)) for n in available), key=lambda c: mean_hit3(*c))
+    MODEL, PREC = max(((n, pick_precision(n)) for n in CANDIDATES), key=lambda c: mean_hit3(*c))
     MEETS = False
     why = (f"NO candidate meets hit@3 >= {HIT3_MIN}: provisional choice {MODEL} (best mean hit@3); owner's model en "
            f"{choice_table[f'{OWNER_MODEL}/{owner_prec}']['en']['hit@3']} / ar "
@@ -376,7 +390,7 @@ print("✅ Phase 7 validation passed.")
 
 
 # %% Final Checkpoint
-# Narrative: the RAG plan's Phase 8 record (docs/plans/RAG_Embeddings_Qdrant_plan.md), as for the other retrieval scripts
+# Narrative: the RAG plan's Phase 8 record (docs/archive/2026-10-08_RAG_Embeddings_Qdrant_plan.md), as for the other retrieval scripts
 print(f"Final checkpoint: {MODEL}/{PREC} (hit@3 en {m_floor['en']['hit@3']}, ar {m_floor['ar']['hit@3']} with floor "
       f"{floor:.2f}); corpus baseline identical with a session (dense {m1['dense']['balanced_with_session']}, "
       f"dense+rerank {m1['dense+rerank']['balanced_with_session']}); isolation {sum(checks.values())}/{len(checks)}")

@@ -1,7 +1,7 @@
 """Phase 8 validation of the upload validator and the injection screening (pipelines/lib/uploads.py, screening.py,
 upload_reader.py): every fixture gets exactly its expected verdict.
 
-Plan:    docs/plans/RAG_Embeddings_Qdrant_plan.md, Phase 8 (design §a, §c; owner answers Q6-Q8).
+Plan:    docs/archive/2026-10-08_RAG_Embeddings_Qdrant_plan.md, Phase 8 (design §a, §c; owner answers Q6-Q8).
 Run:     uv run python tools/run.py pipelines/scripts/retrieval/Upload_validation.py  (ports-postgres up: the uploaders'
          roles and departments are read through the read-only user, as at query time)
 Reads:   Data/processed/rag/eval/uploads/fixtures/ + expected.json (Upload_fixtures.py); the 2,163 corpus chunks
@@ -149,7 +149,7 @@ print("✅ Phase 5 validation passed.")
 
 
 # %% Final Checkpoint
-# Narrative: the RAG plan's Phase 8 record (docs/plans/RAG_Embeddings_Qdrant_plan.md), as for the other retrieval scripts
+# Narrative: the RAG plan's Phase 8 record (docs/archive/2026-10-08_RAG_Embeddings_Qdrant_plan.md), as for the other retrieval scripts
 print(f"Final checkpoint: {len(EXPECTED)} cases as expected, 0 corpus false positives, PDF / DOCX parity "
       f"{sum(parity.values())}/3, reader isolation ok, p95 {lat['p95_ms']} ms")
 print("✅ Final checkpoint passed.")

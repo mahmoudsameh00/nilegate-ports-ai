@@ -1,11 +1,11 @@
 """Embedding bake-off (RAG plan Phase 2): which API model retrieves the right chunks, in English AND Egyptian Arabic.
 
-Plan:    docs/plans/RAG_Embeddings_Qdrant_plan.md, Phase 2 (decisions D1, D5); output → ADR-037.
+Plan:    docs/archive/2026-10-08_RAG_Embeddings_Qdrant_plan.md, Phase 2 (decisions D1, D5); output → ADR-037.
 Run:     uv run python tools/run.py pipelines/scripts/retrieval/Embedding_bakeoff.py --timeout 14400  (project root)
 
 Reads:   Data/processed/rag/chunks/*.parquet; Data/processed/rag/eval/golden_set.jsonl (frozen); .env (API keys)
-Writes:  Notebooks/_scratch/bakeoff/<run>/part_*.npz (vector cache, git-ignored scratch, plan: "candidates' vectors are
-         kept only as scratch"); Data/processed/rag/eval/bakeoff_results.json (metrics; small, kept)
+Writes:  Data/embeddings/bakeoff/<run>/part_*.npz (vector cache, git-ignored; in Notebooks/_scratch/ until the plan
+         closed, moved because later scripts read it); Data/processed/rag/eval/bakeoff_results.json (metrics; kept)
 Re-run:  safe and resumable: every batch is cached by chunk id + text SHA-256, so a re-run (or a run after a quota or
          rate-limit stop) only embeds what is missing; a complete cache means 0 API calls.
 
@@ -55,7 +55,7 @@ GOLDEN = ROOT / "Data" / "processed" / "rag" / "eval" / "golden_set.jsonl"
 GOLDEN_SHA256 = "a187b4966f250211d7498b87d34d56b518af41d851cf8570716fce01f2dbb8bc"  # frozen in Phase 1
 FACTS = ROOT / "Data" / "processed" / "rag" / "eval" / "golden_facts.jsonl"
 FACTS_SHA256 = "09b5f5b6892133806a9c11a006490c31c63782e560cb9a038977b1d2f5998d25"  # frozen 2026-10-02 (ADR-040)
-CACHE = ROOT / "Notebooks" / "_scratch" / "bakeoff"
+CACHE = ROOT / "Data" / "embeddings" / "bakeoff"
 RESULTS = ROOT / "Data" / "processed" / "rag" / "eval" / "bakeoff_results.json"
 PROVIDERS = embeddings.PROVIDERS
 TIE_POINTS = 0.05

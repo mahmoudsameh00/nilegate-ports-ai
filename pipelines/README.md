@@ -30,7 +30,7 @@ notebook's saved outputs.
 | `retrieval/Provider_smoke_test.py` | retrieval | A | nothing (one tiny call per embedding provider + one rerank call) |
 | `retrieval/Golden_set.py` | retrieval | A | `rag/eval/golden_set.jsonl` (frozen: 64 queries + 8 RBAC cases) |
 | `retrieval/Golden_facts.py` | retrieval | A | `rag/eval/golden_facts.jsonl` (80 facts for the 40 questions; ADR-040) |
-| `retrieval/Embedding_bakeoff.py` | retrieval | A | `rag/eval/bakeoff_results.json` (vectors as scratch cache) |
+| `retrieval/Embedding_bakeoff.py` | retrieval | A | `rag/eval/bakeoff_results.json` (vectors cached in `Data/embeddings/bakeoff/`, git-ignored, read by later scripts) |
 | `retrieval/Embeddings.py` | retrieval | A | `Data/embeddings/gemini-embedding-2/dense_<variant>.parquet` (git-ignored) + `manifest.json` (committed); ADR-037 |
 | `retrieval/Qdrant_loader.py` | retrieval | A | Qdrant `nilegate_docs` (the only writer; nothing on disk); ADR-039 |
 | `retrieval/Search_index_benchmark.py` | retrieval | A | nothing (exact vs IVF vs Qdrant exact / HNSW on our vectors) |
@@ -47,8 +47,9 @@ The retrieval scripts are not in `run.py all` (they call paid / rate-limited API
 ranking / context metrics), and for documents uploaded at inference time (RAG plan Phase 8): `upload_reader`
 (PDF / DOCX reading in a child process, file-level and hidden-text findings), `screening` (injection patterns),
 `uploads` (the "NileGate Document v1" shape, `validate_upload`, chunking), `local_embeddings` (ONNX Runtime model),
-`session_store` (conversation-only uploads in memory, the session lane, promotion requests). The local ONNX models
-are exported once by `tools/export_onnx.py` into `models/onnx/` (git-ignored).
+`session_store` (conversation-only uploads in memory, the session lane, promotion requests). The local ONNX model
+(`bge-m3`, the session lane, ADR-043) is exported once by `tools/export_onnx.py` into `models/onnx/` (git-ignored); the
+two rejected candidates were removed at the plan's close and `Upload_eval.py` reuses their recorded rows.
 
 - **Level A**: rewritten by hand as functions and `main()`; exploration prints became assertions. Proof: the local run
   (`--compare`: the notebook's ✅ lines kept in order, new ones allowed; `files changed: 0`).

@@ -252,6 +252,11 @@ Never delete an entry; supersede it with a new one. Sources for older entries ar
   - Ranking stays the weakest dimension (nDCG@10 0.617) and context precision@8 ≈ 0.34 (EN): headroom for the Phase 7
     reranker and Phase 6 context shaping, judged by the ADR-040 rule.
   - Voyage limits confirmed by its 429 text: 3 RPM / 10K TPM without a payment method.
+- **Amendment (2026-10-08, plan close, owner decision):** the bake-off vectors of every candidate (≈ 110 MB, the
+  plan had called them "scratch") live in `Data/embeddings/bakeoff/` (git-ignored), not in `Notebooks/_scratch/`:
+  `Embeddings.py` seeds from them, and `Retrieval.py`, `Lib_selftest.py` and `Search_index_benchmark.py` assert on them,
+  so emptying `_scratch` would have made those scripts re-spend the free quota. Moved; the three scripts re-ran ✅ with
+  `files changed: 0`.
 
 ## ADR-038 — Retrieval defaults: exact dense search + Jina reranker; no hybrid, no context shaping
 - **Status:** Accepted (2026-10-08). RAG plan Phase 7, decided by the ADR-040 rule (fixed before the run);
@@ -290,6 +295,11 @@ Never delete an entry; supersede it with a new one. Sources for older entries ar
   identifier hit@10 1.000 → 0.889 (one of 9 identifier questions) and AR nDCG@10 0.597 → 0.578 (within the 0.02
   allowance) while raising EN nDCG@10 0.637 → 0.751 and sufficiency@8 EN 0.900 → 0.975, AR 0.833 → 0.875. The
   numbers are the baseline that the agents phase must not regress.
+- **Amendment (2026-10-08, plan close, owner decision "keep as is"):** the `bm25` sparse vector **stays stored** in
+  `nilegate_docs` although no default search uses it. It is cheap (sparse, server-built), keeps `hybrid=True`
+  available without a reload, is exercised by `Retrieval.py` (RBAC matrix dense + hybrid, Phase 6 smoke test), and is
+  the candidate for identifier questions in the agents phase (the reranker lowered identifier hit@10 to 0.889, above).
+  Likewise the collection's HNSW index exists but every search sets `exact=True`.
 
 ## ADR-039 — Shared retrieval library `pipelines/lib/`; Qdrant point identity per document version
 - **Status:** Accepted (2026-10-02, owner answers D11 of the RAG plan and the point-id question). Amends ADR-036 ("no
@@ -477,6 +487,12 @@ Never delete an entry; supersede it with a new one. Sources for older entries ar
 - **Consequences:** + uploads never touch the shared corpus, the baseline cannot move, private text stays local.
   − bge-m3 is a 2.2 GB model (≈ 3 s per small upload on the CPU; DirectML would cut it 6×); two vector spaces mean no
   joint ranking of upload and corpus chunks (by design: two lists).
+- **Amendment (2026-10-08, plan close, owner decisions):** (1) the two rejected candidates (`llama2-embedding-600m-8k`,
+  `multilingual-e5-base`, 6.4 GB) are removed from `models/onnx/`; `Upload_eval.py` measures every model that is
+  present and reuses the recorded rows of the reviewed `upload_eval_2026-10-08.json` (labelled `recorded`, printed with
+  ⚠️) for a candidate that is not, so the choice table stays complete. (2) Precision rule: a smaller variant replaces
+  fp32 only if its hit@3 stays within 0.02 **and** it is at least 20 % faster (`MIN_SPEEDUP`); the first re-run at the
+  close picked int4 for being 33 ms (0.5 %) faster — timing noise (±20 % on this laptop) must not decide. fp32 stays.
 
 ## ADR-044 — Promotion of a manager's upload to the corpus
 - **Status:** Accepted (2026-10-08, D12, D14, Q3, Q5, Q8). `session_store.request_promotion`,
@@ -496,6 +512,10 @@ Never delete an entry; supersede it with a new one. Sources for older entries ar
   internal document reviewed but approval refused by the data policy; a public document committed to a throwaway
   collection (8 points), found by its manager, invisible to a Finance employee (level 2), re-commit idempotent
   (0 chunk embeddings), `nilegate_docs` untouched (2,163).
+- **Amendment (2026-10-08, plan close):** the generated migration also fills `documents.ingested_at` with the time
+  `--commit` verified the points in Qdrant (the corpus got the same column through migration 011). It is written once,
+  after the verification, and a re-commit leaves it unchanged (a migration is never edited; it may be applied
+  already). Self-test 12/12 (new check: `migration_has_ingested_at`).
 
 ---
 

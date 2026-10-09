@@ -1,7 +1,7 @@
 """Phase 8 test material: synthetic NileGate company documents in the "NileGate Document v1" shape, attack variants
 of them, the expected verdict of each, and a question set for the session lane.
 
-Plan:    docs/plans/RAG_Embeddings_Qdrant_plan.md, Phase 8 (design §a, §c, §e; owner answers Q1-Q8).
+Plan:    docs/archive/2026-10-08_RAG_Embeddings_Qdrant_plan.md, Phase 8 (design §a, §c, §e; owner answers Q1-Q8).
 Run:     uv run python tools/run.py pipelines/scripts/retrieval/Upload_fixtures.py
 Reads:   nothing (all content is written here; NileGate is a fictional company)
 Writes:  Data/processed/rag/eval/uploads/fixtures/*.pdf|*.docx, expected.json, upload_questions.jsonl;

@@ -1,6 +1,6 @@
 """Phase 6 validation of `search_documents` (pipelines/lib/retrieval.py): RBAC, metadata filters, cache, rate policy.
 
-Plan:    docs/plans/RAG_Embeddings_Qdrant_plan.md, Phase 6.
+Plan:    docs/archive/2026-10-08_RAG_Embeddings_Qdrant_plan.md, Phase 6.
 Run:     uv run python tools/run.py pipelines/scripts/retrieval/Retrieval.py  (ports-qdrant and ports-postgres up)
 
 Reads:   Qdrant `nilegate_docs`; PostgreSQL (read-only user: employees, roles, departments); the frozen golden set; the
@@ -36,7 +36,7 @@ from pipelines.lib import common, embeddings, retrieval  # noqa: E402
 
 common.load_env(ROOT)
 GOLDEN = ROOT / "Data" / "processed" / "rag" / "eval" / "golden_set.jsonl"
-BAKEOFF_QUERIES = ROOT / "Notebooks" / "_scratch" / "bakeoff" / "gemini" / "query"
+BAKEOFF_QUERIES = ROOT / "Data" / "embeddings" / "bakeoff" / "gemini" / "query"
 DENSE = ROOT / "Data" / "embeddings" / "gemini-embedding-2" / "dense_composed.parquet"
 CEO = 1
 USERS = [1, 2, 4, 6, 8, 10, 12, 13, 14, 15, 16]  # CEO; managers Ops / Customs / Finance / HR / IT; employees x 5
