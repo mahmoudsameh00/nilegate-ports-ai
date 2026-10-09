@@ -142,3 +142,10 @@ or missing of Phase 4), each code to an existing evidence sentence and an option
 - IMO codes cover only what the reports print or state explicitly (location, casualty event, severity); ship
   operation, accident events and contributing factors need an investigator's interpretation and are not coded
   (ADR-023 extension).
+
+## Addendum 2026-10-02 — Title / text normalization (ADR-041)
+
+A last phase (appended to the script, proven by `tools/nb_to_script.py check`) normalizes the saved chunk file in
+place with `pipelines/lib/chunks.py`: a leading heading moves from `text` to `title` (`title` = the location label,
+`text` = the body only). Lossless, idempotent; chunk ids, order and count unchanged. Reviewed counts: header_line 1544.
+Where this narrative says a header, path or caption is at the start of every chunk, it is now the chunk's `title`.

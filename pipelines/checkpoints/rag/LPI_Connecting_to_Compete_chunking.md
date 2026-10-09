@@ -127,3 +127,10 @@ Every one of the **2,189 text lines of the 30 pages** has exactly one dispositio
 ## Status
 
 Nothing is pending: no manual-review duplicate, no flagged unit, and every line of the PDF is accounted for.
+
+## Addendum 2026-10-02 — Title / text normalization (ADR-041)
+
+A last phase (appended to the script, proven by `tools/nb_to_script.py check`) normalizes the saved chunk file in
+place with `pipelines/lib/chunks.py`: a leading heading moves from `text` to `title` (`title` = the location label,
+`text` = the body only). Lossless, idempotent; chunk ids, order and count unchanged. Reviewed counts: heading_line 8, run_in_heading 9, unchanged 52.
+Where this narrative says a header, path or caption is at the start of every chunk, it is now the chunk's `title`.

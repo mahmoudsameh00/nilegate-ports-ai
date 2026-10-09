@@ -1,0 +1,26 @@
+{
+ "active_variant": "composed",
+ "variants": {
+  "composed": {
+   "provider": "gemini",
+   "model": "gemini-embedding-2",
+   "dimension": 3072,
+   "distance": "cosine",
+   "task": {
+    "document": "RETRIEVAL_DOCUMENT",
+    "query": "RETRIEVAL_QUERY"
+   },
+   "variant": "composed",
+   "embedded_unit": "compose(title, text) = title + newline + text (ADR-041)",
+   "decisions": [
+    "ADR-037",
+    "ADR-041"
+   ],
+   "vectors": 2163,
+   "files": 29,
+   "corpus_sha256": "22cf28fcbeb418da7e81aca4317a726bee2da314403826949fd42f5cce7790af",
+   "dense_file": "dense_composed.parquet",
+   "dense_sha256": "f3e3ab6da9350a2c36072f8811d6b657f01740298bb91468a7499214c9c0918e"
+  }
+ }
+}

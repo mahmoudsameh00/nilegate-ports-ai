@@ -13,14 +13,14 @@ A learning/job-readiness project that models a fictional port & logistics compan
 ```text
                     Structured              Semi-structured         Unstructured
                     PostgreSQL/PostGIS      MongoDB                 Qdrant (+ docs metadata in PostgreSQL)
-                    IMPLEMENTED             IMPLEMENTED             PLANNED (chunks IMPLEMENTED as files)
+                    IMPLEMENTED             IMPLEMENTED             IMPLEMENTED (2,163 points, search_documents)
                           \                     |                     /
-                           +------ governed tool layer (PLANNED) ----+
+                           +------ governed tool layer (PLANNED; the document tool is IMPLEMENTED) ----+
                                               |
                                   Supervisor → Analytics Agent (PLANNED, ADR-012)
 ```
 
-Today the system is **data preparation only**: pipeline scripts (`pipelines/scripts/`, converted from the notebooks on 2026-10-01, ADR-036), files under `Data/`, a PostgreSQL database and a MongoDB database (AIS + EDI, since 2026-09-27). There is no application code, API or agent yet. AIS and EDI serve tools / agents and analytics, **not RAG** (ADR-030).
+Today the system is **data preparation plus the document retrieval tool**: pipeline scripts (`pipelines/scripts/`, converted from the notebooks on 2026-10-01, ADR-036), files under `Data/`, a PostgreSQL database, a MongoDB database (AIS + EDI, since 2026-09-27), a Qdrant collection `nilegate_docs` and the shared library `pipelines/lib/` whose `search_documents` is the RBAC-filtered document tool (RAG plan closed 2026-10-08, ADR-037 – ADR-044). There is no API, Supervisor or LLM answer step yet. AIS and EDI serve tools / agents and analytics, **not RAG** (ADR-030).
 
 ## 2. Components
 
@@ -30,13 +30,17 @@ Today the system is **data preparation only**: pipeline scripts (`pipelines/scri
 | Structured ETL scripts (`pipelines/scripts/structured/`: `ExtractPortsAttributes`, `ExtractPortsConnection`) | IMPLEMENTED (partly reproducible) | The toll CSV's origin is undocumented (the never-run `ExtractTollRates` probe was deleted 2026-09-27). The code that loaded `ports` into the DB is not in the repo. |
 | Synthetic data script (`pipelines/scripts/synthetic/SyntheticGenerator.py`) | IMPLEMENTED | Faker/random seed 42, hire dates anchored to 2026-09-13. It reproduces employees, vessels and containers exactly (re-confirmed 2026-09-27: 28/28 cells, all three CSVs identical) and verifies them against the CSVs (never overwrites); database-owned columns (`vessels.mmsi`) are declared in `DB_OWNED_COLUMNS` and not compared. 2026-09-27: the leftover `employees.status` (ADR-017 drift) was removed, keeping its random draw. Invoices are rebuilt only to validate the pricing; the DB is canonical (ADR-013). |
 | RAG ingestion scripts, one per source (ADR-008, ADR-036; `pipelines/scripts/rag/`) | IMPLEMENTED for FBL, LPI Methodology, Suez Notes, LPI Connecting to Compete, HbR annual report 2025, IMO casualty-reporting circular | PyMuPDF extraction → cleaned logical units → (dedup) → semantic chunks in the 16-column schema |
-| `documents` registry table | IMPLEMENTED (29 rows, 2026-09-27) | migration 002 (table), 010 (rows); `pipelines/scripts/rag/Documents_registry.py`; ADR-009, ADR-035 |
-| Embedding model, Qdrant | PLANNED | plan APPROVED 2026-09-28: `docs/plans/RAG_Embeddings_Qdrant_plan.md` (model chosen by the Phase 2 bake-off) |
+| `documents` registry table | IMPLEMENTED (29 rows, 2026-09-27; `ingested_at` filled 2026-10-08) | migration 002 (table), 010 (rows), 011 (`ingested_at` = the last full Qdrant load); `pipelines/scripts/rag/Documents_registry.py`; ADR-009, ADR-035 |
+| Qdrant 1.19.1 (Docker container `ports-qdrant`, image `qdrant/qdrant:v1.19.1` pinned by digest, ports `127.0.0.1:6333` REST / `:6334` gRPC only, volume `ports-qdrant-data`) | IMPLEMENTED (container 2026-10-02; collection `nilegate_docs` 2026-10-08) | API key on every request (`QDRANT_API_KEY`), telemetry off; probe 2026-10-02 all pass: server-side BM25 available (D4, no `fastembed`), ADR-006 filter inside both prefetches of a hybrid RRF query. Commands and audit in `db/qdrant/`; web dashboard at `http://127.0.0.1:6333/dashboard` (asks for the API key). `nilegate_docs`: 2,163 points / 29 documents, named vectors `dense` (3,072, cosine; used by every search) + `bm25` (server-built; stored for `hybrid=True` and identifier questions, unused by default — ADR-038 amendment), payload = the 16 chunk columns + `document_id` + `text_sha256`, payload indexes on the RBAC and metadata keys; point id = UUID5(document_id + chunk_id) (ADR-039); written only by `Qdrant_loader.py` (and `Upload_promotion.py --commit` for a promoted document). |
+| Embedding model | IMPLEMENTED (2026-10-08) | Gemini `gemini-embedding-2`, 3,072 dims, on the composed unit `title + newline + text` (ADR-037, ADR-041); bake-off on a frozen golden set (40 EN + 24 Egyptian Arabic, `Embedding_bakeoff.py`); vectors files first in `Data/embeddings/gemini-embedding-2/` (only `manifest.json` committed); bake-off vectors of every candidate in `Data/embeddings/bakeoff/` (git-ignored, read by later scripts) |
+| Document retrieval tool `search_documents` (`pipelines/lib/retrieval.py`, shared library `pipelines/lib/`, ADR-039) | IMPLEMENTED (2026-10-08) | User → role ceiling + department from PostgreSQL (read-only user) → RBAC ∧ metadata filter inside Qdrant → Gemini query vector (in-memory + disk query cache) → exact dense, 24 candidates → Jina `jina-reranker-v3.5` → top 8 (ADR-038; hybrid / shaping switchable, off). Evaluated at three levels (ADR-040): balanced 0.850, RBAC leakage 0 (88-search matrix). Scripts in `pipelines/scripts/retrieval/`. |
 | MongoDB 8.0.32 (Docker container `ports-mongo`, image `mongo:8.0.32` pinned by digest, db `ports_logistics`, port `127.0.0.1:27017` only, volume `ports-mongo-data`) | IMPLEMENTED (2026-09-27) | Root user for administration + application user `readWrite` on `ports_logistics` only (ADR-027); commands, scripts and audit outputs in `db/mongo/`. Collections `ais_positions` (time-series), `ais_vessels`, `edi_messages` — see §5A. |
 | Semi-structured scripts (`pipelines/scripts/semi_structured/`) | IMPLEMENTED | `AIS_EDI_profiling` (samples → reviewed profiles), `AIS_generator` (500 synthetic tracks, files), `EDI_generator` (434 synthetic IFTMIN, files), `MongoDB_loader` (the only writer to MongoDB, ADR-031: real + synthetic, reload, consistency audit). |
 | Pipeline scripts + tooling (`pipelines/scripts/<area>/`, `pipelines/checkpoints/<area>/`, `tools/run.py`, `tools/nb_to_script.py`) | IMPLEMENTED (2026-10-01), verified locally (15/15, again after the refactor) | Percent-format scripts generated from the 15 notebooks: code cells identical except three listed changes, statically proven (`tools/nb_to_script.py check`); Final Checkpoint narratives in `pipelines/checkpoints/`. Owner's local run 2026-10-01: all 15 exit 0, identical ✅ lines, 0 artifacts changed; the notebooks are archived in `docs/archive/notebooks/` (ADR-036). |
+| Inference-time uploads (RAG plan Phase 8; `pipelines/lib/upload_reader.py`, `screening.py`, `uploads.py`, `local_embeddings.py`, `session_store.py`; `search_documents(..., session=)`) | IMPLEMENTED as a library (2026-10-08); local model `BAAI/bge-m3` (ADR-043) | One company document shape "NileGate Document v1" (PDF / DOCX) validated at upload, layered injection screening, conversation-only storage in memory, local ONNX embeddings (no upload text leaves the machine), corpus results + separate `session_results` labelled `untrusted_upload`, manager promotion through an offline review (ADR-042 – ADR-044). Validated: 52 fixtures, 0 corpus false positives, baseline unchanged with a session, isolation 15/15, promotion self-test 11/11. |
 | Agents, tool layer, API (FastAPI mentioned), auth, audit_log | PLANNED | ADR-012, ADR-014 |
-| Power BI, evaluation harness, observability, Docker Compose | PLANNED / PROPOSED | see ROADMAP |
+| Retrieval evaluation harness (golden set, golden facts, `pipelines/lib/evaluation.py`, `Evaluation.py`) | IMPLEMENTED (2026-10-08) | ADR-040; baseline `Data/processed/rag/eval/results_2026-10-08.json` for the agents phase |
+| Power BI, end-to-end answer evaluation, observability, Docker Compose | PLANNED / PROPOSED | see ROADMAP |
 | pgvector single store | ABANDONED | ADR-001 |
 | DuckDB, Redis job queue, star schema, MinIO object storage | DEFERRED (revisit in agents / API / Power BI phases) | ADR-018 |
 
@@ -75,7 +79,7 @@ Source of truth: `db/schema_snapshot.sql`. Audit output: `db/audit/2026-09-27_af
 | `vessels` | 500 | `vessel_id` serial | imo_number varchar(7) UNIQUE, vessel_name, vessel_type, flag_country, scnt_tons numeric, origin_locode, destination_locode, condition, status, **mmsi varchar(9) UNIQUE** (CHECK `^[2-7][0-9]{8}$`; migrations 004–005, ADR-028) |
 | `containers` | 1,000 | `container_id` serial | container_number varchar(11) UNIQUE, container_type, size_ft int, status, vessel_id, origin_locode, destination_locode |
 | `invoices` | 1,000 | `invoice_id` serial | invoice_number text UNIQUE, vessel_id, toll_rate_band_id `null`, invoice_date date, scnt_tons numeric, rate_sdr_per_ton numeric `null`, amount numeric, description `null`, status |
-| `documents` | 29 | `document_id` text | filename, title, source, real_or_synthetic, document_type, department_id → departments, sensitivity_level 1–3, version_date, ingestion_scope, source_url, sha256 UNIQUE, file_size_bytes, page_count, chunk_count, ingested_at, created_at. CHECKs: real_or_synthetic ∈ {real, synthetic}, sensitivity_level 1–3, file_size_bytes > 0, page_count > 0, chunk_count ≥ 0. Index on department_id. One row per raw file of the RAG corpus (6 sources + 23 USCG reports), filled by migration 010 (ADR-035); `ingested_at` NULL until Qdrant |
+| `documents` | 29 | `document_id` text | filename, title, source, real_or_synthetic, document_type, department_id → departments, sensitivity_level 1–3, version_date, ingestion_scope, source_url, sha256 UNIQUE, file_size_bytes, page_count, chunk_count, ingested_at, created_at. CHECKs: real_or_synthetic ∈ {real, synthetic}, sensitivity_level 1–3, file_size_bytes > 0, page_count > 0, chunk_count ≥ 0. Index on department_id. One row per raw file of the RAG corpus (6 sources + 23 USCG reports), filled by migration 010 (ADR-035); `ingested_at` = 2026-10-08 16:58:18+03 for all 29 (migration 011, the last full load of `nilegate_docs`) |
 
 `accepted_currencies` was dropped (migration 001, ADR-003).
 
@@ -128,6 +132,13 @@ Every document carries provenance (source file / manifest, its sha256, load run,
 Chunk files are `Data/processed/rag/chunks/*.parquet` with the unified 16-column schema (ADR-009):
 `page, unit_type, logical_unit, chunk_id, parent_chunk, sub_chunk, title, text, char_count, filename, source, real_or_synthetic, document_type, department, sensitivity_level (Int64, 1–3), version_date (string)`.
 
+**Title / text rule (ADR-041, 2026-10-02), one for the whole corpus:** `title` = the chunk's full location label
+(document, section path, caption, clause number; for USCG the header `USCG ROI <vessel> (MISLE <n>, <date>) — <section
+path>`, for IMO annex parts the document path); `text` = the body only, never starting with its heading;
+`char_count = len(text)`. The unit embedded, indexed and handed to a model is `compose(title, text)` = title + newline +
+text (`pipelines/lib/chunks.py`, which also enforces the rule). Applied as the last phase of the owning chunking
+scripts; where the rules below say a header or path is "on every chunk", it now sits in `title`.
+
 | Source | Chunks | document_type | department | level | version_date |
 |---|---:|---|---|---:|---|
 | FBL_template.pdf (FIATA) | 31 | bill_of_lading_template | Operations | 1 | null |
@@ -176,10 +187,33 @@ raw samples + synthetic artifacts ──MongoDB_loader (app user; drop + recreat
                                                                         └─► load_audit/<run>.json + <run>_rejected.csv
 ```
 
-**Retrieval (PLANNED):**
+**Embedding and loading (IMPLEMENTED, 2026-10-08; ADR-037, ADR-039, ADR-041):**
 ```text
-user ─► employee ─► role ceiling + department ─► Qdrant payload filter (docs/rbac_mapping.md)
-     ─► authorized chunks only ─► ranking ─► cited passages ─► LLM
+chunks/*.parquet ─► compose(title, text) ─► Gemini gemini-embedding-2 (files first, cached by chunk id + text sha256)
+   ─► Data/embeddings/gemini-embedding-2/dense_composed.parquet + manifest.json (hashes)
+   ─► Qdrant_loader (the only writer; UUID5 point ids; re-validated from Qdrant; second load = no change) ─► nilegate_docs
+```
+
+**Retrieval (IMPLEMENTED 2026-10-08 up to the cited chunks; the LLM answer is PLANNED):**
+```text
+search_documents(question, employee_id, filters, session=None)
+  ─► employee ─► role ceiling + department (PostgreSQL, read-only user; docs/rbac_mapping.md)
+  ─► filter = RBAC ∧ metadata, inside the Qdrant query ─► Gemini query vector (query cache)
+  ─► exact dense, 24 candidates ─► Jina rerank (fallback: dense order) ─► top 8 chunks with document_id, page, level
+  ─► [PLANNED] Supervisor / LLM answer with citations
+```
+
+**Documents uploaded in a conversation (IMPLEMENTED as a library, 2026-10-08; ADR-042 – ADR-044):**
+```text
+PDF / DOCX bytes ─► G0 type (magic bytes) + size ─► child process: upload_reader (file-level + hidden-text findings)
+   ─► metadata block + uploader access (ADR-006) + footer + numbered sections ─► screening (sections with hidden
+      text / injection removed and reported; required parts refuse) ─► chunks (corpus contract, ADR-041)
+   ─► local ONNX embeddings ─► SessionStore (memory only, owner = employee, TTL 8 h)
+search_documents(question, employee, session) ─► corpus lane (unchanged: Gemini query, RBAC, rerank) = results
+                                             └► session lane (local query vector, floor, ≤ 3)   = session_results
+                                                (trust = "untrusted_upload": data, never instructions)
+manager + own department + explicit request ─► Data/incoming/promotion/<id>/ ─► owner: review → approve → commit
+   (raw file copied by the owner; Data/processed/rag/promoted/; documents row via migration; Gemini; nilegate_docs)
 ```
 
 ## 7. Interfaces
@@ -187,13 +221,16 @@ user ─► employee ─► role ceiling + department ─► Qdrant payload filt
 - **No API exists.** FastAPI is mentioned for later (PLANNED).
 - Database access: psycopg 3 with the `PG*` variables from `.env` (ADR-015). Schema changes only through `db/migrations/` (ADR-016). Tools and agents connect as a member of `ports_readonly` (`PG_RO_*`, ADR-034) and apply the RBAC predicate of `docs/rbac_mapping.md` themselves.
 - MongoDB access: pymongo with the `MONGO_*` variables from `.env` (template `.env.example`), as the application user; administration with `mongosh` inside the container through `db/mongo/run.ps1` (ADR-027).
-- File contracts: the CSV headers in `Data/processed/structured|synthetic/` match the table columns (minus serial ids); `vessels.csv` ends with the database-owned `mmsi` (refreshed from PostgreSQL by `db/export_vessels_mirror.py`). Chunk parquet = the 16-column schema. The Qdrant payload (PLANNED) = chunk columns + `document_id`.
+- File contracts: the CSV headers in `Data/processed/structured|synthetic/` match the table columns (minus serial ids); `vessels.csv` ends with the database-owned `mmsi` (refreshed from PostgreSQL by `db/export_vessels_mirror.py`). Chunk parquet = the 16-column schema. The Qdrant payload = the 16 chunk columns + `document_id` + `text_sha256` (`pipelines/lib/qdrant_store.py`).
+- Document tool (Python, no API yet): `pipelines.lib.retrieval.search_documents(query, employee_id, k=8, filters=None, session=None)` → `SearchResult` (`results`: corpus chunks; `session_results`: the conversation's uploads, labelled `untrusted_upload`). Qdrant is reached with `qdrant-client` and `QDRANT_API_KEY`; Gemini and Jina with `httpx` and `GEMINI_API_KEY` / `JINA_API_KEY` from `.env`.
 
 ## 8. Dependencies (`pyproject.toml`, Python 3.13, uv)
 
 pandas 3.0.5, numpy 2.2.4, geopandas 1.1.4, psycopg[binary] 3.3.5, pymupdf 1.28.2, pypdf 6.18.1, pyarrow, pillow, scikit-learn 1.9.1 (TF-IDF), faker 40.38.0, ipykernel.
 Added for the USCG notebook (2026-09-26, `uv add`): rapidocr 3.9.2 + onnxruntime 1.30.0 (OCR, ADR-025), scipy 1.18.1 (figure regions on scans), nbconvert 7.17.1 (notebook execution into logs).
 Added for the semi-structured phase (2026-09-27, `uv add`): pymongo 4.18.2 (+ dnspython 2.8.0), searoute 1.6.0 (+ geojson 3.3.0; sea paths), global-land-mask 1.0.0 (land check). scipy is also used for the AIS routing (`scipy.sparse.csgraph`).
+Added for retrieval (2026-10-01 – 2026-10-08, `uv add`): qdrant-client 1.19.1, httpx 0.28.1 (every embedding / rerank API; no vendor SDK). scikit-learn also serves the IVF benchmark (KMeans).
+Added for inference-time uploads (2026-10-08, `uv add`): defusedxml 0.7.1 (untrusted DOCX XML), tokenizers 0.22.1 (local ONNX models; brings huggingface-hub, hf-xet, fsspec). The export of the local models (`tools/export_onnx.py`) needs torch / transformers / onnx only once, in a throwaway environment, not in the project.
 
 ## 9. Major architectural decisions
 
@@ -234,10 +271,19 @@ Added for the semi-structured phase (2026-09-27, `uv add`): pymongo 4.18.2 (+ dn
 | 033 | The database enforces its integrity (CHECK / UNIQUE, FK and GIST indexes) and describes itself (comments) |
 | 034 | Database access: loopback-only ports; read-only group role for tools and agents |
 | 035 | RAG document registry: one row per raw file, stable slugs, versions by fingerprint |
+| 036 | Pipelines are scripts (percent format); notebooks archived |
+| 037 | Embedding model: Gemini `gemini-embedding-2` (3,072 d), composed unit; never non-public data on the free tier |
+| 038 | Retrieval defaults: exact dense + Jina rerank; no hybrid, no context shaping |
+| 039 | Shared library `pipelines/lib/`; Qdrant point id per document version |
+| 040 | Retrieval evaluation at three levels (retrieval, ranking, context) |
+| 041 | One title / text rule for the whole corpus |
+| 042 | Inference-time uploads: one company document shape, validator, layered injection screening |
+| 043 | Conversation uploads: memory-only session store, local ONNX lane, two labelled result lists |
+| 044 | Promotion of a manager's upload to the corpus: request → offline review → registration like the siblings |
 
 ## 10. Open architectural questions
 
-1. Embedding model (local sentence-transformers vs API). It fixes the Qdrant vector size and cost. → Answered by the APPROVED plan (2026-09-28, `docs/plans/RAG_Embeddings_Qdrant_plan.md`): free API models compared in a bake-off on a golden set.
+1. ~~Embedding model (local sentence-transformers vs API).~~ Answered 2026-10-08 (ADR-037): Gemini `gemini-embedding-2` (3,072 dims) won a bake-off on a frozen golden set; conversation uploads use a local ONNX model, `BAAI/bge-m3` (ADR-043). Plan archived as `docs/archive/2026-10-08_RAG_Embeddings_Qdrant_plan.md`.
 2. ~~`document_id` slugs and versions.~~ Answered 2026-09-27 (ADR-035): stable slugs, one row per raw file, a new file version = a new row.
 3. ~~Whether the proposed CHECK constraints and indexes should be applied before the agent phase.~~ Answered 2026-09-27: applied (migration 006, ADR-033).
 4. Where the shared "event timeline" for causal consistency lives (PostgreSQL table vs generator-only config). Answered for this phase (ADR-032 amendment): the 2026 operational timeline is `voyages_synthetic.parquet` (AIS + EDI); invoices are 2025 history; EDI references them (`RFF+IV`) to mimic the document flow (ADR-032 amendment 2). A shared timeline with incidents is decided with the causal-consistency phase.

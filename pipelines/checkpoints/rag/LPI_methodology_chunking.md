@@ -165,3 +165,10 @@ Later stages can reuse them without repeating the extraction.
 **What it does.** Saves `processed/rag/chunks/LPI_Methodology_chunks.parquet`, reloads it from disk, and runs the schema validator on what was actually written. Then it compares the LPI chunks with the saved FBL and Suez chunks: the columns and dtypes must be identical and no `chunk_id` may collide when the three tables are concatenated. If the FBL or Suez files are not found, that comparison is skipped with a message.
 
 ---
+
+## Addendum 2026-10-02 — Title / text normalization (ADR-041)
+
+A last phase (appended to the script, proven by `tools/nb_to_script.py check`) normalizes the saved chunk file in
+place with `pipelines/lib/chunks.py`: a leading heading moves from `text` to `title` (`title` = the location label,
+`text` = the body only). Lossless, idempotent; chunk ids, order and count unchanged. Reviewed counts: heading_line 1, run_in_heading 1, unchanged 92.
+Where this narrative says a header, path or caption is at the start of every chunk, it is now the chunk's `title`.

@@ -3,6 +3,7 @@
 Origin:  Converted from Notebooks/rag/LPI_Connecting_to_Compete_chunking.ipynb (archived in docs/archive/notebooks/).
          Refactored (ADR-036 D3), cleanup level (2026-10-01): the notebook's phases, code and validations are unchanged;
          cell markers, Jupyter display() and the conversion helpers became plain sections and print(); proven by
+         Appended: title / text normalization appended as the last phase (ADR-041, owner decision 2026-10-02).
          `uv run python tools/nb_to_script.py check LPI_Connecting_to_Compete_chunking` (AST equal to the archived notebook).
 Run:     uv run python tools/run.py pipelines/scripts/rag/LPI_Connecting_to_Compete_chunking.py  (from the project root)
 
@@ -4103,3 +4104,18 @@ print("Flagged units         : none")
 print("\nArtifacts:")
 for p in (EXTRACTED_PATH, LOGICAL_UNITS_PATH, CHUNKS_PATH):
     print(f"  {p.relative_to(PROJECT_ROOT)}")
+
+
+# %% Final phase — Title / text normalization (ADR-041)
+# One rule for the whole corpus: `title` is the chunk's location label, `text` the body only. The chunk file saved above is normalized in place by `pipelines/lib/chunks.py` (a leading heading line moves to `title`, a run-in heading is removed; lossless, idempotent, chunk ids and order unchanged), then checked against the contract and reloaded. The phases above validated the chunking itself, before this step.
+
+import sys as _sys
+from pathlib import Path as _Path
+
+_root = next(p for p in [_Path.cwd(), *_Path.cwd().parents] if (p / "pyproject.toml").exists() and (p / "Data").is_dir())
+if str(_root) not in _sys.path:
+    _sys.path.insert(0, str(_root))
+from pipelines.lib import chunks as _chunk_contract
+
+_kinds = _chunk_contract.normalize_chunk_file(_root / "Data" / "processed" / "rag" / "chunks" / "LPI_Connecting_to_Compete_chunks.parquet", {'heading_line': 8, 'run_in_heading': 9, 'unchanged': 52})
+print(f"✅ Title / text normalization passed (ADR-041): {_kinds}")

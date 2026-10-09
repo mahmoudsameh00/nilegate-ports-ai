@@ -1,0 +1,620 @@
+{
+ "clean_D1.docx": {
+  "accepted": true,
+  "codes": [],
+  "kind": "clean",
+  "layer": null,
+  "notes": [],
+  "removed": [],
+  "uploader": 12,
+  "what": "NG-OPS-PRC-0042 as DOCX"
+ },
+ "clean_D1.pdf": {
+  "accepted": true,
+  "codes": [],
+  "kind": "clean",
+  "layer": null,
+  "notes": [],
+  "removed": [],
+  "uploader": 12,
+  "what": "NG-OPS-PRC-0042 as PDF"
+ },
+ "clean_D2.docx": {
+  "accepted": true,
+  "codes": [],
+  "kind": "clean",
+  "layer": null,
+  "notes": [],
+  "removed": [],
+  "uploader": 4,
+  "what": "NG-CUS-CIR-0007 as DOCX"
+ },
+ "clean_D2.pdf": {
+  "accepted": true,
+  "codes": [],
+  "kind": "clean",
+  "layer": null,
+  "notes": [],
+  "removed": [],
+  "uploader": 4,
+  "what": "NG-CUS-CIR-0007 as PDF"
+ },
+ "clean_D2_public.docx": {
+  "accepted": true,
+  "codes": [],
+  "kind": "clean",
+  "layer": null,
+  "notes": [],
+  "removed": [],
+  "uploader": 4,
+  "what": "NG-CUS-CIR-0007 declared public (promotion test)"
+ },
+ "clean_D3.docx": {
+  "accepted": true,
+  "codes": [],
+  "kind": "clean",
+  "layer": null,
+  "notes": [],
+  "removed": [],
+  "uploader": 8,
+  "what": "NG-HR-POL-0015 as DOCX"
+ },
+ "clean_D3.docx@employee_ops": {
+  "accepted": false,
+  "codes": [
+   "E_LEVEL_ABOVE_UPLOADER"
+  ],
+  "kind": "shape",
+  "layer": null,
+  "notes": [],
+  "removed": [],
+  "uploader": 12,
+  "what": "a level-2 HR document uploaded by an Operations employee (ADR-006)"
+ },
+ "clean_D3.pdf": {
+  "accepted": true,
+  "codes": [],
+  "kind": "clean",
+  "layer": null,
+  "notes": [],
+  "removed": [],
+  "uploader": 8,
+  "what": "NG-HR-POL-0015 as PDF"
+ },
+ "clean_D4.docx": {
+  "accepted": true,
+  "codes": [],
+  "kind": "clean",
+  "layer": null,
+  "notes": [],
+  "removed": [],
+  "uploader": 12,
+  "what": "NG-OPS-GDL-0003 (Arabic) as DOCX"
+ },
+ "file_dde.docx": {
+  "accepted": false,
+  "codes": [
+   "E_ACTIVE_CONTENT"
+  ],
+  "kind": "attack",
+  "layer": 1,
+  "notes": [],
+  "removed": [],
+  "uploader": 4,
+  "what": "DDE field"
+ },
+ "file_embedded.pdf": {
+  "accepted": false,
+  "codes": [
+   "E_EMBEDDED_FILE"
+  ],
+  "kind": "attack",
+  "layer": 1,
+  "notes": [],
+  "removed": [],
+  "uploader": 12,
+  "what": "embedded file"
+ },
+ "file_encrypted.pdf": {
+  "accepted": false,
+  "codes": [
+   "E_ENCRYPTED"
+  ],
+  "kind": "attack",
+  "layer": 1,
+  "notes": [],
+  "removed": [],
+  "uploader": 12,
+  "what": "password-protected"
+ },
+ "file_http_link.pdf": {
+  "accepted": false,
+  "codes": [
+   "E_ACTIVE_CONTENT"
+  ],
+  "kind": "attack",
+  "layer": 1,
+  "notes": [],
+  "removed": [],
+  "uploader": 12,
+  "what": "non-https link"
+ },
+ "file_javascript.pdf": {
+  "accepted": false,
+  "codes": [
+   "E_ACTIVE_CONTENT"
+  ],
+  "kind": "attack",
+  "layer": 1,
+  "notes": [],
+  "removed": [],
+  "uploader": 12,
+  "what": "JavaScript OpenAction"
+ },
+ "file_macro.docm.docx": {
+  "accepted": false,
+  "codes": [
+   "E_ACTIVE_CONTENT"
+  ],
+  "kind": "attack",
+  "layer": 1,
+  "notes": [],
+  "removed": [],
+  "uploader": 4,
+  "what": "macros"
+ },
+ "file_ole.docx": {
+  "accepted": false,
+  "codes": [
+   "E_ACTIVE_CONTENT",
+   "E_EMBEDDED_FILE"
+  ],
+  "kind": "attack",
+  "layer": 1,
+  "notes": [],
+  "removed": [],
+  "uploader": 4,
+  "what": "OLE object"
+ },
+ "file_remote_template.docx": {
+  "accepted": false,
+  "codes": [
+   "E_ACTIVE_CONTENT"
+  ],
+  "kind": "attack",
+  "layer": 1,
+  "notes": [],
+  "removed": [],
+  "uploader": 4,
+  "what": "remote template (external relationship)"
+ },
+ "file_zip_bomb.docx": {
+  "accepted": false,
+  "codes": [
+   "E_TOO_LARGE"
+  ],
+  "kind": "attack",
+  "layer": 1,
+  "notes": [],
+  "removed": [],
+  "uploader": 4,
+  "what": "30 MB uncompressed (zip bomb)"
+ },
+ "hid_comments.docx": {
+  "accepted": true,
+  "codes": [],
+  "kind": "attack",
+  "layer": 2,
+  "notes": [
+   "N_COMMENTS_IGNORED"
+  ],
+  "removed": [],
+  "uploader": 8,
+  "what": "comment: never read"
+ },
+ "hid_docprops.docx": {
+  "accepted": true,
+  "codes": [],
+  "kind": "attack",
+  "layer": 2,
+  "notes": [
+   "N_PROPERTIES_IGNORED"
+  ],
+  "removed": [],
+  "uploader": 8,
+  "what": "injection in docProps: never indexed"
+ },
+ "hid_info_metadata.pdf": {
+  "accepted": true,
+  "codes": [],
+  "kind": "attack",
+  "layer": 2,
+  "notes": [
+   "N_PROPERTIES_IGNORED"
+  ],
+  "removed": [],
+  "uploader": 12,
+  "what": "injection in the PDF Info dictionary: never indexed"
+ },
+ "hid_off_page.pdf": {
+  "accepted": true,
+  "codes": [],
+  "kind": "attack",
+  "layer": 2,
+  "notes": [
+   "N_OFF_PAGE_TEXT"
+  ],
+  "removed": [],
+  "uploader": 12,
+  "what": "text outside the page box: never read, only reported"
+ },
+ "hid_render_mode3.pdf": {
+  "accepted": true,
+  "codes": [],
+  "kind": "attack",
+  "layer": 2,
+  "notes": [],
+  "removed": [
+   "3.1"
+  ],
+  "uploader": 12,
+  "what": "invisible text (render mode 3)"
+ },
+ "hid_style.docx": {
+  "accepted": true,
+  "codes": [],
+  "kind": "attack",
+  "layer": 2,
+  "notes": [],
+  "removed": [
+   "3.3"
+  ],
+  "uploader": 4,
+  "what": "hidden through a character style"
+ },
+ "hid_tiny.pdf": {
+  "accepted": true,
+  "codes": [],
+  "kind": "attack",
+  "layer": 2,
+  "notes": [],
+  "removed": [
+   "4.3"
+  ],
+  "uploader": 12,
+  "what": "1 pt text"
+ },
+ "hid_tracked_deletion.docx": {
+  "accepted": true,
+  "codes": [],
+  "kind": "attack",
+  "layer": 2,
+  "notes": [
+   "N_TRACKED_DELETIONS_IGNORED"
+  ],
+  "removed": [],
+  "uploader": 8,
+  "what": "injection in a deleted tracked change: never read"
+ },
+ "hid_vanish.docx": {
+  "accepted": true,
+  "codes": [],
+  "kind": "attack",
+  "layer": 2,
+  "notes": [],
+  "removed": [
+   "3.1"
+  ],
+  "uploader": 4,
+  "what": "Word hidden text (vanish)"
+ },
+ "hid_white.docx": {
+  "accepted": true,
+  "codes": [],
+  "kind": "attack",
+  "layer": 2,
+  "notes": [],
+  "removed": [
+   "4"
+  ],
+  "uploader": 8,
+  "what": "white text (DOCX)"
+ },
+ "hid_white.pdf": {
+  "accepted": true,
+  "codes": [],
+  "kind": "attack",
+  "layer": 2,
+  "notes": [],
+  "removed": [
+   "4.1"
+  ],
+  "uploader": 12,
+  "what": "white text"
+ },
+ "inj_egyptian.docx": {
+  "accepted": true,
+  "codes": [],
+  "kind": "attack",
+  "layer": 3,
+  "notes": [],
+  "removed": [
+   "4"
+  ],
+  "uploader": 4,
+  "what": "Egyptian Arabic override"
+ },
+ "inj_everywhere.docx": {
+  "accepted": false,
+  "codes": [
+   "E_NOTHING_LEFT"
+  ],
+  "kind": "attack",
+  "layer": 3,
+  "notes": [],
+  "removed": [
+   "1",
+   "2",
+   "3",
+   "4"
+  ],
+  "uploader": 8,
+  "what": "every section injected"
+ },
+ "inj_exfiltrate.pdf": {
+  "accepted": true,
+  "codes": [],
+  "kind": "attack",
+  "layer": 3,
+  "notes": [],
+  "removed": [
+   "5"
+  ],
+  "uploader": 12,
+  "what": "exfiltration URL"
+ },
+ "inj_footer.docx": {
+  "accepted": false,
+  "codes": [
+   "E_FOOTER_MISMATCH",
+   "E_INJECTION"
+  ],
+  "kind": "attack",
+  "layer": 3,
+  "notes": [],
+  "removed": [],
+  "uploader": 4,
+  "what": "injection in the footer (a required part)"
+ },
+ "inj_in_table.docx": {
+  "accepted": true,
+  "codes": [],
+  "kind": "attack",
+  "layer": 3,
+  "notes": [],
+  "removed": [
+   "6"
+  ],
+  "uploader": 4,
+  "what": "override inside a table row"
+ },
+ "inj_metadata_block.pdf": {
+  "accepted": false,
+  "codes": [
+   "E_INJECTION"
+  ],
+  "kind": "attack",
+  "layer": 3,
+  "notes": [
+   "N_PROPERTIES_IGNORED"
+  ],
+  "removed": [],
+  "uploader": 12,
+  "what": "injection inside the required metadata block"
+ },
+ "inj_msa.docx": {
+  "accepted": true,
+  "codes": [],
+  "kind": "attack",
+  "layer": 3,
+  "notes": [],
+  "removed": [
+   "5"
+  ],
+  "uploader": 12,
+  "what": "MSA Arabic override + reveal"
+ },
+ "inj_new_role.pdf": {
+  "accepted": true,
+  "codes": [],
+  "kind": "attack",
+  "layer": 3,
+  "notes": [],
+  "removed": [
+   "6"
+  ],
+  "uploader": 12,
+  "what": "role change"
+ },
+ "inj_role_marker.docx": {
+  "accepted": true,
+  "codes": [],
+  "kind": "attack",
+  "layer": 3,
+  "notes": [],
+  "removed": [
+   "5"
+  ],
+  "uploader": 4,
+  "what": "role marker at a line start"
+ },
+ "inj_tool_call.docx": {
+  "accepted": true,
+  "codes": [],
+  "kind": "attack",
+  "layer": 3,
+  "notes": [],
+  "removed": [
+   "6"
+  ],
+  "uploader": 8,
+  "what": "tool-call JSON"
+ },
+ "inj_visible_en.pdf": {
+  "accepted": true,
+  "codes": [],
+  "kind": "attack",
+  "layer": 3,
+  "notes": [],
+  "removed": [
+   "4.2"
+  ],
+  "uploader": 12,
+  "what": "visible English override"
+ },
+ "inj_zero_width_split.docx": {
+  "accepted": true,
+  "codes": [],
+  "kind": "attack",
+  "layer": 3,
+  "notes": [],
+  "removed": [
+   "6"
+  ],
+  "uploader": 4,
+  "what": "override split by 2 zero-width chars (removed before matching)"
+ },
+ "inj_zero_width_split.pdf": {
+  "accepted": true,
+  "codes": [],
+  "kind": "attack",
+  "layer": 3,
+  "notes": [],
+  "removed": [
+   "7"
+  ],
+  "uploader": 12,
+  "what": "override split by 2 zero-width chars (PDF extraction turns them into spaces)"
+ },
+ "shape_bad_fields.docx": {
+  "accepted": false,
+  "codes": [
+   "E_BAD_FIELD"
+  ],
+  "kind": "shape",
+  "layer": null,
+  "notes": [],
+  "removed": [],
+  "uploader": 2,
+  "what": "code / department mismatch, impossible date, unknown language"
+ },
+ "shape_control_chars.docx": {
+  "accepted": false,
+  "codes": [
+   "E_CONTROL_CHARS"
+  ],
+  "kind": "shape",
+  "layer": null,
+  "notes": [],
+  "removed": [],
+  "uploader": 12,
+  "what": "5 zero-width characters (smuggling guard)"
+ },
+ "shape_footer_mismatch.pdf": {
+  "accepted": false,
+  "codes": [
+   "E_FOOTER_MISMATCH"
+  ],
+  "kind": "shape",
+  "layer": null,
+  "notes": [],
+  "removed": [],
+  "uploader": 12,
+  "what": "page 2 belongs to another document"
+ },
+ "shape_heading_gap.docx": {
+  "accepted": false,
+  "codes": [
+   "E_HEADINGS"
+  ],
+  "kind": "shape",
+  "layer": null,
+  "notes": [],
+  "removed": [],
+  "uploader": 8,
+  "what": "headings 1-5 then 7"
+ },
+ "shape_missing_purpose.docx": {
+  "accepted": false,
+  "codes": [
+   "E_MISSING_SECTION"
+  ],
+  "kind": "shape",
+  "layer": null,
+  "notes": [],
+  "removed": [],
+  "uploader": 8,
+  "what": "section 1 is not Purpose"
+ },
+ "shape_no_metadata.docx": {
+  "accepted": false,
+  "codes": [
+   "E_NO_METADATA_BLOCK"
+  ],
+  "kind": "shape",
+  "layer": null,
+  "notes": [],
+  "removed": [],
+  "uploader": 8,
+  "what": "wrong template tag"
+ },
+ "shape_not_supported.txt": {
+  "accepted": false,
+  "codes": [
+   "E_NOT_SUPPORTED"
+  ],
+  "kind": "shape",
+  "layer": null,
+  "notes": [],
+  "removed": [],
+  "uploader": 12,
+  "what": "plain text file"
+ },
+ "shape_scanned_page.pdf": {
+  "accepted": false,
+  "codes": [
+   "E_FOOTER_MISMATCH",
+   "E_NO_TEXT_LAYER"
+  ],
+  "kind": "shape",
+  "layer": null,
+  "notes": [],
+  "removed": [],
+  "uploader": 12,
+  "what": "an image-only page added (and the footers no longer count the pages right)"
+ },
+ "shape_too_large.pdf": {
+  "accepted": false,
+  "codes": [
+   "E_TOO_LARGE"
+  ],
+  "kind": "shape",
+  "layer": null,
+  "notes": [],
+  "removed": [],
+  "uploader": 12,
+  "what": "6 MB"
+ },
+ "shape_too_many_pages.pdf": {
+  "accepted": false,
+  "codes": [
+   "E_TOO_MANY_PAGES"
+  ],
+  "kind": "shape",
+  "layer": null,
+  "notes": [],
+  "removed": [],
+  "uploader": 12,
+  "what": "31 pages"
+ }
+}

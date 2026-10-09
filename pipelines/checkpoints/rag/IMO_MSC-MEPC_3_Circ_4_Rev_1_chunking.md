@@ -98,3 +98,10 @@ Every one of the **2,329 text lines** has exactly one disposition: in the chunks
 ## Status
 
 Nothing is pending: no manual-review duplicate, no flagged unit, every doubt resolved with evidence from the PDF or excluded with a recorded reason, every line of the PDF accounted for.
+
+## Addendum 2026-10-02 — Title / text normalization (ADR-041)
+
+A last phase (appended to the script, proven by `tools/nb_to_script.py check`) normalizes the saved chunk file in
+place with `pipelines/lib/chunks.py`: a leading heading moves from `text` to `title` (`title` = the location label,
+`text` = the body only). Lossless, idempotent; chunk ids, order and count unchanged. Reviewed counts: header_line 59, unchanged 10.
+Where this narrative says a header, path or caption is at the start of every chunk, it is now the chunk's `title`.

@@ -4,6 +4,7 @@ Origin:  Converted from Notebooks/rag/USCG_ROI_chunking.ipynb (archived in docs/
          Refactored (ADR-036 D3), cleanup level (2026-10-01): the notebook's phases, code and validations are unchanged;
          cell markers, Jupyter display() and the conversion helpers became plain sections and print(); proven by
          Patched: covered_by depended on PYTHONHASHSEED when two units cover a sentence equally.
+         Appended: title / text normalization appended as the last phase (ADR-041, owner decision 2026-10-02).
          `uv run python tools/nb_to_script.py check USCG_ROI_chunking` (AST equal to the archived notebook).
 Run:     uv run python tools/run.py pipelines/scripts/rag/USCG_ROI_chunking.py  (from the project root)
 
@@ -3941,3 +3942,18 @@ assert (chunks_df["sensitivity_level"] == 1).all() and (chunks_df["department"] 
 for k, v in final_summary.items():
     print(f"{k:45s} {v}")
 print("✅ Final Checkpoint passed.")
+
+
+# %% Final phase — Title / text normalization (ADR-041)
+# One rule for the whole corpus: `title` is the chunk's location label, `text` the body only. The chunk file saved above is normalized in place by `pipelines/lib/chunks.py` (a leading heading line moves to `title`, a run-in heading is removed; lossless, idempotent, chunk ids and order unchanged), then checked against the contract and reloaded. The phases above validated the chunking itself, before this step.
+
+import sys as _sys
+from pathlib import Path as _Path
+
+_root = next(p for p in [_Path.cwd(), *_Path.cwd().parents] if (p / "pyproject.toml").exists() and (p / "Data").is_dir())
+if str(_root) not in _sys.path:
+    _sys.path.insert(0, str(_root))
+from pipelines.lib import chunks as _chunk_contract
+
+_kinds = _chunk_contract.normalize_chunk_file(_root / "Data" / "processed" / "rag" / "chunks" / "USCG_ROI_chunks.parquet", {'header_line': 1544})
+print(f"✅ Title / text normalization passed (ADR-041): {_kinds}")

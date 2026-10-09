@@ -1,6 +1,6 @@
 # Data Map — كل الداتا اللي معانا، بتخدم إيه، ومربوطة ببعض إزاي
 
-الملف ده مرجع لتصميم الـ **RAG workflow**. كل الأرقام متحققة يوم 2026-09-27.
+الملف ده مرجع لتصميم الـ **RAG workflow**. كل الأرقام متحققة يوم 2026-09-27؛ جزء Qdrant والـ retrieval اتحدّث يوم 2026-10-08 (قفل خطة الـ RAG).
 (الرسومات مكتوبة بـ Mermaid: بتتعرض في VS Code عن طريق Markdown Preview، وعلى GitHub.)
 
 ---
@@ -20,7 +20,7 @@ flowchart LR
         PG[("PostgreSQL<br/>11 جدول<br/>السجلات والأرقام")]
         MG[("MongoDB<br/>3 collections<br/>حركة السفن والرسايل")]
         CH["RAG chunks<br/>2,163 chunk<br/>(parquet files)"]
-        QD[("Qdrant<br/>(المرحلة الجاية)")]
+        QD[("Qdrant nilegate_docs<br/>2,163 point<br/>(Gemini vectors)")]
     end
 
     R1 --> PG
@@ -92,7 +92,7 @@ flowchart LR
 داتا حقيقية (10,949 موقع و10,034 سفينة) = **مرجع للمقارنة بس، ومش مربوطة بشركتنا**.
 داتا synthetic (500 سفينة، 434 رسالة) = **سفننا نفسها**، ومربوطة بـ PostgreSQL.
 
-### 2.4 Unstructured → RAG chunks (جاهزة للـ embedding)
+### 2.4 Unstructured → RAG chunks → Qdrant (`nilegate_docs`، متحمّلة يوم 2026-10-08)
 
 | المصدر | chunks | القسم / المستوى | بيجاوب على إيه |
 |---|---:|---|---|
@@ -104,6 +104,11 @@ flowchart LR
 | IMO casualty-reporting circular | 69 | Operations / 1 | إيه اللي لازم يتبلّغ في الحوادث البحرية، والأكواد |
 | 23 تقرير USCG | 1,544 | Operations / 1 | حوادث حقيقية: إيه اللي حصل، ليه، والتوصيات |
 | **المجموع** | **2,163** | | |
+
+كل chunk = point واحد في Qdrant: vector من Gemini `gemini-embedding-2` (3,072 بُعد) لـ `title + text` (ADR-037، ADR-041)،
+والـ payload = الـ 16 عمود + `document_id`. البحث بيمر من `search_documents` (`pipelines/lib/retrieval.py`): فلتر الـ RBAC
+جوه Qdrant، exact dense، وبعدين Jina rerank (ADR-038). المستندات اللي الموظف بيرفعها في المحادثة بتتخزن في الذاكرة بس
+وبتتبحث بموديل محلي (`bge-m3`) في قايمة منفصلة اسمها `session_results` (ADR-042 – ADR-044).
 
 ### 2.5 Live
 
@@ -142,7 +147,7 @@ erDiagram
 | **invoice_number** | فاتورة رسوم السويس في PostgreSQL ↔ رسالة الـ EDI بتاعة نفس السفينة (`RFF+IV`، 376 رسالة) |
 | **vessel_type = vessel_category** | السفينة ↔ شرايح التعريفة بتاعتها |
 | **department + sensitivity_level** | أساس الـ RBAC: موجودين كأعمدة على كل chunk وكل document في Mongo؛ أما جداول PostgreSQL فمستوى كل جدول مكتوب في `docs/rbac_mapping.md` §2 |
-| **document_id** | كل chunk (وبعدين كل point في Qdrant) ↔ الملف الأصلي في جدول `documents` |
+| **document_id** | كل chunk وكل point في Qdrant ↔ الملف الأصلي في جدول `documents` (point id = UUID5 من `document_id` + `chunk_id`، ADR-039) |
 
 ---
 
@@ -188,14 +193,16 @@ erDiagram
 |---|---|
 | PostgreSQL (11 جدول، constraints، comments، read-only role) | ✅ جاهز |
 | MongoDB (3 collections، validated، audited) | ✅ جاهز |
-| RAG chunks (2,163) + جدول `documents` (29) | ✅ جاهز |
-| Embedding model + Qdrant + retrieval | ⏳ المرحلة الجاية (مستني قرارك) |
-| RBAC filter جوه الـ retrieval | ⏳ القاعدة متحددة (ADR-006)، والتنفيذ مع Qdrant |
-| Supervisor + tools (SQL / Mongo / web) | ⏳ بعد الـ retrieval |
+| RAG chunks (2,163) + جدول `documents` (29، `ingested_at` متملي بـ migration 011) | ✅ جاهز |
+| Embedding model (Gemini) + Qdrant `nilegate_docs` + `search_documents` | ✅ جاهز (2026-10-08، ADR-037 – ADR-039) |
+| RBAC filter جوه الـ retrieval | ✅ جاهز: جوه كل prefetch في Qdrant، 88 بحث في الاختبار، تسريب 0 |
+| Evaluation (golden set: 40 إنجليزي + 24 عامية مصرية) | ✅ جاهز: dense + rerank = 0.850 (ADR-038، ADR-040) |
+| مستندات بتترفع وقت المحادثة | ✅ جاهز كـ library (ADR-042 – ADR-044) |
+| Supervisor + tools (SQL / Mongo / web) | ⏳ المرحلة الجاية (agents) |
 
 ---
 
-## 7. ترتيب بناء الـ RAG workflow (المقترح)
+## 7. ترتيب بناء الـ RAG workflow (الخطوات 1–6 و9 اتنفذت لجزء المستندات يوم 2026-10-08؛ 7–8 مع الـ agents)
 
 ```mermaid
 flowchart TD

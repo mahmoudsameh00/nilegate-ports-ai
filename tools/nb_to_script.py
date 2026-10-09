@@ -412,6 +412,43 @@ PATCHES = {
 }
 
 
+# Phases appended after an archived notebook's last cell (owner-approved), so `check` proves "notebook + patches +
+# exactly these phases": {key: [(markdown section, code, why)]}.
+def _title_text_phase(chunk_file: str, reviewed: dict) -> tuple[str, str, str]:
+    md = ("## Final phase — Title / text normalization (ADR-041)\n\n"
+          "One rule for the whole corpus: `title` is the chunk's location label, `text` the body only. The chunk file "
+          "saved above is normalized in place by `pipelines/lib/chunks.py` (a leading heading line moves to `title`, "
+          "a run-in heading is removed; lossless, idempotent, chunk ids and order unchanged), then checked against the "
+          "contract and reloaded. The phases above validated the chunking itself, before this step.")
+    path = f'_root / "Data" / "processed" / "rag" / "chunks" / "{chunk_file}"'
+    code = "\n".join([
+        "import sys as _sys",
+        "from pathlib import Path as _Path",
+        "",
+        '_root = next(p for p in [_Path.cwd(), *_Path.cwd().parents] if (p / "pyproject.toml").exists() and (p / "Data").is_dir())',
+        "if str(_root) not in _sys.path:",
+        "    _sys.path.insert(0, str(_root))",
+        "from pipelines.lib import chunks as _chunk_contract",
+        "",
+        f"_kinds = _chunk_contract.normalize_chunk_file({path}, {reviewed!r})",
+        'print(f"✅ Title / text normalization passed (ADR-041): {_kinds}")'])
+    return md, code, "title / text normalization appended as the last phase (ADR-041, owner decision 2026-10-02)"
+
+
+APPENDED = {
+    "rag/FBL_chunking": [_title_text_phase("FBL_template_chunks.parquet", {"heading_line": 26, "unchanged": 5})],
+    "rag/LPI_methodology_chunking": [_title_text_phase(
+        "LPI_Methodology_chunks.parquet", {"heading_line": 1, "run_in_heading": 1, "unchanged": 92})],
+    "rag/LPI_Connecting_to_Compete_chunking": [_title_text_phase(
+        "LPI_Connecting_to_Compete_chunks.parquet", {"heading_line": 8, "run_in_heading": 9, "unchanged": 52})],
+    "rag/HbR_Annual_report_2025_chunking": [_title_text_phase(
+        "HbR_Annual_report_2025_chunks.parquet", {"heading_line": 54, "unchanged": 298})],
+    "rag/IMO_MSC-MEPC_3_Circ_4_Rev_1_chunking": [_title_text_phase(
+        "IMO_MSC-MEPC_3_Circ_4_Rev_1_chunks.parquet", {"header_line": 59, "unchanged": 10})],
+    "rag/USCG_ROI_chunking": [_title_text_phase("USCG_ROI_chunks.parquet", {"header_line": 1544})],
+}
+
+
 def patched(key: str, code: str) -> str:
     for old, new, _ in PATCHES.get(key, []):
         if old in code:
@@ -477,6 +514,7 @@ def build_clean(key: str) -> str:
             f"         {CLEAN_TAG} (2026-10-01): the notebook's phases, code and validations are unchanged;",
             "         cell markers, Jupyter display() and the conversion helpers became plain sections and print(); proven by",
             *([f"         Patched: {why}." for _, _, why in PATCHES.get(key, [])]),
+            *([f"         Appended: {why}." for _, _, why in APPENDED.get(key, [])]),
             f"         `uv run python tools/nb_to_script.py check {stem}` (AST equal to the archived notebook).",
             f"Run:     uv run python tools/run.py pipelines/scripts/{area}/{stem}.py  (from the project root)", "",
             f"Reads:   {m['reads']}", f"Writes:  {m['writes']}", f"Re-run:  {m['rerun']}"]
@@ -492,6 +530,9 @@ def build_clean(key: str) -> str:
             body.append("\n" + _section(text))
         elif c["cell_type"] == "code":
             body.append(clean_code(patched(key, text).rstrip("\n")))
+    for md, code, _ in APPENDED.get(key, []):
+        body.append("\n" + _section(md))
+        body.append(code)
     return "\n".join(head) + "\n" + "\n\n".join(body) + "\n"
 
 
@@ -511,6 +552,8 @@ def _canonical_notebook_body(cells: list[dict], key: str = "") -> list[ast.stmt]
                          and last.value.func.id == "print")):
             tree.body[-1] = ast.Expr(ast.Call(ast.Name("print", ast.Load()), [last.value], []))
         out += tree.body
+    for _, code, _ in APPENDED.get(key, []):
+        out += ast.parse(code).body
     return out
 
 

@@ -1,7 +1,9 @@
 # Retrieval flow — how a question travels through the NileGate system
 
-Design reference for the RAG phase (`docs/plans/RAG_Embeddings_Qdrant_plan.md`) and the agents phase after it.
-Status: **PROPOSED** (2026-09-28). Research sources are listed at the end.
+Design reference for the RAG phase (`docs/archive/2026-10-08_RAG_Embeddings_Qdrant_plan.md`) and the agents phase after it.
+Status: the document tool (§2, §2.1) is **IMPLEMENTED** (2026-10-08, RAG plan closed: ADR-037 – ADR-044); the
+Supervisor, the other tools and the answer step (§1, §3) stay **PLANNED** for the agents phase. §5 records the research of
+2026-09-28 and what the measurements chose. Research sources are listed at the end.
 
 The **Supervisor agent** owns the answer. It never reads a store directly: it calls **tools**, and every tool applies the
 user's access rights **inside** its query (ADR-006). This plan builds the document tool; the other tools reuse the same
@@ -17,7 +19,7 @@ flowchart TD
     AUTH --> UND["2. Understand<br/>language · intent(s) · entities<br/>(LOCODE, IMO, MMSI, container, invoice, vessel name, dates)"]
     UND --> RES["3. Resolve entities<br/>names → ids in PostgreSQL<br/>(e.g. 'Special Voyager 001' → vessel_id 1, IMO 9000001)"]
     RES --> PLAN{"4. Route<br/>which tools, in which order"}
-    PLAN -->|"rules, definitions,<br/>incidents, reports"| DOC["search_documents<br/>(Qdrant hybrid + rerank)"]
+    PLAN -->|"rules, definitions,<br/>incidents, reports"| DOC["search_documents<br/>(Qdrant exact dense + rerank)"]
     PLAN -->|"records, counts,<br/>money, people"| SQL["query_records<br/>(PostgreSQL views)"]
     PLAN -->|"where / movement /<br/>shipments / EDI"| OPS["query_operations<br/>(MongoDB)"]
     PLAN -->|"tariff arithmetic"| CALC["compute_toll<br/>(toll_rate_bands)"]
@@ -42,7 +44,14 @@ flowchart TD
 
 ---
 
-## 2. The document tool in detail (built in this plan)
+## 2. The document tool in detail (IMPLEMENTED 2026-10-08: `pipelines/lib/retrieval.py`)
+
+**Built and measured defaults (ADR-038):** RBAC ∧ metadata filter → Gemini query vector (cached) → **exact** dense
+search, 24 candidates → Jina rerank → top 8 (`hybrid=False`, `max_per_document=None`, `dedupe=False`). Hybrid BM25 / RRF
+and context shaping are built and switchable but were rejected by the ADR-040 rule (balanced score: dense 0.812, dense +
+rerank 0.850; RBAC leakage 0). Exact search, not HNSW / IVF: no gain at 2,163 points (`Search_index_benchmark.py`). The
+reranker falls back to the dense order when Jina is rate-limited (5 s at query time). The diagram below is the full
+switchable pipeline as designed:
 
 ```mermaid
 flowchart LR
@@ -67,8 +76,26 @@ flowchart LR
 | Reranker | reads the query and the chunk together; usually fixes the order of the top candidates | `rerank=False` |
 | Context shaping | a finding without its section, or a table row without its header, is weaker; also avoids 8 chunks from one report | `expand=False` |
 
-The Phase 7 evaluation compares **dense only / hybrid / hybrid + rerank** on the golden set. The default setting is the
-one the numbers support.
+The Phase 7 evaluation compared **dense only / hybrid / rerank / shaping** on the golden set; the default is the one the
+numbers supported: dense + rerank (ADR-038, baseline `Data/processed/rag/eval/results_2026-10-08.json`).
+
+### 2.1 Documents uploaded in the conversation (IMPLEMENTED 2026-10-08; ADR-042 – ADR-044)
+
+`search_documents(query, employee_id, session=...)` adds the conversation's uploads as a **second list**:
+
+| | `results` (corpus lane) | `session_results` (session lane) |
+|---|---|---|
+| source | Qdrant `nilegate_docs` | the session's uploads, in memory |
+| query vector | Gemini (the question only, never expanded with upload text) | local ONNX model |
+| access | ADR-006 filter inside the query | session owner only + ADR-006 re-check |
+| size | k (8) | at most 3, above the model's floor |
+| label | corpus provenance | `lane="session"`, `trust="untrusted_upload"`, `uploaded_by`, `document_code` |
+
+**Contract for the agents phase (the project rules rule 5):** a `session_results` chunk is the employee's own uploaded text.
+It may be quoted and cited as data, inside clear delimiters, with its upload label; it is **never** followed as an
+instruction, never allowed to change the assistant's role or rules, and never allowed to trigger a tool call or a
+request to a URL — even if it passed the upload screening (the patterns catch known shapes only). Corpus `results`
+are never displaced by upload chunks, so the retrieval baseline (ADR-038) holds with or without a session.
 
 ---
 
@@ -100,6 +127,12 @@ every tool is queried by id and never by fuzzy text.
 
 ## 5. Chosen stack (research of 2026-09-28; decisions D1–D4 in the plan)
 
+**Outcome (2026-10-08):** the measurements changed two research picks. Embeddings: **Gemini `gemini-embedding-2`**
+(3,072 dims) won the bake-off (0.912 vs Voyage 0.804, Jina 0.733; ADR-037) on the composed unit `title + text`
+(ADR-041). Retrieval: exact dense + Jina `jina-reranker-v3.5`, no hybrid (ADR-038). BM25 is server-side in Qdrant 1.19.1
+(no `fastembed`). Conversation uploads use a local ONNX model, `BAAI/bge-m3` (ADR-043). The table below is the research
+as written before the measurements.
+
 | Need | Choice | Why | Alternatives kept |
 |---|---|---|---|
 | Vector database | **Qdrant** (already ADR-001), Docker | dense + sparse named vectors in one collection; hybrid via Query API `prefetch` + RRF / DBSF fusion; payload filters inside each prefetch; filterable HNSW with payload indexes; multi-stage rescoring; light, one container | Weaviate (BM25 hybrid, heavier); Milvus (native BM25, needs etcd / MinIO); pgvector (inside our PostgreSQL, but no clean native hybrid) |
@@ -108,10 +141,11 @@ every tool is queried by id and never by fuzzy text.
 | Sparse / BM25 | Qdrant BM25 (server-side inference if the pinned version has it, otherwise `fastembed` `Qdrant/bm25` on the client; `onnxruntime` is already installed) | exact identifiers | — |
 | HTTP | `httpx` for every embedding / rerank API | one client, retries and rate limits in one place, no vendor SDK lock-in | vendor SDKs |
 
-**Uncertain (checked during the plan):**
-- the exact number of free tokens on a new Jina key;
-- Voyage's rate limits without a payment method, and its Arabic coverage;
-- server-side BM25 in the pinned Qdrant version.
+**Uncertain at research time (checked during the plan):**
+- the exact number of free tokens on a new Jina key — Jina publishes no rate-limit headers; 429 seen after a few
+  back-to-back ~8k-token rerank calls (own budget 60 rpm / 60k tpm, graceful fallback);
+- Voyage's rate limits without a payment method, and its Arabic coverage — not needed (Voyage lost the bake-off);
+- server-side BM25 in the pinned Qdrant version — available (probe 2026-10-02).
 
 Sending data to an API is acceptable here: the corpus is public reports plus synthetic company data (the level-3 HbR
 chunks come from a public annual report), and employee personal data is never embedded.

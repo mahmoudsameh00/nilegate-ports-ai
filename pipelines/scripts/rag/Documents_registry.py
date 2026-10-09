@@ -21,7 +21,7 @@ Decisions (ADR-035):
 - `department` / `sensitivity_level` are the document defaults (the values of most of its chunks); the chunk values
   stay authoritative (ADR-021: HbR has 5 level-3 / Finance chunks under a level-1 / Operations default);
 - titles as printed (PDF metadata for the USCG reports, the first page otherwise); `source_url` NULL (never recorded,
-  not invented); `ingested_at` NULL until Qdrant.
+  not invented); `ingested_at` NULL until Qdrant, then filled by migration 011 (RAG plan Phase 9, 2026-10-08).
 
 Phases
 1. Inventory: raw PDFs ↔ chunk files (same 29 file names, 2,163 chunks).
@@ -43,6 +43,7 @@ RAW = ROOT / "Data" / "raw"
 CHUNKS = ROOT / "Data" / "processed" / "rag" / "chunks"
 MIRROR = ROOT / "Data" / "processed" / "rag" / "documents.csv"
 MIGRATION = ROOT / "db" / "migrations" / "010_fill_documents.sql"
+INGESTED_AT = "2026-10-08 16:58:18+03:00"  # migration 011: the last full load of Qdrant `nilegate_docs`
 COLS = ["document_id", "filename", "title", "source", "real_or_synthetic", "document_type", "department",
         "sensitivity_level", "version_date", "ingestion_scope", "source_url", "sha256", "file_size_bytes", "page_count",
         "chunk_count"]
@@ -221,7 +222,8 @@ def compare_with_database() -> pd.DataFrame:
     mirror = pd.read_csv(MIRROR, dtype=str, keep_default_na=False)
     assert len(db) == 29, f"documents has {len(db)} rows: apply db/migrations/010_fill_documents.sql first"
     pd.testing.assert_frame_equal(db_str.reset_index(drop=True), mirror.reset_index(drop=True), check_dtype=False)
-    assert db["ingested_at"].isna().all()   # changes when the RAG plan loads Qdrant (it fills ingested_at)
+    # migration 011 (RAG plan Phase 9): every document loaded into Qdrant by the last full Qdrant_loader run
+    assert (db["ingested_at"] == pd.Timestamp(INGESTED_AT)).all(), "apply db/migrations/011_documents_ingested_at.sql"
     print("✅ Phase 4 validation passed.")
     return db
 

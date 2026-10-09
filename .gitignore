@@ -22,3 +22,16 @@ Data/raw/
 
 Notebooks/_scratch/
 Data/processed/semi-structured/synthetic/*.parquet
+
+# Embedding vectors (ADR-037, owner 2026-10-05): only manifest.json is committed; it carries the hashes that prove
+# a local dense.parquet matches. The working cache of the embedding script is local too.
+Data/embeddings/*/dense*.parquet
+Data/embeddings/*/cache_*/
+# Embedding bake-off vectors (RAG plan Phase 2; seeds and query vectors read by Embeddings / Retrieval / Lib_selftest /
+# Search_index_benchmark; moved out of Notebooks/_scratch at the plan's close, 2026-10-08)
+Data/embeddings/bakeoff/
+
+# Local embedding models (RAG plan Phase 8): downloaded / exported weights, rebuilt by tools/export_onnx.py
+models/
+# Promotion requests of uploaded documents (persisted only on a manager's explicit request; reviewed offline)
+Data/incoming/
