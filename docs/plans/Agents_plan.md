@@ -108,6 +108,22 @@ simple (shallow nesting, `Literal` instead of complex enums, no unions) because 
 JSON-schema subsets; the method (`function_calling` / `json_schema` / `json_mode`) is chosen per model by the bake-off;
 on failure: validate → one retry with the error → stop.
 
+**Skills (owner, 2026-10-10):** the agents' procedures and company knowledge are **Agent Skills** — one folder per
+skill with a `SKILL.md` (the open standard LangChain Deep Agents also uses: a one-line frontmatter description always
+visible, the full instructions loaded only when needed, optional reference files). They live in git under
+`pipelines/agents/skills/<name>/`, written by us (company knowledge exists nowhere else) and reviewable by the owner
+without touching code. A small loader in the library (no new dependency): a workflow node loads its fixed skill
+directly (no discovery call); the Q&A supervisor gets a `load_skill(name)` tool and sees only the descriptions.
+Why it matters here: free tiers have small per-minute token limits (Groq 8K TPM), so prompts carry only the skill a
+step needs. First skills: `finance-kpi-definitions`, `suez-toll-audit`, `weekly-variance-analysis`, `deck-style-guide`,
+`number-validation`, `untrusted-content` (Stage 1); `route-cost-advice`, `voyage-eta-method` (Stage 2). Skills hold
+instructions and references only; any script a skill points to is project code, reviewed like any other.
+**Not used:** vendor-licensed docx / pptx / xlsx / pdf skills (proprietary licence: no copies or derivatives); skills from
+open registries (2026 audits: ~13 % with a critical issue — credential theft, prompt injection inside SKILL.md).
+**Development skills (for the coding assistant, not the agents):** `langchain-ai/langchain-skills` (official) installed in
+the local skills folder at Phase 0 after review — licence checked, a pinned commit, every file read before install, only the
+LangGraph / LangChain-core skills needed.
+
 ## 4. Data additions (Stage 1; synthetic, files first, one writer — ADR-031 pattern)
 
 A generator script (fixed seed) writes CSVs + a manifest; a migration loads them; `verify_readonly.sql` gets a new
@@ -130,11 +146,11 @@ section; nothing existing is regenerated (ADR-013: invoices stay as they are).
 | Phase | Work | Done when |
 |---|---|---|
 | **Stage 1** | | |
-| 0 | branch `feat/agents`; `uv add` langchain(-core), langgraph, the provider packages (Google GenAI, Groq, an OpenAI-compatible client for OpenRouter), `langgraph-checkpoint-postgres`, `psycopg-pool`, `pydantic`, `python-pptx`, `matplotlib`, `langsmith`; provider smoke test (each key, one call, tool calling on); **LLM bake-off on free APIs (§7a)**, Gemini first | every package pinned with `==` in `pyproject.toml`; bake-off results file; the model choice as an ADR; the ADR-037 amendment written |
+| 0 | branch `feat/agents`; `uv add` langchain(-core), langgraph, the provider packages (Google GenAI, Groq, an OpenAI-compatible client for OpenRouter), `langgraph-checkpoint-postgres`, `psycopg-pool`, `pydantic`, `python-pptx`, `matplotlib`, `langsmith`; provider smoke test (each key, one call, tool calling on); `common.SECRET_KEYS` + `.env.example`; reviewed install of the official `langchain-skills` (LangGraph / core) into the local skills folder; **LLM bake-off on free APIs (§7a)**, Gemini first | every package pinned with `==` in `pyproject.toml`; bake-off results file; the model choice as an ADR; the ADR-037 amendment written |
 | 1 | Finance data generator + migration(s) + audit (§4) | invariants pass (status ↔ payments, terms, FK, totals), reload = no change |
 | 2 | `finance` schema: star views (`fact_invoice`, `fact_payment`, `dim_date` (ISO week), `dim_customer`, `dim_vessel`, `dim_toll_band`) + KPI views / functions per `report_week`; `docs/finance_metrics.md` (one definition per metric) | every KPI equals a hand-computed value on 3 chosen weeks; RBAC: a non-Finance employee gets nothing |
 | 3 | Power BI Desktop (owner, guided): install, PBIP project `powerbi/`, DirectQuery to the views with a read-only login, the 5 pages; measures through the official Power BI Modeling MCP | the dashboard's numbers for 3 weeks = the KPI views |
-| 4 | Stage 1 tools (§3) + tests; external tools behind a cache and a timeout ("context unavailable", never a guess) | each tool tested on its own; RBAC matrix 0 leakage |
+| 4 | Stage 1 tools (§3) + tests; external tools behind a cache and a timeout ("context unavailable", never a guess); the skill loader + the Stage 1 skills (`pipelines/agents/skills/`) | each tool tested on its own; RBAC matrix 0 leakage; every skill parses (frontmatter, size budget) and is reviewed by the owner |
 | 5 | LangGraph workflow + agents + PostgresSaver (`agent_state` schema, writer role: migration) + interrupt | a pack for any week runs end to end; resume after a crash works |
 | 6 | PPTX template (NileGate style) + Writer + Validator | the Validator catches every planted wrong number in a test deck |
 | 7 | Evaluation (§8) on golden weeks + finance Q&A golden questions | the D7 thresholds are met (or the owner decides) |
@@ -183,6 +199,8 @@ section; nothing existing is regenerated (ADR-013: invoices stay as they are).
 | D12 Clock | replay of 2025's 52 weeks (`report_week`) |
 | Data policy | **ADR-037 amendment:** synthetic and public data may go to free tiers, minimized (aggregates instead of rows where possible, no employee names); real company data → paid tiers only |
 | Plan shape | one plan, two stages (Stage 2 = B + C) |
+| D13 Runtime skills (2026-10-10) | Agent Skills (`SKILL.md` standard) written by us in `pipelines/agents/skills/` + our own small loader (workflow nodes load their fixed skill; the supervisor gets `load_skill`); no Deep Agents dependency for now |
+| D14 Development skills (2026-10-10) | install the official `langchain-ai/langchain-skills` (LangGraph / core) in the local skills folder at Phase 0, after a review (licence, pinned commit, every file read) |
 
 ### Stage 2 decisions (recommended option first; answer before Phase 9)
 
@@ -204,8 +222,8 @@ section; nothing existing is regenerated (ADR-013: invoices stay as they are).
   to improve Google's products**); Groq — `openai/gpt-oss-120b`, `qwen/qwen3.8-27b`, `openai/gpt-oss-20b` (free: 30 RPM,
   1,000 RPD, 8K TPM, 200K TPD per model, per organization; states no training on API data); OpenRouter `:free` —
   `nvidia/nemotron-3-super-120b-a12b`, `thinkingmachines/inkling`, `poolside/laguna-s-2.1` (20 RPM, **50 requests /
-  day** across free models, 1,000 / day after a one-time $10; providers' data policies differ → training / logging off
-  in settings). Free catalogues change: the script reads the live model list and skips a vanished model, reported.
+  day** across free models, 1,000 / day after a one-time $10; providers' data policies differ → privacy
+  settings: "may train" allowed for synthetic data, "publish prompts" off). Free catalogues change: the script reads the live model list and skips a vanished model, reported.
 - **Tasks (existing data only, no new tables):** T1 tool calling (20 questions; right tool, right arguments, right final
   number; tools: `compute_toll`, a weekly KPI over the existing invoices, `search_documents`); T2 grounded weekly summary
   (10 weeks of KPI tables → 5 bullets; every number in the text must appear in the table = hard gate; driver coverage);
@@ -261,18 +279,26 @@ rate limits (ai.google.dev); FP&A reporting time (vendor case studies). Vendor f
 - 2026-10-09 — plan written (PROPOSED), all decisions answered the same day (§7 "Answers"); structured outputs =
   Pydantic models; owner: one plan in two stages (Stage 2 = B Route & Cost Advisor + C Voyage & Disruption Watch) →
   APPROVED. File renamed from `Agents_Finance_Weekly_Pack_plan.md`.
+- 2026-10-10 — owner: Agent Skills for the agents, written by us with our own loader (D13); the official
+  `langchain-skills` for the coding assistant after review (D14); OpenRouter "may train" allowed for synthetic data.
 
 ### SESSION HANDOFF (2026-10-09) — read this first in the next session
 
 - **Git (owner, before any code):** (1) commit the RAG Phase 9 close and this plan on `feat/rag-retrieval`, push, open
   the PR to `master`, merge; (2) `git switch master`, `git pull`, `git switch -c feat/agents`. The assistant never runs git
   (guard hook).
-- **Owner actions:** add `GROQ_API_KEY` and `OPENROUTER_API_KEY` to `.env` (OpenRouter: Privacy settings → training /
-  logging off for free models); later `LANGCHAIN_API_KEY` (LangSmith, Phase 8), the web-search key (Phase 4), the
+- **Owner actions:** add `GROQ_API_KEY` and `OPENROUTER_API_KEY` to `.env` (OpenRouter Privacy settings: free
+  endpoints that may train stay **allowed** — synthetic data only, per the ADR-037 amendment, and turning them off
+  shrinks the free candidates; "publish prompts" stays **off**); later `LANGCHAIN_API_KEY` (LangSmith, Phase 8), the web-search key (Phase 4), the
   aisstream.io key (Phase 9). Delete `models\_rejected_delete_me\`, `models\hf\` and the contents of
   `Notebooks\_scratch\` (deletions are denied for the assistant).
 - **State:** RAG plan closed and archived (`docs/archive/2026-10-08_RAG_Embeddings_Qdrant_plan.md`); migration 011
   applied; Docker: `ports-postgres`, `ports-qdrant` (start them if exited); `ports-mongo` exited (start it for Stage 2).
+- **Found 2026-10-10 (do in Phase 0):** `pipelines/lib/common.SECRET_KEYS` lacks `GROQ_API_KEY`, `OPENROUTER_API_KEY`
+  (and later `LANGCHAIN_API_KEY`, the web-search and aisstream keys) → add them so `redact()` hides them; `.env.example`
+  does not exist although the project rules lists it → create it with variable names only (no values).
+- **Skills (D13 / D14, 2026-10-10):** Phase 0 also installs the reviewed `langchain-skills` for the coding assistant; the
+  agents' own skills come in Phase 4 (§3 "Skills").
 - **Next (assistant): Phase 0** — `uv add` the packages (report the `pyproject.toml` / `uv.lock` changes); a smoke-test
   script `pipelines/scripts/agents/LLM_smoke_test.py` (each key present → one call with tool calling); then the bake-off
   script `pipelines/scripts/agents/LLM_bakeoff.py` (§7a: write T1–T4 and their expected answers **before** any model
