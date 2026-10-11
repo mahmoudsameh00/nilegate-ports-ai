@@ -41,6 +41,14 @@ notebook's saved outputs.
 | `retrieval/Upload_validation.py` | retrieval | B-style phases | `rag/eval/uploads/validation_report.json` (every fixture verdict, corpus false positives 0, PDF / DOCX parity) |
 | `retrieval/Upload_eval.py` | retrieval | B-style phases | `rag/eval/uploads/upload_eval_<date>.json` (local model choice, settings, floor, corpus baseline with a session, isolation, latency) |
 | `retrieval/Upload_promotion.py` | retrieval | A (CLI) | promotion requests in `Data/incoming/promotion/` (review / approve / commit); `--selftest` uses a throwaway collection |
+| `agents/LLM_smoke_test.py` | agents | A | nothing tracked (each provider key: live model list + one tool-calling request, through the response cache) |
+| `agents/LLM_bakeoff.py` | agents | phases | `agents/eval/bakeoff_tasks.json` (T1–T4 + LITE + prompts, frozen: `TASKS_SHA256`), `agents/eval/llm_bakeoff_<date>.json` (scores, selection per role); Agents plan §7a |
+
+The agents scripts (Agents plan, Phase 0) are not in `run.py all` either (free LLM APIs with daily quotas). They use
+`pipelines/agents/llm.py`: the provider registry (Gemini / Groq / OpenRouter), the model factory (LangChain chat
+models, temperature 0, no library retries), the per-minute `Budget`, the persisted daily quota state and the response
+cache `Data/processed/agents/eval/llm_cache/` (git-ignored): a re-run makes 0 calls, a quota-exhausted model waits for
+the provider's next day, and a free tier accepts only `data_origin` "public" or "synthetic" (ADR-037 amendment).
 
 The retrieval scripts are not in `run.py all` (they call paid / rate-limited APIs or need `ports-qdrant`). They share
 `pipelines/lib/` (ADR-039): `common`, `chunks`, `embeddings`, `qdrant_store`, `evaluation` (ADR-040: retrieval /

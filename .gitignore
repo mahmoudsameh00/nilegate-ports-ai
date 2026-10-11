@@ -35,3 +35,5 @@ Data/embeddings/bakeoff/
 models/
 # Promotion requests of uploaded documents (persisted only on a manager's explicit request; reviewed offline)
 Data/incoming/
+# LLM response cache + daily quota state (Agents plan Phase 0, §7a); the frozen tasks and results stay in git
+Data/processed/agents/eval/llm_cache/

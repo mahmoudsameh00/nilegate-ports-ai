@@ -257,6 +257,14 @@ Never delete an entry; supersede it with a new one. Sources for older entries ar
   `Embeddings.py` seeds from them, and `Retrieval.py`, `Lib_selftest.py` and `Search_index_benchmark.py` assert on them,
   so emptying `_scratch` would have made those scripts re-spend the free quota. Moved; the three scripts re-ran ✅ with
   `files changed: 0`.
+- **Amendment (2026-10-09, data policy for every free API — embeddings, LLMs, reranker; owner decision, Agents plan
+  §7 "Data policy"):** free tiers (Gemini / AI Studio, Groq, OpenRouter `:free`, Jina free) may receive **synthetic or
+  public data only, minimized**: aggregates instead of rows where possible, made-up test records instead of rows of
+  the company tables, no employee names or other personal data. Real company data goes to **paid tiers only**.
+  Enforced in code: `pipelines/agents/llm.py` refuses a call whose `data_origin` is not "public" or "synthetic"
+  (`FREE_TIER_DATA`), and the upload path already requires `GEMINI_TIER=paid` for non-public or personal documents
+  (RAG plan Q5). OpenRouter privacy settings: free endpoints that may train stay allowed (synthetic data only),
+  "publish prompts" stays off.
 
 ## ADR-038 — Retrieval defaults: exact dense search + Jina reranker; no hybrid, no context shaping
 - **Status:** Accepted (2026-10-08). RAG plan Phase 7, decided by the ADR-040 rule (fixed before the run);
@@ -516,6 +524,52 @@ Never delete an entry; supersede it with a new one. Sources for older entries ar
   `--commit` verified the points in Qdrant (the corpus got the same column through migration 011). It is written once,
   after the verification, and a re-commit leaves it unchanged (a migration is never edited; it may be applied
   already). Self-test 12/12 (new check: `migration_has_ingested_at`).
+
+## ADR-045 — LLM per agent role on free APIs (bake-off)
+- **Status:** **PROPOSED** (2026-10-11): 5 of 9 candidates complete; `gemma-4-31b-it` (could win the Tools tie-break),
+  `gemini-3.8-flash` and `poolside/laguna-s-2.1:free` still run on later days (resumed from the cache). Becomes
+  Accepted when `LLM_bakeoff.py` reports `status: FINAL` or the owner accepts it as is.
+- **Context:** Agents plan D1 (free APIs only, main + fallback per role) and §7a; rules fixed before any call (owner,
+  2026-10-10). `pipelines/scripts/agents/LLM_bakeoff.py`, frozen tasks `Data/processed/agents/eval/bakeoff_tasks.json`
+  (sha256 `ed6723f5…`: T1 20 tool-calling questions, T2 10 weekly KPI tables, T3 10 invoice-exception tables, T4 the
+  40 English golden questions with frozen top-8 passages; OpenRouter and `gemini-3.8-flash` run the stratified LITE
+  subset 8 / 4 / 4 / 8), results `llm_bakeoff_2026-10-11.json`. Deterministic scoring, no LLM judge.
+- **Rule:** Writer / Insight = only models whose every T2 summary writes no number outside its table (strict: k / M
+  and fewer decimals are the only rounding), score = mean(T2 driver coverage, T4 fact recall, T4 citation validity);
+  Tools = mean(T1 accuracy, T3 validity × exactness with the model's best method); scores on LITE for every model; a
+  gap < 5 points is a tie → packs per day (daily request limit ÷ requests per simulated pack) → TPM minutes →
+  latency; main and fallback from different providers.
+- **Results (LITE):**
+
+  | Model | Writer / Insight | T2 gate | Tools | T4 recall / citation | Packs / day (writer) | Median latency (writer) |
+  |---|---|---|---|---|---|---|
+  | Groq `qwen/qwen3.8-27b` | 0.826 | pass | 0.938 | 0.479 / 1.000 | 111 | 0.7 s |
+  | Gemini `gemini-3.5-flash-lite` | 0.833 | pass | **1.000** | 0.625 / 0.875 | ≥ 13 (limit not published) | 1.1 s |
+  | Groq `openai/gpt-oss-20b` | 0.833 | pass | 0.938 | 0.500 / 1.000 | 111 | 1.5 s |
+  | OpenRouter `nvidia/nemotron-3-super-120b-a12b:free` | 0.847 | pass | 0.938 | 0.667 / 1.000 | 5.6 | 11.8 s |
+  | Groq `openai/gpt-oss-120b` | 0.653 | **fail** | 0.875 | 0.333 / 0.625 | — | 1.9 s |
+  | `gemini-3.8-flash`, `gemma-4-31b-it`, `laguna-s-2.1:free` | incomplete | — | partial 0.94–1.00 | — | 2.2 / ≥ 1.7 / 5.6 | — |
+  | OpenRouter `thinkingmachines/inkling:free` | unavailable (403: "only available on agentic harnesses") | | | | | |
+
+  Full sets (Gemini / Groq): `qwen3.8-27b` T1 0.95, T4 recall 0.594, citation 1.000; `gemini-3.5-flash-lite` T1
+  1.00, T4 recall 0.457, citation 0.925; every model had 100 % T3 validity with at least one method.
+- **Decision (proposed):** **Writer / Insight:** main Groq `qwen/qwen3.8-27b`, fallback Gemini
+  `gemini-3.5-flash-lite` (the four gated models tie within 2.1 points; Groq's 1,000 requests / day per model gives
+  the most packs per day, then the fewest tokens per pack). **Tools / routing:** main Gemini `gemini-3.5-flash-lite`
+  (1.000, the only model with every T1 item right on LITE), fallback Groq `openai/gpt-oss-20b`. Structured output
+  method per model = its best T3 method (`function_calling` for qwen and flash-lite; `json_schema` / `json_mode` for
+  the gpt-oss models, whose `function_calling` validity was 0.75).
+- **Consequences / reported (not deciding):**
+  - The binding free limit is **requests per day**: `gemini-3.8-flash` allows 20 (it cannot serve one weekly pack),
+    OpenRouter 50 across all free models (≈ 5 writer packs), Groq 1,000 per model. Groq's 8K TPM and its output-
+    tokens-per-minute limit slow long reasoning outputs (a per-minute 429 waits a full minute before its one retry).
+  - Strict T2 caught real errors in the largest model (`gpt-oss-120b`: `849.9 k` for −849,964, "13 categories"):
+    model size is no guarantee of number fidelity; the Phase 6 Validator stays a hard gate.
+  - gpt-oss writes `【n†…】` citations unless trained away; accepted as citations, logged as `t4_format_ok`.
+  - Gemini's free tier showed 5xx bursts ("high demand"), stopping a model for the run only; free endpoints are not
+    an availability guarantee, hence a fallback from another provider for every role.
+  - Data policy: every call went through `FREE_TIER_DATA` (synthetic aggregates, made-up invoices, public passages;
+    ADR-037 amendment).
 
 ---
 

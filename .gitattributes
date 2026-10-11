@@ -1,0 +1,8 @@
+# Data artifacts are verified by SHA-256 (frozen golden sets, the bake-off tasks, manifests): keep them LF on every
+# checkout, whatever core.autocrlf says (owner decision 2026-10-10; a CRLF checkout broke the frozen golden hashes).
+*.json    text eol=lf
+*.jsonl   text eol=lf
+*.csv     text eol=lf
+*.parquet binary
+*.npz     binary
+*.onnx    binary

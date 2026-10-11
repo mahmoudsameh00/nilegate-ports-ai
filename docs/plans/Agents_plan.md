@@ -281,28 +281,63 @@ rate limits (ai.google.dev); FP&A reporting time (vendor case studies). Vendor f
   APPROVED. File renamed from `Agents_Finance_Weekly_Pack_plan.md`.
 - 2026-10-10 — owner: Agent Skills for the agents, written by us with our own loader (D13); the official
   `langchain-skills` for the coding assistant after review (D14); OpenRouter "may train" allowed for synthetic data.
+- 2026-10-10 — **Phase 0 in progress.** Done: `common.SECRET_KEYS` + `.env.example`; 12 packages pinned (`uv add`, 49
+  installed; no existing pin changed; pydantic 2.13.5 → 2.14.0, until then only transitive); 5 reviewed
+  `langchain-skills` in the local skills folder (commit `16a992f0`, MIT; `README_third_party.md`; `langchain-dependencies`
+  rejected: range pins contradict rule 6); `pipelines/agents/llm.py` (registry, factory, Budget, response cache, quota
+  state); `LLM_smoke_test.py` passed for Gemini / Groq / OpenRouter (all 9 candidates served; OpenRouter key
+  is_free_tier). Owner decisions (2026-10-10): layout `pipelines/agents/` + `pipelines/scripts/agents/` + frozen tasks
+  / results in `Data/processed/agents/eval/` (cache git-ignored); all packages now; the smoke test goes through the
+  cache; bake-off tools = `compute_toll` (self-check: 1,000 invoices, 0 mismatches), `weekly_kpi` (invoice_count /
+  billed_sdr / mean_invoice_sdr per ISO week, optional category, **no status**), `search_documents` (the asker fixed
+  by code; in T1 it returns the frozen top-8); T1 = 8 toll + 8 KPI + 4 search; T2 strict numbers (only k/M and
+  decimals count as rounding; allowed: week number, 2025, |negative change|; WoW deltas precomputed; driver coverage
+  = top-2 |WoW| categories named); T3 = 10 made-up tables × 8 invoices, 0–3 planted mismatches, flat
+  `ExceptionsReport`, copy not compute, 3 methods (OpenRouter: function_calling only); T4 = 40 English golden
+  questions, contexts = real `search_documents` top-8 for a ceiling-3 user frozen once, fact recall over the facts
+  present in the context, citation validity; Arabic twins deferred to Phase 7; OpenRouter = a frozen stratified LITE
+  subset (T1 8 / T2 4 / T3 4 / T4 8), the cross-provider ranking on LITE for all 9 models; selection: Writer /
+  Insight gate T2 faithfulness 100 %, score mean(T2 driver coverage, T4 fact recall, T4 citation validity); Tools =
+  mean(T1 accuracy, T3 validity × exactness); tie = < 5 points → quota fit → latency; no automatic relaxation of the
+  gate; main + fallback from different providers; unfinished provider → LLM ADR PROPOSED + handoff.
+- 2026-10-10 — **Bake-off deviations / findings.** (1) `compute_toll` self-check: the stored invoices follow no single
+  rounding rule at the half cent (half-up leaves 34 one-cent differences, half-even 9; ADR-013) → the check compares
+  the exact amount within half a cent (`verify_readonly.sql` §12 allows 0.01) + equal terminal rates; the tool rounds
+  half-up like PostgreSQL. (2) The move to `D:\Project` checked every text file out with CRLF (171 / 178 data files),
+  breaking the frozen golden hashes (content identical) → `.gitattributes` (`*.json / *.jsonl / *.csv` eol=lf; owner
+  re-checked them out); every hashed text file of the project expects LF. (3) Tasks frozen and reviewed:
+  `bakeoff_tasks.json` sha256 `ed6723f5…` (T4: 39 / 40 items with measurable facts; q34 none). (4) Free limits found:
+  `gemini-3.8-flash` 20 requests / day (its 429) → **LITE only** (owner); `thinkingmachines/inkling:free` refuses plain
+  API calls (403 "only available on agentic harnesses") → unavailable; Gemini / Groq 5xx and a local DNS outage
+  stopped models for the run only (resumed from the cache). (5) Quota fit for ties = **packs per day** (daily request
+  limit ÷ requests per pack; unknown limit → requests already served in a day, a lower bound), then TPM minutes, then
+  latency (owner; the TPM-minutes measure favoured OpenRouter's nominal TPM).
+- 2026-10-11 — **Scoring fixes after reviewing the first answers.** (6) T2: an empty visible answer (the output went
+  to reasoning, gpt-oss-20b week 21) writes no number → not a gate failure (the decided rule), coverage 0, logged as
+  `t2_answer_rate`; gpt-oss-120b's gate failure checked by hand and correct (`849.9 k` for −849,964 is a truncation,
+  "13 categories" is not in the table). (7) T4: gpt-oss's native citations `【n†…】` count as citing passage n
+  (owner), `t4_format_ok` logs whether the asked `[n]` format was used. (8) A per-minute 429 waits a full window
+  (60 s) before its one retry (Groq's output-tokens-per-minute limit came back after 20 s on qwen).
 
-### SESSION HANDOFF (2026-10-09) — read this first in the next session
+### SESSION HANDOFF (2026-10-11) — read this first in the next session
 
-- **Git (owner, before any code):** (1) commit the RAG Phase 9 close and this plan on `feat/rag-retrieval`, push, open
-  the PR to `master`, merge; (2) `git switch master`, `git pull`, `git switch -c feat/agents`. The assistant never runs git
-  (guard hook).
-- **Owner actions:** add `GROQ_API_KEY` and `OPENROUTER_API_KEY` to `.env` (OpenRouter Privacy settings: free
-  endpoints that may train stay **allowed** — synthetic data only, per the ADR-037 amendment, and turning them off
-  shrinks the free candidates; "publish prompts" stays **off**); later `LANGCHAIN_API_KEY` (LangSmith, Phase 8), the web-search key (Phase 4), the
-  aisstream.io key (Phase 9). Delete `models\_rejected_delete_me\`, `models\hf\` and the contents of
-  `Notebooks\_scratch\` (deletions are denied for the assistant).
-- **State:** RAG plan closed and archived (`docs/archive/2026-10-08_RAG_Embeddings_Qdrant_plan.md`); migration 011
-  applied; Docker: `ports-postgres`, `ports-qdrant` (start them if exited); `ports-mongo` exited (start it for Stage 2).
-- **Found 2026-10-10 (do in Phase 0):** `pipelines/lib/common.SECRET_KEYS` lacks `GROQ_API_KEY`, `OPENROUTER_API_KEY`
-  (and later `LANGCHAIN_API_KEY`, the web-search and aisstream keys) → add them so `redact()` hides them; `.env.example`
-  does not exist although the project rules lists it → create it with variable names only (no values).
-- **Skills (D13 / D14, 2026-10-10):** Phase 0 also installs the reviewed `langchain-skills` for the coding assistant; the
-  agents' own skills come in Phase 4 (§3 "Skills").
-- **Next (assistant): Phase 0** — `uv add` the packages (report the `pyproject.toml` / `uv.lock` changes); a smoke-test
-  script `pipelines/scripts/agents/LLM_smoke_test.py` (each key present → one call with tool calling); then the bake-off
-  script `pipelines/scripts/agents/LLM_bakeoff.py` (§7a: write T1–T4 and their expected answers **before** any model
-  call, freeze their hash, cache every response, Gemini first; Groq / OpenRouter once their keys exist); results →
-  an ADR (model per role) + the ADR-037 amendment. Use the skill `script-dev-loop` for the scripts.
+- **State:** Phase 0 done except the bake-off's last runs. Branch `feat/agents`. Installed and pinned: the 12
+  packages (ARCHITECTURE §8). Written: `pipelines/agents/llm.py`, `pipelines/scripts/agents/LLM_smoke_test.py`
+  (3 providers pass), `LLM_bakeoff.py` (tasks frozen `TASKS_SHA256 = ed6723f5…`, results
+  `Data/processed/agents/eval/llm_bakeoff_2026-10-11.json`, narrative `pipelines/checkpoints/agents/LLM_bakeoff.md`),
+  `.gitattributes`, `.env.example`, the local skills folder (5 reviewed langchain-skills), ADR-037 amendment, **ADR-045
+  PROPOSED** (Writer / Insight qwen3.8-27b + gemini-3.5-flash-lite; Tools gemini-3.5-flash-lite + gpt-oss-20b).
+  Every decision and deviation of Phase 0 is in "Progress / deviations" above.
+- **Next (assistant):** (1) start Docker (`ports-postgres`, `ports-qdrant`; wait for `pg_isready`), re-run
+  `uv run python tools/run.py pipelines/scripts/agents/LLM_bakeoff.py --timeout 14400` once per day until it prints
+  `selection FINAL` — missing: `gemini/gemma-4-31b-it` (9 / 80; Google 5xx), `gemini/gemini-3.8-flash` (12 / 24 LITE;
+  20 requests / day), `openrouter/poolside/laguna-s-2.1:free` (3 / 24 LITE; upstream 429). Replies come from
+  `llm_cache/`, so a re-run only spends the missing calls. (2) If the selection changes, update ADR-045; then set it
+  Accepted (or the owner accepts it as is if a candidate stays unavailable). (3) Close Phase 0 in "Progress", start
+  **Phase 1** (finance data generator: show the concrete rules to the owner first, D6 → ADR).
+- **Owner actions:** commit (commands given in chat); delete `Data/processed/agents/eval/llm_bakeoff_2026-10-10.json`
+  (superseded, scored with the pre-fix rules); later `LANGCHAIN_API_KEY` (Phase 8), the web-search key (Phase 4), the
+  aisstream.io key (Phase 9); `Notebooks\_scratch\` can be emptied when Phase 0 closes (deletions are denied for
+  the assistant).
 - **Owner preferences:** free tiers / free tools first; the assistant implements everything and reports (no TODO(human));
-  replies in Arabic, code and docs in English.
+  chat in Egyptian Arabic, code and docs in English; one decision at a time, recommendation first.
