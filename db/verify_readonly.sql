@@ -183,4 +183,19 @@ SELECT count(*) AS documents, sum(chunk_count) AS chunks, sum(page_count) AS pag
 FROM documents;
 SELECT p.department_name, d.sensitivity_level, count(*) FROM documents d JOIN departments p USING (department_id) GROUP BY 1, 2 ORDER BY 1, 2;
 
+\echo '### 17. FINANCE DATA (migration 012, Agents plan §4a)'
+-- expected: 40 | 500 | 994 | 0 | 0 | 0 | 676 | 88 | 52
+SELECT (SELECT count(*) FROM customers) AS customers,
+       (SELECT count(*) FROM vessels WHERE customer_id IS NOT NULL) AS vessels_with_customer,
+       (SELECT count(*) FROM payments) AS payments,
+       (SELECT count(*) FROM payments p JOIN invoices i USING (invoice_number) WHERE p.amount_sdr <> i.amount) AS payment_amount_mismatch,
+       (SELECT count(*) FROM payments p JOIN invoices i USING (invoice_number) WHERE p.paid_date < i.invoice_date) AS paid_before_invoice,
+       (SELECT count(*) FROM payments WHERE paid_date > DATE '2026-03-31') AS paid_after_horizon,
+       (SELECT count(*) FROM budget_weekly) AS budget_rows,
+       (SELECT count(*) FROM finance_test.invoices) AS test_invoices,
+       (SELECT count(*) FROM finance_test.budget_weekly) AS test_budget_rows;
+-- expected: 6 segments; every customer has at least one vessel; terms 30 / 45 / 60
+SELECT c.segment, count(DISTINCT c.customer_id) AS customers, count(v.vessel_id) AS vessels
+FROM customers c LEFT JOIN vessels v USING (customer_id) GROUP BY 1 ORDER BY 1;
+
 \echo '### END'

@@ -8,7 +8,8 @@
 - Response cache: key = SHA-256 of everything sent (provider, model, parameters, messages, tool schemas, structured
   output schema + method). One append-only JSONL per model under Data/processed/agents/eval/llm_cache/ (git-ignored);
   a re-run makes 0 calls. Deterministic failures (bad request, unknown model) are cached too; quota, rate-limit,
-  network and auth failures are not.
+  network and auth failures are not; a server error (5xx) on the same request in REPEATED_SERVER_RUNS separate runs,
+  each after its retry, counts as deterministic (`server_failures.json`) and is cached.
 - Quota rules (fixed before any run): a local per-minute Budget (requests + tokens); a persisted daily request count
   per provider day that refuses a call once the provider's daily limit is reached (OpenRouter: 50 / day across all
   free models; Groq: 1,000 / day per model); a daily-quota 429 marks the model exhausted until the provider's day
@@ -41,6 +42,7 @@ FREE_TIER_DATA = {"public", "synthetic"}            # ADR-037 amendment: what a 
 TIMEOUT_S = 120
 MAX_RATE_WAIT_S = 60                                # longest single wait on a per-minute limit
 OUTPUT_RESERVE_TOKENS = 1_500                       # counted against the token budget before the reply is known
+REPEATED_SERVER_RUNS = 2                            # runs in which one request fails with 5xx before it is cached as failed
 
 # Limits verified 2026-10-09 (Agents plan §7a). Gemini's free limits are shown only in AI Studio: conservative local
 # values, the provider's 429 decides. `scope` = what a limit is shared by: one model, or every model of the provider.
@@ -191,8 +193,20 @@ class QuotaState:
         self.folder = folder
         folder.mkdir(parents=True, exist_ok=True)
         self.usage_file, self.state_file = folder / "usage.json", folder / "quota_state.json"
+        self.fail_file = folder / "server_failures.json"
         self.usage = json.loads(self.usage_file.read_text(encoding="utf-8")) if self.usage_file.exists() else {}
         self.state = json.loads(self.state_file.read_text(encoding="utf-8")) if self.state_file.exists() else {}
+        self.failures = json.loads(self.fail_file.read_text(encoding="utf-8")) if self.fail_file.exists() else {}
+
+    def server_failure(self, key: str, model: str, why: str) -> int:
+        """Count one run in which this exact request (cache key) still failed with a server error after its retry;
+        returns how many runs that is (owner 2026-10-11: the second run turns it into a deterministic failure)."""
+        f = self.failures.setdefault(key, {"model": model, "runs": 0})
+        f["runs"] += 1
+        f["last"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
+        f["why"] = why[:300]
+        self._save(self.fail_file, self.failures)
+        return f["runs"]
 
     @staticmethod
     def scope(provider: str, model: str) -> str:
@@ -354,6 +368,10 @@ class LLM:
                     continue
                 if kind in ("bad_request", "model_missing"):
                     return self._store(key, None, {"kind": kind, "text": text}, None)
+                if kind == "transient" and self.quota.server_failure(key, self.name, text) >= REPEATED_SERVER_RUNS:
+                    # the same request failed in separate runs, each after its retry: a property of the request
+                    # (e.g. gemma on a long tool result), not an outage — cached, so the item scores as failed
+                    return self._store(key, None, {"kind": "server_error_repeated", "text": text}, None)
                 self.stopped = f"{kind}: {text[:200]}"
                 raise Exhausted(f"{self.name}: {self.stopped}") from None
             ms = (time.perf_counter() - t0) * 1000

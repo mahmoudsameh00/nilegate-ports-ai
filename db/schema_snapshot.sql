@@ -17,6 +17,20 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
+-- Name: finance_test; Type: SCHEMA; Schema: -; Owner: -
+--
+
+CREATE SCHEMA finance_test;
+
+
+--
+-- Name: SCHEMA finance_test; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON SCHEMA finance_test IS 'Evaluation copy only (Agents plan §4a R7): 4 golden weeks with planted invoice errors and a budget miss; never joined with the real tables; the answer key is outside the database.';
+
+
+--
 -- Name: fuzzystrmatch; Type: EXTENSION; Schema: -; Owner: -
 --
 
@@ -75,6 +89,138 @@ COMMENT ON EXTENSION postgis_topology IS 'PostGIS topology spatial types and fun
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
+
+--
+-- Name: budget_weekly; Type: TABLE; Schema: finance_test; Owner: -
+--
+
+CREATE TABLE finance_test.budget_weekly (
+    budget_year integer NOT NULL,
+    iso_week integer NOT NULL,
+    vessel_category text NOT NULL,
+    budget_sdr numeric NOT NULL,
+    CONSTRAINT budget_weekly_amount_chk CHECK ((budget_sdr >= (0)::numeric)),
+    CONSTRAINT budget_weekly_category_chk CHECK ((vessel_category = ANY (ARRAY['Chemical Tankers & Other Liquid Bulk Tankers'::text, 'Containerships'::text, 'Crude Oil Tankers'::text, 'Cruise Ships'::text, 'Dry Bulk Vessels'::text, 'General Cargo / Multi-Purpose / Heavy Lift Vessels'::text, 'Liquefied Natural Gas (LNG) Carriers'::text, 'Liquefied Petroleum Gas (LPG) Carriers'::text, 'Other Vessels'::text, 'Petroleum Product Tankers'::text, 'Roll-On/Roll-Off (Ro/Ro) Vessels'::text, 'Special Floating Units'::text, 'Vehicles Carriers'::text]))),
+    CONSTRAINT budget_weekly_week_chk CHECK (((iso_week >= 1) AND (iso_week <= 52))),
+    CONSTRAINT budget_weekly_year_chk CHECK ((budget_year = 2025))
+);
+
+
+--
+-- Name: TABLE budget_weekly; Type: COMMENT; Schema: finance_test; Owner: -
+--
+
+COMMENT ON TABLE finance_test.budget_weekly IS 'Budget rows of the 4 golden weeks, one of them changed (a planted budget miss). Level 2, Finance.';
+
+
+--
+-- Name: invoices; Type: TABLE; Schema: finance_test; Owner: -
+--
+
+CREATE TABLE finance_test.invoices (
+    invoice_number text NOT NULL,
+    vessel_id integer NOT NULL,
+    invoice_date date NOT NULL,
+    scnt_tons numeric NOT NULL,
+    billed_sdr numeric NOT NULL,
+    CONSTRAINT test_invoices_amount_chk CHECK ((billed_sdr > (0)::numeric)),
+    CONSTRAINT test_invoices_number_chk CHECK ((invoice_number ~ '^INV-[0-9]{7}$'::text)),
+    CONSTRAINT test_invoices_scnt_chk CHECK ((scnt_tons > (0)::numeric))
+);
+
+
+--
+-- Name: TABLE invoices; Type: COMMENT; Schema: finance_test; Owner: -
+--
+
+COMMENT ON TABLE finance_test.invoices IS 'Invoices of 4 golden weeks as billed, some with planted errors (no label column). Level 2, Finance.';
+
+
+--
+-- Name: COLUMN invoices.invoice_number; Type: COMMENT; Schema: finance_test; Owner: -
+--
+
+COMMENT ON COLUMN finance_test.invoices.invoice_number IS 'Invoice number (a planted duplicate has a new number)';
+
+
+--
+-- Name: COLUMN invoices.vessel_id; Type: COMMENT; Schema: finance_test; Owner: -
+--
+
+COMMENT ON COLUMN finance_test.invoices.vessel_id IS 'The vessel (FK public.vessels)';
+
+
+--
+-- Name: COLUMN invoices.invoice_date; Type: COMMENT; Schema: finance_test; Owner: -
+--
+
+COMMENT ON COLUMN finance_test.invoices.invoice_date IS 'Invoice date';
+
+
+--
+-- Name: COLUMN invoices.scnt_tons; Type: COMMENT; Schema: finance_test; Owner: -
+--
+
+COMMENT ON COLUMN finance_test.invoices.scnt_tons IS 'Suez Canal Net Tonnage as billed';
+
+
+--
+-- Name: COLUMN invoices.billed_sdr; Type: COMMENT; Schema: finance_test; Owner: -
+--
+
+COMMENT ON COLUMN finance_test.invoices.billed_sdr IS 'Amount billed in SDR';
+
+
+--
+-- Name: budget_weekly; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.budget_weekly (
+    budget_year integer NOT NULL,
+    iso_week integer NOT NULL,
+    vessel_category text NOT NULL,
+    budget_sdr numeric NOT NULL,
+    CONSTRAINT budget_weekly_amount_chk CHECK ((budget_sdr >= (0)::numeric)),
+    CONSTRAINT budget_weekly_category_chk CHECK ((vessel_category = ANY (ARRAY['Chemical Tankers & Other Liquid Bulk Tankers'::text, 'Containerships'::text, 'Crude Oil Tankers'::text, 'Cruise Ships'::text, 'Dry Bulk Vessels'::text, 'General Cargo / Multi-Purpose / Heavy Lift Vessels'::text, 'Liquefied Natural Gas (LNG) Carriers'::text, 'Liquefied Petroleum Gas (LPG) Carriers'::text, 'Other Vessels'::text, 'Petroleum Product Tankers'::text, 'Roll-On/Roll-Off (Ro/Ro) Vessels'::text, 'Special Floating Units'::text, 'Vehicles Carriers'::text]))),
+    CONSTRAINT budget_weekly_week_chk CHECK (((iso_week >= 1) AND (iso_week <= 52))),
+    CONSTRAINT budget_weekly_year_chk CHECK ((budget_year = 2025))
+);
+
+
+--
+-- Name: TABLE budget_weekly; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON TABLE public.budget_weekly IS 'Weekly budget 2025 per vessel category: a planning model (fleet x 2.0 transits x median-tonnage laden toll, seasonal +/-6 %), not fitted to the invoices (Agents plan §4a R6). Level 2, Finance.';
+
+
+--
+-- Name: COLUMN budget_weekly.budget_year; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.budget_weekly.budget_year IS 'Budget year (2025 only)';
+
+
+--
+-- Name: COLUMN budget_weekly.iso_week; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.budget_weekly.iso_week IS 'ISO week of the budget year';
+
+
+--
+-- Name: COLUMN budget_weekly.vessel_category; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.budget_weekly.vessel_category IS 'Suez tariff vessel category (same 13 values as vessels.vessel_type)';
+
+
+--
+-- Name: COLUMN budget_weekly.budget_sdr; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.budget_weekly.budget_sdr IS 'Budgeted transit dues in SDR';
+
 
 --
 -- Name: containers; Type: TABLE; Schema: public; Owner: -
@@ -178,6 +324,72 @@ CREATE SEQUENCE public.containers_container_id_seq
 --
 
 ALTER SEQUENCE public.containers_container_id_seq OWNED BY public.containers.container_id;
+
+
+--
+-- Name: customers; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.customers (
+    customer_id integer NOT NULL,
+    customer_name text NOT NULL,
+    country text NOT NULL,
+    segment text NOT NULL,
+    payment_terms_days integer NOT NULL,
+    credit_rating text NOT NULL,
+    CONSTRAINT customers_rating_chk CHECK ((credit_rating = ANY (ARRAY['A'::text, 'B'::text, 'C'::text]))),
+    CONSTRAINT customers_segment_chk CHECK ((segment = ANY (ARRAY['container'::text, 'tanker'::text, 'bulk'::text, 'roro'::text, 'cruise'::text, 'agent'::text]))),
+    CONSTRAINT customers_terms_chk CHECK ((payment_terms_days = ANY (ARRAY[30, 45, 60])))
+);
+
+
+--
+-- Name: TABLE customers; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON TABLE public.customers IS 'Synthetic customers (shipping lines / agents) billed for Suez transit dues; 40 invented companies (Agents plan §4a R1). Level 2, Finance.';
+
+
+--
+-- Name: COLUMN customers.customer_id; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.customers.customer_id IS 'Surrogate key';
+
+
+--
+-- Name: COLUMN customers.customer_name; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.customers.customer_name IS 'Invented company name (not a real company)';
+
+
+--
+-- Name: COLUMN customers.country; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.customers.country IS 'Headquarters country (not the flag of its vessels)';
+
+
+--
+-- Name: COLUMN customers.segment; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.customers.segment IS 'Customer segment by the vessel types it operates';
+
+
+--
+-- Name: COLUMN customers.payment_terms_days; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.customers.payment_terms_days IS 'Payment terms: due date = invoice date + these days';
+
+
+--
+-- Name: COLUMN customers.credit_rating; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.customers.credit_rating IS 'Credit rating A / B / C (correlates with payment behaviour, does not reveal it)';
 
 
 --
@@ -584,7 +796,7 @@ COMMENT ON COLUMN public.invoices.description IS 'Free text, e.g. Suez Canal tra
 -- Name: COLUMN invoices.status; Type: COMMENT; Schema: public; Owner: -
 --
 
-COMMENT ON COLUMN public.invoices.status IS 'Issued, Paid or Pending';
+COMMENT ON COLUMN public.invoices.status IS 'Original generator label (Issued / Pending / Paid), drawn at random over 2025 (ADR-013); NOT the payment state — the payment state is derived from payments by the finance views (Agents plan §4a, D6 amended 2026-10-13).';
 
 
 --
@@ -605,6 +817,46 @@ CREATE SEQUENCE public.invoices_invoice_id_seq
 --
 
 ALTER SEQUENCE public.invoices_invoice_id_seq OWNED BY public.invoices.invoice_id;
+
+
+--
+-- Name: payments; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.payments (
+    invoice_number text NOT NULL,
+    paid_date date NOT NULL,
+    amount_sdr numeric NOT NULL,
+    CONSTRAINT payments_amount_chk CHECK ((amount_sdr > (0)::numeric))
+);
+
+
+--
+-- Name: TABLE payments; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON TABLE public.payments IS 'One full payment per paid invoice (no partial payments), up to 2026-03-31; an invoice without a row is unpaid. Level 2, Finance.';
+
+
+--
+-- Name: COLUMN payments.invoice_number; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.payments.invoice_number IS 'The paid invoice (FK invoices)';
+
+
+--
+-- Name: COLUMN payments.paid_date; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.payments.paid_date IS 'Date the payment was received';
+
+
+--
+-- Name: COLUMN payments.amount_sdr; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.payments.amount_sdr IS 'Amount paid in SDR (= the invoice amount)';
 
 
 --
@@ -946,6 +1198,7 @@ CREATE TABLE public.vessels (
     condition text NOT NULL,
     status text NOT NULL,
     mmsi character varying(9) NOT NULL,
+    customer_id integer NOT NULL,
     CONSTRAINT vessels_condition_chk CHECK ((condition = ANY (ARRAY['Laden'::text, 'Ballast'::text]))),
     CONSTRAINT vessels_imo_number_format_chk CHECK (((imo_number)::text ~ '^[0-9]{7}$'::text)),
     CONSTRAINT vessels_mmsi_format_chk CHECK (((mmsi)::text ~ '^[2-7][0-9]{8}$'::text)),
@@ -1041,6 +1294,13 @@ COMMENT ON COLUMN public.vessels.mmsi IS 'Ship station MMSI: MID of flag_country
 
 
 --
+-- Name: COLUMN vessels.customer_id; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.vessels.customer_id IS 'The customer billed for this vessel (FK customers; migration 012)';
+
+
+--
 -- Name: vessels_vessel_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -1110,6 +1370,30 @@ ALTER TABLE ONLY public.vessels ALTER COLUMN vessel_id SET DEFAULT nextval('publ
 
 
 --
+-- Name: budget_weekly budget_weekly_pkey; Type: CONSTRAINT; Schema: finance_test; Owner: -
+--
+
+ALTER TABLE ONLY finance_test.budget_weekly
+    ADD CONSTRAINT budget_weekly_pkey PRIMARY KEY (budget_year, iso_week, vessel_category);
+
+
+--
+-- Name: invoices invoices_pkey; Type: CONSTRAINT; Schema: finance_test; Owner: -
+--
+
+ALTER TABLE ONLY finance_test.invoices
+    ADD CONSTRAINT invoices_pkey PRIMARY KEY (invoice_number);
+
+
+--
+-- Name: budget_weekly budget_weekly_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.budget_weekly
+    ADD CONSTRAINT budget_weekly_pkey PRIMARY KEY (budget_year, iso_week, vessel_category);
+
+
+--
 -- Name: containers containers_container_number_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1123,6 +1407,22 @@ ALTER TABLE ONLY public.containers
 
 ALTER TABLE ONLY public.containers
     ADD CONSTRAINT containers_pkey PRIMARY KEY (container_id);
+
+
+--
+-- Name: customers customers_customer_name_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.customers
+    ADD CONSTRAINT customers_customer_name_key UNIQUE (customer_name);
+
+
+--
+-- Name: customers customers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.customers
+    ADD CONSTRAINT customers_pkey PRIMARY KEY (customer_id);
 
 
 --
@@ -1187,6 +1487,14 @@ ALTER TABLE ONLY public.invoices
 
 ALTER TABLE ONLY public.invoices
     ADD CONSTRAINT invoices_pkey PRIMARY KEY (invoice_id);
+
+
+--
+-- Name: payments payments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.payments
+    ADD CONSTRAINT payments_pkey PRIMARY KEY (invoice_number);
 
 
 --
@@ -1259,6 +1567,13 @@ ALTER TABLE ONLY public.vessels
 
 ALTER TABLE ONLY public.vessels
     ADD CONSTRAINT vessels_pkey PRIMARY KEY (vessel_id);
+
+
+--
+-- Name: test_invoices_vessel_id_idx; Type: INDEX; Schema: finance_test; Owner: -
+--
+
+CREATE INDEX test_invoices_vessel_id_idx ON finance_test.invoices USING btree (vessel_id);
 
 
 --
@@ -1339,6 +1654,13 @@ CREATE INDEX ports_geom_gist ON public.ports USING gist (geom);
 
 
 --
+-- Name: vessels_customer_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX vessels_customer_id_idx ON public.vessels USING btree (customer_id);
+
+
+--
 -- Name: vessels_destination_locode_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1350,6 +1672,14 @@ CREATE INDEX vessels_destination_locode_idx ON public.vessels USING btree (desti
 --
 
 CREATE INDEX vessels_origin_locode_idx ON public.vessels USING btree (origin_locode);
+
+
+--
+-- Name: invoices invoices_vessel_id_fkey; Type: FK CONSTRAINT; Schema: finance_test; Owner: -
+--
+
+ALTER TABLE ONLY finance_test.invoices
+    ADD CONSTRAINT invoices_vessel_id_fkey FOREIGN KEY (vessel_id) REFERENCES public.vessels(vessel_id);
 
 
 --
@@ -1417,6 +1747,14 @@ ALTER TABLE ONLY public.invoices
 
 
 --
+-- Name: payments payments_invoice_number_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.payments
+    ADD CONSTRAINT payments_invoice_number_fkey FOREIGN KEY (invoice_number) REFERENCES public.invoices(invoice_number);
+
+
+--
 -- Name: port_connections port_connections_port1_locode_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1430,6 +1768,14 @@ ALTER TABLE ONLY public.port_connections
 
 ALTER TABLE ONLY public.port_connections
     ADD CONSTRAINT port_connections_port2_locode_fkey FOREIGN KEY (port2_locode) REFERENCES public.ports(locode);
+
+
+--
+-- Name: vessels vessels_customer_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.vessels
+    ADD CONSTRAINT vessels_customer_id_fkey FOREIGN KEY (customer_id) REFERENCES public.customers(customer_id);
 
 
 --

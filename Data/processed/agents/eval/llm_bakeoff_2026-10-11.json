@@ -8,9 +8,9 @@
    "planned": 24,
    "done": 12,
    "set": "lite",
-   "calls": 20,
-   "cache_hits": 8,
-   "stopped": "gemini/gemini-3.8-flash: daily quota exhausted — stopped until the provider's day ends (GoogleRateLimitError: Error calling model 'gemini-3.8-flash' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan a)"
+   "calls": 0,
+   "cache_hits": 28,
+   "stopped": "gemini/gemini-3.8-flash: daily quota exhausted on 2026-10-11 (GoogleRateLimitError: Error calling model 'gemini-3.8-flash' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'c)"
   },
   "gemini/gemini-3.5-flash-lite": {
    "status": "complete",
@@ -22,13 +22,13 @@
    "stopped": null
   },
   "gemini/gemma-4-31b-it": {
-   "status": "partial",
-   "planned": 80,
-   "done": 9,
-   "set": "full",
-   "calls": 11,
-   "cache_hits": 8,
-   "stopped": "gemini/gemma-4-31b-it: transient: GoogleAPIError: 500 INTERNAL. {'error': {'code': 500, 'message': 'Internal error encountered.', 'status': 'INTERNAL'}} | ServerError: 500 INTERNAL. {'error': {'code': 500, 'message': 'Internal error e"
+   "status": "complete",
+   "planned": 24,
+   "done": 24,
+   "set": "lite",
+   "calls": 1,
+   "cache_hits": 39,
+   "stopped": null
   },
   "groq/openai/gpt-oss-120b": {
    "status": "complete",
@@ -44,8 +44,8 @@
    "planned": 80,
    "done": 80,
    "set": "full",
-   "calls": 45,
-   "cache_hits": 75,
+   "calls": 0,
+   "cache_hits": 120,
    "stopped": null
   },
   "groq/openai/gpt-oss-20b": {
@@ -73,11 +73,11 @@
   "openrouter/poolside/laguna-s-2.1:free": {
    "status": "partial",
    "planned": 24,
-   "done": 3,
+   "done": 16,
    "set": "lite",
-   "calls": 1,
-   "cache_hits": 5,
-   "stopped": "openrouter/poolside/laguna-s-2.1:free: rate_minute: OpenAIRateLimitError: Error code: 429 - {'error': {'message': 'Provider returned error', 'code': 429, 'metadata': {'raw': 'poolside/laguna-s-2.1:free is temporarily rate-limited upstream. Please retry"
+   "calls": 0,
+   "cache_hits": 24,
+   "stopped": "openrouter: 50 requests already sent on 2026-10-11 (daily limit)"
   }
  },
  "scores": {
@@ -234,90 +234,60 @@
   "gemini/gemma-4-31b-it": {
    "lite": {
     "n": {
-     "T1": 4,
-     "T2": 0,
-     "T3": 0,
-     "T4": 0
+     "T1": 8,
+     "T2": 4,
+     "T3": 4,
+     "T4": 8
     },
-    "t1_accuracy": 1.0,
+    "t1_accuracy": 0.875,
     "t1_tool": 1.0,
     "t1_args": 1.0,
-    "t2_faithful_all": null,
-    "t2_faithfulness": null,
-    "t2_answer_rate": null,
-    "t4_format_ok": null,
-    "t2_coverage": null,
+    "t2_faithful_all": true,
+    "t2_faithfulness": 1.0,
+    "t2_answer_rate": 0.75,
+    "t4_format_ok": 1.0,
+    "t2_coverage": 0.75,
     "t2_unsupported_examples": [],
     "t3_by_method": {
-     "function_calling": null,
-     "json_schema": null,
-     "json_mode": null
+     "function_calling": 0.5,
+     "json_schema": 0.75,
+     "json_mode": 1.0
     },
     "t3_validity_by_method": {
-     "function_calling": null,
-     "json_schema": null,
-     "json_mode": null
+     "function_calling": 0.5,
+     "json_schema": 0.75,
+     "json_mode": 1.0
     },
-    "t3_best_method": null,
-    "t3_score": null,
-    "t4_recall": null,
-    "t4_citation": null
+    "t3_best_method": "json_mode",
+    "t3_score": 1.0,
+    "t4_recall": 0.7917,
+    "t4_citation": 1.0
    },
-   "full": {
-    "n": {
-     "T1": 9,
-     "T2": 0,
-     "T3": 0,
-     "T4": 0
-    },
-    "t1_accuracy": 1.0,
-    "t1_tool": 1.0,
-    "t1_args": 1.0,
-    "t2_faithful_all": null,
-    "t2_faithfulness": null,
-    "t2_answer_rate": null,
-    "t4_format_ok": null,
-    "t2_coverage": null,
-    "t2_unsupported_examples": [],
-    "t3_by_method": {
-     "function_calling": null,
-     "json_schema": null,
-     "json_mode": null
-    },
-    "t3_validity_by_method": {
-     "function_calling": null,
-     "json_schema": null,
-     "json_mode": null
-    },
-    "t3_best_method": null,
-    "t3_score": null,
-    "t4_recall": null,
-    "t4_citation": null
-   },
-   "complete_lite": false,
-   "gate_t2": null,
-   "score_writer_insight": null,
-   "score_tools": 1.0,
+   "full": null,
+   "complete_lite": true,
+   "gate_t2": true,
+   "score_writer_insight": 0.8472,
+   "score_tools": 0.9375,
    "quota_fit": {
     "writer_insight": {
      "requests_per_pack": 9,
-     "tokens_per_pack": 0,
+     "tokens_per_pack": 28347,
      "daily_limit": null,
-     "daily_requests_seen": 15,
-     "packs_per_day": 1.7,
+     "daily_requests_seen": 80,
+     "packs_per_day": 8.9,
      "packs_per_day_is_lower_bound": true,
-     "tpm_minutes_per_pack": 0.0,
-     "median_latency_ms": null
+     "tpm_minutes_per_pack": 0.11,
+     "median_latency_ms": 76730.125
     },
     "tools": {
      "requests_per_pack": 16,
-     "tokens_per_pack": 12055,
+     "tokens_per_pack": 17884,
      "daily_limit": null,
-     "daily_requests_seen": 15,
-     "packs_per_day": 0.9,
+     "daily_requests_seen": 80,
+     "packs_per_day": 5.0,
      "packs_per_day_is_lower_bound": true,
-     "tpm_minutes_per_pack": 0.05,
-     "median_latency_ms": 26511.8
+     "tpm_minutes_per_pack": 0.07,
+     "median_latency_ms": 37077.15
     }
    }
   },
@@ -634,7 +604,7 @@
      "requests_per_pack": 9,
      "tokens_per_pack": 25074,
      "daily_limit": 50,
-     "daily_requests_seen": 45,
+     "daily_requests_seen": 51,
      "packs_per_day": 5.6,
      "packs_per_day_is_lower_bound": false,
      "tpm_minutes_per_pack": 0.03,
@@ -644,7 +614,7 @@
      "requests_per_pack": 16,
      "tokens_per_pack": 25399,
      "daily_limit": 50,
-     "daily_requests_seen": 45,
+     "daily_requests_seen": 51,
      "packs_per_day": 3.1,
      "packs_per_day_is_lower_bound": false,
      "tpm_minutes_per_pack": 0.03,
@@ -655,56 +625,56 @@
   "openrouter/poolside/laguna-s-2.1:free": {
    "lite": {
     "n": {
-     "T1": 3,
-     "T2": 0,
-     "T3": 0,
+     "T1": 8,
+     "T2": 4,
+     "T3": 4,
      "T4": 0
     },
     "t1_accuracy": 1.0,
     "t1_tool": 1.0,
     "t1_args": 1.0,
-    "t2_faithful_all": null,
-    "t2_faithfulness": null,
-    "t2_answer_rate": null,
+    "t2_faithful_all": true,
+    "t2_faithfulness": 1.0,
+    "t2_answer_rate": 1.0,
     "t4_format_ok": null,
-    "t2_coverage": null,
+    "t2_coverage": 1.0,
     "t2_unsupported_examples": [],
     "t3_by_method": {
-     "function_calling": null
+     "function_calling": 0.75
     },
     "t3_validity_by_method": {
-     "function_calling": null
+     "function_calling": 0.75
     },
-    "t3_best_method": null,
-    "t3_score": null,
+    "t3_best_method": "function_calling",
+    "t3_score": 0.75,
     "t4_recall": null,
     "t4_citation": null
    },
    "full": null,
    "complete_lite": false,
-   "gate_t2": null,
-   "score_writer_insight": null,
-   "score_tools": 1.0,
+   "gate_t2": true,
+   "score_writer_insight": 1.0,
+   "score_tools": 0.875,
    "quota_fit": {
     "writer_insight": {
      "requests_per_pack": 9,
-     "tokens_per_pack": 0,
+     "tokens_per_pack": 5768,
      "daily_limit": 50,
-     "daily_requests_seen": 45,
+     "daily_requests_seen": 51,
      "packs_per_day": 5.6,
      "packs_per_day_is_lower_bound": false,
-     "tpm_minutes_per_pack": 0.0,
-     "median_latency_ms": null
+     "tpm_minutes_per_pack": 0.01,
+     "median_latency_ms": 7172.9
     },
     "tools": {
      "requests_per_pack": 16,
-     "tokens_per_pack": 11554,
+     "tokens_per_pack": 18860,
      "daily_limit": 50,
-     "daily_requests_seen": 45,
+     "daily_requests_seen": 51,
      "packs_per_day": 3.1,
      "packs_per_day_is_lower_bound": false,
-     "tpm_minutes_per_pack": 0.01,
-     "median_latency_ms": 2825.3
+     "tpm_minutes_per_pack": 0.02,
+     "median_latency_ms": 7073.975
     }
    }
   }
@@ -727,6 +697,10 @@
      0.8333
     ],
     [
+     "gemini/gemma-4-31b-it",
+     0.8472
+    ],
+    [
      "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
      0.8472
     ]
@@ -736,7 +710,6 @@
    ],
    "incomplete": [
     "gemini/gemini-3.8-flash",
-    "gemini/gemma-4-31b-it",
     "openrouter/poolside/laguna-s-2.1:free"
    ]
   },
@@ -757,6 +730,10 @@
      0.9375
     ],
     [
+     "gemini/gemma-4-31b-it",
+     0.9375
+    ],
+    [
      "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
      0.9375
     ],
@@ -768,7 +745,6 @@
    "excluded_by_gate": [],
    "incomplete": [
     "gemini/gemini-3.8-flash",
-    "gemini/gemma-4-31b-it",
     "openrouter/poolside/laguna-s-2.1:free"
    ]
   }
@@ -918,12 +894,12 @@
      ],
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 3148.1,
        "tokens": 962
       },
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 3455.2,
        "tokens": 1122
       }
@@ -943,12 +919,12 @@
      ],
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 2027.0,
        "tokens": 911
       },
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 2752.4,
        "tokens": 1046
       }
@@ -966,12 +942,12 @@
      ],
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 2588.0,
        "tokens": 801
       },
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 2893.1,
        "tokens": 2843
       }
@@ -989,12 +965,12 @@
      ],
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 2587.8,
        "tokens": 807
       },
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 3371.5,
        "tokens": 3333
       }
@@ -1008,7 +984,7 @@
       "why": null,
       "requests": [
        {
-        "cached": false,
+        "cached": true,
         "latency_ms": 7323.1,
         "tokens": 1130
        }
@@ -1020,7 +996,7 @@
       "why": null,
       "requests": [
        {
-        "cached": false,
+        "cached": true,
         "latency_ms": 3278.7,
         "tokens": 912
        }
@@ -1032,7 +1008,7 @@
       "why": null,
       "requests": [
        {
-        "cached": false,
+        "cached": true,
         "latency_ms": 6583.6,
         "tokens": 995
        }
@@ -1046,7 +1022,7 @@
       "why": null,
       "requests": [
        {
-        "cached": false,
+        "cached": true,
         "latency_ms": 2964.2,
         "tokens": 1152
        }
@@ -1065,7 +1041,7 @@
       "why": null,
       "requests": [
        {
-        "cached": false,
+        "cached": true,
         "latency_ms": 4945.0,
         "tokens": 1070
        }
@@ -1084,7 +1060,7 @@
       "why": null,
       "requests": [
        {
-        "cached": false,
+        "cached": true,
         "latency_ms": 4873.0,
         "tokens": 1034
        }
@@ -1105,7 +1081,7 @@
       "why": null,
       "requests": [
        {
-        "cached": false,
+        "cached": true,
         "latency_ms": 3223.5,
         "tokens": 1350
        }
@@ -1130,7 +1106,7 @@
       "why": null,
       "requests": [
        {
-        "cached": false,
+        "cached": true,
         "latency_ms": 4441.1,
         "tokens": 1251
        }
@@ -1155,7 +1131,7 @@
       "why": null,
       "requests": [
        {
-        "cached": false,
+        "cached": true,
         "latency_ms": 3022.7,
         "tokens": 1128
        }
@@ -1182,7 +1158,7 @@
       "why": null,
       "requests": [
        {
-        "cached": false,
+        "cached": true,
         "latency_ms": 5110.3,
         "tokens": 1482
        }
@@ -1213,7 +1189,7 @@
       "why": null,
       "requests": [
        {
-        "cached": false,
+        "cached": true,
         "latency_ms": 10243.4,
         "tokens": 1138
        }
@@ -1244,7 +1220,7 @@
       "why": null,
       "requests": [
        {
-        "cached": false,
+        "cached": true,
         "latency_ms": 3161.5,
         "tokens": 1089
        }
@@ -3053,31 +3029,6 @@
       }
      ]
     },
-    "t1_toll_3": {
-     "answer": "The Suez toll for a loaded LNG carrier with 95,500 SCNT is 473,385 SDR.",
-     "calls": [
-      {
-       "name": "compute_toll",
-       "args": {
-        "vessel_category": "Liquefied Natural Gas (LNG) Carriers",
-        "laden_ballast": "Laden",
-        "scnt_tons": 95500
-       }
-      }
-     ],
-     "requests": [
-      {
-       "cached": true,
-       "latency_ms": 38515.0,
-       "tokens": 924
-      },
-      {
-       "cached": true,
-       "latency_ms": 32985.5,
-       "tokens": 1163
-      }
-     ]
-    },
     "t1_toll_4": {
      "answer": "The Suez transit dues for a special floating unit of 30,000 SCNT transiting in ballast are 192,700 SDR.",
      "calls": [
@@ -3103,106 +3054,6 @@
       }
      ]
     },
-    "t1_toll_5": {
-     "answer": "A laden containership of 5,000 SCNT pays 48,000 SDR to transit the Suez Canal.",
-     "calls": [
-      {
-       "name": "compute_toll",
-       "args": {
-        "laden_ballast": "Laden",
-        "vessel_category": "Containerships",
-        "scnt_tons": 5000
-       }
-      }
-     ],
-     "requests": [
-      {
-       "cached": false,
-       "latency_ms": 43785.8,
-       "tokens": 850
-      },
-      {
-       "cached": false,
-       "latency_ms": 8204.2,
-       "tokens": 1010
-      }
-     ]
-    },
-    "t1_toll_6": {
-     "answer": "The Suez dues for a laden dry bulk carrier of 47,250 SCNT are 199,630 SDR.",
-     "calls": [
-      {
-       "name": "compute_toll",
-       "args": {
-        "scnt_tons": 47250,
-        "vessel_category": "Dry Bulk Vessels",
-        "laden_ballast": "Laden"
-       }
-      }
-     ],
-     "requests": [
-      {
-       "cached": false,
-       "latency_ms": 12701.4,
-       "tokens": 911
-      },
-      {
-       "cached": false,
-       "latency_ms": 5666.9,
-       "tokens": 1140
-      }
-     ]
-    },
-    "t1_toll_7": {
-     "answer": "A vehicles carrier in ballast with 61,000 SCNT pays 230,330 SDR for a Suez transit.",
-     "calls": [
-      {
-       "name": "compute_toll",
-       "args": {
-        "scnt_tons": 61000,
-        "laden_ballast": "Ballast",
-        "vessel_category": "Vehicles Carriers"
-       }
-      }
-     ],
-     "requests": [
-      {
-       "cached": false,
-       "latency_ms": 24897.0,
-       "tokens": 914
-      },
-      {
-       "cached": false,
-       "latency_ms": 12577.6,
-       "tokens": 1142
-      }
-     ]
-    },
-    "t1_toll_8": {
-     "answer": "The Suez Canal transit charge for a laden cruise ship of 72,800 SCNT is 309,492 SDR.",
-     "calls": [
-      {
-       "name": "compute_toll",
-       "args": {
-        "vessel_category": "Cruise Ships",
-        "scnt_tons": 72800,
-        "laden_ballast": "Laden"
-       }
-      }
-     ],
-     "requests": [
-      {
-       "cached": false,
-       "latency_ms": 34823.4,
-       "tokens": 909
-      },
-      {
-       "cached": false,
-       "latency_ms": 28018.8,
-       "tokens": 1134
-      }
-     ]
-    },
     "t1_kpi_1": {
      "answer": "NileGate issued 15 Suez transit invoices in ISO week 14 of 2025.",
      "calls": [
@@ -3217,21 +3068,479 @@
      ],
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 38960.4,
        "tokens": 914
       },
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 24733.9,
        "tokens": 1106
       }
      ]
+    },
+    "t1_kpi_2": {
+     "answer": "The total amount billed to cruise ships in week 30 of 2025 was 1,115,538.06 SDR.",
+     "calls": [
+      {
+       "name": "weekly_kpi",
+       "args": {
+        "metric": "billed_sdr",
+        "vessel_category": "Cruise Ships",
+        "iso_week": 30
+       }
+      }
+     ],
+     "requests": [
+      {
+       "cached": true,
+       "latency_ms": 35835.2,
+       "tokens": 914
+      },
+      {
+       "cached": true,
+       "latency_ms": 38317.2,
+       "tokens": 1130
+      }
+     ]
+    },
+    "t1_kpi_3": {
+     "answer": "The average invoice amount in ISO week 45 of 2025 was 272,346.12 SDR.",
+     "calls": [
+      {
+       "name": "weekly_kpi",
+       "args": {
+        "metric": "mean_invoice_sdr",
+        "vessel_category": "All",
+        "iso_week": 45
+       }
+      }
+     ],
+     "requests": [
+      {
+       "cached": true,
+       "latency_ms": 72060.4,
+       "tokens": 1004
+      },
+      {
+       "cached": true,
+       "latency_ms": 41477.1,
+       "tokens": 1310
+      }
+     ]
+    },
+    "t1_search_1": {
+     "answer": "The operator of the BIG STICK went overboard due to causal factors including his decision to embark on a solo fishing trip and being under the influence of alcohol. Additionally, the risk of losing balance was increased by vessel motion, potentially wet surfaces, and movement around the deck during fishing activities.",
+     "calls": [
+      {
+       "name": "search_documents",
+       "args": {
+        "query": "BIG STICK overboard cause"
+       }
+      }
+     ],
+     "requests": [
+      {
+       "cached": true,
+       "latency_ms": 30301.2,
+       "tokens": 810
+      },
+      {
+       "cached": true,
+       "latency_ms": 27809.0,
+       "tokens": 2899
+      }
+     ]
+    },
+    "t1_search_2": {
+     "answer": "No, the Coast Guard did not agree; both the District Commander and the Commandant did not concur with the recommendation to require all commercial fishing vessels to carry AIS, citing feasibility challenges, cost burdens for smaller operators, and a lack of statutory authority for vessels under 65 feet.",
+     "calls": [
+      {
+       "name": "search_documents",
+       "args": {
+        "query": "Coast Guard commercial fishing vessel AIS requirement"
+       }
+      }
+     ],
+     "requests": [
+      {
+       "cached": true,
+       "latency_ms": 30209.8,
+       "tokens": 826
+      },
+      {
+       "cached": true,
+       "latency_ms": 36569.0,
+       "tokens": 3335
+      }
+     ]
     }
    },
-   "T3": {},
-   "T2": {},
-   "T4": {}
+   "T3": {
+    "t3_01": {
+     "function_calling": {
+      "valid": true,
+      "why": null,
+      "requests": [
+       {
+        "cached": true,
+        "latency_ms": 37952.2,
+        "tokens": 712
+       }
+      ],
+      "exceptions": []
+     },
+     "json_schema": {
+      "valid": true,
+      "why": null,
+      "requests": [
+       {
+        "cached": true,
+        "latency_ms": 27201.9,
+        "tokens": 586
+       }
+      ],
+      "exceptions": []
+     },
+     "json_mode": {
+      "valid": true,
+      "why": null,
+      "requests": [
+       {
+        "cached": true,
+        "latency_ms": 24746.9,
+        "tokens": 586
+       }
+      ],
+      "exceptions": []
+     }
+    },
+    "t3_02": {
+     "function_calling": {
+      "valid": false,
+      "why": "no reply: {'kind': 'server_error_repeated', 'text': \"GoogleAPIError: 500 INTERNAL. {'error': {'code': 500, 'message': 'Internal error encountered.', 'status': 'INTERNAL'}} | ServerError: 500 INTERNAL. {'error': {'code': 500, 'message': 'Internal error encountered.', 'status': 'INTERNAL'}}\"}",
+      "requests": [
+       {
+        "cached": true,
+        "latency_ms": null,
+        "tokens": null
+       }
+      ],
+      "exceptions": null
+     },
+     "json_schema": {
+      "valid": true,
+      "why": null,
+      "requests": [
+       {
+        "cached": true,
+        "latency_ms": 39677.5,
+        "tokens": 636
+       }
+      ],
+      "exceptions": [
+       {
+        "invoice_number": "INV-9100201",
+        "issue": "overbilled",
+        "billed_sdr": 280779.14,
+        "expected_sdr": 253352.5
+       }
+      ]
+     },
+     "json_mode": {
+      "valid": true,
+      "why": null,
+      "requests": [
+       {
+        "cached": true,
+        "latency_ms": 34804.1,
+        "tokens": 636
+       }
+      ],
+      "exceptions": [
+       {
+        "invoice_number": "INV-9100201",
+        "issue": "overbilled",
+        "billed_sdr": 280779.14,
+        "expected_sdr": 253352.5
+       }
+      ]
+     }
+    },
+    "t3_03": {
+     "function_calling": {
+      "valid": true,
+      "why": null,
+      "requests": [
+       {
+        "cached": true,
+        "latency_ms": 43928.1,
+        "tokens": 821
+       }
+      ],
+      "exceptions": [
+       {
+        "invoice_number": "INV-9100318",
+        "issue": "underbilled",
+        "billed_sdr": 375401.51,
+        "expected_sdr": 408637.5
+       },
+       {
+        "invoice_number": "INV-9100335",
+        "issue": "overbilled",
+        "billed_sdr": 127001.24,
+        "expected_sdr": 116150.0
+       }
+      ]
+     },
+     "json_schema": {
+      "valid": true,
+      "why": null,
+      "requests": [
+       {
+        "cached": true,
+        "latency_ms": 46787.7,
+        "tokens": 704
+       }
+      ],
+      "exceptions": [
+       {
+        "invoice_number": "INV-9100318",
+        "issue": "underbilled",
+        "billed_sdr": 375401.51,
+        "expected_sdr": 408637.5
+       },
+       {
+        "invoice_number": "INV-9100335",
+        "issue": "overbilled",
+        "billed_sdr": 127001.24,
+        "expected_sdr": 116150.0
+       }
+      ]
+     },
+     "json_mode": {
+      "valid": true,
+      "why": null,
+      "requests": [
+       {
+        "cached": true,
+        "latency_ms": 36271.7,
+        "tokens": 704
+       }
+      ],
+      "exceptions": [
+       {
+        "invoice_number": "INV-9100318",
+        "issue": "underbilled",
+        "billed_sdr": 375401.51,
+        "expected_sdr": 408637.5
+       },
+       {
+        "invoice_number": "INV-9100335",
+        "issue": "overbilled",
+        "billed_sdr": 127001.24,
+        "expected_sdr": 116150.0
+       }
+      ]
+     }
+    },
+    "t3_04": {
+     "function_calling": {
+      "valid": false,
+      "why": "no reply: {'kind': 'server_error_repeated', 'text': \"GoogleAPIError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}} | ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}\"}",
+      "requests": [
+       {
+        "cached": true,
+        "latency_ms": null,
+        "tokens": null
+       }
+      ],
+      "exceptions": null
+     },
+     "json_schema": {
+      "valid": false,
+      "why": "no reply: {'kind': 'server_error_repeated', 'text': \"GoogleAPIError: 500 INTERNAL. {'error': {'code': 500, 'message': 'Internal error encountered.', 'status': 'INTERNAL'}} | ServerError: 500 INTERNAL. {'error': {'code': 500, 'message': 'Internal error encountered.', 'status': 'INTERNAL'}}\"}",
+      "requests": [
+       {
+        "cached": true,
+        "latency_ms": null,
+        "tokens": null
+       }
+      ],
+      "exceptions": null
+     },
+     "json_mode": {
+      "valid": true,
+      "why": null,
+      "requests": [
+       {
+        "cached": true,
+        "latency_ms": 43500.0,
+        "tokens": 744
+       }
+      ],
+      "exceptions": [
+       {
+        "invoice_number": "INV-9100436",
+        "issue": "underbilled",
+        "billed_sdr": 376005.51,
+        "expected_sdr": 401007.5
+       },
+       {
+        "invoice_number": "INV-9100449",
+        "issue": "underbilled",
+        "billed_sdr": 275262.23,
+        "expected_sdr": 287847.5
+       },
+       {
+        "invoice_number": "INV-9100486",
+        "issue": "underbilled",
+        "billed_sdr": 444789.01,
+        "expected_sdr": 457590.0
+       }
+      ]
+     }
+    }
+   },
+   "T2": {
+    "t2_w11": {
+     "answer": "- Total billed_sdr for week 11 was 6,431,245.\n- Total wow_change_sdr was -132,489.\n- Total wow_change_pct was -2.0%.\n- Positive changes were driven by Chemical Tankers & Other Liquid Bulk Tankers (+691,784) and Crude Oil Tankers (+604,832).\n- Negative changes were driven by Petroleum Product Tankers (-1,262,262) and Containerships (-1,064,914).",
+     "error": null,
+     "requests": [
+      {
+       "cached": true,
+       "latency_ms": 96827.7,
+       "tokens": 2956
+      }
+     ]
+    },
+    "t2_w26": {
+     "answer": "- Total billed SDR for week 26 was 5,456,983.\n- Total invoices for week 26 were 21.\n- Total billed SDR changed by +838,487 (+18.2%).\n- Increases were driven by Special Floating Units (+824,160), Dry Bulk Vessels (+732,170), and Containerships (+537,517).\n- Decreases were driven by Liquefied Natural Gas (LNG) Carriers (-1,206,304) and Other Vessels (-467,045).",
+     "error": null,
+     "requests": [
+      {
+       "cached": true,
+       "latency_ms": 118347.8,
+       "tokens": 4505
+      }
+     ]
+    },
+    "t2_w36": {
+     "answer": null,
+     "error": {
+      "kind": "server_error_repeated",
+      "text": "GoogleAPIError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}} | ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}"
+     },
+     "requests": [
+      {
+       "cached": true,
+       "latency_ms": null,
+       "tokens": null
+      }
+     ]
+    },
+    "t2_w51": {
+     "answer": "- Total billed SDR for week 51 was 6,226,751.\n- Total invoices for week 51 were 24.\n- Total billed SDR changed by -192,946 (-3.0%).\n- Positive drivers included Petroleum Product Tankers (+662,210) and Containerships (+242,713).\n- Negative drivers included Liquefied Natural Gas (LNG) Carriers (-387,262) and Vehicles Carriers (-370,625).",
+     "error": null,
+     "requests": [
+      {
+       "cached": true,
+       "latency_ms": 76821.8,
+       "tokens": 2397
+      }
+     ]
+    }
+   },
+   "T4": {
+    "t4_q01": {
+     "answer": "The initiating event for the casualty was the operator falling overboard into the ocean [1][2]. Causal factors contributing to this event included the operator's decision to boat alone and the suspected role of alcohol [1][2]. Other contributing factors included the operator not wearing a personal flotation device, not carrying an ACR ResQLink personal locator beacon, and the non-engagement of the engine kill switch [2]. Additionally, the vessel's condition and fishing activity were identified as contributing factors [2]. Specifically, frequent movement around the deck during fishing, combined with vessel motion and potentially wet surfaces, could have increased the risk of losing balance and falling overboard [4].",
+     "error": null,
+     "requests": [
+      {
+       "cached": true,
+       "latency_ms": 50413.9,
+       "tokens": 2632
+      }
+     ]
+    },
+    "t4_q02": {
+     "answer": "The Coast Guard determined that the F/V CAROL ANN sank and its crew died due to a loss of stability [6]. It is believed that quartering seas caused a wave to break over the gunwales, filling the well deck with water that the freeing ports were unable to drain [3]. This water, along with the shift of an unsecured fish box containing about 2,000 pounds of ice, caused a free surface effect that capsized the vessel [3]. The capsizing likely occurred too quickly for the crew to activate the EPIRB or retrieve lifejackets [3]. Contributing causal factors included the master's lack of prudent seamanship, the vessel's lack of stability and freeing port requirements, and the failure to have a Category 1 EPIRB [6].",
+     "error": null,
+     "requests": [
+      {
+       "cached": true,
+       "latency_ms": 60390.1,
+       "tokens": 3905
+      }
+     ]
+    },
+    "t4_q03": {
+     "answer": "No, the Coast Guard did not agree that every commercial fishing vessel should be required to carry AIS [1][2]. The District Commander did not concur with the recommendation, citing enforcement difficulties, potential interference with operational practices, and the cost burden for smaller operators [1]. The Commandant also did not concur, stating that the Coast Guard lacks the statutory authority under 46 USC § 70114 to mandate AIS on commercial, non-passenger vessels under sixty-five feet [2]. Additionally, the Commandant noted that the investigation did not clearly identify that current AIS requirements were insufficient and in need of an update [2].",
+     "error": null,
+     "requests": [
+      {
+       "cached": true,
+       "latency_ms": 45409.2,
+       "tokens": 3102
+      }
+     ]
+    },
+    "t4_q06": {
+     "answer": "Investigators recommended that the Commandant evaluate the dangers internal rubber conveyor belts pose to merchant mariners on self-discharging bulk carriers [1][2][3][4]. They noted that these belts pose a significant fire risk due to their potential for rapid fire spread and that current fire safety standards are insufficient [1][2][3][4]. This recommendation was based on incidents involving the Cuyahoga, Roger Blough, and St. Clair, where conveyor belts allowed fires to travel great distances and exacerbated firefighting efforts [1][2][3][4]. Investigators suggested evaluating regulatory standards and considering requirements similar to the Mine Safety and Health Administration's (MSHA) fire-resistance requirements [1][2][3][4]. Additionally, it was recommended that minimum standards for the fire-resistant properties of conveyor belts be established [5].",
+     "error": null,
+     "requests": [
+      {
+       "cached": true,
+       "latency_ms": 57360.4,
+       "tokens": 3527
+      }
+     ]
+    },
+    "t4_q27": {
+     "answer": "The World Bank measures how long containers stay in the port using container import dwell time [1][4]. This is defined as the time elapsed between the arrival of a full container shipment at a port and its departure from the port after the cargo has been cleared by customs [1]. For the 2025 LPI 2.0, this measurement is based on a dataset provided to the World Bank by a large global shipping line [2]. In this dataset, the unit of observation is the container [2]. For containers destined for landlocked developing countries (LLDCs), the \"dwell time at port of arrival\" is used, which is the same as container import dwell time but calculated only for containers destined for an LLDC [5].",
+     "error": null,
+     "requests": [
+      {
+       "cached": true,
+       "latency_ms": 55904.7,
+       "tokens": 2439
+      }
+     ]
+    },
+    "t4_q28": {
+     "answer": "To calculate how long ships stay in port (turnaround time), data from MarineTraffic is used [1][2][3][5][8]. This involves the MarineTraffic port call dataset, which is derived from Automatic Identification System (AIS) messages [2][3][5][8]. The AIS data is enriched with proprietary ship and port data from the International Maritime Organization registry [2][3][8]. Specifically, the calculation uses timestamped events of vessel arrivals and departures within geofenced port areas [2][3][8].",
+     "error": null,
+     "requests": [
+      {
+       "cached": true,
+       "latency_ms": 47876.4,
+       "tokens": 2306
+      }
+     ]
+    },
+    "t4_q31": {
+     "answer": "The basic liability limit for a freight forwarder is 666.67 SDR per package or unit, or 2 SDR per kilogram of gross weight, whichever is higher [1][3]. If the multimodal transport does not include carriage by sea or inland waterways, the limit is 8.33 SDR per kilogram of gross weight [1][2]. When loss or damage is attributed to a specific stage of transport, the limit is determined by the mandatory national or international law applicable to that stage [1][2]. Under COGSA, the liability limit is US$ 500 per package or customary freight unit, unless the nature and value of the goods were declared and the ad valorem freight rate paid [2]. If the Consignor declared the value of the goods and it was accepted by the Freight Forwarder, or the ad valorem freight rate was paid, the declared value serves as the limit [3].",
+     "error": null,
+     "requests": [
+      {
+       "cached": true,
+       "latency_ms": 59647.0,
+       "tokens": 3286
+      }
+     ]
+    },
+    "t4_q33": {
+     "answer": "Suez Canal transit dues can be paid in the US dollar (USD), Sterling Pound, Euro, Japanese Yen (JPY), Canadian Dollar (CAD), Swedish Krona, Danish Krone, Norwegian krone, Swiss Franc, or Chinese Yuan [1].",
+     "error": null,
+     "requests": [
+      {
+       "cached": false,
+       "latency_ms": 61608.0,
+       "tokens": 1818
+      }
+     ]
+    }
+   }
   },
   "groq/openai/gpt-oss-120b": {
    "T1": {
@@ -6191,7 +6500,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 1827.3,
        "tokens": 874
       }
@@ -6202,7 +6511,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 798.2,
        "tokens": 994
       }
@@ -6213,7 +6522,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 1077.4,
        "tokens": 973
       }
@@ -6224,7 +6533,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 910.6,
        "tokens": 1016
       }
@@ -6235,7 +6544,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 847.3,
        "tokens": 968
       }
@@ -6248,7 +6557,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 505.1,
        "tokens": 1966
       }
@@ -6259,7 +6568,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 865.9,
        "tokens": 3116
       }
@@ -6270,7 +6579,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 697.1,
        "tokens": 2525
       }
@@ -6281,7 +6590,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 642.0,
        "tokens": 2172
       }
@@ -6292,7 +6601,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 719.0,
        "tokens": 2301
       }
@@ -6303,7 +6612,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 555.8,
        "tokens": 2689
       }
@@ -6314,7 +6623,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 831.1,
        "tokens": 1908
       }
@@ -6325,7 +6634,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 435.1,
        "tokens": 1770
       }
@@ -6336,7 +6645,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 560.6,
        "tokens": 1675
       }
@@ -6347,7 +6656,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 677.2,
        "tokens": 1877
       }
@@ -6358,7 +6667,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 648.6,
        "tokens": 2718
       }
@@ -6369,7 +6678,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 695.2,
        "tokens": 2149
       }
@@ -6380,7 +6689,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 558.6,
        "tokens": 2013
       }
@@ -6391,7 +6700,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 772.0,
        "tokens": 2453
       }
@@ -6402,7 +6711,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 588.3,
        "tokens": 1994
       }
@@ -6413,7 +6722,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 746.7,
        "tokens": 2559
       }
@@ -6424,7 +6733,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 536.8,
        "tokens": 1877
       }
@@ -6435,7 +6744,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 600.5,
        "tokens": 2511
       }
@@ -6446,7 +6755,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 624.8,
        "tokens": 2646
       }
@@ -6457,7 +6766,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 641.5,
        "tokens": 1877
       }
@@ -6468,7 +6777,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 716.3,
        "tokens": 2050
       }
@@ -6479,7 +6788,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 666.0,
        "tokens": 1914
       }
@@ -6490,7 +6799,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 641.8,
        "tokens": 1769
       }
@@ -6501,7 +6810,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 573.8,
        "tokens": 1887
       }
@@ -6512,7 +6821,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 573.4,
        "tokens": 2386
       }
@@ -6523,7 +6832,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 536.5,
        "tokens": 2194
       }
@@ -6534,7 +6843,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 571.2,
        "tokens": 1637
       }
@@ -6545,7 +6854,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 467.1,
        "tokens": 1593
       }
@@ -6556,7 +6865,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 557.4,
        "tokens": 1518
       }
@@ -6567,7 +6876,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 758.6,
        "tokens": 1880
       }
@@ -6578,7 +6887,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 645.2,
        "tokens": 2367
       }
@@ -6589,7 +6898,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 611.5,
        "tokens": 1680
       }
@@ -6600,7 +6909,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 356.1,
        "tokens": 1455
       }
@@ -6611,7 +6920,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 449.1,
        "tokens": 1613
       }
@@ -6622,7 +6931,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 711.6,
        "tokens": 3320
       }
@@ -6633,7 +6942,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 588.3,
        "tokens": 3133
       }
@@ -6644,7 +6953,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 791.2,
        "tokens": 3119
       }
@@ -6655,7 +6964,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 542.9,
        "tokens": 1456
       }
@@ -6666,7 +6975,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 629.9,
        "tokens": 2311
       }
@@ -6677,7 +6986,7 @@
      "error": null,
      "requests": [
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 509.4,
        "tokens": 2790
       }
@@ -8894,15 +9203,277 @@
        "tokens": 899
       },
       {
-       "cached": false,
+       "cached": true,
        "latency_ms": 3981.2,
        "tokens": 1025
       }
      ]
+    },
+    "t1_kpi_1": {
+     "answer": "NileGate issued 15 Suez transit invoices in ISO week 14 of 2025.",
+     "calls": [
+      {
+       "name": "weekly_kpi",
+       "args": {
+        "iso_week": 14,
+        "metric": "invoice_count",
+        "vessel_category": "All"
+       }
+      }
+     ],
+     "requests": [
+      {
+       "cached": true,
+       "latency_ms": 3000.3,
+       "tokens": 882
+      },
+      {
+       "cached": true,
+       "latency_ms": 3121.5,
+       "tokens": 962
+      }
+     ]
+    },
+    "t1_kpi_2": {
+     "answer": "The total amount billed to cruise ships in week 30 of 2025 was 1,115,538.06 SDR.",
+     "calls": [
+      {
+       "name": "weekly_kpi",
+       "args": {
+        "iso_week": 30,
+        "metric": "billed_sdr",
+        "vessel_category": "Cruise Ships"
+       }
+      }
+     ],
+     "requests": [
+      {
+       "cached": true,
+       "latency_ms": 2903.6,
+       "tokens": 888
+      },
+      {
+       "cached": true,
+       "latency_ms": 3249.3,
+       "tokens": 994
+      }
+     ]
+    },
+    "t1_kpi_3": {
+     "answer": "The average invoice amount in ISO week 45 of 2025 was **272,346.12 SDR**.",
+     "calls": [
+      {
+       "name": "weekly_kpi",
+       "args": {
+        "iso_week": 45,
+        "metric": "mean_invoice_sdr",
+        "vessel_category": "All"
+       }
+      }
+     ],
+     "requests": [
+      {
+       "cached": true,
+       "latency_ms": 3637.7,
+       "tokens": 901
+      },
+      {
+       "cached": true,
+       "latency_ms": 5967.8,
+       "tokens": 998
+      }
+     ]
+    },
+    "t1_search_1": {
+     "answer": "According to the U.S. Coast Guard's Report of Investigation (MISLE 7895450, 2024-04-06), the operator of the recreational boat BIG STICK went overboard while engaged in solo fishing activity. The investigation determined that the initiating event was the operator falling overboard, with contributing causal factors including:\n\n- The operator's decision to embark on a solo fishing trip\n- The operator being under the influence of alcohol prior to departure\n- The operator not wearing a personal flotation device\n- The engine kill switch lanyard not being worn (it was attached to the switch but not to the operator)\n- Vessel motion and potentially wet surfaces during fishing activities increasing the risk of losing balance\n\nThe report notes that the operator had been actively fishing prior to the incident, and frequent movement around the deck during fishing activities, combined with vessel motion, could have led to the operator losing balance and falling overboard.",
+     "calls": [
+      {
+       "name": "search_documents",
+       "args": {
+        "query": "BIG STICK recreational boat operator overboard"
+       }
+      }
+     ],
+     "requests": [
+      {
+       "cached": true,
+       "latency_ms": 3431.5,
+       "tokens": 847
+      },
+      {
+       "cached": true,
+       "latency_ms": 5317.3,
+       "tokens": 2813
+      }
+     ]
+    },
+    "t1_search_2": {
+     "answer": "No. The Coast Guard explicitly did **not** agree to require AIS on every commercial fishing vessel. In its action on the recommendation (USCG ROI CAROL ANN, MISLE 7816410, 2023-10-14), the Commandant stated: \"I do not concur with this recommendation,\" noting that the Coast Guard currently lacks statutory authority under 46 USC § 70114 to mandate AIS on commercial, non-passenger vessels under 65 feet, and that it will not pursue a statutory amendment at this time.",
+     "calls": [
+      {
+       "name": "search_documents",
+       "args": {
+        "query": "Coast Guard AIS commercial fishing vessel requirement"
+       }
+      }
+     ],
+     "requests": [
+      {
+       "cached": true,
+       "latency_ms": 2243.3,
+       "tokens": 851
+      },
+      {
+       "cached": true,
+       "latency_ms": 3967.9,
+       "tokens": 3339
+      }
+     ]
     }
    },
-   "T3": {},
-   "T2": {},
+   "T3": {
+    "t3_01": {
+     "function_calling": {
+      "valid": false,
+      "why": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+      "requests": [
+       {
+        "cached": true,
+        "latency_ms": 2329.5,
+        "tokens": 793
+       }
+      ],
+      "exceptions": null
+     }
+    },
+    "t3_02": {
+     "function_calling": {
+      "valid": true,
+      "why": null,
+      "requests": [
+       {
+        "cached": true,
+        "latency_ms": 11657.2,
+        "tokens": 1155
+       }
+      ],
+      "exceptions": [
+       {
+        "invoice_number": "INV-9100201",
+        "issue": "overbilled",
+        "billed_sdr": 280779.14,
+        "expected_sdr": 253352.5
+       }
+      ]
+     }
+    },
+    "t3_03": {
+     "function_calling": {
+      "valid": true,
+      "why": null,
+      "requests": [
+       {
+        "cached": true,
+        "latency_ms": 11185.0,
+        "tokens": 1215
+       }
+      ],
+      "exceptions": [
+       {
+        "invoice_number": "INV-9100318",
+        "issue": "underbilled",
+        "billed_sdr": 375401.51,
+        "expected_sdr": 408637.5
+       },
+       {
+        "invoice_number": "INV-9100335",
+        "issue": "overbilled",
+        "billed_sdr": 127001.24,
+        "expected_sdr": 116150.0
+       }
+      ]
+     }
+    },
+    "t3_04": {
+     "function_calling": {
+      "valid": true,
+      "why": null,
+      "requests": [
+       {
+        "cached": true,
+        "latency_ms": 10657.0,
+        "tokens": 1258
+       }
+      ],
+      "exceptions": [
+       {
+        "invoice_number": "INV-9100436",
+        "issue": "underbilled",
+        "billed_sdr": 376005.51,
+        "expected_sdr": 401007.5
+       },
+       {
+        "invoice_number": "INV-9100449",
+        "issue": "underbilled",
+        "billed_sdr": 275262.23,
+        "expected_sdr": 287847.5
+       },
+       {
+        "invoice_number": "INV-9100486",
+        "issue": "underbilled",
+        "billed_sdr": 444789.01,
+        "expected_sdr": 457590.0
+       }
+      ]
+     }
+    }
+   },
+   "T2": {
+    "t2_w11": {
+     "answer": "- Week 11 recorded 22 invoices totaling 6,431,245 SDR, a -2.0% change (-132,489 SDR) versus week 10.  \n- Chemical Tankers & Other Liquid Bulk Tankers drove growth with 2 invoices and 691,784 SDR, up +691,784 SDR (n/a vs last week).  \n- Containerships fell sharply with 1 invoice and 352,484 SDR, down -1,064,914 SDR (-75.1%).  \n- Crude Oil Tankers led the increase with 3 invoices and 1,179,141 SDR, up +604,832 SDR (+105.3%).  \n- Petroleum Product Tankers dropped with 1 invoice and 307,814 SDR, down -1,262,262 SDR (-80.4%).",
+     "error": null,
+     "requests": [
+      {
+       "cached": true,
+       "latency_ms": 7209.2,
+       "tokens": 919
+      }
+     ]
+    },
+    "t2_w26": {
+     "answer": "- Week 26 of 2025 recorded 21 invoices totaling 5,456,983 SDR, up +838,487 SDR (+18.2%) from week 25.  \n- Dry Bulk Vessels led the increase with 3 invoices and 1,148,183 SDR (+732,170 SDR, +176.0%), followed by Crude Oil Tankers with 2 invoices and 669,386 SDR (+293,591 SDR, +78.1%).  \n- Containerships, Cruise Ships, Roll-On/Roll-Off (Ro/Ro) Vessels, and Special Floating Units returned with billing after no activity in week 25, contributing 537,517 SDR, 490,972 SDR, 239,026 SDR, and 824,160 SDR respectively.  \n- Liquefied Natural Gas (LNG) Carriers declined sharply with 1 invoice and 545,180 SDR (-1,206,304 SDR, -68.9%), while Chemical Tankers & Other Liquid Bulk Tankers fell to 1 invoice and 73,950 SDR (-216,118 SDR, -74.5%).  \n- Other Vessels and Vehicles Carriers recorded 0 invoices and 0 SDR, down -467,045 SDR (-100.0%) and -245,043 SDR (-100.0%) respectively compared to week 25.",
+     "error": null,
+     "requests": [
+      {
+       "cached": true,
+       "latency_ms": 9585.4,
+       "tokens": 1050
+      }
+     ]
+    },
+    "t2_w36": {
+     "answer": "- Week 36 recorded 20 invoices totaling 5,875,880 SDR, up +320,194 SDR (+5.8%) from week 35.  \n- Chemical Tankers & Other Liquid Bulk Tankers drove the increase with +284,664 SDR (+221.5%) on 2 invoices.  \n- Liquefied Natural Gas (LNG) Carriers returned with 1,812,215 SDR on 3 invoices, contributing the largest gain after no billing in week 35.  \n- Containerships fell -92,506 SDR (-20.8%) and Petroleum Product Tankers dropped -456,435 SDR (-63.6%), weighing on total growth.  \n- Crude Oil Tankers and General Cargo / Multi-Purpose / Heavy Lift Vessels both reported 0 SDR, down -838,727 SDR and -309,561 SDR respectively from week 35.",
+     "error": null,
+     "requests": [
+      {
+       "cached": true,
+       "latency_ms": 4559.8,
+       "tokens": 910
+      }
+     ]
+    },
+    "t2_w51": {
+     "answer": "- Week 51 recorded 24 invoices totaling 6,226,751 SDR, a decrease of 192,946 SDR (-3.0%) from week 50.  \n- Containerships and Petroleum Product Tankers drove the increase, with Containerships up 242,713 SDR (+38.9%) and Petroleum Product Tankers up 662,210 SDR (+295.3%).  \n- Crude Oil Tankers and General Cargo / Multi-Purpose / Heavy Lift Vessels saw the largest declines, with Crude Oil Tankers down 290,269 SDR (-100.0%) and General Cargo down 200,195 SDR (-80.0%).  \n- Liquefied Natural Gas (LNG) Carriers and Vehicles Carriers also contributed to the decline, falling 387,262 SDR (-32.9%) and 370,625 SDR (-36.0%) respectively.  \n- Roll-On/Roll-Off (Ro/Ro) Vessels and Special Floating Units showed modest movements, with Ro/Ro up 93,374 SDR (+46.4%) and Special Floating Units down 51,044 SDR (-13.1%).",
+     "error": null,
+     "requests": [
+      {
+       "cached": true,
+       "latency_ms": 7136.6,
+       "tokens": 966
+      }
+     ]
+    }
+   },
    "T4": {}
   }
  }

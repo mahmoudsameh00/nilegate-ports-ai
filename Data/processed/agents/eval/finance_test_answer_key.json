@@ -1,0 +1,53 @@
+{
+ "rules": "Agents plan §4a R7 (approved 2026-10-13); the finance_test tables carry no label",
+ "weeks": [
+  10,
+  23,
+  36,
+  49
+ ],
+ "clean_week": 49,
+ "findings": [
+  {
+   "iso_week": 10,
+   "invoice_number": "INV-0000626",
+   "error": "wrong_band_rate",
+   "billed_sdr": "58237.02",
+   "expected_sdr": "81837.02"
+  },
+  {
+   "iso_week": 10,
+   "invoice_number": "INV-0000498",
+   "error": "scnt_digit_swap",
+   "billed_sdr": "570916.67",
+   "expected_sdr": "570916.67"
+  },
+  {
+   "iso_week": 23,
+   "invoice_number": "INV-0000774",
+   "error": "laden_ballast_swap",
+   "billed_sdr": "181585.81",
+   "expected_sdr": "154392.76"
+  },
+  {
+   "iso_week": 23,
+   "invoice_number": "INV-9000292",
+   "error": "duplicate_invoice",
+   "duplicate_of": "INV-0000292",
+   "billed_sdr": "571503.74"
+  },
+  {
+   "iso_week": 36,
+   "invoice_number": "INV-0000769",
+   "error": "sfu_priced_ballast",
+   "billed_sdr": "275053.24",
+   "expected_sdr": "339417.08"
+  },
+  {
+   "iso_week": 36,
+   "error": "budget_miss",
+   "vessel_category": "Liquefied Natural Gas (LNG) Carriers",
+   "budget_factor": 1.5
+  }
+ ]
+}

@@ -86,7 +86,8 @@ ALIASES = {  # how a summary may name a category (driver coverage)
     "Roll-On/Roll-Off (Ro/Ro) Vessels": r"ro.?ro|roll.?on", "Special Floating Units": r"special floating|\bSFUs?\b",
     "Vehicles Carriers": r"vehicle"}
 TIE = 0.05
-LITE_ONLY = {"gemini/gemini-3.8-flash"}   # owner 2026-10-10: its free tier allows 20 requests / day (the 429 says so)
+LITE_ONLY = {"gemini/gemini-3.8-flash",   # owner 2026-10-10: its free tier allows 20 requests / day (the 429 says so)
+             "gemini/gemma-4-31b-it"}     # owner 2026-10-11: ~35 s median latency and intermittent 500s on the free tier
 UNAVAILABLE = {  # candidates the free API refuses for good (the reason is the provider's answer)
     "openrouter/thinkingmachines/inkling:free": "403 on 2026-10-10: 'only available on agentic harnesses'"}
 PACK = {"writer_insight": {"T2": 6, "T4": 3}, "tools": {"T1": 12, "T3": 4}}   # requests per simulated weekly pack

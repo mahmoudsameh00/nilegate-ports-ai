@@ -526,14 +526,19 @@ Never delete an entry; supersede it with a new one. Sources for older entries ar
   already). Self-test 12/12 (new check: `migration_has_ingested_at`).
 
 ## ADR-045 — LLM per agent role on free APIs (bake-off)
-- **Status:** **PROPOSED** (2026-10-11): 5 of 9 candidates complete; `gemma-4-31b-it` (could win the Tools tie-break),
-  `gemini-3.8-flash` and `poolside/laguna-s-2.1:free` still run on later days (resumed from the cache). Becomes
-  Accepted when `LLM_bakeoff.py` reports `status: FINAL` or the owner accepts it as is.
+- **Status:** **Accepted** (2026-10-12, owner) on a best-case bound: 6 of 9 candidates complete; the two incomplete
+  ones miss only T4 items (`gemini-3.8-flash` 4, `laguna-s-2.1:free` 1). Scoring every missing item as perfect gives
+  at most Writer 0.708 / Tools 0.938 (3.8 Flash; its T2 coverage 0.5 is final) and Writer 0.806 / Tools 0.875
+  (laguna), below the tie threshold (> 0.897 Writer, > 1.000 Tools), so no remaining result can change the
+  selection. The 5 items still run once (2026-10-13) for the record. Results file `llm_bakeoff_2026-10-12.json`.
+  (Was PROPOSED 2026-10-11; gemma's LITE finished after 15 runs: it ties the writer leaders but loses the tie-break
+  on packs per day.)
 - **Context:** Agents plan D1 (free APIs only, main + fallback per role) and §7a; rules fixed before any call (owner,
   2026-10-10). `pipelines/scripts/agents/LLM_bakeoff.py`, frozen tasks `Data/processed/agents/eval/bakeoff_tasks.json`
   (sha256 `ed6723f5…`: T1 20 tool-calling questions, T2 10 weekly KPI tables, T3 10 invoice-exception tables, T4 the
-  40 English golden questions with frozen top-8 passages; OpenRouter and `gemini-3.8-flash` run the stratified LITE
-  subset 8 / 4 / 4 / 8), results `llm_bakeoff_2026-10-11.json`. Deterministic scoring, no LLM judge.
+  40 English golden questions with frozen top-8 passages; OpenRouter, `gemini-3.8-flash` and `gemma-4-31b-it` run
+  the stratified LITE subset 8 / 4 / 4 / 8), results `llm_bakeoff_2026-10-12.json`. Deterministic scoring, no LLM
+  judge.
 - **Rule:** Writer / Insight = only models whose every T2 summary writes no number outside its table (strict: k / M
   and fewer decimals are the only rounding), score = mean(T2 driver coverage, T4 fact recall, T4 citation validity);
   Tools = mean(T1 accuracy, T3 validity × exactness with the model's best method); scores on LITE for every model; a
@@ -548,12 +553,14 @@ Never delete an entry; supersede it with a new one. Sources for older entries ar
   | Groq `openai/gpt-oss-20b` | 0.833 | pass | 0.938 | 0.500 / 1.000 | 111 | 1.5 s |
   | OpenRouter `nvidia/nemotron-3-super-120b-a12b:free` | 0.847 | pass | 0.938 | 0.667 / 1.000 | 5.6 | 11.8 s |
   | Groq `openai/gpt-oss-120b` | 0.653 | **fail** | 0.875 | 0.333 / 0.625 | — | 1.9 s |
-  | `gemini-3.8-flash`, `gemma-4-31b-it`, `laguna-s-2.1:free` | incomplete | — | partial 0.94–1.00 | — | 2.2 / ≥ 1.7 / 5.6 | — |
+  | Gemini `gemma-4-31b-it` (LITE) | 0.847 | pass | 0.938 | **0.792** / 1.000 | ≥ 8.9 | **76.7 s** |
+  | Gemini `gemini-3.8-flash` (LITE, 20 / 24) | ≤ 0.708 | pass | 0.938 | 0.500 / 0.750 (4 of 8) | 2.2 | — |
+  | OpenRouter `poolside/laguna-s-2.1:free` (LITE, 23 / 24) | ≤ 0.806 | pass | 0.875 | 0.762 / 0.571 (7 of 8) | 5.6 | — |
   | OpenRouter `thinkingmachines/inkling:free` | unavailable (403: "only available on agentic harnesses") | | | | | |
 
   Full sets (Gemini / Groq): `qwen3.8-27b` T1 0.95, T4 recall 0.594, citation 1.000; `gemini-3.5-flash-lite` T1
   1.00, T4 recall 0.457, citation 0.925; every model had 100 % T3 validity with at least one method.
-- **Decision (proposed):** **Writer / Insight:** main Groq `qwen/qwen3.8-27b`, fallback Gemini
+- **Decision:** **Writer / Insight:** main Groq `qwen/qwen3.8-27b`, fallback Gemini
   `gemini-3.5-flash-lite` (the four gated models tie within 2.1 points; Groq's 1,000 requests / day per model gives
   the most packs per day, then the fewest tokens per pack). **Tools / routing:** main Gemini `gemini-3.5-flash-lite`
   (1.000, the only model with every T1 item right on LITE), fallback Groq `openai/gpt-oss-20b`. Structured output
@@ -567,9 +574,35 @@ Never delete an entry; supersede it with a new one. Sources for older entries ar
     model size is no guarantee of number fidelity; the Phase 6 Validator stays a hard gate.
   - gpt-oss writes `【n†…】` citations unless trained away; accepted as citations, logged as `t4_format_ok`.
   - Gemini's free tier showed 5xx bursts ("high demand"), stopping a model for the run only; free endpoints are not
-    an availability guarantee, hence a fallback from another provider for every role.
+    an availability guarantee, hence a fallback from another provider for every role. `gemma-4-31b-it` answered in
+    5–74 s (median ≈ 35 s) with intermittent 500s → LITE only; a 5xx on the same request in two separate runs (each
+    after its retry) is cached as a failure (`server_error_repeated`), so a flaky model is scored, not waited for.
   - Data policy: every call went through `FREE_TIER_DATA` (synthetic aggregates, made-up invoices, public passages;
     ADR-037 amendment).
+  - Upgrade path (paid tier): `gemma-4-31b-it` had the best T4 fact recall (0.792) and passed the T2 gate, but its free
+    tier is too slow (writer median 76.7 s) and flaky; re-test it as a Writer candidate if the project moves to paid.
+
+## ADR-046 — Synthetic finance data for the Weekly Finance Pack; `invoices.status` is a label
+- **Status:** Accepted (2026-10-13 rules approved, 2026-10-14 migration 012 applied and verified). Agents plan §4a
+  R1–R10 (D6, amended). `pipelines/scripts/synthetic/Finance_generator.py`, `db/migrations/012_finance_data.sql`.
+- **Context:** the finance KPIs (AR aging, DSO, collections, customers, budget variance) need customers, terms,
+  payments and a budget, which did not exist. The stored `invoices.status` turned out to be a random label (689 of
+  1,000 not Paid, evenly over the four quarters): payments consistent with it would have shown DSO ≈ 250 days.
+- **Decision:** (1) **Payments follow terms and behaviour**; `invoices.status` is kept unchanged (ADR-013, no
+  regeneration) and documented by a COMMENT as the original label, not the payment state — every finance view derives
+  the status from the dates (as-of logic). (2) 40 invented customers in 6 segments, `vessels.customer_id` NOT NULL by
+  Zipf weights inside each segment; terms 30 / 45 / 60 and a credit rating are stored, the **behaviour class is not**
+  (manifest only: evaluation ground truth). (3) One full payment per paid invoice, horizon 2026-03-31; the due date is
+  derived, not stored. (4) Weekly budget = a planning model independent of the invoices (fleet × 2.0 transits ×
+  median-tonnage laden toll, seasonal ±6 %). (5) Evaluation copy in schema `finance_test` (4 golden weeks, 5 planted
+  invoice errors, 1 budget miss, week 49 clean) **without a label column**; the answer key is
+  `Data/processed/agents/eval/finance_test_answer_key.json`. (6) Names and draws from `numpy.default_rng([42,
+  phase])`, identical on every OS (not Faker). All new tables level 2 / Finance.
+- **Results:** top-10 customers 57.0 % of 2025 billing; DSO 55 days; 150 invoices (40.2 M SDR) open at 2025-12-31,
+  6 unpaid at the horizon; paid on or before due 36 % (owner kept); budget 302.1 M vs actual 267.9 M (−11.3 %,
+  explained by the laden assumption); label vs derived agree on 379 / 1,000. `verify_readonly.sql` §17 =
+  40 | 500 | 994 | 0 | 0 | 0 | 676 | 88 | 52, §14 / §15 clean (`db/audit/2026-10-14_after_012_report.txt`); a second
+  generator run with another hash seed changed 0 files.
 
 ---
 

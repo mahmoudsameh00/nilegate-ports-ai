@@ -64,9 +64,9 @@ Today the system is **data preparation plus the document retrieval tool**: pipel
 | Faker + seeds | synthetic | departments, roles, employees, vessels, containers, invoices | company data anchored to real ports and tariffs |
 | Live web search | live | agent tool (planned) | news, not corpus (ADR-011) |
 
-## 4. Database schema (PostgreSQL) — VERIFIED 2026-09-27 (after migrations 001–009)
+## 4. Database schema (PostgreSQL) — VERIFIED 2026-10-14 (after migrations 001–012)
 
-Source of truth: `db/schema_snapshot.sql`. Audit output: `db/audit/2026-09-27_after_006_009_report.txt`. Every table and column carries a COMMENT (migrations 008–009) that describes it for tools and agents. All tables are in `public`. `spatial_ref_sys` is a PostGIS system table: never drop it.
+Source of truth: `db/schema_snapshot.sql`. Audit outputs: `db/audit/2026-09-27_after_006_009_report.txt`, `db/audit/2026-10-14_after_012_report.txt` (§17 finance data). Every table and column carries a COMMENT (migrations 008–009, 012) that describes it for tools and agents. All tables are in `public` except the evaluation copy in schema `finance_test` (migration 012). `spatial_ref_sys` is a PostGIS system table: never drop it.
 
 | Table | Rows | Primary key | Columns (type, all NOT NULL unless marked `null`) |
 |---|---:|---|---|
@@ -76,7 +76,11 @@ Source of truth: `db/schema_snapshot.sql`. Audit output: `db/audit/2026-09-27_af
 | `departments` | 5 | `department_id` serial | department_name text UNIQUE, description text `null` |
 | `roles` | 3 | `role_id` serial | role_name text UNIQUE, allowed_sensitivity_level int |
 | `employees` | 100 | `employee_id` serial | first_name, last_name, email UNIQUE, role_id, department_id, hire_date date. No status column (ADR-017) |
-| `vessels` | 500 | `vessel_id` serial | imo_number varchar(7) UNIQUE, vessel_name, vessel_type, flag_country, scnt_tons numeric, origin_locode, destination_locode, condition, status, **mmsi varchar(9) UNIQUE** (CHECK `^[2-7][0-9]{8}$`; migrations 004–005, ADR-028) |
+| `vessels` | 500 | `vessel_id` serial | imo_number varchar(7) UNIQUE, vessel_name, vessel_type, flag_country, scnt_tons numeric, origin_locode, destination_locode, condition, status, **mmsi varchar(9) UNIQUE** (CHECK `^[2-7][0-9]{8}$`; migrations 004–005, ADR-028), **customer_id** → customers (migration 012, ADR-046) |
+| `customers` | 40 | `customer_id` int | customer_name UNIQUE (invented), country (HQ), segment ∈ {container, tanker, bulk, roro, cruise, agent}, payment_terms_days ∈ {30, 45, 60}, credit_rating ∈ {A, B, C}. Level 2 / Finance (migration 012, ADR-046) |
+| `payments` | 994 | `invoice_number` → invoices | paid_date date, amount_sdr numeric > 0 (= the invoice amount). One full payment per paid invoice, up to 2026-03-31; no row = unpaid. Level 2 / Finance |
+| `budget_weekly` | 676 | (`budget_year`, `iso_week`, `vessel_category`) | budget_sdr numeric ≥ 0; year 2025 only, weeks 1–52, the 13 categories. A planning model, not fitted to the invoices. Level 2 / Finance |
+| `finance_test.invoices` / `finance_test.budget_weekly` | 88 / 52 | `invoice_number` / as `budget_weekly` | evaluation copy of 4 golden weeks with planted errors and a budget miss; **no label column** (answer key outside the database). Level 2 / Finance |
 | `containers` | 1,000 | `container_id` serial | container_number varchar(11) UNIQUE, container_type, size_ft int, status, vessel_id, origin_locode, destination_locode |
 | `invoices` | 1,000 | `invoice_id` serial | invoice_number text UNIQUE, vessel_id, toll_rate_band_id `null`, invoice_date date, scnt_tons numeric, rate_sdr_per_ton numeric `null`, amount numeric, description `null`, status |
 | `documents` | 29 | `document_id` text | filename, title, source, real_or_synthetic, document_type, department_id → departments, sensitivity_level 1–3, version_date, ingestion_scope, source_url, sha256 UNIQUE, file_size_bytes, page_count, chunk_count, ingested_at, created_at. CHECKs: real_or_synthetic ∈ {real, synthetic}, sensitivity_level 1–3, file_size_bytes > 0, page_count > 0, chunk_count ≥ 0. Index on department_id. One row per raw file of the RAG corpus (6 sources + 23 USCG reports), filled by migration 010 (ADR-035); `ingested_at` = 2026-10-08 16:58:18+03 for all 29 (migration 011, the last full load of `nilegate_docs`) |
@@ -95,6 +99,9 @@ ports.locode ◄── vessels.origin_locode, destination_locode
 ports.locode ◄── containers.origin_locode, destination_locode
 vessels.vessel_id ◄── containers.vessel_id
 vessels.vessel_id ◄── invoices.vessel_id
+customers.customer_id ◄── vessels.customer_id                     (migration 012)
+invoices.invoice_number ◄── payments.invoice_number                (one payment per paid invoice)
+vessels.vessel_id ◄── finance_test.invoices.vessel_id
 toll_rate_bands.id ◄── invoices.toll_rate_band_id
 roles.role_id ◄── employees.role_id
 departments.department_id ◄── employees.department_id
@@ -108,7 +115,8 @@ port_connections.country1/2 = left(port1/2_locode, 2)             (ISO alpha-2 c
 - No orphan LOCODEs. Every container has the same origin/destination as its vessel.
 - `vessels.vessel_id = imo_number − 9000000` (load order matches the CSV).
 - Every `vessel_type` exists as a `vessel_category`. Toll bands are contiguous (each band's max equals the next band's min), and each (category, condition) has exactly one open-ended band. Special Floating Units have Laden bands only.
-- Invoices (ADR-004): `scnt_tons` = vessel SCNT; the band's category and condition match the vessel (SFU → Laden); `rate_sdr_per_ton` = rate of the terminal band; `amount` = full progressive sum (0 mismatches, max diff 0.01 from rounding). Dates are in 2025. Statuses: Issued 361 / Paid 311 / Pending 328.
+- Invoices (ADR-004): `scnt_tons` = vessel SCNT; the band's category and condition match the vessel (SFU → Laden); `rate_sdr_per_ton` = rate of the terminal band; `amount` = full progressive sum (0 mismatches, max diff 0.01 from rounding). Dates are in 2025. Statuses: Issued 361 / Paid 311 / Pending 328 — **a random label, not the payment state** (ADR-046: the payment state comes from `payments`; label and payments agree on 379 / 1,000).
+- Finance data (2026-10-14, `verify_readonly.sql` §17): every vessel has a customer of its segment; every payment equals its invoice amount, is dated on or after the invoice and on or before 2026-03-31; DSO at 2025-12-31 = 55 days; budget 302.1 M vs actual 267.9 M SDR.
 - Employees: 1 CEO (Operations), 2 managers per department, 89 employees. Emails are unique.
 - `vessels.mmsi` (2026-09-27, `verify_readonly.sql` §13): 500 non-null, unique, 9 digits; `mmsi = MID(flag_country) || lpad((vessel_id·7919 + 42) mod 10⁶, 6)`, the MID from `db/reference/flag_country_mid.csv` (one MID per flag). No MMSI equals a real one of the AIS samples.
 - Our identifiers are sequential, not checksummed: 50 / 500 `imo_number` pass the IMO check digit and 101 / 1,000 `container_number` pass ISO 6346. Kept as is (owner decision Q-A, 2026-09-27); check digits are enforced on real data only.
@@ -231,7 +239,7 @@ Added for the USCG notebook (2026-09-26, `uv add`): rapidocr 3.9.2 + onnxruntime
 Added for the semi-structured phase (2026-09-27, `uv add`): pymongo 4.18.2 (+ dnspython 2.8.0), searoute 1.6.0 (+ geojson 3.3.0; sea paths), global-land-mask 1.0.0 (land check). scipy is also used for the AIS routing (`scipy.sparse.csgraph`).
 Added for retrieval (2026-10-01 – 2026-10-08, `uv add`): qdrant-client 1.19.1, httpx 0.28.1 (every embedding / rerank API; no vendor SDK). scikit-learn also serves the IVF benchmark (KMeans).
 Added for inference-time uploads (2026-10-08, `uv add`): defusedxml 0.7.1 (untrusted DOCX XML), tokenizers 0.22.1 (local ONNX models; brings huggingface-hub, hf-xet, fsspec). The export of the local models (`tools/export_onnx.py`) needs torch / transformers / onnx only once, in a throwaway environment, not in the project.
-Added for the agents platform (2026-10-10, Agents plan Phase 0, `uv add`, all `==`): langchain-core 1.6.9, langchain 1.4.4, langgraph 1.2.14, langchain-google-genai 4.4.0 (+ google-genai), langchain-groq 1.1.3 (+ groq), langchain-openai 1.7.0 (OpenRouter's OpenAI-compatible endpoint; + openai, tiktoken), langgraph-checkpoint-postgres 3.1.2, psycopg-pool 3.3.3, pydantic 2.14.0 (was transitive 2.13.5), python-pptx 1.0.2, matplotlib 3.11.2, langsmith 0.14.7 — 49 packages installed, no existing pin changed. LLM access goes through `pipelines/agents/llm.py` (provider registry, model factory with temperature 0 and no library retries, per-minute budget, persisted daily quota state, response cache; free tiers accept only public / synthetic data, ADR-037 amendment); the model per role is ADR-045 (PROPOSED). Development skills for the coding assistant: 5 reviewed `langchain-ai/langchain-skills` in the local skills folder (`README_third_party.md`). Line endings of data files are pinned to LF by `.gitattributes` (their SHA-256 are verified).
+Added for the agents platform (2026-10-10, Agents plan Phase 0, `uv add`, all `==`): langchain-core 1.6.9, langchain 1.4.4, langgraph 1.2.14, langchain-google-genai 4.4.0 (+ google-genai), langchain-groq 1.1.3 (+ groq), langchain-openai 1.7.0 (OpenRouter's OpenAI-compatible endpoint; + openai, tiktoken), langgraph-checkpoint-postgres 3.1.2, psycopg-pool 3.3.3, pydantic 2.14.0 (was transitive 2.13.5), python-pptx 1.0.2, matplotlib 3.11.2, langsmith 0.14.7 — 49 packages installed, no existing pin changed. LLM access goes through `pipelines/agents/llm.py` (provider registry, model factory with temperature 0 and no library retries, per-minute budget, persisted daily quota state, response cache; free tiers accept only public / synthetic data, ADR-037 amendment); the model per role is ADR-045 (Accepted 2026-10-12). Development skills for the coding assistant: 5 reviewed `langchain-ai/langchain-skills` in the local skills folder (`README_third_party.md`). Line endings of data files are pinned to LF by `.gitattributes` (their SHA-256 are verified).
 
 ## 9. Major architectural decisions
 

@@ -39,6 +39,11 @@ Qdrant filter (conceptual): `sensitivity_level <= role_level OR (department == u
 | `roles` | 2 | IT | defines the permission system |
 | `employees` | 2 | HR | contains PII (names, emails). HR employees get access through their department |
 | `invoices` | 2 | Finance | financial data. Finance employees get access through their department |
+| `customers` | 2 | Finance | commercial terms and credit rating of the billed companies (migration 012, Agents plan §4a R8) |
+| `payments` | 2 | Finance | payments received per invoice (migration 012) |
+| `budget_weekly` | 2 | Finance | weekly budget 2025 per vessel category (migration 012) |
+| `finance_test.*` | 2 | Finance | evaluation copy with planted errors (migration 012); the answer key is outside the database |
+| `vessels.customer_id` | 1 | Operations | an id only (the vessels table stays level 1); the customer's details are level 2 |
 | `audit_log` (planned, API phase) | 3 | IT | security audit trail, CEO only |
 
 ## 3. Semi-structured (MongoDB, implemented 2026-09-27)
