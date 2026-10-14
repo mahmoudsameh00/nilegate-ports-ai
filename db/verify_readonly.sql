@@ -198,8 +198,8 @@ SELECT (SELECT count(*) FROM customers) AS customers,
 SELECT c.segment, count(DISTINCT c.customer_id) AS customers, count(v.vessel_id) AS vessels
 FROM customers c LEFT JOIN vessels v USING (customer_id) GROUP BY 1 ORDER BY 1;
 
-\echo '### 18. FINANCE VIEWS (migration 013, Agents plan Phase 2)'
--- expected: 12 | 0 | 0 | 455 | 52 | 1000 | 994 | 4 | 13
+\echo '### 18. FINANCE VIEWS (migrations 013-014, Agents plan Phases 2-3)'
+-- expected: 13 | 0 | 0 | 455 | 52 | 1000 | 994 | 4 | 13 | 598  (12 views before 014)
 SELECT (SELECT count(*) FROM pg_class WHERE relnamespace = 'finance'::regnamespace AND relkind = 'v') AS finance_views,
        (SELECT count(*) FROM pg_class c WHERE c.relnamespace = 'finance'::regnamespace AND c.relkind = 'v'
           AND obj_description(c.oid, 'pg_class') IS NULL) AS views_without_comment,
@@ -211,8 +211,9 @@ SELECT (SELECT count(*) FROM pg_class WHERE relnamespace = 'finance'::regnamespa
        (SELECT count(*) FROM finance.fact_invoice) AS fact_invoices,
        (SELECT count(*) FROM finance.fact_payment) AS fact_payments,
        (SELECT count(*) FROM finance.fact_invoice WHERE invoice_report_week IS NULL) AS invoices_in_2026_w01,
-       (SELECT count(*) FROM finance.kpi_weekly WHERE is_warmup) AS warmup_weeks;
--- expected 12 | 0 | 0: finance_bi reads the 12 views, writes nothing, reads nothing outside schema finance
+       (SELECT count(*) FROM finance.kpi_weekly WHERE is_warmup) AS warmup_weeks,
+       (SELECT count(*) FROM finance.kpi_weekly_trend) AS trend_rows;
+-- expected 13 | 0 | 0: finance_bi reads the 13 views, writes nothing, reads nothing outside schema finance
 -- (PostGIS grants SELECT on its own catalog objects to PUBLIC; they are excluded)
 SELECT count(*) FILTER (WHERE c.relnamespace = 'finance'::regnamespace AND has_table_privilege('finance_bi', c.oid, 'SELECT')) AS bi_finance_select,
        count(*) FILTER (WHERE has_table_privilege('finance_bi', c.oid, 'INSERT,UPDATE,DELETE,TRUNCATE')) AS bi_write,

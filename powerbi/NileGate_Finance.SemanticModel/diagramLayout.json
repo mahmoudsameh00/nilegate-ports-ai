@@ -1,0 +1,165 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 0,
+            "y": 38
+          },
+          "nodeIndex": "finance dim_customer",
+          "nodeLineageTag": "fae6d59c-4ee2-4e06-99e8-5319fc8137c7",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 284,
+            "y": 14
+          },
+          "nodeIndex": "finance dim_toll_band",
+          "nodeLineageTag": "8a9e79a3-8ecf-46ac-8e84-7eb35f6fc35f",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 568,
+            "y": 0
+          },
+          "nodeIndex": "finance dim_vessel",
+          "nodeLineageTag": "1fbd91f5-970e-4376-af20-f3cfa1105ee0",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 852,
+            "y": 26
+          },
+          "nodeIndex": "finance dim_week",
+          "nodeLineageTag": "f5056567-847f-408e-82b2-6d5a5f5e6c2d",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1136,
+            "y": 0
+          },
+          "nodeIndex": "finance fact_ar_snapshot",
+          "nodeLineageTag": "8d0b4fa9-184f-4c6d-96a1-ac7c91361aa7",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1420,
+            "y": 0
+          },
+          "nodeIndex": "finance fact_invoice",
+          "nodeLineageTag": "bae09c07-b77d-40d3-ba5e-13becc804d1a",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1704,
+            "y": 0
+          },
+          "nodeIndex": "finance fact_payment",
+          "nodeLineageTag": "dd3f938e-c811-45b4-8981-601bc5d22a3a",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1988,
+            "y": 0
+          },
+          "nodeIndex": "finance kpi_customer_13w",
+          "nodeLineageTag": "629091e2-6445-448e-848f-093304438ef9",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2272,
+            "y": 0
+          },
+          "nodeIndex": "finance kpi_overdue_list",
+          "nodeLineageTag": "9fed7837-6361-47a7-9977-446aca073cb5",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2556,
+            "y": 0
+          },
+          "nodeIndex": "finance kpi_weekly",
+          "nodeLineageTag": "5d506123-ff6e-4f0a-8d62-f6aa23f2ee68",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2840,
+            "y": 0
+          },
+          "nodeIndex": "finance kpi_weekly_category",
+          "nodeLineageTag": "c5edace7-f448-4590-89cf-ac63f60673ec",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

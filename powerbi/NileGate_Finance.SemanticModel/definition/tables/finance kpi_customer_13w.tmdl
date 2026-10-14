@@ -1,0 +1,165 @@
+table 'finance kpi_customer_13w'
+	lineageTag: 629091e2-6445-448e-848f-093304438ef9
+
+	column report_week
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 4f361514-61b4-41b1-b7e3-ea5ae760f1e2
+		summarizeBy: sum
+		sourceColumn: report_week
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_id
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: ba358efd-66f0-4dc1-b6e5-99ff79b6c153
+		summarizeBy: sum
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_name
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: 20b9a8d7-adff-4434-8396-fc202774001e
+		summarizeBy: none
+		sourceColumn: customer_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column segment
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: d13653fa-c782-4b07-9b99-8b2a57b1a447
+		summarizeBy: none
+		sourceColumn: segment
+
+		annotation SummarizationSetBy = Automatic
+
+	column country
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: aca7d6cb-d047-4bbe-91e3-9f511189d0f1
+		summarizeBy: none
+		sourceColumn: country
+
+		annotation SummarizationSetBy = Automatic
+
+	column credit_rating
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: fd5bda8e-4eb6-4bd5-a970-5dbdd9e93dd9
+		summarizeBy: none
+		sourceColumn: credit_rating
+
+		annotation SummarizationSetBy = Automatic
+
+	column payment_terms_days
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: aa20dca6-2819-4460-8072-7ad9be92f2a1
+		summarizeBy: sum
+		sourceColumn: payment_terms_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column billed_week_sdr
+		dataType: double
+		sourceProviderType: decimal
+		lineageTag: 7debb266-0d34-4b66-a4c4-b76ee1e5f6a2
+		summarizeBy: sum
+		sourceColumn: billed_week_sdr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column billed_13w_sdr
+		dataType: double
+		sourceProviderType: decimal
+		lineageTag: 38c16c11-df74-44bb-90f3-9aff0338c71e
+		summarizeBy: sum
+		sourceColumn: billed_13w_sdr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column share_13w_pct
+		dataType: double
+		sourceProviderType: decimal
+		lineageTag: da611a02-ec43-4435-b44d-4d60fcf37b4c
+		summarizeBy: sum
+		sourceColumn: share_13w_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column rank_13w
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: 4fbc1d1e-7dba-4254-bb6e-7da92760080b
+		summarizeBy: sum
+		sourceColumn: rank_13w
+
+		annotation SummarizationSetBy = Automatic
+
+	column rank_13w_prev
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: feb0a991-f75a-4f32-809a-a53d817ff2a6
+		summarizeBy: sum
+		sourceColumn: rank_13w_prev
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_top10
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: 929f187d-d808-4661-b7fa-24c914d7b30f
+		summarizeBy: none
+		sourceColumn: is_top10
+
+		annotation SummarizationSetBy = Automatic
+
+	column ar_sdr
+		dataType: double
+		sourceProviderType: decimal
+		lineageTag: 9c068928-12da-4039-9503-471617fff5cf
+		summarizeBy: sum
+		sourceColumn: ar_sdr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column overdue_sdr
+		dataType: double
+		sourceProviderType: decimal
+		lineageTag: e1261b21-a344-487f-be70-447a928ec7dc
+		summarizeBy: sum
+		sourceColumn: overdue_sdr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'finance kpi_customer_13w' = m
+		mode: directQuery
+		source =
+				let
+				  Source = PostgreSQL.Database("127.0.0.1:5432", "ports_logistics"),
+				  #"Navigation 1" = Source{[Schema = "finance", Item = "kpi_customer_13w"]}[Data]
+				in
+				  #"Navigation 1"
+
+	annotation PBI_ResultType = Table
+

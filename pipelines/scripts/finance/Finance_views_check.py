@@ -76,7 +76,8 @@ with pg() as conn:
                   "JOIN roles r USING (role_id) JOIN departments d USING (department_id)")
     V = {name: q(conn, f"SELECT * FROM finance.{name}") for name in
          ["dim_date", "dim_week", "dim_customer", "dim_vessel", "dim_toll_band", "fact_invoice", "fact_payment",
-          "fact_ar_snapshot", "kpi_weekly", "kpi_weekly_category", "kpi_customer_13w", "kpi_overdue_list"]}
+          "fact_ar_snapshot", "kpi_weekly", "kpi_weekly_category", "kpi_customer_13w", "kpi_overdue_list",
+          "kpi_weekly_trend"]}
     views_in_db = sorted(r[0] for r in conn.execute(
         "SELECT c.relname FROM pg_class c WHERE c.relnamespace = 'finance'::regnamespace AND c.relkind IN ('v', 'm', 'r')"))
     undocumented = conn.execute(
@@ -98,7 +99,7 @@ with pg() as conn:
 assert len(inv) == 1000 and len(ves) == 500 and len(cus) == 40 and len(pay) == 994 and len(bud) == 676, "base tables"
 print(f"inputs: {len(inv)} invoices, {len(pay)} payments, {len(cus)} customers, {len(bud)} budget rows, "
       f"{len(emp)} employees; views: " + ", ".join(f"{k} {len(v)}" for k, v in V.items()))
-print("✅ Phase 1 validation passed: base tables and 12 finance views read")
+print("✅ Phase 1 validation passed: base tables and 13 finance views read")
 
 
 # %% Phase 2 — Reference (pandas, from the base tables)
@@ -209,11 +210,11 @@ n_od = compare(V["kpi_overdue_list"][["report_week", "invoice_number", "amount_s
                ["report_week", "invoice_number"], "kpi_overdue_list")
 expected_views = ["dim_customer", "dim_date", "dim_toll_band", "dim_vessel", "dim_week", "fact_ar_snapshot",
                   "fact_invoice", "fact_payment", "kpi_customer_13w", "kpi_overdue_list", "kpi_weekly",
-                  "kpi_weekly_category"]
+                  "kpi_weekly_category", "kpi_weekly_trend"]
 assert views_in_db == expected_views, f"finance objects: {views_in_db}"
 assert tuple(undocumented) == (0, 0), f"views / columns without COMMENT: {undocumented}"
 print(f"compared: kpi_weekly 52 × {n_wk} columns, kpi_weekly_category 676 × {n_cat}, kpi_customer_13w 2080 × {n_cust}, "
-      f"kpi_overdue_list {len(ref_od)} × {n_od}; 12 views, every view and column documented")
+      f"kpi_overdue_list {len(ref_od)} × {n_od}; 13 views, every view and column documented")
 print("✅ Phase 3 validation passed: every KPI view equals the reference on all 52 weeks")
 
 
@@ -238,6 +239,15 @@ reviewed_inv = {"invoices_outside_report_weeks": 4, "their_dates": ["2025-12-29"
 assert roll < 0.05 and aging < 0.05 and overdue < 0.05 and cat_sum < 0.07, (roll, aging, overdue, cat_sum)  # ≤ n × half a cent
 assert abs(k.billed_sdr.sum() - fi.loc[fi.invoice_report_week.notna(), "amount_sdr"].sum()) < 0.3, "52 weeks ≠ ISO-2025 invoices"
 assert snapshot_inv == reviewed_inv, f"invariants snapshot changed: {snapshot_inv}"
+# kpi_weekly_trend (migration 014, M11): weeks w−12 … w of every report week, values identical to kpi_weekly
+tr = V["kpi_weekly_trend"]
+expected_pairs = {(w, t) for w in range(1, 53) for t in range(max(1, w - 12), w + 1)}
+assert set(zip(tr.report_week, tr.trend_week)) == expected_pairs and len(tr) == len(expected_pairs) == 598, "trend rows"
+trend_cols = ["invoices_billed", "billed_sdr", "collected_sdr", "ar_sdr", "overdue_sdr", "dso_days", "budget_sdr",
+              "budget_variance_sdr", "budget_variance_pct", "top10_share_13w_pct"]
+tm = tr.merge(V["kpi_weekly"], left_on="trend_week", right_on="report_week", suffixes=("", "_k"))
+assert all(((tm[c] - tm[f"{c}_k"]).abs().fillna(0) == 0).all() for c in trend_cols), "trend ≠ kpi_weekly"
+assert (tr.is_report_week == (tr.week_offset == 0)).all() and tr.week_offset.between(-12, 0).all()
 print(f"roll-forward max |diff| {roll:.3f}, aging − AR {aging:.3f}, overdue − buckets {overdue:.3f}, "
       f"Σ categories − total {cat_sum:.3f} (rounded inputs); {snapshot_inv}")
 print("✅ Phase 4 validation passed: invariants hold, the ISO edge is outside the report weeks")
@@ -315,12 +325,12 @@ assert "`finance.*`" in rbac_text, "the finance views are not registered in docs
 
 fin = privileges[privileges.schema == "finance"]
 pub = privileges[privileges.schema != "finance"]
-assert len(fin) == 12 and fin.bi_select.all() and not fin.bi_write.any() and fin.ro_select.all(), "finance grants"
+assert len(fin) == 13 and fin.bi_select.all() and not fin.bi_write.any() and fin.ro_select.all(), "finance grants"
 assert not pub.bi_select.any(), f"finance_bi can read outside finance: {pub[pub.bi_select].relname.tolist()}"
 print(f"RBAC matrix (role, granted) → employees: {matrix}; leakage {len(leak)}; denied {len(denied)} "
       f"(all role employee outside Finance)")
-print(f"privileges: finance_bi SELECT on {int(fin.bi_select.sum())} / 12 finance views, write 0, "
-      f"SELECT on {int(pub.bi_select.sum())} / {len(pub)} public + finance_test tables; ports_readonly reads all 12")
+print(f"privileges: finance_bi SELECT on {int(fin.bi_select.sum())} / 13 finance views, write 0, "
+      f"SELECT on {int(pub.bi_select.sum())} / {len(pub)} public + finance_test tables; ports_readonly reads all 13")
 print("✅ Phase 6 validation passed: non-Finance employees get nothing; finance_bi reads only schema finance")
 
 

@@ -32,7 +32,7 @@ level 2 / Finance (`docs/rbac_mapping.md`, ADR-006).
 | M8 | Concentration | Share of the top-10 customers in the trailing 13 weeks' billing (only customers with billing > 0 count) | `kpi_weekly.top10_share_13w_pct`; `kpi_customer_13w.is_top10` |
 | M9 | Budget variance | Absolute = billed − budget; % = (billed − budget) ÷ budget × 100; company total and per vessel category | `kpi_weekly.budget_variance_sdr` / `_pct`; `kpi_weekly_category.budget_variance_*` |
 | M10 | Week-over-week | (this week − previous week) ÷ previous week × 100, for billed, collected, AR, overdue; DSO as a difference in days; per category also the absolute change (the week's drivers = largest \|change\|) | `kpi_weekly.*_wow_pct`, `dso_wow_days`; `kpi_weekly_category.billed_wow_change_sdr`, `billed_wow_pct` |
-| M11 | 13-week trend | The rows of `kpi_weekly` for weeks w−12 … w (fewer at the start of the year); no separate view | `kpi_weekly` filtered |
+| M11 | 13-week trend | The rows of `kpi_weekly` for weeks w−12 … w (fewer at the start of the year) | `kpi_weekly` filtered, or `kpi_weekly_trend` (migration 014: one row per report week × trend week, for a slicer-driven chart) |
 
 Why a 13-week window for customers: a week has about 19 invoices, so a single week's "top 10" is almost every
 customer billed that week and its share means nothing.

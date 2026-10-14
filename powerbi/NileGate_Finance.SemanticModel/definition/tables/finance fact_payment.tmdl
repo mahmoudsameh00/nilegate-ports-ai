@@ -1,0 +1,129 @@
+table 'finance fact_payment'
+	lineageTag: dd3f938e-c811-45b4-8981-601bc5d22a3a
+
+	column invoice_number
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: cc7bd97a-0286-4cb4-b48f-c7fe595654b0
+		summarizeBy: none
+		sourceColumn: invoice_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column paid_date
+		dataType: dateTime
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: 91c4a72d-a138-4935-add2-45f06ba52f39
+		summarizeBy: none
+		sourceColumn: paid_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column paid_report_week
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 99b1aea5-03ed-45b3-b57a-a919baac31cc
+		summarizeBy: sum
+		sourceColumn: paid_report_week
+
+		annotation SummarizationSetBy = Automatic
+
+	column amount_sdr
+		dataType: double
+		sourceProviderType: decimal
+		lineageTag: 9b4dbf78-552a-4e17-b059-6451ea2a8a5e
+		summarizeBy: sum
+		sourceColumn: amount_sdr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column invoice_date
+		dataType: dateTime
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: 61999d2c-9555-4976-910a-f6169acdb788
+		summarizeBy: none
+		sourceColumn: invoice_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column due_date
+		dataType: dateTime
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: 6d9ee903-ea29-400f-9160-6ec3e567d616
+		summarizeBy: none
+		sourceColumn: due_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column customer_id
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: dae24cd2-2420-49f8-85a1-f0a195794505
+		summarizeBy: sum
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column vessel_id
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 8ee4fb87-8dab-4c8d-92da-cfe06e52c15f
+		summarizeBy: sum
+		sourceColumn: vessel_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column vessel_category
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: 64b86ed0-abb3-4a78-9981-10db6628e23f
+		summarizeBy: none
+		sourceColumn: vessel_category
+
+		annotation SummarizationSetBy = Automatic
+
+	column days_to_pay
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: d56a3957-3309-4396-9aea-0b03273ab81e
+		summarizeBy: sum
+		sourceColumn: days_to_pay
+
+		annotation SummarizationSetBy = Automatic
+
+	column days_paid_after_due
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: cbcfef08-8ad4-4bdf-9ea9-f393543c5654
+		summarizeBy: sum
+		sourceColumn: days_paid_after_due
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'finance fact_payment' = m
+		mode: directQuery
+		source =
+				let
+				  Source = PostgreSQL.Database("127.0.0.1:5432", "ports_logistics"),
+				  #"Navigation 1" = Source{[Schema = "finance", Item = "fact_payment"]}[Data]
+				in
+				  #"Navigation 1"
+
+	annotation PBI_ResultType = Table
+

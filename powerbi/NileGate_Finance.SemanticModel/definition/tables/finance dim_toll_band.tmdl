@@ -1,0 +1,94 @@
+table 'finance dim_toll_band'
+	lineageTag: 8a9e79a3-8ecf-46ac-8e84-7eb35f6fc35f
+
+	column toll_rate_band_id
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 25ff3acc-90bc-4a45-b234-e05e7264c8bc
+		summarizeBy: sum
+		sourceColumn: toll_rate_band_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column vessel_category
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: 96793396-1726-4ae6-bbb7-0dadca1d488c
+		summarizeBy: none
+		sourceColumn: vessel_category
+
+		annotation SummarizationSetBy = Automatic
+
+	column laden_ballast
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: 62d845b3-69ac-44ce-ad36-ac5318aca6a3
+		summarizeBy: none
+		sourceColumn: laden_ballast
+
+		annotation SummarizationSetBy = Automatic
+
+	column band_order
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: bdf54592-6270-41a9-a719-e7441bee887e
+		summarizeBy: sum
+		sourceColumn: band_order
+
+		annotation SummarizationSetBy = Automatic
+
+	column band_label
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: 73550e97-af9c-4964-afbd-ebb5da1eaa4a
+		summarizeBy: none
+		sourceColumn: band_label
+
+		annotation SummarizationSetBy = Automatic
+
+	column band_min_tons
+		dataType: double
+		sourceProviderType: decimal
+		lineageTag: 33faaac3-efdc-4f8e-b749-536a50d9f346
+		summarizeBy: sum
+		sourceColumn: band_min_tons
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column band_max_tons
+		dataType: double
+		sourceProviderType: decimal
+		lineageTag: a52e66b3-3e55-489b-aac2-91fc1dd99773
+		summarizeBy: sum
+		sourceColumn: band_max_tons
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column rate_sdr_per_ton
+		dataType: double
+		sourceProviderType: decimal
+		lineageTag: 92396200-1e9c-4c0c-8f56-384c99406de0
+		summarizeBy: sum
+		sourceColumn: rate_sdr_per_ton
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'finance dim_toll_band' = m
+		mode: directQuery
+		source =
+				let
+				  Source = PostgreSQL.Database("127.0.0.1:5432", "ports_logistics"),
+				  #"Navigation 1" = Source{[Schema = "finance", Item = "dim_toll_band"]}[Data]
+				in
+				  #"Navigation 1"
+
+	annotation PBI_ResultType = Table
+

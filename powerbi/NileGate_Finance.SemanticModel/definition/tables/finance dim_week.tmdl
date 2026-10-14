@@ -1,0 +1,89 @@
+table 'finance dim_week'
+	lineageTag: f5056567-847f-408e-82b2-6d5a5f5e6c2d
+
+	column report_week
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: fd690390-da2d-4466-a49b-5619dadc951a
+		summarizeBy: sum
+		sourceColumn: report_week
+
+		annotation SummarizationSetBy = Automatic
+
+	column iso_week_label
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: 9dc5dc9b-3165-4b65-a410-e27a267468c2
+		summarizeBy: none
+		sourceColumn: iso_week_label
+
+		annotation SummarizationSetBy = Automatic
+
+	column week_start
+		dataType: dateTime
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: 92ca5afe-7719-49ba-b42d-1b48c7af64a1
+		summarizeBy: none
+		sourceColumn: week_start
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column week_end
+		dataType: dateTime
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: 313317e7-4d06-4e6b-9180-e784e9841fe1
+		summarizeBy: none
+		sourceColumn: week_end
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column dso_window_start
+		dataType: dateTime
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: fb868bfc-91f3-4d68-915e-fc66a1bc342d
+		summarizeBy: none
+		sourceColumn: dso_window_start
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column dso_window_days
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 74bd7b37-3ef6-4082-8768-ede9e7c343df
+		summarizeBy: sum
+		sourceColumn: dso_window_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_warmup
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: 3db60b27-962d-4829-8182-475e89f001e8
+		summarizeBy: none
+		sourceColumn: is_warmup
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'finance dim_week' = m
+		mode: directQuery
+		source =
+				let
+				  Source = PostgreSQL.Database("127.0.0.1:5432", "ports_logistics"),
+				  #"Navigation 1" = Source{[Schema = "finance", Item = "dim_week"]}[Data]
+				in
+				  #"Navigation 1"
+
+	annotation PBI_ResultType = Table
+

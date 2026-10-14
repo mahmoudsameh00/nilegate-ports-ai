@@ -1,0 +1,337 @@
+table 'finance kpi_weekly'
+	lineageTag: 5d506123-ff6e-4f0a-8d62-f6aa23f2ee68
+
+	column report_week
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: e607eeab-d7db-4500-8cca-db244a18368f
+		summarizeBy: sum
+		sourceColumn: report_week
+
+		annotation SummarizationSetBy = Automatic
+
+	column iso_week_label
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: ee89c65e-6ea5-4556-b1d5-30ff5cb4de5d
+		summarizeBy: none
+		sourceColumn: iso_week_label
+
+		annotation SummarizationSetBy = Automatic
+
+	column week_start
+		dataType: dateTime
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: 938f9cfc-eacb-4cf8-b07b-44696630e9ae
+		summarizeBy: none
+		sourceColumn: week_start
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column week_end
+		dataType: dateTime
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: 657ad58b-4a47-4b5b-9a82-59e5e94e9612
+		summarizeBy: none
+		sourceColumn: week_end
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column is_warmup
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: 5c7a1dc2-e6f6-4eb7-bbd0-3c7a4a51b8eb
+		summarizeBy: none
+		sourceColumn: is_warmup
+
+		annotation SummarizationSetBy = Automatic
+
+	column invoices_billed
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: ac1f0ce7-502a-42ba-89b9-87501888befa
+		summarizeBy: sum
+		sourceColumn: invoices_billed
+
+		annotation SummarizationSetBy = Automatic
+
+	column billed_sdr
+		dataType: double
+		sourceProviderType: decimal
+		lineageTag: db73e6ef-d2ee-4e3c-ba03-f8b96de001a2
+		summarizeBy: sum
+		sourceColumn: billed_sdr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column payments_received
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: 0bb4c09d-b310-412a-9d1a-6220042c68c9
+		summarizeBy: sum
+		sourceColumn: payments_received
+
+		annotation SummarizationSetBy = Automatic
+
+	column collected_sdr
+		dataType: double
+		sourceProviderType: decimal
+		lineageTag: 17bf3ee9-67cb-4833-bb96-c584eee9bb35
+		summarizeBy: sum
+		sourceColumn: collected_sdr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ar_invoices
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: 3eb8690e-5091-480c-8118-54ecafbd6f66
+		summarizeBy: sum
+		sourceColumn: ar_invoices
+
+		annotation SummarizationSetBy = Automatic
+
+	column ar_sdr
+		dataType: double
+		sourceProviderType: decimal
+		lineageTag: de4fcc93-be32-4117-931e-5b7265c3759e
+		summarizeBy: sum
+		sourceColumn: ar_sdr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column overdue_invoices
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: cf19c324-02e3-4c5a-96f2-007aabd11ebe
+		summarizeBy: sum
+		sourceColumn: overdue_invoices
+
+		annotation SummarizationSetBy = Automatic
+
+	column overdue_sdr
+		dataType: double
+		sourceProviderType: decimal
+		lineageTag: 7e9d2250-e852-4504-8661-494eaa15023e
+		summarizeBy: sum
+		sourceColumn: overdue_sdr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column aging_current_sdr
+		dataType: double
+		sourceProviderType: decimal
+		lineageTag: bdaebc7e-3e56-4e7d-9cfe-1aef7d0ebdf3
+		summarizeBy: sum
+		sourceColumn: aging_current_sdr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column aging_1_30_sdr
+		dataType: double
+		sourceProviderType: decimal
+		lineageTag: 5ad01ce2-0aba-4546-8b56-36ad10997266
+		summarizeBy: sum
+		sourceColumn: aging_1_30_sdr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column aging_31_60_sdr
+		dataType: double
+		sourceProviderType: decimal
+		lineageTag: 6ae72316-582e-4488-8d17-b7b4a19bc627
+		summarizeBy: sum
+		sourceColumn: aging_31_60_sdr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column aging_61_90_sdr
+		dataType: double
+		sourceProviderType: decimal
+		lineageTag: b53fcb4e-2562-4e7b-9960-82beb6930233
+		summarizeBy: sum
+		sourceColumn: aging_61_90_sdr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column aging_90_plus_sdr
+		dataType: double
+		sourceProviderType: decimal
+		lineageTag: 72652860-cd19-46d7-9d7b-a45079e8e140
+		summarizeBy: sum
+		sourceColumn: aging_90_plus_sdr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column dso_window_days
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 1ec2346b-ff46-43d9-9149-b2a804bd545f
+		summarizeBy: sum
+		sourceColumn: dso_window_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column dso_window_billed_sdr
+		dataType: double
+		sourceProviderType: decimal
+		lineageTag: d0734b90-09db-4016-ade6-50df4eb45b5d
+		summarizeBy: sum
+		sourceColumn: dso_window_billed_sdr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column dso_days
+		dataType: double
+		sourceProviderType: decimal
+		lineageTag: 9d92a2da-1ac9-4cfc-8314-49212e65a66c
+		summarizeBy: sum
+		sourceColumn: dso_days
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column budget_sdr
+		dataType: double
+		sourceProviderType: decimal
+		lineageTag: 4a240095-3dbe-47bb-a558-d616eed001e6
+		summarizeBy: sum
+		sourceColumn: budget_sdr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column budget_variance_sdr
+		dataType: double
+		sourceProviderType: decimal
+		lineageTag: 3c64851d-1741-4028-a2b8-c4c7030873fa
+		summarizeBy: sum
+		sourceColumn: budget_variance_sdr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column budget_variance_pct
+		dataType: double
+		sourceProviderType: decimal
+		lineageTag: a0a2354f-3433-496d-a914-7e69d81a576d
+		summarizeBy: sum
+		sourceColumn: budget_variance_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column top10_share_13w_pct
+		dataType: double
+		sourceProviderType: decimal
+		lineageTag: e9e7057f-dfc9-4ce4-b92a-3d222b5aa0bb
+		summarizeBy: sum
+		sourceColumn: top10_share_13w_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column billed_wow_pct
+		dataType: double
+		sourceProviderType: decimal
+		lineageTag: b3fcac9d-8ec1-4a9a-8c01-7638ea9bb92d
+		summarizeBy: sum
+		sourceColumn: billed_wow_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column collected_wow_pct
+		dataType: double
+		sourceProviderType: decimal
+		lineageTag: 080a56cb-a9d2-424b-872b-6792bdf69659
+		summarizeBy: sum
+		sourceColumn: collected_wow_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ar_wow_pct
+		dataType: double
+		sourceProviderType: decimal
+		lineageTag: 71ec353e-8728-40c5-bba8-6e7cca8422fb
+		summarizeBy: sum
+		sourceColumn: ar_wow_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column overdue_wow_pct
+		dataType: double
+		sourceProviderType: decimal
+		lineageTag: f122fd63-cf6a-432c-9806-9f4e86cfab1b
+		summarizeBy: sum
+		sourceColumn: overdue_wow_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column dso_wow_days
+		dataType: double
+		sourceProviderType: decimal
+		lineageTag: a7057e6c-449e-4101-b1ad-fc2d8a49e2cb
+		summarizeBy: sum
+		sourceColumn: dso_wow_days
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'finance kpi_weekly' = m
+		mode: directQuery
+		source =
+				let
+				  Source = PostgreSQL.Database("127.0.0.1:5432", "ports_logistics"),
+				  #"Navigation 1" = Source{[Schema = "finance", Item = "kpi_weekly"]}[Data]
+				in
+				  #"Navigation 1"
+
+	annotation PBI_ResultType = Table
+

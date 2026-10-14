@@ -635,6 +635,9 @@ Never delete an entry; supersede it with a new one. Sources for older entries ar
   total hold; RBAC leakage 0 (72 role-`employee` users outside Finance denied); `finance_bi` reads 12 / 12 views and
   0 / 15 tables outside `finance`. A new metric = a new column or view in a new migration plus a definition in
   `docs/finance_metrics.md`.
+- **Amendment (2026-10-14, Phase 3, owner P3-4):** a 13th view `kpi_weekly_trend` (migration 014) gives each report
+  week its 13 trend rows, so Power BI's single week slicer drives the trend chart with no DAX (rejected: a
+  disconnected slicer table with DAX measures; a 52-week chart that ignores the slicer).
 
 ---
 

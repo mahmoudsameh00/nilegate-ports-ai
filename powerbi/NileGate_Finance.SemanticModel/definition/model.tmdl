@@ -1,0 +1,29 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	valueFilterBehavior: independent
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["finance dim_customer","finance dim_toll_band","finance dim_vessel","finance dim_week","finance fact_ar_snapshot","finance fact_invoice","finance fact_payment","finance kpi_customer_13w","finance kpi_overdue_list","finance kpi_weekly","finance kpi_weekly_category"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table 'finance dim_customer'
+ref table 'finance dim_toll_band'
+ref table 'finance dim_vessel'
+ref table 'finance dim_week'
+ref table 'finance fact_ar_snapshot'
+ref table 'finance fact_invoice'
+ref table 'finance fact_payment'
+ref table 'finance kpi_customer_13w'
+ref table 'finance kpi_overdue_list'
+ref table 'finance kpi_weekly'
+ref table 'finance kpi_weekly_category'
+
+ref cultureInfo en-US
+

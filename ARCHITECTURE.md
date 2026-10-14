@@ -87,7 +87,7 @@ Source of truth: `db/schema_snapshot.sql`. Audit outputs: `db/audit/2026-09-27_a
 
 `accepted_currencies` was dropped (migration 001, ADR-003).
 
-**Schema `finance` (migration 013, 2026-10-14, ADR-047)** — 12 plain views over the tables above (no stored data, no
+**Schema `finance` (migrations 013–014, 2026-10-14, ADR-047)** — 13 plain views over the tables above (no stored data, no
 materialized views; D4 / ADR-018), the only source of the Weekly Finance Pack KPIs (Power BI DirectQuery and the
 agent tools read them; definitions `docs/finance_metrics.md`). `report_week` 1–52 = ISO weeks of 2025, "as of" =
 Sunday 23:59; due date = invoice date + terms; payment state from `payments` only (never `invoices.status`).
@@ -104,6 +104,7 @@ Sunday 23:59; due date = invoice date + terms; payment state from `payments` onl
 | `kpi_weekly_category` | week × category, 676 | billed vs budget per category, WoW change (the week's drivers) |
 | `kpi_customer_13w` | week × customer, 2,080 | billing of the week / trailing 13 weeks, share, rank (+ previous), top-10 flag, AR, overdue |
 | `kpi_overdue_list` | overdue invoice × week, 1,532 | the overdue list ranked by amount, with customer and vessel names |
+| `kpi_weekly_trend` | report week × trend week, 598 | the 13-week trend of each report week (weeks w−12 … w), values = `kpi_weekly` (migration 014: lets one week slicer drive a trend chart) |
 
 Rounding once at the end of the KPI views (money 2 decimals, `*_pct` percent 2 decimals, days 1). Access: the views
 are level 2 / Finance (RBAC stays the tool predicate, ADR-006 / ADR-034); `ports_readonly` reads them; the group role

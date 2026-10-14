@@ -2239,6 +2239,158 @@ COMMENT ON COLUMN finance.kpi_weekly_category.billed_wow_pct IS 'Change vs the p
 
 
 --
+-- Name: kpi_weekly_trend; Type: VIEW; Schema: finance; Owner: -
+--
+
+CREATE VIEW finance.kpi_weekly_trend AS
+ SELECT s.report_week,
+    t.report_week AS trend_week,
+    (t.report_week - s.report_week) AS week_offset,
+    (t.report_week = s.report_week) AS is_report_week,
+    t.iso_week_label AS trend_week_label,
+    t.week_end AS trend_week_end,
+    t.is_warmup,
+    t.invoices_billed,
+    t.billed_sdr,
+    t.collected_sdr,
+    t.ar_sdr,
+    t.overdue_sdr,
+    t.dso_days,
+    t.budget_sdr,
+    t.budget_variance_sdr,
+    t.budget_variance_pct,
+    t.top10_share_13w_pct
+   FROM (finance.dim_week s
+     JOIN finance.kpi_weekly t ON (((t.report_week >= (s.report_week - 12)) AND (t.report_week <= s.report_week))));
+
+
+--
+-- Name: VIEW kpi_weekly_trend; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON VIEW finance.kpi_weekly_trend IS 'The 13-week trend of each report week (M11): one row per (report_week, trend_week) for the weeks w−12 … w (fewer in weeks 1–12), values from kpi_weekly. Filter report_week, chart over trend_week. Level 2, Finance.';
+
+
+--
+-- Name: COLUMN kpi_weekly_trend.report_week; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.kpi_weekly_trend.report_week IS 'The report week the trend belongs to (filter on this)';
+
+
+--
+-- Name: COLUMN kpi_weekly_trend.trend_week; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.kpi_weekly_trend.trend_week IS 'A week inside the trend window (chart axis)';
+
+
+--
+-- Name: COLUMN kpi_weekly_trend.week_offset; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.kpi_weekly_trend.week_offset IS 'trend_week − report_week: −12 … 0';
+
+
+--
+-- Name: COLUMN kpi_weekly_trend.is_report_week; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.kpi_weekly_trend.is_report_week IS 'True on the report week itself (offset 0)';
+
+
+--
+-- Name: COLUMN kpi_weekly_trend.trend_week_label; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.kpi_weekly_trend.trend_week_label IS 'ISO label of the trend week, e.g. 2025-W23';
+
+
+--
+-- Name: COLUMN kpi_weekly_trend.trend_week_end; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.kpi_weekly_trend.trend_week_end IS 'Sunday of the trend week';
+
+
+--
+-- Name: COLUMN kpi_weekly_trend.is_warmup; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.kpi_weekly_trend.is_warmup IS 'The trend week is a warm-up week (1–13)';
+
+
+--
+-- Name: COLUMN kpi_weekly_trend.invoices_billed; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.kpi_weekly_trend.invoices_billed IS 'kpi_weekly.invoices_billed of the trend week';
+
+
+--
+-- Name: COLUMN kpi_weekly_trend.billed_sdr; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.kpi_weekly_trend.billed_sdr IS 'kpi_weekly.billed_sdr of the trend week (SDR)';
+
+
+--
+-- Name: COLUMN kpi_weekly_trend.collected_sdr; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.kpi_weekly_trend.collected_sdr IS 'kpi_weekly.collected_sdr of the trend week (SDR)';
+
+
+--
+-- Name: COLUMN kpi_weekly_trend.ar_sdr; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.kpi_weekly_trend.ar_sdr IS 'kpi_weekly.ar_sdr of the trend week (SDR)';
+
+
+--
+-- Name: COLUMN kpi_weekly_trend.overdue_sdr; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.kpi_weekly_trend.overdue_sdr IS 'kpi_weekly.overdue_sdr of the trend week (SDR)';
+
+
+--
+-- Name: COLUMN kpi_weekly_trend.dso_days; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.kpi_weekly_trend.dso_days IS 'kpi_weekly.dso_days of the trend week';
+
+
+--
+-- Name: COLUMN kpi_weekly_trend.budget_sdr; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.kpi_weekly_trend.budget_sdr IS 'kpi_weekly.budget_sdr of the trend week (SDR)';
+
+
+--
+-- Name: COLUMN kpi_weekly_trend.budget_variance_sdr; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.kpi_weekly_trend.budget_variance_sdr IS 'kpi_weekly.budget_variance_sdr of the trend week (SDR)';
+
+
+--
+-- Name: COLUMN kpi_weekly_trend.budget_variance_pct; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.kpi_weekly_trend.budget_variance_pct IS 'kpi_weekly.budget_variance_pct of the trend week (percent)';
+
+
+--
+-- Name: COLUMN kpi_weekly_trend.top10_share_13w_pct; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.kpi_weekly_trend.top10_share_13w_pct IS 'kpi_weekly.top10_share_13w_pct of the trend week (percent)';
+
+
+--
 -- Name: budget_weekly; Type: TABLE; Schema: finance_test; Owner: -
 --
 

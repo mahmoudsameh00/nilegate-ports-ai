@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "NileGate_Finance"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "c68784e8-82dc-402e-b706-3b4ad0db05e3"
+  }
+}
