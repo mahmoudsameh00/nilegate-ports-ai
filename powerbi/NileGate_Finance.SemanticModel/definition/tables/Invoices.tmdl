@@ -1,12 +1,14 @@
-table 'finance fact_invoice'
+/// finance.fact_invoice: one row per invoice, with derived due date; week = invoice_report_week.
+table Invoices
 	lineageTag: bae09c07-b77d-40d3-ba5e-13becc804d1a
 
 	column invoice_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		sourceProviderType: int
 		lineageTag: f1291115-7af6-4975-abc6-371c825bb1d1
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: invoice_id
 
 		annotation SummarizationSetBy = Automatic
@@ -34,30 +36,33 @@ table 'finance fact_invoice'
 
 	column invoice_report_week
 		dataType: int64
+		isHidden
 		formatString: 0
 		sourceProviderType: int
 		lineageTag: 650373ec-6211-44df-8eef-42425059b880
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: invoice_report_week
 
 		annotation SummarizationSetBy = Automatic
 
 	column customer_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		sourceProviderType: int
 		lineageTag: 7142c3da-7b46-49ce-913a-fbf2ac254d0e
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: customer_id
 
 		annotation SummarizationSetBy = Automatic
 
 	column vessel_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		sourceProviderType: int
 		lineageTag: 4b8c6ed6-0a55-4dba-b666-af0804e9e0bb
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: vessel_id
 
 		annotation SummarizationSetBy = Automatic
@@ -82,19 +87,21 @@ table 'finance fact_invoice'
 
 	column toll_rate_band_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		sourceProviderType: int
 		lineageTag: d3bfe0fb-adbf-480a-9757-a978a5d0faba
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: toll_rate_band_id
 
 		annotation SummarizationSetBy = Automatic
 
 	column scnt_tons
 		dataType: double
+		isHidden
 		sourceProviderType: decimal
 		lineageTag: 3786dc81-d169-435d-a58c-e2f83442f185
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: scnt_tons
 
 		annotation SummarizationSetBy = Automatic
@@ -105,7 +112,7 @@ table 'finance fact_invoice'
 		dataType: double
 		sourceProviderType: decimal
 		lineageTag: 486bac82-b095-4bf8-9800-fecb4d5fde72
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: rate_sdr_per_ton
 
 		annotation SummarizationSetBy = Automatic
@@ -114,9 +121,10 @@ table 'finance fact_invoice'
 
 	column amount_sdr
 		dataType: double
+		isHidden
 		sourceProviderType: decimal
 		lineageTag: 41fa68cb-8f59-402d-bfec-634e01424fb2
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: amount_sdr
 
 		annotation SummarizationSetBy = Automatic
@@ -128,7 +136,7 @@ table 'finance fact_invoice'
 		formatString: 0
 		sourceProviderType: int
 		lineageTag: 59b7bddd-417e-43eb-b2af-d9f6addf0f45
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: payment_terms_days
 
 		annotation SummarizationSetBy = Automatic
@@ -162,7 +170,7 @@ table 'finance fact_invoice'
 		formatString: 0
 		sourceProviderType: int
 		lineageTag: 4d19daa5-a940-4136-93f7-3b3486359fbe
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: days_to_pay
 
 		annotation SummarizationSetBy = Automatic
@@ -172,7 +180,7 @@ table 'finance fact_invoice'
 		formatString: 0
 		sourceProviderType: int
 		lineageTag: 1ae34c97-5129-4b0e-b861-abcfa6270acd
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: days_paid_after_due
 
 		annotation SummarizationSetBy = Automatic

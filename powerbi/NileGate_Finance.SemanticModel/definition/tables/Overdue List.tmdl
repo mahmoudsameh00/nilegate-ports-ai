@@ -1,12 +1,14 @@
-table 'finance kpi_overdue_list'
+/// finance.kpi_overdue_list: open invoices past due at the end of each report week.
+table 'Overdue List'
 	lineageTag: 9fed7837-6361-47a7-9977-446aca073cb5
 
 	column report_week
 		dataType: int64
+		isHidden
 		formatString: 0
 		sourceProviderType: int
 		lineageTag: fa6132bf-50d7-465b-98c9-a545de7ce48d
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: report_week
 
 		annotation SummarizationSetBy = Automatic
@@ -34,10 +36,11 @@ table 'finance kpi_overdue_list'
 
 	column customer_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		sourceProviderType: int
 		lineageTag: dd54cf19-1709-4fec-ae77-fe3fd1c087dc
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: customer_id
 
 		annotation SummarizationSetBy = Automatic
@@ -53,10 +56,11 @@ table 'finance kpi_overdue_list'
 
 	column vessel_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		sourceProviderType: int
 		lineageTag: 95bb658a-fd72-4129-a509-3332fa4b5643
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: vessel_id
 
 		annotation SummarizationSetBy = Automatic
@@ -105,9 +109,10 @@ table 'finance kpi_overdue_list'
 
 	column amount_sdr
 		dataType: double
+		formatString: #,0
 		sourceProviderType: decimal
 		lineageTag: bb4a785e-7b47-47be-bbcc-5fe2dfc58404
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: amount_sdr
 
 		annotation SummarizationSetBy = Automatic
@@ -119,7 +124,7 @@ table 'finance kpi_overdue_list'
 		formatString: 0
 		sourceProviderType: int
 		lineageTag: 2eab7543-3423-48e9-a9a0-239af9f384f3
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: days_past_due
 
 		annotation SummarizationSetBy = Automatic
@@ -138,7 +143,7 @@ table 'finance kpi_overdue_list'
 		formatString: 0
 		sourceProviderType: bigint
 		lineageTag: 184c9602-687c-403c-b2d5-3985cc29484c
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: rank_by_amount
 
 		annotation SummarizationSetBy = Automatic

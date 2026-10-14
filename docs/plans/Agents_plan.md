@@ -447,8 +447,45 @@ rate limits (ai.google.dev); FP&A reporting time (vendor case studies). Vendor f
   `014_finance_trend_view.sql` (`finance.kpi_weekly_trend`, 598 rows), applied by the assistant with the owner's approval;
   `Finance_views_check.py` 7 / 7 ✅ (trend rows = kpi_weekly), §18 = 13 | 0 | 0 | 455 | 52 | 1000 | 994 | 4 | 13 |
   598 and 13 | 0 | 0, 0 errors (`db/audit/2026-10-14_after_014_report.txt`); ADR-047 amendment.
+- 2026-10-14 — **Phase 3 model built through the Power BI Modeling MCP** (owner accepted the EULA in chat; the assistant
+  connected to the Desktop instance). (1) Table `kpi_weekly_trend` added (DirectQuery, same M) — first query failed
+  with `The key didn't match any rows`: Desktop had been opened before migration 014 and the M engine caches the
+  source's navigation table for the session; fixed by save + reopen (privileges were fine: `finance_bi` / `ports_bi`
+  SELECT = t). 598 rows, week 23 → 13, week 5 → 5. (2) 18 relationships as in the handoff, many → one, single
+  direction, **Assume referential integrity off** on purpose (an INNER JOIN would drop the 4 invoices of 2026-W01 and
+  the 152 payments paid in 2026); dims checked unique first; no `dim_vessel → dim_customer` (would make ambiguous
+  paths). **Owner decisions (P3-5…P3-8):** friendly table names (Weekly KPIs, Category KPIs, Weekly Trend, Customer
+  KPIs 13w, Overdue List, Invoices, Payments, AR Snapshot, Week, Customer, Vessel, Toll Band; the source view in each
+  description); all measures in `Weekly KPIs`, display folders 1 Overview / 2 Revenue / 3 Receivables / 4 Customers /
+  5 Trend; the proposed measure list (36); every column `summarizeBy = None` (161), keys / technical / measured KPI
+  columns hidden (69); `Week[iso_week_label]` sorted by `report_week`, `AR Snapshot[aging_bucket]` by its order.
+  Measure rules: week-grain KPIs = `SELECTEDVALUE` of the `kpi_weekly` column (blank over several weeks; percent ÷ 100);
+  semi-additive tables (AR Snapshot, Overdue List, Customer KPIs 13w, Weekly Trend) guarded by
+  `HASONEVALUE(Week[report_week])`; additive facts (Invoices, Payments) plain SUM. No KPI logic in DAX (ADR-047).
+  Checked by DAX through the MCP for weeks 5 / 23 / 49: facts via relationships = `kpi_weekly` (billed, collected,
+  AR, overdue, category variance) to the cent, DSO 31.0 / 62.2 / 53.6, warm-up note only on week 5; with no week
+  selected the semi-additive measures are blank. **Saving:** Ctrl+S did not write MCP changes while Desktop showed
+  "relationships modified, need to be refreshed manually"; after *Refresh now* (metadata only, DirectQuery) File →
+  Save wrote the TMDL (22:40): `relationships.tmdl`, 12 renamed table files, 36 measures; no credentials in
+  `powerbi/`. Cosmetic leftovers: relationship names auto-generated from the old `finance …` table names; the
+  `PBI_QueryOrder` annotation in `model.tmdl` still lists the old query names (Desktop rewrites it).
 
-### SESSION HANDOFF (2026-10-14, Phase 3 in progress) — read this first in the next session
+### SESSION HANDOFF (2026-10-14, Phase 3 model done) — read this first in the next session
+
+- **State:** the semantic model is complete and saved in `powerbi/` (12 tables, 18 relationships, 36 measures in
+  `Weekly KPIs`, display folders per page; see Progress 2026-10-14 "Phase 3 model built"). Verified by DAX for weeks
+  5 / 23 / 49 = `kpi_weekly`. Owner to commit (the assistant never runs git).
+- **Next (the assistant guides, owner builds by hand — the MCP cannot build report visuals):** the 5 pages of §2, one page
+  at a time: a `Week[iso_week_label]` single-select slicer on every page (synced); (1) Overview: cards for the folder
+  "1 Overview" measures + WoW / variance, `Warm-up Note`; (2) Revenue: `Revenue SDR` by vessel category, laden /
+  ballast (`Invoices[priced_condition]`), band, route + `Trend Billed SDR` over `Weekly Trend[trend_week_label]`;
+  (3) Receivables: `AR by Bucket SDR` by `AR Snapshot[aging_bucket]`, DSO, `Collections SDR`, the Overdue List table;
+  (4) Customers: top 10 from `Customer KPIs 13w` (`is_top10`, `rank_13w`), `Top10 Share 13w %`; (5) Exceptions:
+  placeholder until the Auditor tool (Phase 4 / 7). Before closing Desktop after MCP edits: clear the "refresh
+  manually" banner, then File → Save, and check file times in `powerbi/`. Done when the page numbers for weeks 5, 23,
+  49 = `kpi_weekly` (then close Phase 3: ROADMAP, ARCHITECTURE §, ADR if needed).
+
+### SESSION HANDOFF (2026-10-14, Phase 3 in progress)
 
 - **State:** Phase 3 steps 1–3 done (Power BI Desktop 2.158 installed; login `ports_bi` in `finance_bi`, 11 / 11
   PASS; `powerbi/NileGate_Finance.pbip` saved with 11 DirectQuery tables, no relationships; migration 014

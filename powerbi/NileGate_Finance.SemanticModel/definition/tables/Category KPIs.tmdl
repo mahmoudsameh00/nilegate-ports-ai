@@ -1,12 +1,14 @@
-table 'finance kpi_weekly_category'
+/// finance.kpi_weekly_category: billed vs budget per report week and vessel category.
+table 'Category KPIs'
 	lineageTag: c5edace7-f448-4590-89cf-ac63f60673ec
 
 	column report_week
 		dataType: int64
+		isHidden
 		formatString: 0
 		sourceProviderType: int
 		lineageTag: 08bc6e00-56d6-45d4-9781-643d0b32fa51
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: report_week
 
 		annotation SummarizationSetBy = Automatic
@@ -25,16 +27,17 @@ table 'finance kpi_weekly_category'
 		formatString: 0
 		sourceProviderType: bigint
 		lineageTag: 415d294e-5dfe-43b5-a17c-65f24f319709
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: invoices_billed
 
 		annotation SummarizationSetBy = Automatic
 
 	column billed_sdr
 		dataType: double
+		formatString: #,0
 		sourceProviderType: decimal
 		lineageTag: 190815f1-11c1-4135-a02e-3be69cc96681
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: billed_sdr
 
 		annotation SummarizationSetBy = Automatic
@@ -43,9 +46,10 @@ table 'finance kpi_weekly_category'
 
 	column budget_sdr
 		dataType: double
+		isHidden
 		sourceProviderType: decimal
 		lineageTag: d6611ed3-078b-429d-8c66-33519d3348e1
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: budget_sdr
 
 		annotation SummarizationSetBy = Automatic
@@ -54,9 +58,10 @@ table 'finance kpi_weekly_category'
 
 	column budget_variance_sdr
 		dataType: double
+		isHidden
 		sourceProviderType: decimal
 		lineageTag: 6e5f7558-6f6e-49bd-bbc6-4be2419281e1
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: budget_variance_sdr
 
 		annotation SummarizationSetBy = Automatic
@@ -67,7 +72,7 @@ table 'finance kpi_weekly_category'
 		dataType: double
 		sourceProviderType: decimal
 		lineageTag: 8bc2789f-ec4d-4531-a52f-bdffa3dd83fe
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: budget_variance_pct
 
 		annotation SummarizationSetBy = Automatic
@@ -76,9 +81,10 @@ table 'finance kpi_weekly_category'
 
 	column billed_prev_sdr
 		dataType: double
+		formatString: #,0
 		sourceProviderType: decimal
 		lineageTag: f828337f-6e6f-412f-b582-e15f1f5537a1
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: billed_prev_sdr
 
 		annotation SummarizationSetBy = Automatic
@@ -87,9 +93,10 @@ table 'finance kpi_weekly_category'
 
 	column billed_wow_change_sdr
 		dataType: double
+		formatString: #,0
 		sourceProviderType: decimal
 		lineageTag: a2da7b31-6675-4f6f-bfd2-2faf51c25ed7
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: billed_wow_change_sdr
 
 		annotation SummarizationSetBy = Automatic
@@ -100,7 +107,7 @@ table 'finance kpi_weekly_category'
 		dataType: double
 		sourceProviderType: decimal
 		lineageTag: ece134d4-01cc-4ac1-8030-e6eb6c389bb3
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: billed_wow_pct
 
 		annotation SummarizationSetBy = Automatic

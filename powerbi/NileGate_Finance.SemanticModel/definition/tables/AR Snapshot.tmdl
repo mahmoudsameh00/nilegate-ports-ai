@@ -1,12 +1,14 @@
-table 'finance fact_ar_snapshot'
+/// finance.fact_ar_snapshot: open invoices as of each report week's Sunday (semi-additive: one week at a time).
+table 'AR Snapshot'
 	lineageTag: 8d0b4fa9-184f-4c6d-96a1-ac7c91361aa7
 
 	column report_week
 		dataType: int64
+		isHidden
 		formatString: 0
 		sourceProviderType: int
 		lineageTag: 20fba0f7-2a24-432c-92b8-a12f49f21cd2
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: report_week
 
 		annotation SummarizationSetBy = Automatic
@@ -58,20 +60,22 @@ table 'finance fact_ar_snapshot'
 
 	column customer_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		sourceProviderType: int
 		lineageTag: 9019a60d-5584-439a-bae5-0c6bb4ffec9d
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: customer_id
 
 		annotation SummarizationSetBy = Automatic
 
 	column vessel_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		sourceProviderType: int
 		lineageTag: 2c60056f-b5b0-4610-abae-e5bf8e7b5480
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: vessel_id
 
 		annotation SummarizationSetBy = Automatic
@@ -87,9 +91,10 @@ table 'finance fact_ar_snapshot'
 
 	column amount_sdr
 		dataType: double
+		isHidden
 		sourceProviderType: decimal
 		lineageTag: e66b9073-d9fa-438d-a9d3-6f569811208d
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: amount_sdr
 
 		annotation SummarizationSetBy = Automatic
@@ -101,7 +106,7 @@ table 'finance fact_ar_snapshot'
 		formatString: 0
 		sourceProviderType: int
 		lineageTag: fedb8e6f-f6e6-4bc6-a6df-70b0bb3dc68b
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: days_past_due
 
 		annotation SummarizationSetBy = Automatic
@@ -122,15 +127,17 @@ table 'finance fact_ar_snapshot'
 		lineageTag: c7be3ecb-5cee-4312-b868-9867dcabf39e
 		summarizeBy: none
 		sourceColumn: aging_bucket
+		sortByColumn: aging_bucket_order
 
 		annotation SummarizationSetBy = Automatic
 
 	column aging_bucket_order
 		dataType: int64
+		isHidden
 		formatString: 0
 		sourceProviderType: int
 		lineageTag: 8155f6b2-c048-494e-b900-b59fc77cd4fd
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: aging_bucket_order
 
 		annotation SummarizationSetBy = Automatic

@@ -1,12 +1,14 @@
-table 'finance dim_customer'
+/// finance.dim_customer
+table Customer
 	lineageTag: fae6d59c-4ee2-4e06-99e8-5319fc8137c7
 
 	column customer_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		sourceProviderType: int
 		lineageTag: 01151f63-a42d-49db-aa66-6602d1d381aa
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: customer_id
 
 		annotation SummarizationSetBy = Automatic
@@ -43,7 +45,7 @@ table 'finance dim_customer'
 		formatString: 0
 		sourceProviderType: int
 		lineageTag: 88485f30-8b65-4a4c-8087-765f8078d55f
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: payment_terms_days
 
 		annotation SummarizationSetBy = Automatic

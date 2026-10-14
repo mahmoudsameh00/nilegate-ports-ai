@@ -1,4 +1,5 @@
-table 'finance fact_payment'
+/// finance.fact_payment: one row per payment; week = paid_report_week.
+table Payments
 	lineageTag: dd3f938e-c811-45b4-8981-601bc5d22a3a
 
 	column invoice_number
@@ -24,19 +25,21 @@ table 'finance fact_payment'
 
 	column paid_report_week
 		dataType: int64
+		isHidden
 		formatString: 0
 		sourceProviderType: int
 		lineageTag: 99b1aea5-03ed-45b3-b57a-a919baac31cc
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: paid_report_week
 
 		annotation SummarizationSetBy = Automatic
 
 	column amount_sdr
 		dataType: double
+		isHidden
 		sourceProviderType: decimal
 		lineageTag: 9b4dbf78-552a-4e17-b059-6451ea2a8a5e
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: amount_sdr
 
 		annotation SummarizationSetBy = Automatic
@@ -69,20 +72,22 @@ table 'finance fact_payment'
 
 	column customer_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		sourceProviderType: int
 		lineageTag: dae24cd2-2420-49f8-85a1-f0a195794505
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: customer_id
 
 		annotation SummarizationSetBy = Automatic
 
 	column vessel_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		sourceProviderType: int
 		lineageTag: 8ee4fb87-8dab-4c8d-92da-cfe06e52c15f
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: vessel_id
 
 		annotation SummarizationSetBy = Automatic
@@ -98,10 +103,11 @@ table 'finance fact_payment'
 
 	column days_to_pay
 		dataType: int64
+		isHidden
 		formatString: 0
 		sourceProviderType: int
 		lineageTag: d56a3957-3309-4396-9aea-0b03273ab81e
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: days_to_pay
 
 		annotation SummarizationSetBy = Automatic
@@ -111,7 +117,7 @@ table 'finance fact_payment'
 		formatString: 0
 		sourceProviderType: int
 		lineageTag: cbcfef08-8ad4-4bdf-9ea9-f393543c5654
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: days_paid_after_due
 
 		annotation SummarizationSetBy = Automatic

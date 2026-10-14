@@ -1,4 +1,5 @@
-table 'finance dim_week'
+/// finance.dim_week: the 52 ISO report weeks of 2025; the one week slicer of every page.
+table Week
 	lineageTag: f5056567-847f-408e-82b2-6d5a5f5e6c2d
 
 	column report_week
@@ -6,7 +7,7 @@ table 'finance dim_week'
 		formatString: 0
 		sourceProviderType: int
 		lineageTag: fd690390-da2d-4466-a49b-5619dadc951a
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: report_week
 
 		annotation SummarizationSetBy = Automatic
@@ -17,6 +18,7 @@ table 'finance dim_week'
 		lineageTag: 9dc5dc9b-3165-4b65-a410-e27a267468c2
 		summarizeBy: none
 		sourceColumn: iso_week_label
+		sortByColumn: report_week
 
 		annotation SummarizationSetBy = Automatic
 
@@ -61,7 +63,7 @@ table 'finance dim_week'
 		formatString: 0
 		sourceProviderType: int
 		lineageTag: 74bd7b37-3ef6-4082-8768-ede9e7c343df
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: dso_window_days
 
 		annotation SummarizationSetBy = Automatic

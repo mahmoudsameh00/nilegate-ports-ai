@@ -1,12 +1,14 @@
-table 'finance dim_vessel'
+/// finance.dim_vessel (with port names)
+table Vessel
 	lineageTag: 1fbd91f5-970e-4376-af20-f3cfa1105ee0
 
 	column vessel_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		sourceProviderType: int
 		lineageTag: fb87f699-1d9c-4ce6-8420-bb63d5dae0c3
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: vessel_id
 
 		annotation SummarizationSetBy = Automatic
@@ -51,7 +53,7 @@ table 'finance dim_vessel'
 		dataType: double
 		sourceProviderType: decimal
 		lineageTag: f984367a-4bad-4cef-90dd-d9fd5ae2def1
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: scnt_tons
 
 		annotation SummarizationSetBy = Automatic
@@ -114,10 +116,11 @@ table 'finance dim_vessel'
 
 	column customer_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		sourceProviderType: int
 		lineageTag: bf2f3bf8-8438-47f2-8372-23bd80950cae
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: customer_id
 
 		annotation SummarizationSetBy = Automatic
