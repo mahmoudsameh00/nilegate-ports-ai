@@ -8,7 +8,7 @@ Reads:   .env (GEMINI_API_KEY, GROQ_API_KEY, OPENROUTER_API_KEY; a missing key =
 Writes:  Data/processed/agents/eval/llm_cache/ (git-ignored): the cached replies + usage.json / quota_state.json
 Re-run:  safe; replies come from the cache (0 generation calls after the first run). Not part of `tools/run.py all`.
 
-Data:    the prompt is a public arithmetic question (data_origin "public", ADR-037 amendment).
+Data:    the prompt is a public arithmetic question.
 
 Checks per provider
 1. live model list: how many models, which §7a candidates are served (a vanished one is reported, not called);
@@ -74,7 +74,7 @@ def check_provider(provider: str, client: httpx.Client, quota: llm.QuotaState) -
         m = llm.LLM(provider, model, quota=quota)
         MODELS.append(m)
         try:
-            reply = m.invoke(MESSAGES, data_origin="public", tools=[add])
+            reply = m.invoke(MESSAGES, tools=[add])
         except llm.Exhausted as e:
             print(f"   {model}: not called — {e}")
             out["tried"].append((model, "exhausted"))

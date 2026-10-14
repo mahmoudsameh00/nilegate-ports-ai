@@ -49,7 +49,7 @@ The agents scripts (Agents plan, Phase 0) are not in `run.py all` either (free L
 `pipelines/agents/llm.py`: the provider registry (Gemini / Groq / OpenRouter), the model factory (LangChain chat
 models, temperature 0, no library retries), the per-minute `Budget`, the persisted daily quota state and the response
 cache `Data/processed/agents/eval/llm_cache/` (git-ignored): a re-run makes 0 calls, a quota-exhausted model waits for
-the provider's next day, and a free tier accepts only `data_origin` "public" or "synthetic" (ADR-037 amendment).
+the provider's next day; no data guard (all project data is synthetic or public, ADR-037 amendment 2).
 
 The retrieval scripts are not in `run.py all` (they call paid / rate-limited APIs or need `ports-qdrant`). They share
 `pipelines/lib/` (ADR-039): `common`, `chunks`, `embeddings`, `qdrant_store`, `evaluation` (ADR-040: retrieval /

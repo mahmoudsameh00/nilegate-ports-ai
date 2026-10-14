@@ -17,8 +17,8 @@ Re-run:  safe and resumable: the tasks file is never rebuilt (its hash is assert
 Rules (fixed before any model call)
 - Tasks and expected answers are written and frozen (SHA-256) BEFORE any model call: the first run stops after
   Phase 2; Phase 3 refuses to start until TASKS_SHA256 equals the file's hash.
-- Data policy (ADR-037 amendment): T1–T3 send synthetic aggregates / made-up invoices (no rows of the real tables,
-  no names), T4 public document passages; `llm.LLM.invoke` refuses anything else on a free tier.
+- Data: T1–T3 send synthetic aggregates / made-up invoices, T4 public document passages (the bake-off ran with the
+  ADR-037 amendment's guard; amendment 2, 2026-10-14, removed it: the project's data is synthetic or public).
 - T1 tool calling (20: 8 compute_toll, 8 weekly_kpi, 4 search_documents): right tool, right arguments, right final
   number (search: the final answer states a fact of the frozen passages). Tools run locally and deterministically;
   in T1, search_documents returns the item's frozen passages whatever the query.
@@ -547,7 +547,7 @@ def run_t1(m: llm.LLM, item: dict) -> dict:
     msgs = [SystemMessage(tasks["prompts"]["T1_system"]), HumanMessage(item["question"])]
     calls, info = [], []
     for _ in range(3):
-        r = m.invoke(msgs, data_origin="synthetic", tools=TOOLS)
+        r = m.invoke(msgs, tools=TOOLS)
         info.append(call_info(r))
         if not r.ok:
             return {"error": r.error, "calls": calls, "answer": None, "requests": info}
@@ -563,8 +563,7 @@ def run_t1(m: llm.LLM, item: dict) -> dict:
 
 
 def run_t2(m: llm.LLM, item: dict) -> dict:
-    r = m.invoke([SystemMessage(tasks["prompts"]["T2_system"]), HumanMessage(item["table"])],
-                 data_origin="synthetic")
+    r = m.invoke([SystemMessage(tasks["prompts"]["T2_system"]), HumanMessage(item["table"])])
     return {"answer": visible(llm.message_text(r.message)) if r.ok else None, "error": r.error,
             "requests": [call_info(r)]}
 
@@ -573,7 +572,7 @@ def run_t3(m: llm.LLM, item: dict) -> dict:
     out = {}
     for method in METHODS[m.provider]:
         r = m.invoke([SystemMessage(tasks["prompts"]["T3_system"]), HumanMessage(item["table"])],
-                     data_origin="synthetic", schema=ExceptionsReport, method=method)
+                     schema=ExceptionsReport, method=method)
         parsed, why = llm.parse_structured(r, ExceptionsReport)
         out[method] = {"valid": parsed is not None, "why": why, "requests": [call_info(r)],
                        "exceptions": [e.model_dump() for e in parsed.exceptions] if parsed else None}
@@ -583,7 +582,7 @@ def run_t3(m: llm.LLM, item: dict) -> dict:
 def run_t4(m: llm.LLM, item: dict) -> dict:
     msgs = [SystemMessage(tasks["prompts"]["T4_system"]),
             HumanMessage(f"Passages:\n\n{format_passages(item['passages'])}\n\nQuestion: {item['question']}")]
-    r = m.invoke(msgs, data_origin="public")
+    r = m.invoke(msgs)
     return {"answer": visible(llm.message_text(r.message)) if r.ok else None, "error": r.error,
             "requests": [call_info(r)]}
 

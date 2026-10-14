@@ -220,7 +220,7 @@ count (label vs derived) is reported, not enforced. → ADR at the end of Phase 
 | D10 Infrastructure | `psycopg_pool` now; Redis and DirectML stay deferred |
 | D11 External tools | web search (news), IMF PortWatch, live AIS (aisstream.io), marine weather (Open-Meteo); no SDR-rate tool |
 | D12 Clock | replay of 2025's 52 weeks (`report_week`) |
-| Data policy | **ADR-037 amendment:** synthetic and public data may go to free tiers, minimized (aggregates instead of rows where possible, no employee names); real company data → paid tiers only |
+| Data policy | **ADR-037 amendment:** synthetic and public data may go to free tiers, minimized (aggregates instead of rows where possible, no employee names); real company data → paid tiers only. **Superseded 2026-10-14 (amendment 2, owner):** no data guard — every dataset is synthetic or public, the free APIs are used as if paid; uploads: `GEMINI_TIER=paid` in `.env` |
 | Plan shape | one plan, two stages (Stage 2 = B + C) |
 | D13 Runtime skills (2026-10-10) | Agent Skills (`SKILL.md` standard) written by us in `pipelines/agents/skills/` + our own small loader (workflow nodes load their fixed skill; the supervisor gets `load_skill`); no Deep Agents dependency for now |
 | D14 Development skills (2026-10-10) | install the official `langchain-ai/langchain-skills` (LangGraph / core) in the local skills folder at Phase 0, after a review (licence, pinned commit, every file read) |
@@ -390,7 +390,10 @@ rate limits (ai.google.dev); FP&A reporting time (vendor case studies). Vendor f
 - 2026-10-14 — **Phase 1 CLOSED.** Owner applied 012 (all counts as generated), refreshed `schema_snapshot.sql`, ran
   the audit: §17 = 40 | 500 | 994 | 0 | 0 | 0 | 676 | 88 | 52, 0 errors; §14 / §15 clean except
   `tables_never_analyzed = 13` (an unclean Docker shutdown reset the statistics → `ANALYZE`). Done-when of §5
-  Phase 1 met (invariants pass, reload = no change). ADR-046 written. **Next: Phase 2** (`finance` schema: star views
+  Phase 1 met (invariants pass, reload = no change). ADR-046 written.
+- 2026-10-14 — **Data guard removed (owner):** "the data is not real and not private, an educational project — treat
+  it as a paid tier, no blocks". ADR-037 amendment 2; `llm.py` no longer takes `data_origin` (smoke test re-run:
+  0 calls, cache keys unchanged); uploads opened by `GEMINI_TIER=paid` in `.env` (owner adds it). **Next: Phase 2** (`finance` schema: star views
   + KPI views per `report_week`, `docs/finance_metrics.md`). Bake-off for the record: 3.8 Flash 21 / 24, laguna 23 / 24
   (selection unchanged; results `llm_bakeoff_2026-10-13.json`).
 
@@ -405,6 +408,13 @@ rate limits (ai.google.dev); FP&A reporting time (vendor case studies). Vendor f
   variance), then a migration 013; done when every KPI equals a hand-computed value on 3 chosen weeks and a non-Finance
   employee gets nothing. Still pending: the owner's review of §8a (G1–G6, PROPOSED); the last 5 bake-off T4 items
   (record only).
+- **Also decided on 2026-10-14:** no data guard (ADR-037 amendment 2: all data synthetic / public, used as if paid;
+  `llm.py` has no `data_origin`); chat in **Egyptian colloquial Arabic only** (owner asked many times — no MSA).
+- **Environment notes:** Docker Desktop stops on reboots / sleep → start it, `docker start ports-postgres ports-qdrant`
+  (owner may have set `--restart unless-stopped`), wait for `pg_isready -U postgres`; after an unclean shutdown the
+  planner statistics are reset → owner runs `ANALYZE`. Owner actions still open: `GEMINI_TIER=paid` in `.env`;
+  delete the superseded bake-off results `llm_bakeoff_2026-10-11.json` and `llm_bakeoff_2026-10-13.json` (ADR-045
+  cites `llm_bakeoff_2026-10-12.json`); empty `Notebooks\_scratch\`.
 - **Earlier handoff (2026-10-12):** Phase 0 is CLOSED (2026-10-12) — ADR-045 Accepted. **Next (assistant): Phase 1** — first show the owner the
   concrete generation rules of the finance data (§4: customers ~40, payment terms 30 / 45 / 60, payment behaviour
   classes, `vessels.customer_id`, payments consistent with the end-of-2025 status, `budget_weekly` rule, labelled

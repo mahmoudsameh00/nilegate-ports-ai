@@ -265,6 +265,13 @@ Never delete an entry; supersede it with a new one. Sources for older entries ar
   (`FREE_TIER_DATA`), and the upload path already requires `GEMINI_TIER=paid` for non-public or personal documents
   (RAG plan Q5). OpenRouter privacy settings: free endpoints that may train stay allowed (synthetic data only),
   "publish prompts" stays off.
+- **Amendment 2 (2026-10-14, owner decision) — supersedes the data-policy amendment above:** this is an educational
+  project and every dataset in it is synthetic or public, so **no data guard**: the free APIs are used as if they
+  were paid tiers. The `data_origin` refusal was removed from `pipelines/agents/llm.py` (the bake-off of ADR-045 ran
+  with it; its cache keys never included it, so nothing re-runs). The upload approval gate (ADR-044, Q5) is opened by
+  configuration, not code: `GEMINI_TIER=paid` in `.env` (its self-test still tests the refusal by removing the variable
+  for that one check). Sending aggregates instead of rows stays a habit for token cost, not a rule. If real company data
+  ever enters the project, this amendment must be revisited first.
 
 ## ADR-038 — Retrieval defaults: exact dense search + Jina reranker; no hybrid, no context shaping
 - **Status:** Accepted (2026-10-08). RAG plan Phase 7, decided by the ADR-040 rule (fixed before the run);
@@ -577,8 +584,8 @@ Never delete an entry; supersede it with a new one. Sources for older entries ar
     an availability guarantee, hence a fallback from another provider for every role. `gemma-4-31b-it` answered in
     5–74 s (median ≈ 35 s) with intermittent 500s → LITE only; a 5xx on the same request in two separate runs (each
     after its retry) is cached as a failure (`server_error_repeated`), so a flaky model is scored, not waited for.
-  - Data policy: every call went through `FREE_TIER_DATA` (synthetic aggregates, made-up invoices, public passages;
-    ADR-037 amendment).
+  - Data policy: every bake-off call went through `FREE_TIER_DATA` (synthetic aggregates, made-up invoices, public
+    passages; ADR-037 amendment); the guard was removed afterwards by ADR-037 amendment 2 (2026-10-14).
   - Upgrade path (paid tier): `gemma-4-31b-it` had the best T4 fact recall (0.792) and passed the T2 gate, but its free
     tier is too slow (writer median 76.7 s) and flaky; re-test it as a Writer candidate if the project moves to paid.
 

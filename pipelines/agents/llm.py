@@ -3,8 +3,8 @@
 - Providers: free APIs only (D1) — Google AI Studio, Groq, OpenRouter (its OpenAI-compatible endpoint). The models are
   the LangChain chat classes the agents will use, with temperature 0 and **max_retries=0**: retries are decided here,
   never inside the client library.
-- Data policy (ADR-037 amendment): every call states its `data_origin`; free tiers accept only "public" or
-  "synthetic" (minimized: aggregates, not rows; no employee names). Anything else is refused before any request.
+- Data policy (ADR-037 amendment 2, owner 2026-10-14): no data guard — every dataset of this educational project is
+  synthetic or public, so the providers are used as if they were paid tiers.
 - Response cache: key = SHA-256 of everything sent (provider, model, parameters, messages, tool schemas, structured
   output schema + method). One append-only JSONL per model under Data/processed/agents/eval/llm_cache/ (git-ignored);
   a re-run makes 0 calls. Deterministic failures (bad request, unknown model) are cached too; quota, rate-limit,
@@ -38,7 +38,6 @@ from pipelines.lib.embeddings import Budget, est_tokens
 
 EVAL_DIR = project_root() / "Data" / "processed" / "agents" / "eval"
 CACHE_DIR = EVAL_DIR / "llm_cache"                  # git-ignored
-FREE_TIER_DATA = {"public", "synthetic"}            # ADR-037 amendment: what a free tier may receive
 TIMEOUT_S = 120
 MAX_RATE_WAIT_S = 60                                # longest single wait on a per-minute limit
 OUTPUT_RESERVE_TOKENS = 1_500                       # counted against the token budget before the reply is known
@@ -317,13 +316,10 @@ class LLM:
         return hashlib.sha256(json.dumps(payload, sort_keys=True, ensure_ascii=False, default=str)
                               .encode("utf-8")).hexdigest()
 
-    def invoke(self, messages: list[BaseMessage], *, data_origin: str, tools=None,
+    def invoke(self, messages: list[BaseMessage], *, tools=None,
                schema: type[BaseModel] | None = None, method: str | None = None) -> Reply:
         """One request (or its cached reply). With `schema`, the raw AIMessage is returned and cached; parse it with
         `parse_structured` (the same parser for fresh and cached replies)."""
-        if data_origin not in FREE_TIER_DATA:
-            raise ValueError(f"{self.name} is a free tier: data_origin {data_origin!r} refused (ADR-037 amendment; "
-                             f"allowed: {sorted(FREE_TIER_DATA)})")
         assert not (tools and schema), "tools and a structured-output schema are separate requests"
         key = self.key(messages, tools, schema, method)
         if key in self.cache:
