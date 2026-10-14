@@ -198,4 +198,30 @@ SELECT (SELECT count(*) FROM customers) AS customers,
 SELECT c.segment, count(DISTINCT c.customer_id) AS customers, count(v.vessel_id) AS vessels
 FROM customers c LEFT JOIN vessels v USING (customer_id) GROUP BY 1 ORDER BY 1;
 
+\echo '### 18. FINANCE VIEWS (migration 013, Agents plan Phase 2)'
+-- expected: 12 | 0 | 0 | 455 | 52 | 1000 | 994 | 4 | 13
+SELECT (SELECT count(*) FROM pg_class WHERE relnamespace = 'finance'::regnamespace AND relkind = 'v') AS finance_views,
+       (SELECT count(*) FROM pg_class c WHERE c.relnamespace = 'finance'::regnamespace AND c.relkind = 'v'
+          AND obj_description(c.oid, 'pg_class') IS NULL) AS views_without_comment,
+       (SELECT count(*) FROM pg_attribute a JOIN pg_class t ON t.oid = a.attrelid
+        WHERE t.relnamespace = 'finance'::regnamespace AND t.relkind = 'v' AND a.attnum > 0 AND NOT a.attisdropped
+          AND col_description(t.oid, a.attnum) IS NULL) AS columns_without_comment,
+       (SELECT count(*) FROM finance.dim_date) AS dim_date_days,
+       (SELECT count(*) FROM finance.kpi_weekly) AS kpi_weeks,
+       (SELECT count(*) FROM finance.fact_invoice) AS fact_invoices,
+       (SELECT count(*) FROM finance.fact_payment) AS fact_payments,
+       (SELECT count(*) FROM finance.fact_invoice WHERE invoice_report_week IS NULL) AS invoices_in_2026_w01,
+       (SELECT count(*) FROM finance.kpi_weekly WHERE is_warmup) AS warmup_weeks;
+-- expected 12 | 0 | 0: finance_bi reads the 12 views, writes nothing, reads nothing outside schema finance
+-- (PostGIS grants SELECT on its own catalog objects to PUBLIC; they are excluded)
+SELECT count(*) FILTER (WHERE c.relnamespace = 'finance'::regnamespace AND has_table_privilege('finance_bi', c.oid, 'SELECT')) AS bi_finance_select,
+       count(*) FILTER (WHERE has_table_privilege('finance_bi', c.oid, 'INSERT,UPDATE,DELETE,TRUNCATE')) AS bi_write,
+       count(*) FILTER (WHERE c.relnamespace <> 'finance'::regnamespace AND has_table_privilege('finance_bi', c.oid, 'SELECT')) AS bi_outside_finance
+FROM pg_class c
+WHERE c.relnamespace IN ('finance'::regnamespace, 'public'::regnamespace, 'finance_test'::regnamespace) AND c.relkind IN ('r', 'v')
+  AND c.relname NOT IN ('spatial_ref_sys', 'geometry_columns', 'geography_columns');
+-- expected ≤ 0.02 (rounded inputs): AR(w) = AR(w−1) + billed(w) − collected(w) on all 52 weeks
+SELECT max(abs(coalesce(prev_ar, 0) + billed_sdr - collected_sdr - ar_sdr)) AS ar_roll_forward_max_diff
+FROM (SELECT ar_sdr, billed_sdr, collected_sdr, lag(ar_sdr) OVER (ORDER BY report_week) AS prev_ar FROM finance.kpi_weekly) k;
+
 \echo '### END'

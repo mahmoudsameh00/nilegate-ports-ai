@@ -611,6 +611,31 @@ Never delete an entry; supersede it with a new one. Sources for older entries ar
   40 | 500 | 994 | 0 | 0 | 0 | 676 | 88 | 52, §14 / §15 clean (`db/audit/2026-10-14_after_012_report.txt`); a second
   generator run with another hash seed changed 0 files.
 
+## ADR-047 — Schema `finance`: plain star / KPI views, one definition per metric
+- **Status:** Accepted (2026-10-14). Agents plan Phase 2, owner decisions P2-1…P2-9; `db/migrations/013_finance_views.sql`,
+  `docs/finance_metrics.md`, `pipelines/scripts/finance/Finance_views_check.py`. Takes up ADR-018's star-schema
+  trigger (Power BI phase) in its preferred shape.
+- **Context:** the Weekly Finance Pack needs the same numbers in Power BI (DirectQuery: complex DAX is limited) and in
+  the agent tools (the Validator compares deck numbers exactly). Receivables "as of" a week must come from dates
+  (ADR-046), and the data has no history before 2025-01-01.
+- **Decision:** (1) Schema `finance` = 12 plain views (dims `dim_date`, `dim_week`, `dim_customer`, `dim_vessel`,
+  `dim_toll_band`; facts `fact_invoice` with the derived due date, `fact_payment`, `fact_ar_snapshot` = open invoice ×
+  week; KPI views `kpi_weekly`, `kpi_weekly_category`, `kpi_customer_13w`, `kpi_overdue_list`), no materialized views,
+  no copies, **no SQL functions** — one row per `report_week`, the tools filter by week. (2) Metrics computed only in
+  SQL; DAX stays sums / selections. (3) `report_week` = strict ISO weeks of 2025, as of Sunday 23:59; 2025-12-29…31
+  are ISO 2026-W01, outside the 52 weeks. (4) DSO = AR ÷ billed in the last 91 days × 91; weeks 1–13 use the available
+  window from 2025-01-01 with `is_warmup = true` (count-back deferred). (5) Customers ranked on the trailing 13 weeks.
+  (6) Rounding once at the end: money 2 decimals, percent 2, days 1. (7) RBAC stays the tool predicate (ADR-006 /
+  ADR-034): `finance.*` is level 2 / Finance, proved by a matrix over every employee with `retrieval.allowed()`; per
+  ADR-006 non-Finance managers may read it. (8) Group role `finance_bi` (NOLOGIN, read-only, SELECT on `finance`
+  only) for Power BI; views run with their owner's rights, so it needs nothing in `public`; its login is created in
+  Phase 3 from `.env`. (9) No `finance_test` views now (Auditor tool, Phase 4 / 7).
+- **Consequences:** every KPI view equals an independent pandas reference on all 52 weeks; weeks 5 / 16 / 23 / 49
+  frozen as reviewed hand values (DSO 31.0 / 51.7 / 62.2 / 53.6 days); AR roll-forward, aging = AR and Σ categories =
+  total hold; RBAC leakage 0 (72 role-`employee` users outside Finance denied); `finance_bi` reads 12 / 12 views and
+  0 / 15 tables outside `finance`. A new metric = a new column or view in a new migration plus a definition in
+  `docs/finance_metrics.md`.
+
 ---
 
 ## Dropped (history)

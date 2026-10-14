@@ -64,7 +64,7 @@ Today the system is **data preparation plus the document retrieval tool**: pipel
 | Faker + seeds | synthetic | departments, roles, employees, vessels, containers, invoices | company data anchored to real ports and tariffs |
 | Live web search | live | agent tool (planned) | news, not corpus (ADR-011) |
 
-## 4. Database schema (PostgreSQL) — VERIFIED 2026-10-14 (after migrations 001–012)
+## 4. Database schema (PostgreSQL) — VERIFIED 2026-10-14 (after migrations 001–012; 013 = schema `finance`, views)
 
 Source of truth: `db/schema_snapshot.sql`. Audit outputs: `db/audit/2026-09-27_after_006_009_report.txt`, `db/audit/2026-10-14_after_012_report.txt` (§17 finance data). Every table and column carries a COMMENT (migrations 008–009, 012) that describes it for tools and agents. All tables are in `public` except the evaluation copy in schema `finance_test` (migration 012). `spatial_ref_sys` is a PostGIS system table: never drop it.
 
@@ -86,6 +86,30 @@ Source of truth: `db/schema_snapshot.sql`. Audit outputs: `db/audit/2026-09-27_a
 | `documents` | 29 | `document_id` text | filename, title, source, real_or_synthetic, document_type, department_id → departments, sensitivity_level 1–3, version_date, ingestion_scope, source_url, sha256 UNIQUE, file_size_bytes, page_count, chunk_count, ingested_at, created_at. CHECKs: real_or_synthetic ∈ {real, synthetic}, sensitivity_level 1–3, file_size_bytes > 0, page_count > 0, chunk_count ≥ 0. Index on department_id. One row per raw file of the RAG corpus (6 sources + 23 USCG reports), filled by migration 010 (ADR-035); `ingested_at` = 2026-10-08 16:58:18+03 for all 29 (migration 011, the last full load of `nilegate_docs`) |
 
 `accepted_currencies` was dropped (migration 001, ADR-003).
+
+**Schema `finance` (migration 013, 2026-10-14, ADR-047)** — 12 plain views over the tables above (no stored data, no
+materialized views; D4 / ADR-018), the only source of the Weekly Finance Pack KPIs (Power BI DirectQuery and the
+agent tools read them; definitions `docs/finance_metrics.md`). `report_week` 1–52 = ISO weeks of 2025, "as of" =
+Sunday 23:59; due date = invoice date + terms; payment state from `payments` only (never `invoices.status`).
+
+| View | Grain / rows | Content |
+|---|---|---|
+| `dim_date` | day, 455 (2025-01-01 → 2026-03-31) | ISO year / week / label, week start / end, `report_week` (NULL in ISO 2026), calendar parts |
+| `dim_week` | report week, 52 | week start / end, DSO window (start, days), `is_warmup` (weeks 1–13) |
+| `dim_customer` / `dim_vessel` / `dim_toll_band` | 40 / 500 / 177 | customers; vessels with category, route and port names, customer; tariff bands |
+| `fact_invoice` | invoice, 1,000 | amount, category, priced condition, band, terms, **derived due date**, paid date, days to pay / after due, `invoice_report_week` (4 invoices in 2026-W01 → NULL) |
+| `fact_payment` | payment, 994 | paid date / week, amount, invoice and customer keys, days to pay |
+| `fact_ar_snapshot` | open invoice × report week, 7,033 | the as-of status: days past due, `is_overdue`, aging bucket (current / 1-30 / 31-60 / 61-90 / 90+) |
+| `kpi_weekly` | report week, 52 | billed, collected, AR, overdue, aging buckets, DSO (+ window), budget and variance, top-10 share (13 weeks), WoW |
+| `kpi_weekly_category` | week × category, 676 | billed vs budget per category, WoW change (the week's drivers) |
+| `kpi_customer_13w` | week × customer, 2,080 | billing of the week / trailing 13 weeks, share, rank (+ previous), top-10 flag, AR, overdue |
+| `kpi_overdue_list` | overdue invoice × week, 1,532 | the overdue list ranked by amount, with customer and vessel names |
+
+Rounding once at the end of the KPI views (money 2 decimals, `*_pct` percent 2 decimals, days 1). Access: the views
+are level 2 / Finance (RBAC stays the tool predicate, ADR-006 / ADR-034); `ports_readonly` reads them; the group role
+`finance_bi` (NOLOGIN, read-only) has SELECT on schema `finance` only — the Power BI login joins it (Phase 3). Views
+run with their owner's rights, so `finance_bi` needs nothing in `public`. Verified by
+`pipelines/scripts/finance/Finance_views_check.py` (7 / 7 ✅) and `verify_readonly.sql` §18.
 
 Reference data: roles = employee(1)/manager(2)/ceo(3). Departments = Operations, Customs, Finance, HR, IT.
 

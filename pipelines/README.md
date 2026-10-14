@@ -21,6 +21,7 @@ notebook's saved outputs.
 | `structured/ExtractPortsConnection.py` | structured | A | `port_connections.csv` (19,990 pairs); the table load only with `--insert` on an empty table |
 | `synthetic/SyntheticGenerator.py` | synthetic | A | verifies employees / vessels / containers CSVs; checks invoice pricing (ADR-004, ADR-013) |
 | `synthetic/Finance_generator.py` | synthetic | phases | `synthetic/finance/` (customers, vessel → customer, payments, weekly budget, the `finance_test` copy) + manifest, `agents/eval/finance_test_answer_key.json`, migration `012_finance_data.sql`; Agents plan §4a; re-run = identical (`--hashseed` checked) |
+| `finance/Finance_views_check.py` | finance | phases | nothing (read-only): the `finance` views of migration 013 = an independent pandas reference on all 52 weeks, invariants, hand-check weeks 5 / 16 / 23 / 49 (reviewed snapshot), RBAC matrix + `finance_bi` privileges; Agents plan Phase 2, `docs/finance_metrics.md` |
 | `rag/Documents_registry.py` | RAG | A | `documents.csv` + migration 010 (29 rows); database = mirror check |
 | `rag/FBL_chunking.py` … `rag/USCG_ROI_chunking.py` (7) | RAG | B (USCG + one listed patch) | extracted / cleaned / chunks artifacts per source (2,163 chunks) |
 | `semi_structured/AIS_EDI_profiling.py` | semi-structured | B | AIS / EDI profiles |

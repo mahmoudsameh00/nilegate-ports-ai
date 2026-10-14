@@ -43,6 +43,7 @@ Qdrant filter (conceptual): `sensitivity_level <= role_level OR (department == u
 | `payments` | 2 | Finance | payments received per invoice (migration 012) |
 | `budget_weekly` | 2 | Finance | weekly budget 2025 per vessel category (migration 012) |
 | `finance_test.*` | 2 | Finance | evaluation copy with planted errors (migration 012); the answer key is outside the database |
+| `finance.*` (views) | 2 | Finance | star + weekly KPI views of the Weekly Finance Pack (migration 013, Agents plan Phase 2); read as one unit by the finance tools and Power BI (login in group role `finance_bi`, SELECT on `finance` only). The dimension views over level-1 tables (`dim_date`, `dim_week`, `dim_vessel`, `dim_toll_band`) take the schema's level |
 | `vessels.customer_id` | 1 | Operations | an id only (the vessels table stays level 1); the customer's details are level 2 |
 | `audit_log` (planned, API phase) | 3 | IT | security audit trail, CEO only |
 
