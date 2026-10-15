@@ -1,0 +1,70 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "fe42736e99845ae0420e",
+  "position": {
+    "x": 20,
+    "y": 120,
+    "z": 1,
+    "height": 360,
+    "width": 1400,
+    "tabOrder": 1
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "This page is intentionally empty for now.",
+                    "textStyle": {
+                      "fontSize": "14pt"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "It will list the invoice audit findings of the selected week: an invoice priced in the wrong toll band, an SCNT digit error, a laden / ballast swap, a Special Floating Unit priced as ballast, and duplicate invoices, with the amount at stake and a proposed action for each.",
+                    "textStyle": {
+                      "fontSize": "14pt"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "The findings come from the Auditor tool of the agents platform (Agents plan, Phase 4), checked against the planted errors of the finance_test golden weeks (Phase 7). Until that tool exists, no number is shown here, because every number on this dashboard must come from the database.",
+                    "textStyle": {
+                      "fontSize": "14pt"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,130 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "96196d218ea1639cf2f8",
+  "position": {
+    "x": 1140,
+    "y": 400,
+    "z": 4,
+    "height": 300,
+    "width": 760,
+    "tabOrder": 4
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Weekly KPIs"
+                    }
+                  },
+                  "Property": "Week Label"
+                }
+              },
+              "queryRef": "Weekly KPIs.Week Label",
+              "nativeQueryRef": "Week Label"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Weekly KPIs"
+                    }
+                  },
+                  "Property": "Invoices Billed"
+                }
+              },
+              "queryRef": "Weekly KPIs.Invoices Billed",
+              "nativeQueryRef": "Invoices Billed"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Weekly KPIs"
+                    }
+                  },
+                  "Property": "Top10 Share 13w %"
+                }
+              },
+              "queryRef": "Weekly KPIs.Top10 Share 13w %",
+              "nativeQueryRef": "Top10 Share 13w %"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Weekly KPIs"
+                  }
+                },
+                "Property": "Week Label"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "dc79ec39a02f6336c226",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Weekly KPIs"
+              }
+            },
+            "Property": "Week Label"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "5cc12754e1c4ae0db0ec",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Weekly KPIs"
+              }
+            },
+            "Property": "Invoices Billed"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "6688cc256a8a538cbbc6",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Weekly KPIs"
+              }
+            },
+            "Property": "Top10 Share 13w %"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

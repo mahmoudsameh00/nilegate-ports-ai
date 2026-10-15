@@ -128,7 +128,7 @@ table 'Customer KPIs 13w'
 
 	column is_top10
 		dataType: boolean
-		formatString: """TRUE"";""TRUE"";""FALSE"""
+		formatString: """Top 10"";""Top 10"";""Others"""
 		sourceProviderType: bit
 		lineageTag: 929f187d-d808-4661-b7fa-24c914d7b30f
 		summarizeBy: none
@@ -159,6 +159,12 @@ table 'Customer KPIs 13w'
 		annotation SummarizationSetBy = Automatic
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Display label of kpi_customer_13w.is_top10 (Top 10 / Others) for legends; no KPI logic.
+	column customer_group = IF('Customer KPIs 13w'[is_top10], "Top 10", "Others")
+		dataType: string
+		lineageTag: fe96da51-86ef-46d7-aabf-1dc257591b59
+		summarizeBy: none
 
 	partition 'finance kpi_customer_13w' = m
 		mode: directQuery

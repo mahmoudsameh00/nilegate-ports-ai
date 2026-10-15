@@ -1,2 +1,347 @@
 cultureInfo en-US
 
+	linguisticMetadata =
+			{
+			  "Version": "2.0.0",
+			  "Language": "en-US",
+			  "Entities": {
+			    "overdue_list.rank_by_amount": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Overdue List",
+			          "ConceptualProperty": "rank_by_amount"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "#": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "overdue_list.invoice_number": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Overdue List",
+			          "ConceptualProperty": "invoice_number"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Invoice": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "overdue_list.customer_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Overdue List",
+			          "ConceptualProperty": "customer_name"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Customer": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "overdue_list.vessel_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Overdue List",
+			          "ConceptualProperty": "vessel_name"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Vessel": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "overdue_list.due_date": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Overdue List",
+			          "ConceptualProperty": "due_date"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Due date": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "overdue_list.days_past_due": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Overdue List",
+			          "ConceptualProperty": "days_past_due"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Days late": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "overdue_list.aging_bucket": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Overdue List",
+			          "ConceptualProperty": "aging_bucket"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Bucket": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "overdue_list.amount_sdr": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Overdue List",
+			          "ConceptualProperty": "amount_sdr"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Amount (SDR)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "customer_kpis_13w.rank_13w": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Customer KPIs 13w",
+			          "ConceptualProperty": "rank_13w"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Rank": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "customer_kpis_13w.rank_13w_prev": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Customer KPIs 13w",
+			          "ConceptualProperty": "rank_13w_prev"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Rank last week": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "customer_kpis_13w.customer_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Customer KPIs 13w",
+			          "ConceptualProperty": "customer_name"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Customer": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "customer_kpis_13w.segment": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Customer KPIs 13w",
+			          "ConceptualProperty": "segment"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Segment": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "customer_kpis_13w.credit_rating": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Customer KPIs 13w",
+			          "ConceptualProperty": "credit_rating"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Credit rating": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "customer_kpis_13w.payment_terms_days": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Customer KPIs 13w",
+			          "ConceptualProperty": "payment_terms_days"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Terms (days)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "weekly_kpis.customer_ar_sdr": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Weekly KPIs",
+			          "ConceptualProperty": "Customer AR SDR"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "AR (SDR)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "weekly_kpis.customer_overdue_sdr": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Weekly KPIs",
+			          "ConceptualProperty": "Customer Overdue SDR"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Overdue (SDR)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    }
+			  }
+			}
+		contentType: json
+

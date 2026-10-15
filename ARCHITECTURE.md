@@ -40,9 +40,11 @@ Today the system is **data preparation plus the document retrieval tool**: pipel
 | Inference-time uploads (RAG plan Phase 8; `pipelines/lib/upload_reader.py`, `screening.py`, `uploads.py`, `local_embeddings.py`, `session_store.py`; `search_documents(..., session=)`) | IMPLEMENTED as a library (2026-10-08); local model `BAAI/bge-m3` (ADR-043) | One company document shape "NileGate Document v1" (PDF / DOCX) validated at upload, layered injection screening, conversation-only storage in memory, local ONNX embeddings (no upload text leaves the machine), corpus results + separate `session_results` labelled `untrusted_upload`, manager promotion through an offline review (ADR-042 – ADR-044). Validated: 52 fixtures, 0 corpus false positives, baseline unchanged with a session, isolation 15/15, promotion self-test 11/11. |
 | Agents, tool layer, API (FastAPI mentioned), auth, audit_log | PLANNED | ADR-012, ADR-014 |
 | Retrieval evaluation harness (golden set, golden facts, `pipelines/lib/evaluation.py`, `Evaluation.py`) | IMPLEMENTED (2026-10-08) | ADR-040; baseline `Data/processed/rag/eval/results_2026-10-08.json` for the agents phase |
-| Power BI, end-to-end answer evaluation, observability, Docker Compose | PLANNED / PROPOSED | see ROADMAP |
+| Power BI dashboard (`powerbi/NileGate_Finance.pbip`: TMDL model + PBIR report, Power BI Desktop 2.158) | IMPLEMENTED (2026-10-15, Agents plan Phase 3) | ADR-048. DirectQuery on 12 `finance` views (all but `dim_date`) through the login `ports_bi` (member of `finance_bi` only, read-only; `db/create_finance_bi_user.ps1`, `db/check_finance_bi_user.py` 11 / 11). Model edited through the Power BI Modeling MCP (`.mcp.json`): `Week` filters every table (18 many-to-one, single-direction relationships, referential integrity off), 38 thin measures in `Weekly KPIs` (SELECTEDVALUE / HASONEVALUE-guarded SUM / SUM), 1 label column. Report: Overview, Revenue, Receivables, Customers, Exceptions (placeholder until the Auditor tool), one single-select week slicer synced on all pages. Numbers = `finance.kpi_weekly` for weeks 5 / 23 / 49. Needs PostgreSQL running when opened. |
+| End-to-end answer evaluation, observability, Docker Compose | PLANNED / PROPOSED | see ROADMAP |
 | pgvector single store | ABANDONED | ADR-001 |
-| DuckDB, Redis job queue, star schema, MinIO object storage | DEFERRED (revisit in agents / API / Power BI phases) | ADR-018 |
+| Star schema | IMPLEMENTED as plain views (schema `finance`, 2026-10-14) | ADR-047 (ADR-018's trigger) |
+| DuckDB, Redis job queue, MinIO object storage | DEFERRED (revisit in agents / API phases) | ADR-018 |
 
 ## 3. Data sources (what each source is for)
 
@@ -108,7 +110,8 @@ Sunday 23:59; due date = invoice date + terms; payment state from `payments` onl
 
 Rounding once at the end of the KPI views (money 2 decimals, `*_pct` percent 2 decimals, days 1). Access: the views
 are level 2 / Finance (RBAC stays the tool predicate, ADR-006 / ADR-034); `ports_readonly` reads them; the group role
-`finance_bi` (NOLOGIN, read-only) has SELECT on schema `finance` only — the Power BI login joins it (Phase 3). Views
+`finance_bi` (NOLOGIN, read-only) has SELECT on schema `finance` only — the Power BI login `ports_bi` is its only
+member (Phase 3, ADR-048). Views
 run with their owner's rights, so `finance_bi` needs nothing in `public`. Verified by
 `pipelines/scripts/finance/Finance_views_check.py` (7 / 7 ✅) and `verify_readonly.sql` §18.
 
@@ -314,6 +317,10 @@ Added for the agents platform (2026-10-10, Agents plan Phase 0, `uv add`, all `=
 | 042 | Inference-time uploads: one company document shape, validator, layered injection screening |
 | 043 | Conversation uploads: memory-only session store, local ONNX lane, two labelled result lists |
 | 044 | Promotion of a manager's upload to the corpus: request → offline review → registration like the siblings |
+| 045 | LLM per agent role on free APIs, chosen by a frozen bake-off |
+| 046 | Synthetic finance data for the Weekly Finance Pack; `invoices.status` is a label |
+| 047 | Schema `finance`: plain star / KPI views, one definition per metric (SQL only) |
+| 048 | Power BI: Desktop + PBIP, DirectQuery via a read-only login, thin DAX (3 patterns), one synced week slicer |
 
 ## 10. Open architectural questions
 

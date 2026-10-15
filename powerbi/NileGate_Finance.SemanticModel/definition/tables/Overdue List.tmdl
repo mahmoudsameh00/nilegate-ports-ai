@@ -15,7 +15,7 @@ table 'Overdue List'
 
 	column as_of_date
 		dataType: dateTime
-		formatString: Long Date
+		formatString: yyyy-mm-dd
 		sourceProviderType: date
 		lineageTag: 0a4ee54a-8c2b-4dec-9863-f495b5c20462
 		summarizeBy: none
@@ -85,7 +85,7 @@ table 'Overdue List'
 
 	column invoice_date
 		dataType: dateTime
-		formatString: Long Date
+		formatString: yyyy-mm-dd
 		sourceProviderType: date
 		lineageTag: 0c782973-5530-4b4c-975a-c14ef9371e4f
 		summarizeBy: none
@@ -97,7 +97,7 @@ table 'Overdue List'
 
 	column due_date
 		dataType: dateTime
-		formatString: Long Date
+		formatString: yyyy-mm-dd
 		sourceProviderType: date
 		lineageTag: 7b6070ef-1356-449b-91be-fb58d01dd697
 		summarizeBy: none

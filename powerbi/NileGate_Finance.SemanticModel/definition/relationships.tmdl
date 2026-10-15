@@ -1,72 +1,72 @@
-relationship 'finance kpi_weekly_report_week_finance dim_week_report_week'
+relationship 'Weekly KPIs -> Week'
 	fromColumn: 'Weekly KPIs'.report_week
 	toColumn: Week.report_week
 
-relationship 'finance kpi_weekly_category_report_week_finance dim_week_report_week'
+relationship 'Category KPIs -> Week'
 	fromColumn: 'Category KPIs'.report_week
 	toColumn: Week.report_week
 
-relationship 'finance kpi_customer_13w_report_week_finance dim_week_report_week'
+relationship 'Customer KPIs 13w -> Week'
 	fromColumn: 'Customer KPIs 13w'.report_week
 	toColumn: Week.report_week
 
-relationship 'finance kpi_overdue_list_report_week_finance dim_week_report_week'
+relationship 'Overdue List -> Week'
 	fromColumn: 'Overdue List'.report_week
 	toColumn: Week.report_week
 
-relationship 'finance fact_ar_snapshot_report_week_finance dim_week_report_week'
+relationship 'AR Snapshot -> Week'
 	fromColumn: 'AR Snapshot'.report_week
 	toColumn: Week.report_week
 
-relationship 'finance kpi_weekly_trend_report_week_finance dim_week_report_week'
+relationship 'Weekly Trend -> Week'
 	fromColumn: 'Weekly Trend'.report_week
 	toColumn: Week.report_week
 
-relationship 'finance fact_invoice_invoice_report_week_finance dim_week_report_week'
+relationship 'Invoices -> Week'
 	fromColumn: Invoices.invoice_report_week
 	toColumn: Week.report_week
 
-relationship 'finance fact_payment_paid_report_week_finance dim_week_report_week'
+relationship 'Payments -> Week'
 	fromColumn: Payments.paid_report_week
 	toColumn: Week.report_week
 
-relationship 'finance fact_invoice_customer_id_finance dim_customer_customer_id'
+relationship 'Invoices -> Customer'
 	fromColumn: Invoices.customer_id
 	toColumn: Customer.customer_id
 
-relationship 'finance fact_payment_customer_id_finance dim_customer_customer_id'
+relationship 'Payments -> Customer'
 	fromColumn: Payments.customer_id
 	toColumn: Customer.customer_id
 
-relationship 'finance fact_ar_snapshot_customer_id_finance dim_customer_customer_id'
+relationship 'AR Snapshot -> Customer'
 	fromColumn: 'AR Snapshot'.customer_id
 	toColumn: Customer.customer_id
 
-relationship 'finance kpi_customer_13w_customer_id_finance dim_customer_customer_id'
+relationship 'Customer KPIs 13w -> Customer'
 	fromColumn: 'Customer KPIs 13w'.customer_id
 	toColumn: Customer.customer_id
 
-relationship 'finance kpi_overdue_list_customer_id_finance dim_customer_customer_id'
+relationship 'Overdue List -> Customer'
 	fromColumn: 'Overdue List'.customer_id
 	toColumn: Customer.customer_id
 
-relationship 'finance fact_invoice_vessel_id_finance dim_vessel_vessel_id'
+relationship 'Invoices -> Vessel'
 	fromColumn: Invoices.vessel_id
 	toColumn: Vessel.vessel_id
 
-relationship 'finance fact_payment_vessel_id_finance dim_vessel_vessel_id'
+relationship 'Payments -> Vessel'
 	fromColumn: Payments.vessel_id
 	toColumn: Vessel.vessel_id
 
-relationship 'finance fact_ar_snapshot_vessel_id_finance dim_vessel_vessel_id'
+relationship 'AR Snapshot -> Vessel'
 	fromColumn: 'AR Snapshot'.vessel_id
 	toColumn: Vessel.vessel_id
 
-relationship 'finance kpi_overdue_list_vessel_id_finance dim_vessel_vessel_id'
+relationship 'Overdue List -> Vessel'
 	fromColumn: 'Overdue List'.vessel_id
 	toColumn: Vessel.vessel_id
 
-relationship 'finance fact_invoice_toll_rate_band_id_finance dim_toll_band_toll_rate_band_id'
+relationship 'Invoices -> Toll Band'
 	fromColumn: Invoices.toll_rate_band_id
 	toColumn: 'Toll Band'.toll_rate_band_id
 

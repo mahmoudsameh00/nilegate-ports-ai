@@ -9,25 +9,25 @@ table 'Weekly KPIs'
 
 	/// kpi_weekly.billed_sdr of the one selected week; blank if several weeks are selected.
 	measure 'Billed SDR' = SELECTEDVALUE('Weekly KPIs'[billed_sdr])
-		formatString: #,0
+		formatString: #,0.00
 		displayFolder: 1 Overview
 		lineageTag: 64dfbb40-b72d-40b3-bda0-dd9923d3a016
 
 	/// kpi_weekly.collected_sdr of the one selected week.
 	measure 'Collected SDR' = SELECTEDVALUE('Weekly KPIs'[collected_sdr])
-		formatString: #,0
+		formatString: #,0.00
 		displayFolder: 1 Overview
 		lineageTag: 14b02bf8-2da9-4f12-af8b-e8c96491687a
 
 	/// kpi_weekly.ar_sdr: open receivables at the selected week's Sunday.
 	measure 'AR SDR' = SELECTEDVALUE('Weekly KPIs'[ar_sdr])
-		formatString: #,0
+		formatString: #,0.00
 		displayFolder: 1 Overview
 		lineageTag: ccb1f3f7-ab26-466f-bad1-df71917fd0da
 
 	/// kpi_weekly.overdue_sdr of the one selected week.
 	measure 'Overdue SDR' = SELECTEDVALUE('Weekly KPIs'[overdue_sdr])
-		formatString: #,0
+		formatString: #,0.00
 		displayFolder: 1 Overview
 		lineageTag: c4ecb15e-2d44-4d22-85e1-60a522affcc5
 
@@ -51,13 +51,13 @@ table 'Weekly KPIs'
 
 	/// kpi_weekly.budget_sdr of the one selected week.
 	measure 'Budget SDR' = SELECTEDVALUE('Weekly KPIs'[budget_sdr])
-		formatString: #,0
+		formatString: #,0.00
 		displayFolder: 1 Overview
 		lineageTag: f0936869-5f9a-4275-ae44-be17758dc676
 
 	/// kpi_weekly.budget_variance_sdr (billed − budget).
 	measure 'Budget Variance SDR' = SELECTEDVALUE('Weekly KPIs'[budget_variance_sdr])
-		formatString: +#,0;-#,0;0
+		formatString: +#,0.00;-#,0.00;0.00
 		displayFolder: 1 Overview
 		lineageTag: acd704ee-e273-43dc-9fe8-988e9ad0f72c
 
@@ -97,14 +97,22 @@ table 'Weekly KPIs'
 		displayFolder: 1 Overview
 		lineageTag: a0e99226-3e15-49c8-ad1d-73a8b8820808
 
-	/// Text shown when kpi_weekly.is_warmup (weeks 1-13).
-	measure 'Warm-up Note' = IF(SELECTEDVALUE('Weekly KPIs'[is_warmup]) = TRUE(), "Warm-up week: DSO uses fewer than 91 days of history")
+	/// Text from kpi_weekly.is_warmup (weeks 1-13 = warm-up); blank when not exactly one week is selected.
+	measure 'Warm-up Note' =
+			VAR w = SELECTEDVALUE('Weekly KPIs'[is_warmup])
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        ISBLANK(w), BLANK(),
+			        w, "Warm-up week: DSO uses fewer than 91 days of history",
+			        "DSO uses the full 91-day window"
+			    )
 		displayFolder: 1 Overview
 		lineageTag: 16d2df62-cc05-4ed5-8590-b9978406702a
 
 	/// Sum of fact_invoice.amount_sdr (additive across weeks and categories).
 	measure 'Revenue SDR' = SUM(Invoices[amount_sdr])
-		formatString: #,0
+		formatString: #,0.00
 		displayFolder: 2 Revenue
 		lineageTag: e14b32c1-b716-43be-951d-b20964726f74
 
@@ -122,7 +130,7 @@ table 'Weekly KPIs'
 
 	/// Sum of kpi_weekly_category.budget_sdr.
 	measure 'Category Budget SDR' = SUM('Category KPIs'[budget_sdr])
-		formatString: #,0
+		formatString: #,0.00
 		displayFolder: 2 Revenue
 		lineageTag: 7d80dc97-f122-4654-b582-9f7a52e70719
 
@@ -134,19 +142,19 @@ table 'Weekly KPIs'
 
 	/// fact_ar_snapshot.amount_sdr for one report week (semi-additive: blank over several weeks).
 	measure 'AR by Bucket SDR' = IF(HASONEVALUE(Week[report_week]), SUM('AR Snapshot'[amount_sdr]))
-		formatString: #,0
+		formatString: #,0.00
 		displayFolder: 3 Receivables
 		lineageTag: b670a70d-2012-498a-aa10-5a2cc70d104b
 
 	/// fact_ar_snapshot.amount_sdr where is_overdue, one report week only.
 	measure 'Overdue AR SDR' = IF(HASONEVALUE(Week[report_week]), CALCULATE(SUM('AR Snapshot'[amount_sdr]), 'AR Snapshot'[is_overdue] = TRUE()))
-		formatString: #,0
+		formatString: #,0.00
 		displayFolder: 3 Receivables
 		lineageTag: 73d76924-55c2-4a01-99e3-7efc6374d987
 
 	/// Sum of fact_payment.amount_sdr (additive).
 	measure 'Collections SDR' = SUM(Payments[amount_sdr])
-		formatString: #,0
+		formatString: #,0.00
 		displayFolder: 3 Receivables
 		lineageTag: 7e56c54c-9e5e-450a-b1f9-662e1389c8b0
 
@@ -164,7 +172,7 @@ table 'Weekly KPIs'
 
 	/// kpi_customer_13w.billed_13w_sdr, one report week only.
 	measure 'Billed 13w SDR' = IF(HASONEVALUE(Week[report_week]), SUM('Customer KPIs 13w'[billed_13w_sdr]))
-		formatString: #,0
+		formatString: #,0.00
 		displayFolder: 4 Customers
 		lineageTag: e7b7b9dd-84d8-44d5-ac8b-51fc7f4c156e
 
@@ -176,19 +184,19 @@ table 'Weekly KPIs'
 
 	/// kpi_customer_13w.ar_sdr, one report week only.
 	measure 'Customer AR SDR' = IF(HASONEVALUE(Week[report_week]), SUM('Customer KPIs 13w'[ar_sdr]))
-		formatString: #,0
+		formatString: #,0.00
 		displayFolder: 4 Customers
 		lineageTag: 5f553a42-2e21-4f49-ae1f-9abbdd925bcb
 
 	/// kpi_customer_13w.overdue_sdr, one report week only.
 	measure 'Customer Overdue SDR' = IF(HASONEVALUE(Week[report_week]), SUM('Customer KPIs 13w'[overdue_sdr]))
-		formatString: #,0
+		formatString: #,0.00
 		displayFolder: 4 Customers
 		lineageTag: 65953d95-8ffb-4efa-87cf-3588b18bbf82
 
 	/// kpi_weekly_trend.billed_sdr; axis = trend_week, one report week.
 	measure 'Trend Billed SDR' = IF(HASONEVALUE(Week[report_week]), SUM('Weekly Trend'[billed_sdr]))
-		formatString: #,0
+		formatString: #,0.00
 		displayFolder: 5 Trend
 		lineageTag: da29c21b-0d05-451a-a2c8-7988dd494aa0
 
@@ -200,7 +208,7 @@ table 'Weekly KPIs'
 
 	/// kpi_weekly_trend.budget_sdr; axis = trend_week, one report week.
 	measure 'Trend Budget SDR' = IF(HASONEVALUE(Week[report_week]), SUM('Weekly Trend'[budget_sdr]))
-		formatString: #,0
+		formatString: #,0.00
 		displayFolder: 5 Trend
 		lineageTag: 431d5947-280d-4547-a61c-5a7d14fca13b
 
@@ -215,6 +223,18 @@ table 'Weekly KPIs'
 		formatString: 0.0
 		displayFolder: 5 Trend
 		lineageTag: 6c92b4b4-c021-42b1-a7a2-7178c549feb0
+
+	/// Sum of kpi_weekly_category.billed_sdr; use with Category KPIs[vessel_category] next to Category Budget SDR.
+	measure 'Category Billed SDR' = SUM('Category KPIs'[billed_sdr])
+		formatString: #,0.00
+		displayFolder: 2 Revenue
+		lineageTag: c8a9d146-c25b-489a-a05f-4746fae10ac1
+
+	/// kpi_customer_13w.billed_13w_sdr of the customers flagged is_top10, one report week only.
+	measure 'Top 10 Billed 13w SDR' = IF(HASONEVALUE(Week[report_week]), CALCULATE(SUM('Customer KPIs 13w'[billed_13w_sdr]), 'Customer KPIs 13w'[is_top10] = TRUE()))
+		formatString: #,0.00
+		displayFolder: 4 Customers
+		lineageTag: ce767a7e-89f5-4d2a-8854-e41a4c1c5399
 
 	column report_week
 		dataType: int64

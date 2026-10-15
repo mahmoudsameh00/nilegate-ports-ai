@@ -1,0 +1,135 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "0459d3ee90dae5156917",
+  "position": {
+    "x": 560,
+    "y": 740,
+    "z": 6,
+    "height": 320,
+    "width": 600,
+    "tabOrder": 6
+  },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Toll Band"
+                    }
+                  },
+                  "Property": "band_label"
+                }
+              },
+              "queryRef": "Toll Band.band_label",
+              "nativeQueryRef": "band_label",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Weekly KPIs"
+                    }
+                  },
+                  "Property": "Revenue SDR"
+                }
+              },
+              "queryRef": "Weekly KPIs.Revenue SDR",
+              "nativeQueryRef": "Revenue SDR"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Weekly KPIs"
+                  }
+                },
+                "Property": "Revenue SDR"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Revenue by toll band (top band reached, SDR)'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "ca4973ec959d1f79593d",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Weekly KPIs"
+              }
+            },
+            "Property": "Revenue SDR"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "f92861bc385d0f0f0a35",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Toll Band"
+              }
+            },
+            "Property": "band_label"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
+  }
+}

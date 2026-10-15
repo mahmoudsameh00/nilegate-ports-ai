@@ -1,11 +1,13 @@
 # Roadmap & status
 
-Single place for project status. Last updated: 2026-10-14 (Agents plan Phase 2 CLOSED: schema `finance` views, migration 013, ADR-047; Phase 1 closed the same day, ADR-046; Phase 0 closed 2026-10-12, ADR-045).
+Single place for project status. Last updated: 2026-10-15 (Agents plan Phase 3 CLOSED: Power BI dashboard, ADR-048; Phase 2 closed 2026-10-14, ADR-047; Phase 1 closed 2026-10-14, ADR-046; Phase 0 closed 2026-10-12, ADR-045).
 Labels: `DONE`, `IN PROGRESS`, `PARTIAL`, `NEXT`, `PLANNED`, `PROPOSED`, `DEFERRED`, `BLOCKED`.
 
 ## Current phase
 
 **RAG retrieval CLOSED 2026-10-08** — plan archived as `docs/archive/2026-10-08_RAG_Embeddings_Qdrant_plan.md` (implementation record at the top). Result: Gemini `gemini-embedding-2` vectors (ADR-037) for the 2,163 chunks in Qdrant `nilegate_docs`; `search_documents` (`pipelines/lib/retrieval.py`) with RBAC inside Qdrant, exact dense + Jina rerank (ADR-038; balanced 0.850, RBAC leakage 0; baseline `Data/processed/rag/eval/results_2026-10-08.json`); three-level evaluation (ADR-040); conversation uploads with a local bge-m3 lane (ADR-042 – ADR-044); `documents.ingested_at` filled (migration 011). Phase 9 clean-up: the bake-off vectors moved to `Data/embeddings/bakeoff/`, the two rejected local models removed (`Upload_eval.py` keeps their recorded rows), promoted documents' migrations carry `ingested_at`.
+
+**Agents plan Phase 3 CLOSED (2026-10-15)** — ADR-048: Power BI Desktop 2.158 project `powerbi/NileGate_Finance.pbip` (TMDL + PBIR in git), DirectQuery on 12 `finance` views (+ migration 014 `kpi_weekly_trend`) through the read-only login `ports_bi` (`finance_bi` only, 11 / 11); model by the Power BI Modeling MCP: `Week` filters every table (18 relationships, referential integrity off), 38 thin measures (SELECTEDVALUE / HASONEVALUE-guarded / SUM; no KPI logic in DAX), 1 label column; 5 pages — Overview, Revenue, Receivables, Customers, Exceptions (placeholder until the Auditor tool) — with one synced single-select week slicer. Done-when met: every number of pages 1–4 = `finance.kpi_weekly` read from PostgreSQL for weeks 5 / 23 / 49, breakdowns sum to the week's KPI. Docker containers now `--restart unless-stopped`. **Next: Phase 4** — Stage 1 tools (§3) + tests (external tools behind cache + timeout), the skill loader and the Stage 1 skills (`pipelines/agents/skills/`), including the Auditor tool that fills the Exceptions page. Still open: the owner's review of §8a (G1–G6, PROPOSED).
 
 **Agents plan Phase 2 CLOSED (2026-10-14)** — ADR-047: schema `finance` = 12 plain views (dims, `fact_invoice` with the derived due date, `fact_payment`, `fact_ar_snapshot` as-of status, KPI views `kpi_weekly` / `kpi_weekly_category` / `kpi_customer_13w` / `kpi_overdue_list`), migration 013; definitions in `docs/finance_metrics.md` (DSO = AR ÷ billed last 91 days × 91, warm-up weeks 1–13 on the available window, strict ISO weeks as of Sunday); `Finance_views_check.py` 7 / 7 ✅ (views = independent pandas reference on all 52 weeks; hand-check weeks 5 / 16 / 23 / 49 frozen; RBAC leakage 0; group role `finance_bi` reads only `finance`). **Next: Phase 3** — Power BI Desktop (owner, guided): install, PBIP project `powerbi/`, the `finance_bi` login, DirectQuery to the views, the 5 pages; done when the dashboard's numbers for 3 weeks = the KPI views. Still open: the owner's review of §8a (G1–G6, PROPOSED).
 
@@ -53,10 +55,10 @@ History of the RAG plan, phase by phase: **Phase 0 done 2026-10-01** (rewrite co
 | MongoDB + AIS/EDI profiling, generators, loader | DONE | 2026-09-27: `Notebooks/semi_structured/` (profiling 28 cells, AIS generator 22, EDI generator 16, loader 32; all 0 errors); 1,321,568 / 10,534 / 435 documents; 0 schema violations, 0 unaccounted records, consistency audit all pass (incl. tracks at sea); idempotent (ADR-029 – ADR-032) |
 | Synthetic incidents / synthetic FBLs | PLANNED (optional) | |
 | Causal consistency checks (PostgreSQL ↔ AIS ↔ incidents ↔ RAG) | PLANNED | needs a shared event timeline per vessel/shipment |
-| Agents (Supervisor + Analytics) | IN PROGRESS | Agents plan Phase 0 CLOSED 2026-10-12 (packages, `pipelines/agents/llm.py`, LLM bake-off → ADR-045); Phase 1 CLOSED 2026-10-14 (finance data, migration 012, ADR-046); Phase 2 CLOSED 2026-10-14 (`finance` views, migration 013, ADR-047); next Phase 3 (Power BI);  ADR-012; the document tool exists (`search_documents`, untrusted-upload contract in `docs/RETRIEVAL_FLOW.md` §2.1) |
+| Agents (Supervisor + Analytics) | IN PROGRESS | Agents plan Phase 0 CLOSED 2026-10-12 (packages, `pipelines/agents/llm.py`, LLM bake-off → ADR-045); Phase 1 CLOSED 2026-10-14 (finance data, migration 012, ADR-046); Phase 2 CLOSED 2026-10-14 (`finance` views, migration 013, ADR-047); Phase 3 CLOSED 2026-10-15 (Power BI dashboard, ADR-048); next Phase 4 (Stage 1 tools + skills);  ADR-012; the document tool exists (`search_documents`, untrusted-upload contract in `docs/RETRIEVAL_FLOW.md` §2.1) |
 | API, auth, audit_log, guardrails | PLANNED | audit_log redesign in ADR-014 |
 | Evaluation (golden tasks), observability (trace IDs) | PLANNED | |
-| Power BI integration | PLANNED | `docs/plans/Agents_plan.md` Stage 1: Power BI Desktop (free) + PBIP in git + DirectQuery on `finance` views (ADR-018 star-schema trigger reached) |
+| Power BI integration | DONE (2026-10-15) | ADR-048: `powerbi/NileGate_Finance.pbip` (Desktop, PBIP in git), DirectQuery on the `finance` views via the read-only login `ports_bi`; 5 pages (Exceptions = placeholder until the Auditor tool, Phase 4 / 7); numbers = `kpi_weekly` for weeks 5 / 23 / 49 |
 | Docker Compose for all services | PLANNED | not before the core works |
 
 RAG ingestion order (do not skip ahead): inventory → metadata → extraction → cleaning → chunking → embedding model → Qdrant (local Docker) → collection → small controlled subset → retrieval test → metadata filtering → RBAC → scale → hybrid/reranking only if evaluation shows it is needed.
@@ -77,7 +79,7 @@ RAG ingestion order (do not skip ahead): inventory → metadata → extraction �
 - Agents phase → decide on DuckDB as the analysis sandbox.
 - Agents / API phase → Redis as a shared cache (query vectors, reranker results, sessions) if several workers or agents must share it; measured 2026-10-08: Redis GET 0.57 ms vs in-process 0.2 µs (ADR-038; owner: use it later if needed).
 - API / Docker Compose phase → decide on a job queue (Redis or other) and on object storage for raw files (MinIO).
-- Power BI phase → decide on star-schema views.
+- ~~Power BI phase → decide on star-schema views~~ decided: plain views in schema `finance` (ADR-047), used by Power BI (ADR-048).
 
 **Blocked**
 - Nothing (agents were blocked on retrieval until 2026-10-08).

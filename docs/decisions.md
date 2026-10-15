@@ -639,6 +639,37 @@ Never delete an entry; supersede it with a new one. Sources for older entries ar
   week its 13 trend rows, so Power BI's single week slicer drives the trend chart with no DAX (rejected: a
   disconnected slicer table with DAX measures; a 52-week chart that ignores the slicer).
 
+## ADR-048 — Power BI semantic model and report: DirectQuery, thin DAX, one week slicer
+- **Status:** Accepted (2026-10-15). Agents plan Phase 3, owner decisions P3-1…P3-14; `powerbi/NileGate_Finance.pbip`
+  (TMDL model + PBIR report), `db/create_finance_bi_user.ps1`, `db/check_finance_bi_user.py`. Implements D5 and builds
+  on ADR-047 (KPIs only in SQL), ADR-034 (read-only role), ADR-006.
+- **Context:** the finance team needs a dashboard whose numbers equal the PowerPoint pack (the Validator compares
+  numbers exactly), with no paid Power BI Service account, no gateway and no copy of the data; the model must be
+  reviewable in git.
+- **Decision:** (1) **Power BI Desktop + PBIP** (TMDL / PBIR in `powerbi/`; `.pbi/localSettings.json`, `cache.abf`
+  and `*.pbix` git-ignored); the model is edited through the official **Power BI Modeling MCP**
+  (`@microsoft/powerbi-modeling-mcp@1.0.0`, pinned in `.mcp.json`), report pages in Desktop. (2) **DirectQuery** on
+  the 12 `finance` views used (all but `dim_date`) through the login `ports_bi` (member of `finance_bi` only,
+  `default_transaction_read_only`, password in `.env`). (3) **One week dimension** `Week` (`dim_week`) filters every
+  table: 18 many-to-one, single-direction relationships named `<from> -> <to>`; **Assume referential integrity off**
+  (an INNER JOIN would drop the 4 invoices of 2026-W01 and the 152 payments paid in 2026); no `Vessel -> Customer`
+  path (ambiguity). (4) **Thin DAX, three patterns only:** week-grain KPIs = `SELECTEDVALUE` of the `kpi_weekly`
+  column (blank over several weeks; percent ÷ 100); semi-additive tables (AR Snapshot, Overdue List, Customer KPIs 13w,
+  Weekly Trend) guarded by `HASONEVALUE(Week[report_week])`; additive facts (Invoices, Payments) plain `SUM` — 38
+  measures in `Weekly KPIs`, folders per page; one calculated column (`customer_group`, a display label of
+  `is_top10`). (5) Every column `summarizeBy = None`; keys / technical / measured columns hidden; friendly table
+  names, the source view in each description. (6) Report: 5 pages (Overview, Revenue, Receivables, Customers,
+  Exceptions = placeholder until the Auditor tool, P3-11) with one **single-select week slicer synced on all pages**
+  (filter "is not (Blank)"); money `#,0.00` (the new Card visual abbreviates itself); where a visual sum of rounded
+  SQL values would differ from the SQL KPI (customer shares), the visual shows the KPI and hides the total.
+  (7) Visuals are built on screen with the owner (computer use, explained per visual), not generated.
+- **Consequences:** every number of pages 1–4 equals `finance.kpi_weekly` read straight from PostgreSQL for weeks
+  5 / 23 / 49 (and the revenue / AR / customer breakdowns each sum to the week's KPI); the dashboard is current when
+  opened (no refresh) but **needs the database running** (an error otherwise — the containers restart with Docker,
+  P3-12); MCP edits reach disk only after Desktop's Save (clear the "refresh manually" banner first). Upgrade path
+  (D5): a work / school account → Power BI Service as an adapter; Import mode stays a fallback. Rejected: DAX KPI
+  logic (would fork the definitions); a disconnected slicer table; a `.pbix` in git.
+
 ---
 
 ## Dropped (history)

@@ -469,19 +469,111 @@ rate limits (ai.google.dev); FP&A reporting time (vendor case studies). Vendor f
   Save wrote the TMDL (22:40): `relationships.tmdl`, 12 renamed table files, 36 measures; no credentials in
   `powerbi/`. Cosmetic leftovers: relationship names auto-generated from the old `finance …` table names; the
   `PBI_QueryOrder` annotation in `model.tmdl` still lists the old query names (Desktop rewrites it).
+- 2026-10-14 — **Page 1 Overview built** (owner chose: the assistant builds it on screen through computer use while the
+  owner watches — the step-by-step text guide was too dense; teach mode not available). Layout (owner decision P3-9):
+  title; `Week[iso_week_label]` slicer (dropdown, single select, visual filter "is not (Blank)" — the blank member
+  comes from the 4 invoices / 152 payments outside the 52 weeks); one new-Card visual with 6 callouts (Billed,
+  Collected, AR, Overdue, DSO, Budget Variance %) each with a reference label (the matching WoW measure; Budget
+  Variance SDR under the % card); clustered column "Billed vs Budget (SDR)" with data labels; a card Week Label /
+  Invoices Billed / Top10 Share 13w %; a card `Warm-up Note`. Positions set in General → Properties on the 1920×1080
+  page. Model changes by MCP: the money measures of folder 1 now `#,0.00` (the new Card ignores `,,` scaling and
+  auto-abbreviates: `#,0.00` → "8.39M"; Budget Variance SDR `+#,0.00;-#,0.00;0.00`); `Warm-up Note` returns a sentence
+  for both cases (blank only when not one week). Checked on screen for W05 / W23 / W49 against `kpi_weekly` (all
+  cards, WoW labels, invoices, top-10 share, warm-up note); "--" on Collected / Overdue WoW of W05 is correct (W04 =
+  0 → NULL in SQL). Saved 23:28 (page + 6 visuals in PBIR, model TMDL), no credentials. Lesson: `open_application`
+  started a second, empty Power BI process — use the existing window (owner brings it to front).
+- 2026-10-15 — **Page 2 Revenue built** (owner first tried to click it himself; the tiny targets at ~40 % zoom failed,
+  so he asked the assistant to build it on screen and explain each visual's data — memory updated). Layout (owner decision
+  P3-10): title; the week slicer synced from Overview (View → Sync slicers: sync on both pages, visible on Revenue);
+  card Revenue SDR / Invoice Count / SCNT Tons; clustered bar "Billed vs Budget by vessel category" from
+  `Category KPIs` (axis `Category KPIs[vessel_category]` + new measure **`Category Billed SDR`** = SUM of
+  `kpi_weekly_category.billed_sdr` — `Category KPIs` and `Invoices` meet only through `Week`, so the category axis must
+  come from the same table as the budget); line "Billed vs Budget — last 13 weeks" (`Weekly Trend[trend_week_label]`,
+  Trend Billed / Budget SDR); donut Laden vs Ballast (`Invoices[priced_condition]`); bar by `Toll Band[band_label]`
+  (the invoice's top band reached); bar Top 10 routes (`Vessel[route]`, visual filter Top N 10 by Revenue SDR — 28
+  routes in W23, almost one vessel each). Money measures of folder 2 / trend now `#,0.00`. Checked by DAX: Revenue SDR
+  = Billed for W05 / W23 / W49; categories, laden + ballast and bands each sum to the week's billed (W23 8,394,785.98;
+  W49 4,056,397.94). Saved 17:35 (8 visuals). Environment: Docker had exited (255) after a reboot → Power BI opened at
+  15:13 without the model ("actively refused"); the assistant restarted `ports-postgres`, owner reopened the PBIP; the old
+  window was closed (Stop-Process) and its auto-recovery files were kept ("view later"), not deleted.
+- 2026-10-15 — **Phase 3 review with the owner** (before any commit of the pages). Deviations from §5 Phase 3 listed
+  and accepted: table 12 `kpi_weekly_trend` (014), no `dim_date`, friendly names, `Category Billed SDR`, money format
+  `#,0.00`, `Warm-up Note` text, Top 10 routes, pages built by the assistant on screen with the owner watching (D5 said
+  "with the owner"). **Owner decisions:** P3-11 the **Exceptions page is a placeholder** in Phase 3 (title + a note that
+  it fills when the Auditor tool exists, Phase 4 / 7 — no `finance_test` views before then, P2-8); P3-12 Docker
+  containers `ports-postgres`, `ports-mongo`, `ports-qdrant` set to `--restart unless-stopped` (done by the assistant,
+  verified). Remaining for Phase 3: pages Receivables, Customers, Exceptions (placeholder); then close (ROADMAP,
+  ARCHITECTURE, ADR-048 for the Power BI model rules).
+- 2026-10-15 — **Page 3 Receivables built** (the assistant on screen, explained per visual; owner decision P3-13 layout):
+  title; slicer added to the sync group (sync + visible); new-Card AR / Overdue / DSO / Collected (the Overview
+  measures, so both pages show one number) with WoW reference labels; column chart `AR by Bucket SDR` by
+  `AR Snapshot[aging_bucket]` (sorted by `aging_bucket_order`; data labels 2 decimals); line `Trend DSO Days` over
+  `Weekly Trend[trend_week_label]`; table from `Overdue List` (rank, invoice, customer, vessel, due date, days past
+  due, bucket, amount; biggest first). Model by MCP: `AR by Bucket SDR`, `Overdue AR SDR`, `Collections SDR` →
+  `#,0.00`; `Overdue List` dates `yyyy-mm-dd`. Checked by DAX for W05 / W23 / W49: buckets sum = `kpi_weekly.ar_sdr`;
+  overdue list sum and count = `overdue_sdr` / `overdue_invoices` (1 / 42 / 27); payments = `collected_sdr`; trend
+  DSO = `dso_days`. Saved 18:12 (6 visuals). Owner, same day: **no commit until Phase 3 is fully closed**; a separate
+  session writes a Power BI Desktop guide (HTML artifact, Egyptian Arabic), outside the repo.
+- 2026-10-15 — **Polish pass on pages 1–3** (owner: "fix anything not right, then continue"): the 18 relationships
+  renamed by MCP to `<from table> -> <to table>` (TMDL checked: no `finance …` names left); auto subtitles turned off
+  on all 8 charts; Overview and Receivables column labels with 2 decimals (the chart labels now match the cards,
+  e.g. 4.06M / 5.94M); DSO line with data labels; Overdue table: columns "Grow to fit" and per-visual names (#,
+  Invoice, Customer, Vessel, Due date, Days late, Bucket, Amount (SDR)); slicer header "Week" on all 3 pages. Sync
+  tested: W23 picked on Receivables → Overview shows W23. Saved 18:42. Left as is: the `PBI_QueryOrder` annotation in
+  `model.tmdl` (Power Query editor order only).
+- 2026-10-15 — **Page 4 Customers built** (owner decision P3-14 layout): title; slicer synced (4 pages); new-Card
+  `Top10 Share 13w %` / `Billed 13w SDR` / new measure **`Top 10 Billed 13w SDR`** (SUM of `billed_13w_sdr` where
+  `is_top10`, one week only); bar Top 10 customers (Top N 10 by Billed 13w, labels 2 decimals); donut Top 10 vs
+  Others on new calculated column **`Customer KPIs 13w[customer_group]`** = IF(`is_top10`, "Top 10", "Others") (a
+  display label only — the Boolean format string does not reach legends; refreshed with Calculate); table top 10
+  (rank, rank last week, customer, segment, credit rating, terms, billed 13w, share, AR, overdue; per-visual names;
+  **totals row off** because the sum of the per-customer rounded shares (59.44 %) differs from the KPI (59.46 %) — the
+  card shows the KPI). Folder 4 money measures → `#,0.00`. Checked by DAX for W05 / W23 / W49: Billed 13w = sum of the
+  13-week trend; Top 10 ÷ all = `top10_share_13w_pct` (62.58 / 59.46 / 60.36 %); 10 customers flagged; customer AR /
+  overdue = `kpi_weekly`. Weeks 1–12 have shorter "13-week" windows (data starts 2025-01-01). Saved 19:07 (6 visuals).
+  Model now: 38 measures, 1 calculated column.
+- 2026-10-15 — **Page 5 Exceptions** = placeholder (P3-11): title + a note that it lists the invoice audit findings of
+  the selected week once the Auditor tool exists (Phase 4, checked against `finance_test` in Phase 7) and that no
+  number is shown until then. Saved 19:12 (5 pages, opens on Overview).
+- 2026-10-15 — **Phase 3 CLOSED.** Done-when of §5 met: every number of pages 1–4 = `finance.kpi_weekly` read from
+  PostgreSQL for weeks 5 / 23 / 49 (Overview cards and WoW; revenue by invoices / categories / laden-ballast / bands;
+  AR buckets, overdue list, collections, DSO trend; 13-week customer billing, top-10 share, customer AR / overdue).
+  **ADR-048** written; ARCHITECTURE (§2 component row, §4 `finance_bi`, §9 rows 045–048, star schema now IMPLEMENTED),
+  ROADMAP (Phase 3 closed, next Phase 4, Power BI DONE) and the project rules updated. Commit: owner, now that the phase is
+  closed (the assistant never runs git).
 
-### SESSION HANDOFF (2026-10-14, Phase 3 model done) — read this first in the next session
+### SESSION HANDOFF (2026-10-15, Phase 3 CLOSED) — read this first in the next session
+
+- **Phases 0–3 are CLOSED.** Phase 3 (2026-10-15): ADR-048; `powerbi/NileGate_Finance.pbip` — DirectQuery on the
+  `finance` views via `ports_bi`, model by the Power BI Modeling MCP (38 thin measures, 1 label column, 18
+  relationships), 5 pages with one synced week slicer (Exceptions = placeholder). Owner to commit the whole phase.
+- **Next (assistant): Phase 4** (§5) — Stage 1 tools (§3) + tests: the finance KPI tool reading the `finance` views by
+  `report_week` (same numbers as the dashboard), the Auditor tool over the invoices vs the tariff (it fills the
+  Exceptions page later), external tools behind a cache and a timeout ("context unavailable", never a guess); the
+  skill loader + the Stage 1 skills in `pipelines/agents/skills/`. Done when each tool is tested on its own, the RBAC
+  matrix shows 0 leakage, every skill parses (frontmatter, size budget) and is reviewed by the owner. Start by
+  re-reading §3 and §4 R7 (`finance_test`), then propose the tool list and interfaces to the owner (AskUserQuestion,
+  recommendation first). Still open: the owner's review of §8a (G1–G6, PROPOSED).
+- **Power BI notes for later phases:** open the PBIP only with PostgreSQL up (containers restart with Docker now);
+  after MCP edits clear the "refresh manually" banner, then File → Save and check file times in `powerbi/`; a new
+  page must be added to the slicer's sync group (View → Sync slicers, select the slicer on Overview first).
+
+### SESSION HANDOFF (2026-10-15, Revenue page done)
 
 - **State:** the semantic model is complete and saved in `powerbi/` (12 tables, 18 relationships, 36 measures in
   `Weekly KPIs`, display folders per page; see Progress 2026-10-14 "Phase 3 model built"). Verified by DAX for weeks
-  5 / 23 / 49 = `kpi_weekly`. Owner to commit (the assistant never runs git).
-- **Next (the assistant guides, owner builds by hand — the MCP cannot build report visuals):** the 5 pages of §2, one page
-  at a time: a `Week[iso_week_label]` single-select slicer on every page (synced); (1) Overview: cards for the folder
-  "1 Overview" measures + WoW / variance, `Warm-up Note`; (2) Revenue: `Revenue SDR` by vessel category, laden /
+  5 / 23 / 49 = `kpi_weekly`. **Pages 1 Overview and 2 Revenue done and checked** (Progress "Page 1 Overview built",
+  "Page 2 Revenue built"); 37 measures (36 + `Category Billed SDR`). Full review 2026-10-15: every number of both
+  pages = `finance.kpi_weekly` read straight from PostgreSQL for W05 / W23 / W49 (billed, invoices, budget, AR, DSO;
+  revenue via invoices, categories, laden + ballast and bands all sum to billed); both slicers in sync group
+  `iso_week_label` with the "is not (Blank)" filter saved. Owner to commit (the assistant never runs git).
+- **Next (the assistant builds on screen by computer use and explains each visual's data, owner watches; the MCP cannot
+  build report visuals):** pages 4–5 of §2, one page at a time; add each new page to the slicer in View → Sync
+  slicers (select the slicer on Overview first); (1) Overview: DONE; (3) Receivables: DONE 2026-10-15; (2) Revenue: DONE — `Revenue SDR` by vessel category, laden /
   ballast (`Invoices[priced_condition]`), band, route + `Trend Billed SDR` over `Weekly Trend[trend_week_label]`;
   (3) Receivables: `AR by Bucket SDR` by `AR Snapshot[aging_bucket]`, DSO, `Collections SDR`, the Overdue List table;
   (4) Customers: top 10 from `Customer KPIs 13w` (`is_top10`, `rank_13w`), `Top10 Share 13w %`; (5) Exceptions:
-  placeholder until the Auditor tool (Phase 4 / 7). Before closing Desktop after MCP edits: clear the "refresh
+  placeholder until the Auditor tool (Phase 4 / 7) — owner decision P3-11. Before closing Desktop after MCP edits: clear the "refresh
   manually" banner, then File → Save, and check file times in `powerbi/`. Done when the page numbers for weeks 5, 23,
   49 = `kpi_weekly` (then close Phase 3: ROADMAP, ARCHITECTURE §, ADR if needed).
 

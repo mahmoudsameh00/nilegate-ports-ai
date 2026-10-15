@@ -1,0 +1,56 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "8de425c082647d2b67a4",
+  "position": {
+    "x": 1140,
+    "y": 720,
+    "z": 5,
+    "height": 200,
+    "width": 760,
+    "tabOrder": 5
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Weekly KPIs"
+                    }
+                  },
+                  "Property": "Warm-up Note"
+                }
+              },
+              "queryRef": "Weekly KPIs.Warm-up Note",
+              "nativeQueryRef": "Warm-up Note"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "f190bb082011a1500c87",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Weekly KPIs"
+              }
+            },
+            "Property": "Warm-up Note"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}
