@@ -19,7 +19,7 @@ Re-run:  --review / --approve are repeatable; --commit is idempotent (point ids 
 
 Why a separate folder (`promoted/`) instead of `chunks/`: the corpus scripts (Embeddings.py, Qdrant_loader.py) assert
 their reviewed counts (2,163 chunks); a promoted document has the same contract, the same registry table, the same
-model, payload and collection, but its own files, so no corpus artifact is rewritten by another script (the project rules 3).
+model, payload and collection, but its own files, so no corpus artifact is rewritten by another script (project rule 3).
 
 The gates, in order (each refusal says why):
 1. request: a `manager` (D12), the document's department = the manager's (Q3), no section removed by screening (Q8)

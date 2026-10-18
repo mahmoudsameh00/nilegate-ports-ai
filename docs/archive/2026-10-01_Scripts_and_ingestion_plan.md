@@ -25,7 +25,7 @@
 - **Relation to the active plan:** `docs/plans/RAG_Embeddings_Qdrant_plan.md` (APPROVED 2026-09-28) stays as it is and
   is paused at Phase 0. 2026-10-01: rewritten for a fresh local start; **part B moved into it as its Phase 8**
   (§3 below is kept as the original proposal only).
-- **Touches:** the project rules conventions (notebooks → scripts), `tools/nb.py`, the local skills foldernotebook-dev-loop`,
+- **Touches:** the project rules conventions (notebooks → scripts), `tools/nb.py`, `the local skills foldernotebook-dev-loop`,
   the local assistant folderhooks/guard.py` (`.ipynb` read block), ARCHITECTURE §2, ROADMAP; a new ADR (next number: ADR-036, so the RAG
   plan's ADR-036 / 037 become 037 / 038).
 
@@ -34,7 +34,7 @@
 ## 1. Starting point (verified 2026-10-01, read-only)
 
 15 notebooks, ~23,900 code lines, no IPython magics except one `%pip` (ExtractPortsConnection, forbidden by
-the project rules rule 6), no `input()`, no plotting.
+project rule 6), no `input()`, no plotting.
 
 | Notebook | Cells (code / md) | Code lines | Final Checkpoint markdown | Script-only issues |
 |---|---|---:|---|---|
@@ -76,11 +76,11 @@ locally**; the cloud session can verify the conversion statically (below).
 |---|---|---|---|
 | 1 | one header line `from IPython.display import display` | `display()` exists only inside Jupyter; IPython is already installed and prints the same text repr | the 7 RAG notebooks that call it |
 | 2 | bare last-line expressions wrapped in `display(...)` | a script silently drops them; the notebook showed them | 40 cells (table above) |
-| 3 | `%pip install "psycopg[binary]"` removed | not valid Python; the project rules rule 6 (uv only; psycopg is in `pyproject.toml`) | ExtractPortsConnection |
+| 3 | `%pip install "psycopg[binary]"` removed | not valid Python; project rule 6 (uv only; psycopg is in `pyproject.toml`) | ExtractPortsConnection |
 | 4 | a header docstring: source notebook, inputs, outputs, side effects, "safe to re-run?" | a script has no visible outputs to read from | all |
 
 ### A3. Guarding side effects (no behaviour change)
-ExtractPortsConnection inserts into `port_connections` (completed table, the project rules rule 2: never rebuild). Its header
+ExtractPortsConnection inserts into `port_connections` (completed table, project rule 2: never rebuild). Its header
 says **DO NOT RE-RUN**, and it is excluded from the local verification run. MongoDB_loader is idempotent (ADR-031) and
 Documents_registry only generates the migration file; both are verified locally like the rest.
 

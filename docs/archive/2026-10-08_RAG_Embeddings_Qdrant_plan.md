@@ -186,7 +186,7 @@ the next session starts by writing the inference-time design as PROPOSED and get
 - **D15 Processing at upload time:** latency budget (generic parse + OCR + chunk + embed while the user waits), size
   / page / type limits, the Gemini daily quota (ADR-037: ≈ 1,000-1,450 texts / day shared with queries), failure
   messages; the human review gate cannot sit inside an inference-time path → what replaces it.
-- **D16 Safety:** uploaded text is untrusted data, never instructions (the project rules rule 5: prompt injection inside a
+- **D16 Safety:** uploaded text is untrusted data, never instructions (project rule 5: prompt injection inside a
   PDF); malware / non-PDF content; personal data in uploads vs Gemini's free tier (ADR-037: never send non-public or
   personal data to the free tier) — this may require a different embedding path for uploads.
 - **D17 Retrieval with uploads:** how `search_documents` merges the user's uploads with the corpus (same query,
@@ -204,7 +204,7 @@ the next session starts by writing the inference-time design as PROPOSED and get
 - **D15 Processing:** uploads happen **inside the company**, so NileGate defines **one fixed document shape that the
   whole company knows** (a template: structure, metadata block, headings, allowed content) to avoid problems at upload
   time; the system validates an upload against it. **We define this shape** (next session: specify it).
-- **D16 Safety:** agreed as proposed — uploaded text is untrusted data (the project rules rule 5, prompt-injection
+- **D16 Safety:** agreed as proposed — uploaded text is untrusted data (project rule 5, prompt-injection
   screening); non-PDF / malicious content refused; personal or non-public data is never sent to Gemini's free tier
   (ADR-037), which may need a different embedding path for uploads.
 - **D17 Retrieval with uploads:** agreed as proposed — `search_documents` merges the conversation's uploads with the

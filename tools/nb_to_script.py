@@ -12,7 +12,7 @@ Every code cell is copied byte for byte, except these listed changes (plan §2 A
   1. `from IPython.display import display` in the header when the script calls display();
   2. a cell whose last statement is a bare expression gets it wrapped in `_display_result(...)`: Jupyter showed that
      value (unless None), a script would drop it silently;
-  3. an IPython `%pip` line is turned into a comment (dependencies come from uv, the project rules rule 6).
+  3. an IPython `%pip` line is turned into a comment (dependencies come from uv, project rule 6).
 The Final Checkpoint markdown cell moves, unchanged, to the companion .md; the script keeps a pointer at its place.
 Empty cells are skipped. `check` rebuilds each notebook cell from the script, undoes the listed changes and asserts
 equality with the notebook (code, markdown, Final Checkpoint text), then compiles the script.
@@ -38,7 +38,7 @@ DISABLED_PREFIX = "#! "
 # Cells the owner asked to disable (kept as comments, restorable): {notebook key: {cell index: reason}}
 DISABLED = {
     "structured/ExtractPortsConnection": {
-        21: "the INSERT into port_connections must not run again (completed table, the project rules rule 2); "
+        21: "the INSERT into port_connections must not run again (completed table, project rule 2); "
             "kept as the record of how the table was loaded",
     },
 }
@@ -112,7 +112,7 @@ META = {
     "structured/ExtractPortsConnection": dict(
         reads="Data/raw/structured/Port_flows/ (shapefile); PostgreSQL (ports, read only)",
         writes="Data/processed/structured/port_connections.csv. The INSERT into port_connections (cell 21) is "
-               "DISABLED (commented out, owner 2026-10-01): the table is complete (the project rules rule 2)",
+               "DISABLED (commented out, owner 2026-10-01): the table is complete (project rule 2)",
         rerun="safe: the database write is disabled; rewrites the same CSV"),
 }
 
@@ -161,7 +161,7 @@ def transform(code: str, disabled: str | None = None) -> tuple[str, list[str]]:
         magic = [i for i, l in enumerate(lines) if re.match(r"%\w", l)]
     if magic:
         for i in magic:
-            lines[i] = f"# IPython magic removed (dependencies come from uv, the project rules rule 6): {lines[i].strip()}"
+            lines[i] = f"# IPython magic removed (dependencies come from uv, project rule 6): {lines[i].strip()}"
         changes.append("magic")
         return "\n".join(lines), changes
     node = bare_expression(code)

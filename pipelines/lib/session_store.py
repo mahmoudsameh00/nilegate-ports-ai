@@ -7,7 +7,7 @@ non-public text leaves the machine (ADR-037), no Gemini quota is spent, one vect
 
 `Session.search` is the **session lane** of `search_documents` (`retrieval.Retriever.search(..., session=...)`):
 cosine over the session's chunks, a calibrated floor, at most `k` results, each labelled
-`trust="untrusted_upload"` — upload text is data for the answer, never instructions (the project rules rule 5).
+`trust="untrusted_upload"` — upload text is data for the answer, never instructions (project rule 5).
 
 A manager may ask to promote an accepted upload of their own department to the corpus (`request_promotion`): only
 then is the original file persisted, to `Data/incoming/promotion/<request_id>/` (git-ignored), for the owner's

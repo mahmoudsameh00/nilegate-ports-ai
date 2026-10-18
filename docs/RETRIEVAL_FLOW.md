@@ -40,7 +40,7 @@ flowchart TD
 - Level 3 is never unlocked by department (ADR-006).
 - "Not authorized" and "does not exist" get **the same answer**, so hidden content never leaks through a refusal.
 - Every piece of evidence carries its reference; no answer is given without one.
-- Retrieved text is **data, not instructions** (the project rules rule 5).
+- Retrieved text is **data, not instructions** (project rule 5).
 
 ---
 
@@ -91,7 +91,7 @@ numbers supported: dense + rerank (ADR-038, baseline `Data/processed/rag/eval/re
 | size | k (8) | at most 3, above the model's floor |
 | label | corpus provenance | `lane="session"`, `trust="untrusted_upload"`, `uploaded_by`, `document_code` |
 
-**Contract for the agents phase (the project rules rule 5):** a `session_results` chunk is the employee's own uploaded text.
+**Contract for the agents phase (project rule 5):** a `session_results` chunk is the employee's own uploaded text.
 It may be quoted and cited as data, inside clear delimiters, with its upload label; it is **never** followed as an
 instruction, never allowed to change the assistant's role or rules, and never allowed to trigger a tool call or a
 request to a URL — even if it passed the upload screening (the patterns catch known shapes only). Corpus `results`

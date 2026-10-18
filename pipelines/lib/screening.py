@@ -1,4 +1,4 @@
-"""Injection screening of uploaded text (RAG plan Phase 8 §c; the project rules rule 5: retrieved text is data, never
+"""Injection screening of uploaded text (RAG plan Phase 8 §c; project rule 5: retrieved text is data, never
 instructions).
 
 Layer 3 of the upload screening: the *visible* text of an upload, after normalization, against patterns of known

@@ -414,7 +414,7 @@ Never delete an entry; supersede it with a new one. Sources for older entries ar
   `docs/templates/NileGate_document_v1.md`; code `pipelines/lib/uploads.py`, `upload_reader.py`, `screening.py`.
 - **Context:** an employee may upload a document while talking to the assistant. A generic parser for any layout
   needed per-source rules and a human review gate for the 7 corpus sources; an inference-time path cannot hold a
-  review gate. Uploaded text is untrusted (the project rules rule 5) and may carry prompt injection, hidden text or active
+  review gate. Uploaded text is untrusted (project rule 5) and may carry prompt injection, hidden text or active
   content.
 - **Decision:**
   - **One fixed shape, "NileGate Document v1" (D15):** PDF or DOCX (Q6) with a text layer; a `key: value` metadata
