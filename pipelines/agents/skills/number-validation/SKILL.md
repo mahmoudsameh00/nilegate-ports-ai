@@ -1,13 +1,15 @@
 ---
 name: number-validation
-description: The rules every number in an answer or a deck must follow — only numbers a tool returned, the allowed roundings, a source for each, and what to write when a tool returned no data. Load before writing any text with numbers.
+description: The rules every number in an answer or a deck must follow — only numbers a tool returned, bound to one field, the allowed roundings, signs and directions, a source for each, and what to write when a tool returned no data.
 stage: 1
 reviewed_by_owner: 2026-10-19
 ---
 # Number validation
 
-The Validator compares every number in your text with the tool results of the run. A number that is not found
-fails the answer (ADR-020: only numbers that exist in the source).
+The Validator binds every number in your text to one field of one tool result of the run: the right value, the
+right row, the right meaning. A number it cannot bind fails the answer (ADR-020: only numbers that exist in the
+source). In the weekly deck you write numbers as slots and code applies these rules for you (`deck-style-guide`);
+in an answer you write them yourself.
 
 ## Rules
 1. **Only tool numbers.** Every number you write (amounts, counts, percentages, days, dates, ranks) must appear in a
@@ -20,16 +22,20 @@ fails the answer (ADR-020: only numbers that exist in the source).
    never cut the digits, and keep the sign: −1,234,567.89 → "−1.23 M"; −849,964.00 → "−850.0 k" (not "849.9 k").
    Never more decimals than the tool gave, never a different value.
 3. **Percent fields are already percent:** `billed_wow_pct` = 25.83 means 25.83 %; never multiply or divide by 100.
-4. **Units and periods always:** SDR, %, days, "week <w> of 2025". A number without its unit and period is not
+4. **Say what it is and whose it is:** name the measure (billed, collected, AR, overdue, DSO, budget, share) and the
+   category, customer or invoice before the number — "Cruise Ships billed 0.70 M SDR", not "Cruise Ships 0.70 M"
+   next to another category's name. A number is checked against the row the sentence names, in the dataset you cite.
+5. **Units and periods always:** SDR, %, days, "week <w> of 2025". A number without its unit and period is not
    checkable.
-5. **Signs and directions:** keep the sign of the value; a direction word must match it ("fell" needs a negative
-   change).
-6. **A source for each number:** the `source` of the result (view or API + filter). In a deck it goes to the
-   sources slide; in an answer, after the sentence or at the end.
-7. **Copy identifiers exactly:** invoice numbers (INV-0000123), vessel and customer names, category names as
+6. **Signs and directions:** a change keeps its sign ("−15.8 %"), or a direction word carries it ("down 15.8 %" for
+   −15.76 is right). A direction word must agree with the value: "rose" or "up" with a negative change fails, and so
+   does a negative change written with neither its sign nor a direction word.
+7. **A source for each number:** the `source` of the result (view or API + filter). In a deck it is on the sources
+   slide; in an answer, after the sentence or at the end.
+8. **Copy identifiers exactly:** invoice numbers (INV-0000123), vessel and customer names, category names as
    returned.
-8. **Structural counts in words:** "three drivers", "five bullets", not digits — digits are reserved for tool
-   numbers. The deck's fixed template text (e.g. the warm-up footnote) is the only other exception.
+9. **Structural counts in words:** "three drivers", "five bullets", not digits — digits are reserved for tool
+   numbers. The deck's fixed template text, drawn by code, is the only other exception.
 
 ## When a tool returned nothing
 | status | What to write |
@@ -39,7 +45,7 @@ fails the answer (ADR-020: only numbers that exist in the source).
 | `no_data` | "There is no data for this (period / item)." |
 
 ## Self-check before you answer
-- Can every number be found in a tool result? Is each rounding one of the allowed ones?
-- Does each direction word agree with its sign?
+- Can every number be found in a tool result, in the row and field the sentence names?
+- Is each rounding one of the allowed ones, and does each direction word agree with its sign?
 - Did you name the source of each number?
 If any answer is no, fix the text before returning it.

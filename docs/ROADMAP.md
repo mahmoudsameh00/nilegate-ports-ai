@@ -1,11 +1,27 @@
 # Roadmap & status
 
-Single place for project status. Last updated: 2026-10-19 (Agents plan Phase 5 CLOSED: the `weekly_pack` workflow + PostgresSaver + approval, ADR-050, migration 016, ADR-045 amendment 1; Phase 4 CLOSED: Stage 1 tools + skills, ADR-049; Phase 3 CLOSED 2026-10-15: Power BI dashboard, ADR-048; Phase 2 closed 2026-10-14, ADR-047; Phase 1 closed 2026-10-14, ADR-046; Phase 0 closed 2026-10-12, ADR-045).
+Single place for project status. Last updated: 2026-10-19 (Agents plan Phase 6 CLOSED: the NileGate PPTX, number slots, Validator v2 + V8, ADR-051; Phase 5 CLOSED: the `weekly_pack` workflow + PostgresSaver + approval, ADR-050, migration 016, ADR-045 amendment 1; Phase 4 CLOSED: Stage 1 tools + skills, ADR-049; Phase 3 CLOSED 2026-10-15: Power BI dashboard, ADR-048; Phase 2 closed 2026-10-14, ADR-047; Phase 1 closed 2026-10-14, ADR-046; Phase 0 closed 2026-10-12, ADR-045).
 Labels: `DONE`, `IN PROGRESS`, `PARTIAL`, `NEXT`, `PLANNED`, `PROPOSED`, `DEFERRED`, `BLOCKED`.
 
 ## Current phase
 
 **RAG retrieval CLOSED 2026-10-08** — plan archived as `docs/archive/2026-10-08_RAG_Embeddings_Qdrant_plan.md` (implementation record at the top). Result: Gemini `gemini-embedding-2` vectors (ADR-037) for the 2,163 chunks in Qdrant `nilegate_docs`; `search_documents` (`pipelines/lib/retrieval.py`) with RBAC inside Qdrant, exact dense + Jina rerank (ADR-038; balanced 0.850, RBAC leakage 0; baseline `Data/processed/rag/eval/results_2026-10-08.json`); three-level evaluation (ADR-040); conversation uploads with a local bge-m3 lane (ADR-042 – ADR-044); `documents.ingested_at` filled (migration 011). Phase 9 clean-up: the bake-off vectors moved to `Data/embeddings/bakeoff/`, the two rejected local models removed (`Upload_eval.py` keeps their recorded rows), promoted documents' migrations carry `ingested_at`.
+
+**Agents plan Phase 6 CLOSED (2026-10-19)** — ADR-051, plan §5c (owner decisions P6-1…P6-8): the weekly deck
+(`pipelines/agents/deck/`). The Writer writes numbers as **slots** (`{evidence[row]:field|format}`; code writes the
+rounding, sign, unit, `|dir` for up / down); code draws slide 1, the KPI tiles, every table and native chart, the
+footnotes and the sources slide (template as code: 16:9, NileGate navy / teal); the **Validator v2** binds every
+number to one (evidence, row, field) — V1–V7: citations, numbers, label, shape, evidence per slide, direction,
+attribution (drivers = top three, known invoices, the named row, no total on one row, no unit / direction written
+twice) — and **V8 reads the rendered PPTX back** (every shape a contract name; the template allowlist = the
+template). A rewrite is a `DeckPatch` of the failing texts (≈ 20 % of a first draft's prompt); the approver opens a
+preview (`reports/_drafts/`); the publisher saves `deck.pptx` after its read-back. Skills `deck-style-guide` and
+`number-validation` rewritten (owner-reviewed). `Deck_check.py` **4 / 4 ✅**: 52 / 52 clean decks pass V1–V8 (0 false
+alarms), **100 / 100 planted wrong numbers caught** (17 draft + 8 file classes × weeks 5 / 10 / 23 / 49 — the done-when),
+every real failure replayed. `Weekly_pack_check.py` **7 / 7 ✅**; real models (5 runs, reported per P6-8): the last
+published 3 / 4 (the fourth stopped on a real Writer error the Validator caught), Writer calls ≤ 12.4K tokens (17.0K
+before). **Next: Phase 7** — evaluation (§8) on golden weeks + finance Q&A golden questions, with the §8a generation
+checks (G1–G6, still PROPOSED: the owner reviews them first) and the planted budget miss of `finance_test`.
 
 **Agents plan Phase 5 CLOSED (2026-10-19)** — ADR-050, plan §5b (owner decisions P5-1…P5-8 + three S6 decisions):
 the LangGraph `weekly_pack` workflow (`pipelines/agents/graphs/`): Data Readiness gate, KPI and Invoice Auditor as
@@ -73,7 +89,7 @@ History of the RAG plan, phase by phase: **Phase 0 done 2026-10-01** (rewrite co
 | MongoDB + AIS/EDI profiling, generators, loader | DONE | 2026-09-27: `Notebooks/semi_structured/` (profiling 28 cells, AIS generator 22, EDI generator 16, loader 32; all 0 errors); 1,321,568 / 10,534 / 435 documents; 0 schema violations, 0 unaccounted records, consistency audit all pass (incl. tracks at sea); idempotent (ADR-029 – ADR-032) |
 | Synthetic incidents / synthetic FBLs | PLANNED (optional) | |
 | Causal consistency checks (PostgreSQL ↔ AIS ↔ incidents ↔ RAG) | PLANNED | needs a shared event timeline per vessel/shipment |
-| Agents (Supervisor + Analytics) | IN PROGRESS | Agents plan Phase 0 CLOSED 2026-10-12 (packages, `pipelines/agents/llm.py`, LLM bake-off → ADR-045); Phase 1 CLOSED 2026-10-14 (finance data, migration 012, ADR-046); Phase 2 CLOSED 2026-10-14 (`finance` views, migration 013, ADR-047); Phase 3 CLOSED 2026-10-15 (Power BI dashboard, ADR-048); Phase 4 CLOSED 2026-10-19 (Stage 1 tools + skills, ADR-049; migration 015; `Tools_check.py` 8 / 8); Phase 5 CLOSED 2026-10-19 (`weekly_pack` workflow + PostgresSaver + approval, ADR-050; migration 016; `Weekly_pack_check.py` 7 / 7); next Phase 6;  ADR-012; the document tool exists (`search_documents`, untrusted-upload contract in `docs/RETRIEVAL_FLOW.md` §2.1) |
+| Agents (Supervisor + Analytics) | IN PROGRESS | Agents plan Phase 0 CLOSED 2026-10-12 (packages, `pipelines/agents/llm.py`, LLM bake-off → ADR-045); Phase 1 CLOSED 2026-10-14 (finance data, migration 012, ADR-046); Phase 2 CLOSED 2026-10-14 (`finance` views, migration 013, ADR-047); Phase 3 CLOSED 2026-10-15 (Power BI dashboard, ADR-048); Phase 4 CLOSED 2026-10-19 (Stage 1 tools + skills, ADR-049; migration 015; `Tools_check.py` 8 / 8); Phase 5 CLOSED 2026-10-19 (`weekly_pack` workflow + PostgresSaver + approval, ADR-050; migration 016; `Weekly_pack_check.py` 7 / 7); Phase 6 CLOSED 2026-10-19 (NileGate PPTX, slots, Validator v2 + V8, ADR-051; `Deck_check.py` 4 / 4, 100 / 100 planted numbers caught); next Phase 7;  ADR-012; the document tool exists (`search_documents`, untrusted-upload contract in `docs/RETRIEVAL_FLOW.md` §2.1) |
 | API, auth, audit_log, guardrails | PLANNED | audit_log redesign in ADR-014 |
 | Evaluation (golden tasks), observability (trace IDs) | PLANNED | |
 | Power BI integration | DONE (2026-10-15) | ADR-048: `powerbi/NileGate_Finance.pbip` (Desktop, PBIP in git), DirectQuery on the `finance` views via the read-only login `ports_bi`; 5 pages (Exceptions = placeholder until the Auditor tool, Phase 4 / 7); numbers = `kpi_weekly` for weeks 5 / 23 / 49 |

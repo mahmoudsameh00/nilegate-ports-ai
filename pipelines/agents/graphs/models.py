@@ -62,16 +62,39 @@ class Bullet(Cited):
 
 
 class DeckDraft(BaseModel):
-    """The deck as text (Phase 5); Phase 6 renders it into the NileGate PPTX template."""
+    """The deck as text with number slots (Phase 6, §5c); `pipelines/agents/deck/render.py` renders it into the
+    NileGate PPTX template."""
     title: str = Field(min_length=1, description='"NileGate Weekly Finance Pack — <week> — Draft for approval"')
     slide_titles: list[SlideTitle] = Field(description="one title per slide, slides 1 to 10")
-    bullets: list[Bullet] = Field(description="every bullet of every slide, in slide order")
+    bullets: list[Bullet] = Field(description="every bullet of slides 2 to 9, in slide order")
+
+
+class Fix(BaseModel):
+    target: Literal["bullet", "slide_title", "title"]
+    index: int = Field(ge=0, description="bullet: its index in DeckDraft.bullets; slide_title: the slide number; "
+                                         "title: 0")
+    text: str = Field(min_length=1, description="the whole new text, numbers as slots")
+    evidence_ids: list[str] = Field(default_factory=list, description="bullets only: the ids its numbers come from")
+
+    @model_validator(mode="after")
+    def _ids(self):
+        bad = [e for e in self.evidence_ids if not re.match(EVIDENCE_ID, e)]
+        if bad:
+            raise ValueError(f"evidence ids must look like kpi.weekly / audit.week / insight.<id>: {bad}")
+        return self
+
+
+class DeckPatch(BaseModel):
+    """A rewrite after the Validator (§5c, P6-6): replacements for the failing texts only; code merges them."""
+    fixes: list[Fix] = Field(description="one replacement per failing text")
 
 
 # --- Validator ------------------------------------------------------------------------------------------------------
 
 class Problem(BaseModel):
-    rule: Literal["V1", "V2", "V3", "V4"]   # V1 citation, V2 number, V3 draft label, V4 deck shape
+    # V1 citation, V2 number, V3 draft label, V4 deck shape; Phase 6 (§5c): V5 evidence per slide, V6 direction,
+    # V7 attribution, V8 the rendered PPTX
+    rule: Literal["V1", "V2", "V3", "V4", "V5", "V6", "V7", "V8"]
     slide: int | None = None
     bullet: int | None = Field(default=None, description="index of the bullet in DeckDraft.bullets")
     token: str | None = Field(default=None, description="the number token that failed, if any")

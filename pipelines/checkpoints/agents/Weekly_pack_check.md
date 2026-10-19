@@ -34,3 +34,27 @@ decision, publishes only an approved draft, and resumes from PostgreSQL after it
   Validator is right to refuse them; Phase 6 improves the Writer and binds each number to its field (G1).
 - Deleting scratch files was refused in this session: `Notebooks/_scratch/` keeps the S1 / S6 helpers until the
   owner empties it.
+
+## Phase 6 update (2026-10-19, Agents plan §5c, ADR-051)
+The graph now runs the Phase 6 deck: the Writer writes number slots, the Validator is `deck/validator.py` (V1–V7)
+plus the rendered PPTX read back (V8), a rewrite is a `DeckPatch`, the approver gets a PPTX preview and the publisher
+saves `deck.pptx`. Results (7 / 7 ✅): Phase 2 — 52 / 52 at the approval with the preview (file present, sha256
+equal, no slot left in `draft_rendered`) and published with a `deck.pptx` that passes V8, `_drafts` empty after
+publishing, reject leaves no file; Phase 3 — the 26 rule cases moved to `Deck_check.py` (the rules' own tests);
+here the routing: a wrong number fixed by one patch, a patch that keeps it stops after two rewrites, a wrong deck
+shape (V4) gets the whole deck again, a V8 fault stops with no preview, the patch prompt < half the first draft's
+(3,203 vs 17,002 characters, fake run); Phase 5 — runs only with `PACK_REAL_MODELS=1`; five real runs (S6), the last
+kept by the owner: weeks 5 / 10 / 49 published, week 23 `validation_failed` on a real Writer error ("days" written
+after a days slot), max 12.4K tokens per call.
+
+## Phase 6 problems and fixes (S6 real runs)
+- **Docker Desktop was off** (pool timeout in Phase 1, no model call): started; the containers restart themselves.
+- **Unhelpful messages, not wrong rules:** a row named by position (`[1]`), a week total put on one invoice — the
+  patches failed twice because the message did not say what to write; messages now give the slot that fixes it.
+- **False alarms of the Validator** (each a `Deck_check.py` Phase 4 case): a field with two measures
+  (`dso_window_billed_sdr`); the next slot's "budget" outvoting "Billed"; a row named after its number.
+- **Defects the Validator missed, seen only on the PNG export of a real deck:** "SDR SDR" / "days days", "up up", and
+  slide 1's title copied from the deck title (an approved deck said "Draft for approval") — now V2 / V3 rules and two
+  prompt lines. Lesson: look at the rendered deck, not only the verdict.
+- **Variance:** runs 2 / 4 / 5 published 3 / 4 / 3 of 4 weeks with the same code; owner: keep 3 / 4, measure the
+  Writer in Phase 7.

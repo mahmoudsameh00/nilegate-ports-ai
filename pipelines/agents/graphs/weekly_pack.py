@@ -1,5 +1,9 @@
-"""The `weekly_pack` LangGraph workflow (Agents plan §3, §5b): one report week → a validated deck draft → the
-Finance manager's approval → saved.
+"""The `weekly_pack` LangGraph workflow (Agents plan §3, §5b, §5c): one report week → a validated deck draft → the
+Finance manager's approval → the NileGate PPTX saved.
+
+Phase 6 (§5c): the Writer writes numbers as slots (`deck/slots.py`), code draws the fixed parts of the deck
+(`deck/render.py`), the Validator binds every number to its field (`deck/validator.py`, V1–V7) and reads the rendered
+file back (`deck/readback.py`, V8); a rewrite is a patch of the failing texts only (`DeckPatch`).
 
 - The user and the dataset are the run context (`RunContext`, `context_schema`), passed on every invoke and resume,
   never kept in the state and never visible to a model (ADR-049).
@@ -9,15 +13,17 @@ Finance manager's approval → saved.
   `insight_llm` ⇄ `insight_tools` (`ToolNode(STAGE1_TOOLS)`, which hands the run context to the tools), then
   `insight_notes` and `writer` (one structured call each). Every LLM call goes through `roles` (ADR-045 over llm.py).
 - A node that is interrupted or crashes is re-run from its start on resume: `approval` does nothing before its
-  `interrupt()`, and every node only returns state updates (the publisher's files are overwritten, never appended).
+  `interrupt()`, and every node only returns state updates (the validator's preview and the publisher's files are
+  overwritten, never appended).
 
 Evidence ids (`graphs/models.py`): `kpi.<dataset>`, `audit.week`, `insight.<tool_call_id>`.
 """
+import hashlib
 import json
 import operator
 import re
+import shutil
 from datetime import datetime, timezone
-from decimal import ROUND_HALF_UP, Decimal
 from pathlib import Path
 from typing import Annotated, Any, Literal, TypedDict
 
@@ -31,6 +37,8 @@ from langgraph.types import interrupt
 from pydantic import ValidationError
 
 from pipelines.agents import skill_loader
+from pipelines.agents.deck import readback, render, slots
+from pipelines.agents.deck import validator as v2
 from pipelines.agents.graphs import models as m
 from pipelines.agents.roles import StructuredError
 from pipelines.agents.tools import audit as audit_tool
@@ -47,9 +55,8 @@ MAX_TOOL_ROUNDS = 4                    # Insight tool rounds (P5-1); the last ro
 MAX_REWRITES = 2                       # Writer rewrites after a failed Validator, then stop (§3)
 SEARCH_K = 3                           # passages per search_documents call in the pack (P5-8: Groq 8K TPM)
 REPORT_YEAR = 2025                     # D12: replay of 2025's 52 ISO weeks
-DRAFT_LABEL, APPROVED_LABEL = "Draft for approval", "Approved"
-# tools whose numeric fields may be cited: NileGate's structured tools (ADR-049) + public structured context
-NUMERIC_TOOLS = {"finance_kpi", "invoice_audit", "compute_toll", "suez_transits"}
+DRAFT_LABEL, APPROVED_LABEL = v2.DRAFT_LABEL, "Approved"
+NUMERIC_TOOLS = slots.NUMERIC_TOOLS    # NileGate's structured tools (ADR-049) + public structured context
 
 
 class PackState(TypedDict, total=False):
@@ -66,6 +73,7 @@ class PackState(TypedDict, total=False):
     rewrites: int
     approval_log: Annotated[list[dict], operator.add]
     published: dict
+    preview: dict | None               # the draft PPTX the approver opens: {path, sha256} (Phase 6)
     llm_usage: Annotated[list[dict], operator.add]
 
 
@@ -265,7 +273,9 @@ def evidence_index(evidence: dict[str, dict], messages: list) -> str:
     for eid, res in sorted(evidence.items()):
         what = (f"{calls[eid]['name']}({json.dumps(calls[eid]['args'], ensure_ascii=False)})" if eid in calls
                 else res.get("tool"))
-        lines.append(f"- {eid}: {what}, status {res.get('status')}")
+        keys = slots.row_keys(res) if len(res.get("rows") or []) > 1 else ()
+        keyed = f", rows keyed by {'/'.join(keys)}" if keys else ""
+        lines.append(f"- {eid}: {what}, status {res.get('status')}{keyed}")
     return "\n".join(lines)
 
 
@@ -319,14 +329,46 @@ def make_insight_notes(roles):
     return insight_notes
 
 
-# --- 5 Report Writer ------------------------------------------------------------------------------------------------
+# --- 5 Report Writer (Phase 6, §5c: slots, the code-drawn parts, the patch rewrite) ---------------------------------
+
+SLOT_RULES = """Numbers: never type a NileGate number. Write a slot; code fills it with the allowed rounding, the sign and
+the unit, from the field you name:
+  {{<evidence id>:<field>|<format>}}          one-row results (kpi.weekly) and result totals (audit.week)
+  {{<evidence id>[<row>]:<field>|<format>}}   lists: <row> = the row's key value (the key is named in the evidence list)
+Formats: money M (2 decimals, "M SDR"), k (1 decimal), sdr (as returned); percent %1 or %2; days and counts none.
+Add |dir to a change field (wow, change, variance, difference) to write "up 3.2 %" / "down 1.07 M SDR".
+A slot writes its own unit: never write SDR, % or days after a slot ("{{kpi.weekly:ar_sdr|M}} SDR" is wrong);
+with |dir it also writes "up" / "down": no direction word right before it ("rose {{…|dir}}" is wrong).
+Examples: "Billed {{kpi.weekly:billed_sdr|M}} in week {week}, {{kpi.weekly:billed_wow_pct|%1|dir}} WoW"
+          "Cruise Ships billed {{kpi.category[Cruise Ships]:billed_wow_change_sdr|M|dir}} WoW"
+          "{{audit.week:invoices_checked}} invoices checked, {{audit.week:invoices_flagged}} flagged"
+A null field (no WoW in week 1) cannot be a slot: write "not available". Say what each number is (billed, collected,
+AR, overdue, DSO, budget, share) and name its category, customer or invoice before it. Counts of things you write
+yourself go in words ("three drivers"); the week and year may be digits."""
 
 WRITER_TASK = """You are the Report Writer of NileGate's Weekly Finance Pack. Write the deck for ISO week {week} of
-{year} as a DeckDraft: the title "NileGate Weekly Finance Pack — {label} — {draft}", one title for each slide 1 to
-10, and the bullets of every slide with the evidence ids their numbers come from. Copy every number exactly from the
-evidence (allowed roundings only); write structural counts in words.
+{year} as a DeckDraft. Code draws the title slide, the KPI tiles, every table and chart and the sources slide; you
+write only:
+- title: "NileGate Weekly Finance Pack — {label} — {draft}"
+- slide_titles: one per slide 1 to 10, each stating the slide's finding (slide 1: the week's headline)
+- bullets, slides 2 to 9 only: slide 2 exactly five (the executive summary); slides 3 to 8 at most three comments
+  each; slide 9 the external context lines (or "External context unavailable"), never a NileGate figure.
+Evidence each slide may cite (the bullet's evidence_ids, and its slots): {slide_map}
+
+{slot_rules}
 
 {skills}"""
+
+PATCH_TASK = """You are the Report Writer of NileGate's Weekly Finance Pack (ISO week {week} of {year}). The Validator
+refused the texts below in your draft. Return a DeckPatch with one fix per text: the whole corrected text and, for a
+bullet, its evidence ids. Keep what was right; fix exactly the problems listed.
+Evidence each slide may cite: {slide_map}
+
+{slot_rules}"""
+
+
+def _slide_map() -> str:
+    return "; ".join(f"{s}: {', '.join(ids) or 'none (code)'}" for s, ids in v2.SLIDE_EVIDENCE.items())
 
 
 def _writer_skills(evidence: dict) -> str:
@@ -336,149 +378,129 @@ def _writer_skills(evidence: dict) -> str:
     return "\n\n".join(skill_loader.load(n) for n in names)
 
 
+def _patchable(problems: list[dict]) -> bool:
+    """A patch replaces texts; a wrong deck shape (V4: bullet counts, missing titles) needs the whole deck again."""
+    return not any(p["rule"] == "V4" for p in problems)
+
+
+def _fix_list(draft: dict, problems: list[dict]) -> tuple[str, list[str]]:
+    """The failing texts with their problems grouped (the rewrite's whole feedback) and the evidence they may use."""
+    groups: dict[tuple, list[str]] = {}
+    for p in problems:
+        if p.get("bullet") is not None:
+            key = ("bullet", p["bullet"])
+        elif p.get("slide") is not None:
+            key = ("slide_title", p["slide"])
+        else:
+            key = ("title", 0)
+        groups.setdefault(key, []).append(f"{p['rule']} {p.get('token') or ''}: {p['message']}".replace("  ", " "))
+    titles = {t["slide"]: t["title"] for t in draft["slide_titles"]}
+    lines, ids = [], set()
+    for (target, idx), msgs in sorted(groups.items()):
+        if target == "bullet":
+            b = draft["bullets"][idx]
+            text, cited = b["text"], list(b["evidence_ids"])
+            lines.append(f"- target bullet, index {idx} (slide {b['slide']}), evidence_ids {cited}: "
+                         f"{json.dumps(text, ensure_ascii=False)}")
+        elif target == "slide_title":
+            text, cited = titles.get(idx, ""), []
+            lines.append(f"- target slide_title, index {idx}: {json.dumps(text, ensure_ascii=False)}")
+        else:
+            text, cited = draft["title"], []
+            lines.append(f"- target title, index 0: {json.dumps(text, ensure_ascii=False)}")
+        lines += [f"    problem {msg}" for msg in msgs]
+        # the evidence this fix needs: what the text cites or slots, and what the problems point to (the hints)
+        ids |= set(cited) | {s.eid for s in slots.find_slots(text)}
+        ids |= set(re.findall(r"\b(?:kpi|audit|insight)\.[A-Za-z0-9_.:-]*[A-Za-z0-9_]", " ".join(msgs)))
+    return "\n".join(lines), sorted(ids)
+
+
+def merge_patch(draft: dict, patch: m.DeckPatch) -> dict:
+    """The draft with the fixes applied; a fix to a text that does not exist is ignored (the Validator runs again on
+    the whole deck)."""
+    d = json.loads(json.dumps(draft))
+    titles = {t["slide"]: t for t in d["slide_titles"]}
+    for f in patch.fixes:
+        if f.target == "bullet" and 0 <= f.index < len(d["bullets"]):
+            d["bullets"][f.index]["text"] = f.text
+            if f.evidence_ids:
+                d["bullets"][f.index]["evidence_ids"] = f.evidence_ids
+        elif f.target == "slide_title" and f.index in titles:
+            titles[f.index]["title"] = f.text
+        elif f.target == "title":
+            d["title"] = f.text
+    return d
+
+
 def make_writer(roles):
     def writer(state: PackState) -> dict:
         ev = state["evidence"]
         verdict = state.get("verdict")
         rewrite = bool(verdict and not verdict["passed"] and state.get("draft_origin") == "writer")
-        body = [digest(ev), digest(ev, [k for k in ev if k.startswith("insight.")]),
-                "[evidence ids you may cite]\n" + evidence_index(ev, state.get("messages") or []),
-                "[insight notes]\n" + json.dumps(state["insight"], ensure_ascii=False)]
-        if rewrite:
-            body.append("[validator] your previous draft failed these checks; fix them and return the whole deck:\n"
-                        + json.dumps(verdict["problems"], ensure_ascii=False)
-                        + "\n[previous draft]\n" + json.dumps(state["draft"], ensure_ascii=False))
-        msgs = [SystemMessage(WRITER_TASK.format(week=state["report_week"], year=REPORT_YEAR,
-                                                 label=_week_label(ev), draft=DRAFT_LABEL,
-                                                 skills=_writer_skills(ev))),
-                HumanMessage("\n\n".join(b for b in body if b))]
+        week, label = state["report_week"], _week_label(ev)
+        index = "[evidence ids you may cite]\n" + evidence_index(ev, state.get("messages") or [])
         try:
-            reply = roles.get("writer").structured(msgs, m.DeckDraft)
+            if rewrite and _patchable(verdict["problems"]):
+                fixes, needed = _fix_list(state["draft"], verdict["problems"])
+                msgs = [SystemMessage(PATCH_TASK.format(week=week, year=REPORT_YEAR, slide_map=_slide_map(),
+                                                        slot_rules=SLOT_RULES.format(week=week))),
+                        HumanMessage("\n\n".join([f"[texts to fix]\n{fixes}", index,
+                                                  digest(ev, [e for e in needed if e in ev])]))]
+                reply = roles.get("writer").structured(msgs, m.DeckPatch)
+                draft = merge_patch(state["draft"], reply.parsed)
+            else:
+                body = [digest(ev), digest(ev, [k for k in ev if k.startswith("insight.")]), index,
+                        "[insight notes]\n" + json.dumps(state["insight"], ensure_ascii=False)]
+                if rewrite:      # a wrong deck shape: the whole deck again, with the problems and the draft
+                    body.append("[validator] your previous draft failed these checks; fix them and return the whole "
+                                "deck:\n" + json.dumps(verdict["problems"], ensure_ascii=False)
+                                + "\n[previous draft]\n" + json.dumps(state["draft"], ensure_ascii=False))
+                msgs = [SystemMessage(WRITER_TASK.format(week=week, year=REPORT_YEAR, label=label, draft=DRAFT_LABEL,
+                                                         slide_map=_slide_map(),
+                                                         slot_rules=SLOT_RULES.format(week=week),
+                                                         skills=_writer_skills(ev))),
+                        HumanMessage("\n\n".join(b for b in body if b))]
+                reply = roles.get("writer").structured(msgs, m.DeckDraft)
+                draft = reply.parsed.model_dump(mode="json")
         except StructuredError as exc:
             return _stop("writer", exc)
-        return {"draft": reply.parsed.model_dump(mode="json"), "draft_origin": "writer",
-                "rewrites": state.get("rewrites", 0) + rewrite, "llm_usage": _usage("writer", reply)}
+        return {"draft": draft, "draft_origin": "writer", "rewrites": state.get("rewrites", 0) + rewrite,
+                "llm_usage": _usage("writer", reply)}
     return writer
 
 
-# --- 6 Validator (first version, P5-2) ------------------------------------------------------------------------------
-# V1 a sentence with a number cites existing evidence; V2 every number token equals a numeric field of the cited
-# evidence (titles: of any evidence) after an allowed rounding (number-validation: as returned; M 2 decimals; k 1
-# decimal; % 1 or 2 decimals; half away from zero; the sign kept); V3 the draft label; V4 the deck's shape. Numbers
-# of document / web rows are never candidates (ADR-049). The report week and year are run parameters (allowed).
+# --- 6 Validator (Phase 6, §5c: V1–V7 on the draft, V8 on the rendered file) --------------------------------------
+# `deck/validator.py` binds every number to its field; when the draft passes, the deck is rendered and read back
+# (V8) and the preview the approver opens is saved. A V8 problem is a renderer fault, not the Writer's: the run stops.
 
-NUM_RE = re.compile(r"(?<![\w.])([+\-−])?(\d{1,3}(?:,\d{3})+|\d+)(?:\.(\d+))?(?:\s?(%|k\b|M\b))?")
-# Template text with digits that is not a tool number (owner 2026-10-19: a small allowlist now, the full template's
-# in Phase 6): the aging bucket names, the warm-up footnote (deck-style-guide), the 13-week window, "top 10".
-TEMPLATE_RE = re.compile(r"(?i)receivables still building up since 1 jan(?:uary)? 2025"
-                         r"|\b(?:1|31|61)\s?(?:[-–]|to)\s?(?:30|60|90)(?:\s?days)?\b|\b90\s?\+|\b90 plus\b"
-                         r"|\bover 90 days\b|\b13[- ]weeks?\b|\btop[- ]10\b")
-# Dates and times are never amounts: a source's date must be cited (untrusted-content rule 5), and S6 showed web
-# dates in every form ("6 June 2025", "Fri, 05 Dec 2025 00:00:00 GMT", "2025-12-07"). Blanked everywhere.
-_MON = r"(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?"
-DATE_RE = re.compile(rf"(?i)\b\d{{4}}-\d{{2}}-\d{{2}}(?:[T ]\d{{2}}:\d{{2}}(?::\d{{2}})?Z?)?\b"
-                     rf"|\b\d{{1,2}}\s{_MON},?\s\d{{4}}\b|\b{_MON}\s\d{{1,2}},?\s\d{{4}}\b|\b{_MON}\s\d{{4}}\b"
-                     rf"|\b\d{{2}}:\d{{2}}(?::\d{{2}})?\s?(?:gmt|utc)?\b")
+def _preview_path(reports_dir: Path, thread_id: str) -> Path:
+    return reports_dir / "_drafts" / (re.sub(r"[^A-Za-z0-9_.-]", "_", thread_id or "run") + ".pptx")
 
 
-def number_tokens(text: str, strings: list[str]) -> list[tuple[str, Decimal, int, str | None]]:
-    """(token, signed value, decimals, suffix) of every number in `text` after the template text and the
-    identifiers, dates and labels of the evidence (`strings`) are blanked out."""
-    text = DATE_RE.sub(" ", TEMPLATE_RE.sub(" ", text))
-    for s in strings:
-        text = text.replace(s, " ")
-    out = []
-    for mt in NUM_RE.finditer(text):
-        sign, whole, frac, suffix = mt.groups()
-        val = Decimal(whole.replace(",", "") + (f".{frac}" if frac else ""))
-        out.append((mt.group(0).strip(), -val if sign in ("-", "−") else val, len(frac or ""), suffix))
-    return out
-
-
-def _quant(v: Decimal, d: int) -> Decimal:
-    return v.quantize(Decimal(1).scaleb(-d), rounding=ROUND_HALF_UP)   # ROUND_HALF_UP = half away from zero
-
-
-def number_matches(value: Decimal, decimals: int, suffix: str | None, candidate) -> bool:
-    c = Decimal(str(candidate))
-    if suffix == "M":
-        return decimals == 2 and _quant(c / 10 ** 6, 2) == value
-    if suffix == "k":
-        return decimals == 1 and _quant(c / 10 ** 3, 1) == value
-    if suffix == "%":
-        return (decimals in (1, 2) and _quant(c, decimals) == value) or c == value
-    return c == value
-
-
-def _numbers_and_strings(res: dict) -> tuple[list, list[str]]:
-    nums, strs = [], []
-    values = [v for r in res.get("rows") or [] for v in r.values()]
-    values += [v for k, v in res.items() if k not in ("rows", "source", "tool", "status", "note")]
-    if res.get("tool") not in NUMERIC_TOOLS:
-        # document / web rows give neither numbers nor blankable strings: blanking their text (a title, a snippet)
-        # would hide the very numbers ADR-049 forbids ("Canal revenue 7.5 M" must fail, not vanish)
-        return nums, strs
-    for v in values:
-        if isinstance(v, bool) or v is None:
-            continue
-        if isinstance(v, (int, float)):
-            nums.append(v)
-        elif isinstance(v, str) and re.search(r"\d", v):
-            strs.append(v)            # identifiers, dates, labels of structured rows (INV-0000626, 2025-W23)
-    return nums, strs
-
-
-def validate(draft: dict, evidence: dict, report_week: int) -> m.Verdict:
-    d = m.DeckDraft.model_validate(draft)
-    problems: list[m.Problem] = []
-    pool = {eid: _numbers_and_strings(res) for eid, res in evidence.items() if res.get("status") == "ok"}
-    all_strings = sorted({s for _, ss in pool.values() for s in ss}, key=len, reverse=True)
-    allowed = [report_week, REPORT_YEAR]
-
-    def checked_tokens(text: str, strings: list[str]):
-        return [t for t in number_tokens(text, strings) if not (t[3] is None and t[2] == 0 and t[1] in allowed)]
-
-    def check(text: str, cands: list, strings: list[str], slide: int | None, bullet: int | None):
-        for tok, val, dec, suf in checked_tokens(text, strings):
-            if not any(number_matches(val, dec, suf, c) for c in cands):
-                problems.append(m.Problem(rule="V2", slide=slide, bullet=bullet, token=tok,
-                                          message=f"{tok!r} is not a number of the cited evidence (allowed "
-                                                  "roundings only)"))
-
-    if DRAFT_LABEL not in d.title:
-        problems.append(m.Problem(rule="V3", message=f'the title must say "{DRAFT_LABEL}"'))
-    every = [c for ns, _ in pool.values() for c in ns]
-    check(d.title, every, all_strings, None, None)
-    for st in d.slide_titles:
-        check(st.title, every, all_strings, st.slide, None)
-    for i, b in enumerate(d.bullets):
-        unknown = [e for e in b.evidence_ids if e not in pool]
-        if unknown:
-            problems.append(m.Problem(rule="V1", slide=b.slide, bullet=i,
-                                      message=f"cites evidence that does not exist or has no data: {unknown}"))
-        cited = [e for e in b.evidence_ids if e in pool]
-        strings = sorted({s for e in cited for s in pool[e][1]}, key=len, reverse=True)
-        if not cited and checked_tokens(b.text, all_strings):
-            problems.append(m.Problem(rule="V1", slide=b.slide, bullet=i, message="a number without evidence"))
-            continue
-        check(b.text, [c for e in cited for c in pool[e][0]], strings, b.slide, i)
-    titles = sorted(st.slide for st in d.slide_titles)
-    if titles != list(range(1, m.SLIDES + 1)):
-        problems.append(m.Problem(rule="V4", message=f"one title per slide 1–{m.SLIDES} needed, got {titles}"))
-    summary = sum(1 for b in d.bullets if b.slide == 2)
-    if summary != 5:
-        problems.append(m.Problem(rule="V4", slide=2, message=f"the executive summary needs five bullets, got "
-                                                                f"{summary}"))
-    return m.Verdict(passed=not problems, problems=problems)
-
-
-def validator(state: PackState) -> dict:
-    v = validate(state["draft"], state["evidence"], state["report_week"])
-    waiting = v.passed or state.get("draft_origin") == "edit"
-    return {"verdict": v.model_dump(mode="json"), "status": "awaiting_approval" if waiting else "running"}
+def make_validator(reports_dir: Path):
+    def validator(state: PackState, config: RunnableConfig) -> dict:
+        week, ev = state["report_week"], state["evidence"]
+        v = v2.validate(state["draft"], ev, week)
+        out = {"preview": None}                          # a failing draft has no preview
+        if v.passed:
+            data = render.render(state["draft"], ev, state["readiness"], DRAFT_LABEL)
+            problems = readback.validate_pptx(data, state["draft"], ev, state["readiness"], DRAFT_LABEL)
+            if problems:
+                v = m.Verdict(passed=False, problems=problems)
+            else:
+                path = _preview_path(reports_dir, config["configurable"].get("thread_id"))
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_bytes(data)                       # overwritten on every pass: idempotent on resume
+                out["preview"] = {"path": path.as_posix(), "sha256": hashlib.sha256(data).hexdigest()}
+        waiting = v.passed or state.get("draft_origin") == "edit"
+        return {**out, "verdict": v.model_dump(mode="json"), "status": "awaiting_approval" if waiting else "running"}
+    return validator
 
 
 def after_validator(state: PackState) -> str:
+    problems = state["verdict"]["problems"]
+    if any(p["rule"] == "V8" for p in problems):
+        return "stop_failed"                   # the renderer and its own read-back disagree: never shown or saved
     if state["verdict"]["passed"] or state.get("draft_origin") == "edit":
         return "approval"                      # a failed human edit goes back to the human, with the problems
     return "writer" if state.get("rewrites", 0) < MAX_REWRITES else "stop_failed"
@@ -510,6 +532,8 @@ def approval(state: PackState, config: RunnableConfig) -> dict:
     raw = interrupt({
         "thread_id": config["configurable"].get("thread_id"), "report_week": state["report_week"],
         "draft": state["draft"], "verdict": state["verdict"], "readiness_notes": state["readiness"]["notes"],
+        # what the approver reads: the slots filled; the PPTX preview exists only for a passing draft
+        "draft_rendered": v2.render_draft(state["draft"], state["evidence"]), "preview": state.get("preview"),
         "audit": {k: audit_res.get(k) for k in AUDIT_TOTALS},
         "decisions": ["approve", "edit", "reject"] if state["verdict"]["passed"] else ["edit", "reject"]})
     entry = {"at": _now(), "decision": None, "approver_employee_id": None}
@@ -531,7 +555,8 @@ def approval(state: PackState, config: RunnableConfig) -> dict:
             return refused("the draft fails the Validator: edit or reject it")
         return {"approval_log": [{**entry, "outcome": "approved"}], "status": "awaiting_approval"}
     if d.decision == "reject":
-        return {"approval_log": [{**entry, "outcome": "rejected"}], "status": "rejected"}
+        _drop_preview(state)                   # a rejected deck is not kept (D9: save only what is approved)
+        return {"approval_log": [{**entry, "outcome": "rejected"}], "status": "rejected", "preview": None}
     bullets = state["draft"]["bullets"]
     bad = [e.bullet for e in d.edits if e.bullet >= len(bullets)]
     if bad:
@@ -544,6 +569,12 @@ def approval(state: PackState, config: RunnableConfig) -> dict:
         new[e.bullet]["text"] = e.text
     return {"approval_log": [{**entry, "outcome": "edited", "diff": diff}],
             "draft": {**state["draft"], "bullets": new}, "draft_origin": "edit", "status": "awaiting_approval"}
+
+
+def _drop_preview(state: PackState):
+    p = (state.get("preview") or {}).get("path")
+    if p:
+        Path(p).unlink(missing_ok=True)
 
 
 def after_approval(state: PackState) -> str:
@@ -568,12 +599,23 @@ def make_publisher(reports_dir: Path):
                "llm_calls": len(usage), "llm_cached": sum(c["cached"] for c in usage),
                "max_total_tokens": max((c["total_tokens"] or 0 for c in usage), default=0),
                "models": sorted({c["model"] for c in usage if c["outcome"] == "ok"})}
+        # the approved deck: rendered with "Approved", read back (V8) before it is saved — never a file that differs
+        data = render.render(draft, state["evidence"], state["readiness"], APPROVED_LABEL)
+        problems = readback.validate_pptx(data, draft, state["evidence"], state["readiness"], APPROVED_LABEL)
+        if problems:
+            raise RuntimeError(f"the approved deck fails its read-back (V8): {problems[:3]}")
+        run["deck_sha256"] = hashlib.sha256(data).hexdigest()
         files = {"deck_draft.json": draft, "approval.json": state["approval_log"], "run.json": run}
         for name, obj in files.items():
             (folder / name).write_text(json.dumps(obj, indent=1, ensure_ascii=False, sort_keys=True, default=str),
                                        encoding="utf-8", newline="\n")
-        return {"status": "published", "draft": draft,
-                "published": {"folder": folder.as_posix(), "files": sorted(files), "at": _now()}}
+        (folder / "deck.pptx").write_bytes(data)
+        _drop_preview(state)
+        drafts = reports_dir / "_drafts"
+        if drafts.is_dir() and not any(drafts.iterdir()):
+            shutil.rmtree(drafts)
+        return {"status": "published", "draft": draft, "preview": None,
+                "published": {"folder": folder.as_posix(), "files": sorted([*files, "deck.pptx"]), "at": _now()}}
     return publisher
 
 
@@ -589,10 +631,11 @@ def build_graph(roles: Any, checkpointer=None, reports_dir: Path | None = None):
     g.add_node("insight_tools", ToolNode(STAGE1_TOOLS))
     g.add_node("insight_notes", make_insight_notes(roles))
     g.add_node("writer", make_writer(roles))
-    g.add_node("validator", validator)
+    reports_dir = reports_dir or project_root() / "reports"
+    g.add_node("validator", make_validator(reports_dir))
     g.add_node("stop_failed", stop_failed)
     g.add_node("approval", approval)
-    g.add_node("publisher", make_publisher(reports_dir or project_root() / "reports"))
+    g.add_node("publisher", make_publisher(reports_dir))
     g.add_edge(START, "readiness")
     g.add_conditional_edges("readiness", after_readiness, ["kpi", END])
     g.add_edge("kpi", "audit")

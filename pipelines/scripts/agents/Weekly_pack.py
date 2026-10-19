@@ -3,7 +3,8 @@
 Commands (from the project root):
     uv run python pipelines/scripts/agents/Weekly_pack.py run --week 23 --as 12
         start a new attempt of week 23 as employee 12 (a Finance manager: the pack's run identity); it stops at the
-        approval (prints the draft with bullet numbers) or at a stated stop status
+        approval (prints the draft with bullet numbers and the path of the PPTX preview in reports/_drafts/) or at a
+        stated stop status; on approval reports/2025-W23/ gets deck.pptx + deck_draft.json + approval.json + run.json
     uv run python pipelines/scripts/agents/Weekly_pack.py show --thread weekly_pack:live:2025-W23:1
         where a thread stands, and the draft waiting for a decision
     uv run python pipelines/scripts/agents/Weekly_pack.py resume --thread weekly_pack:live:2025-W23:1 --as 12 \
@@ -61,12 +62,15 @@ def show(g, cfg) -> None:
     for p in verdict.get("problems", []):
         print(f"  validator {p['rule']} slide {p.get('slide')} bullet {p.get('bullet')}: {p['message']}")
     draft = st.get("draft")
-    if draft:
+    if draft:                     # the slots filled: what the deck says (Phase 6); edits are written in this form
+        draft = wp.v2.render_draft(draft, st.get("evidence") or {})
         print(f"  {draft['title']}")
         titles = {t["slide"]: t["title"] for t in draft["slide_titles"]}
         for i, b in enumerate(draft["bullets"]):
             print(f"  [{i:2d}] slide {b['slide']:2d} ({titles.get(b['slide'], '')[:30]}): {b['text']}  "
                   f"<{', '.join(b['evidence_ids'])}>")
+    if st.get("preview"):
+        print(f"  preview (open it before deciding): {st['preview']['path']}")
     if snap.interrupts:
         print(f"  waiting for a decision: {snap.interrupts[0].value['decisions']}")
     for e in st.get("approval_log") or []:

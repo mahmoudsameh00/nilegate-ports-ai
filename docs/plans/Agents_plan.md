@@ -394,6 +394,124 @@ close (ADR-050, ARCHITECTURE, ROADMAP, `rbac_mapping.md`, checkpoint narrative, 
 `finance_test.budget_weekly` (Phase 7); the Exceptions page from `finance.invoice_audit` (Power BI, separate step);
 the tariff Notes rules (later migration); retention of old checkpoints and LangSmith (Phase 8).
 
+### 5c. Phase 6 — NileGate PPTX template, Writer, Validator: concrete design (PROPOSED 2026-10-19; decisions P6-1…P6-8 answered; APPROVED 2026-10-19 by the owner, as written; IMPLEMENTED 2026-10-19, ADR-051 — deviations D-P6-1…D-P6-16 in Progress)
+
+**Owner decisions (2026-10-19, all eight the recommended option; AskUserQuestion):** P6-1 slots, P6-2 code writes the
+fixed parts, P6-3 direction written by code (`|dir`), P6-4 native PowerPoint charts, P6-5 template as code, P6-6
+patch rewrite, P6-7 the Validator reads the PPTX back, P6-8 gate = the planted-number test, real models reported.
+
+**Inputs (Phase 5 S6, `weekly_pack_real.json`).** Week 5 failed on "Dry Bulk Vessels … down 30.78 %" and "(down
+399940.41 SDR)" for −30.78 / −399,940.41; week 23 on "down 15.8 %", "down 1070881.98 SDR" and "Top ten customers
+generated 59.5 %" cited from `kpi.customers` (the value is `kpi.weekly.top10_share_13w_pct`); week 49 passed with
+"down −43.08 %" (right, but a double negative). So the Writer's errors are **signs next to direction words** and
+**the wrong evidence id**, not wrong digits. The Validator's hole: V2 accepts a number equal to **any** numeric field of
+the cited evidence (a category's value under another category's name passes). Writer prompts 10–17K tokens; a
+rewrite resends the whole draft (+ 3–5K). The template allowlist is a regex of five phrases.
+
+**Decisions (recommended option first; the owner answers):**
+
+| # | Question | Recommended | Alternative(s) |
+|---|---|---|---|
+| P6-1 | How numbers enter the Writer's text | **References (slots)** — the Writer writes `{kpi.weekly:billed_wow_pct\|%1}`, code fills the formatted value; every number is bound to its field by construction | (B) free text + a declared (evidence, row, field) per number in the bullet; (C) free text, the Validator infers the field |
+| P6-2 | What code writes vs the Writer | **Code**: slide 1, the KPI tiles (3), every table and chart, the footnotes, slide 10; **Writer**: the slide titles, the 5 summary bullets, ≤ 3 comment bullets on slides 3–8, the context bullets of slide 9 | (B) the Writer writes every bullet as now, code only lays them out |
+| P6-3 | How a negative change is written | **Direction + magnitude written by code** (`\|dir` → "down 30.8 %"); a direction word the Writer writes itself is checked against the sign (G1) | (B) always a signed number ("−30.8 %"), the Writer's direction words checked |
+| P6-4 | Charts | **Native PowerPoint charts** (python-pptx `add_chart`: editable by Finance, their values readable back by the Validator — probed 2026-10-19 on 1.0.2) | (B) matplotlib PNG images (the plan's first idea; a picture the Validator cannot read) |
+| P6-5 | The template | **Template as code** (`deck/style.py`: 16:9, NileGate palette, fixed category colours, positions; blank layout); a designed `.pptx` with named layouts can replace it later | (B) the owner designs a `.pptx` in PowerPoint first, code fills its placeholders |
+| P6-6 | The rewrite | **Patch**: the Writer gets only the failing bullets / titles with their problems grouped and a fix hint, returns replacements, code merges them | (B) the whole deck again, problems de-duplicated |
+| P6-7 | The rendered file | **The Validator also reads the PPTX back** (every text, table cell and chart point) before the approval and before publishing | (B) validate the draft only; the renderer is trusted |
+| P6-8 | Done-when and real models | **Gate = the planted-number test** (100 % caught, the expected rule, 0 false alarms on 52 clean decks); real models on weeks 5 / 10 / 23 / 49 **reported** (target: 4 / 4 reach the approval; a miss goes to the owner) | (B) also a gate on 4 / 4 real weeks |
+
+**Deck = code parts + Writer parts (P6-2).** Evidence per slide (V5) — the Writer may cite only these ids on a slide:
+
+| Slide | Code renders | Writer writes | Evidence allowed |
+|---|---|---|---|
+| 1 Title | "NileGate Weekly Finance Pack", `iso_week_label`, `week_start – week_end`, the label "Draft for approval" | — | `kpi.weekly` |
+| 2 Executive summary | — | title + exactly 5 bullets (weekly-variance-analysis order) | `kpi.*`, `audit.week` |
+| 3 KPI tiles | six tiles: billed, collected, AR, overdue, DSO, budget variance; WoW only where the view has one; warm-up footnote | title + ≤ 3 comments | `kpi.weekly` |
+| 4 Revenue trend | chart: 13-week billed vs budget, the week highlighted; table: top 3 drivers (category, billed, change, WoW %) | title + ≤ 3 comments | `kpi.trend`, `kpi.category`, `audit.week` |
+| 5 Revenue mix | chart: billed by vessel category (fixed colours), budget marker | title + ≤ 3 comments | `kpi.category` |
+| 6 Receivables | chart: aging buckets; table: the 5 largest overdue invoices; DSO + change; warm-up footnote | title + ≤ 3 comments | `kpi.weekly`, `kpi.overdue` |
+| 7 Customers | table: top 10 on 13 weeks (rank, previous rank, billed, share); the top-10 share | title + ≤ 3 comments | `kpi.customers`, `kpi.weekly` |
+| 8 Exceptions | table: findings by amount at stake (+ action from `suez-toll-audit`); or "N invoices checked, none flagged" | title + ≤ 3 comments | `audit.week` |
+| 9 Context | — | title + context bullets (source + date), "context unavailable" where a tool said so | `insight.*` |
+| 10 Sources and freshness | every evidence's tool, view / API and filter; readiness facts; retrieval times; what was not checked; the injection notice (untrusted-content) | — | — |
+
+**Slots (P6-1, `deck/slots.py`, one module for the renderer, the approval payload and the Validator).** Syntax
+`{<evidence id>:<field>|<format>}` for one-row results (`kpi.weekly`, the audit totals) and
+`{<evidence id>[<row key>]:<field>|<format>}` for lists — key = `vessel_category` (category), `customer_name`
+(customers), `invoice_number` (overdue, audit), `trend_week_label` (trend). Formats, allowed by the field's suffix
+(number-validation rule 2): `_sdr` → `sdr` (as returned, thousands separators) / `M` (2 decimals) / `k` (1 decimal);
+`_pct` → `%2` / `%1`; `_days` → `d` (1 decimal); counts → `n`; change fields (`*_wow_*`, `*_change_*`,
+`*variance*`) are always signed ("+" / "−") unless `|dir` (P6-3: "up 30.8 %", "down 1.07 M SDR", "unchanged"). Half
+away from zero (the existing `_quant`). Literal digits left in the Writer's text: only the report week / year,
+identifiers and dates of the cited evidence, and nothing else (structural counts in words, rule 8).
+
+**Validator v2 (code, `validate(draft, evidence, week)` + `validate_pptx(path, draft, evidence)`):**
+- **V1** citations exist and have data (as now). **V5** a bullet cites only its slide's allowed evidence.
+- **V2 slots** resolve: the evidence id has status ok, the row key matches exactly one row, the field exists, is
+  numeric and not null, the format is allowed for the field. The problem names what exists ("`kpi.customers` has no
+  field `top10_share_13w_pct`; `kpi.weekly` has it") — the fix the Writer needs, in one line.
+- **V2 literals** (a human edit, or a Writer that ignores the slots): a literal number is **bound to a field** — it
+  must equal, after an allowed rounding, a field of a row the sentence names (category, customer, invoice, week
+  label; a one-row result: its row); a number that only matches another row or another dataset fails (G1, closes the
+  "any field" hole). "down 30.78 %" binds to −30.78 (the word carries the sign, P6-3); "down +x", "fell" with a
+  positive value, a negative value with "up" fail.
+- **V6 direction (G1)**: a direction word (up / down, rose / fell, increased / decreased / declined / dropped / grew,
+  above / below budget) in the clause of a change value (slot or bound literal) must agree with its sign.
+- **V7 attribution (G1)**: a category called a driver is among the week's top 3 by |`billed_wow_change_sdr`| (week
+  1: |`budget_variance_sdr`|); every vessel category and invoice number written exists in the week's evidence; a slot
+  sits in a clause with a word of its field's family (billed / revenue, collected / collections, AR / receivables,
+  overdue, DSO, budget, share) and not under another family's word — a right number under the wrong label fails.
+- **V3** the draft label, **V4** the deck's shape (10 slide titles, 5 summary bullets, ≤ 3 comments per slide).
+- **V8 the PPTX read back (P6-7)**: the renderer names every shape (`tpl:<key>` fixed text, `bind:<evidence>…` a
+  bound value, `txt:<slide>.<bullet>` Writer text); `validate_pptx` reopens the file and checks: every `tpl:` shape
+  = its template constant exactly (**the full template allowlist, by construction** — the regex goes), every bound
+  text / table cell / chart point = its field in its format, every `txt:` shape = `render_text` of the draft, no
+  shape without a name. A number changed in the file, not only in the draft, is caught.
+
+**Writer (P6-1, P6-6).** The prompt gives, per slide, its purpose, the evidence it may cite and the slot syntax with
+three examples; the rounding rules leave the prompt (code formats). Output: `DeckDraft` (unchanged shape, text with
+slots). A rewrite gets a `DeckPatch` request: the failing bullets / titles only, problems grouped per bullet with a
+one-line fix hint, the evidence they cite — not the previous draft — and returns replacements by index; code merges
+them and the Validator runs on the whole deck again (max 2 rewrites, as now). Tokens per call measured and reported
+(expected below the S6 12–17K).
+
+**Rendering and graph (P6-4, P6-5, P6-7).** New package `pipelines/agents/deck/`: `style.py` (16:9, the NileGate
+palette, 13 fixed category colours, fonts, positions), `slots.py`, `render.py` (`render(draft, evidence, readiness,
+label) → bytes`, one function per slide, native charts and tables), `readback.py` (PPTX → named items for V8). The
+`validator` node renders in memory and runs V8 after V1–V7; the approval payload gains the path of a draft preview
+(`reports/2025-W<ww>/draft/deck.pptx`, overwritten); the `publisher` renders the approved deck with "Approved",
+re-runs V8 on the saved file and writes `deck.pptx` next to the three JSON files. The state stays JSON (path +
+SHA-256, never the bytes).
+
+**Tests.** New `pipelines/scripts/agents/Deck_check.py` (percent format, ✅ lines, reviewed snapshots, Final
+Checkpoint): (1) slot cases (syntax, every format, rounding half away from zero, signs, `|dir`, refused formats);
+(2) 52 clean decks from the fake Writer rendered → V1–V8 pass on 52 / 52 (false alarms 0), 10 slides, native charts,
+footnotes on weeks 1–13 only; (3) **planted wrong numbers** — a frozen catalogue of mutation classes (a digit changed,
+sign flipped, a cut instead of a rounding, × 100, k ↔ M, another field of the same row, the same field of another
+row, another dataset, a direction word flipped, a non-driver called a driver, an unknown invoice number, a template
+phrase changed, a table cell / chart point changed in the file, a web number) on weeks 5 / 10 / 23 / 49, in the draft
+and in the PPTX → 100 % caught with the expected rule; (4) the recorded S6 failures replayed (caught); (5) real models
+on weeks 5 / 10 / 23 / 49 with the new Writer (≈ 20 fresh flash-lite calls; cached after). `Weekly_pack_check.py`:
+`PackScript` writes slots, the Phase 3 rule cases move to the new rules, Phase 5 re-snapshotted.
+
+**Order (one step at a time, each with its check):** S1 `deck/slots.py` + Deck_check Phase 1 → S2 Validator v2
+(V1–V7, literal binding) + Phase 3 on drafts → S3 `style.py` + `render.py` + `readback.py` + V8 + Phases 2–3 on the
+PPTX (the owner opens one rendered deck) → S4 Writer prompt + `DeckPatch` rewrite + graph / payload / publisher +
+`Weekly_pack_check.py` → S5 skills `deck-style-guide` and `number-validation` updated (slots, code parts, `|dir`) →
+**owner re-review** → S6 real models (Phase 5 of both scripts) → S7 close (ADR-051, ARCHITECTURE, ROADMAP,
+checkpoint narrative, handoff).
+
+**Files (new):** `pipelines/agents/deck/__init__.py`, `style.py`, `slots.py`, `render.py`, `readback.py`,
+`pipelines/scripts/agents/Deck_check.py`, `pipelines/checkpoints/agents/Deck_check.md`. **Changed:**
+`pipelines/agents/graphs/weekly_pack.py` (Writer prompt, patch rewrite, Validator v2, payload, publisher),
+`graphs/models.py` (`DeckPatch`, rules V5–V8), the two skills, `Weekly_pack_check.py`, `Weekly_pack.py` (show the
+preview path), the docs. No migration, no new package (python-pptx 1.0.2 is pinned; matplotlib stays pinned, unused
+by the pack if P6-4 = A).
+
+**Not in Phase 6:** golden weeks and G2–G6 metrics (Phase 7); laden / ballast split (needs a view); the Power BI
+Exceptions page; scheduling (Phase 8).
+
 ## 6. Stage 2 — Operations Desk (details)
 
 - **Users:** Operations employees / managers and the CEO (level-1 operational data). Finance data stays invisible to
@@ -977,6 +1095,178 @@ rate limits (ai.google.dev); FP&A reporting time (vendor case studies). Vendor f
   `pipelines/README.md`, `db/README.md`, the checkpoint narrative. Scratch helpers (`Notebooks/_scratch/s1_smoke.py`,
   `s6_tokens.py`, `s6_phase5.py`, run logs, `weekly_pack_real.json`) stay until the owner empties the folder (deletion
   was refused in this session). Commit: the owner.
+- 2026-10-19 — **Phase 6 design PROPOSED** (§5c): eight decisions P6-1…P6-8 asked to the owner (AskUserQuestion,
+  recommendation first). Read for it: the S6 recorded failures (`Notebooks/_scratch/weekly_pack_real.json`), the
+  graph, `models.py`, the two skills; probed python-pptx 1.0.2 (native chart values and shape names survive a save /
+  reopen). All eight answered with the recommended option the same day.
+- 2026-10-19 — **§5c APPROVED** by the owner as written. **S1 done:** `pipelines/agents/deck/__init__.py` +
+  `deck/slots.py` (`find_slots`, `resolve` → `Bound` (row, value, kind, format, text), `render_text`, `format_value`
+  for the renderer's tables / tiles (None → "n/a"), `row_keys`, `NUMERIC_TOOLS` — the S2 Validator will import it
+  from here). Kinds by the views' suffixes (`_sdr` money: sdr / M / k; `_pct`: %2 / %1; `_days` + `days_past_due`:
+  days; ints: count; other floats: as returned); changes (`wow|change|variance|difference`) always signed or
+  `|dir`; units written by the slot ("SDR", "%", "days"). New `pipelines/scripts/agents/Deck_check.py` Phase 1 —
+  **✅ (7 s)**: 39 text cases on hand-made evidence (24 rendered, 15 refused, each message the one-line fix; the S6
+  week-23 error now reads "kpi.customers has no field 'top10_share_13w_pct'; it is in kpi.weekly"); the real
+  evidence of weeks 10 + 23: 905 numeric values, 1,820 formats + 396 `|dir` rendered and read back by the
+  Validator's own `number_tokens` / `number_matches`, 0 refused.
+  **Deviations:** D-P6-1 a row key is never split on "/" — category names contain it ("Roll-On/Roll-Off (Ro/Ro)
+  Vessels", "General Cargo / Multi-Purpose / Heavy Lift Vessels"; found by the first run); a key matches the first key
+  field alone or all key fields joined (`INV-0000626/duplicate_charge`, needed when one invoice has two findings).
+  D-P6-2 a field missing from the cited result is reported before the row selection, so the hint names the result
+  that has it. D-P6-3 `|dir` of a zero change writes "unchanged" (no number). **Next: S2** — Validator v2 (V1–V7:
+  slots, literal binding, per-slide evidence, direction, attribution) in `weekly_pack.py` + Deck_check Phase 3 on
+  drafts.
+- 2026-10-19 — **S2 done.** New `pipelines/agents/deck/validator.py`: `validate(draft, evidence, week)` (V1–V7),
+  `check_text` (one text → rendered text + problems), `render_draft` (slots filled: what the approver reads);
+  `graphs/models.py` `Problem.rule` widened to V1–V8. Binding: a slot is bound by construction; a literal binds to a
+  field of a row the sentence names (nearest category / customer / invoice / week label before it; one-row results
+  always; result-level totals always) with its sign and under a word of its field's family; failures say where the
+  value does live ("that value is kpi.weekly:top10_share_13w_pct"). Deck_check **4 / 5 ✅ (46 s)**: Phase 2 — a slot
+  Writer (16 bullets a week, the §5c deck) on 52 / 52 weeks: 0 problems as slots **and** as rendered literal text
+  (832 bullets, 1,285 slots); Phase 3 — **68 / 68 planted wrong numbers caught** on the mutated bullet with the
+  expected rule (17 classes × weeks 5 / 10 / 23 / 49: digit, sign flipped, sign dropped, cut, × 100, k for M →
+  V2; another field of the same row → V7; the same field of another row, another dataset, a web number → V2;
+  direction flipped → V6; a non-driver called a driver, an unknown invoice → V7; slot on another field / row → V7,
+  on another dataset → V2, on another slide's evidence → V5); Phase 4 — the 10 recorded S6 failures replayed: 8 now
+  bind (the direction word carries the sign, P6-3), week 5 "Dry Bulk Vessels decreased by 399940.41 SDR …" → V7 ×3
+  (never says what decreased), week 23's 59.5 % from `kpi.customers` → V2 with the hint `kpi.weekly`.
+  `Weekly_pack_check.py` re-run: 7 / 7 ✅ (untouched).
+  **Deviations:** D-P6-4 Validator v2 lives in `deck/validator.py` (§5c said `weekly_pack.py`): the graph switches to
+  it at S4, so `Weekly_pack_check.py` stays green meanwhile; at S4 `weekly_pack.py` drops its copy of the number
+  regexes and imports them from there. D-P6-5 a literal number that binds is accepted from the Writer too (§5c's
+  slot section said only week / year / identifiers / dates) — binding is as strict as a slot, and a needless rewrite
+  costs quota; the Writer prompt still asks for slots. D-P6-6 the context rules were tuned on false alarms of Phases
+  2 / 4, each now a case: a window never crosses a comma / semicolon / conjunction; after a number only comparatives
+  count ("45.62 % above budget"; "…SDR, down 12.3 %" belongs to the next number); a direction word signs a change
+  field only ("AR down to 47.6 M SDR" is a level); "driver(s)" names billing (weekly-variance-analysis step 3); a
+  failed slot is never read as literal digits ("|%1"). D-P6-7 Phases 2–3 are on drafts now; the PPTX read-back and
+  its mutation classes (table cell, chart point, template text) come with S3. **Known limits (watch at S6):** a
+  direction word whose clause holds only a level is not checked; the family words are a heuristic list (real-model
+  false alarms will show). **Next: S3** — `deck/style.py` + `render.py` + `readback.py` + V8, Deck_check Phases 2–3
+  on the PPTX; the owner opens one rendered deck.
+- 2026-10-19 — **S3 done.** `pipelines/agents/deck/style.py` (16:9, NileGate navy / Nile teal, dataviz slot 1 blue for
+  billed, neutral grey for budget, Calibri, the grid, axis formats in M), `render.py` (`build_spec` → every element
+  of the 10 slides as data with its contract name `tpl:` / `bind:` / `txt:` / `tbl:` / `chart:` / `deco:`;
+  `render` draws it: title slide, five summary rows, six KPI tiles, 13-week trend line with the report week
+  marked + top-3 drivers table, billed vs budget by category, aging columns + DSO + top-5 overdue, top-10 customers
+  + top-10 share, audit tiles + findings with the `suez-toll-audit` action, context, sources + freshness + "not
+  checked" + the injection notice), `readback.py` (`read`, `validate_pptx` = V8). `slots.py` gained `locate`,
+  `binding`, `bound_text` (code-rendered values may be null → "n/a"). Deck_check **4 / 5 ✅ (69 s)**: Phase 2 — 52
+  PPTX rendered and read back in ~20 s, V8 0 problems, every deck 10 slides / 3 native charts, the audit table in
+  weeks 10 / 15 / 50, the warm-up footnote on weeks 1–13 only; Phase 3 — **100 / 100 planted numbers caught**: the
+  68 draft cases + 8 file classes × 4 weeks in the saved PPTX (a table cell, a chart point, template text, "Approved"
+  in a draft, a KPI tile, the Writer's text, a text box added, a shape deleted → V8 on the right slide). Looked at
+  weeks 10 and 23 exported to PNG through PowerPoint (layout fixed: drivers table widths, sources table height, bar
+  order). Previews for the owner: `Notebooks/_scratch/deck_preview_2025-W10.pptx`, `…W23.pptx` (fake Writer text).
+  **Deviations:** D-P6-8 no 13 fixed category colours (deck-style-guide): dataviz caps categorical hues at eight and a
+  bar per category is one series named on its axis → billed one blue, budget grey everywhere (the skill text changes
+  at S5). D-P6-9 the category bars are drawn smallest-first instead of on a reversed axis (python-pptx's
+  `reverse_order` moved the value axis to the top; `crosses` on either axis did not fix it). D-P6-10 slide 1 shows the
+  Writer's slide-1 title as the headline under the week. **Open:** the owner's look at a preview deck. **Next: S4** —
+  Writer prompt with slots + per-slide evidence, `DeckPatch` rewrite, the graph on Validator v2 + render / V8 +
+  payload preview path + publisher `deck.pptx`, `weekly_pack.py` imports the number rules from `deck/validator.py`,
+  `Weekly_pack_check.py` on the slot Writer.
+- 2026-10-19 — **S4 done.** `weekly_pack.py` on the Phase 6 deck: the Writer prompt (`WRITER_TASK` + `SLOT_RULES`:
+  what code draws, what the Writer writes, the evidence each slide may cite, the slot syntax with three examples);
+  the evidence list says each list's row key; a rewrite is a **`DeckPatch`** (new in `models.py`: `Fix` {target
+  bullet / slide_title / title, index, text, evidence_ids}) built from the failing texts with their problems grouped
+  and only the evidence they cite, slot or are pointed to — merged by code (`merge_patch`); the `validator` node =
+  `deck/validator.validate` (V1–V7) then, on a pass, `render` + `readback.validate_pptx` (V8) and the preview
+  `reports/_drafts/<thread>.pptx` (state `preview` {path, sha256}); the interrupt payload carries `draft_rendered`
+  (slots filled) and `preview`; reject removes the preview; the `publisher` renders the deck with "Approved", reads
+  it back (V8 must be empty, else an error) and saves `deck.pptx` (+ `deck_sha256` in `run.json`); the old number
+  code left `weekly_pack.py` (the rules live once, in `deck/validator.py`, with `number_tokens`). CLI `show` prints
+  the slots filled and the preview path. `Weekly_pack_check.py` **6 / 7 ✅ (256 s; Phase 5 pending, S6)**: Phase 2 —
+  52 / 52 at the approval with the preview (file present, sha256 equal, no slot left in the rendered draft) and
+  published with `deck.pptx` that passes V8, `_drafts` empty after publishing, reject leaves no file, the eight
+  approval steps unchanged (literal edits bound by the new Validator); Phase 3 — a planted wrong number fixed by one
+  patch of its bullet, a patch that keeps it stops after two rewrites (`validation_failed`), a wrong deck shape gets
+  the whole deck again, a V8 fault stops at once with no preview; **the patch prompt is 21 % of the first draft's**
+  (3,203 vs 15,517 characters, fake run). Deck_check 4 / 5 ✅ again (Phase 1 now reads with `deck/validator`).
+  **Deviations:** D-P6-11 the slot Writer moved to `pipelines/agents/deck/sample.py` (test support for both checks).
+  D-P6-12 routing: a V4 problem (deck shape) → the whole deck again (a patch cannot add or drop a bullet); a V8
+  problem → `validation_failed` at once (a renderer fault, not the Writer's). D-P6-13 the preview lives in
+  `reports/_drafts/<thread>.pptx` (§5c said `reports/2025-W<ww>/draft/`): two attempts of one week never clash, and
+  it is removed on publish and on reject (D9: only an approved deck is kept). D-P6-14 problems of the deck title carry
+  slide None (a fix goes to the title, not to slide 1's title). D-P6-15 `Weekly_pack_check.py` Phase 3's 26 rule
+  cases left for `Deck_check.py` (the rules' own tests, Phases 1–4) — replaced by graph-level routing cases; Phase 5
+  (real models) runs only with `PACK_REAL_MODELS=1` (fresh calls on the new prompts: quota) — at S6.
+  **Open:** the two skills still say "write the numbers" (rounding rules, slide 1 / 10 contents) next to the slot
+  rules in the Writer prompt → S5. **Next: S5** — `deck-style-guide` and `number-validation` rewritten for slots and
+  the code-drawn parts (budgets kept, `Tools_check.py` Phase 8 re-run), then the owner's review.
+- 2026-10-19 — **S5 written, waiting for the owner's review** (both skills `reviewed_by_owner: no`).
+  `deck-style-guide` (1,183 tokens): one table per slide — what code draws / what the Writer writes / the evidence it
+  may cite (= `deck/validator.SLIDE_EVIDENCE`); slide 1 = the deck title + the week's headline; comments add what the
+  table or chart does not say; "Numbers: slots" (syntax, formats, signed changes, "|dir", nulls in words, name the
+  measure and the row); charts and the warm-up footnote are code's (billed blue, budget grey — D-P6-8 replaces the
+  13 category colours). `number-validation` (1,124 tokens): the Validator binds each number to one field; new rule 4
+  "say what it is and whose it is"; rule 6 (was 5) a direction word may carry the sign ("down 15.8 %" for −15.76)
+  and must agree with it; rules otherwise kept (the two rounding examples, recomputed by `Tools_check.py`).
+  Checks: `Tools_check.py` 8 / 8 ✅ (83 s; pending only "owner review of 2 skills"), `Weekly_pack_check.py` 6 / 7 ✅
+  (the first-draft prompt grew to 17,002 characters with the table; the patch stays 3,203 = 19 %).
+  **Next:** the owner's review of the two skills → S6 (real models, `PACK_REAL_MODELS=1`).
+- 2026-10-19 — **S5 done: both skills approved by the owner as written** (`reviewed_by_owner: 2026-10-19`);
+  `Tools_check.py` 8 / 8 ✅, pending none. **Next: S6** — real models on weeks 5 / 10 / 23 / 49 with the new Writer
+  (`PACK_REAL_MODELS=1 uv run python tools/run.py pipelines/scripts/agents/Weekly_pack_check.py`; ≈ 20 fresh
+  flash-lite calls, cached after), the reviewed snapshot of Phase 5 renewed, Deck_check Phase 5.
+- 2026-10-19 — **S6: real models (weeks 5 / 10 / 23 / 49).** Docker Desktop was not running (first attempt: pool
+  timeout in Phase 1, no model call) → started by the assistant; the containers came back by themselves. **Run 1**
+  (new prompts): 1 / 4 published (week 49, 0 rewrites); weeks 5 / 10 / 23 `validation_failed` after two patches;
+  max 12.4K tokens per call (17.0K before Phase 6). Reviewed: week 5 — a row named by position
+  (`{kpi.overdue[1]:…}`) and "SDR" written again after the slot; week 10 — the week's `amount_at_stake_sdr` put on
+  one invoice; week 23 — **a false alarm** ("a DSO window billed amount": `dso_window_billed_sdr` counted only as
+  DSO) next to a real "91 days days". The patches failed because the messages did not say what to write.
+  **Validator changes (each now a Deck_check Phase 4 case, with the fixed text that passes):** a field belongs to
+  every family its name holds (`field_families`); a missing row's message gives the slot by key; a total on one row
+  says so and gives that row's own fields; a unit written again after a slot is a V2 problem (new catch). **Run 2**
+  (first drafts from cache, patches fresh): **3 / 4 published** (weeks 5 / 23 / 49 after 2 / 1 / 1 patches, each
+  `deck.pptx` read back by the publisher), week 10 `validation_failed` on a real Writer error — a NileGate figure
+  (collected) on the context slide 9, slotted from an Insight result without that field (the message names
+  `kpi.weekly`, which slide 9 may not cite, so two patches could not fix it); 0 fallbacks, every call within its
+  TPM, max 12.4K tokens. `Weekly_pack_check.py` **7 / 7 ✅** (Phase 5 re-snapshotted; a re-run from cache: 0 calls,
+  0 files changed). `Deck_check.py` **4 / 4 ✅** (its §5c Phase 5 "real models" = `Weekly_pack_check` Phase 5,
+  not run twice — D-P6-16). Open for the owner (P6-8: a miss goes to the owner): week 10.
+  **Owner: "fix the message and re-run".** Slide 9 now says what the fix is (a NileGate figure or result there → V5
+  "slide 9 is external context only … drop it"). **Run 3** (the prompt also got "a slot writes its own unit", owner's
+  choice after "SDR" was written twice in weeks 5 and 10): 1 / 4 — three **Validator false alarms** on right
+  sentences (the after-window "budget" of the next slot outvoted "Billed" before the first; a row named after its
+  number matched to the row named earlier). Fixed: the measure counts if named before the number, in the last noun
+  phrase before it, or right after it; a row is looked for in the number's own clause first. **Run 4: 4 / 4
+  published.** Looked at as PNG: "up up 25.8 %" (a direction word before a |dir slot) and slide 1's title copied from
+  the deck title, so an approved deck said "Draft for approval" → V2 / V3 rules + one prompt line ("no direction word
+  right before a |dir slot"); `deck-style-guide` trimmed to 1,200 tokens. **Run 5: 3 / 4** (weeks 5 / 10 / 49
+  published, two patches each; week 23 `validation_failed` on a real Writer error, "{kpi.weekly:dso_days|d} days",
+  that two patches did not fix). **Owner: keep 3 / 4 and close Phase 6** (runs 2 / 4 / 5: 3 / 4 / 3 published — model
+  variance; every failure since run 3 a true positive). Snapshot = run 5; the published real decks are in
+  `Notebooks/_scratch/deck_real_2025-W05 / W10 / W49.pptx`. Every finding of runs 1–5 is a Deck_check Phase 4 case
+  (the recorded text refused with the expected rule and message, the fixed text passing). Checks: Weekly_pack_check
+  7 / 7 ✅ (cached: 0 calls), Deck_check 4 / 4 ✅ (100 / 100 planted, 0 false alarms on 52 weeks), Tools_check 8 / 8 ✅.
+  **For Phase 7 (Writer quality, seen in the run-5 decks, not errors):** "up +18.64 %" (a direction word before a
+  signed slot: redundant, agreeing), a context bullet emptied of its numbers by a patch ("Daily Suez transits
+  averaged across the reporting period"), adjectives in titles ("Surged"). **Next: S7** — close Phase 6.
+- 2026-10-19 — **Phase 6 CLOSED.** Done-when of §5 met: the Validator catches every planted wrong number in a test
+  deck (`Deck_check.py` Phase 3: 100 / 100, in drafts and in the PPTX file; 0 false alarms on 52 clean decks). ADR-051
+  written; ARCHITECTURE (§1, §2 new row `pipelines/agents/deck/`, the `weekly_pack` row, §7, §9), ROADMAP,
+  `pipelines/README.md`, checkpoint narratives (`Deck_check.md` new, `Weekly_pack_check.md` Phase 6 update). Scratch
+  files of the task (`Notebooks/_scratch/`: previews, the real decks, run logs, `weekly_pack_real.json`) stay until the
+  owner looks at them and empties the folder. Commit: the owner.
+
+### SESSION HANDOFF (2026-10-19, Phase 6 CLOSED) — read this first in the next session
+
+- **Phases 0–6 are CLOSED.** Phase 6: ADR-051; `pipelines/agents/deck/` (slots, Validator v2 V1–V7, template as code,
+  renderer, read-back V8, the sample slot draft), `weekly_pack.py` on it (slot Writer, `DeckPatch` rewrites, preview
+  in `reports/_drafts/`, `deck.pptx` published), the skills `deck-style-guide` / `number-validation` rewritten
+  (owner-reviewed). Checks: `Deck_check.py` 4 / 4 (100 / 100 planted numbers), `Weekly_pack_check.py` 7 / 7 (Phase 5
+  only with `PACK_REAL_MODELS=1`; cached: 0 calls), `Tools_check.py` 8 / 8.
+- **Next: Phase 7** (§5) — evaluation (§8) on golden weeks + finance Q&A golden questions; done when the D7
+  thresholds are met (or the owner decides). Start by proposing the Phase 7 design to the owner (AskUserQuestion,
+  recommendation first); first get the owner's review of §8a (G1–G6, still PROPOSED). Inputs: the Writer quality
+  notes of S6 (redundant "up +x %", a context bullet emptied by a patch, adjectives in titles; real runs publish 3–4
+  of 4 weeks: variance), the planted budget miss in `finance_test.budget_weekly` (needs a way to read it), G6 as an ADR
+  before the first comparison.
+- **Carry:** Power BI Exceptions page from `finance.invoice_audit`; tariff Notes rules; Phase 8: scheduling,
+  LangSmith, checkpoint retention, the free daily limit of flash-lite (watch it); temp folders left by failed check
+  runs (`%TEMP%\weekly_pack_check_*`) can be deleted.
 
 ### SESSION HANDOFF (2026-10-19, Phase 5 CLOSED) — read this first in the next session
 
@@ -984,6 +1274,11 @@ rate limits (ai.google.dev); FP&A reporting time (vendor case studies). Vendor f
   `pipelines/agents/roles.py` (ADR-045 amendment 1: the pack's Insight / Writer on Gemini flash-lite + OpenRouter
   nemotron), `pipelines/agents/checkpointer.py`; migration 016 (`agent_state`, `agent_writer`, login `ports_agent`);
   CLI `pipelines/scripts/agents/Weekly_pack.py`; `Weekly_pack_check.py` 7 / 7 (real phase cached: 0 model calls).
+- **Phase 6 design = §5c (APPROVED 2026-10-19, P6-1…P6-8 all recommended). S1 done (`deck/slots.py`), S2 done
+  (`deck/validator.py`), S3 done (`deck/style.py`, `render.py`, `readback.py` = V8; Deck_check 4 / 5 ✅, 100 / 100
+  planted numbers caught in drafts and files), S4 done (the graph on slots / patch / V1–V8 / preview / `deck.pptx`;
+  Weekly_pack_check 6 / 7 ✅, Phase 5 at S6 with `PACK_REAL_MODELS=1`); S5 done (the two skills rewritten for slots,
+  approved by the owner); next S6 — real models (Progress, last entry).**
 - **Next: Phase 6** (§5) — PPTX template (NileGate style) + Writer + Validator; done when the Validator catches every
   planted wrong number in a test deck. Start by proposing the Phase 6 design to the owner (AskUserQuestion,
   recommendation first). Inputs from Phase 5 (S6 Progress): the Writer drops signs next to direction words and

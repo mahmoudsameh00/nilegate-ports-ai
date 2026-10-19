@@ -765,6 +765,48 @@ Never delete an entry; supersede it with a new one. Sources for older entries ar
   MemorySaver (no crash resume), the CEO as the pack's identity (level 3 data), a new service employee (a change to
   a closed table).
 
+## ADR-051 — The weekly deck: number slots, code-drawn template, a Validator that binds every number to its field
+- **Status:** Accepted (2026-10-19, owner decisions P6-1…P6-8, Agents plan §5c; S6 decisions the same day).
+  `pipelines/agents/deck/` (`slots.py`, `validator.py`, `style.py`, `render.py`, `readback.py`, `sample.py`),
+  `pipelines/agents/graphs/` (`weekly_pack.py`, `models.py`: `DeckPatch`), the skills `deck-style-guide` and
+  `number-validation` (rewritten, owner-reviewed), `pipelines/scripts/agents/Deck_check.py` (4 / 4 ✅),
+  `Weekly_pack_check.py` (7 / 7 ✅).
+- **Context:** Phase 5's real Writer failed on signs dropped next to direction words and on fields cited from the
+  wrong dataset, and its Validator accepted a number equal to **any** numeric field of the cited evidence (a
+  category's value under another category's name passed). The pack had no PPTX yet; Writer prompts were 12–17K tokens
+  and a rewrite resent the whole draft.
+- **Decision:** (1) **Slots (P6-1):** the Writer never types a NileGate number; it writes
+  `{<evidence id>[<row key>]:<field>|<format>}` and code writes the value with the allowed rounding, the sign and the
+  unit (`|dir` writes "up" / "down", P6-3); a field missing from the cited result is refused with the result that has
+  it. (2) **Code draws the fixed parts (P6-2):** slide 1, the KPI tiles, every table and chart, the footnotes and the
+  sources slide; the Writer writes slide titles, five summary bullets, ≤ 3 comments on slides 3–8 and the context
+  slide. (3) **Validator v2 (G1):** every number is bound to one (evidence, row, field) — a slot by construction, a
+  literal (a human edit) by search among the rows the sentence names, with its sign (a direction word may carry it)
+  and under a word of its field's family; rules V1–V7 (citations, numbers, label, shape, evidence per slide,
+  direction, attribution: drivers = the week's top three, invoice numbers known, a slot's row = the named row, a total
+  never put on one row, a unit or a direction never written twice). (4) **The file is validated too (P6-7, V8):** every
+  shape of the rendered PPTX carries a contract name (`tpl:` / `bind:` / `txt:` / `tbl:` / `chart:` / `deco:`); the
+  file is read back and compared with the spec and, for bound values, with the evidence — the template allowlist is
+  the template itself. (5) **Native charts (P6-4)** with the tool's exact values (axis formats show M), a **template as
+  code (P6-5)** (`style.py`: 16:9, NileGate navy / teal, billed blue, budget grey — no 13 category colours, dataviz
+  caps categorical hues). (6) **Patch rewrites (P6-6):** the Writer gets only the failing texts, their problems
+  grouped and the evidence they need, and returns a `DeckPatch`; a wrong deck shape (V4) gets the whole deck again; a
+  V8 problem stops the run (a renderer fault). (7) **Preview and publish:** a passing draft is rendered to
+  `reports/_drafts/<thread>.pptx` for the approver (removed on publish or reject); the publisher renders the approved
+  deck, reads it back and saves `deck.pptx`.
+- **Consequences:** `Deck_check.py`: 52 / 52 clean decks pass V1–V8 as slots, as literal text and as files (0 false
+  alarms); **100 / 100 planted wrong numbers caught** with the expected rule where planted (17 draft classes + 8 file
+  classes × the golden weeks 5 / 10 / 23 / 49) — the §5 done-when. Real models (flash-lite, owner P6-8: reported):
+  five runs turned three Validator false alarms, two unhelpful messages and three missed defects into regression
+  cases; the last run published 3 / 4 weeks (the fourth stopped on a real Writer error the Validator caught; runs 2 /
+  4 / 5 gave 3 / 4 / 3 — model variance); Writer calls ≤ 12.4K tokens (17.0K before); a patch prompt ≈ 20 % of a first
+  draft's. Known limits: the measure / direction words are a heuristic list (Phase 7 measures them on golden weeks);
+  a direction word whose clause holds only a level is not checked; style redundancies ("up +18.64 %") pass.
+  Rejected: free text with a declared field per number (a schema the free models fill badly, signs still typed), a
+  Validator that infers the field (the Phase 5 hole), matplotlib images (unreadable by V8), a designed `.pptx` first
+  (owner's time; it can replace `style.py` later), whole-deck rewrites (tokens, regressions of right bullets), more
+  rewrites (§3 keeps two).
+
 ---
 
 ## Dropped (history)

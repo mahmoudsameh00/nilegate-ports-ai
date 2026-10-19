@@ -14,9 +14,12 @@ Phases (§5b "Tests")
    validity → one retry then stop — with stub models; FakeRoles through the real parser.
 1. Deterministic nodes (S2) on all 52 weeks: readiness gate, KPI and audit evidence = the tool functions called
    directly; a forced not-ready week and an Operations employee stop after the gate with no number in the state.
-2. Fake-LLM pack (S3) on all 52 weeks to the interrupt and published on approve; the approval rules (P5-4, G5).
-3. Validator loop (S3): a planted wrong number rewritten once; an always-wrong Writer stopped; 18 rule cases.
+2. Fake-LLM pack (S3) on all 52 weeks to the interrupt (with the PPTX preview) and published on approve
+   (deck.pptx read back); the approval rules (P5-4, G5).
+3. Validator loop (S3; Phase 6): a planted wrong number fixed by one patch; an always-wrong Writer stopped; a
+   wrong deck shape rewritten whole; a V8 fault stopped; the patch prompt under half the first draft's.
 4. Crash and resume (S5): a subprocess killed inside the Writer; this process resumes the thread from PostgreSQL.
+5. Real models (S6) on weeks 5 / 10 / 23 / 49 — only with PACK_REAL_MODELS=1 (free-tier quota).
 6. Contract (S3): no user / dataset field in a tool schema; the dataset only from the run context; search cap.
 Final Checkpoint (pending phases listed).
 """
@@ -158,12 +161,14 @@ DONE.append(0)
 # all 52 weeks ready, warm-up notes on weeks 1–13, evidence = the tools called directly, the audit = the 3 reviewed
 # live duplicates (weeks 10 / 15 / 50, Tools_check.py LIVE_FINDINGS). A week whose invoices are missing (forced) and
 # an Operations employee stop at the gate: nothing after readiness runs and no number enters the state.
+import hashlib  # noqa: E402
 import tempfile  # noqa: E402
 from decimal import ROUND_HALF_UP, Decimal  # noqa: E402
 
 from langgraph.checkpoint.memory import InMemorySaver  # noqa: E402
 from langgraph.types import Command  # noqa: E402
 
+from pipelines.agents.deck import readback, sample  # noqa: E402
 from pipelines.agents.graphs import weekly_pack as wp  # noqa: E402
 from pipelines.agents.tools import context, db  # noqa: E402
 
@@ -195,11 +200,14 @@ def pct(v):
 
 
 class PackScript:
-    """FakeRoles script. mode: good | wrong_once (the first draft carries a wrong number) | always_wrong.
-    extra_audit: the Insight agent also calls invoice_audit through the ToolNode (the dataset contract)."""
+    """FakeRoles script. mode: good | wrong_once (the first draft carries a wrong number, the patch fixes it) |
+    always_wrong (the patch keeps it) | shape_once (the first draft has four summary bullets: a full rewrite).
+    extra_audit: the Insight agent also calls invoice_audit through the ToolNode (the dataset contract).
+    `prompts` records (schema, prompt characters) of every Writer call: a patch must be much smaller."""
 
     def __init__(self, mode="good", extra_audit=False):
         self.mode, self.extra_audit, self.week, self.ev = mode, extra_audit, None, None
+        self.prompts: list[tuple[str, int]] = []
 
     def set_week(self, week, ev):
         self.week, self.ev = week, ev
@@ -234,35 +242,21 @@ class PackScript:
                                 flagged_by_audit=c["vessel_category"] in flagged, explanation="largest change",
                                 evidence_ids=["kpi.category"]) for c in cats[:3]]
             return m.InsightNotes(summary=summary, drivers=drivers, caveats=[])
+        # the Writer (Phase 6, §5c): the slot draft of deck/sample.py; a rewrite is a DeckPatch of the failing texts
+        self.prompts.append((schema.__name__, sum(len(str(x.content)) for x in msgs)))
+        wrong_text = f"Billed {m_sdr(k['billed_sdr'] + 10_000)} in week {w} of 2025"   # billed + 0.01 M, literal
+        if schema is m.DeckPatch:
+            fixed = self.mode == "wrong_once"
+            text = sample.slot_draft(w, self.ev)["bullets"][0]["text"] if fixed else wrong_text
+            return m.DeckPatch(fixes=[m.Fix(target="bullet", index=0, text=text, evidence_ids=["kpi.weekly"])])
         assert schema is m.DeckDraft, schema
-        notes = m.InsightNotes.model_validate(
-            json.loads(msgs[-1].content.split("[insight notes]\n")[1].split("\n\n[validator]")[0]))
-        rewrite = "[validator]" in msgs[-1].content
-        wrong = self.mode == "always_wrong" or (self.mode == "wrong_once" and not rewrite)
-        bullets = [m.Bullet(slide=1, text=f"{k['iso_week_label']}, {k['week_start']} to {k['week_end']}",
-                            evidence_ids=["kpi.weekly"])]
-        bullets += [m.Bullet(slide=2, text=s.text, evidence_ids=s.evidence_ids) for s in notes.summary]
-        if wrong:                                      # a planted wrong number: billed + 0.01 M
-            bullets[1] = m.Bullet(slide=2, text=f"Billed {m_sdr(k['billed_sdr'] + 10_000)} in week {w}",
-                                  evidence_ids=["kpi.weekly"])
-        bullets.append(m.Bullet(slide=3, text=f"Collected {k['collected_sdr']:,.2f} SDR; overdue "
-                                              f"{m_sdr(k['overdue_sdr'])}", evidence_ids=["kpi.weekly"]))
-        for o in self.ev["kpi.overdue"]["rows"][:1]:
-            bullets.append(m.Bullet(slide=6, text=f"Largest overdue {o['invoice_number']}: {o['amount_sdr']:,.2f} "
-                                                  f"SDR, {o['days_past_due']} days past due",
-                                    evidence_ids=["kpi.overdue"]))
-        for f in aud["rows"]:
-            bullets.append(m.Bullet(slide=8, text=f"{f['invoice_number']}: {f['check_code']}, "
-                                                  f"{f['difference_sdr']:,.2f} SDR at stake",
-                                    evidence_ids=["audit.week"]))
-        if not aud["rows"]:
-            bullets.append(m.Bullet(slide=8, text=f"{aud['invoices_checked']} invoices checked, none flagged",
-                                    evidence_ids=["audit.week"]))
-        bullets.append(m.Bullet(slide=10, text="Sources: finance.kpi_weekly, finance.invoice_audit, "
-                                               f"report_week = {w}", evidence_ids=["kpi.weekly"]))
-        return m.DeckDraft(title=f"NileGate Weekly Finance Pack — {k['iso_week_label']} — Draft for approval",
-                           slide_titles=[m.SlideTitle(slide=i, title=f"Slide title {chr(64 + i)}")
-                                         for i in range(1, m.SLIDES + 1)], bullets=bullets)
+        d = sample.slot_draft(w, self.ev)
+        first = not any("[validator]" in str(x.content) for x in msgs)
+        if self.mode == "always_wrong" or (self.mode == "wrong_once" and first):
+            d["bullets"][0]["text"] = wrong_text
+        if self.mode == "shape_once" and first:          # four summary bullets: a deck shape a patch cannot fix
+            d["bullets"].pop(1)
+        return m.DeckDraft.model_validate(d)
 
 
 script = PackScript()
@@ -387,7 +381,7 @@ DONE.append(1)
 # wrong number fails the Validator and comes back without "approve"; an approve of a failing draft, an Operations
 # manager, an unknown employee and a malformed decision are refused and asked again; a correct edit passes; the CEO
 # may approve. The approval log keeps every step (G5).
-weeks_ok, published, tool_equal, interrupt_paths = 0, 0, 0, set()
+weeks_ok, published, tool_equal, previews, interrupt_paths = 0, 0, 0, 0, set()
 for w in range(1, 53):
     visited, st, cfg = run(fin_mgr, w)
     snap = graph.get_state(cfg)
@@ -395,13 +389,21 @@ for w in range(1, 53):
     interrupt_paths.add(tuple(dict.fromkeys(visited)))
     weeks_ok += (snap.next == ("approval",) and st["status"] == "awaiting_approval" and st["verdict"]["passed"]
                  and payload.get("decisions") == ["approve", "edit", "reject"])
+    # Phase 6: the approver reads the slots filled and opens the PPTX preview (its read-back passed in the validator)
+    pv = payload.get("preview") or {}
+    previews += (Path(pv.get("path", "-")).is_file()
+                 and not any("{" in b["text"] for b in payload["draft_rendered"]["bullets"])
+                 and hashlib.sha256(Path(pv["path"]).read_bytes()).hexdigest() == pv["sha256"])
     direct = wp.finance.finance_kpi(fin_mgr, report_week=w, dataset="category").model_dump(mode="json")
     tool_equal += st["evidence"].get(f"insight.cat_{w}") == direct
     _, snap = resume(cfg, {"decision": "approve", "approver_employee_id": fin_mgr.employee_id})
     out = snap.values
     folder = REPORTS / f"2025-W{w:02d}"
     published += (out["status"] == "published" and sorted(p.name for p in folder.iterdir())
-                  == ["approval.json", "deck_draft.json", "run.json"]
+                  == ["approval.json", "deck.pptx", "deck_draft.json", "run.json"]
+                  and not readback.validate_pptx(folder / "deck.pptx", out["draft"], out["evidence"],
+                                                 out["readiness"], wp.APPROVED_LABEL)
+                  and not (REPORTS / "_drafts").exists()
                   and "Approved" in json.loads((folder / "deck_draft.json").read_text(encoding="utf-8"))["title"]
                   and "Draft for approval" not in out["draft"]["title"] and not snap.next)
 
@@ -411,12 +413,13 @@ g_rej = wp.build_graph(fake, InMemorySaver(), REPORTS / "reject")
 _, st, cfg = run(fin_mgr, W, g=g_rej)
 snap = resume(cfg, {"decision": "reject", "approver_employee_id": fin_mgr.employee_id, "comment": "not now"},
               g=g_rej)[1]
-reject_case = (snap.values["status"], snap.next, (REPORTS / "reject").exists())
+reject_case = (snap.values["status"], snap.next, (REPORTS / "reject" / "2025-W23").exists(),
+               sorted(p.name for p in (REPORTS / "reject").rglob("*.pptx")))
 
 # edits and refusals
 g_ed = wp.build_graph(fake, InMemorySaver(), REPORTS / "edit")
 _, st, cfg = run(fin_mgr, W, g=g_ed)
-billed_idx = 1                                              # first executive-summary bullet
+billed_idx = 0                                              # first executive-summary bullet
 steps = []
 
 
@@ -444,16 +447,17 @@ log = final.values["approval_log"]
 edit_diff = log[0]["diff"][0]
 
 actual = {"weeks_at_interrupt": weeks_ok, "published": published, "toolnode_equal_direct": tool_equal,
+          "previews": previews,
           "paths_to_interrupt": sorted(interrupt_paths), "reject": reject_case,
           "steps": steps, "final_status": final.values["status"],
           "log_outcomes": [e["outcome"] for e in log],
           "edit_diff": (edit_diff["slide"], "9.99" in edit_diff["after"]),
           "refusal_reasons": [e["reason"].split(":")[0].split(" (")[0] for e in log if e["outcome"] == "refused"],
           "approvers": sorted({e["approver"] for e in log if e.get("approver")})}
-expected = {"weeks_at_interrupt": 52, "published": 52, "toolnode_equal_direct": 52,
+expected = {"weeks_at_interrupt": 52, "published": 52, "toolnode_equal_direct": 52, "previews": 52,
             "paths_to_interrupt": [("readiness", "kpi", "audit", "insight_llm", "insight_tools", "insight_notes",
                                     "writer", "validator")],
-            "reject": ("rejected", (), False),
+            "reject": ("rejected", (), False, []),
             "steps": [("edited", False, ("approval",), ["edit", "reject"]),
                       ("refused", False, ("approval",), ["edit", "reject"]),
                       ("refused", False, ("approval",), ["edit", "reject"]),
@@ -474,88 +478,51 @@ print("✅ Phase 2 validation passed: 52 / 52 weeks reach the approval with a pa
       "approve; ToolNode results = the tool; reject saves nothing; wrong edits / approvers / decisions refused; G5 log")
 DONE.append(2)
 
-# %% Phase 3 — Validator loop (S3)
-# A first draft with a planted wrong number (billed + 10,000 SDR, shown as M) must be caught, sent back with the
-# diff, rewritten and passed (one rewrite); a Writer that never fixes it stops after two rewrites with
-# validation_failed and no interrupt. Then the rules themselves on hand-made evidence: allowed roundings (as
-# returned; M 2 decimals; k 1 decimal; % 1–2 decimals; half away from zero; the sign kept), the bake-off's recorded
-# error "849.9 k" for −849,964.00 refused, numbers of document / web rows never accepted (ADR-049), identifiers and
-# dates blanked, unknown evidence refused (V1), the draft label (V3), the deck's shape (V4).
-loop = {}
-for mode in ("wrong_once", "always_wrong"):
+# %% Phase 3 — Validator loop (S3; Phase 6: the patch rewrite, §5c P6-6)
+# A first draft with a planted wrong number (billed + 10,000 SDR, written as a literal) must be caught and sent back
+# as a DeckPatch request for that bullet only, fixed and passed (one rewrite); a Writer whose patch keeps the number
+# stops after two rewrites with validation_failed and no interrupt; a draft with a wrong deck shape (four summary
+# bullets) gets the whole deck again (a patch cannot add a bullet); a renderer fault (V8) stops at once, with no
+# rewrite and no preview. The patch prompt must be less than half the first draft's (Phase 6 input: 12–17K-token
+# Writer prompts). The rules themselves are tested in Deck_check.py (slots, 52 clean decks, 100 planted numbers, the
+# S6 replay).
+loop, sizes = {}, {}
+for mode in ("wrong_once", "always_wrong", "shape_once"):
     sc = PackScript(mode)
     g = wp.build_graph(roles.FakeRoles(sc), InMemorySaver(), REPORTS / mode)
     visited, st, cfg = run(fin_mgr, W, g=g, sc=sc)
     loop[mode] = (visited.count("writer"), visited.count("validator"), st["status"], st.get("rewrites"),
                   st["verdict"]["passed"], tuple(g.get_state(cfg).next),
-                  sorted({p["token"] for p in st["verdict"]["problems"]}))
-
-ev = {"kpi.weekly": {"tool": "finance_kpi", "status": "ok", "source": {"name": "v", "filter": "f"},
-                     "rows": [{"billed_sdr": -1234567.89, "x_sdr": -849964.0, "pct": 25.835, "days": 55.3,
-                               "label": "2025-W23", "start": "2025-06-02", "n": 19}]},
-      "insight.web": {"tool": "web_search", "status": "ok", "source": {"name": "t", "filter": "q"},
-                      "rows": [{"title": "Canal revenue 7.5 M", "rank": 7}]},
-      "audit.week": {"tool": "invoice_audit", "status": "ok", "source": {"name": "a", "filter": "w"}, "rows": [],
-                     "invoices_checked": 19, "amount_at_stake_sdr": 0.0}}
-
-
-def verdict_of(texts, title="NileGate Weekly Finance Pack — 2025-W23 — Draft for approval", ids=("kpi.weekly",),
-               five=True):
-    bl = [{"slide": 2, "text": t, "evidence_ids": list(ids)} for t in texts]
-    bl += [{"slide": 2, "text": "filler", "evidence_ids": []}] * ((5 - len(bl)) if five else 0)
-    d = {"title": title, "slide_titles": [{"slide": i, "title": "t"} for i in range(1, 11)], "bullets": bl}
-    return wp.validate(d, ev, 23)
-
-
-rule_cases = {
-    "as returned −1,234,567.89": verdict_of(["−1,234,567.89 SDR"]).passed,
-    "M −1.23": verdict_of(["−1.23 M SDR"]).passed,
-    "M sign dropped 1.23": verdict_of(["1.23 M SDR"]).passed,
-    "k −850.0": verdict_of(["−850.0 k SDR"]).passed,
-    "k cut 849.9": verdict_of(["−849.9 k SDR"]).passed,
-    "% 25.84": verdict_of(["+25.84 %"]).passed,
-    "% 25.8": verdict_of(["25.8 %"]).passed,
-    "% ×100 2583.5": verdict_of(["2583.5 %"]).passed,
-    "days 55.3": verdict_of(["DSO 55.3 days"]).passed,
-    "days rounded 55": verdict_of(["DSO 55 days"]).passed,
-    "week / year / ids allowed": verdict_of(["week 23 of 2025, 2025-W23 from 2025-06-02, 19 invoices"]).passed,
-    "web number refused": verdict_of(["Canal revenue 7.5 M"], ids=("insight.web",)).passed,
-    "audit total": verdict_of(["19 invoices checked"], ids=("audit.week",)).passed,
-    "unknown evidence": verdict_of(["19 invoices"], ids=("kpi.nope",)).passed,
-    "no evidence": verdict_of(["19 invoices"], ids=()).passed,
-    "label missing (V3)": verdict_of(["19 invoices"], title="NileGate Weekly Finance Pack").passed,
-    "four bullets (V4)": verdict_of(["19 invoices"], five=False).passed,
-    "title number": verdict_of([], title="Pack — 7 invoices — Draft for approval").passed,
-    "template: aging buckets": verdict_of(["Aging 1-30 days, 31–60, 61-90 and 90+ buckets"]).passed,
-    "template: warm-up footnote": verdict_of(["Receivables still building up since 1 Jan 2025"]).passed,
-    "template: 13-week, top 10": verdict_of(["13-week trend; top 10 customers"]).passed,
-    "not template: 1-31 days": verdict_of(["Aging 1-31 days"]).passed,
-    "template: 1 to 30, 90 plus": verdict_of(["Aging 1 to 30 days and 90 plus days"]).passed,
-    "dates: prose / RFC / ISO / US": verdict_of(["Reported on 6 June 2025, Fri, 05 Dec 2025 00:00:00 GMT, "
-                                                 "2025-12-07, June 6, 2025 and in June 2025"], ids=()).passed,
-    "date does not hide an amount": verdict_of(["On 6 June 2025 revenue was 7.5 M"], ids=()).passed,
-    "no evidence, week / year only": verdict_of(["Week 23 of 2025"], ids=()).passed,
-}
+                  sorted({p["token"] for p in st["verdict"]["problems"]}), [s for s, _ in sc.prompts])
+    sizes[mode] = sc.prompts
+real_validate_pptx = wp.readback.validate_pptx            # a renderer fault: the read-back disagrees
+wp.readback.validate_pptx = lambda *a, **k: [m.Problem(rule="V8", slide=3, token="tpl:footer", message="planted")]
+try:
+    sc = PackScript()
+    g = wp.build_graph(roles.FakeRoles(sc), InMemorySaver(), REPORTS / "v8")
+    visited, st, cfg = run(fin_mgr, W, g=g, sc=sc)
+finally:
+    wp.readback.validate_pptx = real_validate_pptx
+v8_case = (visited.count("writer"), st["status"], tuple(g.get_state(cfg).next), st.get("preview"),
+           [p["rule"] for p in st["verdict"]["problems"]])
+full, patch = sizes["wrong_once"][0][1], sizes["wrong_once"][1][1]
 wrong_token = m_sdr(script.ev["kpi.weekly"]["rows"][0]["billed_sdr"] + 10_000).removesuffix(" SDR")
-actual = {"loop": loop, "rule_cases": rule_cases}
-expected = {"loop": {"wrong_once": (2, 2, "awaiting_approval", 1, True, ("approval",), []),
-                     "always_wrong": (3, 3, "validation_failed", 2, False, (), [wrong_token])},
-            "rule_cases": {"as returned −1,234,567.89": True, "M −1.23": True, "M sign dropped 1.23": False,
-                           "k −850.0": True, "k cut 849.9": False, "% 25.84": True, "% 25.8": True,
-                           "% ×100 2583.5": False, "days 55.3": True, "days rounded 55": False,
-                           "week / year / ids allowed": True, "web number refused": False, "audit total": True,
-                           "unknown evidence": False, "no evidence": False, "label missing (V3)": False,
-                           "four bullets (V4)": False, "title number": False, "template: aging buckets": True,
-                           "template: warm-up footnote": True, "template: 13-week, top 10": True,
-                           "not template: 1-31 days": False, "no evidence, week / year only": True,
-                           "template: 1 to 30, 90 plus": True, "dates: prose / RFC / ISO / US": True,
-                           "date does not hide an amount": False}}
+actual = {"loop": loop, "v8": v8_case, "patch_under_half": patch < full / 2}
+expected = {"loop": {"wrong_once": (2, 2, "awaiting_approval", 1, True, ("approval",), [],
+                                    ["DeckDraft", "DeckPatch"]),
+                     "always_wrong": (3, 3, "validation_failed", 2, False, (), [wrong_token],
+                                      ["DeckDraft", "DeckPatch", "DeckPatch"]),
+                     "shape_once": (2, 2, "awaiting_approval", 1, True, ("approval",), [],
+                                    ["DeckDraft", "DeckDraft"])},
+            "v8": (1, "validation_failed", (), None, ["V8"]), "patch_under_half": True}
 assert actual == expected, actual
-print(f"Phase 3: loop {loop['wrong_once'][:4]} / {loop['always_wrong'][:4]}; {len(rule_cases)} rule cases")
-print("✅ Phase 3 validation passed: a planted wrong number caught and rewritten once; an always-wrong Writer stops "
-      f"after two rewrites; {len(rule_cases)} rule cases (roundings, signs, ×100, web numbers, evidence, label, "
-      "shape, template allowlist)")
+print(f"Phase 3: loop {loop['wrong_once'][:4]} / {loop['always_wrong'][:4]} / {loop['shape_once'][:4]}; prompt "
+      f"characters: first draft {full:,}, patch {patch:,} ({patch / full:.0%})")
+print("✅ Phase 3 validation passed: a planted wrong number fixed by one patch of its bullet; a patch that keeps it "
+      f"stops after two rewrites; a wrong deck shape gets the whole deck again; a V8 fault stops with no preview; the "
+      f"patch prompt is {patch / full:.0%} of the first draft's")
 DONE.append(3)
+
 
 # %% Phase 4 — Crash and resume on PostgresSaver (S5)
 # P5-6: a real process dies mid-run. A subprocess (this script with CRASH_ENV) starts week 23 on the PostgreSQL
@@ -630,6 +597,7 @@ DONE.append(4)
 # within its provider's per-minute token limit" (llm.PROVIDERS). Every reply is cached by llm.py, so a re-run makes
 # 0 model calls (`fresh_calls`). The full summary goes to Notebooks/_scratch/weekly_pack_real.json for review.
 REAL_WEEKS = (5, 10, 23, 49)
+RUN_REAL = E.get("PACK_REAL_MODELS") == "1"   # Phase 6 S6: fresh calls on the new prompts; off by default
 
 
 def _tpm(model_name: str) -> int:
@@ -639,7 +607,7 @@ def _tpm(model_name: str) -> int:
 
 real_roles = roles.Roles()
 real = {}
-for w in REAL_WEEKS:
+for w in (REAL_WEEKS if RUN_REAL else ()):
     g_real = wp.build_graph(real_roles, InMemorySaver(), REPORTS / "real")
     cfg = {"configurable": {"thread_id": f"weekly_pack:live:2025-W{w:02d}:real"}}
     error = None
@@ -672,27 +640,40 @@ for w in REAL_WEEKS:
                "fresh_calls": sum(not c["cached"] and c["outcome"] == "ok" for c in usage),
                "max_total_tokens": max((c["total_tokens"] or 0 for c in usage), default=0),
                "summary": [b["text"] for b in (st.get("draft") or {}).get("bullets", []) if b["slide"] == 2]}
-(ROOT / "Notebooks" / "_scratch" / "weekly_pack_real.json").write_text(
-    json.dumps(real, indent=1, ensure_ascii=False, default=str), encoding="utf-8")
-for w, r in real.items():
-    print(f"Phase 5 week {w}: {r['status']} | verdict {r['verdict_passed']} | rewrites {r['rewrites']} | tools "
-          f"{r['tools_called']} | calls {len(r['calls'])} (fresh {r['fresh_calls']}, retries / fallbacks "
-          f"{r['retries_or_fallbacks']}, answered by the fallback {r['fallbacks']}) | "
-          f"max tokens {r['max_total_tokens']} | error {r['error']}")
-actual = {w: (r["error"] is None and r["status"] in ("published", "validation_failed", "output_invalid"),
-              r["over_tpm"] == []) for w, r in real.items()}
-expected = {w: (True, True) for w in REAL_WEEKS}
-assert actual == expected, actual
-# reviewed snapshot (2026-10-19, owner's decisions applied): the two validation_failed weeks fail only on real Writer
-# errors the Validator must catch — a sign dropped next to "down" (number-validation rule 5) and a share cited from
-# kpi.customers instead of kpi.weekly; carried to Phase 6 (Writer). Cached: a re-run makes 0 model calls.
-reviewed = {w: (r["status"], r["fresh_calls"], r["fallbacks"]) for w, r in real.items()}
-assert reviewed == {5: ("validation_failed", 0, 0), 10: ("published", 0, 0), 23: ("validation_failed", 0, 0),
-                    49: ("published", 0, 0)}, reviewed
-print("✅ Phase 5 validation passed: real models on weeks 5 / 10 / 23 / 49 reach a stated end (2 published, 2 "
-      "validation_failed on real Writer errors), every LLM call within its provider's per-minute token limit, "
-      "0 model calls on a re-run")
-DONE.append(5)
+if RUN_REAL:
+    (ROOT / "Notebooks" / "_scratch" / "weekly_pack_real.json").write_text(
+        json.dumps(real, indent=1, ensure_ascii=False, default=str), encoding="utf-8")
+    for w, r in real.items():
+        print(f"Phase 5 week {w}: {r['status']} | verdict {r['verdict_passed']} | rewrites {r['rewrites']} | tools "
+              f"{r['tools_called']} | calls {len(r['calls'])} (fresh {r['fresh_calls']}, retries / fallbacks "
+              f"{r['retries_or_fallbacks']}, answered by the fallback {r['fallbacks']}) | "
+              f"max tokens {r['max_total_tokens']} | error {r['error']}")
+    actual = {w: (r["error"] is None and r["status"] in ("published", "validation_failed", "output_invalid"),
+                  r["over_tpm"] == []) for w, r in real.items()}
+    expected = {w: (True, True) for w in REAL_WEEKS}
+    assert actual == expected, actual
+    # reviewed snapshot (2026-10-19, Phase 6 S6, run 5 — owner: "keep 3 / 4 and close Phase 6"): weeks 5 / 10 / 49
+    # published (two patches each), each deck.pptx read back by the publisher; week 23 validation_failed on a real
+    # Writer error the Validator caught ("{kpi.weekly:dso_days|d} days": the unit written twice) and two patches did
+    # not fix. Runs 2 / 4 / 5 gave 3 / 4 / 4 / 4 / 3 / 4 published: the gap is model variance; every failure since run 3
+    # is a true positive. Phase 5 before Phase 6: 2 / 4, Writer calls up to 17.0K tokens; now at most 12.2K. Runs 1–4
+    # turned three Validator false alarms, two unhelpful messages and three missed defects ("SDR SDR", "up up", the
+    # draft label on slide 1) into Deck_check Phase 4 cases. Cached: a re-run makes 0 model calls. The published
+    # decks are copied to Notebooks/_scratch/ for the owner's look.
+    reviewed = {w: (r["status"], r["fresh_calls"], r["fallbacks"]) for w, r in real.items()}
+    assert reviewed == {5: ("published", 0, 0), 10: ("published", 0, 0), 23: ("validation_failed", 0, 0),
+                        49: ("published", 0, 0)}, reviewed
+    for w in (5, 10, 49):
+        deck = REPORTS / "real" / f"2025-W{w:02d}" / "deck.pptx"
+        assert deck.is_file(), deck
+        (ROOT / "Notebooks" / "_scratch" / f"deck_real_2025-W{w:02d}.pptx").write_bytes(deck.read_bytes())
+    print("✅ Phase 5 validation passed: real models on weeks 5 / 10 / 23 / 49 — 3 / 4 published with their deck.pptx "
+          "(V1–V8 passed), week 23 stopped on a real Writer error the Validator caught; every LLM call within its "
+          f"provider's per-minute token limit (max {max(r['max_total_tokens'] for r in real.values()):,}), 0 model "
+          "calls on a re-run")
+    DONE.append(5)
+else:
+    print("Phase 5 skipped: set PACK_REAL_MODELS=1 to run the real models (Agents plan §5c S6)")
 
 # %% Phase 6 — Contract: schemas, dataset, search cap (S3)
 # No tool the Insight agent can call shows a user, employee or dataset field to the model (ADR-049); the dataset
