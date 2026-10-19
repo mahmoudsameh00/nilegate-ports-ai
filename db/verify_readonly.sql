@@ -248,4 +248,38 @@ SELECT has_table_privilege('finance_bi', 'finance.invoice_audit', 'SELECT') AS b
        has_table_privilege('ports_readonly', 'finance.invoice_audit', 'SELECT') AS ro_live,
        has_table_privilege('ports_readonly', 'finance_test.invoice_audit', 'SELECT') AS ro_test;
 
+\echo '### 20. AGENT STATE (migration 016, Agents plan Phase 5)'
+-- expected: t | postgres | t | f | ports_agent | {search_path=agent_state} | f
+-- (login: NULL / NULL before db/create_agent_user.ps1)
+SELECT to_regnamespace('agent_state') IS NOT NULL AS schema_exists,
+       (SELECT pg_get_userbyid(nspowner) FROM pg_namespace WHERE nspname = 'agent_state') AS schema_owner,
+       EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'agent_writer') AS writer_role,
+       (SELECT rolcanlogin FROM pg_roles WHERE rolname = 'agent_writer') AS writer_can_login,
+       (SELECT string_agg(r.rolname, ',') FROM pg_auth_members m JOIN pg_roles r ON r.oid = m.member
+        WHERE m.roleid = (SELECT oid FROM pg_roles WHERE rolname = 'agent_writer')) AS writer_members,
+       (SELECT s.setconfig::text FROM pg_db_role_setting s JOIN pg_roles r ON r.oid = s.setrole
+        WHERE r.rolname = 'ports_agent') AS login_settings,
+       has_schema_privilege('agent_writer', 'agent_state', 'CREATE') AS writer_can_create;
+-- expected: 4 | 4 | 0 | 0 | 0 | 0 (0 | 0 | 0 | 0 | 0 | 0 before Checkpointer_setup.py): the checkpoint tables, DML for
+-- agent_writer, no TRUNCATE, nothing for ports_readonly / finance_bi, nothing outside agent_state for the writer
+SELECT count(*) FILTER (WHERE c.relnamespace = 'agent_state'::regnamespace) AS state_tables,
+       count(*) FILTER (WHERE c.relnamespace = 'agent_state'::regnamespace
+                          AND has_table_privilege('agent_writer', c.oid, 'SELECT')
+                          AND has_table_privilege('agent_writer', c.oid, 'INSERT')
+                          AND has_table_privilege('agent_writer', c.oid, 'UPDATE')
+                          AND has_table_privilege('agent_writer', c.oid, 'DELETE')) AS writer_dml,
+       count(*) FILTER (WHERE c.relnamespace = 'agent_state'::regnamespace
+                          AND has_table_privilege('agent_writer', c.oid, 'TRUNCATE')) AS writer_truncate,
+       count(*) FILTER (WHERE c.relnamespace = 'agent_state'::regnamespace
+                          AND has_table_privilege('ports_readonly', c.oid, 'SELECT')) AS readonly_reads_state,
+       count(*) FILTER (WHERE c.relnamespace = 'agent_state'::regnamespace
+                          AND has_table_privilege('finance_bi', c.oid, 'SELECT')) AS bi_reads_state,
+       count(*) FILTER (WHERE c.relnamespace <> 'agent_state'::regnamespace
+                          AND c.relname NOT IN ('spatial_ref_sys', 'geometry_columns', 'geography_columns')
+                          AND has_table_privilege('agent_writer', c.oid, 'SELECT,INSERT,UPDATE,DELETE')) AS writer_outside
+FROM pg_class c
+WHERE c.relkind IN ('r', 'v')
+  AND c.relnamespace IN ('agent_state'::regnamespace, 'public'::regnamespace, 'finance'::regnamespace,
+                         'finance_test'::regnamespace);
+
 \echo '### END'

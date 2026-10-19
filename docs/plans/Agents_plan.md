@@ -274,6 +274,126 @@ Each skill goes to the owner for review one at a time; `reviewed_by_owner` is se
 `search_documents` wrapper → S7 external tools (owner creates the Tavily key) → S8 RBAC matrix → S9 skill loader +
 the six skills (owner review) → S10 close (ADR-049, ARCHITECTURE, ROADMAP, `rbac_mapping.md`, handoff).
 
+### 5b. Phase 5 — the `weekly_pack` graph, PostgresSaver, approval: concrete design (APPROVED 2026-10-19 by the owner, as written; IMPLEMENTED 2026-10-19, ADR-050 — deviations D-P5-1…D-P5-9 in Progress)
+
+**Owner decisions (2026-10-19, all the recommended option; AskUserQuestion):** P5-1 hybrid nodes — Data
+Readiness, KPI and Auditor are deterministic code calling the tool functions with the run's user (no LLM); Insight
+is an agent (LLM ↔ `ToolNode(STAGE1_TOOLS)` loop, then one structured call); the Writer is one structured call;
+P5-2 Writer = a structured `DeckDraft` (no PPTX yet), Validator = a first deterministic number check with the loop
+back to the Writer (max 2 rewrites, then stop) — the PPTX template, the template-text allowlist and the G1 rules
+stay in Phase 6; P5-3 migration 016: schema `agent_state` + NOLOGIN role `agent_writer` with DML only (default
+privileges), a login `ports_agent` created from `.env` by a script, `setup()` run with the owner account as a
+deployment step — the runtime login cannot run DDL; P5-4 the approver must be a Finance manager or the CEO (checked
+in PostgreSQL at resume); an edit goes back through the Validator and to a new interrupt; reject ends the run; the
+decision + diff are logged (G5); P5-5 a scheduled pack runs as a configured Finance manager (`--as <employee_id>`),
+not the CEO (least privilege: no level 3); P5-6 resume is proven by killing a real process mid-run; P5-7 the 52
+weeks run end to end with a fake LLM, the real models run on 4 weeks (cached); P5-8 Insight binds all six
+`STAGE1_TOOLS`, gets compact KPI / audit summaries (not all rows), `search_documents` with `k = 3`, and every LLM
+call's tokens are measured (fail > 7,000 against Groq's 8K TPM, then the owner decides).
+
+**Graph (LangGraph `StateGraph`, `context_schema = RunContext`, `durability = "sync"`):**
+
+```text
+START → readiness ─(not ready / not permitted)→ END (status + reasons, no LLM call)
+          └→ kpi → audit → insight_llm ⇄ insight_tools (ToolNode(STAGE1_TOOLS), ≤ 4 rounds) → insight_notes
+          → writer → validator ─(fail, rewrites < 2)→ writer
+                       ├─(fail, 2 rewrites)→ END (validation_failed + the diff)
+                       └─(pass)→ approval ⏸ interrupt ─ approve → publisher → END (published)
+                                                     ├ edit → validator (→ approval again)
+                                                     ├ reject → END (rejected)
+                                                     └ approver not allowed → approval again (refusal logged)
+```
+
+| Node | Kind | Reads | Writes to state | Skill (`skill_loader.load`) |
+|---|---|---|---|---|
+| `readiness` | code | `finance.kpi_weekly`, `finance.fact_invoice` for the week (parameterized, read-only pool; RBAC `FINANCE_VIEWS` first) | `readiness` {ready, checks, reasons}: R1 the week's KPI row exists; R2 invoices in the week > 0; R3 0 nulls in the key fields (customer, due date, amount, category); R4 as-of ≤ the data horizon 2026-03-31; notes (warm-up week) do not gate | — |
+| `kpi` | code | `finance_kpi` × 5 datasets (weekly, category, customers 10, overdue 10, trend) | `evidence["kpi.<dataset>"]` = the `ToolResult` dumps | — |
+| `audit` | code | `invoice_audit(report_week)` with the context's dataset (`live`; `test` only from the harness) | `evidence["audit.week"]` + a summary (findings by code, amount at stake) | — |
+| `insight_llm` / `insight_tools` | agent (Writer / Insight role) | compact summaries of the evidence; tool calls through `ToolNode`, which passes `RunContext` to the tools | `messages` (add_messages); each tool result also as `evidence["insight.<tool_call_id>"]` | `weekly-variance-analysis`, `untrusted-content` |
+| `insight_notes` | one structured call | the loop's messages | `insight` (`InsightNotes`: drivers, explanations, context items, each with evidence ids) | (same) |
+| `writer` | one structured call (Writer role) | summaries + `insight` + the Validator's last diff | `draft` (`DeckDraft`), `rewrites` | `deck-style-guide`, `number-validation` (+ `suez-toll-audit` when the week has findings) |
+| `validator` | code | `draft`, `evidence` | `verdict` {passed, problems} | — |
+| `approval` | `interrupt()` | the payload below | `approval_log` (every decision, refusal and edit diff) | — |
+| `publisher` | code | approved `draft` | `reports/2025-W<ww>/deck_draft.json`, `approval.json`, `run.json` (models, calls, tokens); "Draft for approval" replaced | — |
+
+**State (`TypedDict`, JSON-only values so every checkpoint is plain data):** `report_week`, `status` ∈ {running,
+not_ready, not_permitted, validation_failed, awaiting_approval, rejected, published}, `readiness`, `evidence`
+(dict id → ToolResult dump), `messages`, `insight`, `draft`, `verdict`, `rewrites`, `approval_log`, `published`,
+`llm_usage` (per call: role, model, cached, tokens). The user and the dataset are **not** in the state: they come
+from the run context on every invocation (and resume), as in ADR-049.
+
+**Models (new `pipelines/agents/graphs/models.py`, Pydantic, shallow):** `InsightNotes`, `DeckDraft` (title, slides
+→ bullets {text, evidence_ids}), `Verdict`, `ApprovalDecision` {decision ∈ approve / edit / reject,
+`approver_employee_id`, `edits` [{slide, bullet, text}], `comment`}. Interrupt payload: report week, thread id, the
+draft, the verdict, readiness notes, audit summary. Resume: `Command(resume=ApprovalDecision.model_dump())`.
+
+**LLM roles (new `pipelines/agents/roles.py`, over `llm.py` only):** role → (main, fallback) of ADR-045 with each
+model's structured method (`function_calling` qwen / flash-lite, `json_schema` gpt-oss); `Exhausted` on the main →
+the fallback; usage recorded. The graph receives the roles as a dependency (`build_graph(roles, checkpointer)`), so
+the check script can pass a `FakeRoles` (same `invoke(...) → Reply` interface, scripted replies built from the
+evidence numbers; variants with a planted wrong number for the Validator loop).
+
+**Validator, first version (P5-2):** V1 every bullet with a digit cites ≥ 1 existing evidence id of a structured tool
+(`finance_kpi`, `invoice_audit`, `compute_toll`; ADR-049: never a document or web row); V2 every number token (sign,
+decimals, %, k / M) equals a numeric field of the cited evidence after the `number-validation` rounding (half away
+from zero, sign kept, `*_pct` already percent); V3 the title says "Draft for approval". The problems list is the diff
+sent back to the Writer.
+
+**Checkpointer (P5-3; D3).** `db/migrations/016_agent_state.sql` (applied by the owner): `CREATE SCHEMA agent_state`
+(owner postgres); `CREATE ROLE agent_writer NOLOGIN`; CONNECT on the database, USAGE on `agent_state`, `ALTER DEFAULT
+PRIVILEGES FOR ROLE postgres IN SCHEMA agent_state GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES` (+ sequences) to
+`agent_writer`; nothing in `public` or `finance`; `ports_readonly` and `finance_bi` get nothing (checkpoints hold
+level-2 Finance numbers: `rbac_mapping.md` gets `agent_state` = level 2 / Finance, at rest). COMMENTs. Then
+`db/create_agent_user.ps1` (login `ports_agent` ∈ `agent_writer`, `search_path = agent_state`, password from / into
+`.env` as `PG_AGENT_USER` / `PG_AGENT_PASSWORD`, like `create_finance_bi_user.ps1`) + `db/check_agent_user.py`
+(checkpoint tables writable, DDL refused, `public` / `finance` refused). Deployment step:
+`pipelines/scripts/agents/Checkpointer_setup.py` runs `PostgresSaver.setup()` as the owner account with
+`search_path = agent_state` (autocommit; the library's own migrations) and lists the tables. Runtime:
+`pipelines/agents/checkpointer.py` — one `psycopg_pool` on `ports_agent` (autocommit, `dict_row`,
+`prepare_threshold=0`, as the library requires). `verify_readonly.sql` §20 (schema, grants, tables). **To verify at
+implementation (UNCERTAIN):** the table names and DDL of `langgraph-checkpoint-postgres` 3.1.2 and that its
+`setup()` runs entirely inside the `search_path` schema.
+
+**Run identity and threads (P5-5).** `thread_id = weekly_pack:<dataset>:2025-W<ww>:<attempt>`; the same week twice =
+a new attempt number, never the same thread. CLI `pipelines/scripts/agents/Weekly_pack.py`: `run --week 23 --as
+<employee_id>` (stops at the interrupt, prints the payload summary) and `resume --thread <id> --decision
+approve|edit|reject --as <employee_id> [--edits file.json]`. `--dataset test` is not offered by the CLI (harness only).
+`reports/` is generated output → git-ignored.
+
+**Tests (`pipelines/scripts/agents/Weekly_pack_check.py`, percent format, ✅ lines, reviewed snapshots, Final
+Checkpoint; `InMemorySaver` until migration 016, then PostgresSaver):**
+1. Deterministic nodes on all 52 weeks: readiness ready 52 / 52; evidence = the tool functions called directly; a
+   forced not-ready case ends with no LLM call; an Operations employee → `not_permitted`, no number in the state.
+2. Fake-LLM pack on all 52 weeks: each reaches the interrupt with the Validator passed; approve → the three files;
+   reject → `rejected`, nothing published; an edit with a wrong number → refused by the Validator; an approver who is
+   not a Finance manager / CEO → refused, interrupt again; the approval log holds every step.
+3. Validator loop: a planted wrong number → caught → rewritten → pass; an always-wrong Writer → `validation_failed`
+   after 2 rewrites.
+4. Crash and resume (P5-6): a subprocess runs a week and `os._exit`s inside `writer`; the main process resumes the
+   same thread: the nodes before it are not re-run (0 new tool or LLM calls), the final state = an uninterrupted run.
+5. Real models (P5-7) on weeks 5 (warm-up), 10 (duplicate charge), 23, 49: each reaches the interrupt or a stated
+   stop status (reported: Validator passes, rewrites, fallbacks); every LLM call ≤ 7,000 tokens (P5-8); cached, so a
+   re-run makes 0 calls.
+6. Contract: no tool schema has a user field (re-checked through `ToolNode`); `dataset="test"` reaches the audit only
+   through the harness context.
+
+**Order (one step at a time, each with its check):** S1 `models.py` + `roles.py` + `FakeRoles` → S2 the deterministic
+nodes (test 1) → S3 Insight loop + Writer + Validator + approval + publisher on `InMemorySaver` (tests 2, 3, 6) → S4
+migration 016 + login script + check (the owner applies; asked first) + `Checkpointer_setup.py` + `verify_readonly`
+§20 + snapshot → S5 PostgresSaver + crash / resume (test 4) → S6 real models on the 4 weeks + the CLI (test 5) → S7
+close (ADR-050, ARCHITECTURE, ROADMAP, `rbac_mapping.md`, checkpoint narrative, handoff).
+
+**Files (new):** `pipelines/agents/graphs/__init__.py`, `graphs/models.py`, `graphs/weekly_pack.py` (state, nodes,
+`build_graph`), `pipelines/agents/roles.py`, `pipelines/agents/checkpointer.py`, `db/migrations/016_agent_state.sql`,
+`db/create_agent_user.ps1`, `db/check_agent_user.py`, `pipelines/scripts/agents/Checkpointer_setup.py`,
+`Weekly_pack.py`, `Weekly_pack_check.py`, `pipelines/checkpoints/agents/Weekly_pack_check.md`. **Changed:**
+`.env.example` + `common.SECRET_KEYS` (`PG_AGENT_PASSWORD`), `.gitignore` (`reports/`), `db/verify_readonly.sql`
+(§20), the docs. Nothing in the Phase 4 tools or skills changes.
+
+**Carried, not in Phase 5:** Validator allowlist / G1 / PPTX (Phase 6); the planted budget miss in
+`finance_test.budget_weekly` (Phase 7); the Exceptions page from `finance.invoice_audit` (Power BI, separate step);
+the tariff Notes rules (later migration); retention of old checkpoints and LangSmith (Phase 8).
+
 ## 6. Stage 2 — Operations Desk (details)
 
 - **Users:** Operations employees / managers and the CEO (level-1 operational data). Finance data stays invisible to
@@ -727,11 +847,162 @@ rate limits (ai.google.dev); FP&A reporting time (vendor case studies). Vendor f
   pending none), RBAC matrix 100 × 7 leakage 0, every skill parses within its budget and is reviewed by the owner.
   ADR-049 (with the screening amendment), ARCHITECTURE, ROADMAP, `rbac_mapping.md`, the checkpoint narrative updated.
   Commit: the owner.
+- 2026-10-19 — **Phase 5 design PROPOSED** (§5b): eight decisions P5-1…P5-8 asked to the owner, all answered with the
+  recommended option. Waiting for the owner's approval of §5b as a whole; nothing implemented.
+- 2026-10-19 — **§5b APPROVED** by the owner as written. **S1 done:** `pipelines/agents/graphs/models.py`
+  (`InsightNotes`, `DeckDraft` = title + slide titles + a flat bullet list with evidence ids, two object levels;
+  `Verdict`, `ApprovalDecision`; format rules only, content rules left to the Validator) and
+  `pipelines/agents/roles.py` (`ROLES` = ADR-045 pairs with each model's structured method; `Role.invoke` /
+  `Role.structured` return the reply + usage records; `FakeRoles` with the same interface, replies parsed by the real
+  `parse_structured`). Rule written in the module: **availability → fallback** (Exhausted, no key, cached failure),
+  **validity → one retry with the error on the same model, then `StructuredError`** (no silent switch). Smoke check
+  (temporary, `Notebooks/_scratch/s1_smoke.py`, no API call): 4 / 4 ✅ — round trip + 5 invalid objects refused,
+  FakeRoles parsed and counted, fallback / retry / stop with stub models, real `Roles` built (Groq + Gemini keys
+  present). These checks move into `Weekly_pack_check.py` Phase 0 at S2. **Next: S2** — the deterministic nodes
+  (readiness, kpi, audit) + `Weekly_pack_check.py` test 1 on 52 weeks.
+- 2026-10-19 — **S2 done.** `pipelines/agents/graphs/weekly_pack.py`: `PackState` (JSON-only values; `messages`,
+  `approval_log`, `llm_usage` with append reducers), nodes `readiness` (gate R1 KPI row, R2 invoices in the week, R3
+  0 key nulls, R4 payments loaded through the as-of date — the data, not a constant, says how far payments go;
+  warm-up = a note, not a failure), `kpi` (5 datasets, ranked lists limit 10), `audit` (the context's dataset); plain
+  functions `check_readiness` / `kpi_evidence` / `audit_evidence` shared by the nodes and the check;
+  `build_graph(roles, checkpointer)` = readiness → kpi → audit → END for now (agent steps at S3). New
+  `pipelines/scripts/agents/Weekly_pack_check.py`: Phase 0 (the S1 smoke checks + a "no key → fallback" case; the
+  scratch smoke file stays in `Notebooks/_scratch/` until the task closes — its deletion was refused in this session) and Phase 1 — **3 / 3 ✅** (82 s): 52 / 52 weeks ready, one path readiness → kpi → audit,
+  warm-up notes on weeks 1–13, evidence = the tool functions called directly on 52 / 52, live audit = the 3 reviewed
+  duplicates (weeks 10 / 15 / 50), a forced week without invoices stops at the gate ("no invoice dated in week 23"),
+  an Operations employee → `not_permitted`, no number in the state. Pack user = the first Finance manager (by id).
+  **Next: S3** — Insight loop (`ToolNode(STAGE1_TOOLS)`), Writer, Validator, approval interrupt, Publisher on
+  `InMemorySaver`, with the evidence-based fake script (tests 2, 3, 6).
+- 2026-10-19 — **S3 done.** `weekly_pack.py` now holds the whole graph of §5b: evidence digest (pipe tables of chosen
+  fields; the full rows stay in the state for the Validator), `insight_llm` ⇄ `insight_tools` (`ToolNode(STAGE1_TOOLS)`,
+  ≤ 4 rounds, the last without tools), `insight_notes`, `writer` (skills deck-style-guide + number-validation, +
+  suez-toll-audit only when the week has findings; a rewrite gets the problems and the previous draft), `validator`
+  (V1–V4), `stop_failed`, `approval` (`interrupt()`, then the decision checked: approver in PostgreSQL, approve of a
+  failing draft refused, edits by bullet index with a before / after diff), `publisher` (three JSON files, title →
+  "Approved"). `Weekly_pack_check.py` **6 / 6 ✅** (205 s, 0 LLM calls): Phase 2 — 52 / 52 weeks reach the interrupt
+  with a passing verdict and are published on approve, ToolNode results = the tool on 52 / 52 (the run context
+  reaches the tool), reject saves nothing, week 23's eight approval steps (bad edit → refused approve → Operations
+  manager / unknown employee / malformed decision / bullet 99 refused → good edit → CEO approves); Phase 3 — a planted
+  wrong number rewritten once, an always-wrong Writer stopped after two rewrites (`validation_failed`, no interrupt),
+  18 rule cases; Phase 6 — no user field and no field able to pick the test copy in any schema, the dataset only from
+  the context (node and ToolNode read `finance_test` with `dataset="test"`), search cap 8 → 3.
+  **Deviations (for review):**
+  - **D-P5-1 Validator found a real hole in its own first version:** strings with digits in the cited evidence are
+    blanked as identifiers (INV-0000626, 2025-W23, dates) — that also blanked web titles, so "Canal revenue 7.5 M"
+    citing a web row passed. Now document / web rows give neither numbers nor blankable strings (ADR-049); the case is
+    one of the 18. Consequence for Phase 6: a news date in a context bullet fails until the allowlist.
+  - **D-P5-2** Numeric candidates = `finance_kpi`, `invoice_audit`, `compute_toll` **and `suez_transits`** (public
+    structured counts, quoted as context, never a NileGate number; untrusted-content rule 4) — §5b's V1 listed three.
+  - **D-P5-3** State key `draft_origin` (writer / edit): a failed human edit goes back to the human, never to the
+    Writer; the interrupt payload offers "approve" only when the verdict passes; node `stop_failed` sets
+    `validation_failed`.
+  - **D-P5-4** The search cap rewrites `k` in the stored AI message before the ToolNode runs (the ToolNode stays the
+    stock one; the next model turn sees the arguments that produced the result).
+  - Phase 6 refined: `finance_kpi`'s `dataset` (a KPI view) is not the evaluation copy; the check looks for any field
+    whose choices include test / live.
+  **Next: S4** — migration 016 (`agent_state`, `agent_writer`), `db/create_agent_user.ps1`, `db/check_agent_user.py`,
+  `Checkpointer_setup.py`, `verify_readonly.sql` §20; the owner applies the migration (asked first).
+- 2026-10-19 — **S4 written, not applied.** `db/migrations/016_agent_state.sql` (schema `agent_state` owned by
+  postgres, PUBLIC revoked; `agent_writer` NOLOGIN, CONNECT + USAGE, default privileges FOR ROLE postgres: DML on
+  tables, USAGE / SELECT on sequences); `db/create_agent_user.ps1` (login `ports_agent` ∈ `agent_writer`,
+  `search_path = agent_state`, `PG_AGENT_*` into `.env`); `pipelines/agents/checkpointer.py` (runtime pool on
+  `ports_agent`, autocommit / `dict_row` / `prepare_threshold=0`, `NotSetUp` if the tables are missing — never calls
+  `setup()`); `pipelines/scripts/agents/Checkpointer_setup.py` (refuses any account but postgres; asserts no table
+  outside `agent_state`, owner postgres, agent_writer DML only, nothing for ports_readonly / finance_bi; prints the
+  columns — the library's table names / columns are verified here, §5b UNCERTAIN); `db/check_agent_user.py` (from the
+  host: search_path, a rolled-back insert / update / delete on `checkpoints`, DDL / TRUNCATE / DROP / ALTER / other
+  schemas refused); `verify_readonly.sql` §20; `PG_AGENT_*` in `.env.example`, `PG_BI_PASSWORD` + `PG_AGENT_PASSWORD`
+  in `common.SECRET_KEYS` (the BI password was missing from the redaction list). **Dry run** of 016 in a rolled-back
+  transaction (assistant, 2026-10-19): all statements ok; a probe table created as postgres got agent_writer S / I /
+  U / D = t, TRUNCATE f, ports_readonly f, finance_bi f, writer CREATE f, USAGE t; after ROLLBACK schema and role gone.
+  Deployment order: apply 016 → `create_agent_user.ps1` → `Checkpointer_setup.py` → `check_agent_user.py` → snapshot
+  + `verify_readonly.sql` §20 (expected in the file).
+- 2026-10-19 — **S4 done (owner: "Claude runs all five steps").** 016 applied (BEGIN … COMMIT, no error);
+  `create_agent_user.ps1` added `PG_AGENT_*` to `.env` (login `ports_agent` ∈ `agent_writer`); `Checkpointer_setup.py`
+  ✅ — 4 tables (`checkpoints`, `checkpoint_blobs`, `checkpoint_writes`, `checkpoint_migrations`, 10 library
+  migrations; the §5b UNCERTAIN point is closed: all inside `agent_state`, owner postgres), second run creates
+  nothing; `check_agent_user.py` **14 / 14 PASS**; schema snapshot refreshed; `verify_readonly.sql`
+  (`db/audit/2026-10-19_after_016_report.txt`, 0 errors) §20 = t | postgres | t | f | ports_agent |
+  {search_path=agent_state} | f and 4 | 4 | 0 | 0 | 0 | 0; §15 showed 13 tables never analyzed (statistics reset
+  again, as after 015) → `ANALYZE` re-run, 0. `db/README.md` updated. **Next: S5** — `Weekly_pack_check.py` Phase 4:
+  the graph on `checkpointer.saver()`, a subprocess that `os._exit`s inside `writer`, resume in the main process.
+- 2026-10-19 — **S5 done.** `Weekly_pack_check.py` Phase 4 (the script re-runs itself as the crash child when
+  `WEEKLY_PACK_CRASH_THREAD` is set; the guard sits after the shared definitions, so the child runs no phase loop):
+  the child starts week 23 on `checkpointer.saver()` (`ports_agent`, `durability="sync"`) and `os._exit(77)`s inside
+  the Writer; the parent — another process, a fresh graph — finds the thread in `agent_state` standing before
+  `writer` (9 checkpoints; evidence, insight and messages present), resumes: only writer → validator → interrupt
+  (1 LLM call, no readiness / KPI / audit / Insight step), then approve → publisher; the result = an uninterrupted
+  run on InMemorySaver on every compared key (status, evidence, insight, draft, verdict, rewrites, readiness);
+  `delete_thread` leaves 0 rows. Whole check **7 / 7 ✅** (220 s, 0 real LLM calls). Minor: the child leaves one
+  empty temp folder (its own `mkdtemp`). Phase 5 done-when "resume after a crash works" = met. **Next: S6** — real
+  models on weeks 5 / 10 / 23 / 49 (test 5; token measurement against 7,000) + the CLI `Weekly_pack.py`.
+- 2026-10-19 — **S6 done.** First real run (ADR-045 roles as accepted): Groq answered the first Insight call
+  (5,845 tokens) and then refused every larger one ("Request too large", classified as a per-minute limit → 60 s
+  waits, then the model stopped for the run); all later calls fell back to Gemini; calls were **9.7K–17K tokens**
+  (estimate before the run, `est_tokens` = chars / 3: insight 5.2–6.9K input with a tiny tool result; the biggest
+  parts: raw tool-result JSON, the skills ~0.8–1.2K each, the output schemas). Week 23 ended in an exception (the
+  model cited `suez_transits` as an evidence id: it never saw its tool-call ids). **Owner decisions (2026-10-19,
+  all recommended):** (1) the pack's Insight / Writer = flash-lite + OpenRouter nemotron (**ADR-045 amendment 1**),
+  token gate = each call within its provider's TPM; (2) a small template allowlist in the Validator now (aging
+  bucket names, the warm-up footnote, "13-week", "top 10"); (3) a twice-invalid structured reply ends the run as
+  `output_invalid` + `stop_reason` (a re-run would read the same cached replies), quota exhaustion stays an exception
+  (the thread waits at its checkpoint and resumes later), and "Request too large" is a cached deterministic failure
+  in `llm.py` (`too_large`). Also fixed: an evidence index (id → tool + arguments) in the notes and Writer prompts;
+  V1 ignores the allowed week / year. **Second finding of the Validator:** web dates in prose ("6 June 2025",
+  "Fri, 05 Dec 2025 00:00:00 GMT") failed every context bullet, though `untrusted-content` rule 5 requires a source's
+  date → `DATE_RE` blanks dates and times everywhere (a case proves a date does not hide an amount). Phase 3 now 26
+  rule cases. **Result (reviewed snapshot):** weeks 10 and 49 **published** (draft passed after 2 / 1 rewrites),
+  weeks 5 and 23 **validation_failed** — only on real Writer errors the Validator must catch: a sign dropped next to
+  "down" ("down 15.8 %" for −15.76: rounding to 1 decimal is allowed, the missing sign is not — number-validation
+  rule 5) and a share cited from `kpi.customers` instead of `kpi.weekly`; 0 fallbacks, max 17.0K tokens per call, a
+  re-run makes 0 model calls. `Weekly_pack_check.py` **7 / 7 ✅** (283 s with the real phase from cache).
+  CLI `pipelines/scripts/agents/Weekly_pack.py` (run / show / resume / list): week 10 run as Finance manager 6 →
+  interrupt with the numbered draft → approved by the CEO (1) → `reports/2025-W10/` (git-ignored, `.gitignore`
+  updated); `run.json` keeps `run_as` = 6 (the run identity is stored in the checkpoint metadata, the approver only
+  decides) — that thread stays in `agent_state` as the first real pack.
+  **Deviations:** D-P5-5 roles changed (ADR-045 amendment 1); D-P5-6 status `output_invalid` + `stop_reason`; D-P5-7
+  `DATE_RE` beyond the allowlist the owner named (dates are required by a reviewed skill); D-P5-8 `llm.py` gained
+  `too_large`; D-P5-9 the CLI stores `run_as` in the checkpoint metadata (§5b said only "--as").
+  **For Phase 6 (Writer + Validator):** the Writer drops signs next to direction words and sometimes cites the wrong
+  dataset — e.g. ask for signed numbers explicitly, a per-slide evidence list, fewer problems per rewrite; the
+  Validator matches a number against **any** numeric field of the cited evidence ("ranged from 30 to 50" passes if
+  both values occur anywhere in the rows) — bind numbers to fields (G1) to close it. Writer prompts are 12–17K
+  tokens: fine on Gemini, but the free daily request limit of flash-lite is not published — watch it in Phase 8.
+  **Next: S7** — close Phase 5: ADR-050, ARCHITECTURE, ROADMAP, `rbac_mapping.md` (`agent_state`), the checkpoint
+  narrative `pipelines/checkpoints/agents/Weekly_pack_check.md`, handoff.
+- 2026-10-19 — **Phase 5 CLOSED.** Done-when of §5 met: a pack for any week runs end to end (52 / 52 with fake
+  models to the approval and published; real models: 4 / 4 weeks reach a stated end, 2 published), resume after a
+  crash works across processes from PostgreSQL. ADR-050 written, ADR-045 amendment 1, ARCHITECTURE (§1, §2, §4
+  `agent_state`, §7, §8, §9), ROADMAP, `rbac_mapping.md` (`agent_state` level 2 / Finance; the approval rule),
+  `pipelines/README.md`, `db/README.md`, the checkpoint narrative. Scratch helpers (`Notebooks/_scratch/s1_smoke.py`,
+  `s6_tokens.py`, `s6_phase5.py`, run logs, `weekly_pack_real.json`) stay until the owner empties the folder (deletion
+  was refused in this session). Commit: the owner.
 
-### SESSION HANDOFF (2026-10-19, Phase 4 CLOSED) — read this first in the next session
+### SESSION HANDOFF (2026-10-19, Phase 5 CLOSED) — read this first in the next session
+
+- **Phases 0–5 are CLOSED.** Phase 5: ADR-050; `pipelines/agents/graphs/weekly_pack.py` (+ `models.py`),
+  `pipelines/agents/roles.py` (ADR-045 amendment 1: the pack's Insight / Writer on Gemini flash-lite + OpenRouter
+  nemotron), `pipelines/agents/checkpointer.py`; migration 016 (`agent_state`, `agent_writer`, login `ports_agent`);
+  CLI `pipelines/scripts/agents/Weekly_pack.py`; `Weekly_pack_check.py` 7 / 7 (real phase cached: 0 model calls).
+- **Next: Phase 6** (§5) — PPTX template (NileGate style) + Writer + Validator; done when the Validator catches every
+  planted wrong number in a test deck. Start by proposing the Phase 6 design to the owner (AskUserQuestion,
+  recommendation first). Inputs from Phase 5 (S6 Progress): the Writer drops signs next to direction words and
+  sometimes cites the wrong dataset (weeks 5 / 23 `validation_failed`); the Validator matches a number against any
+  numeric field of the cited evidence — bind numbers to fields (G1 of §8a); the full template allowlist (titles,
+  footnotes); the Writer prompt is 12–17K tokens (fine on Gemini; the free daily limit of flash-lite is not
+  published — watch it); `DeckDraft` → PPTX rendering with charts from the same evidence.
+- **Carry into later phases:** Phase 7 needs a way to read the planted budget miss (`finance_test.budget_weekly`);
+  Power BI Exceptions page from `finance.invoice_audit`; tariff Notes rules not modelled by the audit; Phase 8:
+  scheduling, LangSmith, checkpoint retention (`agent_writer` has DELETE for it), the first real thread
+  `weekly_pack:live:2025-W10:1` stays in `agent_state`.
+- Still open from before: the owner's review of §8a (G1–G6, PROPOSED).
+
+### SESSION HANDOFF (2026-10-19, Phase 4 CLOSED)
 
 - **Phases 0–4 are CLOSED.** Phase 4: ADR-049; six tools in `pipelines/agents/tools/` (`registry.STAGE1_TOOLS`),
   migration 015 (audit views), six reviewed skills + `skill_loader.py`, `Tools_check.py` 8 / 8.
+- **Phase 5 design = §5b (PROPOSED 2026-10-19, decisions P5-1…P5-8 answered); implement after the owner approves
+  §5b, starting at S1.**
 - **Next: Phase 5** (§5) — the LangGraph `weekly_pack` StateGraph (Data Readiness → KPI → Auditor → Insight → Writer
   → Validator → interrupt → Publisher, §3), PostgresSaver in a schema `agent_state` with a writer role (a migration:
   ask the owner), resume after a crash. Bind `registry.STAGE1_TOOLS`; pass `RunContext(user)` (and

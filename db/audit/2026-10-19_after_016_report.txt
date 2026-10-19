@@ -1,0 +1,645 @@
+SET
+Pager usage is off.
+Null display is "<NULL>".
+### 0. SERVER / EXTENSIONS / SCHEMAS / DB USERS
+                                                           version                                                           
+-----------------------------------------------------------------------------------------------------------------------------
+ PostgreSQL 16.9 (Debian 16.9-1.pgdg110+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 10.2.1-6) 10.2.1 20210110, 64-bit
+(1 row)
+
+ default_transaction_read_only 
+-------------------------------
+ on
+(1 row)
+
+        extname         | extversion 
+------------------------+------------
+ fuzzystrmatch          | 1.2
+ plpgsql                | 1.0
+ postgis                | 3.5.2
+ postgis_tiger_geocoder | 3.5.2
+ postgis_topology       | 3.5.2
+(5 rows)
+
+   nspname    
+--------------
+ agent_state
+ finance
+ finance_test
+ public
+ tiger
+ tiger_data
+ topology
+(7 rows)
+
+    rolname     | rolsuper | rolcanlogin 
+----------------+----------+-------------
+ agent_writer   | f        | f
+ finance_bi     | f        | f
+ ports_agent    | f        | t
+ ports_bi       | f        | t
+ ports_readonly | f        | f
+ ports_ro       | f        | t
+ postgres       | t        | t
+(7 rows)
+
+### 1. TABLES + EXACT ROW COUNTS (public)
+    table_name    | row_count 
+------------------+-----------
+ budget_weekly    |       676
+ containers       |      1000
+ customers        |        40
+ departments      |         5
+ documents        |        29
+ employees        |       100
+ invoices         |      1000
+ payments         |       994
+ port_connections |     19990
+ ports            |       837
+ roles            |         3
+ spatial_ref_sys  |      8500
+ toll_rate_bands  |       177
+ vessels          |       500
+(14 rows)
+
+ accepted_currencies_exists | audit_log_exists | documents_exists 
+----------------------------+------------------+------------------
+ <NULL>                     | <NULL>           | documents
+(1 row)
+
+### 2. COLUMNS (exact types, nullability, defaults)
+    table_name    | pos |        column_name        |         data_type         | not_null |                   default_value                    
+------------------+-----+---------------------------+---------------------------+----------+----------------------------------------------------
+ budget_weekly    |   1 | budget_year               | integer                   | t        | <NULL>
+ budget_weekly    |   2 | iso_week                  | integer                   | t        | <NULL>
+ budget_weekly    |   3 | vessel_category           | text                      | t        | <NULL>
+ budget_weekly    |   4 | budget_sdr                | numeric                   | t        | <NULL>
+ containers       |   1 | container_id              | integer                   | t        | nextval('containers_container_id_seq'::regclass)
+ containers       |   2 | container_number          | character varying(11)     | t        | <NULL>
+ containers       |   3 | container_type            | text                      | t        | <NULL>
+ containers       |   4 | size_ft                   | integer                   | t        | <NULL>
+ containers       |   5 | status                    | text                      | t        | <NULL>
+ containers       |   6 | vessel_id                 | integer                   | t        | <NULL>
+ containers       |   7 | origin_locode             | character varying(5)      | t        | <NULL>
+ containers       |   8 | destination_locode        | character varying(5)      | t        | <NULL>
+ customers        |   1 | customer_id               | integer                   | t        | <NULL>
+ customers        |   2 | customer_name             | text                      | t        | <NULL>
+ customers        |   3 | country                   | text                      | t        | <NULL>
+ customers        |   4 | segment                   | text                      | t        | <NULL>
+ customers        |   5 | payment_terms_days        | integer                   | t        | <NULL>
+ customers        |   6 | credit_rating             | text                      | t        | <NULL>
+ departments      |   1 | department_id             | integer                   | t        | nextval('departments_department_id_seq'::regclass)
+ departments      |   2 | department_name           | text                      | t        | <NULL>
+ departments      |   3 | description               | text                      | f        | <NULL>
+ documents        |   1 | document_id               | text                      | t        | <NULL>
+ documents        |   2 | filename                  | text                      | t        | <NULL>
+ documents        |   3 | title                     | text                      | t        | <NULL>
+ documents        |   4 | source                    | text                      | t        | <NULL>
+ documents        |   5 | real_or_synthetic         | text                      | t        | <NULL>
+ documents        |   6 | document_type             | text                      | t        | <NULL>
+ documents        |   7 | department_id             | integer                   | t        | <NULL>
+ documents        |   8 | sensitivity_level         | smallint                  | t        | <NULL>
+ documents        |   9 | version_date              | text                      | f        | <NULL>
+ documents        |  10 | ingestion_scope           | text                      | f        | <NULL>
+ documents        |  11 | source_url                | text                      | f        | <NULL>
+ documents        |  12 | sha256                    | character(64)             | t        | <NULL>
+ documents        |  13 | file_size_bytes           | bigint                    | t        | <NULL>
+ documents        |  14 | page_count                | integer                   | f        | <NULL>
+ documents        |  15 | chunk_count               | integer                   | f        | <NULL>
+ documents        |  16 | ingested_at               | timestamp with time zone  | f        | <NULL>
+ documents        |  17 | created_at                | timestamp with time zone  | t        | now()
+ employees        |   1 | employee_id               | integer                   | t        | nextval('employees_employee_id_seq'::regclass)
+ employees        |   2 | first_name                | text                      | t        | <NULL>
+ employees        |   3 | last_name                 | text                      | t        | <NULL>
+ employees        |   4 | email                     | text                      | t        | <NULL>
+ employees        |   5 | role_id                   | integer                   | t        | <NULL>
+ employees        |   6 | department_id             | integer                   | t        | <NULL>
+ employees        |   7 | hire_date                 | date                      | t        | <NULL>
+ invoices         |   1 | invoice_id                | integer                   | t        | nextval('invoices_invoice_id_seq'::regclass)
+ invoices         |   2 | invoice_number            | text                      | t        | <NULL>
+ invoices         |   3 | vessel_id                 | integer                   | t        | <NULL>
+ invoices         |   4 | toll_rate_band_id         | integer                   | f        | <NULL>
+ invoices         |   5 | invoice_date              | date                      | t        | <NULL>
+ invoices         |   7 | scnt_tons                 | numeric                   | t        | <NULL>
+ invoices         |   8 | rate_sdr_per_ton          | numeric                   | f        | <NULL>
+ invoices         |   9 | amount                    | numeric                   | t        | <NULL>
+ invoices         |  10 | description               | text                      | f        | <NULL>
+ invoices         |  11 | status                    | text                      | t        | <NULL>
+ payments         |   1 | invoice_number            | text                      | t        | <NULL>
+ payments         |   2 | paid_date                 | date                      | t        | <NULL>
+ payments         |   3 | amount_sdr                | numeric                   | t        | <NULL>
+ port_connections |   1 | port1_locode              | character varying(5)      | t        | <NULL>
+ port_connections |   2 | port2_locode              | character varying(5)      | t        | <NULL>
+ port_connections |   3 | flows                     | double precision          | t        | <NULL>
+ port_connections |   4 | country1                  | text                      | t        | <NULL>
+ port_connections |   5 | country2                  | text                      | t        | <NULL>
+ port_connections |   6 | geom                      | geometry(LineString,4326) | t        | <NULL>
+ ports            |   1 | locode                    | character varying(5)      | t        | <NULL>
+ ports            |   2 | name                      | text                      | t        | <NULL>
+ ports            |   3 | country                   | text                      | t        | <NULL>
+ ports            |   4 | function                  | character(8)              | t        | <NULL>
+ ports            |   5 | status                    | character(2)              | t        | <NULL>
+ ports            |   6 | outflows                  | double precision          | t        | <NULL>
+ ports            |   7 | lon                       | double precision          | t        | <NULL>
+ ports            |   8 | lat                       | double precision          | t        | <NULL>
+ ports            |   9 | geom                      | geometry(Point,4326)      | t        | <NULL>
+ roles            |   1 | role_id                   | integer                   | t        | nextval('roles_role_id_seq'::regclass)
+ roles            |   2 | role_name                 | text                      | t        | <NULL>
+ roles            |   3 | allowed_sensitivity_level | integer                   | t        | <NULL>
+ toll_rate_bands  |   1 | id                        | integer                   | t        | nextval('toll_rate_bands_id_seq'::regclass)
+ toll_rate_bands  |   2 | vessel_category           | text                      | t        | <NULL>
+ toll_rate_bands  |   3 | laden_ballast             | text                      | t        | <NULL>
+ toll_rate_bands  |   4 | band_order                | integer                   | t        | <NULL>
+ toll_rate_bands  |   5 | band_label                | text                      | t        | <NULL>
+ toll_rate_bands  |   6 | band_min_tons             | numeric                   | t        | <NULL>
+ toll_rate_bands  |   7 | band_max_tons             | numeric                   | f        | <NULL>
+ toll_rate_bands  |   8 | rate_sdr_per_ton          | numeric                   | t        | <NULL>
+ vessels          |   1 | vessel_id                 | integer                   | t        | nextval('vessels_vessel_id_seq'::regclass)
+ vessels          |   2 | imo_number                | character varying(7)      | t        | <NULL>
+ vessels          |   3 | vessel_name               | text                      | t        | <NULL>
+ vessels          |   4 | vessel_type               | text                      | t        | <NULL>
+ vessels          |   5 | flag_country              | text                      | t        | <NULL>
+ vessels          |   6 | scnt_tons                 | numeric                   | t        | <NULL>
+ vessels          |   7 | origin_locode             | character varying(5)      | t        | <NULL>
+ vessels          |   8 | destination_locode        | character varying(5)      | t        | <NULL>
+ vessels          |   9 | condition                 | text                      | t        | <NULL>
+ vessels          |  10 | status                    | text                      | t        | <NULL>
+ vessels          |  11 | mmsi                      | character varying(9)      | t        | <NULL>
+ vessels          |  12 | customer_id               | integer                   | t        | <NULL>
+(96 rows)
+
+### 3. CONSTRAINTS (PK / FK / UNIQUE / CHECK)
+    table_name    | contype |               conname               |                                                                                                                                                                                                                                                        definition                                                                                                                                                                                                                                                         
+------------------+---------+-------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ ports            | c       | ports_function_format_chk           | CHECK ((function ~ '^[0-9-]{7}[0-9B-]$'::text))
+ ports            | c       | ports_geom_matches_lon_lat_chk      | CHECK (((abs((st_x(geom) - lon)) < (0.000000001)::double precision) AND (abs((st_y(geom) - lat)) < (0.000000001)::double precision)))
+ ports            | c       | ports_lat_lon_chk                   | CHECK ((((lat >= ('-90'::integer)::double precision) AND (lat <= (90)::double precision)) AND ((lon >= ('-180'::integer)::double precision) AND (lon <= (180)::double precision))))
+ ports            | c       | ports_locode_format_chk             | CHECK (((locode)::text ~ '^[A-Z]{2}[A-Z2-9]{3}$'::text))
+ ports            | c       | ports_outflows_chk                  | CHECK ((outflows >= (0)::double precision))
+ ports            | c       | ports_status_format_chk             | CHECK ((status ~ '^[A-Z]{2}$'::text))
+ ports            | p       | ports_pkey                          | PRIMARY KEY (locode)
+ port_connections | c       | port_connections_country_codes_chk  | CHECK (((country1 = "left"((port1_locode)::text, 2)) AND (country2 = "left"((port2_locode)::text, 2))))
+ port_connections | c       | port_connections_flows_chk          | CHECK ((flows > (0)::double precision))
+ port_connections | c       | port_connections_no_self_loop_chk   | CHECK (((port1_locode)::text <> (port2_locode)::text))
+ port_connections | f       | port_connections_port1_locode_fkey  | FOREIGN KEY (port1_locode) REFERENCES ports(locode)
+ port_connections | f       | port_connections_port2_locode_fkey  | FOREIGN KEY (port2_locode) REFERENCES ports(locode)
+ port_connections | p       | port_connections_pkey               | PRIMARY KEY (port1_locode, port2_locode)
+ toll_rate_bands  | c       | toll_rate_bands_band_order_chk      | CHECK ((band_order >= 1))
+ toll_rate_bands  | c       | toll_rate_bands_band_range_chk      | CHECK (((band_min_tons >= (0)::numeric) AND ((band_max_tons IS NULL) OR (band_max_tons > band_min_tons))))
+ toll_rate_bands  | c       | toll_rate_bands_laden_ballast_chk   | CHECK ((laden_ballast = ANY (ARRAY['Laden'::text, 'Ballast'::text])))
+ toll_rate_bands  | c       | toll_rate_bands_rate_chk            | CHECK ((rate_sdr_per_ton > (0)::numeric))
+ toll_rate_bands  | c       | toll_rate_bands_vessel_category_chk | CHECK ((vessel_category = ANY (ARRAY['Chemical Tankers & Other Liquid Bulk Tankers'::text, 'Containerships'::text, 'Crude Oil Tankers'::text, 'Cruise Ships'::text, 'Dry Bulk Vessels'::text, 'General Cargo / Multi-Purpose / Heavy Lift Vessels'::text, 'Liquefied Natural Gas (LNG) Carriers'::text, 'Liquefied Petroleum Gas (LPG) Carriers'::text, 'Other Vessels'::text, 'Petroleum Product Tankers'::text, 'Roll-On/Roll-Off (Ro/Ro) Vessels'::text, 'Special Floating Units'::text, 'Vehicles Carriers'::text])))
+ toll_rate_bands  | p       | toll_rate_bands_pkey                | PRIMARY KEY (id)
+ toll_rate_bands  | u       | toll_rate_bands_band_key            | UNIQUE (vessel_category, laden_ballast, band_order)
+ departments      | p       | departments_pkey                    | PRIMARY KEY (department_id)
+ departments      | u       | departments_department_name_key     | UNIQUE (department_name)
+ roles            | c       | roles_allowed_sensitivity_level_chk | CHECK (((allowed_sensitivity_level >= 1) AND (allowed_sensitivity_level <= 3)))
+ roles            | p       | roles_pkey                          | PRIMARY KEY (role_id)
+ roles            | u       | roles_role_name_key                 | UNIQUE (role_name)
+ employees        | c       | employees_email_format_chk          | CHECK ((email ~ '^[a-z0-9._-]+@nilegate\.com$'::text))
+ employees        | f       | employees_department_id_fkey        | FOREIGN KEY (department_id) REFERENCES departments(department_id)
+ employees        | f       | employees_role_id_fkey              | FOREIGN KEY (role_id) REFERENCES roles(role_id)
+ employees        | p       | employees_pkey                      | PRIMARY KEY (employee_id)
+ employees        | u       | employees_email_key                 | UNIQUE (email)
+ vessels          | c       | vessels_condition_chk               | CHECK ((condition = ANY (ARRAY['Laden'::text, 'Ballast'::text])))
+ vessels          | c       | vessels_imo_number_format_chk       | CHECK (((imo_number)::text ~ '^[0-9]{7}$'::text))
+ vessels          | c       | vessels_mmsi_format_chk             | CHECK (((mmsi)::text ~ '^[2-7][0-9]{8}$'::text))
+ vessels          | c       | vessels_route_chk                   | CHECK (((origin_locode)::text <> (destination_locode)::text))
+ vessels          | c       | vessels_scnt_tons_chk               | CHECK ((scnt_tons > (0)::numeric))
+ vessels          | c       | vessels_status_chk                  | CHECK ((status = ANY (ARRAY['In Transit'::text, 'At Port'::text, 'Anchored'::text, 'Completed'::text])))
+ vessels          | c       | vessels_vessel_type_chk             | CHECK ((vessel_type = ANY (ARRAY['Chemical Tankers & Other Liquid Bulk Tankers'::text, 'Containerships'::text, 'Crude Oil Tankers'::text, 'Cruise Ships'::text, 'Dry Bulk Vessels'::text, 'General Cargo / Multi-Purpose / Heavy Lift Vessels'::text, 'Liquefied Natural Gas (LNG) Carriers'::text, 'Liquefied Petroleum Gas (LPG) Carriers'::text, 'Other Vessels'::text, 'Petroleum Product Tankers'::text, 'Roll-On/Roll-Off (Ro/Ro) Vessels'::text, 'Special Floating Units'::text, 'Vehicles Carriers'::text])))
+ vessels          | f       | vessels_customer_id_fkey            | FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+ vessels          | f       | vessels_destination_locode_fkey     | FOREIGN KEY (destination_locode) REFERENCES ports(locode)
+ vessels          | f       | vessels_origin_locode_fkey          | FOREIGN KEY (origin_locode) REFERENCES ports(locode)
+ vessels          | p       | vessels_pkey                        | PRIMARY KEY (vessel_id)
+ vessels          | u       | vessels_imo_number_key              | UNIQUE (imo_number)
+ vessels          | u       | vessels_mmsi_key                    | UNIQUE (mmsi)
+ containers       | c       | containers_number_format_chk        | CHECK (((container_number)::text ~ '^[A-Z]{3}[UJZ][0-9]{7}$'::text))
+ containers       | c       | containers_route_chk                | CHECK (((origin_locode)::text <> (destination_locode)::text))
+ containers       | c       | containers_size_ft_chk              | CHECK ((size_ft = ANY (ARRAY[20, 40])))
+ containers       | c       | containers_status_chk               | CHECK ((status = ANY (ARRAY['Loaded'::text, 'In Transit'::text, 'At Port'::text, 'Delivered'::text, 'Empty'::text])))
+ containers       | c       | containers_type_chk                 | CHECK ((container_type = ANY (ARRAY['Dry'::text, 'Reefer'::text, 'Open Top'::text, 'Flat Rack'::text])))
+ containers       | f       | containers_destination_locode_fkey  | FOREIGN KEY (destination_locode) REFERENCES ports(locode)
+ containers       | f       | containers_origin_locode_fkey       | FOREIGN KEY (origin_locode) REFERENCES ports(locode)
+ containers       | f       | containers_vessel_id_fkey           | FOREIGN KEY (vessel_id) REFERENCES vessels(vessel_id)
+ containers       | p       | containers_pkey                     | PRIMARY KEY (container_id)
+ containers       | u       | containers_container_number_key     | UNIQUE (container_number)
+ invoices         | c       | invoices_amount_chk                 | CHECK ((amount > (0)::numeric))
+ invoices         | c       | invoices_number_format_chk          | CHECK ((invoice_number ~ '^INV-[0-9]{7}$'::text))
+ invoices         | c       | invoices_rate_chk                   | CHECK (((rate_sdr_per_ton IS NULL) OR (rate_sdr_per_ton > (0)::numeric)))
+ invoices         | c       | invoices_scnt_tons_chk              | CHECK ((scnt_tons > (0)::numeric))
+ invoices         | c       | invoices_status_chk                 | CHECK ((status = ANY (ARRAY['Issued'::text, 'Paid'::text, 'Pending'::text])))
+ invoices         | f       | invoices_toll_rate_band_id_fkey     | FOREIGN KEY (toll_rate_band_id) REFERENCES toll_rate_bands(id)
+ invoices         | f       | invoices_vessel_id_fkey             | FOREIGN KEY (vessel_id) REFERENCES vessels(vessel_id)
+ invoices         | p       | invoices_pkey                       | PRIMARY KEY (invoice_id)
+ invoices         | u       | invoices_invoice_number_key         | UNIQUE (invoice_number)
+ documents        | c       | documents_chunk_count_check         | CHECK ((chunk_count >= 0))
+ documents        | c       | documents_file_size_bytes_check     | CHECK ((file_size_bytes > 0))
+ documents        | c       | documents_page_count_check          | CHECK ((page_count > 0))
+ documents        | c       | documents_real_or_synthetic_check   | CHECK ((real_or_synthetic = ANY (ARRAY['real'::text, 'synthetic'::text])))
+ documents        | c       | documents_sensitivity_level_check   | CHECK (((sensitivity_level >= 1) AND (sensitivity_level <= 3)))
+ documents        | f       | documents_department_id_fkey        | FOREIGN KEY (department_id) REFERENCES departments(department_id)
+ documents        | p       | documents_pkey                      | PRIMARY KEY (document_id)
+ documents        | u       | documents_sha256_key                | UNIQUE (sha256)
+ customers        | c       | customers_rating_chk                | CHECK ((credit_rating = ANY (ARRAY['A'::text, 'B'::text, 'C'::text])))
+ customers        | c       | customers_segment_chk               | CHECK ((segment = ANY (ARRAY['container'::text, 'tanker'::text, 'bulk'::text, 'roro'::text, 'cruise'::text, 'agent'::text])))
+ customers        | c       | customers_terms_chk                 | CHECK ((payment_terms_days = ANY (ARRAY[30, 45, 60])))
+ customers        | p       | customers_pkey                      | PRIMARY KEY (customer_id)
+ customers        | u       | customers_customer_name_key         | UNIQUE (customer_name)
+ payments         | c       | payments_amount_chk                 | CHECK ((amount_sdr > (0)::numeric))
+ payments         | f       | payments_invoice_number_fkey        | FOREIGN KEY (invoice_number) REFERENCES invoices(invoice_number)
+ payments         | p       | payments_pkey                       | PRIMARY KEY (invoice_number)
+ budget_weekly    | c       | budget_weekly_amount_chk            | CHECK ((budget_sdr >= (0)::numeric))
+ budget_weekly    | c       | budget_weekly_category_chk          | CHECK ((vessel_category = ANY (ARRAY['Chemical Tankers & Other Liquid Bulk Tankers'::text, 'Containerships'::text, 'Crude Oil Tankers'::text, 'Cruise Ships'::text, 'Dry Bulk Vessels'::text, 'General Cargo / Multi-Purpose / Heavy Lift Vessels'::text, 'Liquefied Natural Gas (LNG) Carriers'::text, 'Liquefied Petroleum Gas (LPG) Carriers'::text, 'Other Vessels'::text, 'Petroleum Product Tankers'::text, 'Roll-On/Roll-Off (Ro/Ro) Vessels'::text, 'Special Floating Units'::text, 'Vehicles Carriers'::text])))
+ budget_weekly    | c       | budget_weekly_week_chk              | CHECK (((iso_week >= 1) AND (iso_week <= 52)))
+ budget_weekly    | c       | budget_weekly_year_chk              | CHECK ((budget_year = 2025))
+ budget_weekly    | p       | budget_weekly_pkey                  | PRIMARY KEY (budget_year, iso_week, vessel_category)
+(83 rows)
+
+### 4. INDEXES
+    tablename     |             indexname             |                                                            indexdef                                                             
+------------------+-----------------------------------+---------------------------------------------------------------------------------------------------------------------------------
+ budget_weekly    | budget_weekly_pkey                | CREATE UNIQUE INDEX budget_weekly_pkey ON public.budget_weekly USING btree (budget_year, iso_week, vessel_category)
+ containers       | containers_container_number_key   | CREATE UNIQUE INDEX containers_container_number_key ON public.containers USING btree (container_number)
+ containers       | containers_destination_locode_idx | CREATE INDEX containers_destination_locode_idx ON public.containers USING btree (destination_locode)
+ containers       | containers_origin_locode_idx      | CREATE INDEX containers_origin_locode_idx ON public.containers USING btree (origin_locode)
+ containers       | containers_pkey                   | CREATE UNIQUE INDEX containers_pkey ON public.containers USING btree (container_id)
+ containers       | containers_vessel_id_idx          | CREATE INDEX containers_vessel_id_idx ON public.containers USING btree (vessel_id)
+ customers        | customers_customer_name_key       | CREATE UNIQUE INDEX customers_customer_name_key ON public.customers USING btree (customer_name)
+ customers        | customers_pkey                    | CREATE UNIQUE INDEX customers_pkey ON public.customers USING btree (customer_id)
+ departments      | departments_department_name_key   | CREATE UNIQUE INDEX departments_department_name_key ON public.departments USING btree (department_name)
+ departments      | departments_pkey                  | CREATE UNIQUE INDEX departments_pkey ON public.departments USING btree (department_id)
+ documents        | documents_department_id_idx       | CREATE INDEX documents_department_id_idx ON public.documents USING btree (department_id)
+ documents        | documents_pkey                    | CREATE UNIQUE INDEX documents_pkey ON public.documents USING btree (document_id)
+ documents        | documents_sha256_key              | CREATE UNIQUE INDEX documents_sha256_key ON public.documents USING btree (sha256)
+ employees        | employees_department_id_idx       | CREATE INDEX employees_department_id_idx ON public.employees USING btree (department_id)
+ employees        | employees_email_key               | CREATE UNIQUE INDEX employees_email_key ON public.employees USING btree (email)
+ employees        | employees_pkey                    | CREATE UNIQUE INDEX employees_pkey ON public.employees USING btree (employee_id)
+ employees        | employees_role_id_idx             | CREATE INDEX employees_role_id_idx ON public.employees USING btree (role_id)
+ invoices         | invoices_invoice_number_key       | CREATE UNIQUE INDEX invoices_invoice_number_key ON public.invoices USING btree (invoice_number)
+ invoices         | invoices_pkey                     | CREATE UNIQUE INDEX invoices_pkey ON public.invoices USING btree (invoice_id)
+ invoices         | invoices_toll_rate_band_id_idx    | CREATE INDEX invoices_toll_rate_band_id_idx ON public.invoices USING btree (toll_rate_band_id)
+ invoices         | invoices_vessel_id_idx            | CREATE INDEX invoices_vessel_id_idx ON public.invoices USING btree (vessel_id)
+ payments         | payments_pkey                     | CREATE UNIQUE INDEX payments_pkey ON public.payments USING btree (invoice_number)
+ port_connections | port_connections_geom_gist        | CREATE INDEX port_connections_geom_gist ON public.port_connections USING gist (geom)
+ port_connections | port_connections_pkey             | CREATE UNIQUE INDEX port_connections_pkey ON public.port_connections USING btree (port1_locode, port2_locode)
+ port_connections | port_connections_port2_locode_idx | CREATE INDEX port_connections_port2_locode_idx ON public.port_connections USING btree (port2_locode)
+ ports            | ports_geom_gist                   | CREATE INDEX ports_geom_gist ON public.ports USING gist (geom)
+ ports            | ports_pkey                        | CREATE UNIQUE INDEX ports_pkey ON public.ports USING btree (locode)
+ roles            | roles_pkey                        | CREATE UNIQUE INDEX roles_pkey ON public.roles USING btree (role_id)
+ roles            | roles_role_name_key               | CREATE UNIQUE INDEX roles_role_name_key ON public.roles USING btree (role_name)
+ toll_rate_bands  | toll_rate_bands_band_key          | CREATE UNIQUE INDEX toll_rate_bands_band_key ON public.toll_rate_bands USING btree (vessel_category, laden_ballast, band_order)
+ toll_rate_bands  | toll_rate_bands_pkey              | CREATE UNIQUE INDEX toll_rate_bands_pkey ON public.toll_rate_bands USING btree (id)
+ vessels          | vessels_customer_id_idx           | CREATE INDEX vessels_customer_id_idx ON public.vessels USING btree (customer_id)
+ vessels          | vessels_destination_locode_idx    | CREATE INDEX vessels_destination_locode_idx ON public.vessels USING btree (destination_locode)
+ vessels          | vessels_imo_number_key            | CREATE UNIQUE INDEX vessels_imo_number_key ON public.vessels USING btree (imo_number)
+ vessels          | vessels_mmsi_key                  | CREATE UNIQUE INDEX vessels_mmsi_key ON public.vessels USING btree (mmsi)
+ vessels          | vessels_origin_locode_idx         | CREATE INDEX vessels_origin_locode_idx ON public.vessels USING btree (origin_locode)
+ vessels          | vessels_pkey                      | CREATE UNIQUE INDEX vessels_pkey ON public.vessels USING btree (vessel_id)
+(37 rows)
+
+### 5. VIEWS / SEQUENCES / TRIGGERS
+ viewname 
+----------
+(0 rows)
+
+         sequencename          | last_value 
+-------------------------------+------------
+ containers_container_id_seq   |       1000
+ departments_department_id_seq |          5
+ employees_employee_id_seq     |        100
+ invoices_invoice_id_seq       |       1000
+ roles_role_id_seq             |          3
+ toll_rate_bands_id_seq        |        178
+ vessels_vessel_id_seq         |        500
+(7 rows)
+
+ event_object_table | trigger_name | action_timing | event_manipulation 
+--------------------+--------------+---------------+--------------------
+(0 rows)
+
+### 6. REFERENCE TABLE CONTENTS
+ role_id | role_name | allowed_sensitivity_level 
+---------+-----------+---------------------------
+       1 | employee  |                         1
+       2 | manager   |                         2
+       3 | ceo       |                         3
+(3 rows)
+
+ department_id | department_name |                   description                    
+---------------+-----------------+--------------------------------------------------
+             1 | Operations      | Vessel, port, shipment, and logistics operations
+             2 | Customs         | Customs clearance and regulatory activities
+             3 | Finance         | Invoices, payments, and financial operations
+             4 | HR              | Human resources and employee management
+             5 | IT              | Information technology and system administration
+(5 rows)
+
+### 7. SAMPLE ROWS
+ locode |   name    |       country        | function | status |   outflows   |        lon         |        lat         |                        geom                        
+--------+-----------+----------------------+----------+--------+--------------+--------------------+--------------------+----------------------------------------------------
+ AEAUH  | Abu Dhabi | United Arab Emirates | 1-345--- | AI     | 41597.142852 |  54.36666666666667 | 24.466666666666665 | 0101000020E6100000EFEEEEEEEE2E4B407777777777773840
+ AERUW  | Ar Ruways | United Arab Emirates | 1------- | RL     |       166556 | 52.733333333333334 | 24.116666666666667 | 0101000020E6100000DEDDDDDDDD5D4A40DEDDDDDDDD1D3840
+(2 rows)
+
+ port1_locode | port2_locode |    flows    | country1 | country2 
+--------------+--------------+-------------+----------+----------
+ AEAJM        | AEJEA        |       40755 | AE       | AE
+ AEAUH        | AEJEA        | 13948.28571 | AE       | AE
+(2 rows)
+
+ id |  vessel_category  | laden_ballast | band_order |   band_label    | band_min_tons | band_max_tons | rate_sdr_per_ton 
+----+-------------------+---------------+------------+-----------------+---------------+---------------+------------------
+  1 | Crude Oil Tankers | Laden         |          1 | First 5000 Tons |             0 |        5000.0 |              9.6
+  2 | Crude Oil Tankers | Laden         |          2 | Next 5000 Tons  |          5000 |       10000.0 |              6.8
+  3 | Crude Oil Tankers | Laden         |          3 | Next 10000 Tons |         10000 |       20000.0 |             5.14
+(3 rows)
+
+ employee_id | first_name | last_name |         email         | role_id | department_id | hire_date  
+-------------+------------+-----------+-----------------------+---------+---------------+------------
+           1 | Danielle   | Johnson   | ceo@nilegate.com      |       3 |             1 | 2016-05-17
+           2 | John       | Taylor    | manager1@nilegate.com |       2 |             1 | 2016-06-10
+           3 | Erica      | Mcclain   | manager2@nilegate.com |       2 |             1 | 2016-03-06
+(3 rows)
+
+ vessel_id | imo_number |      vessel_name      |             vessel_type              |     flag_country     | scnt_tons | origin_locode | destination_locode | condition |   status   |   mmsi    | customer_id 
+-----------+------------+-----------------------+--------------------------------------+----------------------+-----------+---------------+--------------------+-----------+------------+-----------+-------------
+         1 | 9000001    | Special Voyager 001   | Special Floating Units               | Korea, Republic of   |  11577.44 | PKGWD         | MXCOA              | Laden     | In Transit | 440007961 |          37
+        23 | 9000023    | Liquefied Voyager 023 | Liquefied Natural Gas (LNG) Carriers | Ireland              |  154667.1 | CAMTR         | INHAL              | Laden     | In Transit | 250182179 |           9
+        24 | 9000024    | Dry Voyager 024       | Dry Bulk Vessels                     | United Arab Emirates | 109257.67 | USBPT         | DJJIB              | Ballast   | At Port    | 470190098 |          19
+(3 rows)
+
+ container_id | container_number | container_type | size_ft |   status   | vessel_id | origin_locode | destination_locode 
+--------------+------------------+----------------+---------+------------+-----------+---------------+--------------------
+            1 | NGCU0000001      | Dry            |      20 | In Transit |       362 | PHCEB         | GEPTI
+            2 | NGCU0000002      | Reefer         |      20 | Loaded     |       307 | USMOB         | NZAKL
+            3 | NGCU0000003      | Dry            |      20 | Delivered  |       116 | ARROS         | GDSTG
+(3 rows)
+
+ invoice_id | invoice_number | vessel_id | toll_rate_band_id | invoice_date | scnt_tons | rate_sdr_per_ton |  amount   |                        description                         | status 
+------------+----------------+-----------+-------------------+--------------+-----------+------------------+-----------+------------------------------------------------------------+--------
+          1 | INV-0000001    |       281 |               151 | 2025-02-27   |  32066.15 |             4.14 | 190853.86 | Suez Canal transit dues - Other Vessels                    | Paid
+          2 | INV-0000002    |       474 |               132 | 2025-05-21   |  81333.16 |             3.39 | 338419.41 | Suez Canal transit dues - Cruise Ships                     | Paid
+          3 | INV-0000003    |       258 |               100 | 2025-03-13   |   6352.15 |             7.14 |  57654.35 | Suez Canal transit dues - Roll-On/Roll-Off (Ro/Ro) Vessels | Issued
+(3 rows)
+
+### 8. GEOMETRY CHECKS
+        t         | srid |   gtype    | count 
+------------------+------+------------+-------
+ ports            | 4326 | POINT      |   837
+ port_connections | 4326 | LINESTRING | 19990
+(2 rows)
+
+ ports_lonlat_vs_geom_mismatch 
+-------------------------------
+                             0
+(1 row)
+
+### 9. REFERENTIAL CHECKS (orphans even if no FK exists)
+ vessels_bad_origin 
+--------------------
+                  0
+(1 row)
+
+ vessels_bad_destination 
+-------------------------
+                       0
+(1 row)
+
+ containers_bad_origin 
+-----------------------
+                     0
+(1 row)
+
+ containers_bad_dest 
+---------------------
+                   0
+(1 row)
+
+ containers_route_differs_from_vessel 
+--------------------------------------
+                                    0
+(1 row)
+
+ vessel_types_not_in_toll_bands 
+--------------------------------
+                              0
+(1 row)
+
+ vessel_id_not_matching_csv_order 
+----------------------------------
+                                0
+(1 row)
+
+### 10. EMPLOYEES / RBAC
+ role_id | department_id | count 
+---------+---------------+-------
+       1 |             1 |    18
+       1 |             2 |    17
+       1 |             3 |    17
+       1 |             4 |    16
+       1 |             5 |    21
+       2 |             1 |     2
+       2 |             2 |     2
+       2 |             3 |     2
+       2 |             4 |     2
+       2 |             5 |     2
+       3 |             1 |     1
+(11 rows)
+
+ duplicate_emails 
+------------------
+                0
+(1 row)
+
+### 11. TOLL BAND CONSISTENCY
+                  vessel_category                   | laden_ballast | bands | min | max | open_ended 
+----------------------------------------------------+---------------+-------+-----+-----+------------
+ Chemical Tankers & Other Liquid Bulk Tankers       | Ballast       |     7 |   1 |   7 |          1
+ Chemical Tankers & Other Liquid Bulk Tankers       | Laden         |     7 |   1 |   7 |          1
+ Containerships                                     | Ballast       |     8 |   1 |   8 |          1
+ Containerships                                     | Laden         |     8 |   1 |   8 |          1
+ Crude Oil Tankers                                  | Ballast       |     7 |   1 |   7 |          1
+ Crude Oil Tankers                                  | Laden         |     7 |   1 |   7 |          1
+ Cruise Ships                                       | Ballast       |     7 |   1 |   7 |          1
+ Cruise Ships                                       | Laden         |     7 |   1 |   7 |          1
+ Dry Bulk Vessels                                   | Ballast       |     7 |   1 |   7 |          1
+ Dry Bulk Vessels                                   | Laden         |     7 |   1 |   7 |          1
+ General Cargo / Multi-Purpose / Heavy Lift Vessels | Ballast       |     7 |   1 |   7 |          1
+ General Cargo / Multi-Purpose / Heavy Lift Vessels | Laden         |     7 |   1 |   7 |          1
+ Liquefied Natural Gas (LNG) Carriers               | Ballast       |     7 |   1 |   7 |          1
+ Liquefied Natural Gas (LNG) Carriers               | Laden         |     7 |   1 |   7 |          1
+ Liquefied Petroleum Gas (LPG) Carriers             | Ballast       |     7 |   1 |   7 |          1
+ Liquefied Petroleum Gas (LPG) Carriers             | Laden         |     7 |   1 |   7 |          1
+ Other Vessels                                      | Ballast       |     7 |   1 |   7 |          1
+ Other Vessels                                      | Laden         |     7 |   1 |   7 |          1
+ Petroleum Product Tankers                          | Ballast       |     7 |   1 |   7 |          1
+ Petroleum Product Tankers                          | Laden         |     7 |   1 |   7 |          1
+ Roll-On/Roll-Off (Ro/Ro) Vessels                   | Ballast       |     7 |   1 |   7 |          1
+ Roll-On/Roll-Off (Ro/Ro) Vessels                   | Laden         |     7 |   1 |   7 |          1
+ Special Floating Units                             | Laden         |     7 |   1 |   7 |          1
+ Vehicles Carriers                                  | Ballast       |     7 |   1 |   7 |          1
+ Vehicles Carriers                                  | Laden         |     7 |   1 |   7 |          1
+(25 rows)
+
+ id | vessel_category | laden_ballast | band_order | band_max_tons | next_min 
+----+-----------------+---------------+------------+---------------+----------
+(0 rows)
+
+### 12. INVOICE CONSISTENCY (reverse-engineering how invoices were built)
+ invoices | no_band | scnt_differs_from_vessel | band_category_mismatch | band_condition_mismatch | rate_differs_from_band | scnt_outside_band 
+----------+---------+--------------------------+------------------------+-------------------------+------------------------+-------------------
+     1000 |       0 |                        0 |                      0 |                       0 |                      0 |                 0
+(1 row)
+
+ checked | amount_mismatch | max_abs_diff 
+---------+-----------------+--------------
+    1000 |               0 |         0.01
+(1 row)
+
+ status  | count 
+---------+-------
+ Issued  |   361
+ Paid    |   311
+ Pending |   328
+(3 rows)
+
+    min     |    max     
+------------+------------
+ 2025-01-01 | 2025-12-30
+(1 row)
+
+### 13. VESSEL MMSI (migrations 004-005, ADR-028)
+ vessels | distinct_mmsi | null_mmsi | bad_format | flags_with_several_mids | formula_mismatch 
+---------+---------------+-----------+------------+-------------------------+------------------
+     500 |           500 |         0 |          0 |                       0 |                0
+(1 row)
+
+### 14. INTEGRITY CONSTRAINTS AND INDEXES (migration 006, ADR-033)
+       tbl        | checks | uniques | fks 
+------------------+--------+---------+-----
+ invoices         |      5 |       1 |   2
+ roles            |      1 |       1 |   0
+ departments      |      0 |       1 |   0
+ customers        |      3 |       1 |   0
+ port_connections |      3 |       0 |   2
+ ports            |      6 |       0 |   0
+ vessels          |      7 |       2 |   3
+ containers       |      5 |       1 |   3
+ employees        |      1 |       1 |   2
+ documents        |      5 |       1 |   1
+ payments         |      1 |       0 |   1
+ budget_weekly    |      4 |       0 |   0
+ toll_rate_bands  |      5 |       1 |   0
+(13 rows)
+
+ fk_columns_without_index 
+--------------------------
+                        0
+(1 row)
+
+         gist_index         
+----------------------------
+ ports_geom_gist
+ port_connections_geom_gist
+(2 rows)
+
+ connection_country_code_mismatch 
+----------------------------------
+                                0
+(1 row)
+
+### 15. ACCESS, DOCUMENTATION, STATISTICS (migrations 007-009, ADR-033, ADR-034)
+    rolname     | rolsuper | rolcanlogin 
+----------------+----------+-------------
+ agent_writer   | f        | f
+ finance_bi     | f        | f
+ ports_agent    | f        | t
+ ports_bi       | f        | t
+ ports_readonly | f        | f
+ ports_ro       | f        | t
+ postgres       | t        | t
+(7 rows)
+
+ readonly_can_select | readonly_can_write | public_tables 
+---------------------+--------------------+---------------
+                  14 |                  0 |            14
+(1 row)
+
+ tables_without_comment | columns_without_comment 
+------------------------+-------------------------
+                      0 |                       0
+(1 row)
+
+ tables_never_analyzed 
+-----------------------
+                    13
+(1 row)
+
+### 16. RAG DOCUMENT REGISTRY (migrations 010-011, ADR-035)
+ documents | chunks | pages | distinct_sha256 | ingested_into_qdrant | slug_format_ok 
+-----------+--------+-------+-----------------+----------------------+----------------
+        29 |   2163 |   765 |              29 |                   29 |             29
+(1 row)
+
+ department_name | sensitivity_level | count 
+-----------------+-------------------+-------
+ Finance         |                 1 |     1
+ Operations      |                 1 |    28
+(2 rows)
+
+### 17. FINANCE DATA (migration 012, Agents plan §4a)
+ customers | vessels_with_customer | payments | payment_amount_mismatch | paid_before_invoice | paid_after_horizon | budget_rows | test_invoices | test_budget_rows 
+-----------+-----------------------+----------+-------------------------+---------------------+--------------------+-------------+---------------+------------------
+        40 |                   500 |      994 |                       0 |                   0 |                  0 |         676 |            88 |               52
+(1 row)
+
+  segment  | customers | vessels 
+-----------+-----------+---------
+ agent     |         4 |      73
+ bulk      |        10 |      77
+ container |         8 |      40
+ cruise    |         3 |      50
+ roro      |         5 |      61
+ tanker    |        10 |     199
+(6 rows)
+
+### 18. FINANCE VIEWS (migrations 013-014, Agents plan Phases 2-3)
+ finance_views | views_without_comment | columns_without_comment | dim_date_days | kpi_weeks | fact_invoices | fact_payments | invoices_in_2026_w01 | warmup_weeks | trend_rows 
+---------------+-----------------------+-------------------------+---------------+-----------+---------------+---------------+----------------------+--------------+------------
+            14 |                     0 |                       0 |           455 |        52 |          1000 |           994 |                    4 |           13 |        598
+(1 row)
+
+ bi_finance_select | bi_write | bi_outside_finance 
+-------------------+----------+--------------------
+                14 |        0 |                  0
+(1 row)
+
+ ar_roll_forward_max_diff 
+--------------------------
+                     0.00
+(1 row)
+
+### 19. INVOICE AUDIT VIEWS (migration 015, Agents plan Phase 4)
+ live_findings | live_duplicates | live_amount | live_tonnage | live_rate | live_outside_weeks | test_findings | test_flat_rate | test_cond_swap | test_sfu | test_tonnage | test_duplicates | test_week49 
+---------------+-----------------+-------------+--------------+-----------+--------------------+---------------+----------------+----------------+----------+--------------+-----------------+-------------
+             3 |               3 |           0 |            0 |         0 |                  0 |             5 |              1 |              1 |        1 |            1 |               1 |           0
+(1 row)
+
+ bi_live | bi_test | ro_live | ro_test 
+---------+---------+---------+---------
+ t       | f       | t       | t
+(1 row)
+
+### 20. AGENT STATE (migration 016, Agents plan Phase 5)
+ schema_exists | schema_owner | writer_role | writer_can_login | writer_members |      login_settings       | writer_can_create 
+---------------+--------------+-------------+------------------+----------------+---------------------------+-------------------
+ t             | postgres     | t           | f                | ports_agent    | {search_path=agent_state} | f
+(1 row)
+
+ state_tables | writer_dml | writer_truncate | readonly_reads_state | bi_reads_state | writer_outside 
+--------------+------------+-----------------+----------------------+----------------+----------------
+            4 |          4 |               0 |                    0 |              0 |              0
+(1 row)
+
+### END

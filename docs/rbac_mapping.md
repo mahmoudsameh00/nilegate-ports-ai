@@ -46,6 +46,7 @@ Qdrant filter (conceptual): `sensitivity_level <= role_level OR (department == u
 | `finance.*` (views) | 2 | Finance | star + weekly KPI views of the Weekly Finance Pack (migration 013, Agents plan Phase 2); read as one unit by the finance tools and Power BI (login in group role `finance_bi`, SELECT on `finance` only). The dimension views over level-1 tables (`dim_date`, `dim_week`, `dim_vessel`, `dim_toll_band`) take the schema's level |
 | `vessels.customer_id` | 1 | Operations | an id only (the vessels table stays level 1); the customer's details are level 2 |
 | `finance.invoice_audit` / `finance_test.invoice_audit` (views, migration 015) | 2 | Finance | invoice audit findings (ADR-049); covered by the `finance.*` / `finance_test.*` rows; only the first is readable by `finance_bi` |
+| `agent_state.*` (LangGraph checkpoints, migration 016) | 2 | Finance | the tool results of each pack run at rest (KPI rows, audit findings, drafts); no employee reads it directly: only the runtime login `ports_agent` (group role `agent_writer`, DML on this schema only) and the owner; `ports_readonly` and `finance_bi` get nothing (ADR-050). The pack itself runs as a Finance manager and the tools check RBAC on every call |
 | `audit_log` (planned, API phase) | 3 | IT | security audit trail, CEO only |
 
 ## 3. Semi-structured (MongoDB, implemented 2026-09-27)
@@ -83,6 +84,7 @@ HbR is deliberately treated as "our internal report" so the corpus contains one 
 | `search_documents` | Qdrant chunks, per chunk (§4) | per chunk | per chunk |
 | `suez_transits` (IMF PortWatch), `web_search` (Tavily news) | public external sources | 1 | Operations |
 | Skills (`pipelines/agents/skills/`) | instructions only, no data | — | — |
+| `weekly_pack` approval (ADR-050) | a decision on a pack (approve / edit / reject), no data | — | Finance managers and the CEO only, checked in PostgreSQL at every decision; anyone else is refused and logged |
 
 ## 5. Synthetic company documents (planned)
 

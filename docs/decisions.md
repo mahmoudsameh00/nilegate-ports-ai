@@ -588,6 +588,16 @@ Never delete an entry; supersede it with a new one. Sources for older entries ar
     passages; ADR-037 amendment); the guard was removed afterwards by ADR-037 amendment 2 (2026-10-14).
   - Upgrade path (paid tier): `gemma-4-31b-it` had the best T4 fact recall (0.792) and passed the T2 gate, but its free
     tier is too slow (writer median 76.7 s) and flaky; re-test it as a Writer candidate if the project moves to paid.
+- **Amendment 1 (2026-10-19, owner; Agents plan Phase 5 S6, decision P5-8):** the weekly pack's real prompts (skills
+  + evidence digests + tool results + output schema) measured 9.7K–17K tokens per Insight / Writer call; Groq's free
+  8K tokens per minute refuse such a request outright ("Request too large"), so `qwen/qwen3.8-27b` could not serve
+  the pack and every call fell back. The tie-break that chose qwen (packs per day) was measured on the bake-off's
+  small prompts. **For the pack's Insight and Writer roles:** main `gemini-3.5-flash-lite` (tied with qwen on the
+  Writer score, 0.833 vs 0.826; 250K TPM), fallback OpenRouter `nvidia/nemotron-3-super-120b-a12b:free` (Writer
+  0.847, T2 gate passed, ~1M TPM, 50 requests / day; `function_calling`). Tools / routing unchanged. The token gate
+  becomes "every call within its provider's per-minute token limit" (`llm.PROVIDERS`), reported per pack. A request
+  over the limit is now a deterministic, cached failure in `llm.py` (`too_large`), so the role falls back at once.
+  Measured after the change (weeks 5 / 10 / 23 / 49): 0 fallbacks, max 17.0K tokens per call, all within limits.
 
 ## ADR-046 — Synthetic finance data for the Weekly Finance Pack; `invoices.status` is a label
 - **Status:** Accepted (2026-10-13 rules approved, 2026-10-14 migration 012 applied and verified). Agents plan §4a
@@ -713,6 +723,47 @@ Never delete an entry; supersede it with a new one. Sources for older entries ar
   mismatches" still holds (each amount is right; the error is the repetition). Rejected: five small KPI tools (more
   schema tokens), a free `metric` argument, `employee_id` as a tool argument, a single audit view with a dataset
   column (would put the test copy inside `finance`), TTL-only caching (a replay would change), Brave (snippets only).
+
+## ADR-050 — The `weekly_pack` workflow: hybrid nodes, PostgresSaver in `agent_state`, human approval
+- **Status:** Accepted (2026-10-19, owner decisions P5-1…P5-8, Agents plan §5b; S4 / S6 decisions the same day).
+  `pipelines/agents/graphs/` (`weekly_pack.py`, `models.py`), `pipelines/agents/roles.py`,
+  `pipelines/agents/checkpointer.py`, `db/migrations/016_agent_state.sql`, `db/create_agent_user.ps1`,
+  `db/check_agent_user.py`, `pipelines/scripts/agents/` (`Checkpointer_setup.py`, `Weekly_pack.py`,
+  `Weekly_pack_check.py` 7 / 7 ✅).
+- **Context:** Stage 1's pack has a fixed shape and must give reproducible numbers, survive a crash, wait for the
+  Finance manager for hours or days, and spend little of the free LLM quotas (ADR-045).
+- **Decision:** (1) **A LangGraph `StateGraph` with hybrid nodes** (P5-1): Data Readiness (gate R1–R4), KPI and
+  Invoice Auditor are code calling the tool functions with the run's user; the Insight agent loops LLM ⇄
+  `ToolNode(STAGE1_TOOLS)` (≤ 4 rounds, `search_documents` capped at 3 passages) then one structured call; the
+  Writer is one structured call (`DeckDraft`, Phase 6 renders the PPTX). (2) **The Validator is code** (first
+  version, P5-2): every number token of the draft must equal a numeric field of the cited structured evidence after
+  an allowed rounding (number-validation), citations must exist, the draft label and deck shape are checked; a small
+  template allowlist and dates are blanked; document / web rows never give numbers (ADR-049). Fail → back to the
+  Writer with the problems, at most 2 rewrites, then `validation_failed`. (3) **Approval by `interrupt()`** (P5-4): a
+  Finance manager or the CEO (checked in PostgreSQL at each decision) approves, edits (the edit goes back through the
+  Validator) or rejects; refusals and edit diffs are logged in the state and saved with the pack (G5). The
+  Publisher saves `reports/2025-W<ww>/` (save only, D9). (4) **Run context, not state:** the user and the dataset
+  come from `RunContext` on every invoke and resume; a scheduled pack runs as a configured Finance manager (P5-5); the
+  CLI keeps that identity in the checkpoint metadata, so an approver never becomes the run's user. (5) **Checkpoints
+  in PostgreSQL** (P5-3, D3): schema `agent_state` owned by postgres; `PostgresSaver.setup()` run once as the owner
+  (deployment step); the runtime login `ports_agent` ∈ `agent_writer` has DML on those tables only (no DDL, no
+  TRUNCATE, nothing elsewhere); `durability="sync"`. (6) **Stops are statuses:** `not_ready`, `not_permitted`,
+  `output_invalid` (a twice-invalid structured reply — a re-run would read the same cached replies),
+  `validation_failed`, `rejected`, `published`; quota exhaustion stays an exception so the thread waits at its
+  checkpoint and resumes later. (7) **Roles over llm.py** (`roles.py`): availability → the fallback of another
+  provider, validity → one retry then stop; `FakeRoles` (same interface, the real parser) lets the whole graph run on
+  52 weeks without quota (P5-7).
+- **Consequences:** proven by `Weekly_pack_check.py`: 52 / 52 weeks reach the approval with fake models and are
+  published; a process killed inside the Writer resumes from PostgreSQL in another process with only writer →
+  validator → approval re-run (1 LLM call) and the same result; real models on weeks 5 / 10 / 23 / 49: two published,
+  two `validation_failed` on real Writer errors (a sign dropped next to "down", a share cited from the wrong dataset)
+  — the Validator caught them; it also found its own two gaps (web titles hid numbers; web dates failed) before the
+  real run went green. The real prompts (9.7K–17K tokens) did not fit Groq's 8K TPM → ADR-045 amendment 1 (pack on
+  Gemini + OpenRouter fallback). Open for Phase 6: a number is matched against any field of the cited evidence (bind
+  it to its field, G1), the Writer's sign and citation errors, the full template allowlist, the PPTX. Rejected: an
+  agent per node (quota, reproducibility), a Validator stub, the writer login owning the schema (DDL at runtime),
+  MemorySaver (no crash resume), the CEO as the pack's identity (level 3 data), a new service employee (a change to
+  a closed table).
 
 ---
 

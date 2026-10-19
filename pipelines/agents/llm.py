@@ -7,7 +7,8 @@
   synthetic or public, so the providers are used as if they were paid tiers.
 - Response cache: key = SHA-256 of everything sent (provider, model, parameters, messages, tool schemas, structured
   output schema + method). One append-only JSONL per model under Data/processed/agents/eval/llm_cache/ (git-ignored);
-  a re-run makes 0 calls. Deterministic failures (bad request, unknown model) are cached too; quota, rate-limit,
+  a re-run makes 0 calls. Deterministic failures (bad request, unknown model, a request larger than the per-minute
+  token limit) are cached too; quota, rate-limit,
   network and auth failures are not; a server error (5xx) on the same request in REPEATED_SERVER_RUNS separate runs,
   each after its retry, counts as deterministic (`server_failures.json`) and is cached.
 - Quota rules (fixed before any run): a local per-minute Budget (requests + tokens); a persisted daily request count
@@ -133,6 +134,7 @@ def chat_model(provider: str, model: str, **params):
 # --- error classification -------------------------------------------------------------------------------------------
 
 DAY_RE = re.compile(r"per.?day|PerDay|\bRPD\b|\bTPD\b|daily|free-models-per-day", re.I)
+TOO_LARGE_RE = re.compile(r"request too large|reduce your message size|context_length_exceeded", re.I)
 
 
 def _chain(exc: BaseException) -> list[BaseException]:
@@ -145,8 +147,8 @@ def _chain(exc: BaseException) -> list[BaseException]:
 
 
 def classify(exc: BaseException) -> tuple[str, float | None]:
-    """(kind, provider-requested wait in seconds). Kinds: quota_day, rate_minute, auth, model_missing, bad_request,
-    transient, unknown. Looks through the whole exception chain (LangChain wraps the provider SDK errors)."""
+    """(kind, provider-requested wait in seconds). Kinds: too_large, quota_day, rate_minute, auth, model_missing,
+    bad_request, transient, unknown. Looks through the whole exception chain (LangChain wraps the provider SDK errors)."""
     chain = _chain(exc)
     text = " ".join(f"{type(e).__name__}: {e}" for e in chain)
     status = None
@@ -170,6 +172,10 @@ def classify(exc: BaseException) -> tuple[str, float | None]:
         m = re.search(r"\b(4\d\d|5\d\d)\b", text)
         status = int(m.group(1)) if m and re.search(r"(?i)error|status|code", text) else None
     names = " ".join(type(e).__name__ for e in chain)
+    # one request larger than the per-minute token limit can never pass (Groq answers 429 "Request too large",
+    # Phase 5 S6): deterministic, not a wait — cached as a failure so the role falls back at once on every run
+    if TOO_LARGE_RE.search(text):
+        return "too_large", None
     if status == 429 or "RateLimit" in names or "RESOURCE_EXHAUSTED" in text:
         return ("quota_day" if DAY_RE.search(text) else "rate_minute"), wait
     if status in (401, 403) or "Authentication" in names or "PermissionDenied" in names:
@@ -362,7 +368,7 @@ class LLM:
                     print(f"   {self.name}: {kind}, one retry in {pause:.0f} s ({text[:160]})", flush=True)
                     time.sleep(pause)
                     continue
-                if kind in ("bad_request", "model_missing"):
+                if kind in ("bad_request", "model_missing", "too_large"):
                     return self._store(key, None, {"kind": kind, "text": text}, None)
                 if kind == "transient" and self.quota.server_failure(key, self.name, text) >= REPEATED_SERVER_RUNS:
                     # the same request failed in separate runs, each after its retry: a property of the request

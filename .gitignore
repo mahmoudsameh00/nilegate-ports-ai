@@ -39,6 +39,8 @@ Data/incoming/
 Data/processed/agents/eval/llm_cache/
 # External tool cache (Agents plan Phase 4, §5a P4-7): PortWatch / web search answers, rebuilt by calling again
 Data/processed/agents/tool_cache/
+# Weekly finance packs saved by the weekly_pack Publisher (Agents plan Phase 5, §5b): generated output
+reports/
 # Power BI project (Agents plan Phase 3): local user settings and the local data cache stay out of git
 # (Microsoft's PBIP guidance); the .pbix the owner saved first is not the source (the PBIP is)
 powerbi/**/.pbi/localSettings.json

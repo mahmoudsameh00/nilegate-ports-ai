@@ -17,6 +17,20 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
+-- Name: agent_state; Type: SCHEMA; Schema: -; Owner: -
+--
+
+CREATE SCHEMA agent_state;
+
+
+--
+-- Name: SCHEMA agent_state; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON SCHEMA agent_state IS 'LangGraph checkpoints of the agents platform (PostgresSaver; Agents plan Phase 5, D3). Tables created by PostgresSaver.setup() as the owner (deployment step); written only through the role agent_writer. Holds level-2 Finance numbers (tool results of a run).';
+
+
+--
 -- Name: finance; Type: SCHEMA; Schema: -; Owner: -
 --
 
@@ -103,6 +117,61 @@ COMMENT ON EXTENSION postgis_topology IS 'PostGIS topology spatial types and fun
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
+
+--
+-- Name: checkpoint_blobs; Type: TABLE; Schema: agent_state; Owner: -
+--
+
+CREATE TABLE agent_state.checkpoint_blobs (
+    thread_id text NOT NULL,
+    checkpoint_ns text DEFAULT ''::text NOT NULL,
+    channel text NOT NULL,
+    version text NOT NULL,
+    type text NOT NULL,
+    blob bytea
+);
+
+
+--
+-- Name: checkpoint_migrations; Type: TABLE; Schema: agent_state; Owner: -
+--
+
+CREATE TABLE agent_state.checkpoint_migrations (
+    v integer NOT NULL
+);
+
+
+--
+-- Name: checkpoint_writes; Type: TABLE; Schema: agent_state; Owner: -
+--
+
+CREATE TABLE agent_state.checkpoint_writes (
+    thread_id text NOT NULL,
+    checkpoint_ns text DEFAULT ''::text NOT NULL,
+    checkpoint_id text NOT NULL,
+    task_id text NOT NULL,
+    idx integer NOT NULL,
+    channel text NOT NULL,
+    type text,
+    blob bytea NOT NULL,
+    task_path text DEFAULT ''::text NOT NULL
+);
+
+
+--
+-- Name: checkpoints; Type: TABLE; Schema: agent_state; Owner: -
+--
+
+CREATE TABLE agent_state.checkpoints (
+    thread_id text NOT NULL,
+    checkpoint_ns text DEFAULT ''::text NOT NULL,
+    checkpoint_id text NOT NULL,
+    parent_checkpoint_id text,
+    type text,
+    checkpoint jsonb NOT NULL,
+    metadata jsonb DEFAULT '{}'::jsonb NOT NULL
+);
+
 
 --
 -- Name: customers; Type: TABLE; Schema: public; Owner: -
@@ -3824,6 +3893,38 @@ ALTER TABLE ONLY public.vessels ALTER COLUMN vessel_id SET DEFAULT nextval('publ
 
 
 --
+-- Name: checkpoint_blobs checkpoint_blobs_pkey; Type: CONSTRAINT; Schema: agent_state; Owner: -
+--
+
+ALTER TABLE ONLY agent_state.checkpoint_blobs
+    ADD CONSTRAINT checkpoint_blobs_pkey PRIMARY KEY (thread_id, checkpoint_ns, channel, version);
+
+
+--
+-- Name: checkpoint_migrations checkpoint_migrations_pkey; Type: CONSTRAINT; Schema: agent_state; Owner: -
+--
+
+ALTER TABLE ONLY agent_state.checkpoint_migrations
+    ADD CONSTRAINT checkpoint_migrations_pkey PRIMARY KEY (v);
+
+
+--
+-- Name: checkpoint_writes checkpoint_writes_pkey; Type: CONSTRAINT; Schema: agent_state; Owner: -
+--
+
+ALTER TABLE ONLY agent_state.checkpoint_writes
+    ADD CONSTRAINT checkpoint_writes_pkey PRIMARY KEY (thread_id, checkpoint_ns, checkpoint_id, task_id, idx);
+
+
+--
+-- Name: checkpoints checkpoints_pkey; Type: CONSTRAINT; Schema: agent_state; Owner: -
+--
+
+ALTER TABLE ONLY agent_state.checkpoints
+    ADD CONSTRAINT checkpoints_pkey PRIMARY KEY (thread_id, checkpoint_ns, checkpoint_id);
+
+
+--
 -- Name: budget_weekly budget_weekly_pkey; Type: CONSTRAINT; Schema: finance_test; Owner: -
 --
 
@@ -4021,6 +4122,27 @@ ALTER TABLE ONLY public.vessels
 
 ALTER TABLE ONLY public.vessels
     ADD CONSTRAINT vessels_pkey PRIMARY KEY (vessel_id);
+
+
+--
+-- Name: checkpoint_blobs_thread_id_idx; Type: INDEX; Schema: agent_state; Owner: -
+--
+
+CREATE INDEX checkpoint_blobs_thread_id_idx ON agent_state.checkpoint_blobs USING btree (thread_id);
+
+
+--
+-- Name: checkpoint_writes_thread_id_idx; Type: INDEX; Schema: agent_state; Owner: -
+--
+
+CREATE INDEX checkpoint_writes_thread_id_idx ON agent_state.checkpoint_writes USING btree (thread_id);
+
+
+--
+-- Name: checkpoints_thread_id_idx; Type: INDEX; Schema: agent_state; Owner: -
+--
+
+CREATE INDEX checkpoints_thread_id_idx ON agent_state.checkpoints USING btree (thread_id);
 
 
 --
