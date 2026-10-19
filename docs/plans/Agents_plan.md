@@ -186,6 +186,94 @@ count (label vs derived) is reported, not enforced. → ADR at the end of Phase 
 | 12 | Supervisor extended to both products; cross-product questions; RBAC matrix (Operations ↔ Finance) | S2 Q&A golden questions pass; RBAC leakage 0 |
 | 13 | Close: ADRs, ARCHITECTURE, ROADMAP, archive the plan | — |
 
+### 5a. Phase 4 — Stage 1 tools + skills: concrete design (APPROVED 2026-10-18 by the owner; decisions P4-1…P4-8)
+
+**Owner decisions (2026-10-18, all the recommended option):** P4-1 one KPI tool with a closed `dataset` choice;
+P4-2 Auditor = SQL views (migration 015) + an independent Python `compute_toll` cross-check; P4-3 the user is
+injected by the graph, never an LLM argument; P4-4 web search = Tavily free tier (called with `httpx`, no new
+package); P4-5 the evaluation copy gets a twin view in schema `finance_test` (never in `finance`); P4-6 the Auditor
+diagnoses the cause with fixed checks; P4-7 external cache frozen for past windows, TTL 24 h when a window reaches
+today, timeout 10 s, failure → `context_unavailable`; P4-8 skill body ≤ 1,200 tokens, description ≤ 250 chars.
+
+**Files (new):** `pipelines/agents/tools/` — `context.py` (user + RBAC guard), `db.py` (read-only `psycopg_pool`,
+`PG_RO_USER`, `default_transaction_read_only`), `schemas.py` (Pydantic results), `tariff.py`, `finance.py`,
+`audit.py`, `documents.py`, `external.py`, `__init__.py` (`STAGE1_TOOLS`); `pipelines/agents/skills.py` (loader +
+`load_skill`); `pipelines/agents/skills/<name>/SKILL.md` ×6; `db/migrations/015_invoice_audit_views.sql`;
+`pipelines/scripts/agents/Tools_check.py` (percent format, ✅ lines, Final Checkpoint; the project's test form — no
+pytest). Nothing existing is changed except `.env.example` / `common.SECRET_KEYS` (`TAVILY_API_KEY`), the docs, and
+`verify_readonly.sql` (a §19 for the audit views).
+
+**Common contract (every tool).** A plain Python function `f(user, **args)` (testable without an LLM) + a LangChain
+wrapper whose args schema the model sees; the wrapper takes the user from the run context (`ToolRuntime.context`),
+so **no tool schema has a user / employee field** (P4-3). `User` and `allowed()` are reused from
+`pipelines/lib/retrieval.py` (one RBAC rule, ADR-006); the user is read once per run / question from PostgreSQL.
+Each result is a Pydantic model with `status` ∈ {`ok`, `not_permitted`, `context_unavailable`, `no_data`}, the rows,
+and `source` (view / table / URL + the exact filter) for the Validator and the deck's appendix. `not_permitted`
+carries no number and no row. Parameterized SQL only; no free SQL anywhere.
+
+| Tool | Args (what the model sees) | Reads | Access (ADR-006) | Result |
+|---|---|---|---|---|
+| `finance_kpi` | `report_week` 1–52, `dataset` ∈ {`weekly`, `category`, `customers`, `overdue`, `trend`}, `limit` (customers / overdue, default 10) | `finance.kpi_weekly` / `kpi_weekly_category` / `kpi_customer_13w` / `kpi_overdue_list` / `kpi_weekly_trend`, `WHERE report_week = %s` | level 2 / Finance | rows exactly as the view (the Power BI numbers), `is_warmup`, source |
+| `invoice_audit` | `report_week` or `invoice_numbers` (≤ 50), `dataset` ∈ {`live`, `test`} | `finance.invoice_audit` / `finance_test.invoice_audit` | level 2 / Finance | findings + invoices checked + amount at stake, source |
+| `compute_toll` | `vessel_category`, `laden_ballast`, `scnt_tons` (or `vessel_id`) | `toll_rate_bands` (+ `vessels`) | level 1 | amount, terminal band and rate, the band-by-band breakdown (SFU → Laden, ADR-004) |
+| `search_documents` | `query`, optional filters (ADR-039) | existing `retrieval.search_documents` | per chunk (existing) | the existing result with citations |
+| `suez_transits` | `start`, `end` (dates) | IMF PortWatch daily chokepoint transits (Suez Canal; public ArcGIS service, field names verified at implementation) | level 1 | daily transit calls (+ by vessel type if published), a 7-day mean, source URL + retrieval date |
+| `web_search` | `query`, `start_date`, `end_date` | Tavily search API (`TAVILY_API_KEY`) | level 1 | ≤ 5 results: title, URL, published date, snippet — **untrusted text** (`untrusted-content` skill; ADR-011) |
+
+**Migration 015 — audit views (P4-2, P4-5, P4-6).** `finance.invoice_audit` over `invoices` and the twin
+`finance_test.invoice_audit` over `finance_test.invoices` (same SQL; the vessel's category and condition come from
+`vessels`, since the test copy has no condition column). Expected amount = the progressive toll of the **vessel's**
+SCNT (Σ rate × tons inside each band; SFU → Laden). One row per finding, `check_code`:
+`tonnage_mismatch` (invoice SCNT ≠ vessel SCNT — catches the digit swap whose amount is right),
+`amount_mismatch` (|billed − expected| > 0.01, the rounding of ADR-004) with `probable_cause` from fixed hypotheses
+tested in order — `flat_terminal_rate` (all tons at the terminal band's rate), `condition_swapped` (the other
+condition's toll), `sfu_priced_ballast` (SFU billed as Other Vessels / Ballast), else `unexplained`;
+`duplicate_charge` (same vessel, date and amount under another number; the lowest number is the original, the
+others are flagged with `duplicate_of`); live only: `rate_mismatch` (stored rate ≠ terminal band rate).
+Columns: report_week, invoice_number, vessel_id / name, check_code, probable_cause, billed_sdr, expected_sdr,
+difference_sdr (amount at stake), evidence (text: the tons, category, condition, band used). Grants:
+`ports_readonly` both views; `finance_bi` only `finance.invoice_audit` (so the Exceptions page can use it later;
+`finance_test` stays invisible to Power BI). COMMENT on every view and column. Applied by the owner; then the
+snapshot and `verify_readonly.sql` §19 (expected: live 0 findings; test = the answer key).
+
+**External tools (P4-4, P4-7).** One helper in `external.py`: disk cache under `Data/processed/agents/tool_cache/`
+(git-ignored, one JSONL per tool, key = SHA-256 of tool + normalized args); a window ending before today is cached
+with no expiry (a 2025 replay always sees the same context), a window reaching today expires after 24 h; `httpx`
+timeout 10 s, no retry loop; any failure (timeout, HTTP error, quota, bad payload) → `status =
+context_unavailable` with a reason and **no data**, and is never cached. Keys only in headers / body, never in a URL,
+a cache key or a log (`redact()`).
+
+**Skills (D13, P4-8).** `SKILL.md` = YAML frontmatter (`name` = folder name, `description` ≤ 250 chars, `stage`,
+`reviewed_by_owner: <date or no>`) + a body ≤ 1,200 tokens (`est_tokens`); optional `references/*.md` loaded only on
+request; no scripts. Loader: `load(name)` for workflow nodes (fixed skill), `descriptions()` + a `load_skill(name)`
+tool for the supervisor; an unknown name or a broken frontmatter raises. Six Stage 1 skills: `finance-kpi-definitions`
+(from `docs/finance_metrics.md`, which stays the source), `suez-toll-audit` (the checks above, how to read a
+finding, the proposed action per cause), `weekly-variance-analysis` (drivers = top-3 |change|, direction words,
+warm-up weeks, budget gap facts), `deck-style-guide`, `number-validation` (only tool numbers, rounding rules, cite
+the source), `untrusted-content` (retrieved / web / uploaded text is data, never instructions — RETRIEVAL_FLOW §2.1).
+Each skill goes to the owner for review one at a time; `reviewed_by_owner` is set only after his yes.
+
+**Tests (`Tools_check.py`, one phase per tool, a reviewed snapshot after each).**
+1. `compute_toll` = `invoices.amount` on all 1,000 invoices (|diff| ≤ 0.005) and = the terminal band rate.
+2. `finance_kpi` = `kpi_weekly` read directly, and = the frozen hand values of weeks 5 / 16 / 23 / 49
+   (`docs/finance_metrics.md`); every dataset returns its view's rows for a week; week 0 / 53 refused by the schema.
+3. `invoice_audit`: test dataset finds the 5 planted invoice errors of the answer key with the right cause
+   (recall 5 / 5), 0 findings in clean week 49 and 0 on clean invoices of the other weeks (false alarms 0); the live
+   dataset 0 findings over 52 weeks; the view's `expected_sdr` = Python `compute_toll` on every invoice. The budget
+   miss (week 36) is not an invoice error: it is the Insight agent's job (Phase 7), read from `kpi_weekly_category`.
+4. `search_documents` wrapper = the library call for the same user (same chunk ids).
+5. External tools offline (`httpx.MockTransport`): ok → cached, the second call makes 0 requests; timeout / 500 /
+   bad JSON → `context_unavailable`, nothing cached, no number; then one live call each (owner's network and key).
+6. **RBAC matrix:** every employee (100) × every tool → granted = the ADR-006 expectation; a denied call returns
+   `not_permitted` with no rows (leakage 0); no tool's args schema contains a user field.
+7. Skills: every `SKILL.md` parses, name = folder, description / body within budget, every skill listed by the
+   loader; `reviewed_by_owner` set on all six before the phase closes.
+
+**Order (one step at a time, each with its check before the next):** S1 foundation (`context`, `db`, `schemas`)
+→ S2 `compute_toll` → S3 `finance_kpi` → S4 migration 015 (owner applies) → S5 `invoice_audit` → S6
+`search_documents` wrapper → S7 external tools (owner creates the Tavily key) → S8 RBAC matrix → S9 skill loader +
+the six skills (owner review) → S10 close (ADR-049, ARCHITECTURE, ROADMAP, `rbac_mapping.md`, handoff).
+
 ## 6. Stage 2 — Operations Desk (details)
 
 - **Users:** Operations employees / managers and the CEO (level-1 operational data). Finance data stays invisible to
@@ -542,7 +630,124 @@ rate limits (ai.google.dev); FP&A reporting time (vendor case studies). Vendor f
   ROADMAP (Phase 3 closed, next Phase 4, Power BI DONE) and the project rules updated. Commit: owner, now that the phase is
   closed (the assistant never runs git).
 
-### SESSION HANDOFF (2026-10-15, Phase 3 CLOSED) — read this first in the next session
+- 2026-10-18 — **Phase 4 built (S1–S10)** in one autonomous session (owner, before sleeping: "all the permissions you
+  need … finish the work, look for problems with a wider vision"); every choice below took the recommended option
+  and is listed for the owner's review. Files: `pipelines/agents/tools/` (`db`, `schemas`, `context`, `tariff`,
+  `finance`, `audit`, `documents`, `external`, `registry`), `pipelines/agents/skill_loader.py`, 6 skills,
+  `db/migrations/015_invoice_audit_views.sql`, `pipelines/scripts/agents/Tools_check.py` (8 phases) + its checkpoint
+  narrative, `verify_readonly.sql` §19 (§18 now expects 14 views), `.gitignore` (tool cache), `.env.example` /
+  `common.SECRET_KEYS` (`TAVILY_API_KEY`), ADR-049, ARCHITECTURE, ROADMAP, `rbac_mapping.md`, `db/README.md`,
+  `pipelines/README.md`. Last run: 7 / 8 ✅, Phase 4 (audit) pending, files changed 0.
+  **Deviations from §5a (for review):**
+  - **D-P4-1 Live audit is not 0:** the dry run of 015 (rolled back) found 3 same-vessel, same-day, same-amount pairs
+    in the original invoices, both copies paid (INV-0000626 / 0000293 week 10, 0000925 / 0000491 week 15, 0000630 /
+    0000262 week 50; 336,909.00 SDR). Kept as data (ADR-013), frozen as the reviewed snapshot `LIVE_FINDINGS`, named
+    in the `suez-toll-audit` skill; they are the first real content of the Exceptions page. The test copy: 5 / 5
+    with the right causes, week 49 clean.
+  - **D-P4-2 Migration 015 not applied:** the session's permission classifier refused the shared-database change;
+    the SQL was dry-run in a rolled-back transaction only. `Tools_check.py` Phase 4 and 56 RBAC-matrix calls wait
+    for it (the access decision of those calls is still checked).
+  - **D-P4-3 `dataset` left the model's schema:** `invoice_audit` first let the model pick the copy with planted
+    errors; the run context now carries it (`RunContext(user, dataset="live")`, only the evaluation harness sets
+    `test`) — same reasoning as P4-3.
+  - **D-P4-4** One more cause hypothesis, `billed_on_invoice_tonnage` (an amount computed on a wrong tonnage), and
+    `rate_mismatch` for the live invoices; the duplicate rule keys on vessel + date + **amount** (INV-0000626 is both
+    half of a real pair and the planted wrong-rate invoice; without the amount the planted error would be lost).
+  - **D-P4-5** An empty ranked list (overdue in weeks 1–4) is `ok` with 0 rows, not `no_data`.
+  - **D-P4-6** "Settled" = the window ended ≥ 14 days ago (PortWatch publishes about a week late: on 2026-10-18 the
+    latest Suez day was 2026-10-11), not "before today".
+  - **D-P4-7** The loader is `skill_loader.py` (a `skills.py` module beside the `skills/` folder is confusing); the
+    `search_documents` tool shows the model `query`, 4 optional filters and `k` (default 5, max 8).
+  **Open for later phases:** (a) Phase 7 cannot measure the planted **budget miss** yet: it lives in
+  `finance_test.budget_weekly`, which no KPI view reads → decide then (twin category KPI view in `finance_test`, or
+  the harness computes it); (b) after 015, add `finance.invoice_audit` to the Power BI model (MCP) and fill the
+  Exceptions page; (c) token budget: 5 passages × up to 2,000 chars ≈ 3.3K tokens against Groq's 8K TPM — measure in
+  Phase 5; (d) the 3 duplicates inflate billed revenue and collections of weeks 10 / 15 / 50 (and AR before payment)
+  — the Insight agent should say so when those weeks are reported.
+
+- 2026-10-19 — **Verified.** The owner applied migration 015 and set `TAVILY_API_KEY`. `Tools_check.py` **8 / 8 ✅**
+  (Phase 4: recall 5 / 5 with causes, false alarms 0, week 49 clean, live = the 3 reviewed duplicates, = the Python
+  auditor; Phase 6: live Tavily ok, 2 results; Phase 7: 700 calls, 0 pending, leakage 0). A test bug fixed: the
+  missing-key case removed the variable, but the tool re-reads `.env` (`load_env` never overrides a set variable),
+  so the key came back; the check now sets it empty. Schema snapshot refreshed; `verify_readonly.sql` 0 errors, §18
+  14 views, §19 as expected (`db/audit/2026-10-19_after_015_report.txt`); `ANALYZE` re-run (13 tables had reset
+  statistics). In Auto mode the permission classifier refused the docker steps and some doc edits; the session went
+  back to Accept edits with the owner confirming the commands.
+
+- 2026-10-19 — **Skill review 1 / 6: `finance-kpi-definitions` approved** by the owner with three fixes: the budget
+  fact reworded (actual billing ≈ 11 % **below** budget: 267.9 M vs 302.1 M; "budget above actual by 11 %" was wrong,
+  that would be 12.8 %); the "Known facts" marked as background never to be written (no tool returns them, the
+  Validator would refuse them, ADR-020); a line on the duplicate charges of weeks 10 / 15 / 50. The size budget
+  caught the first version (1,203 > 1,200 tokens); shortened to 1,159. `Tools_check.py` 8 / 8 ✅.
+
+- 2026-10-19 — **Skill review 2 / 6: `suez-toll-audit` approved** with three additions: the tariff Notes rules the
+  audit does not apply (ADR-004 deferred: ballast Petroleum Product / Chemical tankers at Crude Oil ballast rates,
+  OBO at the highest cargo rate, actual condition controls) → such findings are "manual review", never "error";
+  the total at stake only from `amount_at_stake_sdr` (one invoice can carry two findings); a `tonnage_mismatch` with
+  difference 0 is a data error listed apart from the money. Tightened to 1,164 tokens (first try 1,247 > 1,200).
+  `Tools_check.py` 8 / 8 ✅. **Open (Phase 7 / later):** the audit flags any category priced by those Notes rules
+  as `amount_mismatch` — none in today's data (every invoice = its own bands, ADR-004), but a real invoice priced by
+  the Notes would be a false alarm; modelling the rules is a candidate for a later migration.
+
+- 2026-10-19 — **Skill review 3 / 6: `weekly-variance-analysis` approved** with fixes: the same wrong budget sentence
+  as skill 1 ("budget about 11 % above actual") reworded and marked background; a new step 2 — `invoice_audit`
+  before naming drivers (a driver holding a flagged invoice, e.g. the week-10 duplicate, may be a billing error, not
+  business); week 1 has no WoW → drivers from |budget variance|; `budget_variance_pct` written in full; a broken
+  line repaired (920 tokens). **`Tools_check.py` Phase 8 widened** because one fact had been wrong in two skills: every
+  backticked name in **every** skill must exist in the tools (columns, datasets, tool / result / argument fields,
+  statuses, audit codes), plus a regression guard on the wrong budget wording. 8 / 8 ✅.
+
+- 2026-10-19 — **Skill review 4 / 6: `deck-style-guide` approved** with fixes: slide 3 asked for a WoW of the
+  budget variance, which no view holds → WoW only on the fields that have one, variance as `budget_variance_pct`;
+  slide 5's laden / ballast split removed (owner: no tool returns it; it stays in Power BI); the roundings defined
+  once, in `number-validation` (the deck only adds presentation), with neutral format examples instead of week-23
+  numbers; the Writer always writes "Draft for approval", the Publisher replaces it; slide 8 gets "records to
+  correct" and "manual review" from `suez-toll-audit` (942 tokens). `Tools_check.py` 8 / 8 ✅. **Open:** (a) Phase 6
+  Validator: the fixed warm-up footnote ("since 1 Jan 2025") and the title template are template text, allowlisted;
+  (b) if the deck needs laden / ballast later, a `kpi_weekly_condition` view + a `finance_kpi` dataset (a
+  migration).
+
+- 2026-10-19 — **Skill review 5 / 6: `number-validation` approved** with fixes: its only thousands example, "849.9 k",
+  was the bake-off's own recorded error for −849,964 (ADR-045: digits cut and sign dropped; right = "−850.0 k") →
+  rule "nearest value, half away from zero, never cut, keep the sign" with two neutral examples; `*_pct` fields are
+  already percent (never × or ÷ 100); structural counts in words ("three drivers"), digits only for tool numbers,
+  template text the only exception (805 tokens). `Tools_check.py` Phase 8 now recomputes every rounding example of
+  the skill with Decimal (2 / 2 right). 8 / 8 ✅. **Open (Phase 6):** the Validator checks digit tokens only and
+  allowlists the template text, matching rule 8.
+
+- 2026-10-19 — **Skill review 6 / 6: `untrusted-content` approved** with fixes and the screening (owner: the
+  recommended option): a planted passage stating a NileGate figure would have passed the numeric gate ("the number
+  appears in a tool result") → NileGate figures only from the structured fields of `finance_kpi`, `invoice_audit`,
+  `compute_toll` (rule 4 here + rule 1 of `number-validation`); new `pipelines/agents/tools/trust.py` runs the upload
+  screening (`pipelines/lib/screening.py`) on every document and web row (invisible characters removed;
+  `suspected_injection` + `screening_hits`; a result note when any row is flagged); tool calls "from the question
+  or the task's steps" (a scheduled pack has no question); the injection notice goes to the sources slide in a deck.
+  Checks: 0 corpus passages flagged, the mock web injection flagged `override_en`, hidden characters stripped.
+- 2026-10-19 — **Phase 4 CLOSED.** Done-when of §5 met: each tool tested on its own (`Tools_check.py` 8 / 8,
+  pending none), RBAC matrix 100 × 7 leakage 0, every skill parses within its budget and is reviewed by the owner.
+  ADR-049 (with the screening amendment), ARCHITECTURE, ROADMAP, `rbac_mapping.md`, the checkpoint narrative updated.
+  Commit: the owner.
+
+### SESSION HANDOFF (2026-10-19, Phase 4 CLOSED) — read this first in the next session
+
+- **Phases 0–4 are CLOSED.** Phase 4: ADR-049; six tools in `pipelines/agents/tools/` (`registry.STAGE1_TOOLS`),
+  migration 015 (audit views), six reviewed skills + `skill_loader.py`, `Tools_check.py` 8 / 8.
+- **Next: Phase 5** (§5) — the LangGraph `weekly_pack` StateGraph (Data Readiness → KPI → Auditor → Insight → Writer
+  → Validator → interrupt → Publisher, §3), PostgresSaver in a schema `agent_state` with a writer role (a migration:
+  ask the owner), resume after a crash. Bind `registry.STAGE1_TOOLS`; pass `RunContext(user)` (and
+  `dataset="test"` only in the evaluation harness); each node loads its fixed skill with `skill_loader.load`. Start
+  by proposing the Phase 5 design to the owner (AskUserQuestion, recommendation first).
+- **Carry into later phases** (Progress above): Phase 6 Validator = digits of tool numbers from structured fields
+  only, template text allowlisted, the Writer always "Draft for approval"; Phase 7 needs a way to read the planted
+  budget miss (`finance_test.budget_weekly`); Power BI Exceptions page from `finance.invoice_audit`; token budget of
+  `search_documents` against Groq's 8K TPM; tariff Notes rules not modelled by the audit.
+- Still open from before: the owner's review of §8a (G1–G6, PROPOSED).
+- Then close Phase 4 (ROADMAP: CLOSED; the owner commits) and start **Phase 5** (LangGraph workflow + PostgresSaver,
+  `agent_state` schema + writer role = a migration, interrupt). Phase 5 binds `registry.STAGE1_TOOLS` and passes
+  `RunContext(user)` as the graph's context.
+- Still open from before: the owner's review of §8a (G1–G6, PROPOSED).
+
+### SESSION HANDOFF (2026-10-15, Phase 3 CLOSED)
 
 - **Phases 0–3 are CLOSED.** Phase 3 (2026-10-15): ADR-048; `powerbi/NileGate_Finance.pbip` — DirectQuery on the
   `finance` views via `ports_bi`, model by the Power BI Modeling MCP (38 thin measures, 1 label column, 18

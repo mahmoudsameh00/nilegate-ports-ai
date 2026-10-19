@@ -1,6 +1,6 @@
 # RBAC mapping
 
-Decision record: ADR-006 in `docs/decisions.md`. Status: **the rule is decided; nothing enforces it yet** (retrieval and API are not built).
+Decision record: ADR-006 in `docs/decisions.md`. Status: **enforced** by `search_documents` inside Qdrant (2026-10-08, ADR-038) and by every Stage 1 agent tool before its query (2026-10-18, ADR-049: `pipelines/agents/tools/context.py`, RBAC matrix in `pipelines/scripts/agents/Tools_check.py`); the API is not built yet.
 
 ## 1. Access rule
 
@@ -45,6 +45,7 @@ Qdrant filter (conceptual): `sensitivity_level <= role_level OR (department == u
 | `finance_test.*` | 2 | Finance | evaluation copy with planted errors (migration 012); the answer key is outside the database |
 | `finance.*` (views) | 2 | Finance | star + weekly KPI views of the Weekly Finance Pack (migration 013, Agents plan Phase 2); read as one unit by the finance tools and Power BI (login in group role `finance_bi`, SELECT on `finance` only). The dimension views over level-1 tables (`dim_date`, `dim_week`, `dim_vessel`, `dim_toll_band`) take the schema's level |
 | `vessels.customer_id` | 1 | Operations | an id only (the vessels table stays level 1); the customer's details are level 2 |
+| `finance.invoice_audit` / `finance_test.invoice_audit` (views, migration 015) | 2 | Finance | invoice audit findings (ADR-049); covered by the `finance.*` / `finance_test.*` rows; only the first is readable by `finance_bi` |
 | `audit_log` (planned, API phase) | 3 | IT | security audit trail, CEO only |
 
 ## 3. Semi-structured (MongoDB, implemented 2026-09-27)
@@ -72,6 +73,16 @@ External, publicly published sources are level 1. Their owner department is the 
 | HbR: the Port Authority's own financial results and position — balance sheet and income statement (p.82), the 3.2.2 paragraphs on revenue, operating expenses, EBITDA / net result and gross investments, and the gross-investments chart (p.13) | **3** | Finance |
 
 HbR is deliberately treated as "our internal report" so the corpus contains one document with sections at different levels. Sensitivity is stored per chunk. Implemented 2026-09-26 (ADR-021): every unit that mentions money or finance was reviewed; 37 units / 5 chunks are level 3, all others level 1, and no chunk mixes levels.
+
+## 4a. Agent tools and external sources (ADR-049, 2026-10-18)
+
+| Tool | Reads | Level | Owner department |
+|---|---|---:|---|
+| `finance_kpi`, `invoice_audit` | `finance.*` (live) / `finance_test.*` (evaluation runs only, chosen by the run context) | 2 | Finance |
+| `compute_toll` | `toll_rate_bands` (+ `vessels` with a vessel_id) | 1 | Finance / Operations |
+| `search_documents` | Qdrant chunks, per chunk (§4) | per chunk | per chunk |
+| `suez_transits` (IMF PortWatch), `web_search` (Tavily news) | public external sources | 1 | Operations |
+| Skills (`pipelines/agents/skills/`) | instructions only, no data | — | — |
 
 ## 5. Synthetic company documents (planned)
 

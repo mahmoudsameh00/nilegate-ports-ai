@@ -1443,6 +1443,359 @@ COMMENT ON COLUMN finance.fact_payment.days_paid_after_due IS 'paid_date − due
 
 
 --
+-- Name: invoice_audit; Type: VIEW; Schema: finance; Owner: -
+--
+
+CREATE VIEW finance.invoice_audit AS
+ WITH billed AS (
+         SELECT i.invoice_number,
+            i.vessel_id,
+            i.invoice_date,
+            i.scnt_tons,
+            i.amount AS billed_sdr,
+            i.rate_sdr_per_ton AS billed_rate
+           FROM public.invoices i
+        ), inv AS (
+         SELECT b.invoice_number,
+            b.vessel_id,
+            b.invoice_date,
+            b.scnt_tons,
+            b.billed_sdr,
+            b.billed_rate,
+            v.vessel_name,
+            v.vessel_type AS vessel_category,
+            v.condition,
+            v.scnt_tons AS vessel_scnt,
+                CASE
+                    WHEN (v.vessel_type = 'Special Floating Units'::text) THEN 'Laden'::text
+                    ELSE v.condition
+                END AS priced_condition,
+            d.report_week
+           FROM ((billed b
+             JOIN public.vessels v ON ((v.vessel_id = b.vessel_id)))
+             JOIN finance.dim_date d ON ((d.date_day = b.invoice_date)))
+        ), scenario AS (
+         SELECT inv.invoice_number,
+            'expected'::text AS scenario,
+            inv.vessel_category AS category,
+            inv.priced_condition AS cond,
+            inv.vessel_scnt AS tons
+           FROM inv
+        UNION ALL
+         SELECT inv.invoice_number,
+            'invoice_tonnage'::text,
+            inv.vessel_category,
+            inv.priced_condition,
+            inv.scnt_tons
+           FROM inv
+          WHERE (inv.scnt_tons <> inv.vessel_scnt)
+        UNION ALL
+         SELECT inv.invoice_number,
+            'condition_swapped'::text,
+            inv.vessel_category,
+                CASE inv.condition
+                    WHEN 'Laden'::text THEN 'Ballast'::text
+                    ELSE 'Laden'::text
+                END AS "case",
+            inv.vessel_scnt
+           FROM inv
+          WHERE (inv.vessel_category <> 'Special Floating Units'::text)
+        UNION ALL
+         SELECT inv.invoice_number,
+            'sfu_priced_ballast'::text,
+            'Other Vessels'::text,
+            'Ballast'::text,
+            inv.vessel_scnt
+           FROM inv
+          WHERE (inv.vessel_category = 'Special Floating Units'::text)
+        ), priced AS (
+         SELECT s.invoice_number,
+            s.scenario,
+            sum((t.rate_sdr_per_ton * (LEAST(s.tons, COALESCE(t.band_max_tons, s.tons)) - t.band_min_tons))) AS toll_exact,
+            (array_agg(t.rate_sdr_per_ton ORDER BY t.band_order DESC))[1] AS terminal_rate,
+            (array_agg(t.band_label ORDER BY t.band_order DESC))[1] AS terminal_band
+           FROM (scenario s
+             JOIN public.toll_rate_bands t ON (((t.vessel_category = s.category) AND (t.laden_ballast = s.cond) AND (s.tons > t.band_min_tons))))
+          GROUP BY s.invoice_number, s.scenario
+        ), hyp AS (
+         SELECT i.invoice_number,
+            i.vessel_id,
+            i.invoice_date,
+            i.scnt_tons,
+            i.billed_sdr,
+            i.billed_rate,
+            i.vessel_name,
+            i.vessel_category,
+            i.condition,
+            i.vessel_scnt,
+            i.priced_condition,
+            i.report_week,
+            e.toll_exact AS expected_exact,
+            round(e.toll_exact, 2) AS expected_sdr,
+            e.terminal_rate,
+            e.terminal_band,
+            round(it.toll_exact, 2) AS invoice_tonnage_sdr,
+            round((e.terminal_rate * i.vessel_scnt), 2) AS flat_terminal_sdr,
+            round(cs.toll_exact, 2) AS condition_swapped_sdr,
+            round(sb.toll_exact, 2) AS sfu_ballast_sdr,
+            row_number() OVER w AS dup_rank,
+            first_value(i.invoice_number) OVER w AS dup_first
+           FROM ((((inv i
+             JOIN priced e ON (((e.invoice_number = i.invoice_number) AND (e.scenario = 'expected'::text))))
+             LEFT JOIN priced it ON (((it.invoice_number = i.invoice_number) AND (it.scenario = 'invoice_tonnage'::text))))
+             LEFT JOIN priced cs ON (((cs.invoice_number = i.invoice_number) AND (cs.scenario = 'condition_swapped'::text))))
+             LEFT JOIN priced sb ON (((sb.invoice_number = i.invoice_number) AND (sb.scenario = 'sfu_priced_ballast'::text))))
+          WINDOW w AS (PARTITION BY i.vessel_id, i.invoice_date, i.billed_sdr ORDER BY i.invoice_number)
+        ), findings AS (
+         SELECT h.invoice_number,
+            h.vessel_id,
+            h.invoice_date,
+            h.scnt_tons,
+            h.billed_sdr,
+            h.billed_rate,
+            h.vessel_name,
+            h.vessel_category,
+            h.condition,
+            h.vessel_scnt,
+            h.priced_condition,
+            h.report_week,
+            h.expected_exact,
+            h.expected_sdr,
+            h.terminal_rate,
+            h.terminal_band,
+            h.invoice_tonnage_sdr,
+            h.flat_terminal_sdr,
+            h.condition_swapped_sdr,
+            h.sfu_ballast_sdr,
+            h.dup_rank,
+            h.dup_first,
+            'duplicate_charge'::text AS check_code,
+            NULL::text AS probable_cause,
+            (0)::numeric AS expected_charge,
+            h.dup_first AS duplicate_of,
+            format('same vessel, date and amount as %s: the whole charge is billed twice'::text, h.dup_first) AS evidence
+           FROM hyp h
+          WHERE (h.dup_rank > 1)
+        UNION ALL
+         SELECT h.invoice_number,
+            h.vessel_id,
+            h.invoice_date,
+            h.scnt_tons,
+            h.billed_sdr,
+            h.billed_rate,
+            h.vessel_name,
+            h.vessel_category,
+            h.condition,
+            h.vessel_scnt,
+            h.priced_condition,
+            h.report_week,
+            h.expected_exact,
+            h.expected_sdr,
+            h.terminal_rate,
+            h.terminal_band,
+            h.invoice_tonnage_sdr,
+            h.flat_terminal_sdr,
+            h.condition_swapped_sdr,
+            h.sfu_ballast_sdr,
+            h.dup_rank,
+            h.dup_first,
+            'tonnage_mismatch'::text,
+            NULL::text,
+            h.expected_sdr,
+            NULL::text,
+            format('invoice SCNT %s <> vessel SCNT %s'::text, h.scnt_tons, h.vessel_scnt) AS format
+           FROM hyp h
+          WHERE ((h.dup_rank = 1) AND (h.scnt_tons <> h.vessel_scnt))
+        UNION ALL
+         SELECT h.invoice_number,
+            h.vessel_id,
+            h.invoice_date,
+            h.scnt_tons,
+            h.billed_sdr,
+            h.billed_rate,
+            h.vessel_name,
+            h.vessel_category,
+            h.condition,
+            h.vessel_scnt,
+            h.priced_condition,
+            h.report_week,
+            h.expected_exact,
+            h.expected_sdr,
+            h.terminal_rate,
+            h.terminal_band,
+            h.invoice_tonnage_sdr,
+            h.flat_terminal_sdr,
+            h.condition_swapped_sdr,
+            h.sfu_ballast_sdr,
+            h.dup_rank,
+            h.dup_first,
+            'amount_mismatch'::text,
+                CASE
+                    WHEN (abs((h.billed_sdr - h.invoice_tonnage_sdr)) <= 0.01) THEN 'billed_on_invoice_tonnage'::text
+                    WHEN (abs((h.billed_sdr - h.flat_terminal_sdr)) <= 0.01) THEN 'flat_terminal_rate'::text
+                    WHEN (abs((h.billed_sdr - h.condition_swapped_sdr)) <= 0.01) THEN 'condition_swapped'::text
+                    WHEN (abs((h.billed_sdr - h.sfu_ballast_sdr)) <= 0.01) THEN 'sfu_priced_ballast'::text
+                    ELSE 'unexplained'::text
+                END AS "case",
+            h.expected_sdr,
+            NULL::text,
+            format('billed %s SDR; tariff %s / %s at %s SCNT = %s SDR (progressive, terminal band %s at %s SDR/t)'::text, h.billed_sdr, h.vessel_category, h.priced_condition, h.vessel_scnt, h.expected_sdr, h.terminal_band, h.terminal_rate) AS format
+           FROM hyp h
+          WHERE ((h.dup_rank = 1) AND (abs((h.billed_sdr - h.expected_exact)) > 0.01))
+        UNION ALL
+         SELECT h.invoice_number,
+            h.vessel_id,
+            h.invoice_date,
+            h.scnt_tons,
+            h.billed_sdr,
+            h.billed_rate,
+            h.vessel_name,
+            h.vessel_category,
+            h.condition,
+            h.vessel_scnt,
+            h.priced_condition,
+            h.report_week,
+            h.expected_exact,
+            h.expected_sdr,
+            h.terminal_rate,
+            h.terminal_band,
+            h.invoice_tonnage_sdr,
+            h.flat_terminal_sdr,
+            h.condition_swapped_sdr,
+            h.sfu_ballast_sdr,
+            h.dup_rank,
+            h.dup_first,
+            'rate_mismatch'::text,
+            NULL::text,
+            h.expected_sdr,
+            NULL::text,
+            format('stored rate %s SDR/t <> terminal band %s rate %s SDR/t'::text, h.billed_rate, h.terminal_band, h.terminal_rate) AS format
+           FROM hyp h
+          WHERE ((h.dup_rank = 1) AND (h.billed_rate IS NOT NULL) AND (h.billed_rate <> h.terminal_rate))
+        )
+ SELECT report_week,
+    invoice_number,
+    invoice_date,
+    vessel_id,
+    vessel_name,
+    vessel_category,
+    condition AS vessel_condition,
+    check_code,
+    probable_cause,
+    billed_sdr,
+    expected_charge AS expected_sdr,
+    round((billed_sdr - expected_charge), 2) AS difference_sdr,
+    duplicate_of,
+    evidence
+   FROM findings;
+
+
+--
+-- Name: VIEW invoice_audit; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON VIEW finance.invoice_audit IS 'Invoice audit findings (Agents plan §5a, migration 015): every invoice recomputed from the progressive toll bands (ADR-004); one row per finding (duplicate_charge, tonnage_mismatch, amount_mismatch with a probable cause, rate_mismatch). No row = the invoice passed. Read by the invoice_audit tool and the Exceptions page. Level 2, Finance.';
+
+
+--
+-- Name: COLUMN invoice_audit.report_week; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.invoice_audit.report_week IS 'Report week of the invoice date (ISO 2025 week; NULL for 2026-W01)';
+
+
+--
+-- Name: COLUMN invoice_audit.invoice_number; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.invoice_audit.invoice_number IS 'The invoice with the finding';
+
+
+--
+-- Name: COLUMN invoice_audit.invoice_date; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.invoice_audit.invoice_date IS 'Invoice date';
+
+
+--
+-- Name: COLUMN invoice_audit.vessel_id; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.invoice_audit.vessel_id IS 'The billed vessel';
+
+
+--
+-- Name: COLUMN invoice_audit.vessel_name; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.invoice_audit.vessel_name IS 'Vessel name';
+
+
+--
+-- Name: COLUMN invoice_audit.vessel_category; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.invoice_audit.vessel_category IS 'Tariff category of the vessel (vessels.vessel_type)';
+
+
+--
+-- Name: COLUMN invoice_audit.vessel_condition; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.invoice_audit.vessel_condition IS 'Condition of the vessel (vessels.condition); Special Floating Units are priced Laden';
+
+
+--
+-- Name: COLUMN invoice_audit.check_code; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.invoice_audit.check_code IS 'duplicate_charge | tonnage_mismatch | amount_mismatch | rate_mismatch';
+
+
+--
+-- Name: COLUMN invoice_audit.probable_cause; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.invoice_audit.probable_cause IS 'amount_mismatch only: billed_on_invoice_tonnage | flat_terminal_rate | condition_swapped | sfu_priced_ballast | unexplained (the first hypothesis that reproduces the billed amount within 0.01 SDR)';
+
+
+--
+-- Name: COLUMN invoice_audit.billed_sdr; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.invoice_audit.billed_sdr IS 'Amount billed (SDR)';
+
+
+--
+-- Name: COLUMN invoice_audit.expected_sdr; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.invoice_audit.expected_sdr IS 'Correct charge (SDR): the progressive toll of the vessel; 0 for a duplicate';
+
+
+--
+-- Name: COLUMN invoice_audit.difference_sdr; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.invoice_audit.difference_sdr IS 'billed - expected (SDR): positive = overbilled, negative = underbilled';
+
+
+--
+-- Name: COLUMN invoice_audit.duplicate_of; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.invoice_audit.duplicate_of IS 'duplicate_charge only: the original invoice number';
+
+
+--
+-- Name: COLUMN invoice_audit.evidence; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.invoice_audit.evidence IS 'The numbers behind the finding (tons, category, condition, band, rate)';
+
+
+--
 -- Name: kpi_customer_13w; Type: VIEW; Schema: finance; Owner: -
 --
 
@@ -2469,6 +2822,359 @@ COMMENT ON COLUMN finance_test.invoices.scnt_tons IS 'Suez Canal Net Tonnage as 
 --
 
 COMMENT ON COLUMN finance_test.invoices.billed_sdr IS 'Amount billed in SDR';
+
+
+--
+-- Name: invoice_audit; Type: VIEW; Schema: finance_test; Owner: -
+--
+
+CREATE VIEW finance_test.invoice_audit AS
+ WITH billed AS (
+         SELECT i.invoice_number,
+            i.vessel_id,
+            i.invoice_date,
+            i.scnt_tons,
+            i.billed_sdr,
+            NULL::numeric AS billed_rate
+           FROM finance_test.invoices i
+        ), inv AS (
+         SELECT b.invoice_number,
+            b.vessel_id,
+            b.invoice_date,
+            b.scnt_tons,
+            b.billed_sdr,
+            b.billed_rate,
+            v.vessel_name,
+            v.vessel_type AS vessel_category,
+            v.condition,
+            v.scnt_tons AS vessel_scnt,
+                CASE
+                    WHEN (v.vessel_type = 'Special Floating Units'::text) THEN 'Laden'::text
+                    ELSE v.condition
+                END AS priced_condition,
+            d.report_week
+           FROM ((billed b
+             JOIN public.vessels v ON ((v.vessel_id = b.vessel_id)))
+             JOIN finance.dim_date d ON ((d.date_day = b.invoice_date)))
+        ), scenario AS (
+         SELECT inv.invoice_number,
+            'expected'::text AS scenario,
+            inv.vessel_category AS category,
+            inv.priced_condition AS cond,
+            inv.vessel_scnt AS tons
+           FROM inv
+        UNION ALL
+         SELECT inv.invoice_number,
+            'invoice_tonnage'::text,
+            inv.vessel_category,
+            inv.priced_condition,
+            inv.scnt_tons
+           FROM inv
+          WHERE (inv.scnt_tons <> inv.vessel_scnt)
+        UNION ALL
+         SELECT inv.invoice_number,
+            'condition_swapped'::text,
+            inv.vessel_category,
+                CASE inv.condition
+                    WHEN 'Laden'::text THEN 'Ballast'::text
+                    ELSE 'Laden'::text
+                END AS "case",
+            inv.vessel_scnt
+           FROM inv
+          WHERE (inv.vessel_category <> 'Special Floating Units'::text)
+        UNION ALL
+         SELECT inv.invoice_number,
+            'sfu_priced_ballast'::text,
+            'Other Vessels'::text,
+            'Ballast'::text,
+            inv.vessel_scnt
+           FROM inv
+          WHERE (inv.vessel_category = 'Special Floating Units'::text)
+        ), priced AS (
+         SELECT s.invoice_number,
+            s.scenario,
+            sum((t.rate_sdr_per_ton * (LEAST(s.tons, COALESCE(t.band_max_tons, s.tons)) - t.band_min_tons))) AS toll_exact,
+            (array_agg(t.rate_sdr_per_ton ORDER BY t.band_order DESC))[1] AS terminal_rate,
+            (array_agg(t.band_label ORDER BY t.band_order DESC))[1] AS terminal_band
+           FROM (scenario s
+             JOIN public.toll_rate_bands t ON (((t.vessel_category = s.category) AND (t.laden_ballast = s.cond) AND (s.tons > t.band_min_tons))))
+          GROUP BY s.invoice_number, s.scenario
+        ), hyp AS (
+         SELECT i.invoice_number,
+            i.vessel_id,
+            i.invoice_date,
+            i.scnt_tons,
+            i.billed_sdr,
+            i.billed_rate,
+            i.vessel_name,
+            i.vessel_category,
+            i.condition,
+            i.vessel_scnt,
+            i.priced_condition,
+            i.report_week,
+            e.toll_exact AS expected_exact,
+            round(e.toll_exact, 2) AS expected_sdr,
+            e.terminal_rate,
+            e.terminal_band,
+            round(it.toll_exact, 2) AS invoice_tonnage_sdr,
+            round((e.terminal_rate * i.vessel_scnt), 2) AS flat_terminal_sdr,
+            round(cs.toll_exact, 2) AS condition_swapped_sdr,
+            round(sb.toll_exact, 2) AS sfu_ballast_sdr,
+            row_number() OVER w AS dup_rank,
+            first_value(i.invoice_number) OVER w AS dup_first
+           FROM ((((inv i
+             JOIN priced e ON (((e.invoice_number = i.invoice_number) AND (e.scenario = 'expected'::text))))
+             LEFT JOIN priced it ON (((it.invoice_number = i.invoice_number) AND (it.scenario = 'invoice_tonnage'::text))))
+             LEFT JOIN priced cs ON (((cs.invoice_number = i.invoice_number) AND (cs.scenario = 'condition_swapped'::text))))
+             LEFT JOIN priced sb ON (((sb.invoice_number = i.invoice_number) AND (sb.scenario = 'sfu_priced_ballast'::text))))
+          WINDOW w AS (PARTITION BY i.vessel_id, i.invoice_date, i.billed_sdr ORDER BY i.invoice_number)
+        ), findings AS (
+         SELECT h.invoice_number,
+            h.vessel_id,
+            h.invoice_date,
+            h.scnt_tons,
+            h.billed_sdr,
+            h.billed_rate,
+            h.vessel_name,
+            h.vessel_category,
+            h.condition,
+            h.vessel_scnt,
+            h.priced_condition,
+            h.report_week,
+            h.expected_exact,
+            h.expected_sdr,
+            h.terminal_rate,
+            h.terminal_band,
+            h.invoice_tonnage_sdr,
+            h.flat_terminal_sdr,
+            h.condition_swapped_sdr,
+            h.sfu_ballast_sdr,
+            h.dup_rank,
+            h.dup_first,
+            'duplicate_charge'::text AS check_code,
+            NULL::text AS probable_cause,
+            (0)::numeric AS expected_charge,
+            h.dup_first AS duplicate_of,
+            format('same vessel, date and amount as %s: the whole charge is billed twice'::text, h.dup_first) AS evidence
+           FROM hyp h
+          WHERE (h.dup_rank > 1)
+        UNION ALL
+         SELECT h.invoice_number,
+            h.vessel_id,
+            h.invoice_date,
+            h.scnt_tons,
+            h.billed_sdr,
+            h.billed_rate,
+            h.vessel_name,
+            h.vessel_category,
+            h.condition,
+            h.vessel_scnt,
+            h.priced_condition,
+            h.report_week,
+            h.expected_exact,
+            h.expected_sdr,
+            h.terminal_rate,
+            h.terminal_band,
+            h.invoice_tonnage_sdr,
+            h.flat_terminal_sdr,
+            h.condition_swapped_sdr,
+            h.sfu_ballast_sdr,
+            h.dup_rank,
+            h.dup_first,
+            'tonnage_mismatch'::text,
+            NULL::text,
+            h.expected_sdr,
+            NULL::text,
+            format('invoice SCNT %s <> vessel SCNT %s'::text, h.scnt_tons, h.vessel_scnt) AS format
+           FROM hyp h
+          WHERE ((h.dup_rank = 1) AND (h.scnt_tons <> h.vessel_scnt))
+        UNION ALL
+         SELECT h.invoice_number,
+            h.vessel_id,
+            h.invoice_date,
+            h.scnt_tons,
+            h.billed_sdr,
+            h.billed_rate,
+            h.vessel_name,
+            h.vessel_category,
+            h.condition,
+            h.vessel_scnt,
+            h.priced_condition,
+            h.report_week,
+            h.expected_exact,
+            h.expected_sdr,
+            h.terminal_rate,
+            h.terminal_band,
+            h.invoice_tonnage_sdr,
+            h.flat_terminal_sdr,
+            h.condition_swapped_sdr,
+            h.sfu_ballast_sdr,
+            h.dup_rank,
+            h.dup_first,
+            'amount_mismatch'::text,
+                CASE
+                    WHEN (abs((h.billed_sdr - h.invoice_tonnage_sdr)) <= 0.01) THEN 'billed_on_invoice_tonnage'::text
+                    WHEN (abs((h.billed_sdr - h.flat_terminal_sdr)) <= 0.01) THEN 'flat_terminal_rate'::text
+                    WHEN (abs((h.billed_sdr - h.condition_swapped_sdr)) <= 0.01) THEN 'condition_swapped'::text
+                    WHEN (abs((h.billed_sdr - h.sfu_ballast_sdr)) <= 0.01) THEN 'sfu_priced_ballast'::text
+                    ELSE 'unexplained'::text
+                END AS "case",
+            h.expected_sdr,
+            NULL::text,
+            format('billed %s SDR; tariff %s / %s at %s SCNT = %s SDR (progressive, terminal band %s at %s SDR/t)'::text, h.billed_sdr, h.vessel_category, h.priced_condition, h.vessel_scnt, h.expected_sdr, h.terminal_band, h.terminal_rate) AS format
+           FROM hyp h
+          WHERE ((h.dup_rank = 1) AND (abs((h.billed_sdr - h.expected_exact)) > 0.01))
+        UNION ALL
+         SELECT h.invoice_number,
+            h.vessel_id,
+            h.invoice_date,
+            h.scnt_tons,
+            h.billed_sdr,
+            h.billed_rate,
+            h.vessel_name,
+            h.vessel_category,
+            h.condition,
+            h.vessel_scnt,
+            h.priced_condition,
+            h.report_week,
+            h.expected_exact,
+            h.expected_sdr,
+            h.terminal_rate,
+            h.terminal_band,
+            h.invoice_tonnage_sdr,
+            h.flat_terminal_sdr,
+            h.condition_swapped_sdr,
+            h.sfu_ballast_sdr,
+            h.dup_rank,
+            h.dup_first,
+            'rate_mismatch'::text,
+            NULL::text,
+            h.expected_sdr,
+            NULL::text,
+            format('stored rate %s SDR/t <> terminal band %s rate %s SDR/t'::text, h.billed_rate, h.terminal_band, h.terminal_rate) AS format
+           FROM hyp h
+          WHERE ((h.dup_rank = 1) AND (h.billed_rate IS NOT NULL) AND (h.billed_rate <> h.terminal_rate))
+        )
+ SELECT report_week,
+    invoice_number,
+    invoice_date,
+    vessel_id,
+    vessel_name,
+    vessel_category,
+    condition AS vessel_condition,
+    check_code,
+    probable_cause,
+    billed_sdr,
+    expected_charge AS expected_sdr,
+    round((billed_sdr - expected_charge), 2) AS difference_sdr,
+    duplicate_of,
+    evidence
+   FROM findings;
+
+
+--
+-- Name: VIEW invoice_audit; Type: COMMENT; Schema: finance_test; Owner: -
+--
+
+COMMENT ON VIEW finance_test.invoice_audit IS 'The same audit over the evaluation copy finance_test.invoices (Agents plan §4a R7; same SQL as finance.invoice_audit except the source CTE). Evaluation only; invisible to Power BI. Level 2, Finance.';
+
+
+--
+-- Name: COLUMN invoice_audit.report_week; Type: COMMENT; Schema: finance_test; Owner: -
+--
+
+COMMENT ON COLUMN finance_test.invoice_audit.report_week IS 'Report week of the invoice date (ISO 2025 week)';
+
+
+--
+-- Name: COLUMN invoice_audit.invoice_number; Type: COMMENT; Schema: finance_test; Owner: -
+--
+
+COMMENT ON COLUMN finance_test.invoice_audit.invoice_number IS 'The invoice with the finding';
+
+
+--
+-- Name: COLUMN invoice_audit.invoice_date; Type: COMMENT; Schema: finance_test; Owner: -
+--
+
+COMMENT ON COLUMN finance_test.invoice_audit.invoice_date IS 'Invoice date';
+
+
+--
+-- Name: COLUMN invoice_audit.vessel_id; Type: COMMENT; Schema: finance_test; Owner: -
+--
+
+COMMENT ON COLUMN finance_test.invoice_audit.vessel_id IS 'The billed vessel';
+
+
+--
+-- Name: COLUMN invoice_audit.vessel_name; Type: COMMENT; Schema: finance_test; Owner: -
+--
+
+COMMENT ON COLUMN finance_test.invoice_audit.vessel_name IS 'Vessel name';
+
+
+--
+-- Name: COLUMN invoice_audit.vessel_category; Type: COMMENT; Schema: finance_test; Owner: -
+--
+
+COMMENT ON COLUMN finance_test.invoice_audit.vessel_category IS 'Tariff category of the vessel (vessels.vessel_type)';
+
+
+--
+-- Name: COLUMN invoice_audit.vessel_condition; Type: COMMENT; Schema: finance_test; Owner: -
+--
+
+COMMENT ON COLUMN finance_test.invoice_audit.vessel_condition IS 'Condition of the vessel (vessels.condition); Special Floating Units are priced Laden';
+
+
+--
+-- Name: COLUMN invoice_audit.check_code; Type: COMMENT; Schema: finance_test; Owner: -
+--
+
+COMMENT ON COLUMN finance_test.invoice_audit.check_code IS 'duplicate_charge | tonnage_mismatch | amount_mismatch | rate_mismatch (never: the copy stores no rate)';
+
+
+--
+-- Name: COLUMN invoice_audit.probable_cause; Type: COMMENT; Schema: finance_test; Owner: -
+--
+
+COMMENT ON COLUMN finance_test.invoice_audit.probable_cause IS 'amount_mismatch only: billed_on_invoice_tonnage | flat_terminal_rate | condition_swapped | sfu_priced_ballast | unexplained';
+
+
+--
+-- Name: COLUMN invoice_audit.billed_sdr; Type: COMMENT; Schema: finance_test; Owner: -
+--
+
+COMMENT ON COLUMN finance_test.invoice_audit.billed_sdr IS 'Amount billed (SDR)';
+
+
+--
+-- Name: COLUMN invoice_audit.expected_sdr; Type: COMMENT; Schema: finance_test; Owner: -
+--
+
+COMMENT ON COLUMN finance_test.invoice_audit.expected_sdr IS 'Correct charge (SDR): the progressive toll of the vessel; 0 for a duplicate';
+
+
+--
+-- Name: COLUMN invoice_audit.difference_sdr; Type: COMMENT; Schema: finance_test; Owner: -
+--
+
+COMMENT ON COLUMN finance_test.invoice_audit.difference_sdr IS 'billed - expected (SDR)';
+
+
+--
+-- Name: COLUMN invoice_audit.duplicate_of; Type: COMMENT; Schema: finance_test; Owner: -
+--
+
+COMMENT ON COLUMN finance_test.invoice_audit.duplicate_of IS 'duplicate_charge only: the original invoice number';
+
+
+--
+-- Name: COLUMN invoice_audit.evidence; Type: COMMENT; Schema: finance_test; Owner: -
+--
+
+COMMENT ON COLUMN finance_test.invoice_audit.evidence IS 'The numbers behind the finding';
 
 
 --

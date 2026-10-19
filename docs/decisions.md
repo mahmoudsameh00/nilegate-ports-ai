@@ -670,6 +670,50 @@ Never delete an entry; supersede it with a new one. Sources for older entries ar
   (D5): a work / school account → Power BI Service as an adapter; Import mode stays a fallback. Rejected: DAX KPI
   logic (would fork the definitions); a disconnected slicer table; a `.pbix` in git.
 
+## ADR-049 — Stage 1 agent tools: one contract, the user and the dataset from the run context, SQL audit views
+- **Status:** Accepted (2026-10-18, owner decisions P4-1…P4-8, Agents plan §5a); migration 015 applied by the owner
+  (2026-10-19; `verify_readonly.sql` §19 as expected, `db/audit/2026-10-19_after_015_report.txt`), `Tools_check.py`
+  8 / 8 ✅. `pipelines/agents/tools/`, `pipelines/agents/skill_loader.py`, `pipelines/agents/skills/`,
+  `db/migrations/015_invoice_audit_views.sql`, `pipelines/scripts/agents/Tools_check.py`.
+- **Context:** the Weekly Finance Pack's agents need governed tools whose numbers equal the dashboard (ADR-047 /
+  048), that free models (small token budgets, varying JSON-schema support) can call reliably, and that cannot leak
+  data or be talked into acting as another user.
+- **Decision:** (1) **One contract:** each tool = a plain function `f(user, **args)` + a LangChain wrapper; the result
+  is a `ToolResult` (`status` ok / not_permitted / context_unavailable / no_data, rows, `source` = view or API + the
+  exact filter); only an ok result carries rows, and an ok result always names its source (enforced by the model).
+  (2) **Who asks and which data come from the run context** (`RunContext(user, dataset)`, LangChain `ToolRuntime`),
+  never from model arguments: no tool schema has a user field, and only the evaluation harness can select the
+  `finance_test` copy. RBAC = `retrieval.allowed` (ADR-006) checked before any query, on the resources of
+  `docs/rbac_mapping.md`. (3) **Six tools:** `finance_kpi(report_week, dataset ∈ weekly / category / customers /
+  overdue / trend)` over the KPI views (P4-1); `invoice_audit(report_week | invoice_numbers)`; `compute_toll`;
+  `search_documents` (the existing library); `suez_transits` (IMF PortWatch, public, no key); `web_search` (Tavily
+  free tier over `httpx`, P4-4). Read-only `psycopg_pool` on `PG_RO_USER` (D10); parameterized SQL only.
+  (4) **Audit in SQL** (P4-2, P4-6): views `finance.invoice_audit` and the twin `finance_test.invoice_audit` (P4-5;
+  invisible to `finance_bi`) recompute every invoice from the toll bands and explain each finding with fixed checks
+  (duplicate_charge on vessel + date + amount; tonnage_mismatch; amount_mismatch with probable cause
+  billed_on_invoice_tonnage / flat_terminal_rate / condition_swapped / sfu_priced_ballast / unexplained; rate_mismatch);
+  an independent Python `compute_toll` cross-checks them. (5) **External calls** (P4-7): timeout 10 s, no retry loop,
+  any failure → context_unavailable with no data and never cached; cache per tool + arguments, no expiry once the
+  window ended 14 days ago (a 2025 replay always sees the same context), 24 h otherwise. Retrieved and web text is
+  marked untrusted and screened (`tools/trust.py` over the upload screening of ADR-042: invisible characters removed,
+  known injection shapes flagged `suspected_injection`; amendment of the owner's skill review, 2026-10-19); NileGate
+  figures come only from the structured fields of `finance_kpi`, `invoice_audit` and `compute_toll`, never from
+  passage text (closes a path where a planted passage would satisfy "the number appears in a tool result"). (6) **Skills** (D13, P4-8): `SKILL.md` with a flat frontmatter (`name` = folder, `description`
+  ≤ 250 chars, `stage`, `reviewed_by_owner`), body ≤ 1,200 tokens, only `references/*.md` beside it; our loader
+  (`load` for workflow nodes, `descriptions` + `load_skill` for the supervisor). All six reviewed by the owner on
+  2026-10-19 (13 fixes, e.g. a wrong budget-gap sentence in two skills, a rounding example that was the bake-off's own
+  error, two deck slides asking for numbers no tool returns); `Tools_check.py` guards every name a skill writes
+  against the tools, the rounding examples and the reviewed facts.
+- **Consequences:** `Tools_check.py` 8 phases: compute_toll = 1,000 / 1,000 invoices; finance_kpi = its views on
+  52 × 5 and the hand weeks; RBAC matrix 100 employees × 7 calls, leakage 0; external failure modes all
+  context_unavailable; live PortWatch week 23 = 34.3 transits / day; 6 skills within budget. The audit dry run found
+  the test copy's 5 planted errors with their causes (false alarms 0) and **3 real duplicate charges** in the
+  original invoices (INV-0000626 / 0000925 / 0000630, both copies paid, 336,909.00 SDR) — a property of the random
+  invoice draw (ADR-013, kept as data), the first content of the dashboard's Exceptions page. ADR-004's "0
+  mismatches" still holds (each amount is right; the error is the repetition). Rejected: five small KPI tools (more
+  schema tokens), a free `metric` argument, `employee_id` as a tool argument, a single audit view with a dataset
+  column (would put the test copy inside `finance`), TTL-only caching (a replay would change), Brave (snippets only).
+
 ---
 
 ## Dropped (history)

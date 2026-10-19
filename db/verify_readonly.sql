@@ -199,7 +199,7 @@ SELECT c.segment, count(DISTINCT c.customer_id) AS customers, count(v.vessel_id)
 FROM customers c LEFT JOIN vessels v USING (customer_id) GROUP BY 1 ORDER BY 1;
 
 \echo '### 18. FINANCE VIEWS (migrations 013-014, Agents plan Phases 2-3)'
--- expected: 13 | 0 | 0 | 455 | 52 | 1000 | 994 | 4 | 13 | 598  (12 views before 014)
+-- expected: 14 | 0 | 0 | 455 | 52 | 1000 | 994 | 4 | 13 | 598  (12 views before 014, 13 before 015)
 SELECT (SELECT count(*) FROM pg_class WHERE relnamespace = 'finance'::regnamespace AND relkind = 'v') AS finance_views,
        (SELECT count(*) FROM pg_class c WHERE c.relnamespace = 'finance'::regnamespace AND c.relkind = 'v'
           AND obj_description(c.oid, 'pg_class') IS NULL) AS views_without_comment,
@@ -213,7 +213,7 @@ SELECT (SELECT count(*) FROM pg_class WHERE relnamespace = 'finance'::regnamespa
        (SELECT count(*) FROM finance.fact_invoice WHERE invoice_report_week IS NULL) AS invoices_in_2026_w01,
        (SELECT count(*) FROM finance.kpi_weekly WHERE is_warmup) AS warmup_weeks,
        (SELECT count(*) FROM finance.kpi_weekly_trend) AS trend_rows;
--- expected 13 | 0 | 0: finance_bi reads the 13 views, writes nothing, reads nothing outside schema finance
+-- expected 14 | 0 | 0 (13 before 015): finance_bi reads the finance views, writes nothing, reads nothing outside schema finance
 -- (PostGIS grants SELECT on its own catalog objects to PUBLIC; they are excluded)
 SELECT count(*) FILTER (WHERE c.relnamespace = 'finance'::regnamespace AND has_table_privilege('finance_bi', c.oid, 'SELECT')) AS bi_finance_select,
        count(*) FILTER (WHERE has_table_privilege('finance_bi', c.oid, 'INSERT,UPDATE,DELETE,TRUNCATE')) AS bi_write,
@@ -224,5 +224,28 @@ WHERE c.relnamespace IN ('finance'::regnamespace, 'public'::regnamespace, 'finan
 -- expected ≤ 0.02 (rounded inputs): AR(w) = AR(w−1) + billed(w) − collected(w) on all 52 weeks
 SELECT max(abs(coalesce(prev_ar, 0) + billed_sdr - collected_sdr - ar_sdr)) AS ar_roll_forward_max_diff
 FROM (SELECT ar_sdr, billed_sdr, collected_sdr, lag(ar_sdr) OVER (ORDER BY report_week) AS prev_ar FROM finance.kpi_weekly) k;
+
+\echo '### 19. INVOICE AUDIT VIEWS (migration 015, Agents plan Phase 4)'
+-- expected: 3 | 3 | 0 | 0 | 0 | 0 | 5 | 1 | 1 | 1 | 1 | 1 | 0
+-- live: the 3 reviewed same-vessel, same-day, same-amount pairs (ADR-013 data); test: the 5 planted errors with
+-- their causes, nothing in clean week 49
+SELECT (SELECT count(*) FROM finance.invoice_audit) AS live_findings,
+       (SELECT count(*) FROM finance.invoice_audit WHERE check_code = 'duplicate_charge') AS live_duplicates,
+       (SELECT count(*) FROM finance.invoice_audit WHERE check_code = 'amount_mismatch') AS live_amount,
+       (SELECT count(*) FROM finance.invoice_audit WHERE check_code = 'tonnage_mismatch') AS live_tonnage,
+       (SELECT count(*) FROM finance.invoice_audit WHERE check_code = 'rate_mismatch') AS live_rate,
+       (SELECT count(*) FROM finance.invoice_audit WHERE report_week IS NULL) AS live_outside_weeks,
+       (SELECT count(*) FROM finance_test.invoice_audit) AS test_findings,
+       (SELECT count(*) FROM finance_test.invoice_audit WHERE probable_cause = 'flat_terminal_rate') AS test_flat_rate,
+       (SELECT count(*) FROM finance_test.invoice_audit WHERE probable_cause = 'condition_swapped') AS test_cond_swap,
+       (SELECT count(*) FROM finance_test.invoice_audit WHERE probable_cause = 'sfu_priced_ballast') AS test_sfu,
+       (SELECT count(*) FROM finance_test.invoice_audit WHERE check_code = 'tonnage_mismatch') AS test_tonnage,
+       (SELECT count(*) FROM finance_test.invoice_audit WHERE check_code = 'duplicate_charge') AS test_duplicates,
+       (SELECT count(*) FROM finance_test.invoice_audit WHERE report_week = 49) AS test_week49;
+-- expected t | f | t | t: Power BI reads the live audit only; the tools' role reads both
+SELECT has_table_privilege('finance_bi', 'finance.invoice_audit', 'SELECT') AS bi_live,
+       has_table_privilege('finance_bi', 'finance_test.invoice_audit', 'SELECT') AS bi_test,
+       has_table_privilege('ports_readonly', 'finance.invoice_audit', 'SELECT') AS ro_live,
+       has_table_privilege('ports_readonly', 'finance_test.invoice_audit', 'SELECT') AS ro_test;
 
 \echo '### END'

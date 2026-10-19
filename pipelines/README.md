@@ -45,6 +45,7 @@ notebook's saved outputs.
 | `retrieval/Upload_promotion.py` | retrieval | A (CLI) | promotion requests in `Data/incoming/promotion/` (review / approve / commit); `--selftest` uses a throwaway collection |
 | `agents/LLM_smoke_test.py` | agents | A | nothing tracked (each provider key: live model list + one tool-calling request, through the response cache) |
 | `agents/LLM_bakeoff.py` | agents | phases | `agents/eval/bakeoff_tasks.json` (T1–T4 + LITE + prompts, frozen: `TASKS_SHA256`), `agents/eval/llm_bakeoff_<date>.json` (scores, selection per role); Agents plan §7a |
+| `agents/Tools_check.py` | agents | phases | `agents/tool_cache/` (git-ignored; the live PortWatch week 23): the Stage 1 tools of `pipelines/agents/tools/` each against its source, the audit views (migration 015) against the answer key and a Python auditor, the RBAC matrix (100 × 7), the skills; Agents plan Phase 4 §5a |
 
 The agents scripts (Agents plan, Phase 0) are not in `run.py all` either (free LLM APIs with daily quotas). They use
 `pipelines/agents/llm.py`: the provider registry (Gemini / Groq / OpenRouter), the model factory (LangChain chat
