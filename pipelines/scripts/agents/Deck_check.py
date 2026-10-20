@@ -609,6 +609,37 @@ d23["slide_titles"][0]["title"] = d23["title"]
 run4["slide 1 title = deck title"] = sorted({p.rule for p in v2.validate(d23, EVS[23], 23).problems})
 assert run4 == {"up before |dir": ["V2"], "rose before |dir": ["V2"], "fixed": [],
                 "slide 1 title = deck title": ["V3"]}, run4
+# Phase 7 baseline (Stage1_eval, 2026-10-19, D-P7-9): three right trend sentences refused by the Validator itself —
+# "week 48" read as a typed number (only the run's own week was allowed), and "week 48" not seen as naming the row
+# 2025-W48. Fixed: an integer 1–52 written right after "week" is a week label; "week N" names the trend row 2025-WNN.
+# The right sentences pass; a swapped week and a bare number (not a week) still fail.
+RUN7 = {
+    "trend week literal (test 49)": (49, "Billed revenue moved from {kpi.trend[2025-W48]:billed_sdr|M} in week 48 to "
+                                         "{kpi.trend[2025-W49]:billed_sdr|M} in week 49."),
+    "week named as 'week N' (live 48)": (48, "Billed revenue in week 48 recovered to {kpi.trend[2025-W48]:billed_sdr|M} "
+                                             "compared to {kpi.trend[2025-W47]:billed_sdr|M} in week 2025-W47."),
+    "week N of 2025 (live 24)": (24, "Billed {kpi.trend[2025-W24]:billed_sdr|M} in week 24 of 2025 compared with "
+                                     "{kpi.trend[2025-W23]:billed_sdr|M} in week 23 of 2025 ."),
+    "weeks swapped (must fail)": (49, "Billed revenue moved from {kpi.trend[2025-W49]:billed_sdr|M} in week 48 to "
+                                      "{kpi.trend[2025-W48]:billed_sdr|M} in week 49."),
+    "a bare number (must fail)": (49, "Billed {kpi.trend[2025-W49]:billed_sdr|M} on 48 invoices."),
+}
+run7 = {k: sorted({r for r, _, _ in v2.check_text(t, EVS[w], ["kpi.trend"], w)[1]}) for k, (w, t) in RUN7.items()}
+assert run7 == {"trend week literal (test 49)": [], "week named as 'week N' (live 48)": [],
+                "week N of 2025 (live 24)": [], "weeks swapped (must fail)": ["V7"],
+                "a bare number (must fail)": ["V2"]}, run7
+# candidate c1 (2026-10-20, D-P7-12): context dates written as words ("on November 24") read as typed numbers on
+# slide 9. A day written with an exact month name is a date; a typed transit count still fails; "market 12" is no date.
+RUN7B = {
+    "month-name date": "Suez daily transits recorded {insight.s[2025-03-09]:n_total} transits on March 9.",
+    "day before month": "Transits reached {insight.s[2025-03-03]:n_total} on 3 March.",
+    "typed count (must fail)": "Suez daily transits recorded 99 transits on March 9.",
+    "not a month (must fail)": "Transits reached {insight.s[2025-03-03]:n_total}, a market 12 above the norm.",
+}
+run7b = {k: sorted({r for r, _, _ in v2.check_text(t, {**EVS[10], "insight.s": suez}, ["insight.s"], 10)[1]})
+         for k, t in RUN7B.items()}
+assert run7b == {"month-name date": [], "day before month": [], "typed count (must fail)": ["V2"],
+                 "not a month (must fail)": ["V2"]}, run7b
 print(f"Phase 4: {len(actual)} recorded Phase 5 bullets: {len(actual) - flagged} now bind, {flagged} still wrong "
       f"(no subject; share from the wrong dataset → hint kpi.weekly); 3 recorded Phase 6 failures caught with the "
       f"exact fix in the message, and the 3 fixed texts pass")

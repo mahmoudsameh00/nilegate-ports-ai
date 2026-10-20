@@ -1,0 +1,71 @@
+{
+ "status": "REVIEWED by the owner 2026-10-19 (v1, Agents plan §5d S1): written by the assistant from the views' evidence; frozen by hash (plan Progress). v1.1 (2026-10-19, owner, D-P7-1): t36-b is no longer a planted budget miss. v2 (2026-10-19, S2, assistant while the owner was away — for his review): the test weeks' top-driver findings t10-d / t23-d / t36-d / t49-b from the twin views (migration 017); frozen by hash (plan Progress).",
+ "driver_rule": "owner 2026-10-19: the top driver (largest |billed_wow_change_sdr| of the week) must be named; the 2nd and 3rd are optional (the Validator already refuses a driver outside the top three)",
+ "where": {
+  "table": "drawn by code (slide 8 exceptions, footnotes): present whenever the pack publishes; counted for the D7 planted-error metric",
+  "narrative": "written by the Writer (slide 2 summary or a slide 3-8 comment): a slot of the named evidence / row / field, or the row's name written; counted for narrative finding recall (ADR-052 primary)"
+ },
+ "weeks": {
+  "test:10": [
+   {"id": "t10-a", "kind": "invoice_error", "where": "table", "evidence": "audit.week", "row": "INV-0000626", "note": "planted wrong band rate: billed 58,237.02 vs 81,837.02 (−23,600.00)"},
+   {"id": "t10-b", "kind": "invoice_error", "where": "table", "evidence": "audit.week", "row": "INV-0000498", "note": "planted SCNT digit swap: tonnage mismatch, amount right"},
+   {"id": "t10-c", "kind": "exceptions_named", "where": "narrative", "evidence": "audit.week", "field_any": ["invoices_flagged", "amount_at_stake_sdr"], "note": "the summary says the week has flagged invoices"},
+   {"id": "t10-d", "kind": "driver", "where": "narrative", "evidence": "kpi.category", "row": "Petroleum Product Tankers", "note": "v2: top driver +1.57 M (no previous-week billing); billed of the copy up 17.01 %; a warm-up week (footnote by code)"}
+  ],
+  "test:23": [
+   {"id": "t23-a", "kind": "invoice_error", "where": "table", "evidence": "audit.week", "row": "INV-9000292", "note": "planted duplicate of INV-0000292 (571,503.74)"},
+   {"id": "t23-b", "kind": "invoice_error", "where": "table", "evidence": "audit.week", "row": "INV-0000774", "note": "planted laden / ballast swap (+27,193.05)"},
+   {"id": "t23-c", "kind": "exceptions_named", "where": "narrative", "evidence": "audit.week", "row_or_field": ["INV-9000292", "amount_at_stake_sdr"], "note": "the duplicate (the largest at stake) or the amount at stake in the summary"},
+   {"id": "t23-d", "kind": "driver", "where": "narrative", "evidence": "kpi.category", "row": "Crude Oil Tankers", "note": "v2: top driver +2.69 M; billed of the copy 8.99 M, up 34.81 %, 56.0 % above budget (the planted duplicate inflates it)"}
+  ],
+  "test:36": [
+   {"id": "t36-a", "kind": "invoice_error", "where": "table", "evidence": "audit.week", "row": "INV-0000769", "note": "planted SFU priced as ballast (−64,363.84)"},
+   {"id": "t36-b", "kind": "no_false_miss", "where": "narrative", "evidence": "kpi.category", "row": "Liquefied Natural Gas (LNG) Carriers", "must_not": "LNG called below budget / a budget miss", "note": "D-P7-1 (owner 2026-10-19): the planted budget × 1.5 does not make a miss — LNG stays above budget (+37.63 %, live +106.44 %); not a planted finding any more; calling it a miss = a false alarm"},
+   {"id": "t36-c", "kind": "exceptions_named", "where": "narrative", "evidence": "audit.week", "field_any": ["invoices_flagged", "amount_at_stake_sdr"]},
+   {"id": "t36-d", "kind": "driver", "where": "narrative", "evidence": "kpi.category", "row": "Liquefied Natural Gas (LNG) Carriers", "note": "v2: top driver +1.81 M (no LNG billing the week before); the week is 9.71 % below budget"}
+  ],
+  "test:49": [
+   {"id": "t49-a", "kind": "no_exception", "where": "narrative", "evidence": "audit.week", "must_not": "any invoice named as an error", "note": "clean week: a named invoice error = a false alarm"},
+   {"id": "t49-b", "kind": "driver", "where": "narrative", "evidence": "kpi.category", "row": "Liquefied Natural Gas (LNG) Carriers", "note": "v2: top driver −1.83 M (−100 %); billed down 43.08 %, 31.75 % below budget"}
+  ],
+  "live:5": [
+   {"id": "l05-a", "kind": "billed_change", "where": "narrative", "evidence": "kpi.weekly", "field_any": ["billed_wow_pct", "billed_sdr"], "note": "billed 6.90 M, up 24.03 % WoW"},
+   {"id": "l05-b", "kind": "driver", "where": "narrative", "evidence": "kpi.category", "row": "Liquefied Natural Gas (LNG) Carriers", "note": "top driver +1.89 M (+280.95 %)"},
+   {"id": "l05-c", "kind": "vs_budget", "where": "narrative", "evidence": "kpi.weekly", "field_any": ["budget_variance_sdr", "budget_variance_pct"], "note": "above budget +25.17 %"},
+   {"id": "l05-d", "kind": "warmup_caveat", "where": "table", "evidence": "kpi.weekly", "note": "warm-up footnote (code): DSO 31.0 on a short window"}
+  ],
+  "live:15": [
+   {"id": "l15-a", "kind": "duplicate", "where": "table", "evidence": "audit.week", "row": "INV-0000925", "note": "real duplicate of INV-0000491 (73,950.26)"},
+   {"id": "l15-b", "kind": "duplicate_named", "where": "narrative", "evidence": "audit.week", "row_or_field": ["INV-0000925", "amount_at_stake_sdr"], "note": "the duplicate inflates billed / collected (Phase 4 finding (d))"},
+   {"id": "l15-c", "kind": "vs_budget", "where": "narrative", "evidence": "kpi.weekly", "field_any": ["budget_variance_sdr", "budget_variance_pct"], "note": "below budget −32.99 %"},
+   {"id": "l15-d", "kind": "driver", "where": "narrative", "evidence": "kpi.category", "row": "Vehicles Carriers", "note": "top driver −878,663.23 (−100 %)"}
+  ],
+  "live:16": [
+   {"id": "l16-a", "kind": "billed_change", "where": "narrative", "evidence": "kpi.weekly", "field_any": ["billed_wow_pct", "billed_sdr"], "note": "trough: 2.93 M, down 22.1 %"},
+   {"id": "l16-b", "kind": "vs_budget", "where": "narrative", "evidence": "kpi.weekly", "field_any": ["budget_variance_sdr", "budget_variance_pct"], "note": "below budget −47.96 %"},
+   {"id": "l16-c", "kind": "driver", "where": "narrative", "evidence": "kpi.category", "row": "Liquefied Natural Gas (LNG) Carriers", "note": "top driver −853,102.36 (−54.3 %)"},
+   {"id": "l16-d", "kind": "collections", "where": "narrative", "evidence": "kpi.weekly", "field_any": ["collected_wow_pct", "collected_sdr"], "note": "collections down 25.64 %"}
+  ],
+  "live:24": [
+   {"id": "l24-a", "kind": "billed_change", "where": "narrative", "evidence": "kpi.weekly", "field_any": ["billed_wow_pct", "billed_sdr"], "note": "billed down 33.48 %"},
+   {"id": "l24-b", "kind": "driver", "where": "narrative", "evidence": "kpi.category", "row": "Crude Oil Tankers", "note": "top driver −1.28 M (−60.44 %)"},
+   {"id": "l24-c", "kind": "suez_context", "where": "narrative", "evidence": "insight.*", "tool": "suez_transits", "note": "context slide cites Suez transits for the week (they rose 17.08 % WoW while billing fell)"}
+  ],
+  "live:41": [
+   {"id": "l41-a", "kind": "flat_week", "where": "narrative", "evidence": "kpi.weekly", "field_any": ["billed_wow_pct"], "must_not": "a direction word stronger than flat for billed", "note": "quiet: billed −0.33 % — no 'surge' / 'drop' for billed"},
+   {"id": "l41-b", "kind": "collections", "where": "narrative", "evidence": "kpi.weekly", "field_any": ["collected_wow_pct", "collected_sdr"], "note": "the week's real move: collections down 41.27 %"},
+   {"id": "l41-c", "kind": "driver", "where": "narrative", "evidence": "kpi.category", "row_any": ["Cruise Ships", "Containerships"], "note": "offsetting drivers: Cruise −1.08 M, Containerships +774,217.71"}
+  ],
+  "live:47": [
+   {"id": "l47-a", "kind": "vs_budget", "where": "narrative", "evidence": "kpi.weekly", "field_any": ["budget_variance_sdr", "budget_variance_pct"], "note": "the largest live budget miss: −47.01 %"},
+   {"id": "l47-b", "kind": "billed_change", "where": "narrative", "evidence": "kpi.weekly", "field_any": ["billed_wow_pct", "billed_sdr"], "note": "billed down 15.54 %"},
+   {"id": "l47-c", "kind": "driver", "where": "narrative", "evidence": "kpi.category", "row": "Petroleum Product Tankers", "note": "top driver −870,455.54 (−100 %)"}
+  ],
+  "live:48": [
+   {"id": "l48-a", "kind": "billed_change", "where": "narrative", "evidence": "kpi.weekly", "field_any": ["billed_wow_pct", "billed_sdr"], "note": "peak: 7.13 M, up 122.23 %"},
+   {"id": "l48-b", "kind": "driver", "where": "narrative", "evidence": "kpi.category", "row": "Liquefied Natural Gas (LNG) Carriers", "note": "top driver +1.83 M"},
+   {"id": "l48-c", "kind": "vs_budget", "where": "narrative", "evidence": "kpi.weekly", "field_any": ["budget_variance_sdr", "budget_variance_pct"], "note": "above budget +18.82 %"}
+  ]
+ },
+ "false_alarm_rule": "a false alarm = an invoice named as an error / duplicate in a narrative that is not a finding of its week, or a category said to be below budget whose budget_variance_sdr is ≥ 0"
+}

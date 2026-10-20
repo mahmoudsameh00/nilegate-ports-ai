@@ -43,6 +43,9 @@ DATASETS = {
         "budget_sdr", "budget_variance_sdr", "budget_variance_pct", "top10_share_13w_pct"), "trend_week"),
 }
 RANKED = {"customers", "overdue"}
+# the evaluation copy (run context dataset "test", set by the harness only; migration 017): billed and budget come
+# from finance_test; the other datasets stay on the live views (the copy has no payments or customers of its own)
+TEST_VIEWS = {"weekly": "finance_test.kpi_weekly", "category": "finance_test.kpi_weekly_category"}
 
 
 class KpiArgs(BaseModel):
@@ -55,11 +58,17 @@ class KpiArgs(BaseModel):
     limit: int = Field(default=10, ge=1, le=50, description="rows of the ranked lists (customers, overdue)")
 
 
-def finance_kpi(user, **args) -> ToolResult:
+def finance_kpi(user, source: str = "live", **args) -> ToolResult:
+    """`source` = the run context's dataset (live / test), never a model argument (ADR-049)."""
     a = KpiArgs.model_validate(args)
-    if not context.permitted(user, context.FINANCE_VIEWS):
+    if source not in ("live", "test"):
+        raise ValueError(f"unknown source {source!r}")
+    resources = (context.FINANCE_VIEWS,) + ((context.FINANCE_TEST,) if source == "test" else ())
+    if not context.permitted(user, *resources):
         return context.denied("finance_kpi")
     view, cols, order = DATASETS[a.dataset]
+    if source == "test":
+        view = TEST_VIEWS.get(a.dataset, view)
     sql = f"SELECT {', '.join(cols)} FROM {view} WHERE report_week = %s ORDER BY {order}"
     flt = f"report_week = {a.report_week}"
     params: tuple = (a.report_week,)
@@ -77,6 +86,10 @@ def finance_kpi(user, **args) -> ToolResult:
     if a.dataset == "weekly" and rows[0]["is_warmup"]:
         notes.append(f"warm-up week: receivables still building up since 2025-01-01, DSO on a "
                      f"{rows[0]['dso_window_days']}-day window instead of 91")
+    if source == "test":
+        notes.append("evaluation copy: billed and budget from finance_test; receivables, collections and the "
+                     "previous week from the live views" if a.dataset in TEST_VIEWS
+                     else "live data: the evaluation copy has no customers, payments or trend of its own")
     return ToolResult(tool="finance_kpi", status="ok", rows=rows, note="; ".join(notes) or None,
                       source=Source(kind="view", name=view, filter=flt))
 
@@ -85,4 +98,4 @@ def finance_kpi(user, **args) -> ToolResult:
 def finance_kpi_tool(runtime: ToolRuntime, **args) -> dict:
     """NileGate's weekly finance KPIs (SDR) for one report week of 2025, from the governed finance views — the same
     numbers as the Power BI dashboard. Choose one dataset per call."""
-    return finance_kpi(context.user_of(runtime), **args).model_dump(mode="json")
+    return finance_kpi(context.user_of(runtime), source=context.dataset_of(runtime), **args).model_dump(mode="json")

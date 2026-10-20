@@ -28,7 +28,9 @@ MINUS = "−"                                            # U+2212, the deck's mi
 # a result's row key: the field(s) a slot names in [...] to pick one row of a list; "/" joins the parts
 ROW_KEYS_BY_VIEW = {"finance.kpi_weekly": (), "finance.kpi_weekly_category": ("vessel_category",),
                     "finance.kpi_customer_13w": ("customer_name",), "finance.kpi_overdue_list": ("invoice_number",),
-                    "finance.kpi_weekly_trend": ("trend_week_label",)}
+                    "finance.kpi_weekly_trend": ("trend_week_label",),
+                    # the evaluation copy's twins (migration 017, Phase 7): same rows, same keys
+                    "finance_test.kpi_weekly": (), "finance_test.kpi_weekly_category": ("vessel_category",)}
 ROW_KEYS_BY_TOOL = {"invoice_audit": ("invoice_number", "check_code"), "suez_transits": ("date",),
                     "compute_toll": ()}
 # result-level fields (not in a row), e.g. the audit totals and the mean daily Suez transits
@@ -114,9 +116,13 @@ def _magnitude(kind: str, fmt: str, v: Decimal, value) -> str:
     return f"{v:,f}"                                     # number: as returned (the decimals the tool gave)
 
 
-def format_value(field: str, value, fmt: str | None = None, direction: bool = False) -> str:
+DIR_WORDS = {"en": ("up", "down", "unchanged"),
+             "ar": ("ارتفع", "انخفض", "بدون تغيير")}         # Phase 7: answers in Egyptian Arabic (§8a G2)
+
+
+def format_value(field: str, value, fmt: str | None = None, direction: bool = False, lang: str = "en") -> str:
     """The text of one value. None → "n/a" (deck-style-guide: WoW not available). Changes carry "+" / "−", or with
-    `direction` "up …" / "down …" / "unchanged"; other values keep their own sign."""
+    `direction` "up …" / "down …" / "unchanged" (`lang="ar"`: the Arabic words); other values keep their own sign."""
     if value is None:
         return "n/a"
     kind = field_kind(field, value)
@@ -130,7 +136,8 @@ def format_value(field: str, value, fmt: str | None = None, direction: bool = Fa
     if direction:
         if not is_change(field):
             raise ValueError(f"|dir only on a change field (wow, change, variance, difference), not {field}")
-        return "unchanged" if v == 0 else f"{'up' if v > 0 else 'down'} {text}"
+        up, down, same = DIR_WORDS[lang]
+        return same if v == 0 else f"{up if v > 0 else down} {text}"
     if v < 0:
         return MINUS + text
     return ("+" + text) if (v > 0 and is_change(field)) else text
@@ -208,7 +215,7 @@ def locate(slot: Slot, evidence: dict) -> tuple[int | None, object]:
     return row_i, value
 
 
-def resolve(slot: Slot, evidence: dict) -> Bound:
+def resolve(slot: Slot, evidence: dict, lang: str = "en") -> Bound:
     """The value a slot names, formatted; SlotError with the fix otherwise (a null is refused: the Writer says
     'not available' in words)."""
     raw = slot.raw
@@ -225,7 +232,7 @@ def resolve(slot: Slot, evidence: dict) -> Bound:
                              f"{' or '.join(FORMATS[kind])}")
     if slot.direction and not is_change(slot.field):
         raise SlotError(raw, f"|dir only on a change field (wow, change, variance, difference), not {slot.field}")
-    return Bound(slot, row_i, value, kind, fmt, format_value(slot.field, value, fmt, slot.direction))
+    return Bound(slot, row_i, value, kind, fmt, format_value(slot.field, value, fmt, slot.direction, lang))
 
 
 def binding(eid: str, field: str, fmt: str | None = None, row: str | None = None, direction: bool = False) -> str:
@@ -243,14 +250,14 @@ def bound_text(slot_text: str, evidence: dict) -> str:
     return format_value(s[0].field, value, s[0].fmt, s[0].direction)
 
 
-def render_text(text: str, evidence: dict) -> tuple[str, list[Bound], list[SlotError]]:
+def render_text(text: str, evidence: dict, lang: str = "en") -> tuple[str, list[Bound], list[SlotError]]:
     """Fill every slot of `text`. A slot that fails stays as written (and is reported); a brace left outside a slot
     is a malformed slot."""
     out, bound, errors, pos = [], [], [], 0
     for s in find_slots(text):
         out.append(text[pos:s.start])
         try:
-            b = resolve(s, evidence)
+            b = resolve(s, evidence, lang)
             bound.append(b)
             out.append(b.text)
         except SlotError as exc:

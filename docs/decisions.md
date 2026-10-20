@@ -807,6 +807,72 @@ Never delete an entry; supersede it with a new one. Sources for older entries ar
   (owner's time; it can replace `style.py` later), whole-deck rewrites (tokens, regressions of right bullets), more
   rewrites (§3 keeps two).
 
+## ADR-052 — Acceptance rule for a change to the agents (prompt, model, skill)
+- **Status:** Accepted (2026-10-19, owner: §8a G6 "margin 0.03 + two runs", Agents plan §5d). Written in Phase 7
+  step S1, **before** the first comparison, like ADR-040's rule before RAG Phase 7.
+- **Context:** The Stage 1 agents are about to be measured on golden weeks and finance Q&A golden questions (§5d).
+  Later changes (a prompt line, a model swap after a free-tier change, a skill edit) need a rule fixed in advance, so
+  a change is not kept because one lucky run looked better: the same prompt published 3 / 4 / 3 weeks in Phase 6's
+  runs 2 / 4 / 5 (model variance).
+- **Decision:**
+  - **Runs:** baseline and candidate each run **twice** on the full evaluation (golden weeks + Q&A, EN and AR); the
+    second run uses a run salt in the reply-cache key, so it is a fresh call, not a cache hit.
+  - **Hard gates (every run of the candidate):** deck numbers 100 %; planted findings 5 / 5 (D7 ≥ 95 %; the 5 planted
+    invoice errors — the planted budget miss turned out not to be a miss, plan D-P7-1, same day); false alarms
+    ≤ 5 %; claim accuracy (G1) 100 %; traceability 100 %; RBAC leakage 0; abstention recall 100 %. One failure =
+    the change is rejected.
+  - **Primaries:** narrative finding recall on the golden weeks; Q&A completeness in English and in Arabic (G4). The
+    candidate is kept only if no primary's mean over its two runs falls by more than **0.03** below the baseline's
+    mean over its two runs.
+  - **Ties** (no primary moves by more than 0.03 either way) keep the simpler / cheaper setup (fewer calls or tokens,
+    fewer prompt lines, a model with more free quota). Cost, latency, rewrites and style notes are reported, never
+    deciding.
+  - The first full Phase 7 run is the baseline (`Data/processed/agents/eval/stage1_eval_<date>.json`); a kept change's
+    results become the next baseline.
+  - **Reading when the baseline itself fails a gate** (2026-10-20, plan D-P7-10, assistant while the owner was away —
+    for his review): a gate the baseline already fails may stay failed or improve; a gate it passes must still pass
+    in both candidate runs ("no hard gate regresses", §8a G6's wording). D7 is met only when every gate passes.
+    Coded as `adr052()` in `Stage1_eval.py`.
+- **First use (2026-10-20):** candidate c1 (Validator false-alarm fixes D-P7-9 + Q&A prompt lines D-P7-10) vs the
+  baseline: no gate regressed, planted 1–2 / 5 → 5 / 5, narrative recall +0.10, Q&A EN +0.02 → **kept**; c1 is the
+  baseline (`stage1_eval_2026-10-20_c1.json`). One comparison costs one provider day of flash-lite's 500 free
+  requests (ADR-053).
+
+## ADR-053 — Stage 1 evaluation: golden weeks, a finance Q&A agent, twin KPI views of the evaluation copy
+- **Status:** Accepted (2026-10-20, Agents plan Phase 7 closed by the owner with D7 not met: "close Phase 7 and keep
+  C2 for later"). §5d (P7-1…P7-4), §8a G1–G6 reviewed, deviations D-P7-1…D-P7-12 in the plan's Progress.
+- **Context:** Phases 4–6 had tested each piece (tools, workflow, Validator) but not what the agents say on chosen
+  weeks, nor answers to finance questions; the planted budget miss of `finance_test` had no view; there was no Q&A
+  agent; the free quota of the main model was unknown.
+- **Decision:**
+  - **Golden weeks by rule, frozen before any run** (`Golden_weeks.py`): the 4 test weeks + 7 live weeks (warm-up,
+    peak, quiet, trough, live budget miss, a real duplicate, the largest Suez move); seen / unseen reported apart;
+    expected evidence = the pack's own tool calls; 38 expected findings written by hand, each with where it must
+    appear (a code table or the Writer's narrative).
+  - **Twin KPI views** `finance_test.kpi_weekly` / `kpi_weekly_category` (migration 017): a test run reads the copy's
+    billed and budget, the live receivables; `finance_kpi(source=…)` from the run context only.
+  - **A small finance Q&A agent** (`graphs/finance_qa.py`, skill `finance-qa`): tool loop on the `tools` role →
+    `QaAnswer` with number slots → a code check → one patch; English and Egyptian Arabic. It grows into the
+    Supervisor at Phase 12.
+  - **Golden Q&A** (`Qa_golden.py`): 30 EN (22 answerable + a CEO control, 4 abstentions, 3 refusals) + 10 Egyptian
+    Arabic; expected values from the tools; deterministic scoring (G4), no LLM judge.
+  - **Harness** `Stage1_eval.py`: scorers proven on hand-made failures first; D7 + §8a gates; two runs per setup on
+    fresh caches (ADR-052); a run stops when a main model's daily quota is gone (no mixed models).
+- **Consequences:** the planted budget miss was found **not to be a miss** (D-P7-1: the budget of the week's top
+  category × 1.5 left it above budget) — planted findings = the 5 invoice errors. `gemini-3.5-flash-lite`'s free tier
+  = **500 requests / day** → one full evaluation (≈ 380–400 calls) per provider day. Real runs found five Validator
+  false alarms (week labels, "week N" rows, month-name dates), now Deck_check cases. **Result (c1, the baseline):
+  D7 not met** — deck numbers 100 %, planted 5 / 5, false alarms 0, claims 100 %, RBAC leakage 0, Q&A EN 0.96 / AR
+  1.0; misses: abstention 0.86 (a refusal answered with the wrong status, no leak), traceability 0.996 in one run,
+  publish rate 10 / 11 and 6 / 11 (real Writer errors the Validator caught: model variance). Owner: Phase 7 closed
+  with these misses; candidate c2 (D-P7-12) is carried. Rejected: an LLM judge (G4), picking golden weeks by hand,
+  rewriting the evaluation copy (generator and migration 012 stay as applied), letting a run continue on the fallback
+  model after the main model's quota ran out.
+- **Consequences:** a comparison costs four full evaluations (≈ 4 × 400 model calls on today's sizes, §5d quota), so
+  it may span days on the free tiers (every reply cached, runs resume). The rule cannot reward a gain that breaks a
+  gate. Rejected: one run each (variance decides), three runs each (quota), a zero margin (noise would block every
+  change), an LLM judge as a primary (§8a G4: deferred).
+
 ---
 
 ## Dropped (history)

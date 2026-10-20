@@ -282,4 +282,32 @@ WHERE c.relkind IN ('r', 'v')
   AND c.relnamespace IN ('agent_state'::regnamespace, 'public'::regnamespace, 'finance'::regnamespace,
                          'finance_test'::regnamespace);
 
+\echo '### 21. TWIN KPI VIEWS OF THE EVALUATION COPY (migration 017, Agents plan Phase 7)'
+-- expected: 52 | 4 | 0 | 0 | 1 | -23600.00 | 598696.79 | -64363.84
+-- category rows (4 weeks x 13) | weekly rows | clean week 49 differing from the live views (billed, budget) | other
+-- columns differing from live | budget rows changed (week 36 LNG, the planted x 1.5) | billed test - live of weeks
+-- 10 / 23 / 36 (the planted errors: wrong rate; duplicate + laden / ballast swap; SFU priced ballast)
+SELECT (SELECT count(*) FROM finance_test.kpi_weekly_category) AS category_rows,
+       (SELECT count(*) FROM finance_test.kpi_weekly) AS weekly_rows,
+       (SELECT count(*) FROM finance_test.kpi_weekly t JOIN finance.kpi_weekly l USING (report_week)
+        WHERE t.report_week = 49 AND (t.billed_sdr, t.budget_sdr, t.billed_wow_pct)
+                                 IS DISTINCT FROM (l.billed_sdr, l.budget_sdr, l.billed_wow_pct)) AS week49_diff,
+       (SELECT count(*) FROM finance_test.kpi_weekly t JOIN finance.kpi_weekly l USING (report_week)
+        WHERE (t.ar_sdr, t.overdue_sdr, t.collected_sdr, t.dso_days, t.top10_share_13w_pct)
+              IS DISTINCT FROM (l.ar_sdr, l.overdue_sdr, l.collected_sdr, l.dso_days, l.top10_share_13w_pct)) AS live_cols_diff,
+       (SELECT count(*) FROM finance_test.kpi_weekly_category t
+        JOIN finance.kpi_weekly_category l USING (report_week, vessel_category)
+        WHERE t.budget_sdr <> l.budget_sdr) AS budget_rows_changed,
+       (SELECT t.billed_sdr - l.billed_sdr FROM finance_test.kpi_weekly t JOIN finance.kpi_weekly l USING (report_week)
+        WHERE report_week = 10) AS w10_billed_diff,
+       (SELECT t.billed_sdr - l.billed_sdr FROM finance_test.kpi_weekly t JOIN finance.kpi_weekly l USING (report_week)
+        WHERE report_week = 23) AS w23_billed_diff,
+       (SELECT t.billed_sdr - l.billed_sdr FROM finance_test.kpi_weekly t JOIN finance.kpi_weekly l USING (report_week)
+        WHERE report_week = 36) AS w36_billed_diff;
+-- expected f | f | t | t: Power BI never sees the copy; the tools' read-only role reads both twins
+SELECT has_table_privilege('finance_bi', 'finance_test.kpi_weekly', 'SELECT') AS bi_weekly,
+       has_table_privilege('finance_bi', 'finance_test.kpi_weekly_category', 'SELECT') AS bi_category,
+       has_table_privilege('ports_readonly', 'finance_test.kpi_weekly', 'SELECT') AS ro_weekly,
+       has_table_privilege('ports_readonly', 'finance_test.kpi_weekly_category', 'SELECT') AS ro_category;
+
 \echo '### END'

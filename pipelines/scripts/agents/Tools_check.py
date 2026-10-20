@@ -282,6 +282,97 @@ print(f"Phase 3: {actual} ({rows_compared} rows compared)")
 print("✅ Phase 3 validation passed: finance_kpi = its views on 52 weeks × 5 datasets, = the hand-checked weeks "
       "5 / 16 / 23 / 49, Σ categories = billed, drivers first, bad arguments refused")
 
+# %% Phase 3b — finance_kpi on the evaluation copy (Agents plan Phase 7 S2, migration 017)
+# A test run (dataset "test", set by the evaluation harness only) reads the twin views: billed and budget from
+# finance_test, the rest live. Recomputed here independently in Python (Decimal, half away from zero like
+# PostgreSQL's round) from the copy's tables, the live invoices (the previous week) and the live KPI row — not from
+# the views. A week the copy does not hold has no weekly data; customers stay live with a note; the LangChain wrapper
+# takes the source from the run context.
+from datetime import date, timedelta  # noqa: E402
+from decimal import ROUND_HALF_UP  # noqa: E402
+
+
+def exact(sql: str, params: tuple = ()) -> list[tuple]:
+    return ref_conn.execute(sql, params).fetchall()
+
+
+def q2(x: Decimal) -> float:
+    return float(x.quantize(Decimal("0.01"), rounding=ROUND_HALF_UP))
+
+
+def pct(a: Decimal, b: Decimal):
+    return None if not b else q2(100 * (a - b) / b)
+
+
+TEST_KPI_WEEKS = [10, 23, 36, 49]
+copy_inv = exact("SELECT i.invoice_date, i.billed_sdr, v.vessel_type FROM finance_test.invoices i "
+                 "JOIN public.vessels v ON v.vessel_id = i.vessel_id")
+live_inv = exact("SELECT i.invoice_date, i.amount, v.vessel_type FROM public.invoices i "
+                 "JOIN public.vessels v ON v.vessel_id = i.vessel_id")
+copy_budget = exact("SELECT iso_week, vessel_category, budget_sdr FROM finance_test.budget_weekly "
+                    "WHERE budget_year = 2025")
+assert sorted({r[0] for r in copy_budget}) == TEST_KPI_WEEKS
+
+
+def billed_by_cat(rows, start: date) -> dict[str, tuple[int, Decimal]]:
+    out: dict[str, tuple[int, Decimal]] = {}
+    for d, amt, cat in rows:
+        if start <= d <= start + timedelta(days=6):
+            n, s = out.get(cat, (0, Decimal(0)))
+            out[cat] = (n + 1, s + amt)
+    return out
+
+
+twin_off, twin_rows = [], 0
+LIVE_COPIED = [c for c in finance.DATASETS["weekly"][1] if c not in (
+    "invoices_billed", "billed_sdr", "budget_sdr", "budget_variance_sdr", "budget_variance_pct", "billed_wow_pct")]
+for w in TEST_KPI_WEEKS:
+    start = date(2024, 12, 30) + timedelta(days=7 * (w - 1))
+    cur, prev = billed_by_cat(copy_inv, start), billed_by_cat(live_inv, start - timedelta(days=7))
+    budget = {c: b for wk, c, b in copy_budget if wk == w}
+    ref_cat = {}
+    for c, bu in budget.items():
+        n, b = cur.get(c, (0, Decimal(0)))
+        p = prev.get(c, (0, Decimal(0)))[1]
+        ref_cat[c] = {"report_week": w, "vessel_category": c, "invoices_billed": n, "billed_sdr": q2(b),
+                      "budget_sdr": q2(bu), "budget_variance_sdr": q2(b - bu), "budget_variance_pct": pct(b, bu),
+                      "billed_prev_sdr": q2(p), "billed_wow_change_sdr": q2(b - p), "billed_wow_pct": pct(b, p)}
+    got_cat = finance.finance_kpi(finance_emp, source="test", report_week=w, dataset="category")
+    twin_rows += len(ref_cat)
+    if got_cat.status != "ok" or {r["vessel_category"]: r for r in got_cat.rows} != ref_cat:
+        twin_off.append((w, "category"))
+    b_all = sum((s for _, s in cur.values()), Decimal(0))
+    p_all = sum((s for _, s in prev.values()), Decimal(0))
+    bu_all = sum(budget.values(), Decimal(0))
+    live_row = finance.finance_kpi(finance_emp, report_week=w, dataset="weekly").rows[0]
+    ref_wk = {**{c: live_row[c] for c in LIVE_COPIED}, "invoices_billed": sum(n for n, _ in cur.values()),
+              "billed_sdr": q2(b_all), "budget_sdr": q2(bu_all), "budget_variance_sdr": q2(b_all - bu_all),
+              "budget_variance_pct": pct(b_all, bu_all), "billed_wow_pct": pct(b_all, p_all)}
+    got_wk = finance.finance_kpi(finance_emp, source="test", report_week=w, dataset="weekly")
+    twin_rows += 1
+    if got_wk.status != "ok" or got_wk.rows[0] != ref_wk:
+        twin_off.append((w, "weekly"))
+
+outside = finance.finance_kpi(finance_emp, source="test", report_week=5, dataset="weekly")
+test_customers = finance.finance_kpi(finance_emp, source="test", report_week=23, dataset="customers")
+live_customers = finance.finance_kpi(finance_emp, report_week=23, dataset="customers")
+test_rt = _Runtime(context.RunContext(finance_emp, "test"))
+wrapped_test = finance.finance_kpi_tool.invoke({"report_week": 36, "dataset": "category", "runtime": test_rt})
+lng36 = next(r for r in wrapped_test["rows"] if r["vessel_category"].startswith("Liquefied Natural"))
+ops_emp = next(u for u in users.values() if u.department == "Operations" and u.role == "employee")
+actual = {"twin_rows_equal": twin_rows - len(twin_off), "twin_off": twin_off, "outside_week": outside.status,
+          "customers_live": test_customers.rows == live_customers.rows,
+          "customers_note": "live data" in (test_customers.note or ""),
+          "wrapper_view": wrapped_test["source"]["name"], "lng36_budget_variance_pct": lng36["budget_variance_pct"],
+          "ops_denied": finance.finance_kpi(ops_emp, source="test", report_week=36, dataset="weekly").status}
+expected = {"twin_rows_equal": 4 * 13 + 4, "twin_off": [], "outside_week": "no_data", "customers_live": True,
+            "customers_note": True, "wrapper_view": "finance_test.kpi_weekly_category",
+            "lng36_budget_variance_pct": 37.63, "ops_denied": "not_permitted"}
+assert actual == expected, actual
+print(f"Phase 3b: {actual}")
+print("✅ Phase 3b validation passed: finance_kpi on the evaluation copy = an independent recompute (4 weeks × 13 "
+      "categories + 4 weekly rows), live columns kept, other weeks no data, customers live, source from the run context")
+
 # %% Phase 4 — invoice_audit (S4–S5, migration 015)
 # The audit views (migration 015) must (a) find every planted error of the answer key with the right check and cause
 # and nothing else in the evaluation copy (week 49 is clean: false alarms 0), (b) find exactly the reviewed findings in
@@ -726,8 +817,8 @@ import re  # noqa: E402
 from pipelines.agents import skill_loader  # noqa: E402
 
 skills = skill_loader.catalog()
-STAGE1_SKILLS = ["deck-style-guide", "finance-kpi-definitions", "number-validation", "suez-toll-audit",
-                 "untrusted-content", "weekly-variance-analysis"]
+STAGE1_SKILLS = ["deck-style-guide", "finance-kpi-definitions", "finance-qa", "number-validation", "suez-toll-audit",
+                 "untrusted-content", "weekly-variance-analysis"]           # finance-qa: Agents plan Phase 7 (S4)
 
 broken_dir = Path(tempfile.mkdtemp(prefix="skills_check_"))
 GOOD = "---\nname: {n}\ndescription: A valid description of twenty chars or more.\nstage: 1\nreviewed_by_owner: no\n---\nBody.\n"
@@ -757,12 +848,17 @@ AUDIT_TERMS = {"duplicate_charge", "tonnage_mismatch", "amount_mismatch", "rate_
 # name and a fact contradicted across two skills had slipped in): view columns, datasets, tool names, result and
 # argument fields, statuses, audit check codes and causes
 from pipelines.agents.tools.schemas import Status  # noqa: E402
+from pipelines.agents.graphs.models import QaAnswer  # noqa: E402
+from pipelines.agents.deck.slots import FORMATS  # noqa: E402
 
 known_names = ({c for _, cols, _ in finance.DATASETS.values() for c in cols} | set(finance.DATASETS)
                | set(registry.STAGE1) | {"finance"} | set(audit.COLUMNS) | set(ToolResult.model_fields)
                | set(Source.model_fields) | set(audit.AuditResult.model_fields)
                | set(external.TransitResult.model_fields) | set(Status.__args__) | AUDIT_TERMS | set(trust.ROW_FIELDS)
-               | {f for t in registry.STAGE1_TOOLS for f in t.tool_call_schema.model_json_schema()["properties"]})
+               | {f for t in registry.STAGE1_TOOLS for f in t.tool_call_schema.model_json_schema()["properties"]}
+               # the Q&A answer (Phase 7): QaAnswer fields and statuses, the slot formats
+               | set(QaAnswer.model_fields) | set(QaAnswer.model_fields["status"].annotation.__args__)
+               | {f for fs in FORMATS.values() for f in fs})
 unknown_fields = {n: u for n, s in skills.items()
                   if (u := sorted(t for t in set(re.findall(r"`([a-z0-9_*]+)`", s.body))
                                   if not any(re.fullmatch(t.replace("*", ".*"), c) for c in known_names)))}
@@ -800,11 +896,12 @@ actual = {"skills": sorted(skills), "refused_broken": sorted(refused), "unknown_
           "within_budget": all(d <= skill_loader.DESCRIPTION_MAX and t <= skill_loader.BODY_MAX_TOKENS
                                for d, t in budget.values())}
 expected = {"skills": STAGE1_SKILLS, "refused_broken": sorted(BROKEN), "unknown_names": {},
-            "wrong_budget_fact": [], "rounding_examples": (2, []), "audit_terms_missing": [], "description_lines": 6, "load_skill_ok": True, "load_skill_unknown": True,
+            "wrong_budget_fact": [], "rounding_examples": (2, []), "audit_terms_missing": [], "description_lines": 7,
+            "load_skill_ok": True, "load_skill_unknown": True,
             "within_budget": True}
 assert actual == expected, actual
 print(f"Phase 8: {actual}; (description chars, body tokens): {budget}; reviewed by the owner: {reviewed or 'none'}")
-print("✅ Phase 8 validation passed: 6 skills parse within budget, 6 broken skills refused, loader + load_skill "
+print("✅ Phase 8 validation passed: 7 skills parse within budget, 6 broken skills refused, loader + load_skill "
       "serve them, the skills name only real fields, checks and findings")
 
 # %% Final Checkpoint

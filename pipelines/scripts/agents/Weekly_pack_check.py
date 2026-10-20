@@ -269,7 +269,7 @@ _threads = iter(range(1, 10_000))
 def run(user, week, dataset="live", g=None, until=None, sc=None):
     """Start one run on a fresh thread: (visited nodes, state values, config). `until` = interrupt before a node."""
     g, sc = g or graph, sc or script
-    sc.set_week(week, {**wp.kpi_evidence(fin_mgr, week), **wp.audit_evidence(fin_mgr, week, dataset)})
+    sc.set_week(week, {**wp.kpi_evidence(fin_mgr, week, dataset), **wp.audit_evidence(fin_mgr, week, dataset)})
     cfg = {"configurable": {"thread_id": f"weekly_pack:{dataset}:2025-W{week:02d}:{next(_threads)}"}}
     visited = _stream(g, {"report_week": week}, cfg, context.RunContext(user, dataset), until)
     return visited, g.get_state(cfg).values, cfg
@@ -660,15 +660,17 @@ if RUN_REAL:
     # turned three Validator false alarms, two unhelpful messages and three missed defects ("SDR SDR", "up up", the
     # draft label on slide 1) into Deck_check Phase 4 cases. Cached: a re-run makes 0 model calls. The published
     # decks are copied to Notebooks/_scratch/ for the owner's look.
+    # Phase 7 (2026-10-20, D-P7-9 / D-P7-12): with the Validator's week-label and month-date fixes, week 23's patch
+    # messages changed, so its second patch went to the model again (2 fresh calls, once) and the deck published: 4 / 4.
     reviewed = {w: (r["status"], r["fresh_calls"], r["fallbacks"]) for w, r in real.items()}
-    assert reviewed == {5: ("published", 0, 0), 10: ("published", 0, 0), 23: ("validation_failed", 0, 0),
+    assert reviewed == {5: ("published", 0, 0), 10: ("published", 0, 0), 23: ("published", 0, 0),
                         49: ("published", 0, 0)}, reviewed
-    for w in (5, 10, 49):
+    for w in (5, 10, 23, 49):
         deck = REPORTS / "real" / f"2025-W{w:02d}" / "deck.pptx"
         assert deck.is_file(), deck
         (ROOT / "Notebooks" / "_scratch" / f"deck_real_2025-W{w:02d}.pptx").write_bytes(deck.read_bytes())
-    print("✅ Phase 5 validation passed: real models on weeks 5 / 10 / 23 / 49 — 3 / 4 published with their deck.pptx "
-          "(V1–V8 passed), week 23 stopped on a real Writer error the Validator caught; every LLM call within its "
+    print("✅ Phase 5 validation passed: real models on weeks 5 / 10 / 23 / 49 — 4 / 4 published with their deck.pptx "
+          "(V1–V8 passed; week 23 since the Phase 7 Validator fixes); every LLM call within its "
           f"provider's per-minute token limit (max {max(r['max_total_tokens'] for r in real.values()):,}), 0 model "
           "calls on a re-run")
     DONE.append(5)
@@ -692,15 +694,21 @@ for dataset in ("live", "test"):
     g = wp.build_graph(roles.FakeRoles(sc), InMemorySaver(), REPORTS / f"ds_{dataset}")
     _, st, _ = run(fin_mgr, 10, dataset=dataset, g=g, sc=sc)
     ds[dataset] = (st["evidence"]["audit.week"]["source"]["name"], st["evidence"]["insight.aud_10"]["source"]["name"],
-                   st["evidence"]["audit.week"]["invoices_flagged"])
+                   st["evidence"]["audit.week"]["invoices_flagged"],
+                   # Phase 7 (migration 017): the KPI node reads the twins in a test run; customers stay live
+                   st["evidence"]["kpi.weekly"]["source"]["name"], st["evidence"]["kpi.category"]["source"]["name"],
+                   st["evidence"]["kpi.customers"]["source"]["name"])
 caps = [wp._cap_search(AIMessage(content="", tool_calls=[{"name": "search_documents", "args": a, "id": "s"}]))
         .tool_calls[0]["args"].get("k") for a in ({"query": "q", "k": 8}, {"query": "q"}, {"query": "q", "k": 2})]
 actual = {"leaky_fields": {n: f for n, f in leaky.items() if f}, "tools": sorted(schema_fields), "dataset": ds,
           "search_k": caps}
 expected = {"leaky_fields": {}, "tools": ["compute_toll", "finance_kpi", "invoice_audit", "search_documents",
                                           "suez_transits", "web_search"],
-            "dataset": {"live": ("finance.invoice_audit", "finance.invoice_audit", 1),
-                        "test": ("finance_test.invoice_audit", "finance_test.invoice_audit", 2)},
+            "dataset": {"live": ("finance.invoice_audit", "finance.invoice_audit", 1, "finance.kpi_weekly",
+                                 "finance.kpi_weekly_category", "finance.kpi_customer_13w"),
+                        "test": ("finance_test.invoice_audit", "finance_test.invoice_audit", 2,
+                                 "finance_test.kpi_weekly", "finance_test.kpi_weekly_category",
+                                 "finance.kpi_customer_13w")},
             "search_k": [3, 3, 2]}
 assert actual == expected, actual
 print(f"Phase 6: {actual}")

@@ -138,15 +138,17 @@ def after_readiness(state: PackState) -> str:
 
 # --- 2 KPI ----------------------------------------------------------------------------------------------------------
 
-def kpi_evidence(user, report_week: int) -> dict[str, dict]:
-    return {f"kpi.{d}": finance.finance_kpi(user, report_week=report_week, dataset=d,
+def kpi_evidence(user, report_week: int, dataset: str = "live") -> dict[str, dict]:
+    """`dataset` = the run context's: "test" reads the evaluation copy's twin views (migration 017, Phase 7)."""
+    return {f"kpi.{d}": finance.finance_kpi(user, source=dataset, report_week=report_week, dataset=d,
                                             **({"limit": RANKED_LIMIT} if d in finance.RANKED else {})
                                             ).model_dump(mode="json")
             for d in KPI_DATASETS}
 
 
 def kpi(state: PackState, runtime: Runtime[RunContext]) -> dict:
-    return {"evidence": {**state.get("evidence", {}), **kpi_evidence(runtime.context.user, state["report_week"])}}
+    ctx = runtime.context
+    return {"evidence": {**state.get("evidence", {}), **kpi_evidence(ctx.user, state["report_week"], ctx.dataset)}}
 
 
 # --- 3 Invoice Auditor ----------------------------------------------------------------------------------------------

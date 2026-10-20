@@ -46,6 +46,7 @@ Qdrant filter (conceptual): `sensitivity_level <= role_level OR (department == u
 | `finance.*` (views) | 2 | Finance | star + weekly KPI views of the Weekly Finance Pack (migration 013, Agents plan Phase 2); read as one unit by the finance tools and Power BI (login in group role `finance_bi`, SELECT on `finance` only). The dimension views over level-1 tables (`dim_date`, `dim_week`, `dim_vessel`, `dim_toll_band`) take the schema's level |
 | `vessels.customer_id` | 1 | Operations | an id only (the vessels table stays level 1); the customer's details are level 2 |
 | `finance.invoice_audit` / `finance_test.invoice_audit` (views, migration 015) | 2 | Finance | invoice audit findings (ADR-049); covered by the `finance.*` / `finance_test.*` rows; only the first is readable by `finance_bi` |
+| `finance_test.kpi_weekly` / `finance_test.kpi_weekly_category` (views, migration 017) | 2 | Finance | twin KPI views of the evaluation copy (Agents plan Phase 7); covered by the `finance_test.*` row; not readable by `finance_bi` |
 | `agent_state.*` (LangGraph checkpoints, migration 016) | 2 | Finance | the tool results of each pack run at rest (KPI rows, audit findings, drafts); no employee reads it directly: only the runtime login `ports_agent` (group role `agent_writer`, DML on this schema only) and the owner; `ports_readonly` and `finance_bi` get nothing (ADR-050). The pack itself runs as a Finance manager and the tools check RBAC on every call |
 | `audit_log` (planned, API phase) | 3 | IT | security audit trail, CEO only |
 

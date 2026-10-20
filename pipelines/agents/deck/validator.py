@@ -48,10 +48,17 @@ TEMPLATE_RE = re.compile(r"(?i)receivables still building up since 1 jan(?:uary)
                          r"|\b(?:1|31|61)\s?(?:[-–]|to)\s?(?:30|60|90)(?:\s?days)?\b|\b90\s?\+|\b90 plus\b"
                          r"|\bover 90 days\b|\b13[- ]weeks?\b|\btop[- ]10\b")
 _MON = r"(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?"
+_MONTH = (r"(?:jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|june?|july?|aug(?:ust)?|sept?(?:ember)?|"
+          r"oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\b\.?")
 DATE_RE = re.compile(rf"(?i)\b\d{{4}}-\d{{2}}-\d{{2}}(?:[T ]\d{{2}}:\d{{2}}(?::\d{{2}})?Z?)?\b"
                      rf"|\b\d{{1,2}}\s{_MON},?\s\d{{4}}\b|\b{_MON}\s\d{{1,2}},?\s\d{{4}}\b|\b{_MON}\s\d{{4}}\b"
-                     rf"|\b\d{{2}}:\d{{2}}(?::\d{{2}})?\s?(?:gmt|utc)?\b")
+                     rf"|\b\d{{2}}:\d{{2}}(?::\d{{2}})?\s?(?:gmt|utc)?\b"
+                     # a day without its year ("on November 24", "24 Nov"): exact month names only, so "market 12"
+                     # is never a date (Phase 7, D-P7-12: slide-9 context dates read as typed numbers)
+                     rf"|\b{_MONTH}\s\d{{1,2}}(?:st|nd|rd|th)?\b|\b\d{{1,2}}(?:st|nd|rd|th)?\s{_MONTH}")
 INVOICE_RE = re.compile(r"\bINV-\d{7}\b")
+WEEK_WORD_RE = re.compile(r"(?i)\bweeks?\s+$")                       # "… week 48": the number after it is a label
+NAMED_AFTER_RE = re.compile(r"(?i)\s*(?:in|on|for|during|of)?\s*(?:the\s+)?(?:week\s+)?")   # "{…} in week 49"
 
 # --- words ----------------------------------------------------------------------------------------------------------
 # field families and the words that name them; alternation order matters (the longest phrase wins at a position)
@@ -265,6 +272,9 @@ class _Text:
             sign, whole, frac, suffix = mt.groups()
             if not suffix and not frac and not sign and int(whole.replace(",", "")) in (report_week, REPORT_YEAR):
                 continue                                    # the run's week and year
+            if not suffix and not frac and not sign and 1 <= int(whole.replace(",", "")) <= 52 \
+                    and WEEK_WORD_RE.search(self.text[max(0, mt.start() - 8):mt.start()]):
+                continue                                    # "week 48": a week label, not a figure (Phase 7, D-P7-9)
             mag = Decimal(whole.replace(",", "") + (f".{frac}" if frac else ""))
             self.literals.append(Item(mt.start(), mt.end(), mt.group(0).strip(), "literal", mag=mag,
                                       decimals=len(frac or ""), suffix=suffix,
@@ -329,10 +339,22 @@ class _Text:
         hits = []
         for i, r in enumerate(rows):
             name = str(r.get(keys[0]))
-            for mt in re.finditer(re.escape(name), self.text[s0:min(s1, len(self.text))]):
-                hits.append((s0 + mt.start(), s0 + mt.end(), name))
+            pats = [re.escape(name)]
+            wk = re.fullmatch(r"\d{4}-W(\d{2})", name) if keys[0] == "trend_week_label" else None
+            if wk:                                          # "week 48" names the trend row 2025-W48 (D-P7-9)
+                pats.append(rf"\bweek\s+0?{int(wk[1])}\b(?!-)")
+            for p in pats:
+                for mt in re.finditer(p, self.text[s0:min(s1, len(self.text))], re.I):
+                    hits.append((s0 + mt.start(), s0 + mt.end(), name))
         if not hits:
             return []
+        # a row named right after the number ("{…} in week 49", "{…} on 2025-03-09") is its row (Phase 7, D-P7-9:
+        # "moved from {W48} in week 48 to {W49} in week 49" matched the second number to week 48, the nearer name)
+        end = next((it.end for it in self.items if it.start == start), start)
+        right_after = [h for h in hits if h[0] >= end and NAMED_AFTER_RE.fullmatch(self.text[end:h[0]])]
+        if right_after:
+            name = min(right_after)[2]
+            return [i for i, r in enumerate(rows) if str(r.get(keys[0])) == name]
         lo, hi = self._clause(start)
         own = [h for h in hits if lo <= h[0] and h[1] <= hi]
         before = [h for h in hits if h[1] <= start]

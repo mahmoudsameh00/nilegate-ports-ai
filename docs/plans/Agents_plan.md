@@ -512,6 +512,134 @@ by the pack if P6-4 = A).
 **Not in Phase 6:** golden weeks and G2–G6 metrics (Phase 7); laden / ballast split (needs a view); the Power BI
 Exceptions page; scheduling (Phase 8).
 
+### 5d. Phase 7 — evaluation on golden weeks + finance Q&A: concrete design (PROPOSED 2026-10-19; §8a reviewed and decisions P7-1…P7-4 answered; APPROVED 2026-10-19 by the owner, as written; IMPLEMENTED 2026-10-20, ADR-053 — deviations D-P7-1…D-P7-12 in Progress; CLOSED by the owner with D7 not met, candidate c2 carried)
+
+**Owner decisions (2026-10-19, AskUserQuestion, all the recommended option).** §8a review: **G1** as written + the
+Writer style notes counted and reported (not blocking); **G2** ~10 Egyptian Arabic finance questions now (patterns and
+threshold frozen before any run, scored apart from English); the 24 document twins wait for the Supervisor (Phase
+12), their retrieval is already measured (ADR-040); **G3** abstention / RBAC cases inside the ~30 questions, hard
+gate; **G4** deterministic only, no LLM judge (deferred: another provider, quota, 20 owner-graded answers);
+**G5** reported only, measured from real approvals in Phase 8 (Phase 7 checks the diff is logged); **G6** margin 0.03,
+every compared setup run twice (model variance: runs 2 / 4 / 5 of Phase 6 published 3 / 4 / 3 with one prompt).
+Phase 7: **P7-1** a small finance Q&A agent (below), **P7-2** the budget miss read through twin views (migration 017),
+**P7-3** `InMemorySaver` for eval runs, **P7-4** a temp folder per eval run (table).
+
+| # | Question | Recommended | Alternative(s) |
+|---|---|---|---|
+| P7-3 | Checkpointer of the evaluation runs | **`InMemorySaver`** — the eval threads do not fill `agent_state` (no retention job yet); PostgresSaver and resume were proven in Phase 5 (test 4) and stay in `Weekly_pack_check` | (B) PostgresSaver with `weekly_pack:eval:…` thread ids, deleted after the run |
+| P7-4 | Where an eval pack is published | **a temp folder per run** (`%TEMP%`, removed after scoring; decks of failed or sampled weeks copied to `Notebooks/_scratch/`) — `reports/` keeps only real packs | (B) `reports/_eval/<run>/` (git-ignored) |
+
+**What Phase 7 measures (D7 + §8a), all deterministic:**
+
+| Metric | Definition | Gate (D7 / §8a) |
+|---|---|---|
+| Deck numbers | every number of a published deck bound to its (evidence, row, field) and equal to it (V2 / V8, re-checked by the harness against the frozen expected KPIs, not only the Validator) | **100 %** (hard) |
+| Planted errors found | of the 5 planted invoice errors (the planted budget miss is not a miss: D-P7-1): reported in the published deck where expected (below) | **≥ 95 %** = 5 / 5 on every repeat (hard) |
+| False alarms | an invoice called wrong / a category called a budget miss that is not in the expected findings (clean week 49 + the live weeks) ÷ findings reported | **≤ 5 %** (hard) |
+| Claim accuracy (G1) | direction + attribution claims of the published decks re-checked by an independent rule set on the frozen expected values (drivers = top 3, signs, named rows exist) | **100 %** (hard) |
+| Traceability | every number of a deck / an answer has a citation (slots: by construction) and the citation's source is in the sources slide / the answer's sources | **100 %** (hard) |
+| RBAC leakage | a denied question's answer holds no number / fact of the denied resource | **0** (hard) |
+| Abstention (G3) | recall and precision of "not in the data" / "not permitted" on the abstention items | recall **100 %** (hard), precision reported |
+| Narrative finding recall | expected narrative findings of the golden weeks (drivers named, budget miss named, warm-up caveat, live duplicates noted) present in the summary / comments | primary score (G6) |
+| Q&A completeness (G4) | share of a question's required elements present (number + unit + period, or the fact); relevance = the week and metric of the question appear | primary score (G6); EN and AR apart |
+| Style notes (G1 extension) | counts: a direction word before a signed slot ("up +18.64 %"), a bullet with no number and no named row after a patch, an adjective from a frozen list in a title (surged, plunged, soared…) | reported |
+| Cost / runtime | calls, tokens in / out per pack and per question, fallbacks, Validator rewrites, latency, publish rate (packs reaching the approval / published) | reported; quota per run below |
+
+**Golden weeks (~11, chosen by a script before any run, `Golden_weeks.py`; the list and its hash frozen).**
+- **Test dataset (`finance_test`, `dataset="test"`):** weeks **10, 23, 36, 49** — the 5 planted invoice errors, the
+  planted budget miss (week 36, LNG Carriers, budget × 1.5) and the clean week 49 (false-alarm check).
+- **Live dataset, by stated rules on `finance.kpi_weekly` / `kpi_weekly_category` (ties → lowest week; a week picked
+  twice → the next one):** a warm-up week (week **5**, already a Phase 6 week), the quiet week (smallest
+  |`billed_wow_pct`|, weeks 14–52), the peak week (max `billed_sdr`), the trough week (min `billed_sdr`, weeks 14–52),
+  the largest live budget miss (min `budget_variance_pct`, weeks 14–52), a week with a real duplicate charge (week
+  **15** or **50**, Phase 4 finding (d)), the week where Suez transits moved most (largest |WoW| of weekly PortWatch
+  transits in 2025, from the frozen `suez_transits` cache).
+- Weeks 5 / 10 / 23 / 49 shaped the Phase 6 prompts and Validator → results are reported **seen vs unseen** (an honest
+  view of how much the tuning fit those weeks).
+- **Expected KPIs by SQL:** the script freezes, per golden week, the rows of `kpi.weekly`, `kpi.category`,
+  `kpi.customers` (top 10), `kpi.overdue` (top 5) and `audit.week` from the views (test weeks from the twin views) into
+  `Data/processed/agents/eval/golden_weeks.json` (+ SHA-256 in the manifest).
+- **Expected findings by hand:** per week, a short list written by the assistant from those rows and reviewed by the
+  owner before any run — each finding = {id, kind (driver / budget_miss / invoice_error / duplicate / caveat), the
+  row key (category / invoice), where it must appear (table by code / narrative by the Writer)}. Invoice findings come
+  from the answer key; the narrative ones are what a finance analyst would say first.
+
+**The planted budget miss (P7-2) — migration `017_finance_test_kpi.sql` (owner applies).** Two twin views in
+`finance_test`, same columns as their live views so `finance_kpi` only switches the view name:
+`finance_test.kpi_weekly` and `finance_test.kpi_weekly_category`, for the 4 test weeks only: billed / invoices /
+budget / variance from `finance_test.invoices` + `finance_test.budget_weekly`; WoW against the **live** previous week
+(the copy holds no week w−1; stated in the view comment); AR / aging / overdue / DSO / top-10 share taken from the
+live row (the copy has no payments; stated). `finance_kpi` reads the twins when the run context says `test`
+(`category` / `weekly` only; `customers`, `overdue`, `trend` stay live, with a note). The test copy is invisible to
+`finance_bi` (as the audit twin). ~~Read: in week 36 the LNG row shows budget × 1.5 and a large negative variance —
+expected narrative finding "LNG Carriers billed far below budget".~~ **D-P7-1:** it does not — LNG stays above budget
+(+37.63 %, live +106.44 %); the twins still give the test weeks consistent books (billed with the planted errors).
+`Tools_check.py` gets a case: test weeks = the views recomputed in pandas from the copy, live weeks unchanged.
+
+**Finance Q&A golden set (frozen before any run, `Data/processed/agents/eval/finance_qa_golden.jsonl` + hash).**
+~30 English questions, written by the assistant, reviewed by the owner:
+- 22 answerable: week KPI lookups (billed, collected, AR, overdue, DSO, budget variance) ~8; WoW / vs budget ~5;
+  drivers by category ~3; customers / top-10 share ~3; overdue invoices ~2; a toll computation (`compute_toll`) ~1.
+- 4 abstention: a week outside 2025, a metric that does not exist (e.g. profit margin), a customer that does not
+  exist, a future week.
+- 4 RBAC: an Operations employee asking for receivables / the overdue list; a Finance employee and a manager asking
+  for the level-3 HbR financial results (CEO only); the CEO asking the same (answerable — the control case).
+- Each item: question, user (employee id), expected status (answered / not_in_data / not_permitted), required elements
+  (tool, dataset, week, row key, field, value — from the views at freeze time), relevance tokens (week, metric).
+- **Arabic (G2):** Egyptian Arabic versions of 10 answerable items, same expected elements; Arabic relevance patterns
+  (أسبوع / الأسبوع + the number, the metric's Arabic words) frozen with them; threshold fixed before the run:
+  AR completeness ≥ EN completeness − 0.10.
+
+**The finance Q&A agent (P7-1, `pipelines/agents/graphs/finance_qa.py`).** One LangChain agent (`create_agent`) on the
+`tools` role (ADR-045: flash-lite + gpt-oss-20b), with `STAGE1_TOOLS` + `load_skill`, `context_schema = RunContext`
+(user and dataset from the run, never from the model, ADR-049). Its final answer is a Pydantic `QaAnswer` {status:
+answered / not_in_data / not_permitted, text with **slots** (`deck/slots.py`, the same syntax), cited evidence ids};
+code fills the slots from the tool results kept in the run and checks them with the Validator's slot and literal rules
+(V1 / V2 / V6 / V7 subset); a failing answer gets one patch, then status `validation_failed`. A tool's
+`not_permitted` must end in status `not_permitted` with no number (code check). Answer language = the question's
+language; `|dir` gets an Arabic rendering (ارتفع / انخفض / بدون تغيير) in `slots.py`. A short skill
+`finance-qa` (≤ 1,200 tokens: answer shape, slots, abstention, sources) — reviewed by the owner like the others.
+Phase 12 grows this agent into the Supervisor.
+
+**G6 acceptance rule → ADR-052, written before the first comparison (step S1).** A change (prompt, model, skill) is
+kept only if, over two runs each of baseline and candidate: no hard gate fails (deck numbers 100 %, planted 6 / 6,
+false alarms ≤ 5 %, G1 100 %, traceability 100 %, RBAC 0, abstention recall 100 %), and neither primary (narrative
+finding recall on golden weeks; Q&A completeness, EN and AR) falls by more than **0.03** (mean of the two runs);
+ties keep the simpler / cheaper setup. The first full run is the baseline file
+`Data/processed/agents/eval/stage1_eval_<date>.json`.
+
+**Quota per run (measured in Phase 6: a pack ≤ 7 calls — Insight ≤ 4 rounds, Writer 1, ≤ 2 patches — each ≤ 12.4K
+tokens).** One full evaluation = 11 weeks × 2 repeats ≈ ≤ 154 pack calls (≤ 1.9M input tokens, flash-lite) + 40
+questions × 2 repeats × ~3 calls ≈ 240 Q&A calls (~5K tokens each, ≈ 1.2M). flash-lite's free daily limit is not
+published → every reply cached (`llm.py`), the run resumes the next day where it stopped, quota use printed per phase;
+the OpenRouter fallback (50 requests / day) is counted and reported; the harness first runs with fake models (0
+calls). A repeat with a cache hit is not a repeat: the second run uses a run salt in the cache key (a fresh call).
+
+**Harness `pipelines/scripts/agents/Stage1_eval.py`** (percent format, ✅ lines, reviewed snapshots, Final
+Checkpoint `pipelines/checkpoints/agents/Stage1_eval.md`): Phase 1 the frozen inputs (golden weeks, findings, Q&A set:
+hashes, expected values = the views now); Phase 2 the scorers on hand-made good / bad decks and answers (each metric
+proven to catch its failure — a scorer that never fails proves nothing); Phase 3 the golden weeks with fake models (0 calls,
+every gate passes); Phase 4 Q&A with fake answers; Phase 5 real models (only with
+`EVAL_REAL_MODELS=1`): packs + questions, two repeats, the results file, D7 verdict printed.
+
+**Order (one step at a time, each with its check):** S1 ADR-052 (G6) + `Golden_weeks.py` (weeks by rule, expected KPIs)
+→ owner reviews the expected findings → S2 migration 017 (owner applies; snapshot + `verify_readonly.sql` new section
+by the assistant) + `finance_kpi` test switch + `Tools_check` case → S3 the Q&A golden set (EN + AR) → owner review,
+frozen → S4 `finance_qa.py` + `QaAnswer` + skill `finance-qa` (owner review) + fake-model check → S5 `Stage1_eval.py`
+Phases 1–4 → S6 real models (Phase 5), the results file, the D7 verdict → owner decides → S7 close (ADRs, ARCHITECTURE,
+ROADMAP, checkpoint narrative, handoff).
+
+**Files (new):** `db/migrations/017_finance_test_kpi.sql`, `pipelines/scripts/agents/Golden_weeks.py`,
+`Stage1_eval.py`, `pipelines/agents/graphs/finance_qa.py`, `pipelines/agents/skills/finance-qa/SKILL.md`,
+`Data/processed/agents/eval/golden_weeks.json`, `finance_qa_golden.jsonl`, `stage1_eval_<date>.json`,
+`pipelines/checkpoints/agents/Stage1_eval.md`, `Golden_weeks.md`. **Changed:** `pipelines/agents/tools/finance.py`
+(test twins), `pipelines/agents/deck/slots.py` (Arabic `|dir`), `graphs/models.py` (`QaAnswer`),
+`pipelines/agents/roles.py` only if the Q&A needs its own role entry, `Tools_check.py`, `db/verify_readonly.sql`,
+`docs/rbac_mapping.md` (the twins), `docs/decisions.md` (ADR-052), the docs at close. No new package.
+
+**Not in Phase 7:** an LLM judge (G4); the 24 Arabic document twins (Phase 12); edit rate from real approvals (G5,
+Phase 8); the Power BI Exceptions page; scheduling, LangSmith (Phase 8).
+
 ## 6. Stage 2 — Operations Desk (details)
 
 - **Users:** Operations employees / managers and the CEO (level-1 operational data). Finance data stays invisible to
@@ -596,7 +724,7 @@ Exceptions page; scheduling (Phase 8).
 - **Measured:** number correctness, finding recall / false alarms, traceability, RBAC, latency, requests / tokens per
   run (free quotas), Validator loops. One results file per run = the baseline for the next change.
 
-### 8a. Generation evaluation — PROPOSED (2026-10-11, owner asked; deterministic first)
+### 8a. Generation evaluation — PROPOSED (2026-10-11, owner asked; deterministic first) — REVIEWED by the owner 2026-10-19 (G1–G6 answered; how each applies: §5d)
 
 Numbers are covered (bake-off T2 gate, Validator exact match, D7: deck numbers 100 %). What the model **says** around
 the numbers is not yet measured. Every check below uses ground truth we already compute — no LLM judge unless noted.
@@ -1250,8 +1378,191 @@ rate limits (ai.google.dev); FP&A reporting time (vendor case studies). Vendor f
   `pipelines/README.md`, checkpoint narratives (`Deck_check.md` new, `Weekly_pack_check.md` Phase 6 update). Scratch
   files of the task (`Notebooks/_scratch/`: previews, the real decks, run logs, `weekly_pack_real.json`) stay until the
   owner looks at them and empties the folder. Commit: the owner.
+- 2026-10-19 — **Phase 7 started: design PROPOSED (§5d).** The owner reviewed §8a (G1–G6, each the recommended
+  option) and answered P7-1…P7-4 (a small finance Q&A agent; the budget miss through twin views, migration 017;
+  `InMemorySaver` for eval runs; a temp folder per eval run). **§5d APPROVED by the owner (2026-10-19, as written).**
+- 2026-10-19 — **S1 done (pending the owner's review of the findings).** ADR-052 written (G6: two runs each, hard
+  gates, primaries −0.03 margin, ties → simpler / cheaper). `pipelines/scripts/agents/Golden_weeks.py` ✅ 3 / 3
+  (17 s): 11 golden weeks by rule, frozen in `golden_weeks.json` (sha256 `ea13800db38c1a96…`) — test 10 / 23 / 36 /
+  49; live 5 (warm-up), 48 (peak), 41 (quiet, −0.33 %), 16 (trough), 47 (live budget miss −47.01 %), 15 (real
+  duplicate INV-0000925), 24 (Suez transits +17.08 % WoW); 7 unseen. Expected evidence complete for the 7 live weeks;
+  test weeks pending migration 017 (draft in `Notebooks/_scratch/golden_weeks_expected_draft.json`). PortWatch 2025
+  cached (one cache file changed, later runs 0 calls). Expected findings DRAFT `golden_findings.json` (34 findings;
+  where = code table / Writer narrative). Checkpoint `Golden_weeks.md`. **Owner (2026-10-19): findings approved as
+  drafted; drivers = the top driver must be named, 2nd / 3rd optional.** Frozen v1 sha256 `4ee0f808db12c25e…` (v2 at
+  S2 adds only the test weeks' driver findings). **Next: S2** — migration 017 (twin views `finance_test.kpi_weekly` /
+  `kpi_weekly_category`; the owner applies), `finance_kpi` / `kpi_evidence` test switch, `Tools_check` case, then
+  re-run `Golden_weeks.py` (expected evidence frozen for all 11 weeks).
+- 2026-10-19 — **S2 in progress.** `db/migrations/017_finance_test_kpi.sql` written (twins `finance_test.kpi_weekly` /
+  `kpi_weekly_category`: billed / budget from the copy, receivables and the WoW base from the live views) +
+  `verify_readonly.sql` §21. Read-only probe of the view bodies (SELECT only, no DDL): 52 / 4 rows, the live columns
+  equal, clean week 49 = live exactly, billed test − live = −23,600.00 / +598,696.79 / −64,363.84 (weeks 10 / 23 / 36:
+  the planted errors), one budget row changed. **D-P7-1 (finding, owner decision):** the planted budget miss is not a
+  miss — the generator raised the budget of the week's **top** category (LNG, live +106.44 % above budget) by × 1.5,
+  so LNG stays above budget (+37.63 %). Owner: drop it from the planted findings (copy and generator unchanged);
+  D7 planted = the 5 invoice errors (5 / 5); `golden_findings.json` v1.1 (t36-b = "LNG must not be called a miss");
+  ADR-052 gate amended (5 / 5); the real budget miss is covered by live week 47 (−47.01 %). Next: the owner applies
+  017 → snapshot + audit (assistant) → `finance_kpi` test switch.
+- 2026-10-19 — **S2 done.** Owner: "apply 017 yourself, then snapshot + audit and continue S2"; later "I'm going
+  to sleep, continue" → autonomous mode (recommended options, each decision logged as D-P7-n for review). Migration
+  017 applied by the assistant (BEGIN … COMMIT, no error); `schema_snapshot.sql` refreshed; `verify_readonly.sql` §21
+  = expected (52 | 4 | 0 | 0 | 1 | −23,600.00 | 598,696.79 | −64,363.84; f | f | t | t), 0 errors
+  (`db/audit/2026-10-19_after_017_report.txt`); `ANALYZE` re-run. `finance_kpi(user, source=…)` reads the twins
+  for `weekly` / `category` when the run context says test (the wrapper passes `dataset_of(runtime)`; customers /
+  overdue / trend stay live with a note; test needs `finance_test.*` too); `weekly_pack.kpi_evidence(user, week,
+  dataset)` and the KPI node pass the run's dataset. **D-P7-2:** `slots.ROW_KEYS_BY_VIEW` gained the two twins (the
+  sample Writer found no row key for `finance_test.kpi_weekly_category` — caught by Weekly_pack_check Phase 6).
+  Checks: `Tools_check.py` **9 / 9 ✅** (new Phase 3b: the twins = an independent Decimal recompute from the copy,
+  56 rows; week 5 in test → no_data; customers live; wrapper source from the run context; Operations employee
+  denied), `Weekly_pack_check.py` **7 / 7 ✅** (`PACK_REAL_MODELS=1`, cached: 0 calls; Phase 6 contract now also
+  asserts the KPI sources per dataset). `Golden_weeks.py` ✅ 3 / 3: `golden_weeks_expected.json` frozen (11 / 11
+  weeks, 254 KB, sha256 `bb3b1a3bd8cf178c…`). Findings **v2** (`golden_findings.json`, 38 findings, sha256
+  `3a5bde86b7a8d0df…`): top drivers of the test weeks t10-d Petroleum Product Tankers, t23-d Crude Oil Tankers,
+  t36-d LNG, t49-b LNG (owner to review). Note: test week 10 is a warm-up week (weeks 1–13). `docs/rbac_mapping.md`
+  lists the twins. **Next: S3** (Q&A golden set).
+- 2026-10-19 — **Owner, before sleeping (AskUserQuestion):** keep-awake requested (granted); **S6 real models may
+  run tonight up to the free daily limit** (replies cached, a run resumes where it stopped; OpenRouter fallback
+  counted). Everything else autonomous: recommended options, each decision D-P7-n here; the owner reviews in the
+  morning (the Q&A golden set and the `finance-qa` skill are frozen as v1 "assistant-reviewed, owner review
+  pending").
+- 2026-10-19 — **S3 done** (owner review pending). `pipelines/scripts/agents/Qa_golden.py` ✅ 4 / 4 →
+  `finance_qa_golden.jsonl` (40 items: 30 EN — 22 answerable + the CEO control, 4 abstention, 3 refused — and 10
+  Egyptian Arabic twins; sha256 `d7d1e94f449c137d…`). **D-P7-3:** askers by rule (lowest employee_id per profile:
+  Finance employee 13, Operations employee 12, Operations manager 2, CEO 1). **D-P7-4:** the RBAC set = 2 Operations
+  employee refusals + the Operations manager asking for the HbR level-3 revenue (status `not_permitted` or
+  `not_in_data` accepted: the document filter hides it, so "not in the documents" is also right; must not leak the
+  level-3 facts) + the CEO control (answered, €940.4 million) — the plan's "a Finance employee" variant dropped to
+  keep 30. **D-P7-5:** element kinds `value` (slot binding) / `name` / `direction` / `fact`; G2 threshold AR ≥ EN −
+  0.10. Checkpoint `Qa_golden.md`. **Next: S4** (finance Q&A agent).
+- 2026-10-19 — **S4 done** (skill review pending). `pipelines/agents/graphs/finance_qa.py`: `qa_llm` ⇄ `qa_tools`
+  (`ToolNode(STAGE1_TOOLS)`, ≤ 3 tool rounds) → `qa_answer` (`QaAnswer`: status answered / not_in_data /
+  not_permitted, text with slots, evidence ids) → `qa_check` (`check_answer`: unknown ids, slot errors, a NileGate
+  number typed as a literal, a refusal holding a number, "answered" when every structured tool refused, a direction
+  word against its sign) → one patch → `validation_failed`. `models.QaAnswer`; `slots.DIR_WORDS` + `lang` (Arabic
+  `|dir`: ارتفع / انخفض / بدون تغيير; English default unchanged); skill `finance-qa` (`reviewed_by_owner: no`).
+  **D-P7-6:** the agent is a LangGraph graph on the `tools` role through `roles.py` (cache, quota, fallback), not
+  LangChain's `create_agent` (it would bypass `llm.py`); it reuses the pack's evidence-id / search-cap helpers.
+  **D-P7-7:** the fake-model check of S4 lives in `Stage1_eval.py` Phase 4 (no separate script). `Tools_check.py`
+  Phase 8 → 7 skills (QaAnswer fields + slot formats are known names); **10 / 10 ✅**, pending: the owner's review of
+  `finance-qa`.
+- 2026-10-19 — **S5 done.** `pipelines/scripts/agents/Stage1_eval.py` ✅ 5 / 5 (22 s, 0 model calls): Phase 1 the
+  four frozen inputs (hash prefixes asserted); Phase 2 the scorers on hand-made decks / answers — each catches its
+  failure (tampered evidence, an invoice wrongly called a duplicate in clean week 49, LNG wrongly called below budget
+  in week 36, a direction word against its sign, a non-driver called a driver, an untraced number, a strong word on
+  the flat week 41, a value from the wrong week, a refusal with a number, a level-3 leak, an answer instead of an
+  abstention); Phase 3 the 11 golden weeks with fake models: 11 / 11 published, deck numbers 100 %, planted 5 / 5 in
+  the slide-8 table, false alarms 0, claims 100 %, traceability 100 % (sample-draft narrative recall 0.97); Phase 4
+  the Q&A graph with fake answers on 38 questions: completeness EN / AR 1.0, abstention 1.0, leakage 0 (r03 / r04
+  need live retrieval: Phase 5). **D-P7-8:** a false alarm is an invoice named next to an error word (not any
+  invoice: the overdue list names invoices too) or a named category called below budget with variance ≥ 0; planted =
+  the 5 invoice errors in the published deck's slide-8 table (read from the PPTX); ADR-052 repeat k uses its own cache
+  folder `llm_cache/eval_r<k>/` (a fresh set of calls), the quota state shared. **Next: S6** (real models).
+- 2026-10-19/20 — **S6 baseline (real models, two runs, 2,509 s, ≈ 380 fresh calls, ≈ 1.93 M tokens, 0 fallbacks,
+  one transient Gemini 503 retried): D7 NOT MET.** `stage1_eval_2026-10-19.json`. Run 1 / run 2: packs published
+  4 / 11 and 8 / 11; planted found 2 / 5 and 1 / 5 (a planted error is found only when its test week publishes);
+  narrative recall 0.41 / 0.76 (seen 0.50 / 0.50, unseen 0.29 / 0.86); false alarms 0; claims 100 %; deck
+  numbers 100 % on every published deck; traceability 1.0 / 0.99; Q&A completeness EN 0.91 / 0.96, AR 1.0 / 1.0
+  (G2 met); abstention recall 1.0 / 0.86; RBAC leakage 0. Gates failed: planted 5 / 5 (both runs), traceability and
+  abstention (run 2). **Diagnosis** (failed packs replayed from the caches, 0 calls): real Writer errors the
+  Validator caught (an evidence id `audit.week:invoice_audit`; "SDR" after a slot; categories outside the top three
+  called drivers; the audit total put on one invoice; a NileGate figure on slide 9; context numbers typed on slide 9)
+  **and Validator false alarms in 3 weeks of run 1** (test 49, live 48, live 24): "week 48" in a trend sentence
+  read as a typed number, "week 48" not seen as naming row 2025-W48, and "{W48} in week 48 to {W49} in week 49" bound
+  to the nearer name. Q&A: slots tried on document passages (r03 / r04) and `[row]` on a one-row result (q12).
+  Scorer note for the owner: q14's relevance is 0 although the answer names the category and week ("Crude Oil Tankers
+  drove …"), because its metric words are "categor" / "vessel" — kept (frozen), reported.
+- 2026-10-20 — **D-P7-9 (Validator false alarms fixed, the Phase 6 way):** an integer 1–52 right after "week" is a
+  week label; "week N" names the trend row 2025-WNN; a row named right after its number ("{…} in week 49", "{…} on
+  2025-03-09") is its row. `Deck_check.py` Phase 4 gains the three recorded sentences (pass) + a swapped week and a
+  bare number (still fail); **4 / 4 ✅** (52 clean decks, 100 / 100 planted). **D-P7-10 (Q&A prompt):** a one-row
+  result takes no `[row]`; document figures are quoted as text with the document, never a slot (the example uses a
+  placeholder — a first draft quoted the r04 answer itself, removed before any run). **ADR-052 reading for a
+  failing baseline (D-P7-10, owner review):** "no hard gate regresses" (a gate the baseline already fails may stay
+  failed or improve) — the literal "every gate passes" would block every improvement while the baseline fails one.
+  Candidate **c1** = D-P7-9 + D-P7-10, two runs on fresh caches (`llm_cache/eval_c1_r1/`, `eval_c1_r2/`), compared
+  with the baseline by `Stage1_eval.py` (`EVAL_TAG=c1`, `EVAL_BASELINE`).
+- 2026-10-20 — **c1, first attempt: invalid (no result).** **D-P7-11 finding: `gemini-3.5-flash-lite`'s free tier
+  allows 500 requests a day** (Gemini's 429 names it: `generate_content_free_tier_requests, limit: 500`; ADR-045 had
+  it as "not published"). The baseline (≈ 380 calls) + c1's first weeks exhausted it at 03:09 UTC (06:09 Cairo); the
+  rest of c1 run 1 went to the OpenRouter fallback (49 / 50 requests that day) — slow (up to 2,572 s a pack) and a
+  mix of models, so the run is not comparable; `tools/run.py` stopped it at its 2-hour timeout. **Consequences:**
+  one full evaluation (two runs ≈ 400 calls) per provider day; the harness now **stops a run when a main model's daily
+  quota is gone** (an item finished after that is dropped; a re-run the next provider day resumes from the caches
+  with the main model — the fallback's cached replies are never used while the main model answers). Quota resets at
+  07:00 UTC (10:00 Cairo). Next: c1 again after the reset, `--timeout 14400`.
+- 2026-10-20 — **c1 done (2,272 s, 0 fallbacks): ADR-052 verdict "keep (better)"** — `stage1_eval_2026-10-20_c1.json`
+  (= the new baseline). No gate regressed; **planted 5 / 5 in both runs** (the gate now passes); narrative recall
+  0.69 (+0.10; run 1 0.90, run 2 0.48 — seen weeks 1.0 / 1.0, unseen 0.86 / 0.29); Q&A EN 0.96 (+0.02), AR 1.0;
+  packs 10 / 11 and 6 / 11; false alarms 0; claims 100 %; leakage 0. **D7 still NOT MET:** abstention 0.86 in both
+  runs (r03: the Operations manager's HbR question answered "answered" with level-1 context and no level-3 fact — no
+  leak, a wrong status) and traceability 0.996 in run 1 (one slot not in its bullet's evidence ids). Replay of c1's
+  failed packs (0 calls): Writer errors (the audit total put on one invoice; categories outside the top three called
+  drivers; "days" after a slot; an unknown field `transits`) and **two Validator false alarms on slide 9: "on
+  November 24" read as a typed number** (dates written with a month name). Scorer notes for the owner (frozen set,
+  kept): q14 and q01_ar relevance 0 on right answers (metric words too narrow: "categor" / "vessel"; "فوتر" misses
+  "فوتناه" / "فاتورة"); r04's fact pattern wants "940.4 million" and misses the right "940,355 thousand".
+  **D-P7-12 (candidate c2, prepared, not run — today's flash-lite quota ≈ 140 left < one evaluation):** the
+  Validator reads a day written with an exact month name as a date (Deck_check Phase 4: two right sentences pass, a
+  typed count and "market 12" still fail; 4 / 4 ✅); the Q&A checker counts a passage's title as quoted text; the
+  answer prompt says "answered only if the evidence holds what was asked, else not_in_data". With these, the cached
+  Phase 6 run 5 now publishes 4 / 4 (`Weekly_pack_check` Phase 5 snapshot updated; 7 / 7 ✅, 0 calls). Run c2 on the
+  next provider day: `EVAL_TAG=c2`, `EVAL_BASELINE=stage1_eval_2026-10-20_c1.json`.
+- 2026-10-20 — **Phase 7 CLOSED (owner: "close Phase 7 and keep C2 for later").** Done-when of §5: "the D7
+  thresholds are met (or the owner decides)" → the owner decided, with D7 not met (c1: abstention 0.86, traceability
+  0.996 in one run, publish rate 10 / 11 and 6 / 11; every other gate passed). ADR-053 written, ADR-052 first use
+  recorded; ARCHITECTURE (components, `finance_test` twins, §7 Q&A interface, §9 ADR-052 / 053), ROADMAP,
+  `pipelines/README.md`, `db/README.md`, `docs/rbac_mapping.md`, checkpoint narratives (`Golden_weeks.md`,
+  `Qa_golden.md`, `Stage1_eval.md`). Checks at close: Tools_check 10 / 10, Weekly_pack_check 7 / 7 (cached),
+  Deck_check 4 / 4, Golden_weeks 3 / 3, Qa_golden 4 / 4, Stage1_eval Phases 1–4 ✅ (0 calls). Scratch kept for the
+  owner's look: `Notebooks/_scratch/stage1_eval/` (the published eval decks), `deck_real_2025-W*.pptx`, run logs.
+  Commit: the owner.
 
-### SESSION HANDOFF (2026-10-19, Phase 6 CLOSED) — read this first in the next session
+### SESSION HANDOFF (2026-10-20, Phase 7 CLOSED) — read this first in the next session
+
+- **Phases 0–7 are CLOSED.** Phase 7: ADR-053 (+ ADR-052 first use); golden weeks / findings / Q&A golden set
+  frozen; migration 017 (twins); `graphs/finance_qa.py` + skill `finance-qa`; `Stage1_eval.py`; baseline =
+  `stage1_eval_2026-10-20_c1.json` (D7 not met: abstention 0.86, traceability 0.996 in one run, publish rate
+  10 / 11 and 6 / 11; planted 5 / 5, leakage 0, Q&A EN 0.96 / AR 1.0). Owner closed it with these misses.
+- **Next: Phase 8** (§5) — scheduling (Task Scheduler), LangSmith tracing, checkpoint retention; done when a scheduled
+  run produces the pack and waits for approval. Start by proposing the Phase 8 design to the owner (AskUserQuestion,
+  recommendation first). Mind the quota: flash-lite = 500 free requests / day (a pack ≈ 6 calls).
+- **Carry:** candidate **c2** (D-P7-12, coded and checked, not run): `EVAL_REAL_MODELS=1 EVAL_REPEATS=2 EVAL_TAG=c2
+  EVAL_BASELINE=stage1_eval_2026-10-20_c1.json`, `tools/run.py … --timeout 14400`, on a fresh provider day (after
+  07:00 UTC); owner reviews: D-P7-1…D-P7-12, the ADR-052 reading for a failing baseline, skill `finance-qa`
+  (`reviewed_by_owner: no`), the Q&A golden set and findings v2, the narrow relevance words (q14, q01_ar) and r04's
+  fact pattern; G5 edit rate from real approvals (Phase 8); Tavily monthly credits used up (web_search →
+  context_unavailable until the month resets); Power BI Exceptions page; tariff Notes rules.
+
+### SESSION HANDOFF (2026-10-20, Phase 7 S6 in progress)
+
+- **Done (S1–S5 + the S6 baseline):** ADR-052; golden weeks / expected evidence / findings v2 / Q&A golden set all
+  frozen (hashes in Progress); migration 017 applied (twins), `finance_kpi` test switch; `graphs/finance_qa.py` +
+  skill `finance-qa` (owner review pending); `Stage1_eval.py` (Phases 1–4 ✅, 0 calls); baseline
+  `stage1_eval_2026-10-19.json`: **D7 NOT MET** (packs 4 / 11 and 8 / 11 published, planted 2 / 5 and 1 / 5; Q&A
+  strong: EN 0.91 / 0.96, AR 1.0, leakage 0). Validator false alarms fixed (D-P7-9, Deck_check 4 / 4), Q&A prompt
+  lines (D-P7-10), quota guard (D-P7-11: flash-lite = 500 requests / day → one full evaluation per day).
+- **c1 kept (ADR-052 "keep (better)") = the baseline now** (`stage1_eval_2026-10-20_c1.json`): planted 5 / 5, recall
+  0.69, Q&A EN 0.96 / AR 1.0, leakage 0; D7 still not met (abstention 0.86 — r03's status; traceability 0.996 in one
+  run; publish rate 10 / 11 and 6 / 11). **c2 prepared (D-P7-12), not run** (quota). Next: run c2 on a fresh provider
+  day (command in Progress), then the owner decides (accept with the misses documented, or more Writer work — §5 "or
+  the owner decides"), S7 close.
+- **For the owner's review:** D-P7-1 … D-P7-11 (Progress), the ADR-052 reading for a failing baseline, skill
+  `finance-qa`, the Q&A golden set and findings v2, the q14 relevance note.
+- Checks now: Tools_check 10 / 10, Weekly_pack_check 7 / 7 (cached), Deck_check 4 / 4, Golden_weeks 3 / 3,
+  Qa_golden 4 / 4, Stage1_eval 1–4 ✅.
+
+### SESSION HANDOFF (2026-10-19, Phase 7 S1 done)
+
+- **Phase 7 design = §5d (APPROVED 2026-10-19; §8a G1–G6 reviewed, P7-1…P7-4 all recommended).** ADR-052 (G6
+  acceptance rule) written. S1 done: `Golden_weeks.py` ✅ 3 / 3, 11 golden weeks frozen (`golden_weeks.json`),
+  expected findings v1 reviewed and frozen (`golden_findings.json`, 34 findings); test weeks' expected evidence waits
+  for migration 017.
+- **Next: S2** (§5d order): `db/migrations/017_finance_test_kpi.sql` → the owner applies (the assistant refreshes
+  the snapshot and runs `verify_readonly.sql` with a new section) → `finance_kpi` reads the twins in a test run
+  (`kpi_evidence(user, week, dataset)`), `Tools_check` case → re-run `Golden_weeks.py` → findings v2 (test drivers).
+  Then S3 the Q&A golden set (30 EN + 10 AR, owner review).
+
+### SESSION HANDOFF (2026-10-19, Phase 6 CLOSED)
 
 - **Phases 0–6 are CLOSED.** Phase 6: ADR-051; `pipelines/agents/deck/` (slots, Validator v2 V1–V7, template as code,
   renderer, read-back V8, the sample slot draft), `weekly_pack.py` on it (slot Writer, `DeckPatch` rewrites, preview

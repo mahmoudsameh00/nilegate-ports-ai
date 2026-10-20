@@ -1,0 +1,88 @@
+{
+ "plan": "Agents plan §5d (approved 2026-10-19); rules fixed before any run; ADR-052",
+ "seen_weeks": [
+  5,
+  10,
+  23,
+  49
+ ],
+ "weeks": [
+  {
+   "dataset": "test",
+   "rule": "answer key: planted errors",
+   "seen": true,
+   "value": null,
+   "week": 10
+  },
+  {
+   "dataset": "test",
+   "rule": "answer key: planted errors",
+   "seen": true,
+   "value": null,
+   "week": 23
+  },
+  {
+   "dataset": "test",
+   "rule": "answer key: planted errors",
+   "seen": false,
+   "value": null,
+   "week": 36
+  },
+  {
+   "dataset": "test",
+   "rule": "answer key: clean week (false-alarm check)",
+   "seen": true,
+   "value": null,
+   "week": 49
+  },
+  {
+   "dataset": "live",
+   "rule": "warm-up week (fixed: week 5)",
+   "seen": true,
+   "value": null,
+   "week": 5
+  },
+  {
+   "dataset": "live",
+   "rule": "peak: max billed_sdr",
+   "seen": false,
+   "value": 7126037.19,
+   "week": 48
+  },
+  {
+   "dataset": "live",
+   "rule": "quiet: min |billed_wow_pct|, weeks 14-52",
+   "seen": false,
+   "value": -0.33,
+   "week": 41
+  },
+  {
+   "dataset": "live",
+   "rule": "trough: min billed_sdr, weeks 14-52",
+   "seen": false,
+   "value": 2934677.21,
+   "week": 16
+  },
+  {
+   "dataset": "live",
+   "rule": "live budget miss: min budget_variance_pct, weeks 14-52",
+   "seen": false,
+   "value": -47.01,
+   "week": 47
+  },
+  {
+   "dataset": "live",
+   "rule": "a real duplicate charge (finance.invoice_audit)",
+   "seen": false,
+   "value": null,
+   "week": 15
+  },
+  {
+   "dataset": "live",
+   "rule": "Suez transits moved most: max |WoW %| of weekly PortWatch transits, weeks 14-52",
+   "seen": false,
+   "value": 17.08,
+   "week": 24
+  }
+ ]
+}

@@ -130,3 +130,22 @@ class ApprovalDecision(BaseModel):
         if (self.decision == "edit") != bool(self.edits):
             raise ValueError("edits are given exactly when the decision is 'edit'")
         return self
+
+
+# --- Finance Q&A (Agents plan Phase 7, §5d P7-1: `graphs/finance_qa.py`) --------------------------------------------
+
+class QaAnswer(BaseModel):
+    """The answer to one finance question: numbers as slots (deck/slots.py), the evidence they come from."""
+    status: Literal["answered", "not_in_data", "not_permitted"] = Field(description=(
+        "answered = the tools gave the answer; not_in_data = the data or documents do not hold it; not_permitted = "
+        "a tool refused this user's access"))
+    answer: str = Field(min_length=1, max_length=1500, description=(
+        "the answer in the question's language, two to four sentences; every NileGate number written as a slot"))
+    evidence_ids: list[str] = Field(default_factory=list, description="ids of the tool results the answer uses")
+
+    @model_validator(mode="after")
+    def _ids(self):
+        bad = [e for e in self.evidence_ids if not re.match(EVIDENCE_ID, e)]
+        if bad:
+            raise ValueError(f"evidence ids look like insight.<id> (from the evidence list): {bad}")
+        return self
