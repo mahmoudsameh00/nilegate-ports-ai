@@ -640,6 +640,57 @@ run7b = {k: sorted({r for r, _, _ in v2.check_text(t, {**EVS[10], "insight.s": s
          for k, t in RUN7B.items()}
 assert run7b == {"month-name date": [], "day before month": [], "typed count (must fail)": ["V2"],
                  "not a month (must fail)": ["V2"]}, run7b
+# candidate c2 (2026-10-21, D-P7-13): two right sentences refused in test weeks 10 / 23 — a period's dates read as the
+# row a slot must be ("ranged between {03-03} and {03-04} … during the week of 2025-03-03 to 2025-03-09"), and an
+# audited invoice's billed amount called its "amount". A period names no row; "amount" / "charge" names billed_sdr on
+# an invoice_audit row only. A row swapped outside the period and "amount" for a week's billed total still fail.
+aud10 = EVS[10]["audit.week"]
+inv10 = aud10["rows"][0]
+key10 = f"{inv10['invoice_number']}/{inv10['check_code']}"
+RUN7C = {
+    "date range": ("Transits ranged between {insight.s[2025-03-03]:n_total} and {insight.s[2025-03-09]:n_total} "
+                   "calls per day during the week of 2025-03-03 to 2025-03-09.", ["insight.s"]),
+    "invoice amount": (f"Invoice {inv10['invoice_number']} was flagged with an amount of "
+                       f"{{audit.week[{key10}]:billed_sdr|k}}.", ["audit.week"]),
+    "row swapped outside a period (must fail)": ("Transits were {insight.s[2025-03-09]:n_total} on 2025-03-03.",
+                                                 ["insight.s"]),
+    "amount outside the audit (must fail)": ("The week's amount was {kpi.weekly:billed_sdr|M}.", ["kpi.weekly"]),
+}
+run7c = {k: sorted({r for r, _, _ in v2.check_text(t, {**EVS[10], "insight.s": suez}, ids, 10)[1]})
+         for k, (t, ids) in RUN7C.items()}
+assert run7c == {"date range": [], "invoice amount": [], "row swapped outside a period (must fail)": ["V7"],
+                 "amount outside the audit (must fail)": ["V7"]}, run7c
+# D-P7-14: the slot-form errors that stopped real packs in c1 / c2 (a format the field does not allow, a unit or a
+# direction word written twice, a key on a one-row result) are fixed by code before the Validator
+# (`slots.normalize_text`); the numbers are untouched. Errors of meaning (an unknown field, another row) are left as
+# they are and still fail.
+NORM = {
+    "|k on days (c2 test 23)": (23, "DSO registered at {kpi.weekly:dso_days|k}, {kpi.weekly:dso_wow_days|k|dir} WoW.",
+                                ["kpi.weekly"]),
+    "|k on a count (c2 test 10)": (10, "Suez daily transits were {insight.s[2025-03-09]:n_total|k} on 2025-03-09.",
+                                   ["insight.s"]),
+    "unit twice (c1 test 23)": (10, f"Invoice {inv10['invoice_number']} had a difference of "
+                                    f"{{audit.week[{key10}]:difference_sdr|M}} SDR.", ["audit.week"]),
+    "direction twice": (23, "NileGate billed {kpi.weekly:billed_sdr|M}, up {kpi.weekly:billed_wow_pct|%1|dir} WoW.",
+                        ["kpi.weekly"]),
+    "key on one row": (23, "DSO was {kpi.weekly[2025-W23]:dso_days} in week 23.", ["kpi.weekly"]),
+    "unknown field (must fail)": (10, "Transits averaged {insight.s[2025-03-03]:transits}.", ["insight.s"]),
+    "another row (must fail)": (10, "Transits were {insight.s[2025-03-09]:n_total|k} on 2025-03-03.", ["insight.s"]),
+}
+norm_fixes, norm_rules = {}, {}
+for k, (w, t, ids) in NORM.items():
+    ev = {**EVS[w], "insight.s": suez}
+    fixed_text, fixes = slots.normalize_text(t, ev)
+    norm_fixes[k] = len(fixes)
+    norm_rules[k] = sorted({r for r, _, _ in v2.check_text(fixed_text, ev, ids, w)[1]})
+assert norm_rules == {"|k on days (c2 test 23)": [], "|k on a count (c2 test 10)": [], "unit twice (c1 test 23)": [],
+                      "direction twice": [], "key on one row": [], "unknown field (must fail)": ["V2"],
+                      "another row (must fail)": ["V7"]}, norm_rules
+assert norm_fixes == {"|k on days (c2 test 23)": 2, "|k on a count (c2 test 10)": 1, "unit twice (c1 test 23)": 1,
+                      "direction twice": 1, "key on one row": 1, "unknown field (must fail)": 0,
+                      "another row (must fail)": 1}, norm_fixes
+# the 52 clean slot drafts need no fix (normalize is a no-op on a right draft)
+assert all(not slots.normalize_text(b["text"], EVS[w])[1] for w in range(1, 53) for b in DRAFTS[w]["bullets"])
 print(f"Phase 4: {len(actual)} recorded Phase 5 bullets: {len(actual) - flagged} now bind, {flagged} still wrong "
       f"(no subject; share from the wrong dataset → hint kpi.weekly); 3 recorded Phase 6 failures caught with the "
       f"exact fix in the message, and the 3 fixed texts pass")

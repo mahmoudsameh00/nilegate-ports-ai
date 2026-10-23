@@ -367,7 +367,8 @@ actual = {"twin_rows_equal": twin_rows - len(twin_off), "twin_off": twin_off, "o
           "ops_denied": finance.finance_kpi(ops_emp, source="test", report_week=36, dataset="weekly").status}
 expected = {"twin_rows_equal": 4 * 13 + 4, "twin_off": [], "outside_week": "no_data", "customers_live": True,
             "customers_note": True, "wrapper_view": "finance_test.kpi_weekly_category",
-            "lng36_budget_variance_pct": 37.63, "ops_denied": "not_permitted"}
+            # −33.33 since migration 018 (2026-10-22, D-P7-1: the planted miss made real; +37.63 before)
+            "lng36_budget_variance_pct": -33.33, "ops_denied": "not_permitted"}
 assert actual == expected, actual
 print(f"Phase 3b: {actual}")
 print("✅ Phase 3b validation passed: finance_kpi on the evaluation copy = an independent recompute (4 weeks × 13 "
@@ -379,8 +380,11 @@ print("✅ Phase 3b validation passed: finance_kpi on the evaluation copy = an i
 # the real invoices, and (c) agree with an independent Python auditor built on compute_toll (P4-2) on both datasets:
 # same findings, same causes, same expected amounts. Skipped (reported as pending) until migration 015 is applied.
 import json  # noqa: E402
+import re  # noqa: E402
 
 from pipelines.agents.tools import audit  # noqa: E402
+
+CHEM = "Chemical Tankers & Other Liquid Bulk Tankers"       # the tariff Notes rule of migration 019
 
 # Reviewed 2026-10-18 (dry run of 015): the original invoices (ADR-013) hold 3 same-vessel, same-day, same-amount
 # pairs, both copies paid — probable duplicate billing (a vessel cannot transit twice on one day). Kept as data.
@@ -425,7 +429,11 @@ else:
                                                                   "Laden" else "Laden", v["scnt_tons"])["amount_sdr"]
                          if v["vessel_type"] != tariff.SFU else None),
                         ("sfu_priced_ballast", lambda: tariff.toll("Other Vessels", "Ballast", v["scnt_tons"])
-                         ["amount_sdr"] if v["vessel_type"] == tariff.SFU else None)]
+                         ["amount_sdr"] if v["vessel_type"] == tariff.SFU else None),
+                        # migration 019: a ballast chemical tanker at the Crude Oil ballast toll (tariff Notes)
+                        ("notes_crude_ballast_rate", lambda: tariff.toll("Crude Oil Tankers", "Ballast",
+                                                                         v["scnt_tons"])["amount_sdr"]
+                         if (v["vessel_type"], v["condition"]) == (CHEM, "Ballast") else None)]
                 cause = next((c for c, f in hyps if (h := f()) is not None and abs(r["billed_sdr"] - h) <= cent),
                              "unexplained")
                 out.add((n, "amount_mismatch", cause, None, exp))
@@ -472,13 +480,45 @@ else:
                            stream_writer=lambda *_: None, tool_call_id="check", store=None)
     wrapper_flagged = {ds: audit.invoice_audit_tool.invoke({"report_week": 10, "runtime": _rt(ds)})["invoices_flagged"]
                        for ds in ("live", "test")}
+    # migration 019 (§5f F5): the tariff Notes rule. The planted invoice runs through 019's own view body (the file
+    # applied); the body's output on today's data = the applied view's, every column — so the file is what runs.
+    m19 = (ROOT / "db" / "migrations" / "019_invoice_audit_notes_rule.sql").read_text(encoding="utf-8")
+    head19 = "CREATE OR REPLACE VIEW finance.invoice_audit AS"
+    body19 = m19[m19.index(head19) + len(head19):m19.index(";\n\nCREATE OR REPLACE VIEW finance_test.invoice_audit")]
+    body19 = body19.replace("%", "%%")                  # format() placeholders, not query parameters
+    order19 = " ORDER BY invoice_number, check_code"
+    file_equals_view = (db.fetch(f"SELECT * FROM ({body19}) q{order19}", exact=True)
+                        == db.fetch(f"SELECT * FROM finance.invoice_audit{order19}", exact=True))
+    chem = db.fetch("SELECT vessel_id, scnt_tons FROM vessels WHERE vessel_type = %s AND condition = 'Ballast' "
+                    "ORDER BY vessel_id LIMIT 1", (CHEM,), exact=True)[0]
+    crude_toll = tariff.toll("Crude Oil Tankers", "Ballast", chem["scnt_tons"])["amount_sdr"]
+    own_toll = tariff.toll(CHEM, "Ballast", chem["scnt_tons"])["amount_sdr"]
+    src19 = re.search(r"WITH billed AS \(\n(.*?)\n\), inv AS", body19, re.S).group(1)
+
+    def planted19(amount) -> list[tuple]:
+        src = (f"    SELECT 'INV-TEST-019'::text AS invoice_number, {chem['vessel_id']} AS vessel_id, DATE '2025-06-11' "
+               f"AS invoice_date, {chem['scnt_tons']}::numeric AS scnt_tons, {amount}::numeric AS billed_sdr, "
+               "NULL::numeric AS billed_rate")
+        return [tuple(r.values()) for r in db.fetch(f"SELECT check_code, probable_cause, review FROM "
+                                                     f"({body19.replace(src19, src)}) q")]
+    notes_rule = {"crude_rate": planted19(crude_toll), "wrong": planted19(own_toll + Decimal("5000")),
+                  "own_rate": planted19(own_toll)}
+    stake_t, _, review_t = audit.totals([
+        {"invoice_number": "A", "check_code": "amount_mismatch", "review": "manual_review", "difference_sdr": -11403.33},
+        {"invoice_number": "B", "check_code": "amount_mismatch", "review": "error", "difference_sdr": 5000.0}])
     actual = {"wrapper_flagged_w10": wrapper_flagged, "py_equal": py_equal,
+              "notes_file_equals_view": file_equals_view, "notes_rule": notes_rule,
+              "manual_review_not_at_stake": (stake_t, review_t),
               "recall": f"{len(set(planted) & found)}/{len(planted)}",
               "false_alarms": len(found - set(planted)), "expected_amounts_equal_key": amounts_ok,
               "week49_flagged": tool_weeks[49][1], "live_findings_equal_reviewed": live_found == LIVE_FINDINGS,
               "by_number": (by_number.invoices_checked, by_number.invoices_flagged, by_number.amount_at_stake_sdr),
               "by_number_note_unknown": "INV-0999999" in (by_number.note or ""), "arg_errors": audit_arg_errors}
     expected = {"wrapper_flagged_w10": {"live": 1, "test": 2}, "py_equal": {"live": True, "test": True},
+                "notes_file_equals_view": True,
+                "notes_rule": {"crude_rate": [("amount_mismatch", "notes_crude_ballast_rate", "manual_review")],
+                               "wrong": [("amount_mismatch", "unexplained", "error")], "own_rate": []},
+                "manual_review_not_at_stake": ({"B": 5000.0}, {"A"}),
                 "recall": "5/5", "false_alarms": 0,
                 "expected_amounts_equal_key": True, "week49_flagged": 0, "live_findings_equal_reviewed": True,
                 "by_number": (2, 1, 73950.26), "by_number_note_unknown": True, "arg_errors": 5}
@@ -486,7 +526,8 @@ else:
     phase4_status = "passed"
     print(f"Phase 4: {actual}; test weeks (checked, flagged): {tool_weeks}")
     print("✅ Phase 4 validation passed: invoice_audit finds the 5 planted errors with their causes (false alarms 0), "
-          "exactly the 3 reviewed live duplicates, and = an independent Python auditor on both datasets")
+          "exactly the 3 reviewed live duplicates, and = an independent Python auditor on both datasets; the tariff "
+          "Notes rule (019): a ballast chemical tanker at the Crude Oil ballast toll → manual_review, not at stake")
 
 # %% Phase 5 — search_documents wrapper (S6)
 # The wrapper must return what the library returns for the same user (same chunks, same order; compared without the
@@ -843,7 +884,8 @@ finally:
     shutil.rmtree(broken_dir, ignore_errors=True)
 
 AUDIT_TERMS = {"duplicate_charge", "tonnage_mismatch", "amount_mismatch", "rate_mismatch", "flat_terminal_rate",
-               "condition_swapped", "sfu_priced_ballast", "billed_on_invoice_tonnage", "unexplained"}
+               "condition_swapped", "sfu_priced_ballast", "billed_on_invoice_tonnage", "unexplained",
+               "notes_crude_ballast_rate", "manual_review"}            # migration 019: the tariff Notes rule
 # every `name` any skill writes must be something the tools really have (owner review 2026-10-19: a shorthand field
 # name and a fact contradicted across two skills had slipped in): view columns, datasets, tool names, result and
 # argument fields, statuses, audit check codes and causes

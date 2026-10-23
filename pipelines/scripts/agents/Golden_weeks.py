@@ -35,7 +35,13 @@ EVAL = ROOT / "Data" / "processed" / "agents" / "eval"
 SELECTION = EVAL / "golden_weeks.json"
 EXPECTED = EVAL / "golden_weeks_expected.json"
 DRAFT = ROOT / "Notebooks" / "_scratch" / "golden_weeks_expected_draft.json"
-ANSWER_KEY = json.loads((EVAL / "finance_test_answer_key.json").read_text(encoding="utf-8"))
+# v2 (2026-10-22, D-P7-1, migration 018): the planted budget miss is a real miss; v1 stays as generated for 012
+ANSWER_KEY = json.loads((EVAL / "finance_test_answer_key_v2.json").read_text(encoding="utf-8"))
+# a frozen file is re-frozen only on a recorded change: its current sha256 must start with the prefix named here
+# (one transition; afterwards the guard holds again). Old → new hashes are recorded in the plan's Progress.
+# history: bb3b1a3b… → 7909ccfb… (D-P7-1 / migration 018: the week 36 LNG budget, a real planted miss)
+REFREEZE = {"golden_weeks_expected.json": ("7909ccfb0d2385b0", "migration 019 (2026-10-22, §5f F5): audit rows carry "
+                                           "`review`, the result `invoices_manual_review` (the tariff Notes rule)")}
 
 ceo_id = db.fetch("SELECT e.employee_id FROM employees e JOIN roles r USING (role_id) WHERE r.role_name = 'ceo'")
 assert len(ceo_id) == 1, ceo_id
@@ -51,7 +57,14 @@ def save_frozen(path: Path, obj) -> str:
     text = dumps(obj)
     if path.exists():
         old = path.read_text(encoding="utf-8")
-        assert old == text, f"{path.name} differs from the frozen file: the data under a rule changed — review first"
+        old_sha = hashlib.sha256(old.encode("utf-8")).hexdigest()
+        prefix, why = REFREEZE.get(path.name, (None, None))
+        if old != text and prefix and old_sha.startswith(prefix):
+            path.write_text(text, encoding="utf-8", newline="\n")
+            print(f"{path.name} RE-FROZEN ({why}): {old_sha[:16]}… → "
+                  f"{hashlib.sha256(text.encode('utf-8')).hexdigest()[:16]}…")
+        else:
+            assert old == text, f"{path.name} differs from the frozen file: the data under a rule changed — review first"
     else:
         path.write_text(text, encoding="utf-8", newline="\n")
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
@@ -165,6 +178,12 @@ for f in ANSWER_KEY["findings"]:
         continue
     rows = expected[f"test:{f['iso_week']}"]["audit.week"]["rows"]
     assert any(r["invoice_number"] == f["invoice_number"] for r in rows), f
+# the planted budget miss (answer key v2): the category's variance in the test week = the key's
+for f in ANSWER_KEY["findings"]:
+    if f["error"] == "budget_miss":
+        row = next(r for r in expected[f"test:{f['iso_week']}"]["kpi.category"]["rows"]
+                   if r["vessel_category"] == f["vessel_category"])
+        assert f"{row['budget_variance_pct']:.2f}" == f["expected_variance_pct"], (row, f)
 flagged = {k: v["audit.week"]["invoices_flagged"] for k, v in expected.items()}
 print("invoices flagged per golden week:", flagged)
 assert flagged["test:49"] == 0, "the clean week is flagged"

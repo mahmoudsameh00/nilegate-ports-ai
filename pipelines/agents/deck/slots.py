@@ -250,6 +250,54 @@ def bound_text(slot_text: str, evidence: dict) -> str:
     return format_value(s[0].field, value, s[0].fmt, s[0].direction)
 
 
+UNIT_OF_KIND = {"money": r"SDR\b", "pct": r"%", "days": r"days?\b"}
+DIR_WORD_BEFORE_RE = re.compile(r"(?i)\b(up|down|rose|fell|increased|decreased|grew|declined|dropped|"
+                                r"ارتفع|انخفض|زاد|قل)\s*$")
+
+
+def normalize_text(text: str, evidence: dict) -> tuple[str, list[str]]:
+    """Fix the slot *form* the Writer got wrong where the right form is certain (Phase 7, D-P7-14): a format the
+    field does not allow → the field's default; a row key on a one-row result → dropped; the unit or a direction word
+    written again next to a slot → dropped. The number itself is never touched (code writes it), so the fix cannot
+    make a number wrong; every fix is listed for the run record. Anything else (an unknown field, a wrong row) is
+    left for the Validator."""
+    fixes, out, pos = [], [], 0
+    for s in find_slots(text):
+        before = text[pos:s.start]
+        new = s.raw
+        try:
+            res = evidence.get(s.eid) or {}
+            key = s.key
+            if key is not None and len(res.get("rows") or []) == 1 and not row_keys(res):
+                key = None
+                fixes.append(f"{s.raw}: a one-row result takes no [{s.key}]")
+            _, value = locate(Slot(s.raw, s.eid, key, s.field, s.fmt, s.direction, s.start, s.end), evidence)
+            kind = field_kind(s.field, value)
+            fmt = s.fmt
+            if kind and fmt and fmt not in FORMATS[kind]:
+                fmt = FORMATS[kind][0] if kind != "money" else "M"
+                fixes.append(f"{s.raw}: format {s.fmt!r} not allowed for {s.field} → {fmt!r}")
+            new = binding(s.eid, s.field, fmt, key, s.direction) if (key, fmt) != (s.key, s.fmt) else s.raw
+            if s.direction and DIR_WORD_BEFORE_RE.search(before):
+                before = DIR_WORD_BEFORE_RE.sub("", before).rstrip() + " "
+                fixes.append(f"{s.raw}: |dir writes the direction itself; the word before it dropped")
+            unit = UNIT_OF_KIND.get(kind or "")
+            after = text[s.end:]
+            m_unit = re.match(rf"\s*{unit}", after) if unit else None
+            if m_unit:
+                fixes.append(f"{s.raw}: the slot writes its unit; {m_unit.group(0).strip()!r} after it dropped")
+                pos_after = s.end + m_unit.end()
+            else:
+                pos_after = s.end
+        except SlotError:
+            pos_after = s.end                    # not certain: the Validator reports it
+        out.append(before)
+        out.append(new)
+        pos = pos_after
+    out.append(text[pos:])
+    return "".join(out), fixes
+
+
 def render_text(text: str, evidence: dict, lang: str = "en") -> tuple[str, list[Bound], list[SlotError]]:
     """Fill every slot of `text`. A slot that fails stays as written (and is reported); a brace left outside a slot
     is a malformed slot."""

@@ -2,7 +2,7 @@
 name: suez-toll-audit
 description: How NileGate's Suez transit invoices are priced (progressive toll bands) and how to read, rank and act on invoice_audit findings (duplicate charge, tonnage, amount, rate). Load before reporting invoice exceptions.
 stage: 1
-reviewed_by_owner: 2026-10-19
+reviewed_by_owner: 2026-10-22
 ---
 # Suez toll audit
 
@@ -12,11 +12,9 @@ reviewed_by_owner: 2026-10-19
 - Tonnage = the vessel's Suez Canal Net Tonnage (SCNT). Money in SDR.
 - `compute_toll` gives the correct amount with its band-by-band breakdown; use it to explain a finding, never to
   invent one.
-- **Not modelled:** the audit applies the band tables only. The tariff Notes add rules it does not apply (ADR-004,
-  deferred): Petroleum Product and Chemical tankers in ballast pay the Crude Oil ballast rates; OBO / combined
-  carriers pay the highest applicable cargo rate; the actual condition at transit controls. A finding on such a
-  vessel may be a correct invoice: look the rule up (`search_documents` on the Suez Notes) and mark it "manual
-  review", never "error".
+- **Tariff Notes:** ballast product tankers' Crude Oil ballast rates are already in the bands. A ballast chemical
+  tanker billed at the Crude Oil ballast toll may be right (if it is an oil / chemical tanker): `review` =
+  `manual_review` — report it "for manual review", never as an error or money at stake. No OBO category.
 
 ## What `invoice_audit` checks (each row = one finding; no row = the invoice passed)
 | check_code | Meaning | Typical action |
@@ -31,6 +29,7 @@ reviewed_by_owner: 2026-10-19
 - `condition_swapped` — priced as Ballast instead of Laden, or the reverse.
 - `sfu_priced_ballast` — a Special Floating Unit priced as Other Vessels / Ballast.
 - `billed_on_invoice_tonnage` — priced on the wrong tonnage written on the invoice.
+- `notes_crude_ballast_rate` — the tariff Notes case above (manual review).
 - `unexplained` — none of the above: say so and ask for a manual review; do not guess a cause.
 
 ## How to report findings

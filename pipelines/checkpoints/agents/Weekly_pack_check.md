@@ -24,7 +24,9 @@ decision, publishes only an approved draft, and resumes from PostgreSQL after it
 - **Real prompts did not fit Groq.** The first real run: 9.7K–17K tokens per Insight / Writer call, Groq refused
   ("Request too large", taken for a per-minute limit: 60 s waits, then the model stopped) and every call fell back.
   Owner: the pack's Insight / Writer on Gemini flash-lite + OpenRouter nemotron (ADR-045 amendment 1); `llm.py`
-  caches a too-large request as a deterministic failure (`too_large`).
+  caches a too-large request as a deterministic failure (`too_large`). 2026-10-23 (ADR-045 amendment 2): that
+  nemotron was retired upstream (404 on every request); Phase 0's role pairs now expect `nemotron-3.5-super-vl`, the
+  only candidate that published a forced-fallback pack (1 / 2).
 - **The model could not cite its own tool calls** (week 23 cited `suez_transits`): it never sees tool-call ids. The
   notes and Writer prompts now list every evidence id with its tool and arguments. A twice-invalid reply now ends the
   run as `output_invalid` instead of an exception (owner); quota exhaustion stays an exception (resumable).

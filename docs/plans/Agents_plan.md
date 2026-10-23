@@ -640,6 +640,103 @@ ROADMAP, checkpoint narrative, handoff).
 **Not in Phase 7:** an LLM judge (G4); the 24 Arabic document twins (Phase 12); edit rate from real approvals (G5,
 Phase 8); the Power BI Exceptions page; scheduling, LangSmith (Phase 8).
 
+### 5e. Phase 8 — scheduling, LangSmith tracing, checkpoint retention: concrete design (PROPOSED 2026-10-20; decisions P8-1…P8-4 answered; APPROVED 2026-10-20 by the owner, as written; IMPLEMENTED 2026-10-22, ADR-054 — deviations D-P8-1…D-P8-12 in Progress; CLOSED 2026-10-22)
+
+**Owner decisions (2026-10-20, AskUserQuestion, all the recommended option):** P8-1 the next week of the replay, one
+pending pack at a time; P8-2 weekly, Monday 10:30, logged-on only, retries, log + toast; P8-3 archive, then delete
+ended threads older than 30 days, pending never deleted; P8-4 tracing on the operator entry points only.
+
+**Done when (§5):** a run started by Windows Task Scheduler produces the pack and waits at the approval; the owner
+then approves (or edits / rejects) it through the CLI. **Starting point (seen 2026-10-20):** `agent_state` holds one
+thread (`weekly_pack:live:2025-W10:1`, published; `reports/2025-W10/`); `Weekly_pack.py run --week N --as E` starts
+a pack by hand; `.env.example` and `common.SECRET_KEYS` already name `LANGCHAIN_API_KEY` (no key set); `langsmith`
+0.14.7 is installed; `agent_writer` already has DELETE (migration 016) → **no migration in Phase 8**, no new package.
+
+| # | Question | Recommended | Alternative(s) |
+|---|---|---|---|
+| P8-1 | Which week a scheduled run makes (D12: replay of 2025) | **The next week of the replay:** the week after the highest published week (W10 → W11, …); **one pending pack at a time** — if a thread waits at the approval, the run starts nothing and logs "waiting for approval of W<ww>"; a week whose last attempt stopped (`validation_failed`, `output_invalid`, `not_ready`) is retried once on the next firing with a new attempt, then skipped and logged | (B) today's ISO week number → the same week of 2025 (2026-10-20 → W43; jumps, gaps); (C) a fixed week in a config file |
+| P8-2 | When and how the task runs | **Weekly, Monday 10:30 Cairo time** (after the Gemini daily reset: midnight Pacific = 09:00–10:00 Cairo all year), "run only when the user is logged on" (no stored Windows password; Docker Desktop runs only after logon anyway), "run as soon as possible after a missed start", retry twice every 30 min on failure, 1 h time limit; a PostgreSQL / Docker probe first (down → exit code + log, the retry handles it); one log line per firing in `reports/_log/scheduled.jsonl` + a Windows toast "W<ww> waits for your approval" (built-in WinRT, no module) | (B) daily 10:30 (one 2025 week per day: faster replay, same quota rules); (C) log only, no toast |
+| P8-3 | Checkpoint retention (D3; `agent_writer` DELETE) | **Archive, then delete whole threads:** a thread that **ended** (published / rejected / any stop status) and whose last checkpoint is older than **30 days** → its approval log, status and stop reason appended to `reports/_log/threads_archive.jsonl` (the G5 record outlives the thread; a published pack already has `approval.json` / `run.json`), then `PostgresSaver.delete_thread`; a thread **waiting at the approval is never deleted** (reported when older than 14 days); `--dry-run` prints what would go; runs at the end of every scheduled firing and by hand (`Weekly_pack.py prune`) | (B) keep every thread, prune only old checkpoints inside a thread (keeps the latest; saves less, more code: no library call for it); (C) by hand only |
+| P8-4 | LangSmith tracing (D8, free developer plan) | **On for the operator entry points only:** `Weekly_pack.py` (run / resume / scheduled) and the Q&A when a key exists; **off** in the checks and in `Stage1_eval.py` unless `EVAL_TRACE=1` (one evaluation ≈ 400 calls; the free plan's monthly trace allowance is for real runs); project `nilegate-agents`; each trace tagged with thread id, week, dataset, run identity; full inputs / outputs (all data synthetic or public, ADR-037 amendment 2); the key name becomes `LANGSMITH_API_KEY` (`.env.example`, `SECRET_KEYS` — the library still reads `LANGCHAIN_API_KEY`); tracing failure never fails a run | (B) on everywhere through `.env`; (C) off by default, `--trace` per command |
+
+**Fixed with the design (not a separate question):** the scheduled run identity = a Finance manager set in `.env`
+(`PACK_RUN_AS`, P5-5; checked in PostgreSQL at start); the task is registered by a PowerShell script in the repo
+(`ops/scheduler/register_weekly_pack.ps1`, owner runs it once; `-Unregister` removes it); the scheduled command is
+`Weekly_pack.py scheduled` (idempotent: two firings the same day never start two attempts); **G5 edit rate** =
+`Weekly_pack.py report` over `reports/2025-W*/approval.json` + the archive (approve / edit / reject counts, edited
+slides and sentences) — reported, never scored; the pack runs on flash-lite (≈ 6 calls a pack; quota guard of
+D-P7-11 unchanged); `web_search` returns `context_unavailable` until Tavily's monthly credits reset (the pack already
+handles it: the context slide says so).
+
+**Order (one step at a time, each with its check):** S1 the week picker + `scheduled` / `prune` / `report` commands
+on fake models and a temporary thread prefix (`weekly_pack:check:`) → `Scheduler_check.py` (picker rules, one pending
+at a time, idempotent firing, retention: archive lines then delete, pending untouched, the run identity survives) →
+S2 LangSmith: the owner creates the key (free developer plan) and puts it in `.env`; tracing wired; one fake-model run
+read back from LangSmith (`langsmith.Client`: the trace, its tags) → S3 the task registered by the owner; one firing
+by `Start-ScheduledTask` (real models) reaches the approval → owner decides through the CLI → `report` shows the
+decision → S4 close (ADR-054, ARCHITECTURE, ROADMAP, checkpoint narrative, handoff).
+
+**Files (new):** `pipelines/agents/scheduling.py` (week picker, retention, archive), `pipelines/agents/tracing.py`
+(on / off + tags over `langsmith`), `ops/scheduler/register_weekly_pack.ps1`,
+`pipelines/scripts/agents/Scheduler_check.py`, `pipelines/checkpoints/agents/Scheduler_check.md`. **Changed:**
+`Weekly_pack.py` (commands `scheduled`, `prune`, `report`), `pipelines/lib/common.py` (`SECRET_KEYS`),
+`.env.example`, `Stage1_eval.py` (`EVAL_TRACE`), the docs at close.
+
+**Not in Phase 8 (carried):** candidate c2 (one full evaluation on a fresh provider day; can share a day with
+scheduled packs: ≈ 400 + 6 < 500); the owner's review of skill `finance-qa`, D-P7-1…D-P7-12 and the Q&A golden set
+notes; the Power BI Exceptions page; tariff Notes rules.
+
+**Amended 2026-10-21 (owner, while candidate c3 is under test):** the `Stage1_eval.py` change (`EVAL_TRACE`) and the
+Q&A entry point's tracing wait until c3 is judged — tracing is a context around each graph run (D-P8-5), so the
+evaluation stays untraced unedited; S3's real firing on 2026-10-22 after c3 finishes. (Done 2026-10-22: `EVAL_TRACE`
+added, D-P8-11.)
+
+### 5f. Phases 7–8 closure — no open point left (PROPOSED 2026-10-22; owner decisions C-1…C-4 answered; APPROVED 2026-10-22 by the owner: "ابدأ", order F1…F9; DONE 2026-10-23 — F8 = the final Stage 1 baseline, D7 not met on `planted_all`; deviations D-P8-13…D-P8-16 in Progress)
+
+**Why:** before the one commit of Phases 7–8 and the Stage 1 checkpoint, the owner asked that no point stay carried
+or unclear. Inventory 2026-10-22 (plan Progress / handoffs, ROADMAP, ADRs, skills, Power BI, live probes):
+
+| # | Open point | How it closes (owner decision 2026-10-22, AskUserQuestion) | Needs |
+|---|---|---|---|
+| K1 | Owner reviews: D-P7-1…D-P7-15, the ADR-052 reading for a failing baseline, skill `finance-qa` (`reviewed_by_owner: no`), the Q&A golden set, findings v2 | **C-1: one by one in the chat**; each accepted point recorded (`reviewed_by_owner: <date>` for the skill), each change made and checked | owner |
+| K2 | D-P7-15 not measured in a real run; D7 missed by one slot; scorer notes (q14 / q01_ar relevance words, r04's number form) | **C-2: one confirmation evaluation** (2 runs, ≈ 400 flash-lite calls) on 2026-10-23 after 07:00 UTC, golden set **frozen**; it is a measurement, not a tuning candidate: its results = the final Stage 1 baseline and the D7 verdict; the scorer notes become documented limits in ADR-053 | quota day |
+| K3 | ADR-045 fallback broken (OpenRouter nemotron → 404 on every request) | **C-3: a new free fallback**: smoke test of free OpenRouter models able to take the 10–17K-token prompts, then a forced-fallback pack on weeks 5 / 10 / 23 / 49 (≈ 30 OpenRouter calls, no flash-lite); ADR-045 amendment 2 | OpenRouter |
+| K4 | Power BI Exceptions page = placeholder | **C-4: build it now** from `finance.invoice_audit` with the Power BI Modeling MCP (table + visuals, each explained; ADR-048 patterns) | Power BI Desktop open |
+| K5 | Tariff Notes rules not modelled by the audit | **C-4: migration 018** — an invoice of a Notes category (ballast Petroleum Product / Chemical tankers, OBO) whose price differs from its own bands is `manual_review`, not an error (twin view too); a planted case in `Tools_check.py`; owner sees the SQL before it is applied | migration |
+| K6 | Q&A tracing (no operator entry point) | a small operator CLI `Finance_qa.py ask "…" --as E [--lang ar]` (traced like the pack; fake-model check) | — |
+| K7 | `langsmith` `list_runs` deprecated after 2027-01-31 | move `Scheduler_check.py` Phase 5 to the replacement API if the installed 0.14.7 offers a sync one; else pin the reason in the check's header (the check fails loudly if the call disappears) | — |
+| K8 | CLI approval log prints `reason` (empty) instead of the `--comment` text | `Weekly_pack.py show` prints the comment | — |
+| K9 | "Tavily monthly credits used up" | **closed 2026-10-22 by a probe:** plan Researcher, 40 / 1,000 used; one live `web_search` → ok, 2 rows — the carry was stale | — |
+
+**K1 outcome (2026-10-22, Progress):** 13 points accepted, 5 changed — they add work before the confirmation run.
+
+**Order (each step with its check; the evaluation measures everything at once, so it runs last):**
+- **F1 small code:** K8 (`show` prints the comment), K7 (`list_runs` → the replacement API or a pinned note),
+  D-P7-14's promise (every code fix of a slot's form counted in `run.json` and `Weekly_pack.py report`) →
+  `Scheduler_check`, `Weekly_pack_check`, `Deck_check`.
+- **F2 the Q&A on `create_agent` (D-P7-6)** + a chat-model adapter over `llm.py` (cache, quota, fallback unchanged)
+  + middleware (tool-call limit ≤ 3 rounds, the answer check + one patch) + `Finance_qa_check.py` (D-P7-7) + the
+  operator CLI `Finance_qa.py` (K6, traced) → `Stage1_eval.py` Phase 4 unchanged in result.
+- **F3 the planted budget miss (D-P7-1):** migration 018 (one `finance_test.budget_weekly` row: LNG, W36 = billed ×
+  1.5) + the generator's rule + `verify_readonly.sql` section + snapshot; `Golden_weeks.py` re-freezes the test
+  weeks' evidence; findings v3; the miss scorer (Phase 2 cases); planted gate 6 / 6 (ADR-052 / ADR-053 amended).
+- **F4 the Q&A golden set v2 (D-P7-3, D-P7-4, scorer notes):** two askers per profile, +1 Finance-employee level-3
+  question (31 EN + 10 AR), the metric synonyms and number forms by rule → `Qa_golden.py` re-freeze.
+- **F5 migration 019 (K5):** Notes categories priced off their own bands → `manual_review` in `finance.invoice_audit`
+  and its twin; a planted case in `Tools_check.py`; the SQL shown to the owner before it is applied.
+- **F6 Power BI Exceptions page (K4):** `finance.invoice_audit` into the model (DirectQuery, `ports_bi`), a findings
+  table + KPI cards + the "manual review" note; numbers = the view for 3 weeks.
+- **F7 the new fallback (K3):** smoke test of free OpenRouter models (context ≥ 32K, tool calling, structured
+  output), a forced-fallback pack on weeks 5 / 10 / 23 / 49 → ADR-045 amendment 2.
+- **F8 the confirmation evaluation (K2):** two runs on the first fresh provider day after F1–F7 (≈ 400 flash-lite
+  calls), against c3 — **a measurement**: its file is the final Stage 1 baseline; D7 met or not, reported as is.
+- **F9 close:** ADR-045 / 049 / 051 / 052 / 053 / 054 updates, ARCHITECTURE, ROADMAP, CLAUDE.md, handoff → the owner's
+  one commit → the Stage 1 checkpoint (§5 "S1 ✔": a PR of `feat/agents`) → Phase 9 (§6a).
+
+**Not in scope (older, not Phases 7–8; listed so nothing is hidden):** ROADMAP known issues — `tools/nb_to_script.py
+check` "checkpoint differs" ×6, the guard-hook confirmation on Windows, `SyntheticGenerator` not reproducible on
+Linux, the undocumented toll CSV extraction.
+
 ## 6. Stage 2 — Operations Desk (details)
 
 - **Users:** Operations employees / managers and the CEO (level-1 operational data). Finance data stays invisible to
@@ -655,6 +752,38 @@ Phase 8); the Power BI Exceptions page; scheduling, LangSmith (Phase 8).
   Red Sea) as situational awareness only: real vessels are never linked to ours (ADR-028).
 - **Evaluation ground truth:** the synthetic tracks know every real arrival time → cut a voyage at time *t*, predict,
   compare (MAE in hours) against the naive baseline; route cases hand-computed from the same formulas.
+
+### 6a. Phase 9 — Stage 2 tools: concrete design (PROPOSED 2026-10-22; decisions S2-D1…S2-D5 + P9-1…P9-4 to answer before it starts)
+
+**Goal (§5):** the Operations tools, each tested on its own; live tools degrade gracefully. **Starting point:**
+`searoute` 1.6.0 installed (ADR-032 used it for the synthetic tracks), MongoDB AIS / EDI + `voyages_synthetic.parquet`,
+the Stage 1 tool contract (ADR-049: `f(user, **args) → ToolResult`, RBAC first, the user from the run context, cache +
+10 s timeout + `context_unavailable`), `compute_toll` (the Suez dues), PortWatch.
+
+| Tool | Source | Returns | RBAC / failure |
+|---|---|---|---|
+| `sea_route` | `searoute` (MARNET), Suez vs Cape by the library's passage restrictions (support checked first, P9-4) | distance (nm), the route's waypoints (simplified), the passages used | level 1 public; deterministic, no network |
+| `voyage_status` | MongoDB `ais_positions` + `voyages_synthetic.parquet` (our 500 vessels, as of 2026-09-13) | last position, speed, next port, legs left, distance left | level 1 Operations; the app user (read only) |
+| `vessel_live` | aisstream.io WebSocket (free key, P9-2), one bounding box, a short window (S2-D4) | real vessels seen (counts by type, a few positions) — situational only, never linked to ours (ADR-028) | public external; no key / timeout → `context_unavailable` |
+| `marine_weather` | Open-Meteo Marine + Forecast (free, no key) at route points | wave height, wind, swell per point and day | public external; cached per (point, day) |
+| parameters | a documented table per vessel type (service speed, fuel t / day; sources cited) + the bunker price set by the owner with its date (S2-D3) | — | read by `route_advice` (Phase 10) |
+
+| # | Question | Recommended | Alternative(s) |
+|---|---|---|---|
+| P9-1 | Where the parameter table lives | a reference CSV in `db/reference/` loaded by **migration** into a small table (documented, sourced; the DB is the source, like the toll bands) | a Python constant; a JSON file read by the tool |
+| P9-2 | aisstream.io | the owner creates the free key (`AISSTREAM_API_KEY`); the tool samples ≤ 30 s per call | skip live AIS in Stage 2 (synthetic tracks only) |
+| P9-3 | Bunker price | one VLSFO price in USD / t set by the owner with its date, converted to SDR at a dated rate stored beside it (money in SDR, ADR-003) | quote fuel in tonnes only (no money) |
+| P9-4 | Suez vs Cape | `searoute`'s restriction list (block Suez → the Cape route) if supported; else two fixed corridors through waypoints | always the shortest path + a Cape alternative by waypoints |
+
+**Answers (owner, 2026-10-23, AskUserQuestion):** P9-1 **CSV in `db/reference/` + migration** (recommended); P9-2
+**no live AIS in Stage 2** (the alternative): `vessel_live` leaves Phase 9, the synthetic tracks only, no aisstream.io
+key — D11 narrowed (web search, PortWatch, marine weather), ADR at Phase 9 close; P9-3 **one dated VLSFO price in
+USD / t → SDR at a dated rate** (recommended); P9-4 **`searoute` restrictions, support checked first, else two fixed
+corridors** (recommended).
+
+**Checks:** `Stage2_tools_check.py` (each tool against its source; hand-computed routes Port Said → Rotterdam both
+ways; RBAC matrix extended; failure modes: no key, timeout, bad input). **Not in Phase 9:** the `route_advice` and
+`voyage_watch` graphs (Phases 10–11).
 
 ## 7. Decisions — Stage 1 (answered) and Stage 2 (to answer before Phase 9)
 
@@ -691,6 +820,10 @@ Phase 8); the Power BI Exceptions page; scheduling, LangSmith (Phase 8).
   beyond a run's snapshot. *Alt:* store a rolling window in MongoDB (a new collection through the one writer).
 - **S2-D5 — Thresholds** (fixed before the Stage 2 runs): route numbers 100 % from tools; ETA MAE better than the naive
   baseline; alert precision measured on planted weather / traffic events.
+- **Answers (owner, 2026-10-23):** S2-D1 **a scheduled `voyage_watch` every N hours, alerts saved** (recommended);
+  S2-D2 **rule-based ETA first**, ML only past a margin fixed beforehand (recommended); S2-D3 **answered by P9-1 + P9-3**
+  (a documented table by migration + a dated VLSFO price); S2-D4 **dropped** (P9-2: no live AIS); S2-D5 **as
+  proposed** (recommended). Phase 9 may start after the Stage 1 checkpoint (§6a).
 
 ### 7a. LLM bake-off on free APIs (rules fixed before any run)
 
@@ -1516,8 +1649,374 @@ rate limits (ai.google.dev); FP&A reporting time (vendor case studies). Vendor f
   Deck_check 4 / 4, Golden_weeks 3 / 3, Qa_golden 4 / 4, Stage1_eval Phases 1–4 ✅ (0 calls). Scratch kept for the
   owner's look: `Notebooks/_scratch/stage1_eval/` (the published eval decks), `deck_real_2025-W*.pptx`, run logs.
   Commit: the owner.
+- 2026-10-21 — **Carry: c2 run (owner: "we were to continue C2 too").** Started automatically after the 07:00 UTC
+  quota reset (Docker restarted first), two runs, 0 fallbacks: `stage1_eval_2026-10-21_c2.json`. **ADR-052: reject**
+  — `planted_5_of_5` regressed (1 / 5 in both runs: test weeks 10 and 23 did not publish). Primaries: narrative
+  recall 0.71 (+0.02), Q&A EN 0.93 (−0.02, within the margin), AR 1.0. **What c2 fixed:** abstention 0.86 → **1.0**
+  in both runs (the "not_in_data" status line); the month-name date false alarms gone (live 48 / 47 published in
+  run 1). **Why the test weeks failed** (replayed from the caches, 0 calls): real Writer errors (`|k` on `n_total`
+  and on `dso_days`) and two borderline Validator refusals — "ranged between {03-03} and {03-04} … during the week of
+  2025-03-03 to 2025-03-09" (the second slot bound to the range's first date) and "a duplicate charge with an amount
+  of {billed_sdr}" ("amount" is not in the billed family). Q&A: q22 `[0]` on a one-row result again, q20 "days days"
+  and a typed number. **c1 stays the baseline.** Open for a later candidate (owner's call): keep c2's Q&A lines (they
+  fixed abstention) and teach the Validator a date range and "amount" for one invoice's billed field; the publish
+  rate varies run to run (model variance), so the planted gate needs every test week to publish.
+- 2026-10-21 — **Owner: "c3 tomorrow" (AskUserQuestion: keep c2's code as a candidate under test, add the two
+  Validator fixes, run on the next provider day; the alternatives were reverting to c1 or keeping c2 as an
+  exception).** **D-P7-13 (c3 = c2 + two Validator fixes):** a period ("the week of 2025-03-03 to 2025-03-09")
+  names no row; "amount" / "charge" names `billed_sdr` on an `invoice_audit` row only. `Deck_check.py` Phase 4 gains
+  the two recorded sentences (pass) + a row swapped outside a period and "amount" for a week's billed total (still
+  fail); **4 / 4 ✅** (52 clean decks, 100 / 100 planted). `Weekly_pack_check.py` **7 / 7 ✅** (cached real phase, 0
+  calls). Until c3's verdict the code holds a candidate under test, not a kept change. Run on 2026-10-22 after
+  07:00 UTC (10:00 Cairo), Docker running:
+  `$env:EVAL_REAL_MODELS='1'; $env:EVAL_REPEATS='2'; $env:EVAL_TAG='c3'; $env:EVAL_BASELINE='stage1_eval_2026-10-20_c1.json'; uv run python tools/run.py pipelines/scripts/agents/Stage1_eval.py --timeout 14400`.
+  If ADR-052 rejects c3 too, the owner chooses: revert to c1's code, or accept the variance and stop tuning here.
+- 2026-10-21 — **Owner: "handle every problem with a clear impact; start Phase 8 in a new session if it does not
+  wait on Phase 7's results".** Phase 8 does not wait on c3 → started in its own session `agents-phase-8` (same
+  folder) with constraints: no edits to the files under test, fake models, ≤ 20 real calls a day and none on c3's day
+  before it finishes, no commit. **D-P7-14 (added to c3; ADR-051 amendment 1):** `slots.normalize_text` fixes the
+  slot form before the Validator — a disallowed format → the field's default (money `M`), a key on a one-row result
+  dropped, a unit / direction word written twice dropped; numbers untouched, meaning errors left to the Validator;
+  wired into the pack Writer (`weekly_pack.normalize_draft`, state `normalized`) and the Q&A answer
+  (`finance_qa`, state `normalized`). These were the recurring causes of unpublished packs (c2's test weeks 10 / 23)
+  and of Q&A `validation_failed` (q12, q22, q20). Checks: Deck_check **4 / 4 ✅** (7 normalize cases: 5 recorded
+  sentences pass, an unknown field and another row still fail; the 52 clean drafts unchanged), Weekly_pack_check
+  **7 / 7 ✅** (cached real weeks now one patch instead of two; 4 fresh calls once, then 0), Stage1_eval 1–4 ✅.
+  **c3 = c2 + D-P7-13 + D-P7-14**, run 2026-10-22 (command above). Not handled (no clear impact on the system):
+  the frozen golden set's narrow relevance words and r04's fact pattern (measurement only; changing them after the
+  runs would shape the score — owner note kept).
+- 2026-10-22 — **c3 run (owner: "continue"; Docker started by the assistant, quota fresh): ADR-052 reject by the
+  margin only** — `stage1_eval_2026-10-22_c3.json`. No gate regressed; packs 10 / 11 in **both** runs; planted 5 / 5
+  both; narrative recall **0.88** (+0.19; seen 1.0 / 1.0, unseen 0.86 / 0.86); abstention 1.0 both; false alarms 0;
+  claims 100 %; leakage 0; Q&A EN 0.96 (=), **AR 0.95 (−0.05 > 0.03)**. The AR drop is one item (q20_ar, run 1) refused
+  by the Q&A checker for the digits in a vessel's name ("Liquefied Voyager 165"); the same checker refused "page 82"
+  (r04) and "first 5000 tons" (q22). **D7 missed only traceability in run 1 (0.9954: one slot not listed in its
+  bullet's evidence ids).** **D-P7-15 (c4 = c3 + two form fixes, "clear impact" per the owner):** the Q&A checker
+  allows a number that appears inside a tool's own text values (names, band labels, citations — as the deck
+  Validator already blanks them); `normalize_draft` adds a slot's evidence id to its bullet's `evidence_ids` when the
+  Writer left it out. Stage1_eval Phase 2 gains a checker case (a vessel name passes, a typed amount is still
+  refused); checks: Stage1_eval 1–4 ✅, Deck_check 4 / 4 ✅, Weekly_pack_check 7 / 7 ✅ (cached, 0 calls). Run c4 on
+  2026-10-23 after 07:00 UTC: `EVAL_TAG='c4'`, same command, baseline c1.
+- 2026-10-22 — **Owner (AskUserQuestion on a stopping rule): "accept c3 now and stop".** c3 accepted by an owner
+  exception to ADR-052 (recorded there) → **baseline = `stage1_eval_2026-10-22_c3.json`**; c4 is not run; tuning
+  stopped. D-P7-15 stays in the code (deterministic checks only; the next real evaluation measures it). Final Phase 7
+  numbers (c3): packs 10 / 11 in both runs, planted 5 / 5, narrative recall 0.88, Q&A EN 0.96 / AR 0.95, abstention
+  1.0, false alarms 0, claims 100 %, leakage 0; D7 not met by one slot (traceability 0.9954 in one run). The Phase 8
+  session was told its quota constraint is lifted.
+- 2026-10-20 — **Phase 8 design §5e PROPOSED → APPROVED** (P8-1…P8-4 all recommended, then "approve as written").
+- 2026-10-20 — **Phase 8 S1 done.** `pipelines/agents/scheduling.py` (week picker `plan`, `describe` / `describe_all`,
+  `prune` = archive then `delete_thread`, `approval_report` + `report_entries` (G5), `toast`, `fire` = one scheduled
+  firing, `allowed_run_as`); `Weekly_pack.py` gets `scheduled [--as]`, `prune [--dry-run]`, `report` (exit codes
+  0 / 1 / 2 / 3, log `reports/_log/scheduled.jsonl`, archive `reports/_log/threads_archive.jsonl`); `list` now over
+  `scheduling.thread_ids` (same output). `Scheduler_check.py` **4 / 4 ✅** at the first run (28 s, 0 LLM calls,
+  0 files changed); narrative `pipelines/checkpoints/agents/Scheduler_check.md`. Live G5 today: 1 pack decided (W10),
+  edit rate 0.0. **Deviations (design points the section did not fix):** D-P8-1 a thread stopped mid-run (an
+  exception such as a quota, ADR-050 (6)) is **resumed** by the next firing before anything new (after "wait");
+  D-P8-2 a **rejected** pack counts as an attempt that ended without a deck (retried once, then the week skipped);
+  D-P8-3 the firing **waits for PostgreSQL itself** (`probe`: every 60 s for up to 30 min, both logins) — Task
+  Scheduler's restart-on-failure is not reliable for an action's non-zero exit code (it targets a task that fails
+  to start), and Docker Desktop starts after logon; the task's own restart settings stay as a second line; D-P8-4 a **lock file**
+  (`reports/_log/scheduled.lock`, stale after 2 h) besides the task's "do not start a new instance". The toast is
+  not exercised by the check (no pop-up during checks); S3's real firing shows it.
+- 2026-10-21 — **S1 re-verified** (`Scheduler_check.py` 4 / 4 ✅, 0 calls) and **owner decisions for S2 / S3 while
+  c3 is under test** (AskUserQuestion, all the recommended option): (a) `EVAL_TRACE` in `Stage1_eval.py` and the Q&A
+  entry point are **deferred until c3 is judged** (both files are code under test); (b) build S2 now, the owner adds
+  the key later; (c) **S3's real firing on 2026-10-22 after c3 finishes** (≈ 400 + 6 < 500 flash-lite requests;
+  registering the task can happen any time: it first fires by itself on Monday 2026-10-26 10:30).
+- 2026-10-21 — **S2 built, read-back pending the key.** `pipelines/agents/tracing.py` (`trace(thread_id, entry,
+  run_as, trigger)` = `langsmith.tracing_context(enabled=True, project_name="nilegate-agents", tags, metadata)` only
+  when a key exists; `labels` from the thread id; `global_switch`; final flush with errors swallowed);
+  `Weekly_pack.py` `run` / `resume` wrapped (prints "LangSmith: traced … / off") and `scheduled` passes
+  `tracer=` to `scheduling.fire` (new argument, None = untraced; the log record gets `traced`);
+  `common.SECRET_KEYS` + `LANGSMITH_API_KEY` (the old name kept: the library reads both); `.env.example`:
+  `PACK_RUN_AS`, `LANGSMITH_API_KEY`, `LANGSMITH_ENDPOINT` and a warning never to set `LANGSMITH_TRACING`.
+  `Scheduler_check.py` gains Phase 4 (tracing contract in a child process, fake key, refused local endpoint — no
+  network) and Phase 5 (read-back with `langsmith.Client`, only with a key): **5 / 6 ✅, Phase 5 pending** (75 s,
+  0 LLM calls, 0 files changed). **Deviations:** D-P8-5 tracing is a **context around each graph run, never an
+  environment switch** (`LANGSMITH_TRACING` unset) — `Stage1_eval.py` and the checks stay untraced without an edit,
+  which replaces §5e's `EVAL_TRACE` until c3 is judged; D-P8-6 the trace labels go through the tracing context, **not
+  the graph config**, so the checkpoint metadata stays the run identity alone (Phase 5 asserts it); D-P8-7 a
+  LangSmith outage costs ≈ 45 s of flush at the end of a run (measured: 47 s with the refused endpoint), never the
+  run. Not exercised yet: `run` / `resume` traced for real (S3 shows them).
+- 2026-10-21 — **S2 done.** The owner set `LANGSMITH_API_KEY` (free developer plan, US) and `PACK_RUN_AS=6` (Anna
+  Baldwin, Finance manager; 7 = the other one) in `.env`. `Scheduler_check.py` Phase 5: one fake-model scheduled
+  firing traced and read back from `nilegate-agents` (root run + 14 runs, 5 tags, metadata) → **6 / 6 ✅** (91 s,
+  0 LLM calls, 0 files changed). **D-P8-8:** the first read-back showed `trigger: scheduled` instead of the tracer's
+  value — the graph config's metadata (the checkpoint's, set by `scheduling.fire`) wins over the tracing context's
+  on a shared key → the tracer's key is **`launched_by`** (cli / task_scheduler / check), never a checkpoint key.
+- 2026-10-22 — **S3 done (done-when met).** The c3 freeze ended (owner accepted c3; the Phase 7 session lifted the
+  "do not edit" list) and the owner said "كمل إنت للآخر لحد ما تقفل الـ phase" — the assistant carried S3 → S4,
+  the recommended option at each point. `ops/scheduler/register_weekly_pack.ps1` written (parse-checked) and **run
+  by the assistant** on the owner's go-ahead (**D-P8-9**: §5e had the owner registering it): task "NileGate Weekly
+  Finance Pack", Monday 10:30, Interactive / Limited, start when available, restart 2 × 30 min, 1 h, IgnoreNew;
+  the start time built as an exact `[datetime]` (`-At "10:30"` alone carried the current seconds); the action =
+  `powershell -WindowStyle Hidden -Command` → `uv run … Weekly_pack.py scheduled`, output appended to
+  `reports/_log/scheduled_console.log`, `exit $LASTEXITCODE` (the task result = the CLI's exit code). **Three
+  firings** by `Start-ScheduledTask`: #1 started W11:1 → Gemini flash-lite 503 "high demand" in `insight_llm`
+  (after its one 20 s retry), the fallback OpenRouter nemotron → 404 → exit 1, the thread waits at its checkpoint;
+  a tiny Gemini request passed (200); #2 resumed W11:1 → the same 503 → exit 1 (each request failed in one run
+  only: nothing cached as failed); #3, 30 min later, **resumed W11:1 and reached the approval** — Validator passed,
+  preview `reports/_drafts/weekly_pack_live_2025-W11_1.pptx`, toast shown, exit 0, `traced: true`; retention kept 2
+  threads. Traces of the three firings in `nilegate-agents` (`launched_by:task_scheduler`, `week:2025-W11`, the two
+  errors in their traces). flash-lite today 384 / 500. **D-P8-10:** the ADR-045 fallback is **broken**: OpenRouter
+  lists `nvidia/nemotron-3-super-120b-a12b:free`, but every request (also a 5-token ping) gets NVIDIA's 404
+  "Function not found for account" (last success 2026-10-11) → `llm.py` caches it as `model_missing` for that
+  request — the pack has no working fallback today (carried: an ADR-045 amendment, measured by ADR-052).
+  **D-P8-11:** `EVAL_TRACE=1` added to `Stage1_eval.py` once c3 was judged (`tracing.trace(…, extra_tags=)` for the
+  golden key / question id; off by default); **the Q&A has no operator entry point** (only the evaluation and
+  `Qa_golden.py` call it), so its tracing waits for the Supervisor (Phase 12). **D-P8-12:** `Scheduler_check.py`
+  Phase 5 failed once on `runs_in_trace ≥ 5` (the root run was ingested before its child runs) → it now waits for
+  the children too (up to 3 min). **The decision on W11 is left to the owner** (the human approval is the point of
+  the phase; the assistant does not approve for him): until he decides, Monday's firing logs "wait".
+- 2026-10-22 — **S4 close.** Checks: `Scheduler_check.py` **6 / 6 ✅** (74 s), `Weekly_pack_check.py` 7 / 7
+  (`PACK_REAL_MODELS=1`, cached, 0 calls), `Deck_check.py` 4 / 4, `Stage1_eval.py` Phases 1–4 ✅ (0 calls). Docs:
+  **ADR-054**, ARCHITECTURE (§2 component, §7 interfaces, §9), ROADMAP, CLAUDE.md, `pipelines/README.md`, the
+  checkpoint narrative. **Phase 8 CLOSED.** Carried: the owner's W11 decision → `Weekly_pack.py report` (first live
+  G5 numbers from a scheduled pack); the ADR-045 fallback; `langsmith` `list_runs` is deprecated after 2027-01-31
+  (`Scheduler_check.py` Phase 5 → `client.runs.query`); the Q&A tracing (Phase 12).
+- 2026-10-22 — **W11 decided (owner: "شغل انت كل حاجة بنفسك" — the assistant took the decision on his
+  instruction).** Approver = Finance manager **7** (the run identity is 6: a second person approves): `edit` of
+  bullet 6 ("…with down 25.5 % WoW change" → "Payments received reached 3.98 M SDR in week 11, down 25.5 % WoW.") →
+  Validator passed → `approve` → published `reports/2025-W11/` (deck.pptx + 3 JSON); both CLI steps traced
+  (`entry:resume`). **First G5 numbers with a scheduled pack:** 2 packs decided (W10, W11), 2 published, 0 rejected,
+  1 edited → **edit rate 0.5**, edited slide 3 once. Seen while deciding: the CLI's approval log prints `reason`,
+  empty for these decisions (the `--comment` text is stored as `comment`) — cosmetic, carried. Monday's firing
+  (2026-10-26) makes W12.
 
-### SESSION HANDOFF (2026-10-20, Phase 7 CLOSED) — read this first in the next session
+- 2026-10-22 — **§5f closure started (owner: "close every unclear point, leave no carry, check first, then plan the
+  next phase").** Inventory → §5f K1–K9; owner decisions C-1 (reviews one by one in the chat), C-2 (one confirmation
+  evaluation 2026-10-23, set frozen after the K1 changes), C-3 (a new free fallback), C-4 (Exceptions page + Notes
+  rules now). K9 closed by a probe (Tavily 40 / 1,000; `web_search` ok). **K1 round 1–2 (owner answers):**
+  - **D-P7-1 → changed:** the owner wants a **real planted budget miss**: test week 36, LNG budget = its billed × 1.5
+    (→ −33.3 %), one row of `finance_test.budget_weekly` by **migration 018**, the generator's rule changed the same
+    way (budget from billed, not from budget); then golden evidence re-frozen, findings **v3** (t36-b "LNG must be
+    called a miss"), planted gate **6 / 6** with a scorer for the miss (ADR-052 / ADR-053 amended).
+  - **D-P7-2 → accepted** (the twins' row keys = the live views').
+  - **D-P7-3 → changed:** **two askers per profile** (Finance employee 13 + 24, Operations employee 12 + 17,
+    Operations manager 2 + 3; the CEO 1 alone), the questions of a profile alternating between the two by order;
+    golden set re-frozen.
+  - **D-P7-4 → changed:** **+1 question**: a Finance employee asks the HbR level-3 revenue → `not_permitted` or
+    `not_in_data`, no leak (level 3 is above the owner-department rule, ADR-006) → 31 EN + 10 AR.
+  - **Round 3:** **D-P7-5 accepted** (element kinds; G2 AR ≥ EN − 0.10). **D-P7-6 → changed:** the owner wants the
+    Q&A agent on **LangChain `create_agent`** (+ middleware: call limits, the answer check), its model a chat-model
+    adapter over `llm.py` so the cache / quota / fallback rules still hold; `check_answer` and the one patch kept as
+    the contract. **D-P7-7 → changed:** a separate **`Finance_qa_check.py`** (fake models: the graph, the checker
+    cases, RBAC, the patch, the K6 CLI), next to `Stage1_eval.py` Phase 4. **D-P7-8 accepted** + the budget-miss
+    scorer of D-P7-1 (LNG called a miss on the category slide or the summary; proven on hand-made cases in
+    `Stage1_eval.py` Phase 2).
+  - **Round 4: accepted as written:** D-P7-9 (Validator week labels / rows), D-P7-10 (Q&A prompt lines — carried
+    into the `create_agent` version), the **ADR-052 reading for a failing baseline** ("no hard gate regresses"),
+    D-P7-11 (500 / day; a run stops when the main model's quota is gone).
+  - **Round 5: accepted as written:** D-P7-12, D-P7-13, D-P7-14 (with the promise made in the question: every code
+    fix of a slot's form is recorded and shown in the run record / `report`, so model form errors stay visible),
+    D-P7-15.
+  - **Round 6:** skill **`finance-qa` approved as written** (`reviewed_by_owner: 2026-10-22`); findings **v2
+    accepted** → v3 after migration 018 (t36-b "LNG must be called a miss"); the Q&A golden set is re-frozen anyway
+    (D-P7-3 / D-P7-4), so **the scorer notes are fixed in the same re-freeze** (by rule, no answer from a run:
+    metric synonyms for q14 / q01_ar — category / vessel category, فاتورة / فواتير / فوتناه — and both number forms
+    for r04, "940.4 million" / "940,355 thousand"). **K1 closed: 18 / 18 points decided** (13 accepted, 5 changed: D-P7-1, -3, -4, -6, -7).
+- 2026-10-22 — **§5f APPROVED ("ابدأ"). F1 done:** K8 `Weekly_pack.py show` prints the approver's comment (a
+  refusal's reason first); D-P7-14's promise — the publisher writes `normalized` into `run.json`, the archive keeps
+  it, `report` gains `form_fixes` {packs, fixes} (live now: **W11 had 5 slot-form fixes by code**, W10 predates the
+  field); K7 decided: `langsmith` 0.14.7's `runs.query` is async-only (`AsyncPaginator`) and wants project ids, so
+  `list_runs` stays, the reason pinned in `Scheduler_check.py`'s header (it fails loudly if the call disappears; a
+  langsmith upgrade re-checks it). Checks: Scheduler_check 6 / 6, Weekly_pack_check 7 / 7 (cached, 0 calls),
+  Deck_check 4 / 4.
+- 2026-10-22 — **F2 done (D-P7-6 / D-P7-7 / K6).** `graphs/finance_qa.py` rebuilt on **`create_agent`**:
+  `RoleChatModel` (a `BaseChatModel` over `roles.get("tools")`: llm.py cache / quota / fallback on every call; a
+  plain-text reply while the answer tool is bound → `roles.structured(QaAnswer)`, the old validated path, returned as
+  an answer-tool call), `ToolStrategy(QaAnswer, handle_errors=True)`, middleware `QaTurn` (`wrap_model_call`: the
+  answer brief — language, evidence ids, slot rules — on every request, not stored; Stage 1 tools removed after 3
+  rounds; `after_model`: `normalize_text` + `check_answer` → one patch by `jump_to` the model, else the final
+  status) + `ModelCallLimitMiddleware(run_limit=8)`. `check_answer`, the slot rules, `ask()` and the state the
+  harness reads are unchanged. New: **`Finance_qa_check.py` 6 / 6 ✅** (answer paths, brief + tool cap, patch, RBAC
+  with the real tools, call limit + records, CLI; one real bug found and fixed — invalid answer arguments are left to
+  `ToolStrategy`), narrative `Finance_qa_check.md`; **`Finance_qa.py ask "…" --as E [--lang ar]`** (traced:
+  `entry:qa`). `Stage1_eval.py` Phases 1–4 ✅ (38 questions, completeness EN / AR 1.0, 0 calls). Real models (6
+  flash-lite calls): week 23 billed answered in 2 calls; an Arabic question answered (wording closer to MSA — F8
+  measures it); an Operations employee's receivables → not_permitted. **Note for F8:** the prompt shape changed
+  (the brief on every request, the answer as a tool), so the confirmation run makes fresh Q&A calls.
+- 2026-10-22 — **F3 done (D-P7-1: a real planted budget miss).** `Finance_generator.py` Phase 8 (R7 amendment 1):
+  budget of test week 36's top category = its billed in the copy × 1.5 → **migration 018** (one guarded `UPDATE`:
+  LNG 1,316,745.48 → 2,718,323.04 SDR, −33.33 %; the week −25.85 %), `finance_test_budget_v2.csv`,
+  `finance_test_answer_key_v2.json`; the 012 files re-verified (0 changed). 018 shown to the owner, **applied by the
+  assistant** on his yes; `ANALYZE`; snapshot refreshed; `verify_readonly.sql` new §22 = expected, 0 errors
+  (`db/audit/2026-10-22_after_018_report.txt`); `db/README.md`. `Golden_weeks.py`: reads key v2, asserts the miss in
+  the evidence, **controlled re-freeze** (`REFREEZE`: the old sha prefix + reason, one transition) —
+  `golden_weeks_expected.json` bb3b1a3b… → **7909ccfb…**; a second run 0 changed. **Findings v3** (`dc6e3248…`): t36-b
+  = planted `budget_miss` (narrative: LNG named and called below budget / a miss). `Stage1_eval.py`: planted = 5
+  table errors + the miss (`PLANTED = 6`, gate `planted_all`; `adr052()` reads the old `planted_5_of_5` of earlier
+  results files), the miss kept out of narrative recall; Phase 2 cases (a false miss on SFU, +25.53 %; the planted
+  miss found / silent); the fake Writer says "below its budget" when the top driver is under budget → Phase 3 **6 / 6**.
+  `Tools_check.py` Phase 3b snapshot −33.33 (was +37.63) → **10 / 10**. Narratives: `Finance_generator.md`,
+  `Golden_weeks.md`.
+- 2026-10-22 — **F4 done (Q&A golden set v2).** `Qa_golden.py`: two askers per profile by rule (13 / 24, 12 / 17,
+  2 / 3, CEO 1), alternating in order; **r03b** (the second Operations manager, else unused) and **r05** (a Finance
+  employee asks the HbR level-3 revenue → not_permitted / not_in_data, no leak); scorer notes by rule — category type
+  names in the category words, «فاتور» / «فوتنا» in Arabic billing, r04's "940,355 thousand"; **32 EN + 10 AR = 42**;
+  re-frozen by a recorded transition `d7d1e94f…` → **`5cf72ac3…`** (second run 0 changed). `Stage1_eval.py`:
+  hash + `N_QUESTIONS = 42`, Phase 4 38 questions (the 4 document ones live) → 1–4 ✅. Narrative `Qa_golden.md`.
+- 2026-10-22 — **F5 done (K5: the tariff Notes rules).** Read in our own corpus (chunk
+  `suez_notes_ballast_combined_carrier_rates`) and checked against `toll_rate_bands` — **D-P8-13 (a finding that
+  narrowed K5):** ballast Petroleum Product → Crude Oil ballast rates is **already in the tables** (identical bands);
+  ballast "Oil/Chemical Tankers" → Crude Oil ballast rates is not, and our category "Chemical Tankers & Other Liquid
+  Bulk Tankers" is wider, so such an invoice may be right → **manual review**; OBO: none of our 13 categories; "actual
+  condition upon transit": already priced. **Migration 019** (built from 015 by exact replacements; tested read-only
+  first; shown to the owner, applied by the assistant on his yes): hypothesis `notes_crude_ballast_rate`, last column
+  `review` (`manual_review` | `error`); snapshot, `verify_readonly.sql` §23, 0 errors, `db/README.md`. `audit.py`:
+  `review` in the rows, `totals()` (manual review never flagged nor at stake), `invoices_manual_review`; skill
+  `suez-toll-audit` updated (owner approved the wording in the 019 question; tightened to the 1,200-token budget
+  that Tools_check caught). `Tools_check.py` Phase 4: the independent Python auditor has the rule; the planted
+  invoice through 019's body (crude toll → manual_review; a wrong amount → error; its own toll → no finding); the
+  file's output = the applied view's on every column; `totals()`; Phase 8 knows the two new names → **10 / 10**.
+  Evidence re-frozen (`REFREEZE`): `7909ccfb…` → **`1f2bad35…`** (rows carry `review`). **D-P8-14:** the audit JSON
+  is in the Insight conversation, so `Weekly_pack_check` Phase 5 went to the model again (17 fresh calls, once): 2 / 4
+  published, weeks 23 / 49 stopped by V7 on real Writer errors (LNG called a driver outside the top three; a slot on
+  another row than the named Cruise Ships) — replayed from the cache, true positives, snapshot updated → **7 / 7**,
+  0 calls on a re-run. Deck_check 4 / 4, Stage1_eval 1–4 ✅, Finance_qa_check 6 / 6. flash-lite today 407 / 500.
+- 2026-10-22 — **F6 done (K4: the Power BI Exceptions page), data verified; the on-screen look is the owner's.**
+  Model through the Modeling MCP on the TMDL folder (`ConnectFolder` → `ExportToTmdlFolder`; the other files kept
+  their format): table **`Invoice Audit`** (DirectQuery on `finance.invoice_audit`, 15 columns incl. `review`),
+  relationship `Invoice Audit -> Week` (many-to-one, single direction, like the 18 others), 3 thin measures in
+  `Weekly KPIs` / folder "5 Exceptions" — `Audit Findings`, `Invoices Flagged` (review = error), `Invoices Manual
+  Review` (HASONEVALUE-guarded counts; no "amount at stake" in DAX: its definition — the largest |difference| per
+  invoice — lives in SQL / the tool, ADR-047). Page (PBIR, written from the existing visuals' shapes): the synced
+  week slicer (copied from Receivables), a card of the 3 measures, the findings table (13 columns, by difference),
+  the placeholder text replaced by a note (error vs manual review, the same view as the agents' tool). Opened in
+  Power BI Desktop; DAX through the MCP = `invoice_audit` for weeks 10 / 15 / 23 / 49 / 50 (findings 1 / 1 / 0 / 0 /
+  1, flagged equal, manual review 0, Σ difference 81,837.02 / 73,950.26 / 0 / 0 / 181,121.72 = the tool's amount at
+  stake). The screen check through computer use was declined by the owner → he looks at the page once (it is open).
+- 2026-10-22 — **F7 in progress (the new fallback).** Free OpenRouter models with tools + context ≥ 32K: 16.
+  Smoke test through `llm.py` (one tool call + one structured object each): `gemma-4-31b-it` / `gemma-4-26b-a4b-it`
+  429 upstream (busy); **`dots-3-note-preview` ok / ok**; **`nemotron-3.5-super-vl` ok / ok** (so the old 404 is
+  `nemotron-3-super` itself, retired upstream, not NVIDIA). Forced-fallback pack (Insight + Writer on
+  `nemotron-3.5-super-vl`, weeks 5 / 10 / 23 / 49): **inconclusive** — week 5 `output_invalid` (two invalid objects:
+  a warning in itself), weeks 10 / 23 / 49 never ran (a 502, then the owner's connection dropped: `getaddrinfo
+  failed`). OpenRouter 27 / 50 today. Next: retest on a stable connection — both passing candidates, 2 weeks each
+  (≈ 24 calls) — and keep the one that publishes (ADR-045 amendment 2).
+- 2026-10-23 — **F7 done (new session after the handoff; owner asleep, full autonomy — the recommended option).**
+  Retest on a stable connection (weeks 5 / 23, Insight + Writer forced onto the candidate): `dots-3-note-preview`
+  **0 / 2** (week 5 an empty DeckDraft → V3 / V4; week 23 two invalid replies → output_invalid);
+  `nemotron-3.5-super-vl` **1 / 2** (week 23 passed the Validator after one patch, max 39K tokens; week 5 two empty
+  replies, cached from the first run → output_invalid). **D-P8-15: the fallback = `nvidia/nemotron-3.5-super-vl:free`**
+  — a partial fallback (1 / 2), better than none: when it fails, the pack waits for the next firing as before
+  (D-P8-1). `roles.NEMOTRON` and `Weekly_pack_check` Phase 0's role pairs already carried it (written by a parallel
+  session that ran the same retest at the same time and reached the same choice — checked 2026-10-23 00:07, no
+  conflicting edit); **ADR-045 amendment 2** written. OpenRouter 44 / 50 on 2026-10-22.
+  Check after the change: `Weekly_pack_check.py` **7 / 7 ✅** (Phase 0 = the new role pairs; Phase 5 from the cache,
+  0 calls). The second session was stopped by the owner; this session carries F8–F9 alone (owner, 2026-10-23).
+- 2026-10-23 — **F8 scheduled (decision, recommended option, owner asleep):** the confirmation evaluation needs
+  Gemini's fresh day (midnight Pacific = 07:00 UTC), so a background waiter starts it once at **07:05 UTC**, only
+  after any other pipeline script has ended (never two runs on the same quota); it keeps the machine awake only
+  while it lives (`SetThreadExecutionState`, no setting changed). Command = the handoff's (`EVAL_TAG='confirm'`,
+  2 runs, baseline c3, `--timeout 14400`). F9 docs that do not depend on F8 done meanwhile: ADR-054's stale
+  "no fallback" line → amendment 2; ARCHITECTURE (pack row and §8: the new fallback; Power BI: 13 DirectQuery
+  views); ROADMAP (§5f status block).
+- 2026-10-23 — **F8 started late (deviation):** the app closed the session at ≈ 06:00 local, which stopped the waiter
+  and a check batch (Deck_check cut mid-run; the scratchpad with the waiter script was cleared). Restarted by hand
+  at **07:33 UTC** (fresh flash-lite day), same command. **F9 checks (no model call), run while F8 runs:**
+  Tools_check 10 / 10, Weekly_pack_check 7 / 7 (00:09), Deck_check 4 / 4, Finance_qa_check 6 / 6, Scheduler_check
+  6 / 6, Golden_weeks / Qa_golden 0 changed (11 weeks, 42 items) — the only files changed during them were F8's
+  own cache (`eval_confirm_r1/`, `usage.json`).
+- 2026-10-23 — **F8 done: the confirmation evaluation = the final Stage 1 baseline
+  `stage1_eval_2026-10-23_confirm.json`; D7 NOT MET (reported as is, C-2).** 2 runs, 29 min, 290 calls (275 fresh,
+  0 fallbacks, 1 failed; flash-lite only). Run 1 / run 2: packs published **7 / 11 · 10 / 11**; deck numbers 100 %
+  both; **planted 2 / 6 · 3 / 6**; claims 100 % both; **traceability 100 % both** (c3's one-slot miss gone: D-P7-15's
+  evidence-id fix measured); RBAC leakage 0; abstention 1.0; narrative recall 0.66 · 0.93 (mean 0.79, c3 0.88);
+  Q&A EN 0.96 · 0.96, AR 1.0 · 0.90 (means = c3's; G2 holds). **Why planted fails:** a test week whose pack the
+  Validator stops publishes no deck, so its planted findings count as missed — run 1 test weeks 10 and 36, run 2
+  test week 23 (no wrong deck was published: the safety holds, the cost is recall); run 2 test week 36 published
+  without calling LNG a miss (t36-b). Same pattern as Phase 7: Writer variance on the free model, caught by the
+  Validator. **ADR-052 as printed:** "reject" vs c3 (gates `planted_all`, `false_alarms_le_5pct`; recall −0.086) —
+  informative only: F8 is a measurement, not a candidate, and its file is the baseline by the owner's C-2.
+- 2026-10-23 — **D-P8-16 (scorer false positive found in F8, fixed by rule; owner asleep, recommended option):** the
+  false-alarm rate as scored (0.33 · 0.25) came from exactly two sentences, both **true**: "INV-9000292 … duplicate of
+  INV-0000292" (t23-a / t23-c) and "INV-0000925 duplicated INV-0000491" (l15-a / l15-b) — the scorer counted every
+  invoice number of an error sentence, so the *original* of a flagged duplicate became an alarm. Hand-checked: **real
+  false alarms 0 in both runs**, so the only gate D7 really misses is `planted_all`. Fix in `Stage1_eval.py`
+  `false_alarms()`: the original of a flagged duplicate named in the same sentence is not called wrong; Phase 2 gains
+  `duplicate_with_original` (0 alarms, 1 finding) and `duplicate_with_other` (an unflagged invoice in the same
+  sentence is still 1) → Phases 1–4 ✅, 0 changed. The results file is **not** re-scored (frozen measurement; a
+  re-score would need the same tag's caches, i.e. overwriting it); the correction is recorded here and in ADR-053.
+
+### SESSION HANDOFF (2026-10-23, §5f DONE) — read this first in the next session
+
+- **§5f F1–F9 done.** F7: fallback `nvidia/nemotron-3.5-super-vl:free` (ADR-045 am. 2, D-P8-15). F8: final Stage 1
+  baseline `stage1_eval_2026-10-23_confirm.json`, **D7 not met on `planted_all` only** (stopped packs → no deck);
+  the scored false alarms were a scorer false positive, fixed by rule (D-P8-16; ADR-053 result + scorer limits;
+  ADR-052 fourth use). F9: ADRs 045 / 049 / 052 / 053 / 054, ARCHITECTURE, ROADMAP, CLAUDE.md updated; every check
+  green on 2026-10-23 (Tools 10 / 10, Weekly_pack 7 / 7, Deck 4 / 4, Finance_qa 6 / 6, Scheduler 6 / 6, Stage1_eval
+  1–4, Golden_weeks / Qa_golden 0 changed). The plan stays active (Stage 2 follows).
+- **Next:** (1) the owner runs the ONE commit command (git is blocked for the assistant; no AI attribution);
+  (2) the Stage 1 checkpoint PR of `feat/agents` → `master` (owner's go-ahead); (3) Phase 9 — its decisions are
+  **answered 2026-10-23** (§6a answers: P9-2 = no live AIS, the rest recommended; §7 S2-D1…S2-D5): write the
+  concrete Phase 9 design from them, then start.
+- **Follow-up, not a gate:** the Writer's publish rate on the free model (3 of 22 test-week packs stopped by the
+  Validator in F8; true positives).
+- **Never Save in Power BI** unless the Exceptions page looks right (the owner looks once).
+
+### SESSION HANDOFF (2026-10-22 late, §5f F1–F6 done, F7 open)
+
+- **§5f (APPROVED):** F1 small code ✅, F2 Q&A on `create_agent` + `Finance_qa_check.py` 6 / 6 + CLI ✅, F3 planted
+  budget miss (migration 018) ✅, F4 Q&A golden set v2 (42) ✅, F5 tariff Notes rule (migration 019) ✅, F6 Power BI
+  Exceptions page ✅ (data verified by DAX; the on-screen look not seen: computer use is blocked by a setting — the
+  owner checks W15 = 1 finding INV-0000925 73,950.26; **never Save in Power BI before the commit** unless the page
+  looks right). Checks green at the end: Tools_check 10 / 10, Weekly_pack_check 7 / 7 (cached), Deck_check 4 / 4,
+  Stage1_eval 1–4 ✅, Scheduler_check 6 / 6, Finance_qa_check 6 / 6, Golden_weeks / Qa_golden 0 changed.
+- **F7 open:** retest the fallback on a stable connection — `nvidia/nemotron-3.5-super-vl:free` and
+  `dots-studio/dots-3-note-preview:free` (scratch script pattern: force `r._roles["insight"/"writer"]` onto the
+  candidate, weeks 5 / 23; OpenRouter free = 50 / day); keep the one that publishes → `roles.py` (replace `NEMOTRON`),
+  `Weekly_pack_check` Phase 0 expectations, ADR-045 amendment 2. If none publishes: no fallback, a stopped pack waits
+  for the next firing (D-P8-1), recorded.
+- **F8:** the confirmation evaluation on the first fresh flash-lite day (after 07:00 UTC):
+  `$env:EVAL_REAL_MODELS='1'; $env:EVAL_REPEATS='2'; $env:EVAL_TAG='confirm'; $env:EVAL_BASELINE='stage1_eval_2026-10-22_c3.json'; uv run python tools/run.py pipelines/scripts/agents/Stage1_eval.py --timeout 14400`
+  — a measurement (planted gate now 6 / 6, 42 questions, the Q&A on create_agent); its file = the final Stage 1
+  baseline; D7 reported as is.
+- **F9:** ADRs (045 am. 2, 049 note on 019, 052 `planted_all`, 053 v3 findings / v2 golden set / scorer limits /
+  F8 result, 054 `form_fixes`), ARCHITECTURE (Power BI row: 13 DirectQuery tables, 41 measures, 19 relationships,
+  Exceptions page; Stage 1 evaluation row; §7 Finance Q&A interface), ROADMAP, CLAUDE.md, the archive of nothing (the
+  plan stays active), then ONE commit command for the owner (git is blocked for the assistant; no AI attribution),
+  then the Stage 1 checkpoint PR (owner's go-ahead), then the Phase 9 decisions (§6a P9-1…P9-4, §7 S2-D1…D5).
+
+### SESSION HANDOFF (2026-10-22, Phase 8 CLOSED)
+
+- **Phases 0–8 are CLOSED.** Phase 8 = §5e + ADR-054: the Task Scheduler task (registered on the owner's machine,
+  Monday 10:30), `Weekly_pack.py scheduled | prune | report`, retention, LangSmith per graph run;
+  `Scheduler_check.py` 6 / 6. `.env`: `LANGSMITH_API_KEY`, `PACK_RUN_AS=6` (never `LANGSMITH_TRACING`).
+- W11 decided 2026-10-22 (edit + approve by manager 7, published; G5 edit rate 0.5 over W10 + W11). Monday
+  2026-10-26 10:30 the task makes W12.
+- **Then (owner, 2026-10-22): close every open point first — §5f.** K1 reviews done (13 accepted, 5 changed), K9
+  closed; the work is F1…F9 in §5f (PROPOSED, waiting for the owner's go-ahead); the one commit comes after F9;
+  Phase 9 design §6a (PROPOSED; S2-D1…D5 + P9-1…P9-4 answered before it starts).
+- **Next: the Stage 1 checkpoint** (§5 row "S1 ✔": ADRs / ARCHITECTURE / ROADMAP are current → a PR of
+  `feat/agents`, the plan stays active), then the Stage 2 decisions (§7 S2-D1…) before Phase 9.
+- **Carry:** the ADR-045 fallback (nemotron 404) — a new fallback for Insight / Writer, chosen and measured
+  (ADR-052); `list_runs` deprecation; Q&A tracing (Phase 12); the Phase 7 carries (owner reviews of D-P7-…, skill
+  `finance-qa`, the Q&A golden set notes; Power BI Exceptions page; tariff Notes rules).
+
+### SESSION HANDOFF (2026-10-21, Phase 8 S2 done)
+
+- Phase 8 design = §5e (APPROVED 2026-10-20; P8-1…P8-4). **S1 done**, **S2 done** (Progress 2026-10-21,
+  D-P8-5…D-P8-8): `tracing.py`, hooks in `Weekly_pack.py` / `scheduling.fire`, `Scheduler_check.py` **6 / 6 ✅**;
+  `.env` has `LANGSMITH_API_KEY` and `PACK_RUN_AS=6` (never `LANGSMITH_TRACING`).
+- **Then S3 on 2026-10-22 after c3 finishes** (owner decision): `ops/scheduler/register_weekly_pack.ps1` (still to
+  write), the owner registers the task, one `Start-ScheduledTask` firing on real models reaches the approval (≈ 6
+  calls; toast shown), the owner decides through the CLI, `report` shows it. Then S4 close (ADR-054).
+- **Frozen until c3 is judged:** `Stage1_eval.py` (`EVAL_TRACE`), `finance_qa.py` (Q&A tracing), the Validator /
+  slots / Writer parts; at most 20 real calls a day, none on 2026-10-22 before c3 finishes. No migration, no new
+  package. Commit: the owner.
+
+### SESSION HANDOFF (2026-10-20, Phase 8 S1 done)
+
+- Phase 8 design = §5e (APPROVED 2026-10-20 by the owner, as written; P8-1…P8-4 all recommended). **S1 done**
+  (Progress, D-P8-1…D-P8-4): `scheduling.py`, `Weekly_pack.py scheduled | prune | report`, `Scheduler_check.py`
+  4 / 4 ✅. **Next: S2 LangSmith** — the owner creates a LangSmith key (free developer plan; note the region: EU →
+  `LANGSMITH_ENDPOINT`) and adds `LANGSMITH_API_KEY` + `PACK_RUN_AS=<a Finance manager id>` to `.env`; then
+  `pipelines/agents/tracing.py`, `SECRET_KEYS` / `.env.example`, one fake-model run read back with
+  `langsmith.Client`. Then S3 (the task registered by the owner, one real firing), S4 close (ADR-054). No migration,
+  no new package.
+
+### SESSION HANDOFF (2026-10-20, Phase 7 CLOSED)
 
 - **Phases 0–7 are CLOSED.** Phase 7: ADR-053 (+ ADR-052 first use); golden weeks / findings / Q&A golden set
   frozen; migration 017 (twins); `graphs/finance_qa.py` + skill `finance-qa`; `Stage1_eval.py`; baseline =
@@ -1526,9 +2025,13 @@ rate limits (ai.google.dev); FP&A reporting time (vendor case studies). Vendor f
 - **Next: Phase 8** (§5) — scheduling (Task Scheduler), LangSmith tracing, checkpoint retention; done when a scheduled
   run produces the pack and waits for approval. Start by proposing the Phase 8 design to the owner (AskUserQuestion,
   recommendation first). Mind the quota: flash-lite = 500 free requests / day (a pack ≈ 6 calls).
-- **Carry:** candidate **c2** (D-P7-12, coded and checked, not run): `EVAL_REAL_MODELS=1 EVAL_REPEATS=2 EVAL_TAG=c2
-  EVAL_BASELINE=stage1_eval_2026-10-20_c1.json`, `tools/run.py … --timeout 14400`, on a fresh provider day (after
-  07:00 UTC); owner reviews: D-P7-1…D-P7-12, the ADR-052 reading for a failing baseline, skill `finance-qa`
+- **Carry:** candidate **c2 ran 2026-10-21 → rejected by ADR-052** (planted gate regressed; abstention fixed to 1.0 —
+  see Progress); c1 stays the baseline; **c3 prepared** (D-P7-13: c2 + Validator date ranges and "amount" for an
+  invoice's billed field; D-P7-14: code fixes the slot form before the Validator; Deck_check 4 / 4,
+  Weekly_pack_check 7 / 7) → **c3 ran 2026-10-22 and was accepted by the owner (exception to ADR-052) = the baseline
+  `stage1_eval_2026-10-22_c3.json`; tuning stopped, c4 not run** (D-P7-15 kept, not measured in a real run); Phase 8
+  runs in its own session `agents-phase-8` — run it 2026-10-22 after 07:00 UTC (command
+  in Progress); the code is a candidate under test until then. Owner reviews: D-P7-1…D-P7-12, the ADR-052 reading for a failing baseline, skill `finance-qa`
   (`reviewed_by_owner: no`), the Q&A golden set and findings v2, the narrow relevance words (q14, q01_ar) and r04's
   fact pattern; G5 edit rate from real approvals (Phase 8); Tavily monthly credits used up (web_search →
   context_unavailable until the month resets); Power BI Exceptions page; tariff Notes rules.

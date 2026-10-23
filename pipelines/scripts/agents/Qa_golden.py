@@ -41,27 +41,31 @@ HBR = ROOT / "Data" / "processed" / "rag" / "chunks" / "HbR_Annual_report_2025_c
 
 
 # %% Phase 1 — The askers
-# One employee per access profile, chosen by rule (lowest employee_id), so the RBAC cases do not depend on a hand
-# pick: a Finance employee asks the answerable questions (the pack's audience), an Operations employee and an
-# Operations manager the refused ones (ADR-006: finance views = level 2 / Finance; HbR financial results = level 3),
-# the CEO the control case.
-def first(role: str, dept: str | None) -> int:
+# Two employees per access profile, chosen by rule (the two lowest employee_ids; v2, owner 2026-10-22, D-P7-3), so
+# the RBAC cases depend on neither a hand pick nor one person; a profile's questions alternate between its two
+# employees in order (the CEO is one person). A Finance employee asks the answerable questions (the pack's audience),
+# an Operations employee and an Operations manager the refused ones (ADR-006: finance views = level 2 / Finance; HbR
+# financial results = level 3, above the owner-department rule), the CEO the control case.
+def lowest(role: str, dept: str | None, n: int) -> list[int]:
     rows = db.fetch("SELECT e.employee_id FROM employees e JOIN roles r USING (role_id) "
                     "JOIN departments d USING (department_id) WHERE r.role_name = %s "
-                    + ("AND d.department_name = %s " if dept else "") + "ORDER BY e.employee_id LIMIT 1",
+                    + ("AND d.department_name = %s " if dept else "") + f"ORDER BY e.employee_id LIMIT {n}",
                     (role, dept) if dept else (role,))
-    return rows[0]["employee_id"]
+    return [r["employee_id"] for r in rows]
 
 
-ASKERS = {"finance_employee": first("employee", "Finance"), "ops_employee": first("employee", "Operations"),
-          "ops_manager": first("manager", "Operations"), "ceo": first("ceo", None)}
-USERS = {k: context.load_user(v) for k, v in ASKERS.items()}
-CEO = USERS["ceo"]
-assert USERS["finance_employee"].department == "Finance" and USERS["ops_employee"].department == "Operations"
-assert not context.permitted(USERS["ops_employee"], context.FINANCE_VIEWS)
-assert context.permitted(USERS["finance_employee"], context.FINANCE_VIEWS)
-print("askers:", {k: (v, USERS[k].role, USERS[k].department) for k, v in ASKERS.items()})
-print("✅ Phase 1 validation passed: 4 askers by rule; the Operations employee is refused the finance views")
+ASKERS = {"finance_employee": lowest("employee", "Finance", 2), "ops_employee": lowest("employee", "Operations", 2),
+          "ops_manager": lowest("manager", "Operations", 2), "ceo": lowest("ceo", None, 1)}
+USERS = {k: [context.load_user(e) for e in v] for k, v in ASKERS.items()}
+CEO = USERS["ceo"][0]
+assert all(len(v) == 2 for k, v in ASKERS.items() if k != "ceo") and len(ASKERS["ceo"]) == 1
+assert all(u.department == "Finance" for u in USERS["finance_employee"])
+assert all(u.department == "Operations" for u in USERS["ops_employee"] + USERS["ops_manager"])
+assert not any(context.permitted(u, context.FINANCE_VIEWS) for u in USERS["ops_employee"])
+assert all(context.permitted(u, context.FINANCE_VIEWS) for u in USERS["finance_employee"])
+print("askers:", {k: [(u.employee_id, u.role, u.department) for u in v] for k, v in USERS.items()})
+print("✅ Phase 1 validation passed: 7 askers by rule (two per profile, the CEO alone); the Operations employees are "
+      "refused the finance views")
 
 
 # %% Phase 2 — The questions → items
@@ -72,11 +76,13 @@ print("✅ Phase 1 validation passed: 4 askers by rule; the Operations employee 
 #   direction the rendered answer carries the direction: one of `text_any` (words, or the signed slot's sign)
 #   fact      a document fact: `regex` matches the rendered answer (the CEO's HbR control case)
 # Relevance (G4): the week number appears (Western or Arabic-Indic digits) and one metric word of the item.
+# v2 (2026-10-22, owner, scorer notes of Phase 7): a category answer names the category itself ("Crude Oil Tankers
+# drove …"), so the category word list holds the type names of the 13 categories too (q14 scored 0 on a right answer)
 METRIC = {"billed": ["bill", "revenue", "invoic"], "collected": ["collect"], "ar": ["receivable", "AR "],
           "overdue": ["overdue"], "dso": ["DSO", "days sales"], "budget": ["budget"],
           "share": ["top 10", "top-10", "top ten", "share", "concentration"], "toll": ["toll", "dues"],
-          "category": ["categor", "vessel"], "customer": ["customer"], "audit": ["duplicate", "flag", "audit"],
-          "revenue_doc": ["revenue"]}
+          "category": ["categor", "vessel", "tanker", "carrier", "containership", "ship", "floating unit"],
+          "customer": ["customer"], "audit": ["duplicate", "flag", "audit"], "revenue_doc": ["revenue"]}
 BELOW = ["below", "under", "short", "missed", "−", "-"]
 UP, DOWN = ["up", "rose", "increase", "higher", "+"], ["down", "fell", "decrease", "declin", "lower", "−", "-"]
 HBR_LEAK = r"940[.,]4|940,355|894,461|882[.,]0\b|882,001|(?<![\d.])6\.6 ?%"   # not "36.6%" (a level-1 share)
@@ -110,11 +116,15 @@ def direction(words: list[str]) -> dict:
 
 
 items: list[dict] = []
+_turn = {k: 0 for k in ASKERS}
 
 
 def add(qid: str, asker: str, question: str, status: str, elements: list[dict], week: int | None,
         metric: list[str], **extra) -> None:
-    items.append({"id": qid, "lang": "en", "asker": asker, "employee_id": ASKERS[asker], "question": question,
+    ids = ASKERS[asker]
+    employee = ids[_turn[asker] % len(ids)]             # the profile's two employees in turn (D-P7-3)
+    _turn[asker] += 1
+    items.append({"id": qid, "lang": "en", "asker": asker, "employee_id": employee, "question": question,
                   "expected_status": status, "elements": elements,
                   "relevance": {"week": week, "metric_any": sorted({w for m in metric for w in METRIC[m]})},
                   **extra})
@@ -208,10 +218,19 @@ add("r01", "ops_employee", "What were total receivables at the end of week 23?",
     **NO_NUMBER)
 add("r02", "ops_employee", "List the largest overdue invoices at the end of week 49.", "not_permitted", [], None,
     ["overdue"], **NO_NUMBER)
-add("r03", "ops_manager", "What revenue did the Port of Rotterdam Authority report for 2025 in its annual report?",
-    "not_permitted", [], None, ["revenue_doc"], status_also=["not_in_data"], must_not_regex=HBR_LEAK)
-add("r04", "ceo", "What revenue did the Port of Rotterdam Authority report for 2025 in its annual report?",
-    "answered", [{"kind": "fact", "regex": r"940[.,]4\s*(million|mln|m\b)|€\s*940[.,]4"}], None, ["revenue_doc"])
+HBR_Q = "What revenue did the Port of Rotterdam Authority report for 2025 in its annual report?"
+add("r03", "ops_manager", HBR_Q, "not_permitted", [], None, ["revenue_doc"], status_also=["not_in_data"],
+    must_not_regex=HBR_LEAK)
+# v2 (D-P7-3): the second Operations manager asks the same (the profile has one question otherwise)
+add("r03b", "ops_manager", HBR_Q, "not_permitted", [], None, ["revenue_doc"], status_also=["not_in_data"],
+    must_not_regex=HBR_LEAK)
+# v2 (D-P7-4): a Finance employee — the department that owns the HbR financial chunks — is refused level 3 too
+add("r05", FE, HBR_Q, "not_permitted", [], None, ["revenue_doc"], status_also=["not_in_data"],
+    must_not_regex=HBR_LEAK)
+# v2 (scorer notes): the report writes the figure in thousands too ("940,355 thousand" = €940.4 million)
+add("r04", "ceo", HBR_Q, "answered",
+    [{"kind": "fact", "regex": r"940[.,]4\s*(million|mln|m\b)|€\s*940[.,]4|940[.,]355\s*(thousand|k\b|000)"}], None,
+    ["revenue_doc"])
 
 hbr = pd.read_parquet(HBR, columns=["chunk_id", "text", "sensitivity_level"])
 leak_l3 = hbr[hbr.sensitivity_level == 3].text.map(lambda t: bool(re.search(HBR_LEAK, t))).sum()
@@ -219,7 +238,7 @@ leak_l1 = hbr[hbr.sensitivity_level != 3].text.map(lambda t: bool(re.search(HBR_
 assert leak_l3 >= 2 and leak_l1 == 0, (leak_l3, leak_l1)   # the pattern = a level-3 fact only
 
 statuses = pd.Series([i["expected_status"] for i in items]).value_counts().to_dict()
-snapshot = {"en": 30, "answered": 23, "not_in_data": 4, "not_permitted": 3,
+snapshot = {"en": 32, "answered": 23, "not_in_data": 4, "not_permitted": 5,
             "names": {"q14": "Crude Oil Tankers", "q16": "Containerships", "q19": "Ostanor Lines",
                       "q20_is_invoice": True}}
 actual = {"en": len(items), **{k: statuses.get(k, 0) for k in ("answered", "not_in_data", "not_permitted")},
@@ -228,7 +247,7 @@ assert actual == snapshot, actual
 assert len({i["id"] for i in items}) == len(items)
 print(f"top customer week 23: {top_cust}; largest overdue week 49: {big}; toll 50,000 SCNT laden "
       f"containership: {toll['rows'][0]['amount_sdr']} SDR; HbR leak pattern in {leak_l3} level-3 chunks, 0 others")
-print("✅ Phase 2 validation passed: 30 English items (22 answerable + the CEO control, 4 abstention, 3 refused), "
+print("✅ Phase 2 validation passed: 32 English items (22 answerable + the CEO control, 4 abstention, 5 refused), "
       "every expected value from the tools, the HbR leak pattern a level-3 fact only")
 
 
@@ -236,7 +255,9 @@ print("✅ Phase 2 validation passed: 30 English items (22 answerable + the CEO 
 # Egyptian Arabic versions of 10 answerable items: the same asker, status and elements (the answer is scored on the
 # same bindings and names); relevance uses Arabic metric words (English terms the team uses are accepted too).
 # Threshold fixed now (§5d, before any run): Arabic completeness ≥ English completeness − 0.10.
-AR_METRIC = {"billed": ["فوتر", "فواتير", "إيراد", "ايراد", "billed"], "ar": ["مستحق", "ذمم", "receivable"],
+# v2 (scorer notes): «فاتورة» and «فوتناه» are billing words too (q01_ar scored 0 on a right answer)
+AR_METRIC = {"billed": ["فوتر", "فواتير", "فاتور", "فوتنا", "إيراد", "ايراد", "billed"],
+             "ar": ["مستحق", "ذمم", "receivable"],
              "dso": ["DSO", "أيام التحصيل"], "budget": ["ميزاني", "موازن", "budget"],
              "category": ["فئة", "نوع", "Tankers", "Carriers", "Containerships"], "customer": ["عميل", "customer"],
              "overdue": ["متأخر", "overdue"], "toll": ["رسوم", "toll"]}
@@ -265,8 +286,18 @@ assert all(re.search(r"[؀-ۿ]", i["question"]) for i in ar_items)
 
 golden = items + ar_items
 text = "".join(json.dumps(i, ensure_ascii=False, sort_keys=True) + "\n" for i in golden)
+# a re-freeze only on a recorded change: the frozen file's sha256 must start with this prefix (one transition)
+REFREEZE = ("d7d1e94f449c137d", "v2 (2026-10-22, owner: D-P7-3 two askers per profile, D-P7-4 + r05, r03b, the "
+                                "scorer notes' word lists and number forms)")
 if GOLDEN.exists():
-    assert GOLDEN.read_text(encoding="utf-8") == text, "finance_qa_golden.jsonl differs from the frozen file"
+    old = GOLDEN.read_text(encoding="utf-8")
+    old_sha = hashlib.sha256(old.encode("utf-8")).hexdigest()
+    if old != text and old_sha.startswith(REFREEZE[0]):
+        GOLDEN.write_text(text, encoding="utf-8", newline="\n")
+        print(f"finance_qa_golden.jsonl RE-FROZEN ({REFREEZE[1]}): {old_sha[:16]}… → "
+              f"{hashlib.sha256(text.encode('utf-8')).hexdigest()[:16]}…")
+    else:
+        assert old == text, "finance_qa_golden.jsonl differs from the frozen file"
 else:
     GOLDEN.write_text(text, encoding="utf-8", newline="\n")
 sha = hashlib.sha256(text.encode("utf-8")).hexdigest()
@@ -276,4 +307,4 @@ print("✅ Phase 3 validation passed: 10 Egyptian Arabic twins with the same ele
 
 # %% Final Checkpoint
 # Narrative: pipelines/checkpoints/agents/Qa_golden.md
-print(f"✅ Final Checkpoint: finance Q&A golden set frozen — 40 items, threshold AR ≥ EN − 0.10 (G2)")
+print(f"✅ Final Checkpoint: finance Q&A golden set frozen — {len(golden)} items, threshold AR ≥ EN − 0.10 (G2)")

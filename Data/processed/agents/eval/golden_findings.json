@@ -1,5 +1,5 @@
 {
- "status": "REVIEWED by the owner 2026-10-19 (v1, Agents plan §5d S1): written by the assistant from the views' evidence; frozen by hash (plan Progress). v1.1 (2026-10-19, owner, D-P7-1): t36-b is no longer a planted budget miss. v2 (2026-10-19, S2, assistant while the owner was away — for his review): the test weeks' top-driver findings t10-d / t23-d / t36-d / t49-b from the twin views (migration 017); frozen by hash (plan Progress).",
+ "status": "REVIEWED by the owner 2026-10-19 (v1, Agents plan §5d S1): written by the assistant from the views' evidence; frozen by hash (plan Progress). v1.1 (2026-10-19, owner, D-P7-1): t36-b is no longer a planted budget miss. v2 (2026-10-19, S2, assistant while the owner was away — for his review): the test weeks' top-driver findings t10-d / t23-d / t36-d / t49-b from the twin views (migration 017); frozen by hash (plan Progress). v3 (2026-10-22, owner, D-P7-1): t36-b is the planted budget miss again, made a real miss by migration 018 (LNG −33.33 %); planted findings = the 5 invoice errors + this miss; findings v2 reviewed by the owner 2026-10-22.",
  "driver_rule": "owner 2026-10-19: the top driver (largest |billed_wow_change_sdr| of the week) must be named; the 2nd and 3rd are optional (the Validator already refuses a driver outside the top three)",
  "where": {
   "table": "drawn by code (slide 8 exceptions, footnotes): present whenever the pack publishes; counted for the D7 planted-error metric",
@@ -20,7 +20,7 @@
   ],
   "test:36": [
    {"id": "t36-a", "kind": "invoice_error", "where": "table", "evidence": "audit.week", "row": "INV-0000769", "note": "planted SFU priced as ballast (−64,363.84)"},
-   {"id": "t36-b", "kind": "no_false_miss", "where": "narrative", "evidence": "kpi.category", "row": "Liquefied Natural Gas (LNG) Carriers", "must_not": "LNG called below budget / a budget miss", "note": "D-P7-1 (owner 2026-10-19): the planted budget × 1.5 does not make a miss — LNG stays above budget (+37.63 %, live +106.44 %); not a planted finding any more; calling it a miss = a false alarm"},
+   {"id": "t36-b", "kind": "budget_miss", "where": "narrative", "planted": true, "evidence": "kpi.category", "row": "Liquefied Natural Gas (LNG) Carriers", "note": "v3 (owner 2026-10-22, D-P7-1, migration 018): the planted budget miss — LNG billed 1.81 M against a budget of 2.72 M (−33.33 %); found when a narrative sentence calls LNG below budget / a budget miss"},
    {"id": "t36-c", "kind": "exceptions_named", "where": "narrative", "evidence": "audit.week", "field_any": ["invoices_flagged", "amount_at_stake_sdr"]},
    {"id": "t36-d", "kind": "driver", "where": "narrative", "evidence": "kpi.category", "row": "Liquefied Natural Gas (LNG) Carriers", "note": "v2: top driver +1.81 M (no LNG billing the week before); the week is 9.71 % below budget"}
   ],

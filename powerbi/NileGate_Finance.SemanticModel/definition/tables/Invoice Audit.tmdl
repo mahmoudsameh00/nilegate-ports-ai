@@ -1,0 +1,111 @@
+/// finance.invoice_audit: one row per audit finding (migrations 015 / 019): every invoice recomputed from the progressive toll bands; review = error | manual_review (a tariff Notes rule). Read by the Exceptions page; the agent tool invoice_audit reads the same view.
+table 'Invoice Audit'
+	lineageTag: c14335d1-dced-4920-a455-661dd520b701
+
+	column report_week
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 1cb27ede-247c-493b-95a4-3351e82896c5
+		summarizeBy: none
+		sourceColumn: report_week
+
+	column invoice_number
+		dataType: string
+		lineageTag: 82c94407-d707-4261-8ecc-fb43762cf047
+		summarizeBy: none
+		sourceColumn: invoice_number
+
+	column invoice_date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 65012571-8704-431a-be7b-64dbc736c52f
+		summarizeBy: none
+		sourceColumn: invoice_date
+
+	column vessel_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 8873ce47-b941-4bef-8a04-e8b7a884a7de
+		summarizeBy: none
+		sourceColumn: vessel_id
+
+	column vessel_name
+		dataType: string
+		lineageTag: e9118a37-4a20-4022-901b-13a1a6e749cb
+		summarizeBy: none
+		sourceColumn: vessel_name
+
+	column vessel_category
+		dataType: string
+		lineageTag: da559ab9-2a52-47c9-be94-ebe15cdea2ec
+		summarizeBy: none
+		sourceColumn: vessel_category
+
+	column vessel_condition
+		dataType: string
+		lineageTag: 8ad4faf5-cdd5-47e3-9f6c-31326a12b10f
+		summarizeBy: none
+		sourceColumn: vessel_condition
+
+	column check_code
+		dataType: string
+		lineageTag: c21dfbbb-d828-4e6b-8688-ca575cc85b6f
+		summarizeBy: none
+		sourceColumn: check_code
+
+	column probable_cause
+		dataType: string
+		lineageTag: ec60cc28-d37d-4c7d-83c4-10ba2fbff3c9
+		summarizeBy: none
+		sourceColumn: probable_cause
+
+	column billed_sdr
+		dataType: double
+		formatString: #,0.00
+		lineageTag: bbd80691-c0f4-4f09-86e3-57415d644028
+		summarizeBy: none
+		sourceColumn: billed_sdr
+
+	column expected_sdr
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 245d5922-c6c8-4682-874d-831277807ec5
+		summarizeBy: none
+		sourceColumn: expected_sdr
+
+	column difference_sdr
+		dataType: double
+		formatString: #,0.00
+		lineageTag: cc10ff99-feb7-41e1-bee5-e34d777b15f7
+		summarizeBy: none
+		sourceColumn: difference_sdr
+
+	column duplicate_of
+		dataType: string
+		lineageTag: 75e0f7d4-2e33-4156-84fd-654b7ff7a166
+		summarizeBy: none
+		sourceColumn: duplicate_of
+
+	column evidence
+		dataType: string
+		lineageTag: 1bca6555-e9b9-4d8d-b5e8-74cb01de430e
+		summarizeBy: none
+		sourceColumn: evidence
+
+	column review
+		dataType: string
+		lineageTag: c530c2f5-c999-4f0c-85f3-ce23764562f7
+		summarizeBy: none
+		sourceColumn: review
+
+	partition 'finance invoice_audit' = m
+		mode: directQuery
+		source =
+				let
+				  Source = PostgreSQL.Database("127.0.0.1:5432", "ports_logistics"),
+				  #"Navigation 1" = Source{[Schema = "finance", Item = "invoice_audit"]}[Data]
+				in
+				  #"Navigation 1"
+

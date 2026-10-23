@@ -8,6 +8,7 @@
     },
     "invoices_checked": 15,
     "invoices_flagged": 1,
+    "invoices_manual_review": 0,
     "note": "15 invoices checked, 1 flagged",
     "rows": [
      {
@@ -21,6 +22,7 @@
       "invoice_number": "INV-0000925",
       "probable_cause": null,
       "report_week": 15,
+      "review": "error",
       "vessel_category": "Chemical Tankers & Other Liquid Bulk Tankers",
       "vessel_condition": "Ballast",
       "vessel_id": 180,
@@ -873,6 +875,7 @@
     "findings_by_check": {},
     "invoices_checked": 11,
     "invoices_flagged": 0,
+    "invoices_manual_review": 0,
     "note": "11 invoices checked, 0 flagged",
     "rows": [],
     "source": {
@@ -1721,6 +1724,7 @@
     "findings_by_check": {},
     "invoices_checked": 22,
     "invoices_flagged": 0,
+    "invoices_manual_review": 0,
     "note": "22 invoices checked, 0 flagged",
     "rows": [],
     "source": {
@@ -2569,6 +2573,7 @@
     "findings_by_check": {},
     "invoices_checked": 22,
     "invoices_flagged": 0,
+    "invoices_manual_review": 0,
     "note": "22 invoices checked, 0 flagged",
     "rows": [],
     "source": {
@@ -3417,6 +3422,7 @@
     "findings_by_check": {},
     "invoices_checked": 13,
     "invoices_flagged": 0,
+    "invoices_manual_review": 0,
     "note": "13 invoices checked, 0 flagged",
     "rows": [],
     "source": {
@@ -4265,6 +4271,7 @@
     "findings_by_check": {},
     "invoices_checked": 24,
     "invoices_flagged": 0,
+    "invoices_manual_review": 0,
     "note": "24 invoices checked, 0 flagged",
     "rows": [],
     "source": {
@@ -5113,6 +5120,7 @@
     "findings_by_check": {},
     "invoices_checked": 21,
     "invoices_flagged": 0,
+    "invoices_manual_review": 0,
     "note": "21 invoices checked, 0 flagged",
     "rows": [],
     "source": {
@@ -5668,6 +5676,7 @@
     },
     "invoices_checked": 19,
     "invoices_flagged": 2,
+    "invoices_manual_review": 0,
     "note": "19 invoices checked, 2 flagged; evaluation copy with planted errors, not NileGate's invoices",
     "rows": [
      {
@@ -5681,6 +5690,7 @@
       "invoice_number": "INV-0000626",
       "probable_cause": "flat_terminal_rate",
       "report_week": 10,
+      "review": "error",
       "vessel_category": "Cruise Ships",
       "vessel_condition": "Laden",
       "vessel_id": 341,
@@ -5697,6 +5707,7 @@
       "invoice_number": "INV-0000498",
       "probable_cause": null,
       "report_week": 10,
+      "review": "error",
       "vessel_category": "Liquefied Natural Gas (LNG) Carriers",
       "vessel_condition": "Ballast",
       "vessel_id": 144,
@@ -6495,6 +6506,7 @@
     },
     "invoices_checked": 30,
     "invoices_flagged": 2,
+    "invoices_manual_review": 0,
     "note": "30 invoices checked, 2 flagged; evaluation copy with planted errors, not NileGate's invoices",
     "rows": [
      {
@@ -6508,6 +6520,7 @@
       "invoice_number": "INV-9000292",
       "probable_cause": null,
       "report_week": 23,
+      "review": "error",
       "vessel_category": "Crude Oil Tankers",
       "vessel_condition": "Laden",
       "vessel_id": 14,
@@ -6524,6 +6537,7 @@
       "invoice_number": "INV-0000774",
       "probable_cause": "condition_swapped",
       "report_week": 23,
+      "review": "error",
       "vessel_category": "Other Vessels",
       "vessel_condition": "Ballast",
       "vessel_id": 104,
@@ -7378,6 +7392,7 @@
     },
     "invoices_checked": 20,
     "invoices_flagged": 1,
+    "invoices_manual_review": 0,
     "note": "20 invoices checked, 1 flagged; evaluation copy with planted errors, not NileGate's invoices",
     "rows": [
      {
@@ -7391,6 +7406,7 @@
       "invoice_number": "INV-0000769",
       "probable_cause": "sfu_priced_ballast",
       "report_week": 36,
+      "review": "error",
       "vessel_category": "Special Floating Units",
       "vessel_condition": "Laden",
       "vessel_id": 167,
@@ -7414,9 +7430,9 @@
       "billed_sdr": 1812215.36,
       "billed_wow_change_sdr": 1812215.36,
       "billed_wow_pct": null,
-      "budget_sdr": 1316745.48,
-      "budget_variance_pct": 37.63,
-      "budget_variance_sdr": 495469.88,
+      "budget_sdr": 2718323.04,
+      "budget_variance_pct": -33.33,
+      "budget_variance_sdr": -906107.68,
       "invoices_billed": 3,
       "report_week": 36,
       "vessel_category": "Liquefied Natural Gas (LNG) Carriers"
@@ -8205,9 +8221,9 @@
       "ar_wow_pct": 2.6,
       "billed_sdr": 5811515.54,
       "billed_wow_pct": 4.6,
-      "budget_sdr": 6436223.82,
-      "budget_variance_pct": -9.71,
-      "budget_variance_sdr": -624708.28,
+      "budget_sdr": 7837801.38,
+      "budget_variance_pct": -25.85,
+      "budget_variance_sdr": -2026285.84,
       "collected_sdr": 4752709.86,
       "collected_wow_pct": 48.9,
       "dso_days": 61.4,
@@ -8243,6 +8259,7 @@
     "findings_by_check": {},
     "invoices_checked": 19,
     "invoices_flagged": 0,
+    "invoices_manual_review": 0,
     "note": "19 invoices checked, 0 flagged; evaluation copy with planted errors, not NileGate's invoices",
     "rows": [],
     "source": {

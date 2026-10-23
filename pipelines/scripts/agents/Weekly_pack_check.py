@@ -138,9 +138,10 @@ actual = {"round_trip": round_trip, "refused": sorted(refused), "roles": sorted(
           "role_pairs": {n: [c.name for c in cs] for n, cs in roles.ROLES.items()}, "role_cases": role_cases,
           "fake_ok": fake_ok, "fake_calls": fake.calls, "fake_invalid": fake_invalid}
 expected = {"round_trip": True, "refused": sorted(invalid), "roles": ["insight", "tools", "writer"],
-            # ADR-045 amendment (owner 2026-10-19): the pack's Insight / Writer prompts do not fit Groq's 8K TPM
-            "role_pairs": {"insight": ["gemini/gemini-3.5-flash-lite", "openrouter/nvidia/nemotron-3-super-120b-a12b:free"],
-                           "writer": ["gemini/gemini-3.5-flash-lite", "openrouter/nvidia/nemotron-3-super-120b-a12b:free"],
+            # ADR-045 amendment 1 (owner 2026-10-19): the pack's Insight / Writer prompts do not fit Groq's 8K TPM;
+            # amendment 2 (2026-10-23, §5f F7): the retired nemotron-3-super → nemotron-3.5-super-vl
+            "role_pairs": {"insight": ["gemini/gemini-3.5-flash-lite", "openrouter/nvidia/nemotron-3.5-super-vl:free"],
+                           "writer": ["gemini/gemini-3.5-flash-lite", "openrouter/nvidia/nemotron-3.5-super-vl:free"],
                            "tools": ["gemini/gemini-3.5-flash-lite", "groq/openai/gpt-oss-20b"]},
             "role_cases": {"exhausted → fallback": (FALLBACK.name, ["exhausted", "ok"]),
                            "invalid → retry ok": (MAIN.name, ["invalid", "ok"], 15),
@@ -662,17 +663,26 @@ if RUN_REAL:
     # decks are copied to Notebooks/_scratch/ for the owner's look.
     # Phase 7 (2026-10-20, D-P7-9 / D-P7-12): with the Validator's week-label and month-date fixes, week 23's patch
     # messages changed, so its second patch went to the model again (2 fresh calls, once) and the deck published: 4 / 4.
+    # 2026-10-21 (D-P7-14): code now fixes the slot form before the Validator; weeks 10 / 23 / 49 need one patch
+    # instead of two (one fresh call each, once).
+    # 2026-10-22 (§5f F5, migration 019): the audit tool's JSON gained `review` / `invoices_manual_review`, so the
+    # Insight conversation of weeks 10 / 23 / 49 (which call invoice_audit) changed and went to the model again
+    # (17 fresh calls, once): 10 published; 23 and 49 validation_failed on real Writer errors the Validator caught —
+    # V7 "LNG is not among the week's top three drivers" (23) and V7 "the slot's row is not the row the sentence names
+    # (Cruise Ships)" (49), replayed from the cache, 0 calls. Model variance (Phase 7: 10 / 11 published), true
+    # positives; the snapshot records these replies.
     reviewed = {w: (r["status"], r["fresh_calls"], r["fallbacks"]) for w, r in real.items()}
-    assert reviewed == {5: ("published", 0, 0), 10: ("published", 0, 0), 23: ("published", 0, 0),
-                        49: ("published", 0, 0)}, reviewed
-    for w in (5, 10, 23, 49):
+    assert reviewed == {5: ("published", 0, 0), 10: ("published", 0, 0), 23: ("validation_failed", 0, 0),
+                        49: ("validation_failed", 0, 0)}, reviewed
+    published = [w for w, r in real.items() if r["status"] == "published"]
+    for w in published:
         deck = REPORTS / "real" / f"2025-W{w:02d}" / "deck.pptx"
         assert deck.is_file(), deck
         (ROOT / "Notebooks" / "_scratch" / f"deck_real_2025-W{w:02d}.pptx").write_bytes(deck.read_bytes())
-    print("✅ Phase 5 validation passed: real models on weeks 5 / 10 / 23 / 49 — 4 / 4 published with their deck.pptx "
-          "(V1–V8 passed; week 23 since the Phase 7 Validator fixes); every LLM call within its "
-          f"provider's per-minute token limit (max {max(r['max_total_tokens'] for r in real.values()):,}), 0 model "
-          "calls on a re-run")
+    print(f"✅ Phase 5 validation passed: real models on weeks 5 / 10 / 23 / 49 — {len(published)} / 4 published with "
+          "their deck.pptx (V1–V8 passed), the others stopped by the Validator on real Writer errors (V7); every LLM "
+          f"call within its provider's per-minute token limit (max {max(r['max_total_tokens'] for r in real.values()):,}"
+          "), 0 model calls on a re-run")
     DONE.append(5)
 else:
     print("Phase 5 skipped: set PACK_REAL_MODELS=1 to run the real models (Agents plan §5c S6)")

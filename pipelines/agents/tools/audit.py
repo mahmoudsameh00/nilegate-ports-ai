@@ -6,7 +6,10 @@ in SQL (one definition for this tool and the dashboard's Exceptions page, P4-2 /
 and sums. Findings are ordered by |difference| (largest amount at stake first).
 
 Amount at stake = Σ over flagged invoices of the largest |difference| of the invoice (an invoice with two findings,
-e.g. a wrong tonnage that also changed the amount, is counted once).
+e.g. a wrong tonnage that also changed the amount, is counted once). Since migration 019 a finding has `review`:
+'error', or 'manual_review' for an invoice priced by a tariff Notes rule (a ballast chemical tanker at the Crude Oil
+ballast rates — right if it is an oil/chemical tanker): those are counted apart (`invoices_manual_review`), never
+flagged as errors nor added to the amount at stake.
 Access: level 2 / Finance for both datasets (ADR-006, docs/rbac_mapping.md).
 """
 from typing import Literal
@@ -25,7 +28,7 @@ CHECKED = {"live": "SELECT invoice_number FROM finance.fact_invoice WHERE invoic
 SOURCE_TABLE = {"live": "public.invoices", "test": "finance_test.invoices"}
 COLUMNS = ("report_week", "invoice_number", "invoice_date", "vessel_id", "vessel_name", "vessel_category",
            "vessel_condition", "check_code", "probable_cause", "billed_sdr", "expected_sdr", "difference_sdr",
-           "duplicate_of", "evidence")
+           "duplicate_of", "evidence", "review")
 
 
 class AuditArgs(BaseModel):
@@ -60,6 +63,19 @@ class AuditResult(ToolResult):
     invoices_flagged: int | None = None
     amount_at_stake_sdr: float | None = None
     findings_by_check: dict[str, int] | None = None
+    invoices_manual_review: int | None = None        # priced by a tariff Notes rule: a person decides (019)
+
+
+def totals(rows: list[dict]) -> tuple[dict[str, float], dict[str, int], set[str]]:
+    """(the largest |difference| per invoice with an error, findings per check, invoices for manual review)."""
+    stake: dict[str, float] = {}
+    by_check: dict[str, int] = {}
+    review = {r["invoice_number"] for r in rows if r["review"] == "manual_review"}
+    for r in rows:
+        by_check[r["check_code"]] = by_check.get(r["check_code"], 0) + 1
+        if r["review"] == "error":
+            stake[r["invoice_number"]] = max(stake.get(r["invoice_number"], 0.0), abs(r["difference_sdr"]))
+    return stake, by_check, review
 
 
 def invoice_audit(user, **args) -> ToolResult:
@@ -84,12 +100,10 @@ def invoice_audit(user, **args) -> ToolResult:
     if not checked:
         return AuditResult(tool="invoice_audit", status="no_data",
                            note=f"no invoice in {SOURCE_TABLE[a.dataset]} for {flt}")
-    stake: dict[str, float] = {}
-    by_check: dict[str, int] = {}
-    for r in rows:
-        stake[r["invoice_number"]] = max(stake.get(r["invoice_number"], 0.0), abs(r["difference_sdr"]))
-        by_check[r["check_code"]] = by_check.get(r["check_code"], 0) + 1
+    stake, by_check, review = totals(rows)
     notes = [f"{len(checked)} invoices checked, {len(stake)} flagged"]
+    if review:
+        notes.append(f"{len(review)} for manual review (a tariff Notes rule may apply)")
     if unknown:
         notes.append(f"not found: {', '.join(unknown)}")
     if a.dataset == "test":
@@ -97,7 +111,8 @@ def invoice_audit(user, **args) -> ToolResult:
     return AuditResult(tool="invoice_audit", status="ok", rows=rows, note="; ".join(notes),
                        source=Source(kind="view", name=view, filter=flt),
                        invoices_checked=len(checked), invoices_flagged=len(stake),
-                       amount_at_stake_sdr=round(sum(stake.values()), 2), findings_by_check=by_check)
+                       amount_at_stake_sdr=round(sum(stake.values()), 2), findings_by_check=by_check,
+                       invoices_manual_review=len(review))
 
 
 @tool("invoice_audit", args_schema=AuditToolArgs)

@@ -49,3 +49,12 @@ rule ADR-052).
 - Baseline `stage1_eval_2026-10-19.json`: D7 not met (packs 4 / 11, 8 / 11; planted 2 / 5, 1 / 5).
 - c1 `stage1_eval_2026-10-20_c1.json`: ADR-052 keep (better) — planted 5 / 5 both runs, recall 0.69, Q&A EN 0.96 /
   AR 1.0, leakage 0; D7 not met (abstention 0.86, traceability 0.996 in one run). c2 prepared (D-P7-12).
+- c2 rejected (2026-10-21); c3 `stage1_eval_2026-10-22_c3.json` accepted by an owner exception (ADR-052).
+- **Confirmation run `stage1_eval_2026-10-23_confirm.json` = the final Stage 1 baseline (plan §5f F8):** packs
+  7 / 11 · 10 / 11, planted 2 / 6 · 3 / 6 (stopped packs carry no deck), deck numbers / claims / traceability 100 %,
+  leakage 0, abstention 1.0, Q&A EN 0.96 / AR 0.95, recall 0.79; D7 not met on `planted_all` only.
+- **A scorer false positive found by that run (D-P8-16):** `false_alarms()` counted every invoice number in an error
+  sentence, so the original of a flagged duplicate ("INV-9000292 … duplicate of INV-0000292") was an alarm — the
+  run's only two alarms were such true sentences. Fixed by rule (the original named beside its flagged duplicate is
+  not called wrong) with two Phase 2 cases (`duplicate_with_original`, `duplicate_with_other`); the results file is
+  kept as scored.

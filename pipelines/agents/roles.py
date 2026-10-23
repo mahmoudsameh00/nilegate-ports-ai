@@ -40,12 +40,14 @@ class Candidate:
 QWEN = Candidate("groq", "qwen/qwen3.8-27b", "function_calling")
 FLASH_LITE = Candidate("gemini", "gemini-3.5-flash-lite", "function_calling")
 GPT_OSS_20B = Candidate("groq", "openai/gpt-oss-20b", "json_schema")
-NEMOTRON = Candidate("openrouter", "nvidia/nemotron-3-super-120b-a12b:free", "function_calling")
+NEMOTRON = Candidate("openrouter", "nvidia/nemotron-3.5-super-vl:free", "function_calling")
 
 # ADR-045: Tools / routing = flash-lite + gpt-oss-20b (Groq). Writer / Insight was qwen (Groq) + flash-lite; the
 # weekly pack's real prompts (9.7K–17K tokens, Phase 5 S6) do not fit Groq's 8K tokens per minute, so the pack's
-# Insight / Writer run on flash-lite (250K TPM, tied with qwen in the bake-off) with OpenRouter nemotron (passed the
-# T2 gate, 1M TPM, 50 requests / day) as the fallback from another provider (owner 2026-10-19, ADR-045 amendment).
+# Insight / Writer run on flash-lite (250K TPM, tied with qwen in the bake-off) with OpenRouter nemotron (1M TPM,
+# 50 requests / day) as the fallback from another provider (owner 2026-10-19, ADR-045 amendment 1). Amendment 2
+# (2026-10-23, §5f F7): nemotron-3-super was retired upstream (404 on every request) → nemotron-3.5-super-vl, the
+# only candidate that published a forced-fallback pack (1 / 2; dots-3-note-preview 0 / 2).
 ROLES: dict[str, tuple[Candidate, ...]] = {
     "insight": (FLASH_LITE, NEMOTRON),
     "writer": (FLASH_LITE, NEMOTRON),

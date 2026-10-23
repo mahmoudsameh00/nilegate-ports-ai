@@ -6,6 +6,7 @@ Run:     uv run python tools/run.py pipelines/scripts/agents/Stage1_eval.py     
          EVAL_REPEATS (default 2, ADR-052) — repeat 1 uses the llm.py reply cache, repeat k a cache folder of its own
          (Data/processed/agents/llm_cache/eval_r<k>/), so every repeat is a fresh set of calls; the daily quota state is
          shared. A run stopped by the quota resumes from the caches the next day.
+         EVAL_TRACE=1 (+ LANGSMITH_API_KEY): each pack and question traced in LangSmith (Phase 8; off by default).
 
 Reads:   the frozen inputs in Data/processed/agents/eval/ (golden_weeks.json, golden_weeks_expected.json,
          golden_findings.json, finance_qa_golden.jsonl — hashes asserted); PostgreSQL read-only through the tools;
@@ -32,6 +33,7 @@ import shutil
 import sys
 import tempfile
 import time
+from contextlib import nullcontext
 from datetime import date
 from pathlib import Path
 
@@ -42,7 +44,7 @@ from pptx import Presentation
 
 ROOT = next(p for p in [Path.cwd(), *Path.cwd().parents] if (p / "pyproject.toml").exists() and (p / "Data").is_dir())
 sys.path.insert(0, str(ROOT))
-from pipelines.agents import llm, roles  # noqa: E402
+from pipelines.agents import llm, roles, tracing  # noqa: E402
 from pipelines.agents.deck import sample, slots  # noqa: E402
 from pipelines.agents.graphs import finance_qa as qa  # noqa: E402
 from pipelines.agents.graphs import models as m  # noqa: E402
@@ -52,14 +54,20 @@ from pipelines.agents.tools import context, db  # noqa: E402
 sys.stdout.reconfigure(line_buffering=True)          # progress lines reach the run log as they happen (long runs)
 EVAL = ROOT / "Data" / "processed" / "agents" / "eval"
 SCRATCH = ROOT / "Notebooks" / "_scratch" / "stage1_eval"
-FROZEN = {"golden_weeks.json": "ea13800db38c1a96", "golden_weeks_expected.json": "bb3b1a3bd8cf178c",
-          "golden_findings.json": "3a5bde86b7a8d0df", "finance_qa_golden.jsonl": "d7d1e94f449c137d"}
+# re-frozen 2026-10-22 (plan §5f F3 / F4 / F5): expected evidence bb3b1a3b… → 7909ccfb… (migration 018) → 1f2bad35…
+# (migration 019: audit `review`), findings v2 3a5bde86… → v3 (D-P7-1); the Q&A golden set d7d1e94f… → v2 (D-P7-3 /
+# D-P7-4, the scorer notes; 42 questions)
+FROZEN = {"golden_weeks.json": "ea13800db38c1a96", "golden_weeks_expected.json": "1f2bad3580b27134",
+          "golden_findings.json": "dc6e32484944798a", "finance_qa_golden.jsonl": "5cf72ac33e5765d5"}
+N_QUESTIONS = 42
+PLANTED = 6                                        # 5 invoice errors (table) + the budget miss of test week 36
 REAL = os.environ.get("EVAL_REAL_MODELS") == "1"
 REPEATS = int(os.environ.get("EVAL_REPEATS", "2"))
 # a candidate change (ADR-052): EVAL_TAG names its runs (cache folders llm_cache/eval_<tag>_r<k>/ for every repeat,
 # results stage1_eval_<date>_<tag>.json); EVAL_BASELINE = the baseline results file it is compared with
 TAG = os.environ.get("EVAL_TAG", "")
 BASELINE = os.environ.get("EVAL_BASELINE", "")
+TRACE = os.environ.get("EVAL_TRACE") == "1"     # LangSmith for the real runs (Phase 8, P8-4); off by default
 
 # %% Phase 1 — The frozen inputs and the people
 # Every input was frozen before any run (§5d): a changed file stops here, so no result is scored against an answer
@@ -76,10 +84,10 @@ golden_qa = [json.loads(x) for x in (EVAL / "finance_qa_golden.jsonl").read_text
 FIN_MGR = context.load_user(db.fetch(
     "SELECT e.employee_id FROM employees e JOIN roles r USING (role_id) JOIN departments d USING (department_id) "
     "WHERE r.role_name = 'manager' AND d.department_name = 'Finance' ORDER BY e.employee_id LIMIT 1")[0]["employee_id"])
-assert len(weeks) == 11 and len(expected) == 11 and set(findings) == set(expected) and len(golden_qa) == 40
+assert len(weeks) == 11 and len(expected) == 11 and set(findings) == set(expected) and len(golden_qa) == N_QUESTIONS
 print(f"inputs: {len(weeks)} weeks, {sum(len(v) for v in findings.values())} findings, {len(golden_qa)} questions; "
       f"packs run and approved by employee {FIN_MGR.employee_id} ({FIN_MGR.role}, {FIN_MGR.department})")
-print("✅ Phase 1 validation passed: the four frozen inputs unchanged (hashes), 11 weeks, 40 questions")
+print(f"✅ Phase 1 validation passed: the four frozen inputs unchanged (hashes), 11 weeks, {N_QUESTIONS} questions")
 
 
 # %% Scorers (pure functions: the state of a finished run in, the metrics out)
@@ -169,13 +177,18 @@ def finding_met(f: dict, narrative: list[dict], context_bullets: list[dict], ev:
 
 def false_alarms(narrative: list[dict], ev: dict) -> tuple[int, int, list[str]]:
     """(false alarms, findings reported, the false sentences): invoices called wrong that the audit did not flag;
-    categories called below budget whose variance is ≥ 0 (a category must be named; the week total is not a claim)."""
+    categories called below budget whose variance is ≥ 0 (a category must be named; the week total is not a claim).
+    The original of a flagged duplicate, named in the same sentence ("INV-9000292 duplicates INV-0000292"), is not
+    called wrong (§5f F8: the confirmation run's only two "false alarms" were such sentences)."""
     flagged = {r["invoice_number"] for r in ev["audit.week"]["rows"]}
+    original_of = {r["invoice_number"]: r.get("duplicate_of") for r in ev["audit.week"]["rows"]}
     variance = {r["vessel_category"]: r["budget_variance_sdr"] for r in ev["kpi.category"]["rows"]}
     fa, ok, bad = 0, 0, []
     for b in narrative:
         if ERROR_WORDS.search(b["text"]):
-            for inv in set(re.findall(r"INV-\d{7}", b["text"])):
+            named = set(re.findall(r"INV-\d{7}", b["text"]))
+            originals = {original_of[i] for i in named & flagged if original_of[i]}
+            for inv in named - originals:
                 if inv in flagged:
                     ok += 1
                 else:
@@ -233,10 +246,17 @@ def score_pack(key: str, st: dict, pptx: Path | None) -> dict:
     n_bound = sum(len(b["bound"]) for b in bullets)
     slot_errors = sum(len(b["errors"]) for b in bullets)
     numbers_ok = published and ev_same and slot_errors == 0 and bool((st.get("verdict") or {}).get("passed"))
-    planted = [f for f in fl if f["kind"] == "invoice_error" and f["where"] == "table"]   # the 5 planted (D-P7-1)
+    # planted (findings v3, D-P7-1): the 5 invoice errors in the slide-8 table + the budget miss of test week 36,
+    # found when a narrative sentence names the category and calls it below budget / a miss
+    planted_tab = [f for f in fl if f["kind"] == "invoice_error" and f["where"] == "table"]
+    planted_miss = [f for f in fl if f["kind"] == "budget_miss" and f.get("planted")]
+    planted = planted_tab + planted_miss
     table = pptx_slide_text(pptx, 8) if (published and pptx and pptx.exists()) else ""
-    planted_found = [f["id"] for f in planted if f["row"] in table]
-    recall_items = [f for f in fl if f["where"] == "narrative" and f["kind"] not in ("no_exception", "no_false_miss")]
+    planted_found = ([f["id"] for f in planted_tab if f["row"] in table]
+                     + [f["id"] for f in planted_miss if published and any(
+                         BELOW_WORDS.search(b["text"]) and f["row"].lower() in b["text"].lower() for b in narrative)])
+    recall_items = [f for f in fl if f["where"] == "narrative" and not f.get("planted")
+                    and f["kind"] not in ("no_exception", "no_false_miss")]
     met = [f["id"] for f in recall_items if published and finding_met(f, narrative, context_b, ev)]
     fa, reported, fa_text = false_alarms(narrative, ev) if published else (0, 0, [])
     n_claims, wrong_claims, claim_text = claims(narrative, ev) if published else (0, 0, [])
@@ -351,7 +371,7 @@ def gates(agg: dict) -> dict:
     """D7 + §8a hard gates (ADR-052)."""
     f, n = (int(x) for x in agg["planted_found"].split(" / "))
     return {"deck_numbers_100": agg["deck_numbers"] == 1.0,
-            "planted_5_of_5": f == n == 5,
+            "planted_all": f == n == PLANTED,          # 6 since findings v3 (D-P7-1); the c3 baseline had 5 / 5
             "false_alarms_le_5pct": agg["false_alarm_rate"] <= 0.05,
             "claims_100": agg["claim_accuracy"] == 1.0,
             "traceability_100": agg["traceability"] == 1.0 and agg["qa_traceability"] in (None, 1.0),
@@ -385,9 +405,23 @@ cases = {
     "false_invoice": score_pack("test:49", with_bullet(fake_state("test:49"), 8,
                                                        "INV-0000001 was billed twice (a duplicate)", ["audit.week"]),
                                 None)["false_alarms"],
+    # §5f F8: a flagged duplicate named with its original — one finding reported, no alarm; an unflagged invoice in
+    # the same sentence is still one
+    "duplicate_with_original": (lambda s, base: (s["false_alarms"], s["findings_reported"] - base))(score_pack(
+        "test:23", with_bullet(fake_state("test:23"), 2, "INV-9000292 was flagged as a duplicate of INV-0000292",
+                               ["audit.week"]), None),
+        score_pack("test:23", fake_state("test:23"), None)["findings_reported"]),
+    "duplicate_with_other": score_pack("test:23", with_bullet(
+        fake_state("test:23"), 2, "INV-9000292 and INV-0000001 were flagged as duplicates", ["audit.week"]),
+        None)["false_alarms"],
+    # week 36 of the copy: Special Floating Units is above budget (+25.53 %), LNG is the planted miss (−33.33 %)
     "false_miss": score_pack("test:36", with_bullet(fake_state("test:36"), 5,
-                                                    "Liquefied Natural Gas (LNG) Carriers billed below budget",
+                                                    "Special Floating Units billed below budget",
                                                     ["kpi.category"]), None)["false_alarms"],
+    "planted_miss_found": "t36-b" in score_pack("test:36", with_bullet(
+        fake_state("test:36"), 5, "Liquefied Natural Gas (LNG) Carriers came in below budget", ["kpi.category"]),
+        None)["planted_found"],
+    "planted_miss_silent": "t36-b" in score_pack("test:36", fake_state("test:36"), None)["planted_found"],
     "wrong_direction": score_pack("live:47", with_bullet(fake_state("live:47"), 3,
                                                          "Billing rose {kpi.weekly:billed_wow_pct|%1} this week",
                                                          ["kpi.weekly"]), None)["claims_wrong"],
@@ -448,12 +482,26 @@ qa_cases = {
 }
 actual = {"pack": cases, "qa": qa_cases}
 expected_cases = {"pack": {"good": (True, 0, 0, True), "evidence_tampered": False, "false_invoice": 1,
-                           "false_miss": 1, "wrong_direction": 1, "non_driver": 1, "untraced": True,
+                           "duplicate_with_original": (0, 1), "duplicate_with_other": 1, "false_miss": 1, "planted_miss_found": True, "planted_miss_silent": False,
+                           "wrong_direction": 1, "non_driver": 1, "untraced": True,
                            "budget_miss_named": True, "flat_week_strong": False, "not_published": []},
                   "qa": {"good_complete": 1.0, "good_relevant": 1.0, "wrong_week_value": 0.0, "refusal_ok": True,
                          "refusal_with_number": False, "hbr_leak": True, "abstain_ok": True,
                          "answered_instead": False}}
 assert actual == expected_cases, actual
+# the Q&A checker (c3, D-P7-15): digits inside a tool's own text (a vessel named "… 165", a citation page) are names,
+# not typed figures; a NileGate amount typed as text is still refused
+od = {"insight.c1": {"tool": "finance_kpi", "status": "ok", "source": {"kind": "view", "name": "finance.kpi_overdue_list",
+                                                                       "filter": "f"}, "note": None,
+                     "rows": [{"invoice_number": "INV-0000723", "vessel_name": "Liquefied Voyager 165",
+                               "amount_sdr": 673471.35, "days_past_due": 49}]}}
+name_ok = qa.check_answer({"status": "answered", "evidence_ids": ["insight.c1"],
+                           "answer": "INV-0000723 of the vessel Liquefied Voyager 165: "
+                                     "{insight.c1[INV-0000723]:amount_sdr}."}, od, "Largest overdue in week 49?")[2]
+typed = qa.check_answer({"status": "answered", "evidence_ids": ["insight.c1"],
+                         "answer": "INV-0000723 of Liquefied Voyager 165: 673,471.35 SDR."}, od,
+                        "Largest overdue in week 49?")[2]
+assert name_ok == [] and len(typed) == 1 and "673471.35" in typed[0], (name_ok, typed)
 print(f"Phase 2: {actual}")
 print("✅ Phase 2 validation passed: every scorer passes its good case and catches its failure (tampered evidence, "
       "false invoice, false budget miss, wrong direction, non-driver, untraced number, strong word on a flat week, "
@@ -461,16 +509,25 @@ print("✅ Phase 2 validation passed: every scorer passes its good case and catc
 
 
 # %% Runners
+def eval_trace(thread_id: str, user, label: str):
+    """LangSmith only with EVAL_TRACE=1 and a key (Phase 8, §5e P8-4): one evaluation ≈ 400 calls."""
+    if not TRACE:
+        return nullcontext(False)
+    return tracing.trace(thread_id, entry="eval", run_as=user.employee_id, launched_by="eval",
+                         extra_tags=(f"eval:{TAG or 'untagged'}", label))
+
+
 def run_pack(graph, key: str, reports: Path, user=FIN_MGR) -> tuple[dict, Path | None]:
     ds, w = key.split(":")[0], int(key.split(":")[1])
     cfg = {"configurable": {"thread_id": f"weekly_pack:eval:{key}:{time.time_ns()}"}}
     ctx = context.RunContext(user, ds)
-    graph.invoke({"report_week": w}, cfg, context=ctx)
-    st = graph.get_state(cfg)
-    if st.next and "approval" in st.next and (st.values.get("verdict") or {}).get("passed"):
-        graph.invoke(Command(resume={"decision": "approve", "approver_employee_id": user.employee_id}), cfg,
-                     context=ctx)
+    with eval_trace(cfg["configurable"]["thread_id"], user, f"golden:{key}"):
+        graph.invoke({"report_week": w}, cfg, context=ctx)
         st = graph.get_state(cfg)
+        if st.next and "approval" in st.next and (st.values.get("verdict") or {}).get("passed"):
+            graph.invoke(Command(resume={"decision": "approve", "approver_employee_id": user.employee_id}), cfg,
+                         context=ctx)
+            st = graph.get_state(cfg)
     vals = dict(st.values)
     if vals.get("status") == "awaiting_approval" and not (vals.get("verdict") or {}).get("passed"):
         vals["status"] = "validation_failed"
@@ -480,7 +537,9 @@ def run_pack(graph, key: str, reports: Path, user=FIN_MGR) -> tuple[dict, Path |
 
 def run_qa(graph, item: dict) -> dict:
     user = context.load_user(item["employee_id"])
-    return qa.ask(graph, item["question"], user, item["lang"], thread=f"qa:{item['id']}:{time.time_ns()}")
+    thread = f"qa:{item['id']}:{time.time_ns()}"
+    with eval_trace(thread, user, f"qa:{item['id']}"):
+        return qa.ask(graph, item["question"], user, item["lang"], thread=thread)
 
 
 class FakePack:
@@ -495,7 +554,15 @@ class FakePack:
         if schema is m.InsightNotes:
             return m.InsightNotes(summary=[m.Cited(text="see the KPI evidence", evidence_ids=["kpi.weekly"])])
         w = int(self.key.split(":")[1])
-        return m.DeckDraft.model_validate(sample.slot_draft(w, self.ev))
+        d = sample.slot_draft(w, self.ev)
+        # the ideal Writer says when the top driver is under its budget (findings v3: test week 36's planted miss)
+        c1 = sample.top3(self.ev)[0][0]
+        var = next(r["budget_variance_sdr"] for r in self.ev["kpi.category"]["rows"] if r["vessel_category"] == c1)
+        if var is not None and var < 0:
+            for b in d["bullets"]:
+                if b["slide"] == 5:
+                    b["text"] = b["text"].replace(", budget ", ", below its budget of ")
+        return m.DeckDraft.model_validate(d)
 
 
 class FakeQa:
@@ -558,8 +625,10 @@ print("Phase 3:", {k: agg3[k] for k in ("packs_published", "deck_numbers", "plan
                                         "claim_accuracy", "traceability", "narrative_recall")}, agg3["usage"])
 assert all(g3.values()), g3
 assert agg3["usage"]["fresh_calls"] == 0 and agg3["packs_published"] == "11 / 11"
-print("✅ Phase 3 validation passed: 11 / 11 golden weeks published with fake models; deck numbers 100 %, planted "
-      "5 / 5 in the slide-8 table, false alarms 0, claims 100 %, traceability 100 %; 0 model calls")
+assert agg3["planted_found"] == f"{PLANTED} / {PLANTED}", agg3["planted_found"]
+print(f"✅ Phase 3 validation passed: 11 / 11 golden weeks published with fake models; deck numbers 100 %, planted "
+      f"{PLANTED} / {PLANTED} (5 in the slide-8 table + the week-36 budget miss), false alarms 0, claims 100 %, "
+      "traceability 100 %; 0 model calls")
 
 
 # %% Phase 4 — The finance Q&A with fake answers (0 calls)
@@ -579,9 +648,10 @@ print("Phase 4:", {k: agg4[k] for k in ("qa_completeness_en", "qa_completeness_a
 bad = [(a["id"], a["status"], a["problems"][:1]) for a in fake_answers if not a["status_ok"]]
 assert not bad, bad
 assert (agg4["qa_completeness_en"], agg4["qa_completeness_ar"], agg4["abstention_recall"], agg4["rbac_leakage"]) \
-    == (1.0, 1.0, 1.0, 0) and skipped == ["r03", "r04"]
-print("✅ Phase 4 validation passed: 38 questions through the Q&A graph with fake answers — completeness EN / AR 1.0, "
-      "abstention 1.0, RBAC leakage 0 (the Operations employee's tool calls refused), numbers bound; 0 model calls")
+    == (1.0, 1.0, 1.0, 0) and skipped == ["r03", "r03b", "r05", "r04"]       # the document questions (live)
+print(f"✅ Phase 4 validation passed: {len(fake_answers)} questions through the Q&A graph with fake answers — "
+      "completeness EN / AR 1.0, abstention 1.0, RBAC leakage 0 (the Operations employees' tool calls refused), "
+      "numbers bound; 0 model calls")
 
 
 # %% Phase 5 — Real models (EVAL_REAL_MODELS=1)
@@ -594,11 +664,13 @@ results_path = EVAL / f"stage1_eval_{date.today().isoformat()}{'_' + TAG if TAG 
 def adr052(base: dict, cand: dict) -> dict:
     """ADR-052 on two results files: no hard gate regresses (a gate the baseline already fails may stay failed or
     improve, D-P7-10), no primary's mean falls by more than 0.03; a tie keeps the simpler / cheaper setup."""
-    regressed = [g for g, ok in base["gates_all_runs"].items() if ok and not cand["gates_all_runs"][g]]
+    renamed = {"planted_5_of_5": "planted_all"}          # results files before findings v3 (D-P7-1)
+    base_g = {renamed.get(g, g): ok for g, ok in base["gates_all_runs"].items()}
+    regressed = [g for g, ok in base_g.items() if ok and not cand["gates_all_runs"][g]]
     drops = {k: round(cand["primaries_mean"][k] - base["primaries_mean"][k], 4) for k in base["primaries_mean"]}
     keep = not regressed and all(d >= -0.03 for d in drops.values())
     better = keep and (any(d > 0.03 for d in drops.values())
-                       or sum(cand["gates_all_runs"].values()) > sum(base["gates_all_runs"].values()))
+                       or sum(cand["gates_all_runs"].values()) > sum(base_g.values()))
     return {"gates_regressed": regressed, "primary_change": drops, "kept": keep,
             "verdict": "keep (better)" if better else ("tie: keep the simpler / cheaper" if keep else "reject")}
 if not REAL:

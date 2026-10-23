@@ -236,6 +236,24 @@ table 'Weekly KPIs'
 		displayFolder: 4 Customers
 		lineageTag: ce767a7e-89f5-4d2a-8854-e41a4c1c5399
 
+	/// Rows of finance.invoice_audit in the one selected week (one row per finding; an invoice can carry two); blank if several weeks are selected.
+	measure 'Audit Findings' = IF(HASONEVALUE(Week[report_week]), COUNTROWS('Invoice Audit') + 0)
+		formatString: 0
+		displayFolder: 5 Exceptions
+		lineageTag: 83afa139-8a42-46fd-8fa2-44a6f7f1cb6c
+
+	/// Invoices with an error finding in the one selected week (= invoice_audit's invoices_flagged).
+	measure 'Invoices Flagged' = IF(HASONEVALUE(Week[report_week]), CALCULATE(DISTINCTCOUNT('Invoice Audit'[invoice_number]), 'Invoice Audit'[review] = "error") + 0)
+		formatString: 0
+		displayFolder: 5 Exceptions
+		lineageTag: ede0fa7a-4e7a-4676-8022-787ad33c9e12
+
+	/// Invoices priced by a tariff Notes rule (migration 019): a person confirms the rule; never counted as an error (= invoice_audit's invoices_manual_review).
+	measure 'Invoices Manual Review' = IF(HASONEVALUE(Week[report_week]), CALCULATE(DISTINCTCOUNT('Invoice Audit'[invoice_number]), 'Invoice Audit'[review] = "manual_review") + 0)
+		formatString: 0
+		displayFolder: 5 Exceptions
+		lineageTag: 517fc7c6-edcc-4db4-8d6f-865132ddf7e1
+
 	column report_week
 		dataType: int64
 		isHidden

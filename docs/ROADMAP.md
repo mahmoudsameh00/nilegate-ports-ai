@@ -1,11 +1,46 @@
 # Roadmap & status
 
-Single place for project status. Last updated: 2026-10-20 (Agents plan Phase 7 CLOSED: evaluation, finance Q&A agent, migration 017, ADR-052 / ADR-053, D7 not met — owner decision; Phase 6 CLOSED: the NileGate PPTX, number slots, Validator v2 + V8, ADR-051; Phase 5 CLOSED: the `weekly_pack` workflow + PostgresSaver + approval, ADR-050, migration 016, ADR-045 amendment 1; Phase 4 CLOSED: Stage 1 tools + skills, ADR-049; Phase 3 CLOSED 2026-10-15: Power BI dashboard, ADR-048; Phase 2 closed 2026-10-14, ADR-047; Phase 1 closed 2026-10-14, ADR-046; Phase 0 closed 2026-10-12, ADR-045).
+Single place for project status. Last updated: 2026-10-23 (Agents plan §5f Phases 7–8 closure DONE: final Stage 1 baseline `stage1_eval_2026-10-23_confirm.json`, D7 not met on planted findings only; new fallback ADR-045 amendment 2; Phase 8 CLOSED: scheduled weekly pack, retention, LangSmith, ADR-054; Phase 7 CLOSED: evaluation, finance Q&A agent, migration 017, ADR-052 / ADR-053, D7 not met — owner decision; Phase 6 CLOSED: the NileGate PPTX, number slots, Validator v2 + V8, ADR-051; Phase 5 CLOSED: the `weekly_pack` workflow + PostgresSaver + approval, ADR-050, migration 016, ADR-045 amendment 1; Phase 4 CLOSED: Stage 1 tools + skills, ADR-049; Phase 3 CLOSED 2026-10-15: Power BI dashboard, ADR-048; Phase 2 closed 2026-10-14, ADR-047; Phase 1 closed 2026-10-14, ADR-046; Phase 0 closed 2026-10-12, ADR-045).
 Labels: `DONE`, `IN PROGRESS`, `PARTIAL`, `NEXT`, `PLANNED`, `PROPOSED`, `DEFERRED`, `BLOCKED`.
 
 ## Current phase
 
 **RAG retrieval CLOSED 2026-10-08** — plan archived as `docs/archive/2026-10-08_RAG_Embeddings_Qdrant_plan.md` (implementation record at the top). Result: Gemini `gemini-embedding-2` vectors (ADR-037) for the 2,163 chunks in Qdrant `nilegate_docs`; `search_documents` (`pipelines/lib/retrieval.py`) with RBAC inside Qdrant, exact dense + Jina rerank (ADR-038; balanced 0.850, RBAC leakage 0; baseline `Data/processed/rag/eval/results_2026-10-08.json`); three-level evaluation (ADR-040); conversation uploads with a local bge-m3 lane (ADR-042 – ADR-044); `documents.ingested_at` filled (migration 011). Phase 9 clean-up: the bake-off vectors moved to `Data/embeddings/bakeoff/`, the two rejected local models removed (`Upload_eval.py` keeps their recorded rows), promoted documents' migrations carry `ingested_at`.
+
+**Agents plan §5f — Phases 7–8 closure DONE (2026-10-23; F1–F9), waiting for the owner's commit** — no open point left before the Stage 1
+checkpoint (K1–K9, owner decisions C-1…C-4, order F1…F9). Done: K1 the owner's review (18 points: 13 accepted, 5
+changed); F1 `show` prints the comment, `form_fixes` in `run.json` / `report`, `list_runs` kept with a pinned reason;
+F2 the finance Q&A agent on LangChain `create_agent` + `Finance_qa_check.py` 6 / 6 + CLI `Finance_qa.py`; F3 a real
+planted budget miss (migration 018, findings v3, planted gate `planted_all` = 6); F4 Q&A golden set v2 (42 items);
+F5 the tariff Notes rule (migration 019, `review` = error | manual_review); F6 the Power BI Exceptions page; F7 the
+new fallback `nvidia/nemotron-3.5-super-vl:free` (1 / 2 forced-fallback packs published, dots 0 / 2; ADR-045
+amendment 2); **F8 the confirmation evaluation = the final Stage 1 baseline** `stage1_eval_2026-10-23_confirm.json`:
+**D7 not met** on one gate, planted findings 2 / 6 · 3 / 6 (packs 7 / 11 · 10 / 11: a pack the Validator stops has no
+deck, so its planted findings count as missed; no wrong deck published); deck numbers, claims, traceability 100 %,
+RBAC leakage 0, abstention 1.0, Q&A EN 0.96 / AR 0.95, narrative recall 0.79; the scored false alarms were a scorer
+false positive (real 0, fixed by rule, D-P8-16, ADR-053); F9 docs + every check green (Tools 10 / 10, Weekly_pack
+7 / 7, Deck 4 / 4, Finance_qa 6 / 6, Scheduler 6 / 6, Stage1_eval 1–4, frozen inputs 0 changed). **Next:** the owner's
+one commit → the Stage 1 checkpoint PR of `feat/agents` → Phase 9 (Stage 2 tools; decisions answered 2026-10-23:
+plan §6a / §7 — no live AIS in Stage 2, the rest the recommended options). Follow-up (not a gate): the Writer's
+publish rate on the free model.
+
+**Agents plan Phase 8 CLOSED (2026-10-22)** — ADR-054, plan §5e (P8-1…P8-4, deviations D-P8-1…D-P8-12): Windows
+Task Scheduler task "NileGate Weekly Finance Pack" (Monday 10:30, logged-on only; `ops/scheduler/register_weekly_pack.ps1`,
+registered on the owner's machine) runs `Weekly_pack.py scheduled` — the next week of the 2025 replay as `PACK_RUN_AS`
+(Finance manager 6), one pending pack at a time, a pack stopped mid-run resumed, a stopped attempt retried once, the
+firing waits for PostgreSQL, a lock, a toast; retention = archive (`reports/_log/threads_archive.jsonl`) then
+`delete_thread` for ended threads older than 30 days, pending never; `prune`, `report` (G5 edit rate). LangSmith
+(free developer plan, project `nilegate-agents`): a tracing context per graph run of `run` / `resume` / `scheduled`
+(+ `Stage1_eval.py` with `EVAL_TRACE=1`), never the global switch. `Scheduler_check.py` **6 / 6 ✅** (incl. a trace
+read back from LangSmith); Weekly_pack_check 7 / 7, Deck_check 4 / 4, Stage1_eval Phases 1–4 ✅ (0 calls).
+**Done-when met (2026-10-22):** two firings stopped on a Gemini 503 ("high demand") in the Insight node; the third
+resumed `weekly_pack:live:2025-W11:1` from its checkpoint and reached the approval (toast, trace
+`launched_by:task_scheduler`); W11 then edited (one sentence) and approved by Finance manager 7 → published; G5
+edit rate 0.5 over W10 + W11. Monday 2026-10-26 the task makes W12. **Found:** the ADR-045 fallback (OpenRouter
+`nemotron-3-super:free`) answers 404 on every request (NVIDIA "Function not found for account") → no working
+fallback for the pack's Insight / Writer that day (closed 2026-10-23 by ADR-045 amendment 2, §5f F7). **Next: the Stage 1
+checkpoint** (§5 row "S1 ✔": the owner's commit + a PR of `feat/agents`), then the Stage 2 decisions (§7, S2-D1…)
+before Phase 9.
 
 **Agents plan Phase 7 CLOSED (2026-10-20)** — ADR-053 (+ ADR-052, the acceptance rule), plan §5d (P7-1…P7-4,
 deviations D-P7-1…D-P7-12): 11 golden weeks chosen by rule and frozen (4 test + 7 live) with their evidence and 38
@@ -15,7 +50,7 @@ a 40-question golden set; `Stage1_eval.py` (scorers proven on hand-made failures
 Results: baseline D7 not met; candidate c1 (Validator false-alarm fixes + Q&A prompt lines) kept by ADR-052 = the
 baseline (`stage1_eval_2026-10-20_c1.json`): deck numbers 100 %, **planted 5 / 5**, false alarms 0, claims 100 %,
 RBAC leakage 0, Q&A EN 0.96 / AR 1.0, narrative recall 0.69; **misses** abstention 0.86, traceability 0.996 in one
-run, publish rate 10 / 11 and 6 / 11 → owner: close Phase 7, keep c2 for later. Findings: the planted budget miss is
+run, publish rate 10 / 11 and 6 / 11 → owner: close Phase 7, keep c2 for later. **Update 2026-10-22:** c2 rejected; c3 (Validator false-alarm fixes, code-fixed slot form) accepted by an owner exception to ADR-052 = the baseline `stage1_eval_2026-10-22_c3.json`: packs 10 / 11 in both runs, recall 0.88, abstention 1.0, Q&A EN 0.96 / AR 0.95; D7 not met by one slot; tuning stopped. Findings: the planted budget miss is
 not a miss (D-P7-1); flash-lite's free tier = 500 requests / day (one full evaluation per day). **Next: Phase 8** —
 scheduling, LangSmith, checkpoint retention.
 
@@ -101,9 +136,10 @@ History of the RAG plan, phase by phase: **Phase 0 done 2026-10-01** (rewrite co
 | MongoDB + AIS/EDI profiling, generators, loader | DONE | 2026-09-27: `Notebooks/semi_structured/` (profiling 28 cells, AIS generator 22, EDI generator 16, loader 32; all 0 errors); 1,321,568 / 10,534 / 435 documents; 0 schema violations, 0 unaccounted records, consistency audit all pass (incl. tracks at sea); idempotent (ADR-029 – ADR-032) |
 | Synthetic incidents / synthetic FBLs | PLANNED (optional) | |
 | Causal consistency checks (PostgreSQL ↔ AIS ↔ incidents ↔ RAG) | PLANNED | needs a shared event timeline per vessel/shipment |
-| Agents (Supervisor + Analytics) | IN PROGRESS | Agents plan Phase 0 CLOSED 2026-10-12 (packages, `pipelines/agents/llm.py`, LLM bake-off → ADR-045); Phase 1 CLOSED 2026-10-14 (finance data, migration 012, ADR-046); Phase 2 CLOSED 2026-10-14 (`finance` views, migration 013, ADR-047); Phase 3 CLOSED 2026-10-15 (Power BI dashboard, ADR-048); Phase 4 CLOSED 2026-10-19 (Stage 1 tools + skills, ADR-049; migration 015; `Tools_check.py` 8 / 8); Phase 5 CLOSED 2026-10-19 (`weekly_pack` workflow + PostgresSaver + approval, ADR-050; migration 016; `Weekly_pack_check.py` 7 / 7); Phase 6 CLOSED 2026-10-19 (NileGate PPTX, slots, Validator v2 + V8, ADR-051; `Deck_check.py` 4 / 4, 100 / 100 planted numbers caught); Phase 7 CLOSED 2026-10-20 (evaluation: golden weeks, finance Q&A agent, migration 017, ADR-052 / ADR-053; D7 not met, closed by the owner; candidate c2 carried); next Phase 8;  ADR-012; the document tool exists (`search_documents`, untrusted-upload contract in `docs/RETRIEVAL_FLOW.md` §2.1) |
+| Agents (Supervisor + Analytics) | IN PROGRESS | Agents plan Phase 0 CLOSED 2026-10-12 (packages, `pipelines/agents/llm.py`, LLM bake-off → ADR-045); Phase 1 CLOSED 2026-10-14 (finance data, migration 012, ADR-046); Phase 2 CLOSED 2026-10-14 (`finance` views, migration 013, ADR-047); Phase 3 CLOSED 2026-10-15 (Power BI dashboard, ADR-048); Phase 4 CLOSED 2026-10-19 (Stage 1 tools + skills, ADR-049; migration 015; `Tools_check.py` 8 / 8); Phase 5 CLOSED 2026-10-19 (`weekly_pack` workflow + PostgresSaver + approval, ADR-050; migration 016; `Weekly_pack_check.py` 7 / 7); Phase 6 CLOSED 2026-10-19 (NileGate PPTX, slots, Validator v2 + V8, ADR-051; `Deck_check.py` 4 / 4, 100 / 100 planted numbers caught); Phase 7 CLOSED 2026-10-20 (evaluation: golden weeks, finance Q&A agent, migration 017, ADR-052 / ADR-053; D7 not met, closed by the owner; c3 accepted 2026-10-22 as the baseline, tuning stopped); Phase 8 CLOSED 2026-10-22 (scheduled pack, retention, LangSmith, ADR-054; `Scheduler_check.py` 6 / 6); next the Stage 1 checkpoint (PR), then Stage 2; ADR-012; the document tool exists (`search_documents`, untrusted-upload contract in `docs/RETRIEVAL_FLOW.md` §2.1) |
 | API, auth, audit_log, guardrails | PLANNED | audit_log redesign in ADR-014 |
-| Evaluation (golden tasks), observability (trace IDs) | PARTIAL | Stage 1 evaluation DONE 2026-10-20 (ADR-053: golden weeks + finance Q&A, `Stage1_eval.py`; D7 not met, owner closed); observability (LangSmith) = Phase 8 |
+| Evaluation (golden tasks), observability (trace IDs) | PARTIAL | Stage 1 evaluation DONE 2026-10-20 (ADR-053: golden weeks + finance Q&A, `Stage1_eval.py`; D7 not met, owner closed); observability for the agents DONE 2026-10-22 (LangSmith, ADR-054); API trace ids with the API |
+| Scheduled weekly pack + checkpoint retention | DONE | 2026-10-22, Agents plan Phase 8 (ADR-054): Task Scheduler (Monday 10:30), `Weekly_pack.py scheduled / prune / report`, `Scheduler_check.py` 6 / 6 |
 | Power BI integration | DONE (2026-10-15) | ADR-048: `powerbi/NileGate_Finance.pbip` (Desktop, PBIP in git), DirectQuery on the `finance` views via the read-only login `ports_bi`; 5 pages (Exceptions = placeholder until the Auditor tool, Phase 4 / 7); numbers = `kpi_weekly` for weeks 5 / 23 / 49 |
 | Docker Compose for all services | PLANNED | not before the core works |
 

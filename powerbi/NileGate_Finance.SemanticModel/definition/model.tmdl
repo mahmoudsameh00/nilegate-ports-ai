@@ -25,6 +25,7 @@ ref table 'Overdue List'
 ref table 'Weekly KPIs'
 ref table 'Category KPIs'
 ref table 'Weekly Trend'
+ref table 'Invoice Audit'
 
 ref cultureInfo en-US
 

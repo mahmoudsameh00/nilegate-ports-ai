@@ -3,11 +3,11 @@
   "name": "fe42736e99845ae0420e",
   "position": {
     "x": 20,
-    "y": 120,
+    "y": 900,
     "z": 1,
-    "height": 360,
-    "width": 1400,
-    "tabOrder": 1
+    "height": 160,
+    "width": 1880,
+    "tabOrder": 4
   },
   "visual": {
     "visualType": "textbox",
@@ -19,9 +19,9 @@
               {
                 "textRuns": [
                   {
-                    "value": "This page is intentionally empty for now.",
+                    "value": "Every finding comes from the database view finance.invoice_audit (migrations 015 / 019): each invoice is recomputed from the progressive Suez toll bands. Check: duplicate_charge, tonnage_mismatch, amount_mismatch (with its probable cause), rate_mismatch.",
                     "textStyle": {
-                      "fontSize": "14pt"
+                      "fontSize": "12pt"
                     }
                   }
                 ]
@@ -29,16 +29,9 @@
               {
                 "textRuns": [
                   {
-                    "value": ""
-                  }
-                ]
-              },
-              {
-                "textRuns": [
-                  {
-                    "value": "It will list the invoice audit findings of the selected week: an invoice priced in the wrong toll band, an SCNT digit error, a laden / ballast swap, a Special Floating Unit priced as ballast, and duplicate invoices, with the amount at stake and a proposed action for each.",
+                    "value": "Review = error: the invoice is wrong and needs a corrected invoice or a credit note. Review = manual_review: a ballast chemical tanker billed at the Crude Oil ballast rate — the tariff Notes allow it for oil / chemical tankers, so a person confirms the vessel type; it is not counted as an error.",
                     "textStyle": {
-                      "fontSize": "14pt"
+                      "fontSize": "12pt"
                     }
                   }
                 ]
@@ -46,16 +39,9 @@
               {
                 "textRuns": [
                   {
-                    "value": ""
-                  }
-                ]
-              },
-              {
-                "textRuns": [
-                  {
-                    "value": "The findings come from the Auditor tool of the agents platform (Agents plan, Phase 4), checked against the planted errors of the finance_test golden weeks (Phase 7). Until that tool exists, no number is shown here, because every number on this dashboard must come from the database.",
+                    "value": "The agents' invoice_audit tool reads the same view, so this page and the weekly deck agree.",
                     "textStyle": {
-                      "fontSize": "14pt"
+                      "fontSize": "12pt"
                     }
                   }
                 ]

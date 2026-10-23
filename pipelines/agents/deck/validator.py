@@ -59,6 +59,9 @@ DATE_RE = re.compile(rf"(?i)\b\d{{4}}-\d{{2}}-\d{{2}}(?:[T ]\d{{2}}:\d{{2}}(?::\
 INVOICE_RE = re.compile(r"\bINV-\d{7}\b")
 WEEK_WORD_RE = re.compile(r"(?i)\bweeks?\s+$")                       # "… week 48": the number after it is a label
 NAMED_AFTER_RE = re.compile(r"(?i)\s*(?:in|on|for|during|of)?\s*(?:the\s+)?(?:week\s+)?")   # "{…} in week 49"
+# a period ("the week of 2025-03-03 to 2025-03-09") names no row: its dates are not row names (c2, test week 10)
+DATE_RANGE_RE = re.compile(r"(?i)\b\d{4}-\d{2}-\d{2}\s*(?:to|through|until|–|—|-)\s*\d{4}-\d{2}-\d{2}\b")
+INVOICE_AMOUNT_RE = re.compile(r"(?i)\b(?:amount|charge[ds]?)\b")       # an audited invoice's billed amount
 
 # --- words ----------------------------------------------------------------------------------------------------------
 # field families and the words that name them; alternation order matters (the longest phrase wins at a position)
@@ -305,14 +308,20 @@ class _Text:
             return self.items[k - 1].dir_sign                      # "down 1.07 M SDR or 60.3 %"
         return None
 
-    def _family_ok(self, field: str, before: str, after: str, s0: int, start: int) -> bool:
+    def _family_ok(self, field: str, before: str, after: str, s0: int, start: int, eid: str | None = None) -> bool:
         """The field's measure is named before it (its window, or the last noun phrase before it in the sentence) or
         right after it ("45.62 % above budget"). S6 run 3: "billed … reached {billed} against a budget of {budget}"
         was refused when the after-window's "budget" (the next slot's) outvoted the "Billed" before it."""
         fams = field_families(field)
         if not fams:
             return True
-        return bool(fams & (_families(before) | _group_before(self.text, s0, start) | _families(after)))
+        if fams & (_families(before) | _group_before(self.text, s0, start) | _families(after)):
+            return True
+        # one audited invoice's billed amount may be called its "amount" / "charge" (c2, test week 23: "a duplicate
+        # charge with an amount of {audit.week[INV-…]:billed_sdr}" was refused) — invoice_audit rows only
+        return (field == "billed_sdr" and eid is not None
+                and (self.evidence.get(eid) or {}).get("tool") == "invoice_audit"
+                and bool(INVOICE_AMOUNT_RE.search(before + " " + after)))
 
     def _clause(self, start: int) -> tuple[int, int]:
         """The clause around `start`: between the previous / next number, cut at commas, semicolons, conjunctions."""
@@ -346,6 +355,9 @@ class _Text:
             for p in pats:
                 for mt in re.finditer(p, self.text[s0:min(s1, len(self.text))], re.I):
                     hits.append((s0 + mt.start(), s0 + mt.end(), name))
+        periods = [(s0 + mt.start(), s0 + mt.end())
+                   for mt in DATE_RANGE_RE.finditer(self.text[s0:min(s1, len(self.text))])]
+        hits = [h for h in hits if not any(a <= h[0] and h[1] <= b for a, b in periods)]
         if not hits:
             return []
         # a row named right after the number ("{…} in week 49", "{…} on 2025-03-09") is its row (Phase 7, D-P7-9:
@@ -459,7 +471,7 @@ class _Text:
                 return
 
     def _check_slot(self, it: Item, before: str, after: str, s0: int):
-        if not self._family_ok(it.field, before, after, s0, it.start):
+        if not self._family_ok(it.field, before, after, s0, it.start, it.eid):
             self.problems.append(("V7", it.token, self._family_message(it.token, it.field, s0)
                                   + ": name it, or cite the field it means"))
         named = self._named_rows(it.eid, it.start, s0)

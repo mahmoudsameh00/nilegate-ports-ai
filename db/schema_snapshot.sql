@@ -1577,6 +1577,14 @@ CREATE VIEW finance.invoice_audit AS
             inv.vessel_scnt
            FROM inv
           WHERE (inv.vessel_category = 'Special Floating Units'::text)
+        UNION ALL
+         SELECT inv.invoice_number,
+            'notes_crude_ballast'::text,
+            'Crude Oil Tankers'::text,
+            'Ballast'::text,
+            inv.vessel_scnt
+           FROM inv
+          WHERE ((inv.priced_condition = 'Ballast'::text) AND (inv.vessel_category = 'Chemical Tankers & Other Liquid Bulk Tankers'::text))
         ), priced AS (
          SELECT s.invoice_number,
             s.scenario,
@@ -1607,13 +1615,15 @@ CREATE VIEW finance.invoice_audit AS
             round((e.terminal_rate * i.vessel_scnt), 2) AS flat_terminal_sdr,
             round(cs.toll_exact, 2) AS condition_swapped_sdr,
             round(sb.toll_exact, 2) AS sfu_ballast_sdr,
+            round(nc.toll_exact, 2) AS notes_crude_sdr,
             row_number() OVER w AS dup_rank,
             first_value(i.invoice_number) OVER w AS dup_first
-           FROM ((((inv i
+           FROM (((((inv i
              JOIN priced e ON (((e.invoice_number = i.invoice_number) AND (e.scenario = 'expected'::text))))
              LEFT JOIN priced it ON (((it.invoice_number = i.invoice_number) AND (it.scenario = 'invoice_tonnage'::text))))
              LEFT JOIN priced cs ON (((cs.invoice_number = i.invoice_number) AND (cs.scenario = 'condition_swapped'::text))))
              LEFT JOIN priced sb ON (((sb.invoice_number = i.invoice_number) AND (sb.scenario = 'sfu_priced_ballast'::text))))
+             LEFT JOIN priced nc ON (((nc.invoice_number = i.invoice_number) AND (nc.scenario = 'notes_crude_ballast'::text))))
           WINDOW w AS (PARTITION BY i.vessel_id, i.invoice_date, i.billed_sdr ORDER BY i.invoice_number)
         ), findings AS (
          SELECT h.invoice_number,
@@ -1636,6 +1646,7 @@ CREATE VIEW finance.invoice_audit AS
             h.flat_terminal_sdr,
             h.condition_swapped_sdr,
             h.sfu_ballast_sdr,
+            h.notes_crude_sdr,
             h.dup_rank,
             h.dup_first,
             'duplicate_charge'::text AS check_code,
@@ -1666,6 +1677,7 @@ CREATE VIEW finance.invoice_audit AS
             h.flat_terminal_sdr,
             h.condition_swapped_sdr,
             h.sfu_ballast_sdr,
+            h.notes_crude_sdr,
             h.dup_rank,
             h.dup_first,
             'tonnage_mismatch'::text,
@@ -1696,6 +1708,7 @@ CREATE VIEW finance.invoice_audit AS
             h.flat_terminal_sdr,
             h.condition_swapped_sdr,
             h.sfu_ballast_sdr,
+            h.notes_crude_sdr,
             h.dup_rank,
             h.dup_first,
             'amount_mismatch'::text,
@@ -1704,6 +1717,7 @@ CREATE VIEW finance.invoice_audit AS
                     WHEN (abs((h.billed_sdr - h.flat_terminal_sdr)) <= 0.01) THEN 'flat_terminal_rate'::text
                     WHEN (abs((h.billed_sdr - h.condition_swapped_sdr)) <= 0.01) THEN 'condition_swapped'::text
                     WHEN (abs((h.billed_sdr - h.sfu_ballast_sdr)) <= 0.01) THEN 'sfu_priced_ballast'::text
+                    WHEN (abs((h.billed_sdr - h.notes_crude_sdr)) <= 0.01) THEN 'notes_crude_ballast_rate'::text
                     ELSE 'unexplained'::text
                 END AS "case",
             h.expected_sdr,
@@ -1732,6 +1746,7 @@ CREATE VIEW finance.invoice_audit AS
             h.flat_terminal_sdr,
             h.condition_swapped_sdr,
             h.sfu_ballast_sdr,
+            h.notes_crude_sdr,
             h.dup_rank,
             h.dup_first,
             'rate_mismatch'::text,
@@ -1755,7 +1770,11 @@ CREATE VIEW finance.invoice_audit AS
     expected_charge AS expected_sdr,
     round((billed_sdr - expected_charge), 2) AS difference_sdr,
     duplicate_of,
-    evidence
+    evidence,
+        CASE
+            WHEN (probable_cause = 'notes_crude_ballast_rate'::text) THEN 'manual_review'::text
+            ELSE 'error'::text
+        END AS review
    FROM findings;
 
 
@@ -1826,7 +1845,7 @@ COMMENT ON COLUMN finance.invoice_audit.check_code IS 'duplicate_charge | tonnag
 -- Name: COLUMN invoice_audit.probable_cause; Type: COMMENT; Schema: finance; Owner: -
 --
 
-COMMENT ON COLUMN finance.invoice_audit.probable_cause IS 'amount_mismatch only: billed_on_invoice_tonnage | flat_terminal_rate | condition_swapped | sfu_priced_ballast | unexplained (the first hypothesis that reproduces the billed amount within 0.01 SDR)';
+COMMENT ON COLUMN finance.invoice_audit.probable_cause IS 'amount_mismatch only: billed_on_invoice_tonnage | flat_terminal_rate | condition_swapped | sfu_priced_ballast | notes_crude_ballast_rate | unexplained (the first hypothesis that reproduces the billed amount within 0.01 SDR)';
 
 
 --
@@ -1862,6 +1881,13 @@ COMMENT ON COLUMN finance.invoice_audit.duplicate_of IS 'duplicate_charge only: 
 --
 
 COMMENT ON COLUMN finance.invoice_audit.evidence IS 'The numbers behind the finding (tons, category, condition, band, rate)';
+
+
+--
+-- Name: COLUMN invoice_audit.review; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.invoice_audit.review IS 'error | manual_review: manual_review = priced by a tariff Notes rule (a ballast chemical tanker at the Crude Oil Tankers ballast rates — right if it is an oil/chemical tanker, migration 019) — confirm the rule, it may be correct; not counted as money at stake';
 
 
 --
@@ -2959,6 +2985,14 @@ CREATE VIEW finance_test.invoice_audit AS
             inv.vessel_scnt
            FROM inv
           WHERE (inv.vessel_category = 'Special Floating Units'::text)
+        UNION ALL
+         SELECT inv.invoice_number,
+            'notes_crude_ballast'::text,
+            'Crude Oil Tankers'::text,
+            'Ballast'::text,
+            inv.vessel_scnt
+           FROM inv
+          WHERE ((inv.priced_condition = 'Ballast'::text) AND (inv.vessel_category = 'Chemical Tankers & Other Liquid Bulk Tankers'::text))
         ), priced AS (
          SELECT s.invoice_number,
             s.scenario,
@@ -2989,13 +3023,15 @@ CREATE VIEW finance_test.invoice_audit AS
             round((e.terminal_rate * i.vessel_scnt), 2) AS flat_terminal_sdr,
             round(cs.toll_exact, 2) AS condition_swapped_sdr,
             round(sb.toll_exact, 2) AS sfu_ballast_sdr,
+            round(nc.toll_exact, 2) AS notes_crude_sdr,
             row_number() OVER w AS dup_rank,
             first_value(i.invoice_number) OVER w AS dup_first
-           FROM ((((inv i
+           FROM (((((inv i
              JOIN priced e ON (((e.invoice_number = i.invoice_number) AND (e.scenario = 'expected'::text))))
              LEFT JOIN priced it ON (((it.invoice_number = i.invoice_number) AND (it.scenario = 'invoice_tonnage'::text))))
              LEFT JOIN priced cs ON (((cs.invoice_number = i.invoice_number) AND (cs.scenario = 'condition_swapped'::text))))
              LEFT JOIN priced sb ON (((sb.invoice_number = i.invoice_number) AND (sb.scenario = 'sfu_priced_ballast'::text))))
+             LEFT JOIN priced nc ON (((nc.invoice_number = i.invoice_number) AND (nc.scenario = 'notes_crude_ballast'::text))))
           WINDOW w AS (PARTITION BY i.vessel_id, i.invoice_date, i.billed_sdr ORDER BY i.invoice_number)
         ), findings AS (
          SELECT h.invoice_number,
@@ -3018,6 +3054,7 @@ CREATE VIEW finance_test.invoice_audit AS
             h.flat_terminal_sdr,
             h.condition_swapped_sdr,
             h.sfu_ballast_sdr,
+            h.notes_crude_sdr,
             h.dup_rank,
             h.dup_first,
             'duplicate_charge'::text AS check_code,
@@ -3048,6 +3085,7 @@ CREATE VIEW finance_test.invoice_audit AS
             h.flat_terminal_sdr,
             h.condition_swapped_sdr,
             h.sfu_ballast_sdr,
+            h.notes_crude_sdr,
             h.dup_rank,
             h.dup_first,
             'tonnage_mismatch'::text,
@@ -3078,6 +3116,7 @@ CREATE VIEW finance_test.invoice_audit AS
             h.flat_terminal_sdr,
             h.condition_swapped_sdr,
             h.sfu_ballast_sdr,
+            h.notes_crude_sdr,
             h.dup_rank,
             h.dup_first,
             'amount_mismatch'::text,
@@ -3086,6 +3125,7 @@ CREATE VIEW finance_test.invoice_audit AS
                     WHEN (abs((h.billed_sdr - h.flat_terminal_sdr)) <= 0.01) THEN 'flat_terminal_rate'::text
                     WHEN (abs((h.billed_sdr - h.condition_swapped_sdr)) <= 0.01) THEN 'condition_swapped'::text
                     WHEN (abs((h.billed_sdr - h.sfu_ballast_sdr)) <= 0.01) THEN 'sfu_priced_ballast'::text
+                    WHEN (abs((h.billed_sdr - h.notes_crude_sdr)) <= 0.01) THEN 'notes_crude_ballast_rate'::text
                     ELSE 'unexplained'::text
                 END AS "case",
             h.expected_sdr,
@@ -3114,6 +3154,7 @@ CREATE VIEW finance_test.invoice_audit AS
             h.flat_terminal_sdr,
             h.condition_swapped_sdr,
             h.sfu_ballast_sdr,
+            h.notes_crude_sdr,
             h.dup_rank,
             h.dup_first,
             'rate_mismatch'::text,
@@ -3137,7 +3178,11 @@ CREATE VIEW finance_test.invoice_audit AS
     expected_charge AS expected_sdr,
     round((billed_sdr - expected_charge), 2) AS difference_sdr,
     duplicate_of,
-    evidence
+    evidence,
+        CASE
+            WHEN (probable_cause = 'notes_crude_ballast_rate'::text) THEN 'manual_review'::text
+            ELSE 'error'::text
+        END AS review
    FROM findings;
 
 
@@ -3208,7 +3253,7 @@ COMMENT ON COLUMN finance_test.invoice_audit.check_code IS 'duplicate_charge | t
 -- Name: COLUMN invoice_audit.probable_cause; Type: COMMENT; Schema: finance_test; Owner: -
 --
 
-COMMENT ON COLUMN finance_test.invoice_audit.probable_cause IS 'amount_mismatch only: billed_on_invoice_tonnage | flat_terminal_rate | condition_swapped | sfu_priced_ballast | unexplained';
+COMMENT ON COLUMN finance_test.invoice_audit.probable_cause IS 'amount_mismatch only: billed_on_invoice_tonnage | flat_terminal_rate | condition_swapped | sfu_priced_ballast | notes_crude_ballast_rate | unexplained';
 
 
 --
@@ -3244,6 +3289,13 @@ COMMENT ON COLUMN finance_test.invoice_audit.duplicate_of IS 'duplicate_charge o
 --
 
 COMMENT ON COLUMN finance_test.invoice_audit.evidence IS 'The numbers behind the finding';
+
+
+--
+-- Name: COLUMN invoice_audit.review; Type: COMMENT; Schema: finance_test; Owner: -
+--
+
+COMMENT ON COLUMN finance_test.invoice_audit.review IS 'error | manual_review (a tariff Notes rule, migration 019)';
 
 
 --

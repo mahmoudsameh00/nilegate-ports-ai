@@ -70,3 +70,7 @@ relationship 'Invoices -> Toll Band'
 	fromColumn: Invoices.toll_rate_band_id
 	toColumn: 'Toll Band'.toll_rate_band_id
 
+relationship 'Invoice Audit -> Week'
+	fromColumn: 'Invoice Audit'.report_week
+	toColumn: Week.report_week
+

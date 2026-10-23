@@ -2,7 +2,7 @@
 name: finance-qa
 description: How to answer one finance question about NileGate: which tool and dataset to call, numbers as slots, sources, and when to answer "not in the data" or "not permitted" instead of guessing. Load before answering any finance question.
 stage: 1
-reviewed_by_owner: no
+reviewed_by_owner: 2026-10-22
 ---
 # Finance Q&A
 

@@ -1,0 +1,460 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "a1e0c0de5e1c7e000003",
+  "position": {
+    "x": 20,
+    "y": 320,
+    "z": 3,
+    "height": 560,
+    "width": 1880,
+    "tabOrder": 3
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Invoice Audit"
+                    }
+                  },
+                  "Property": "invoice_number"
+                }
+              },
+              "queryRef": "Invoice Audit.invoice_number",
+              "nativeQueryRef": "Invoice",
+              "displayName": "Invoice"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Invoice Audit"
+                    }
+                  },
+                  "Property": "invoice_date"
+                }
+              },
+              "queryRef": "Invoice Audit.invoice_date",
+              "nativeQueryRef": "Date",
+              "displayName": "Date"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Invoice Audit"
+                    }
+                  },
+                  "Property": "vessel_name"
+                }
+              },
+              "queryRef": "Invoice Audit.vessel_name",
+              "nativeQueryRef": "Vessel",
+              "displayName": "Vessel"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Invoice Audit"
+                    }
+                  },
+                  "Property": "vessel_category"
+                }
+              },
+              "queryRef": "Invoice Audit.vessel_category",
+              "nativeQueryRef": "Category",
+              "displayName": "Category"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Invoice Audit"
+                    }
+                  },
+                  "Property": "vessel_condition"
+                }
+              },
+              "queryRef": "Invoice Audit.vessel_condition",
+              "nativeQueryRef": "Condition",
+              "displayName": "Condition"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Invoice Audit"
+                    }
+                  },
+                  "Property": "check_code"
+                }
+              },
+              "queryRef": "Invoice Audit.check_code",
+              "nativeQueryRef": "Check",
+              "displayName": "Check"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Invoice Audit"
+                    }
+                  },
+                  "Property": "probable_cause"
+                }
+              },
+              "queryRef": "Invoice Audit.probable_cause",
+              "nativeQueryRef": "Probable cause",
+              "displayName": "Probable cause"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Invoice Audit"
+                    }
+                  },
+                  "Property": "review"
+                }
+              },
+              "queryRef": "Invoice Audit.review",
+              "nativeQueryRef": "Review",
+              "displayName": "Review"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Invoice Audit"
+                    }
+                  },
+                  "Property": "billed_sdr"
+                }
+              },
+              "queryRef": "Invoice Audit.billed_sdr",
+              "nativeQueryRef": "Billed (SDR)",
+              "displayName": "Billed (SDR)"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Invoice Audit"
+                    }
+                  },
+                  "Property": "expected_sdr"
+                }
+              },
+              "queryRef": "Invoice Audit.expected_sdr",
+              "nativeQueryRef": "Expected (SDR)",
+              "displayName": "Expected (SDR)"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Invoice Audit"
+                    }
+                  },
+                  "Property": "difference_sdr"
+                }
+              },
+              "queryRef": "Invoice Audit.difference_sdr",
+              "nativeQueryRef": "Difference (SDR)",
+              "displayName": "Difference (SDR)"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Invoice Audit"
+                    }
+                  },
+                  "Property": "duplicate_of"
+                }
+              },
+              "queryRef": "Invoice Audit.duplicate_of",
+              "nativeQueryRef": "Duplicate of",
+              "displayName": "Duplicate of"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Invoice Audit"
+                    }
+                  },
+                  "Property": "evidence"
+                }
+              },
+              "queryRef": "Invoice Audit.evidence",
+              "nativeQueryRef": "Evidence",
+              "displayName": "Evidence"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Invoice Audit"
+                  }
+                },
+                "Property": "difference_sdr"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "columnHeaders": [
+        {
+          "properties": {
+            "columnAdjustment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'growToFit'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Invoice audit findings of the week (finance.invoice_audit; positive difference = overbilled)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "a1e0c0de5e1c7e000300",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Invoice Audit"
+              }
+            },
+            "Property": "invoice_number"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "a1e0c0de5e1c7e000301",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Invoice Audit"
+              }
+            },
+            "Property": "invoice_date"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "a1e0c0de5e1c7e000302",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Invoice Audit"
+              }
+            },
+            "Property": "vessel_name"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "a1e0c0de5e1c7e000303",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Invoice Audit"
+              }
+            },
+            "Property": "vessel_category"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "a1e0c0de5e1c7e000304",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Invoice Audit"
+              }
+            },
+            "Property": "vessel_condition"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "a1e0c0de5e1c7e000305",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Invoice Audit"
+              }
+            },
+            "Property": "check_code"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "a1e0c0de5e1c7e000306",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Invoice Audit"
+              }
+            },
+            "Property": "probable_cause"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "a1e0c0de5e1c7e000307",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Invoice Audit"
+              }
+            },
+            "Property": "review"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "a1e0c0de5e1c7e000308",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Invoice Audit"
+              }
+            },
+            "Property": "billed_sdr"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "a1e0c0de5e1c7e000309",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Invoice Audit"
+              }
+            },
+            "Property": "expected_sdr"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "a1e0c0de5e1c7e000310",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Invoice Audit"
+              }
+            },
+            "Property": "difference_sdr"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "a1e0c0de5e1c7e000311",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Invoice Audit"
+              }
+            },
+            "Property": "duplicate_of"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "a1e0c0de5e1c7e000312",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Invoice Audit"
+              }
+            },
+            "Property": "evidence"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
+  }
+}

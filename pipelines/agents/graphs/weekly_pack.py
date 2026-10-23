@@ -74,6 +74,7 @@ class PackState(TypedDict, total=False):
     approval_log: Annotated[list[dict], operator.add]
     published: dict
     preview: dict | None               # the draft PPTX the approver opens: {path, sha256} (Phase 6)
+    normalized: Annotated[list[str], operator.add]   # slot-form fixes made by code on the Writer's text (D-P7-14)
     llm_usage: Annotated[list[dict], operator.add]
 
 
@@ -466,9 +467,29 @@ def make_writer(roles):
                 draft = reply.parsed.model_dump(mode="json")
         except StructuredError as exc:
             return _stop("writer", exc)
+        draft, fixed = normalize_draft(draft, ev)
         return {"draft": draft, "draft_origin": "writer", "rewrites": state.get("rewrites", 0) + rewrite,
-                "llm_usage": _usage("writer", reply)}
+                "llm_usage": _usage("writer", reply), "normalized": fixed}
     return writer
+
+
+def normalize_draft(draft: dict, evidence: dict) -> tuple[dict, list[str]]:
+    """The slot-form fixes of `slots.normalize_text` on every Writer text (Phase 7, D-P7-14): a format the field
+    does not allow, a key on a one-row result, a unit or direction word written twice. Numbers are untouched (code
+    writes them); a human edit is not normalized (it is checked as written)."""
+    d, fixed = json.loads(json.dumps(draft)), []
+    for b in d["bullets"]:
+        b["text"], f = slots.normalize_text(b["text"], evidence)
+        fixed += f
+        # a slot names its evidence: list it among the bullet's citations when the Writer left it out (c3, D-P7-15)
+        missing = [s.eid for s in slots.find_slots(b["text"]) if s.eid not in (b.get("evidence_ids") or [])]
+        if missing:
+            b["evidence_ids"] = [*(b.get("evidence_ids") or []), *dict.fromkeys(missing)]
+            fixed.append(f"bullet {b['text'][:40]!r}: evidence ids {sorted(set(missing))} added from its slots")
+    for t in d["slide_titles"]:
+        t["title"], f = slots.normalize_text(t["title"], evidence)
+        fixed += f
+    return d, fixed
 
 
 # --- 6 Validator (Phase 6, §5c: V1–V7 on the draft, V8 on the rendered file) --------------------------------------
@@ -600,7 +621,9 @@ def make_publisher(reports_dir: Path):
                "sources": {eid: res.get("source") for eid, res in sorted(state["evidence"].items())},
                "llm_calls": len(usage), "llm_cached": sum(c["cached"] for c in usage),
                "max_total_tokens": max((c["total_tokens"] or 0 for c in usage), default=0),
-               "models": sorted({c["model"] for c in usage if c["outcome"] == "ok"})}
+               "models": sorted({c["model"] for c in usage if c["outcome"] == "ok"}),
+               # D-P7-14: every slot-form fix code made on the Writer's text stays visible (report: form_fixes)
+               "normalized": state.get("normalized") or []}
         # the approved deck: rendered with "Approved", read back (V8) before it is saved — never a file that differs
         data = render.render(draft, state["evidence"], state["readiness"], APPROVED_LABEL)
         problems = readback.validate_pptx(data, draft, state["evidence"], state["readiness"], APPROVED_LABEL)

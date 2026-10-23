@@ -36,3 +36,9 @@ Script: `pipelines/scripts/agents/Golden_weeks.py` (Agents plan Phase 7, §5d st
   file changed, later runs 0 calls).
 - Week numbers 10 / 23 / 36 / 49 are taken by the test weeks, so a live rule never picks them (more variety; the live
   duplicate week 10 is skipped for 15).
+- 2026-10-22 (plan §5f F3, owner D-P7-1): migration 018 made test week 36's LNG budget a real miss, so the frozen
+  evidence changed. A frozen file is now re-frozen only through `REFREEZE` — the file's current sha256 must start with
+  the prefix named there, with its reason (one transition; afterwards the guard holds again, proven by a second run:
+  0 files changed). `golden_weeks_expected.json` `bb3b1a3bd8cf178c…` → `7909ccfb0d2385b0…`; the script reads answer
+  key v2 and asserts the miss's variance (−33.33 %) in the frozen evidence. Findings v3 (`golden_findings.json`
+  `dc6e32484944798a…`): t36-b is the planted miss (planted = 5 invoice errors + this miss).

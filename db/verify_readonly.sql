@@ -310,4 +310,41 @@ SELECT has_table_privilege('finance_bi', 'finance_test.kpi_weekly', 'SELECT') AS
        has_table_privilege('ports_readonly', 'finance_test.kpi_weekly', 'SELECT') AS ro_weekly,
        has_table_privilege('ports_readonly', 'finance_test.kpi_weekly_category', 'SELECT') AS ro_category;
 
+\echo '### 22. THE PLANTED BUDGET MISS OF THE COPY (migration 018, Agents plan D-P7-1)'
+-- expected: 2718323.04 | -33.33 | 1 | 1 | -25.85
+-- week 36 LNG budget (= its billed 1,812,215.36 x 1.5) | its variance % | copy budget rows differing from live (only
+-- that row) | categories below budget in week 36 of the copy among the top three by billed (LNG) | week 36 variance %
+SELECT (SELECT budget_sdr FROM finance_test.budget_weekly WHERE budget_year = 2025 AND iso_week = 36
+          AND vessel_category = 'Liquefied Natural Gas (LNG) Carriers') AS w36_lng_budget,
+       (SELECT budget_variance_pct FROM finance_test.kpi_weekly_category WHERE report_week = 36
+          AND vessel_category = 'Liquefied Natural Gas (LNG) Carriers') AS w36_lng_variance_pct,
+       (SELECT count(*) FROM finance_test.budget_weekly t JOIN public.budget_weekly l
+          USING (budget_year, iso_week, vessel_category) WHERE t.budget_sdr <> l.budget_sdr) AS budget_rows_changed,
+       (SELECT count(*) FROM (SELECT budget_variance_pct FROM finance_test.kpi_weekly_category WHERE report_week = 36
+          ORDER BY billed_sdr DESC LIMIT 3) t WHERE budget_variance_pct < 0
+          AND budget_variance_pct < -30) AS w36_top3_missed_over_30pct,
+       (SELECT budget_variance_pct FROM finance_test.kpi_weekly WHERE report_week = 36) AS w36_variance_pct;
+
+\echo '### 23. THE TARIFF NOTES RULE IN THE AUDIT (migration 019, Agents plan §5f F5)'
+-- expected: 3 | 5 | 0 | 0 | t | t | t | f
+-- live findings | test findings | live manual_review | test manual_review | review column in both views |
+-- product tankers' ballast bands = the Crude Oil ballast bands (the Notes rule already in the tables) | chemical
+-- tankers' ballast bands differ from them (the rule 019 models as manual review)
+SELECT (SELECT count(*) FROM finance.invoice_audit) AS live_findings,
+       (SELECT count(*) FROM finance_test.invoice_audit) AS test_findings,
+       (SELECT count(*) FROM finance.invoice_audit WHERE review = 'manual_review') AS live_manual_review,
+       (SELECT count(*) FROM finance_test.invoice_audit WHERE review = 'manual_review') AS test_manual_review,
+       (SELECT count(*) = 2 FROM information_schema.columns WHERE column_name = 'review'
+          AND table_name = 'invoice_audit' AND table_schema IN ('finance', 'finance_test')) AS review_column,
+       NOT EXISTS (SELECT band_order, band_min_tons, band_max_tons, rate_sdr_per_ton FROM toll_rate_bands
+                     WHERE vessel_category = 'Petroleum Product Tankers' AND laden_ballast = 'Ballast'
+                   EXCEPT SELECT band_order, band_min_tons, band_max_tons, rate_sdr_per_ton FROM toll_rate_bands
+                     WHERE vessel_category = 'Crude Oil Tankers' AND laden_ballast = 'Ballast') AS product_eq_crude,
+       EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'finance'
+                 AND table_name = 'invoice_audit' AND column_name = 'review') AS live_review,
+       NOT EXISTS (SELECT band_order, rate_sdr_per_ton FROM toll_rate_bands
+                     WHERE vessel_category = 'Chemical Tankers & Other Liquid Bulk Tankers' AND laden_ballast = 'Ballast'
+                   EXCEPT SELECT band_order, rate_sdr_per_ton FROM toll_rate_bands
+                     WHERE vessel_category = 'Crude Oil Tankers' AND laden_ballast = 'Ballast') AS chemical_eq_crude;
+
 \echo '### END'
