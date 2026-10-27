@@ -23,3 +23,6 @@ The real models run in `Weekly_pack_check.py` Phase 5 (not twice).
 - **python-pptx's reversed category axis** moved the value axis to the top: the bars are drawn smallest first.
 - **Layout bugs only a picture shows** (a column too narrow for "+167.6 %", a footnote over the sources table):
   every layout change is checked on PowerPoint's PNG export.
+- **A unit doubled behind a hyphen (2026-10-27, W12):** "{…dso_window_days|d}-day window" rendered "82 days-day
+  window" — `normalize_text` knew only a spaced unit. It now drops the unit behind a hyphen too; Phase 4 replays the
+  W12 sentence (one fix, passes, "82 days window").

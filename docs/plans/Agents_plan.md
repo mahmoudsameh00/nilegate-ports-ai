@@ -1938,6 +1938,50 @@ rate limits (ai.google.dev); FP&A reporting time (vendor case studies). Vendor f
   `duplicate_with_original` (0 alarms, 1 finding) and `duplicate_with_other` (an unflagged invoice in the same
   sentence is still 1) → Phases 1–4 ✅, 0 changed. The results file is **not** re-scored (frozen measurement; a
   re-score would need the same tag's caches, i.e. overwriting it); the correction is recorded here and in ADR-053.
+- 2026-10-27 — **First missed-Monday firing (W12) + two findings.** The machine was off on Monday 2026-10-26; at
+  logon on 10-27 the task started by itself (08:57, "start when available"), waited for PostgreSQL while Docker
+  Desktop came up (pool timeouts in the console log, D-P8-3 working), started `weekly_pack:live:2025-W12:1` on real
+  models and reached the approval (Validator passed, 8 slot-form fixes by code, toast, traced, exit 0). The
+  assistant read the draft: numbers bound (V1–V8), four sentences with wording faults the Validator does not judge —
+  "82 days-day window" (a unit doubled with a hyphen: `normalize_text` knows "days days", not "days-day"), "a down
+  7.9 % change", "increased by up", "rose by up". **Owner (AskUserQuestion): edit the four sentences, then approve**;
+  approver = Finance manager 7 (the run identity is 6).
+  - **D-P8-17 (finding): an edit while the approver has the preview open crashes the validator node** —
+    `PermissionError` writing `reports/_drafts/<thread>.pptx`, because PowerPoint locks the file that `show` tells the
+    approver to open. The thread waits safely at its checkpoint (next = validator, the edit kept) and resumes once
+    the file is closed (`Weekly_pack.py scheduled`, D-P8-1). A first resume by a waiter script failed the same way
+    (PowerPoint released the file for a moment, then locked it again; that firing is logged in `scheduled.jsonl`).
+    **Fixed the same day (owner: "fix D-P8-17 and days-day, then continue W12"):** the preview is named by its
+    content (`<thread>_<sha10>.pptx`: an edit writes a new file next to the open one, a resume after a crash finds
+    the same name and writes nothing); older previews of the thread are removed when free, a locked one is left and
+    removed at the next pass, publish or reject (`_drop_previews`; `approval` became `make_approval(reports_dir)`).
+    `Weekly_pack_check.py` Phase 2 gains the case with the preview locked like PowerPoint (Windows share mode 0):
+    the edit reaches the approval again with a new preview, the open file untouched; approve after closing →
+    published, `_drafts` gone → **7 / 7 ✅** (Phase 5 cached, 0 calls).
+  - **D-P8-19 (fixed): "82 days-day window"** — `normalize_text` now drops the unit after a slot also behind a hyphen
+    (`\s*-?\s*<unit>`); `Deck_check.py` Phase 4 gains the W12 sentence (1 fix, passes, renders "82 days window") →
+    **4 / 4 ✅**. Scheduler_check 6 / 6, Finance_qa_check 6 / 6 (the Q&A uses the same normalize). Stage1_eval
+    Phases 1–4 to re-run after the owner's own evaluation run (`EVAL_TAG=mytest`, started before these edits).
+  - **W12 published:** `Weekly_pack.py scheduled` resumed the thread from its checkpoint (the four edits through the
+    Validator: passed, a new preview), then **approved by Finance manager 7** → `reports/2025-W12/`. G5 now: 4 packs
+    decided (W08 = the owner's manual test, rejected), 3 published, 2 edited → edit rate 0.5; form fixes 24 in 3
+    packs. Monday 2026-11-02 10:30 makes W13.
+- 2026-10-27 — **The owner's own evaluation run (`EVAL_TAG=mytest`, 2 runs, ≈ 280 fresh flash-lite calls; started
+  10:22, before the D-P8-17 / D-P8-19 edits, which do not touch what it measures):** `stage1_eval_2026-10-27_mytest.json`.
+  Run 1 / run 2: packs 7 / 11 · 8 / 11, planted 2 / 6 · 4 / 6, **false alarms 0 · 0** (the D-P8-16 scorer fix seen
+  live: the gate passes now), deck numbers / claims / traceability 100 %, leakage 0, abstention 1.0, recall
+  0.66 · 0.79, Q&A EN 0.96 / AR 1.0 · 0.90; D7 not met (planted only, as on 10-23). **D-P8-20 (finding, for the
+  owner, nothing changed):** this is the **same code** as the confirm baseline, yet `adr052()` printed "reject"
+  (no gate regressed; narrative recall −0.069, mean 0.72 vs 0.79) — run-to-run variance of the free Writer is larger
+  than ADR-052's 0.03 margin, so the rule could reject an unchanged setup against itself. To decide before the next
+  comparison (e.g. a wider margin, more runs, or recall on a fixed set of published decks). Stage1_eval Phases 1–4
+  after it: ✅, 0 files changed.
+  - **D-P8-18 (finding, fixed with the owner's yes): the trigger was stored with a UTC offset**
+    (`2026-10-22T10:30:00+03:00`), so after Egypt's DST end (2026-10-29/30) the task would fire at 09:30 local =
+    07:30 UTC, before the Gemini reset (08:00 UTC after US DST ends) — P8-2's reason for 10:30. `register_weekly_pack.ps1`
+    now stores the start without an offset (local wall-clock time, follows DST) and fails if the stored trigger has an
+    offset or the next run is not at the asked time; re-registered by the assistant: StartBoundary
+    `2026-10-27T10:30:00`, next run 2026-11-02 10:30. ADR-054 amendment 2.
 
 ### SESSION HANDOFF (2026-10-23, §5f DONE) — read this first in the next session
 

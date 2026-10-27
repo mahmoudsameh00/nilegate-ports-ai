@@ -674,6 +674,9 @@ NORM = {
     "direction twice": (23, "NileGate billed {kpi.weekly:billed_sdr|M}, up {kpi.weekly:billed_wow_pct|%1|dir} WoW.",
                         ["kpi.weekly"]),
     "key on one row": (23, "DSO was {kpi.weekly[2025-W23]:dso_days} in week 23.", ["kpi.weekly"]),
+    # W12, 2026-10-27 (the first missed-Monday firing): "82 days-day window" — the unit again after a hyphen
+    "unit after a hyphen (W12)": (12, "DSO stood at {kpi.weekly:dso_days|d} on an {kpi.weekly:dso_window_days|d}-day "
+                                      "window.", ["kpi.weekly"]),
     "unknown field (must fail)": (10, "Transits averaged {insight.s[2025-03-03]:transits}.", ["insight.s"]),
     "another row (must fail)": (10, "Transits were {insight.s[2025-03-09]:n_total|k} on 2025-03-03.", ["insight.s"]),
 }
@@ -684,11 +687,13 @@ for k, (w, t, ids) in NORM.items():
     norm_fixes[k] = len(fixes)
     norm_rules[k] = sorted({r for r, _, _ in v2.check_text(fixed_text, ev, ids, w)[1]})
 assert norm_rules == {"|k on days (c2 test 23)": [], "|k on a count (c2 test 10)": [], "unit twice (c1 test 23)": [],
-                      "direction twice": [], "key on one row": [], "unknown field (must fail)": ["V2"],
-                      "another row (must fail)": ["V7"]}, norm_rules
+                      "direction twice": [], "key on one row": [], "unit after a hyphen (W12)": [],
+                      "unknown field (must fail)": ["V2"], "another row (must fail)": ["V7"]}, norm_rules
 assert norm_fixes == {"|k on days (c2 test 23)": 2, "|k on a count (c2 test 10)": 1, "unit twice (c1 test 23)": 1,
-                      "direction twice": 1, "key on one row": 1, "unknown field (must fail)": 0,
-                      "another row (must fail)": 1}, norm_fixes
+                      "direction twice": 1, "key on one row": 1, "unit after a hyphen (W12)": 1,
+                      "unknown field (must fail)": 0, "another row (must fail)": 1}, norm_fixes
+w12_text = slots.render_text(slots.normalize_text(NORM["unit after a hyphen (W12)"][1], EVS[12])[0], EVS[12])[0]
+assert "days-day" not in w12_text and w12_text.endswith("days window."), w12_text
 # the 52 clean slot drafts need no fix (normalize is a no-op on a right draft)
 assert all(not slots.normalize_text(b["text"], EVS[w])[1] for w in range(1, 53) for b in DRAFTS[w]["bullets"])
 print(f"Phase 4: {len(actual)} recorded Phase 5 bullets: {len(actual) - flagged} now bind, {flagged} still wrong "

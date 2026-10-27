@@ -283,7 +283,8 @@ def normalize_text(text: str, evidence: dict) -> tuple[str, list[str]]:
                 fixes.append(f"{s.raw}: |dir writes the direction itself; the word before it dropped")
             unit = UNIT_OF_KIND.get(kind or "")
             after = text[s.end:]
-            m_unit = re.match(rf"\s*{unit}", after) if unit else None
+            # "{…dso_window_days|d}-day window" → "82 days-day window" (W12, 2026-10-27): a hyphen before the unit too
+            m_unit = re.match(rf"\s*-?\s*{unit}", after) if unit else None
             if m_unit:
                 fixes.append(f"{s.raw}: the slot writes its unit; {m_unit.group(0).strip()!r} after it dropped")
                 pos_after = s.end + m_unit.end()

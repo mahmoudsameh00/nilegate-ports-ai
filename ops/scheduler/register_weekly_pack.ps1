@@ -39,7 +39,12 @@ $cmd = ('$env:PYTHONIOENCODING = ''utf-8''; & ''{0}'' run python pipelines/scrip
         '2>&1 | Out-File -Append -Encoding utf8 ''reports\_log\scheduled_console.log''; exit $LASTEXITCODE') -f $uv
 $action = New-ScheduledTaskAction -Execute "powershell.exe" -WorkingDirectory $root `
     -Argument "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -Command `"$cmd`""
-$trigger = New-ScheduledTaskTrigger -Weekly -DaysOfWeek $Day -At ([datetime]::Today.Add([timespan]::Parse($At)))
+$start = [datetime]::Today.Add([timespan]::Parse($At))
+$trigger = New-ScheduledTaskTrigger -Weekly -DaysOfWeek $Day -At $start
+# New-ScheduledTaskTrigger stores the start with the UTC offset of the day it ran ("…T10:30:00+03:00"), so after a
+# daylight-saving change the task fires an hour off (09:30 in Cairo winter: before the Gemini reset). A start
+# without an offset is local wall-clock time and follows DST (found 2026-10-27, ADR-054 amendment 2).
+$trigger.StartBoundary = $start.ToString("yyyy-MM-dd'T'HH:mm:ss")
 $settings = New-ScheduledTaskSettingsSet -StartWhenAvailable -RestartCount 2 -RestartInterval (New-TimeSpan -Minutes 30) `
     -ExecutionTimeLimit (New-TimeSpan -Hours 1) -MultipleInstances IgnoreNew -AllowStartIfOnBatteries `
     -DontStopIfGoingOnBatteries
@@ -49,5 +54,10 @@ Register-ScheduledTask -TaskName $name -Action $action -Trigger $trigger -Settin
     -Force | Out-Null
 
 $info = Get-ScheduledTaskInfo -TaskName $name
+$stored = (Get-ScheduledTask -TaskName $name).Triggers[0].StartBoundary
+if ($stored -match '(Z|[+-]\d\d:\d\d)$') { throw "trigger stored with a UTC offset ($stored): it would not follow DST" }
+if ($info.NextRunTime.ToString("HH:mm") -ne ([timespan]::Parse($At)).ToString("hh\:mm")) {
+    throw "next run $($info.NextRunTime) is not at $At local time"
+}
 Write-Output "registered task '$name': every $Day $At (local time), user $env:USERNAME, logged-on only"
 Write-Output "next run: $($info.NextRunTime) | working directory: $root | uv: $uv"

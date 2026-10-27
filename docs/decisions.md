@@ -835,6 +835,13 @@ Never delete an entry; supersede it with a new one. Sources for older entries ar
   stopped packs after two patches (`|k` on counts / days, "days days", "SDR SDR"), and the planted-error gate needs
   every test week to publish. Deck_check: the recorded sentences pass after the fix, an unknown field and another
   row still fail, the 52 clean drafts need no fix; the cached Phase 6 real runs now need one patch instead of two.
+- **Amendment 2 (2026-10-27, plan D-P8-17 / D-P8-19, owner: "fix D-P8-17 and days-day, then continue W12"):**
+  (a) **one preview per content:** the approver keeps the preview open in PowerPoint, which locks it, and an edit
+  rewrote the same file → `PermissionError`; the preview is now `reports/_drafts/<thread>_<sha10>.pptx` (an edit
+  writes a new file, a resume after a crash finds the same name), older ones are removed when free and a locked one
+  at the next pass, publish or reject (D-P6-13's single file superseded). (b) a unit written again **behind a hyphen**
+  after a slot ("82 days-day window") is dropped like a spaced one. Checks: `Weekly_pack_check.py` locks the preview
+  the way PowerPoint does and edits (7 / 7), `Deck_check.py` replays the W12 sentence (4 / 4).
 
 ## ADR-052 — Acceptance rule for a change to the agents (prompt, model, skill)
 - **Status:** Accepted (2026-10-19, owner: §8a G6 "margin 0.03 + two runs", Agents plan §5d). Written in Phase 7
@@ -1018,6 +1025,14 @@ Never delete an entry; supersede it with a new one. Sources for older entries ar
   are kept visible: the publisher writes them to `run.json` (`normalized`), the archive keeps them, and
   `Weekly_pack.py report` adds `form_fixes` {packs, fixes} next to the G5 edit rate (W11, the first scheduled pack:
   5 fixes). `Weekly_pack.py show` prints the approver's comment.
+- **Amendment 2 (2026-10-27, plan D-P8-18, owner's yes): the trigger follows local time.** `New-ScheduledTaskTrigger`
+  had stored the start with the offset of the day it ran (`…T10:30:00+03:00`), so after a daylight-saving change the
+  task would fire an hour off (09:30 in Cairo winter, before the Gemini daily reset that P8-2's 10:30 waits for).
+  `ops/scheduler/register_weekly_pack.ps1` stores the start without an offset (local wall-clock time) and refuses a
+  registration whose stored trigger has an offset or whose next run is not at the asked time; re-registered,
+  next run 2026-11-02 10:30. First missed-Monday firing the same day (W12, machine off on 10-26): started at logon,
+  waited for PostgreSQL, reached the approval. An edit while the preview was open in PowerPoint failed to rewrite it
+  (D-P8-17) — fixed the same day by ADR-051 amendment 2; W12 then published after the owner's edits.
 
 ---
 

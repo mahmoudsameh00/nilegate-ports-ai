@@ -496,8 +496,30 @@ def normalize_draft(draft: dict, evidence: dict) -> tuple[dict, list[str]]:
 # `deck/validator.py` binds every number to its field; when the draft passes, the deck is rendered and read back
 # (V8) and the preview the approver opens is saved. A V8 problem is a renderer fault, not the Writer's: the run stops.
 
-def _preview_path(reports_dir: Path, thread_id: str) -> Path:
-    return reports_dir / "_drafts" / (re.sub(r"[^A-Za-z0-9_.-]", "_", thread_id or "run") + ".pptx")
+def _preview_stem(thread_id: str | None) -> str:
+    return re.sub(r"[^A-Za-z0-9_.-]", "_", thread_id or "run")
+
+
+def _preview_path(reports_dir: Path, thread_id: str | None, sha256: str) -> Path:
+    # a new file per content (D-P8-17): the approver keeps the previous preview open in PowerPoint, which locks it,
+    # so an edit must never write over it; the same content (a resume after a crash) gets the same name
+    return reports_dir / "_drafts" / f"{_preview_stem(thread_id)}_{sha256[:10]}.pptx"
+
+
+def _drop_previews(reports_dir: Path, thread_id: str | None, keep: Path | None = None) -> list[str]:
+    """Remove this thread's previews (all passes, and the one-file name of before D-P8-17) except `keep`; a file
+    still open in PowerPoint is left and named in the result (the next pass, publish or reject tries again)."""
+    drafts, stem, locked = reports_dir / "_drafts", _preview_stem(thread_id), []
+    if not drafts.is_dir():
+        return locked
+    for p in [*drafts.glob(f"{stem}_*.pptx"), drafts / f"{stem}.pptx"]:
+        if p == keep or not p.is_file():
+            continue
+        try:
+            p.unlink()
+        except PermissionError:
+            locked.append(p.name)
+    return locked
 
 
 def make_validator(reports_dir: Path):
@@ -511,10 +533,13 @@ def make_validator(reports_dir: Path):
             if problems:
                 v = m.Verdict(passed=False, problems=problems)
             else:
-                path = _preview_path(reports_dir, config["configurable"].get("thread_id"))
+                sha = hashlib.sha256(data).hexdigest()
+                path = _preview_path(reports_dir, config["configurable"].get("thread_id"), sha)
                 path.parent.mkdir(parents=True, exist_ok=True)
-                path.write_bytes(data)                       # overwritten on every pass: idempotent on resume
-                out["preview"] = {"path": path.as_posix(), "sha256": hashlib.sha256(data).hexdigest()}
+                if not (path.is_file() and hashlib.sha256(path.read_bytes()).hexdigest() == sha):
+                    path.write_bytes(data)                   # a new name per content: never the file the approver has open
+                out["preview"] = {"path": path.as_posix(), "sha256": sha}
+                _drop_previews(reports_dir, config["configurable"].get("thread_id"), keep=path)
         waiting = v.passed or state.get("draft_origin") == "edit"
         return {**out, "verdict": v.model_dump(mode="json"), "status": "awaiting_approval" if waiting else "running"}
     return validator
@@ -550,7 +575,13 @@ def _now() -> str:
     return datetime.now(timezone.utc).isoformat(timespec="seconds")
 
 
-def approval(state: PackState, config: RunnableConfig) -> dict:
+def make_approval(reports_dir: Path):
+    def node(state: PackState, config: RunnableConfig) -> dict:
+        return approval(state, config, reports_dir)
+    return node
+
+
+def approval(state: PackState, config: RunnableConfig, reports_dir: Path) -> dict:
     audit_res = state["evidence"].get("audit.week", {})
     raw = interrupt({
         "thread_id": config["configurable"].get("thread_id"), "report_week": state["report_week"],
@@ -578,7 +609,7 @@ def approval(state: PackState, config: RunnableConfig) -> dict:
             return refused("the draft fails the Validator: edit or reject it")
         return {"approval_log": [{**entry, "outcome": "approved"}], "status": "awaiting_approval"}
     if d.decision == "reject":
-        _drop_preview(state)                   # a rejected deck is not kept (D9: save only what is approved)
+        _drop_previews(reports_dir, config["configurable"].get("thread_id"))   # D9: save only what is approved
         return {"approval_log": [{**entry, "outcome": "rejected"}], "status": "rejected", "preview": None}
     bullets = state["draft"]["bullets"]
     bad = [e.bullet for e in d.edits if e.bullet >= len(bullets)]
@@ -592,12 +623,6 @@ def approval(state: PackState, config: RunnableConfig) -> dict:
         new[e.bullet]["text"] = e.text
     return {"approval_log": [{**entry, "outcome": "edited", "diff": diff}],
             "draft": {**state["draft"], "bullets": new}, "draft_origin": "edit", "status": "awaiting_approval"}
-
-
-def _drop_preview(state: PackState):
-    p = (state.get("preview") or {}).get("path")
-    if p:
-        Path(p).unlink(missing_ok=True)
 
 
 def after_approval(state: PackState) -> str:
@@ -635,7 +660,7 @@ def make_publisher(reports_dir: Path):
             (folder / name).write_text(json.dumps(obj, indent=1, ensure_ascii=False, sort_keys=True, default=str),
                                        encoding="utf-8", newline="\n")
         (folder / "deck.pptx").write_bytes(data)
-        _drop_preview(state)
+        _drop_previews(reports_dir, config["configurable"].get("thread_id"))
         drafts = reports_dir / "_drafts"
         if drafts.is_dir() and not any(drafts.iterdir()):
             shutil.rmtree(drafts)
@@ -659,7 +684,7 @@ def build_graph(roles: Any, checkpointer=None, reports_dir: Path | None = None):
     reports_dir = reports_dir or project_root() / "reports"
     g.add_node("validator", make_validator(reports_dir))
     g.add_node("stop_failed", stop_failed)
-    g.add_node("approval", approval)
+    g.add_node("approval", make_approval(reports_dir))
     g.add_node("publisher", make_publisher(reports_dir))
     g.add_edge(START, "readiness")
     g.add_conditional_edges("readiness", after_readiness, ["kpi", END])

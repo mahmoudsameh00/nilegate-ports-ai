@@ -137,7 +137,7 @@ History of the RAG plan, phase by phase: **Phase 0 done 2026-10-01** (rewrite co
 | Synthetic incidents / synthetic FBLs | PLANNED (optional) | |
 | Causal consistency checks (PostgreSQL ↔ AIS ↔ incidents ↔ RAG) | PLANNED | needs a shared event timeline per vessel/shipment |
 | Agents (Supervisor + Analytics) | IN PROGRESS | Agents plan Phase 0 CLOSED 2026-10-12 (packages, `pipelines/agents/llm.py`, LLM bake-off → ADR-045); Phase 1 CLOSED 2026-10-14 (finance data, migration 012, ADR-046); Phase 2 CLOSED 2026-10-14 (`finance` views, migration 013, ADR-047); Phase 3 CLOSED 2026-10-15 (Power BI dashboard, ADR-048); Phase 4 CLOSED 2026-10-19 (Stage 1 tools + skills, ADR-049; migration 015; `Tools_check.py` 8 / 8); Phase 5 CLOSED 2026-10-19 (`weekly_pack` workflow + PostgresSaver + approval, ADR-050; migration 016; `Weekly_pack_check.py` 7 / 7); Phase 6 CLOSED 2026-10-19 (NileGate PPTX, slots, Validator v2 + V8, ADR-051; `Deck_check.py` 4 / 4, 100 / 100 planted numbers caught); Phase 7 CLOSED 2026-10-20 (evaluation: golden weeks, finance Q&A agent, migration 017, ADR-052 / ADR-053; D7 not met, closed by the owner; c3 accepted 2026-10-22 as the baseline, tuning stopped); Phase 8 CLOSED 2026-10-22 (scheduled pack, retention, LangSmith, ADR-054; `Scheduler_check.py` 6 / 6); next the Stage 1 checkpoint (PR), then Stage 2; ADR-012; the document tool exists (`search_documents`, untrusted-upload contract in `docs/RETRIEVAL_FLOW.md` §2.1) |
-| API, auth, audit_log, guardrails | PLANNED | audit_log redesign in ADR-014 |
+| API, auth, audit_log, guardrails | PLANNED | audit_log redesign in ADR-014; concurrency requirements to design for: "Missing work → Deferred" (2026-10-25) |
 | Evaluation (golden tasks), observability (trace IDs) | PARTIAL | Stage 1 evaluation DONE 2026-10-20 (ADR-053: golden weeks + finance Q&A, `Stage1_eval.py`; D7 not met, owner closed); observability for the agents DONE 2026-10-22 (LangSmith, ADR-054); API trace ids with the API |
 | Scheduled weekly pack + checkpoint retention | DONE | 2026-10-22, Agents plan Phase 8 (ADR-054): Task Scheduler (Monday 10:30), `Weekly_pack.py scheduled / prune / report`, `Scheduler_check.py` 6 / 6 |
 | Power BI integration | DONE (2026-10-15) | ADR-048: `powerbi/NileGate_Finance.pbip` (Desktop, PBIP in git), DirectQuery on the `finance` views via the read-only login `ports_bi`; 5 pages (Exceptions = placeholder until the Auditor tool, Phase 4 / 7); numbers = `kpi_weekly` for weeks 5 / 23 / 49 |
@@ -161,6 +161,26 @@ RAG ingestion order (do not skip ahead): inventory → metadata → extraction �
 - Agents phase → decide on DuckDB as the analysis sandbox.
 - Agents / API phase → Redis as a shared cache (query vectors, reranker results, sessions) if several workers or agents must share it; measured 2026-10-08: Redis GET 0.57 ms vs in-process 0.2 µs (ADR-038; owner: use it later if needed).
 - API / Docker Compose phase → decide on a job queue (Redis or other) and on object storage for raw files (MinIO).
+- **API phase → concurrency requirements (owner, 2026-10-25; to enter the FastAPI design, not decided yet).** Today
+  every run is one process (the scheduled pack's lock file, Task Scheduler "IgnoreNew"), so per-process state is
+  safe; several FastAPI workers break that. The design must cover, each with a check:
+  1. **Daily quota** (`llm_cache/usage.json` is per process: two workers reading 499 both send) → one shared,
+     atomic counter (PostgreSQL `UPDATE … RETURNING` or Redis `INCR`).
+  2. **Per-minute limits** (`llm.py` `Budget` counts per process) → a shared rate limiter (token bucket); excess
+     requests wait in a queue instead of failing.
+  3. **Reply / tool caches** (JSONL files with one writer today) → a store safe for concurrent writers (PostgreSQL
+     table or Redis), keeping replay determinism (a cached reply never expires).
+  4. **The same question at the same moment** → single-flight (one model call, the others wait for its reply).
+  5. **The same conversation twice at once** (two requests on one LangGraph thread) → a per-thread lock.
+  6. **Database connections** → pool size × workers below PostgreSQL `max_connections` (100 by default).
+  7. **Long work** (a weekly pack takes minutes) → never inside an HTTP request: a job queue, `202` + job id, a
+     background worker.
+  8. **Back-pressure** → `429` / `503` with `Retry-After` when the quota or the queue is full, never a crash.
+  9. **Sync code under async FastAPI** (psycopg / httpx / LLM calls are blocking) → a threadpool or async clients.
+  Already safe: tools are stateless (the user comes from `RunContext` per request, never a global), pools are
+  bounded, checkpoints live in PostgreSQL. Free first: PostgreSQL for the counter and locks; Redis only if a
+  measurement shows the need (the trigger of the line above). Proof: a load test with fake models (e.g. 50
+  simultaneous requests) — exact counter, no corrupted file, no cross-user data, excess refused with 429.
 - ~~Power BI phase → decide on star-schema views~~ decided: plain views in schema `finance` (ADR-047), used by Power BI (ADR-048).
 
 **Blocked**

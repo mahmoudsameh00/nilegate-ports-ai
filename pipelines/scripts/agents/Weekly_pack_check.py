@@ -447,6 +447,35 @@ final = step({"decision": "approve", "approver_employee_id": ceo_id})
 log = final.values["approval_log"]
 edit_diff = log[0]["diff"][0]
 
+# D-P8-17 (2026-10-27, W12): the approver keeps the preview open in PowerPoint, which opens it with no sharing, so
+# the file can be neither written nor deleted. An edit must still reach the approval again — a new preview per
+# content, the open one left alone — and publishing must clean up both once the file is closed.
+import ctypes  # noqa: E402
+
+
+def _lock(path: Path):
+    """Open `path` like PowerPoint does: GENERIC_READ, share mode 0 (no one else may read, write or delete)."""
+    k32 = ctypes.WinDLL("kernel32", use_last_error=True)
+    k32.CreateFileW.restype = ctypes.c_void_p
+    h = k32.CreateFileW(str(path), 0x80000000, 0, None, 3, 0x80, None)
+    assert h not in (None, ctypes.c_void_p(-1).value), ctypes.get_last_error()
+    return lambda: k32.CloseHandle(ctypes.c_void_p(h))
+
+
+g_lock = wp.build_graph(fake, InMemorySaver(), REPORTS / "locked")
+_, st, cfg_l = run(fin_mgr, W, g=g_lock)
+p0 = Path(g_lock.get_state(cfg_l).values["preview"]["path"])
+unlock = _lock(p0)
+try:
+    snap_l = resume(cfg_l, {"decision": "edit", "approver_employee_id": fin_mgr.employee_id, "edits": [
+        {"bullet": billed_idx, "text": f"Billing was {m_sdr(k23['billed_sdr'])} in week 23 of 2025"}]}, g=g_lock)[1]
+    p1 = Path(snap_l.values["preview"]["path"])
+    while_locked = (snap_l.next, snap_l.values["verdict"]["passed"], p1 != p0, p1.is_file(), p0.is_file())
+finally:
+    unlock()
+snap_l = resume(cfg_l, {"decision": "approve", "approver_employee_id": fin_mgr.employee_id}, g=g_lock)[1]
+locked_case = (*while_locked, snap_l.values["status"], (REPORTS / "locked" / "_drafts").exists())
+
 actual = {"weeks_at_interrupt": weeks_ok, "published": published, "toolnode_equal_direct": tool_equal,
           "previews": previews,
           "paths_to_interrupt": sorted(interrupt_paths), "reject": reject_case,
@@ -454,7 +483,8 @@ actual = {"weeks_at_interrupt": weeks_ok, "published": published, "toolnode_equa
           "log_outcomes": [e["outcome"] for e in log],
           "edit_diff": (edit_diff["slide"], "9.99" in edit_diff["after"]),
           "refusal_reasons": [e["reason"].split(":")[0].split(" (")[0] for e in log if e["outcome"] == "refused"],
-          "approvers": sorted({e["approver"] for e in log if e.get("approver")})}
+          "approvers": sorted({e["approver"] for e in log if e.get("approver")}),
+          "locked_preview": locked_case}
 expected = {"weeks_at_interrupt": 52, "published": 52, "toolnode_equal_direct": 52, "previews": 52,
             "paths_to_interrupt": [("readiness", "kpi", "audit", "insight_llm", "insight_tools", "insight_notes",
                                     "writer", "validator")],
@@ -472,11 +502,15 @@ expected = {"weeks_at_interrupt": 52, "published": 52, "toolnode_equal_direct": 
             "edit_diff": (2, True),
             "refusal_reasons": ["the draft fails the Validator", "manager / Operations may not approve the finance "
                                 "pack", "unknown employee 999999", "invalid decision", "no bullet [99] in the draft"],
-            "approvers": ["ceo / Operations", "manager / Finance"]}
+            "approvers": ["ceo / Operations", "manager / Finance"],
+            # edit while the preview is locked → back at the approval, a new preview, the open one untouched;
+            # approve after closing it → published, every preview of the thread removed
+            "locked_preview": (("approval",), True, True, True, True, "published", False)}
 assert actual == expected, actual
 print(f"Phase 2: 52 weeks published; week 23 approval steps {[s[0] for s in steps]}")
 print("✅ Phase 2 validation passed: 52 / 52 weeks reach the approval with a passing verdict and are published on "
-      "approve; ToolNode results = the tool; reject saves nothing; wrong edits / approvers / decisions refused; G5 log")
+      "approve; ToolNode results = the tool; reject saves nothing; wrong edits / approvers / decisions refused; G5 log; "
+      "an edit while the preview is open in PowerPoint (locked) reaches the approval again with a new preview")
 DONE.append(2)
 
 # %% Phase 3 — Validator loop (S3; Phase 6: the patch rewrite, §5c P6-6)

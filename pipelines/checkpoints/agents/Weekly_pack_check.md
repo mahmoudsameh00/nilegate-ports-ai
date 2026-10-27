@@ -60,3 +60,8 @@ after a days slot), max 12.4K tokens per call.
   prompt lines. Lesson: look at the rendered deck, not only the verdict.
 - **Variance:** runs 2 / 4 / 5 published 3 / 4 / 3 of 4 weeks with the same code; owner: keep 3 / 4, measure the
   Writer in Phase 7.
+- **The approver's open preview broke an edit (2026-10-27, W12, D-P8-17):** `show` tells the approver to open the
+  preview, PowerPoint locks it, and the edit's validator pass rewrote the same file → `PermissionError` (the thread
+  waited safely at its checkpoint). The preview is now named by its content, so an edit writes a new file; Phase 2
+  locks the preview with Windows share mode 0 (as PowerPoint does), edits, and expects the approval again with a new
+  preview and a clean `_drafts` after the approve.
