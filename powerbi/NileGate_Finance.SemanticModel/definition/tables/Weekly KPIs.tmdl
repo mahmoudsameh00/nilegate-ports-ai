@@ -1,0 +1,620 @@
+/// finance.kpi_weekly: one row per report week (ISO 2025 W1-W52), all week KPIs. Home of the model's measures.
+table 'Weekly KPIs'
+	lineageTag: 5d506123-ff6e-4f0a-8d62-f6aa23f2ee68
+
+	/// ISO week label of the one selected report week (kpi_weekly.iso_week_label).
+	measure 'Week Label' = SELECTEDVALUE('Weekly KPIs'[iso_week_label])
+		displayFolder: 1 Overview
+		lineageTag: f7e38536-6f59-4e0a-babd-f522084bdbf3
+
+	/// kpi_weekly.billed_sdr of the one selected week; blank if several weeks are selected.
+	measure 'Billed SDR' = SELECTEDVALUE('Weekly KPIs'[billed_sdr])
+		formatString: #,0.00
+		displayFolder: 1 Overview
+		lineageTag: 64dfbb40-b72d-40b3-bda0-dd9923d3a016
+
+	/// kpi_weekly.collected_sdr of the one selected week.
+	measure 'Collected SDR' = SELECTEDVALUE('Weekly KPIs'[collected_sdr])
+		formatString: #,0.00
+		displayFolder: 1 Overview
+		lineageTag: 14b02bf8-2da9-4f12-af8b-e8c96491687a
+
+	/// kpi_weekly.ar_sdr: open receivables at the selected week's Sunday.
+	measure 'AR SDR' = SELECTEDVALUE('Weekly KPIs'[ar_sdr])
+		formatString: #,0.00
+		displayFolder: 1 Overview
+		lineageTag: ccb1f3f7-ab26-466f-bad1-df71917fd0da
+
+	/// kpi_weekly.overdue_sdr of the one selected week.
+	measure 'Overdue SDR' = SELECTEDVALUE('Weekly KPIs'[overdue_sdr])
+		formatString: #,0.00
+		displayFolder: 1 Overview
+		lineageTag: c4ecb15e-2d44-4d22-85e1-60a522affcc5
+
+	/// kpi_weekly.invoices_billed of the one selected week.
+	measure 'Invoices Billed' = SELECTEDVALUE('Weekly KPIs'[invoices_billed])
+		formatString: #,0
+		displayFolder: 1 Overview
+		lineageTag: d8b088c9-1b3f-4c60-8b4e-fc9d02a7c24a
+
+	/// kpi_weekly.dso_days (M5, docs/finance_metrics.md).
+	measure 'DSO Days' = SELECTEDVALUE('Weekly KPIs'[dso_days])
+		formatString: 0.0
+		displayFolder: 1 Overview
+		lineageTag: 581e511c-99b3-4a14-bba4-2818c7fedf9a
+
+	/// kpi_weekly.dso_wow_days: change in DSO vs last week.
+	measure 'DSO WoW Days' = SELECTEDVALUE('Weekly KPIs'[dso_wow_days])
+		formatString: +0.0;-0.0;0.0
+		displayFolder: 1 Overview
+		lineageTag: 82b70ed5-5a8d-4530-804b-42db9ab2b492
+
+	/// kpi_weekly.budget_sdr of the one selected week.
+	measure 'Budget SDR' = SELECTEDVALUE('Weekly KPIs'[budget_sdr])
+		formatString: #,0.00
+		displayFolder: 1 Overview
+		lineageTag: f0936869-5f9a-4275-ae44-be17758dc676
+
+	/// kpi_weekly.budget_variance_sdr (billed − budget).
+	measure 'Budget Variance SDR' = SELECTEDVALUE('Weekly KPIs'[budget_variance_sdr])
+		formatString: +#,0.00;-#,0.00;0.00
+		displayFolder: 1 Overview
+		lineageTag: acd704ee-e273-43dc-9fe8-988e9ad0f72c
+
+	/// kpi_weekly.budget_variance_pct ÷ 100.
+	measure 'Budget Variance %' = DIVIDE(SELECTEDVALUE('Weekly KPIs'[budget_variance_pct]), 100)
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 1 Overview
+		lineageTag: 78007ee5-03a8-40f7-8a19-5b34e2b98089
+
+	/// kpi_weekly.billed_wow_pct ÷ 100.
+	measure 'Billed WoW %' = DIVIDE(SELECTEDVALUE('Weekly KPIs'[billed_wow_pct]), 100)
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 1 Overview
+		lineageTag: 844da6d5-89e0-4dfc-882e-c9a9ed835ddb
+
+	/// kpi_weekly.collected_wow_pct ÷ 100.
+	measure 'Collected WoW %' = DIVIDE(SELECTEDVALUE('Weekly KPIs'[collected_wow_pct]), 100)
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 1 Overview
+		lineageTag: b8538860-eec4-4f95-97a3-c47585e01d38
+
+	/// kpi_weekly.ar_wow_pct ÷ 100.
+	measure 'AR WoW %' = DIVIDE(SELECTEDVALUE('Weekly KPIs'[ar_wow_pct]), 100)
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 1 Overview
+		lineageTag: 31a6e591-b865-49a8-8300-79a3ce3e09f0
+
+	/// kpi_weekly.overdue_wow_pct ÷ 100.
+	measure 'Overdue WoW %' = DIVIDE(SELECTEDVALUE('Weekly KPIs'[overdue_wow_pct]), 100)
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 1 Overview
+		lineageTag: fb8409a6-c4b8-4f6d-9c45-2b77479bee35
+
+	/// kpi_weekly.top10_share_13w_pct ÷ 100: concentration of the top 10 customers over 13 weeks.
+	measure 'Top10 Share 13w %' = DIVIDE(SELECTEDVALUE('Weekly KPIs'[top10_share_13w_pct]), 100)
+		formatString: 0.0%
+		displayFolder: 1 Overview
+		lineageTag: a0e99226-3e15-49c8-ad1d-73a8b8820808
+
+	/// Text from kpi_weekly.is_warmup (weeks 1-13 = warm-up); blank when not exactly one week is selected.
+	measure 'Warm-up Note' =
+			VAR w = SELECTEDVALUE('Weekly KPIs'[is_warmup])
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        ISBLANK(w), BLANK(),
+			        w, "Warm-up week: DSO uses fewer than 91 days of history",
+			        "DSO uses the full 91-day window"
+			    )
+		displayFolder: 1 Overview
+		lineageTag: 16d2df62-cc05-4ed5-8590-b9978406702a
+
+	/// Sum of fact_invoice.amount_sdr (additive across weeks and categories).
+	measure 'Revenue SDR' = SUM(Invoices[amount_sdr])
+		formatString: #,0.00
+		displayFolder: 2 Revenue
+		lineageTag: e14b32c1-b716-43be-951d-b20964726f74
+
+	/// Number of fact_invoice rows.
+	measure 'Invoice Count' = COUNTROWS(Invoices)
+		formatString: #,0
+		displayFolder: 2 Revenue
+		lineageTag: 05d3dcaf-8020-4a57-8862-fe9d51092263
+
+	/// Sum of fact_invoice.scnt_tons.
+	measure 'SCNT Tons' = SUM(Invoices[scnt_tons])
+		formatString: #,0
+		displayFolder: 2 Revenue
+		lineageTag: a9795e79-8f88-4577-8d88-589c5dbd39bd
+
+	/// Sum of kpi_weekly_category.budget_sdr.
+	measure 'Category Budget SDR' = SUM('Category KPIs'[budget_sdr])
+		formatString: #,0.00
+		displayFolder: 2 Revenue
+		lineageTag: 7d80dc97-f122-4654-b582-9f7a52e70719
+
+	/// Sum of kpi_weekly_category.budget_variance_sdr (billed − budget).
+	measure 'Category Variance SDR' = SUM('Category KPIs'[budget_variance_sdr])
+		formatString: +#,0;-#,0;0
+		displayFolder: 2 Revenue
+		lineageTag: 5cc73d01-0006-4d7d-acdf-d5e0bd7e2fb1
+
+	/// fact_ar_snapshot.amount_sdr for one report week (semi-additive: blank over several weeks).
+	measure 'AR by Bucket SDR' = IF(HASONEVALUE(Week[report_week]), SUM('AR Snapshot'[amount_sdr]))
+		formatString: #,0.00
+		displayFolder: 3 Receivables
+		lineageTag: b670a70d-2012-498a-aa10-5a2cc70d104b
+
+	/// fact_ar_snapshot.amount_sdr where is_overdue, one report week only.
+	measure 'Overdue AR SDR' = IF(HASONEVALUE(Week[report_week]), CALCULATE(SUM('AR Snapshot'[amount_sdr]), 'AR Snapshot'[is_overdue] = TRUE()))
+		formatString: #,0.00
+		displayFolder: 3 Receivables
+		lineageTag: 73d76924-55c2-4a01-99e3-7efc6374d987
+
+	/// Sum of fact_payment.amount_sdr (additive).
+	measure 'Collections SDR' = SUM(Payments[amount_sdr])
+		formatString: #,0.00
+		displayFolder: 3 Receivables
+		lineageTag: 7e56c54c-9e5e-450a-b1f9-662e1389c8b0
+
+	/// Average fact_payment.days_to_pay.
+	measure 'Avg Days to Pay' = AVERAGE(Payments[days_to_pay])
+		formatString: 0.0
+		displayFolder: 3 Receivables
+		lineageTag: c0b27b74-be1e-413c-92ab-fbcf972e796a
+
+	/// Rows of kpi_overdue_list for one report week.
+	measure 'Overdue Invoices #' = IF(HASONEVALUE(Week[report_week]), COUNTROWS('Overdue List'))
+		formatString: #,0
+		displayFolder: 3 Receivables
+		lineageTag: beb13333-223f-452d-a0ca-1c94abc1e6cb
+
+	/// kpi_customer_13w.billed_13w_sdr, one report week only.
+	measure 'Billed 13w SDR' = IF(HASONEVALUE(Week[report_week]), SUM('Customer KPIs 13w'[billed_13w_sdr]))
+		formatString: #,0.00
+		displayFolder: 4 Customers
+		lineageTag: e7b7b9dd-84d8-44d5-ac8b-51fc7f4c156e
+
+	/// kpi_customer_13w.share_13w_pct ÷ 100, one report week only.
+	measure 'Share 13w %' = IF(HASONEVALUE(Week[report_week]), DIVIDE(SUM('Customer KPIs 13w'[share_13w_pct]), 100))
+		formatString: 0.0%
+		displayFolder: 4 Customers
+		lineageTag: 50e3e7ab-2511-4981-be54-9070acc5a5fc
+
+	/// kpi_customer_13w.ar_sdr, one report week only.
+	measure 'Customer AR SDR' = IF(HASONEVALUE(Week[report_week]), SUM('Customer KPIs 13w'[ar_sdr]))
+		formatString: #,0.00
+		displayFolder: 4 Customers
+		lineageTag: 5f553a42-2e21-4f49-ae1f-9abbdd925bcb
+
+	/// kpi_customer_13w.overdue_sdr, one report week only.
+	measure 'Customer Overdue SDR' = IF(HASONEVALUE(Week[report_week]), SUM('Customer KPIs 13w'[overdue_sdr]))
+		formatString: #,0.00
+		displayFolder: 4 Customers
+		lineageTag: 65953d95-8ffb-4efa-87cf-3588b18bbf82
+
+	/// kpi_weekly_trend.billed_sdr; axis = trend_week, one report week.
+	measure 'Trend Billed SDR' = IF(HASONEVALUE(Week[report_week]), SUM('Weekly Trend'[billed_sdr]))
+		formatString: #,0.00
+		displayFolder: 5 Trend
+		lineageTag: da29c21b-0d05-451a-a2c8-7988dd494aa0
+
+	/// kpi_weekly_trend.collected_sdr; axis = trend_week, one report week.
+	measure 'Trend Collected SDR' = IF(HASONEVALUE(Week[report_week]), SUM('Weekly Trend'[collected_sdr]))
+		formatString: #,0
+		displayFolder: 5 Trend
+		lineageTag: 2f9f58ba-2f61-44ca-9c2b-fad3d9672734
+
+	/// kpi_weekly_trend.budget_sdr; axis = trend_week, one report week.
+	measure 'Trend Budget SDR' = IF(HASONEVALUE(Week[report_week]), SUM('Weekly Trend'[budget_sdr]))
+		formatString: #,0.00
+		displayFolder: 5 Trend
+		lineageTag: 431d5947-280d-4547-a61c-5a7d14fca13b
+
+	/// kpi_weekly_trend.ar_sdr for one (report week, trend week) point.
+	measure 'Trend AR SDR' = SELECTEDVALUE('Weekly Trend'[ar_sdr])
+		formatString: #,0
+		displayFolder: 5 Trend
+		lineageTag: a4457c34-b9cb-4b5d-98e3-8aeff7bc05ad
+
+	/// kpi_weekly_trend.dso_days for one (report week, trend week) point.
+	measure 'Trend DSO Days' = SELECTEDVALUE('Weekly Trend'[dso_days])
+		formatString: 0.0
+		displayFolder: 5 Trend
+		lineageTag: 6c92b4b4-c021-42b1-a7a2-7178c549feb0
+
+	/// Sum of kpi_weekly_category.billed_sdr; use with Category KPIs[vessel_category] next to Category Budget SDR.
+	measure 'Category Billed SDR' = SUM('Category KPIs'[billed_sdr])
+		formatString: #,0.00
+		displayFolder: 2 Revenue
+		lineageTag: c8a9d146-c25b-489a-a05f-4746fae10ac1
+
+	/// kpi_customer_13w.billed_13w_sdr of the customers flagged is_top10, one report week only.
+	measure 'Top 10 Billed 13w SDR' = IF(HASONEVALUE(Week[report_week]), CALCULATE(SUM('Customer KPIs 13w'[billed_13w_sdr]), 'Customer KPIs 13w'[is_top10] = TRUE()))
+		formatString: #,0.00
+		displayFolder: 4 Customers
+		lineageTag: ce767a7e-89f5-4d2a-8854-e41a4c1c5399
+
+	/// Rows of finance.invoice_audit in the one selected week (one row per finding; an invoice can carry two); blank if several weeks are selected.
+	measure 'Audit Findings' = IF(HASONEVALUE(Week[report_week]), COUNTROWS('Invoice Audit') + 0)
+		formatString: 0
+		displayFolder: 5 Exceptions
+		lineageTag: 83afa139-8a42-46fd-8fa2-44a6f7f1cb6c
+
+	/// Invoices with an error finding in the one selected week (= invoice_audit's invoices_flagged).
+	measure 'Invoices Flagged' = IF(HASONEVALUE(Week[report_week]), CALCULATE(DISTINCTCOUNT('Invoice Audit'[invoice_number]), 'Invoice Audit'[review] = "error") + 0)
+		formatString: 0
+		displayFolder: 5 Exceptions
+		lineageTag: ede0fa7a-4e7a-4676-8022-787ad33c9e12
+
+	/// Invoices priced by a tariff Notes rule (migration 019): a person confirms the rule; never counted as an error (= invoice_audit's invoices_manual_review).
+	measure 'Invoices Manual Review' = IF(HASONEVALUE(Week[report_week]), CALCULATE(DISTINCTCOUNT('Invoice Audit'[invoice_number]), 'Invoice Audit'[review] = "manual_review") + 0)
+		formatString: 0
+		displayFolder: 5 Exceptions
+		lineageTag: 517fc7c6-edcc-4db4-8d6f-865132ddf7e1
+
+	column report_week
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: e607eeab-d7db-4500-8cca-db244a18368f
+		summarizeBy: none
+		sourceColumn: report_week
+
+		annotation SummarizationSetBy = Automatic
+
+	column iso_week_label
+		dataType: string
+		isHidden
+		sourceProviderType: nvarchar(max)
+		lineageTag: ee89c65e-6ea5-4556-b1d5-30ff5cb4de5d
+		summarizeBy: none
+		sourceColumn: iso_week_label
+
+		annotation SummarizationSetBy = Automatic
+
+	column week_start
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: 938f9cfc-eacb-4cf8-b07b-44696630e9ae
+		summarizeBy: none
+		sourceColumn: week_start
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column week_end
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: 657ad58b-4a47-4b5b-9a82-59e5e94e9612
+		summarizeBy: none
+		sourceColumn: week_end
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column is_warmup
+		dataType: boolean
+		isHidden
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: 5c7a1dc2-e6f6-4eb7-bbd0-3c7a4a51b8eb
+		summarizeBy: none
+		sourceColumn: is_warmup
+
+		annotation SummarizationSetBy = Automatic
+
+	column invoices_billed
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: ac1f0ce7-502a-42ba-89b9-87501888befa
+		summarizeBy: none
+		sourceColumn: invoices_billed
+
+		annotation SummarizationSetBy = Automatic
+
+	column billed_sdr
+		dataType: double
+		isHidden
+		sourceProviderType: decimal
+		lineageTag: db73e6ef-d2ee-4e3c-ba03-f8b96de001a2
+		summarizeBy: none
+		sourceColumn: billed_sdr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column payments_received
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: 0bb4c09d-b310-412a-9d1a-6220042c68c9
+		summarizeBy: none
+		sourceColumn: payments_received
+
+		annotation SummarizationSetBy = Automatic
+
+	column collected_sdr
+		dataType: double
+		isHidden
+		sourceProviderType: decimal
+		lineageTag: 17bf3ee9-67cb-4833-bb96-c584eee9bb35
+		summarizeBy: none
+		sourceColumn: collected_sdr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ar_invoices
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: 3eb8690e-5091-480c-8118-54ecafbd6f66
+		summarizeBy: none
+		sourceColumn: ar_invoices
+
+		annotation SummarizationSetBy = Automatic
+
+	column ar_sdr
+		dataType: double
+		isHidden
+		sourceProviderType: decimal
+		lineageTag: de4fcc93-be32-4117-931e-5b7265c3759e
+		summarizeBy: none
+		sourceColumn: ar_sdr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column overdue_invoices
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: cf19c324-02e3-4c5a-96f2-007aabd11ebe
+		summarizeBy: none
+		sourceColumn: overdue_invoices
+
+		annotation SummarizationSetBy = Automatic
+
+	column overdue_sdr
+		dataType: double
+		isHidden
+		sourceProviderType: decimal
+		lineageTag: 7e9d2250-e852-4504-8661-494eaa15023e
+		summarizeBy: none
+		sourceColumn: overdue_sdr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column aging_current_sdr
+		dataType: double
+		isHidden
+		sourceProviderType: decimal
+		lineageTag: bdaebc7e-3e56-4e7d-9cfe-1aef7d0ebdf3
+		summarizeBy: none
+		sourceColumn: aging_current_sdr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column aging_1_30_sdr
+		dataType: double
+		isHidden
+		sourceProviderType: decimal
+		lineageTag: 5ad01ce2-0aba-4546-8b56-36ad10997266
+		summarizeBy: none
+		sourceColumn: aging_1_30_sdr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column aging_31_60_sdr
+		dataType: double
+		isHidden
+		sourceProviderType: decimal
+		lineageTag: 6ae72316-582e-4488-8d17-b7b4a19bc627
+		summarizeBy: none
+		sourceColumn: aging_31_60_sdr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column aging_61_90_sdr
+		dataType: double
+		isHidden
+		sourceProviderType: decimal
+		lineageTag: b53fcb4e-2562-4e7b-9960-82beb6930233
+		summarizeBy: none
+		sourceColumn: aging_61_90_sdr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column aging_90_plus_sdr
+		dataType: double
+		isHidden
+		sourceProviderType: decimal
+		lineageTag: 72652860-cd19-46d7-9d7b-a45079e8e140
+		summarizeBy: none
+		sourceColumn: aging_90_plus_sdr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column dso_window_days
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 1ec2346b-ff46-43d9-9149-b2a804bd545f
+		summarizeBy: none
+		sourceColumn: dso_window_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column dso_window_billed_sdr
+		dataType: double
+		isHidden
+		sourceProviderType: decimal
+		lineageTag: d0734b90-09db-4016-ade6-50df4eb45b5d
+		summarizeBy: none
+		sourceColumn: dso_window_billed_sdr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column dso_days
+		dataType: double
+		isHidden
+		sourceProviderType: decimal
+		lineageTag: 9d92a2da-1ac9-4cfc-8314-49212e65a66c
+		summarizeBy: none
+		sourceColumn: dso_days
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column budget_sdr
+		dataType: double
+		isHidden
+		sourceProviderType: decimal
+		lineageTag: 4a240095-3dbe-47bb-a558-d616eed001e6
+		summarizeBy: none
+		sourceColumn: budget_sdr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column budget_variance_sdr
+		dataType: double
+		isHidden
+		sourceProviderType: decimal
+		lineageTag: 3c64851d-1741-4028-a2b8-c4c7030873fa
+		summarizeBy: none
+		sourceColumn: budget_variance_sdr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column budget_variance_pct
+		dataType: double
+		isHidden
+		sourceProviderType: decimal
+		lineageTag: a0a2354f-3433-496d-a914-7e69d81a576d
+		summarizeBy: none
+		sourceColumn: budget_variance_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column top10_share_13w_pct
+		dataType: double
+		isHidden
+		sourceProviderType: decimal
+		lineageTag: e9e7057f-dfc9-4ce4-b92a-3d222b5aa0bb
+		summarizeBy: none
+		sourceColumn: top10_share_13w_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column billed_wow_pct
+		dataType: double
+		isHidden
+		sourceProviderType: decimal
+		lineageTag: b3fcac9d-8ec1-4a9a-8c01-7638ea9bb92d
+		summarizeBy: none
+		sourceColumn: billed_wow_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column collected_wow_pct
+		dataType: double
+		isHidden
+		sourceProviderType: decimal
+		lineageTag: 080a56cb-a9d2-424b-872b-6792bdf69659
+		summarizeBy: none
+		sourceColumn: collected_wow_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ar_wow_pct
+		dataType: double
+		isHidden
+		sourceProviderType: decimal
+		lineageTag: 71ec353e-8728-40c5-bba8-6e7cca8422fb
+		summarizeBy: none
+		sourceColumn: ar_wow_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column overdue_wow_pct
+		dataType: double
+		isHidden
+		sourceProviderType: decimal
+		lineageTag: f122fd63-cf6a-432c-9806-9f4e86cfab1b
+		summarizeBy: none
+		sourceColumn: overdue_wow_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column dso_wow_days
+		dataType: double
+		isHidden
+		sourceProviderType: decimal
+		lineageTag: a7057e6c-449e-4101-b1ad-fc2d8a49e2cb
+		summarizeBy: none
+		sourceColumn: dso_wow_days
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'finance kpi_weekly' = m
+		mode: directQuery
+		source =
+				let
+				  Source = PostgreSQL.Database("127.0.0.1:5432", "ports_logistics"),
+				  #"Navigation 1" = Source{[Schema = "finance", Item = "kpi_weekly"]}[Data]
+				in
+				  #"Navigation 1"
+
+	annotation PBI_ResultType = Table
+

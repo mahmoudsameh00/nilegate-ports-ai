@@ -257,6 +257,21 @@ Never delete an entry; supersede it with a new one. Sources for older entries ar
   `Embeddings.py` seeds from them, and `Retrieval.py`, `Lib_selftest.py` and `Search_index_benchmark.py` assert on them,
   so emptying `_scratch` would have made those scripts re-spend the free quota. Moved; the three scripts re-ran ✅ with
   `files changed: 0`.
+- **Amendment (2026-10-09, data policy for every free API — embeddings, LLMs, reranker; owner decision, Agents plan
+  §7 "Data policy"):** free tiers (Gemini / AI Studio, Groq, OpenRouter `:free`, Jina free) may receive **synthetic or
+  public data only, minimized**: aggregates instead of rows where possible, made-up test records instead of rows of
+  the company tables, no employee names or other personal data. Real company data goes to **paid tiers only**.
+  Enforced in code: `pipelines/agents/llm.py` refuses a call whose `data_origin` is not "public" or "synthetic"
+  (`FREE_TIER_DATA`), and the upload path already requires `GEMINI_TIER=paid` for non-public or personal documents
+  (RAG plan Q5). OpenRouter privacy settings: free endpoints that may train stay allowed (synthetic data only),
+  "publish prompts" stays off.
+- **Amendment 2 (2026-10-14, owner decision) — supersedes the data-policy amendment above:** this is an educational
+  project and every dataset in it is synthetic or public, so **no data guard**: the free APIs are used as if they
+  were paid tiers. The `data_origin` refusal was removed from `pipelines/agents/llm.py` (the bake-off of ADR-045 ran
+  with it; its cache keys never included it, so nothing re-runs). The upload approval gate (ADR-044, Q5) is opened by
+  configuration, not code: `GEMINI_TIER=paid` in `.env` (its self-test still tests the refusal by removing the variable
+  for that one check). Sending aggregates instead of rows stays a habit for token cost, not a rule. If real company data
+  ever enters the project, this amendment must be revisited first.
 
 ## ADR-038 — Retrieval defaults: exact dense search + Jina reranker; no hybrid, no context shaping
 - **Status:** Accepted (2026-10-08). RAG plan Phase 7, decided by the ADR-040 rule (fixed before the run);
@@ -399,7 +414,7 @@ Never delete an entry; supersede it with a new one. Sources for older entries ar
   `docs/templates/NileGate_document_v1.md`; code `pipelines/lib/uploads.py`, `upload_reader.py`, `screening.py`.
 - **Context:** an employee may upload a document while talking to the assistant. A generic parser for any layout
   needed per-source rules and a human review gate for the 7 corpus sources; an inference-time path cannot hold a
-  review gate. Uploaded text is untrusted (the project rules rule 5) and may carry prompt injection, hidden text or active
+  review gate. Uploaded text is untrusted (project rule 5) and may carry prompt injection, hidden text or active
   content.
 - **Decision:**
   - **One fixed shape, "NileGate Document v1" (D15):** PDF or DOCX (Q6) with a text layer; a `key: value` metadata
@@ -516,6 +531,508 @@ Never delete an entry; supersede it with a new one. Sources for older entries ar
   `--commit` verified the points in Qdrant (the corpus got the same column through migration 011). It is written once,
   after the verification, and a re-commit leaves it unchanged (a migration is never edited; it may be applied
   already). Self-test 12/12 (new check: `migration_has_ingested_at`).
+
+## ADR-045 — LLM per agent role on free APIs (bake-off)
+- **Status:** **Accepted** (2026-10-12, owner) on a best-case bound: 6 of 9 candidates complete; the two incomplete
+  ones miss only T4 items (`gemini-3.8-flash` 4, `laguna-s-2.1:free` 1). Scoring every missing item as perfect gives
+  at most Writer 0.708 / Tools 0.938 (3.8 Flash; its T2 coverage 0.5 is final) and Writer 0.806 / Tools 0.875
+  (laguna), below the tie threshold (> 0.897 Writer, > 1.000 Tools), so no remaining result can change the
+  selection. The 5 items still run once (2026-10-13) for the record. Results file `llm_bakeoff_2026-10-12.json`.
+  (Was PROPOSED 2026-10-11; gemma's LITE finished after 15 runs: it ties the writer leaders but loses the tie-break
+  on packs per day.)
+- **Context:** Agents plan D1 (free APIs only, main + fallback per role) and §7a; rules fixed before any call (owner,
+  2026-10-10). `pipelines/scripts/agents/LLM_bakeoff.py`, frozen tasks `Data/processed/agents/eval/bakeoff_tasks.json`
+  (sha256 `ed6723f5…`: T1 20 tool-calling questions, T2 10 weekly KPI tables, T3 10 invoice-exception tables, T4 the
+  40 English golden questions with frozen top-8 passages; OpenRouter, `gemini-3.8-flash` and `gemma-4-31b-it` run
+  the stratified LITE subset 8 / 4 / 4 / 8), results `llm_bakeoff_2026-10-12.json`. Deterministic scoring, no LLM
+  judge.
+- **Rule:** Writer / Insight = only models whose every T2 summary writes no number outside its table (strict: k / M
+  and fewer decimals are the only rounding), score = mean(T2 driver coverage, T4 fact recall, T4 citation validity);
+  Tools = mean(T1 accuracy, T3 validity × exactness with the model's best method); scores on LITE for every model; a
+  gap < 5 points is a tie → packs per day (daily request limit ÷ requests per simulated pack) → TPM minutes →
+  latency; main and fallback from different providers.
+- **Results (LITE):**
+
+  | Model | Writer / Insight | T2 gate | Tools | T4 recall / citation | Packs / day (writer) | Median latency (writer) |
+  |---|---|---|---|---|---|---|
+  | Groq `qwen/qwen3.8-27b` | 0.826 | pass | 0.938 | 0.479 / 1.000 | 111 | 0.7 s |
+  | Gemini `gemini-3.5-flash-lite` | 0.833 | pass | **1.000** | 0.625 / 0.875 | ≥ 13 (limit not published) | 1.1 s |
+  | Groq `openai/gpt-oss-20b` | 0.833 | pass | 0.938 | 0.500 / 1.000 | 111 | 1.5 s |
+  | OpenRouter `nvidia/nemotron-3-super-120b-a12b:free` | 0.847 | pass | 0.938 | 0.667 / 1.000 | 5.6 | 11.8 s |
+  | Groq `openai/gpt-oss-120b` | 0.653 | **fail** | 0.875 | 0.333 / 0.625 | — | 1.9 s |
+  | Gemini `gemma-4-31b-it` (LITE) | 0.847 | pass | 0.938 | **0.792** / 1.000 | ≥ 8.9 | **76.7 s** |
+  | Gemini `gemini-3.8-flash` (LITE, 20 / 24) | ≤ 0.708 | pass | 0.938 | 0.500 / 0.750 (4 of 8) | 2.2 | — |
+  | OpenRouter `poolside/laguna-s-2.1:free` (LITE, 23 / 24) | ≤ 0.806 | pass | 0.875 | 0.762 / 0.571 (7 of 8) | 5.6 | — |
+  | OpenRouter `thinkingmachines/inkling:free` | unavailable (403: "only available on agentic harnesses") | | | | | |
+
+  Full sets (Gemini / Groq): `qwen3.8-27b` T1 0.95, T4 recall 0.594, citation 1.000; `gemini-3.5-flash-lite` T1
+  1.00, T4 recall 0.457, citation 0.925; every model had 100 % T3 validity with at least one method.
+- **Decision:** **Writer / Insight:** main Groq `qwen/qwen3.8-27b`, fallback Gemini
+  `gemini-3.5-flash-lite` (the four gated models tie within 2.1 points; Groq's 1,000 requests / day per model gives
+  the most packs per day, then the fewest tokens per pack). **Tools / routing:** main Gemini `gemini-3.5-flash-lite`
+  (1.000, the only model with every T1 item right on LITE), fallback Groq `openai/gpt-oss-20b`. Structured output
+  method per model = its best T3 method (`function_calling` for qwen and flash-lite; `json_schema` / `json_mode` for
+  the gpt-oss models, whose `function_calling` validity was 0.75).
+- **Consequences / reported (not deciding):**
+  - The binding free limit is **requests per day**: `gemini-3.8-flash` allows 20 (it cannot serve one weekly pack),
+    OpenRouter 50 across all free models (≈ 5 writer packs), Groq 1,000 per model. Groq's 8K TPM and its output-
+    tokens-per-minute limit slow long reasoning outputs (a per-minute 429 waits a full minute before its one retry).
+  - Strict T2 caught real errors in the largest model (`gpt-oss-120b`: `849.9 k` for −849,964, "13 categories"):
+    model size is no guarantee of number fidelity; the Phase 6 Validator stays a hard gate.
+  - gpt-oss writes `【n†…】` citations unless trained away; accepted as citations, logged as `t4_format_ok`.
+  - Gemini's free tier showed 5xx bursts ("high demand"), stopping a model for the run only; free endpoints are not
+    an availability guarantee, hence a fallback from another provider for every role. `gemma-4-31b-it` answered in
+    5–74 s (median ≈ 35 s) with intermittent 500s → LITE only; a 5xx on the same request in two separate runs (each
+    after its retry) is cached as a failure (`server_error_repeated`), so a flaky model is scored, not waited for.
+  - Data policy: every bake-off call went through `FREE_TIER_DATA` (synthetic aggregates, made-up invoices, public
+    passages; ADR-037 amendment); the guard was removed afterwards by ADR-037 amendment 2 (2026-10-14).
+  - Upgrade path (paid tier): `gemma-4-31b-it` had the best T4 fact recall (0.792) and passed the T2 gate, but its free
+    tier is too slow (writer median 76.7 s) and flaky; re-test it as a Writer candidate if the project moves to paid.
+- **Amendment 1 (2026-10-19, owner; Agents plan Phase 5 S6, decision P5-8):** the weekly pack's real prompts (skills
+  + evidence digests + tool results + output schema) measured 9.7K–17K tokens per Insight / Writer call; Groq's free
+  8K tokens per minute refuse such a request outright ("Request too large"), so `qwen/qwen3.8-27b` could not serve
+  the pack and every call fell back. The tie-break that chose qwen (packs per day) was measured on the bake-off's
+  small prompts. **For the pack's Insight and Writer roles:** main `gemini-3.5-flash-lite` (tied with qwen on the
+  Writer score, 0.833 vs 0.826; 250K TPM), fallback OpenRouter `nvidia/nemotron-3-super-120b-a12b:free` (Writer
+  0.847, T2 gate passed, ~1M TPM, 50 requests / day; `function_calling`). Tools / routing unchanged. The token gate
+  becomes "every call within its provider's per-minute token limit" (`llm.PROVIDERS`), reported per pack. A request
+  over the limit is now a deterministic, cached failure in `llm.py` (`too_large`), so the role falls back at once.
+  Measured after the change (weeks 5 / 10 / 23 / 49): 0 fallbacks, max 17.0K tokens per call, all within limits.
+- **Amendment 2 (2026-10-23, Agents plan §5f K3 / F7; the owner asleep with full autonomy — the recommended option,
+  for his review):** the fallback `nvidia/nemotron-3-super-120b-a12b:free` answers 404 on every request since at least
+  2026-10-22 (NVIDIA "Function not found for account", also a 5-token ping; last success 2026-10-11): retired
+  upstream. Free OpenRouter models with tools and ≥ 32K context: 16. Smoke test through `llm.py` (one tool call + one
+  structured object): `gemma-4-31b-it` / `gemma-4-26b-a4b-it` busy (429 upstream); `dots-3-note-preview` and
+  `nemotron-3.5-super-vl` passed. Forced-fallback packs (Insight + Writer on the candidate; weeks 5 / 23):
+  `dots-3-note-preview` 0 / 2 (an empty DeckDraft, then two invalid replies); **`nvidia/nemotron-3.5-super-vl:free`
+  1 / 2** (week 23 passed the Validator after one patch, up to 39K tokens a call; week 5 two empty replies →
+  output_invalid). **New fallback for the pack's Insight / Writer: `nvidia/nemotron-3.5-super-vl:free`**
+  (`function_calling`, 1M context; `roles.NEMOTRON`). It is a partial fallback: it carries some packs, and when it
+  fails the thread waits at its checkpoint for the next firing (ADR-054, D-P8-1) — the same outcome as no fallback, so
+  it only adds a chance. Not measured by ADR-052 (a fallback serves only when the main model is down; the evaluation
+  never mixes models, D-P7-11). OpenRouter's free 50 requests / day bound it.
+
+## ADR-046 — Synthetic finance data for the Weekly Finance Pack; `invoices.status` is a label
+- **Status:** Accepted (2026-10-13 rules approved, 2026-10-14 migration 012 applied and verified). Agents plan §4a
+  R1–R10 (D6, amended). `pipelines/scripts/synthetic/Finance_generator.py`, `db/migrations/012_finance_data.sql`.
+- **Context:** the finance KPIs (AR aging, DSO, collections, customers, budget variance) need customers, terms,
+  payments and a budget, which did not exist. The stored `invoices.status` turned out to be a random label (689 of
+  1,000 not Paid, evenly over the four quarters): payments consistent with it would have shown DSO ≈ 250 days.
+- **Decision:** (1) **Payments follow terms and behaviour**; `invoices.status` is kept unchanged (ADR-013, no
+  regeneration) and documented by a COMMENT as the original label, not the payment state — every finance view derives
+  the status from the dates (as-of logic). (2) 40 invented customers in 6 segments, `vessels.customer_id` NOT NULL by
+  Zipf weights inside each segment; terms 30 / 45 / 60 and a credit rating are stored, the **behaviour class is not**
+  (manifest only: evaluation ground truth). (3) One full payment per paid invoice, horizon 2026-03-31; the due date is
+  derived, not stored. (4) Weekly budget = a planning model independent of the invoices (fleet × 2.0 transits ×
+  median-tonnage laden toll, seasonal ±6 %). (5) Evaluation copy in schema `finance_test` (4 golden weeks, 5 planted
+  invoice errors, 1 budget miss, week 49 clean) **without a label column**; the answer key is
+  `Data/processed/agents/eval/finance_test_answer_key.json`. (6) Names and draws from `numpy.default_rng([42,
+  phase])`, identical on every OS (not Faker). All new tables level 2 / Finance.
+- **Results:** top-10 customers 57.0 % of 2025 billing; DSO 55 days; 150 invoices (40.2 M SDR) open at 2025-12-31,
+  6 unpaid at the horizon; paid on or before due 36 % (owner kept); budget 302.1 M vs actual 267.9 M (−11.3 %,
+  explained by the laden assumption); label vs derived agree on 379 / 1,000. `verify_readonly.sql` §17 =
+  40 | 500 | 994 | 0 | 0 | 0 | 676 | 88 | 52, §14 / §15 clean (`db/audit/2026-10-14_after_012_report.txt`); a second
+  generator run with another hash seed changed 0 files.
+
+## ADR-047 — Schema `finance`: plain star / KPI views, one definition per metric
+- **Status:** Accepted (2026-10-14). Agents plan Phase 2, owner decisions P2-1…P2-9; `db/migrations/013_finance_views.sql`,
+  `docs/finance_metrics.md`, `pipelines/scripts/finance/Finance_views_check.py`. Takes up ADR-018's star-schema
+  trigger (Power BI phase) in its preferred shape.
+- **Context:** the Weekly Finance Pack needs the same numbers in Power BI (DirectQuery: complex DAX is limited) and in
+  the agent tools (the Validator compares deck numbers exactly). Receivables "as of" a week must come from dates
+  (ADR-046), and the data has no history before 2025-01-01.
+- **Decision:** (1) Schema `finance` = 12 plain views (dims `dim_date`, `dim_week`, `dim_customer`, `dim_vessel`,
+  `dim_toll_band`; facts `fact_invoice` with the derived due date, `fact_payment`, `fact_ar_snapshot` = open invoice ×
+  week; KPI views `kpi_weekly`, `kpi_weekly_category`, `kpi_customer_13w`, `kpi_overdue_list`), no materialized views,
+  no copies, **no SQL functions** — one row per `report_week`, the tools filter by week. (2) Metrics computed only in
+  SQL; DAX stays sums / selections. (3) `report_week` = strict ISO weeks of 2025, as of Sunday 23:59; 2025-12-29…31
+  are ISO 2026-W01, outside the 52 weeks. (4) DSO = AR ÷ billed in the last 91 days × 91; weeks 1–13 use the available
+  window from 2025-01-01 with `is_warmup = true` (count-back deferred). (5) Customers ranked on the trailing 13 weeks.
+  (6) Rounding once at the end: money 2 decimals, percent 2, days 1. (7) RBAC stays the tool predicate (ADR-006 /
+  ADR-034): `finance.*` is level 2 / Finance, proved by a matrix over every employee with `retrieval.allowed()`; per
+  ADR-006 non-Finance managers may read it. (8) Group role `finance_bi` (NOLOGIN, read-only, SELECT on `finance`
+  only) for Power BI; views run with their owner's rights, so it needs nothing in `public`; its login is created in
+  Phase 3 from `.env`. (9) No `finance_test` views now (Auditor tool, Phase 4 / 7).
+- **Consequences:** every KPI view equals an independent pandas reference on all 52 weeks; weeks 5 / 16 / 23 / 49
+  frozen as reviewed hand values (DSO 31.0 / 51.7 / 62.2 / 53.6 days); AR roll-forward, aging = AR and Σ categories =
+  total hold; RBAC leakage 0 (72 role-`employee` users outside Finance denied); `finance_bi` reads 12 / 12 views and
+  0 / 15 tables outside `finance`. A new metric = a new column or view in a new migration plus a definition in
+  `docs/finance_metrics.md`.
+- **Amendment (2026-10-14, Phase 3, owner P3-4):** a 13th view `kpi_weekly_trend` (migration 014) gives each report
+  week its 13 trend rows, so Power BI's single week slicer drives the trend chart with no DAX (rejected: a
+  disconnected slicer table with DAX measures; a 52-week chart that ignores the slicer).
+
+## ADR-048 — Power BI semantic model and report: DirectQuery, thin DAX, one week slicer
+- **Status:** Accepted (2026-10-15). Agents plan Phase 3, owner decisions P3-1…P3-14; `powerbi/NileGate_Finance.pbip`
+  (TMDL model + PBIR report), `db/create_finance_bi_user.ps1`, `db/check_finance_bi_user.py`. Implements D5 and builds
+  on ADR-047 (KPIs only in SQL), ADR-034 (read-only role), ADR-006.
+- **Context:** the finance team needs a dashboard whose numbers equal the PowerPoint pack (the Validator compares
+  numbers exactly), with no paid Power BI Service account, no gateway and no copy of the data; the model must be
+  reviewable in git.
+- **Decision:** (1) **Power BI Desktop + PBIP** (TMDL / PBIR in `powerbi/`; `.pbi/localSettings.json`, `cache.abf`
+  and `*.pbix` git-ignored); the model is edited through the official **Power BI Modeling MCP**
+  (`@microsoft/powerbi-modeling-mcp@1.0.0`, pinned in `.mcp.json`), report pages in Desktop. (2) **DirectQuery** on
+  the 12 `finance` views used (all but `dim_date`) through the login `ports_bi` (member of `finance_bi` only,
+  `default_transaction_read_only`, password in `.env`). (3) **One week dimension** `Week` (`dim_week`) filters every
+  table: 18 many-to-one, single-direction relationships named `<from> -> <to>`; **Assume referential integrity off**
+  (an INNER JOIN would drop the 4 invoices of 2026-W01 and the 152 payments paid in 2026); no `Vessel -> Customer`
+  path (ambiguity). (4) **Thin DAX, three patterns only:** week-grain KPIs = `SELECTEDVALUE` of the `kpi_weekly`
+  column (blank over several weeks; percent ÷ 100); semi-additive tables (AR Snapshot, Overdue List, Customer KPIs 13w,
+  Weekly Trend) guarded by `HASONEVALUE(Week[report_week])`; additive facts (Invoices, Payments) plain `SUM` — 38
+  measures in `Weekly KPIs`, folders per page; one calculated column (`customer_group`, a display label of
+  `is_top10`). (5) Every column `summarizeBy = None`; keys / technical / measured columns hidden; friendly table
+  names, the source view in each description. (6) Report: 5 pages (Overview, Revenue, Receivables, Customers,
+  Exceptions = placeholder until the Auditor tool, P3-11) with one **single-select week slicer synced on all pages**
+  (filter "is not (Blank)"); money `#,0.00` (the new Card visual abbreviates itself); where a visual sum of rounded
+  SQL values would differ from the SQL KPI (customer shares), the visual shows the KPI and hides the total.
+  (7) Visuals are built on screen with the owner (computer use, explained per visual), not generated.
+- **Consequences:** every number of pages 1–4 equals `finance.kpi_weekly` read straight from PostgreSQL for weeks
+  5 / 23 / 49 (and the revenue / AR / customer breakdowns each sum to the week's KPI); the dashboard is current when
+  opened (no refresh) but **needs the database running** (an error otherwise — the containers restart with Docker,
+  P3-12); MCP edits reach disk only after Desktop's Save (clear the "refresh manually" banner first). Upgrade path
+  (D5): a work / school account → Power BI Service as an adapter; Import mode stays a fallback. Rejected: DAX KPI
+  logic (would fork the definitions); a disconnected slicer table; a `.pbix` in git.
+
+## ADR-049 — Stage 1 agent tools: one contract, the user and the dataset from the run context, SQL audit views
+- **Status:** Accepted (2026-10-18, owner decisions P4-1…P4-8, Agents plan §5a); migration 015 applied by the owner
+  (2026-10-19; `verify_readonly.sql` §19 as expected, `db/audit/2026-10-19_after_015_report.txt`), `Tools_check.py`
+  8 / 8 ✅. `pipelines/agents/tools/`, `pipelines/agents/skill_loader.py`, `pipelines/agents/skills/`,
+  `db/migrations/015_invoice_audit_views.sql`, `pipelines/scripts/agents/Tools_check.py`.
+- **Context:** the Weekly Finance Pack's agents need governed tools whose numbers equal the dashboard (ADR-047 /
+  048), that free models (small token budgets, varying JSON-schema support) can call reliably, and that cannot leak
+  data or be talked into acting as another user.
+- **Decision:** (1) **One contract:** each tool = a plain function `f(user, **args)` + a LangChain wrapper; the result
+  is a `ToolResult` (`status` ok / not_permitted / context_unavailable / no_data, rows, `source` = view or API + the
+  exact filter); only an ok result carries rows, and an ok result always names its source (enforced by the model).
+  (2) **Who asks and which data come from the run context** (`RunContext(user, dataset)`, LangChain `ToolRuntime`),
+  never from model arguments: no tool schema has a user field, and only the evaluation harness can select the
+  `finance_test` copy. RBAC = `retrieval.allowed` (ADR-006) checked before any query, on the resources of
+  `docs/rbac_mapping.md`. (3) **Six tools:** `finance_kpi(report_week, dataset ∈ weekly / category / customers /
+  overdue / trend)` over the KPI views (P4-1); `invoice_audit(report_week | invoice_numbers)`; `compute_toll`;
+  `search_documents` (the existing library); `suez_transits` (IMF PortWatch, public, no key); `web_search` (Tavily
+  free tier over `httpx`, P4-4). Read-only `psycopg_pool` on `PG_RO_USER` (D10); parameterized SQL only.
+  (4) **Audit in SQL** (P4-2, P4-6): views `finance.invoice_audit` and the twin `finance_test.invoice_audit` (P4-5;
+  invisible to `finance_bi`) recompute every invoice from the toll bands and explain each finding with fixed checks
+  (duplicate_charge on vessel + date + amount; tonnage_mismatch; amount_mismatch with probable cause
+  billed_on_invoice_tonnage / flat_terminal_rate / condition_swapped / sfu_priced_ballast / unexplained; rate_mismatch);
+  an independent Python `compute_toll` cross-checks them. (5) **External calls** (P4-7): timeout 10 s, no retry loop,
+  any failure → context_unavailable with no data and never cached; cache per tool + arguments, no expiry once the
+  window ended 14 days ago (a 2025 replay always sees the same context), 24 h otherwise. Retrieved and web text is
+  marked untrusted and screened (`tools/trust.py` over the upload screening of ADR-042: invisible characters removed,
+  known injection shapes flagged `suspected_injection`; amendment of the owner's skill review, 2026-10-19); NileGate
+  figures come only from the structured fields of `finance_kpi`, `invoice_audit` and `compute_toll`, never from
+  passage text (closes a path where a planted passage would satisfy "the number appears in a tool result"). (6) **Skills** (D13, P4-8): `SKILL.md` with a flat frontmatter (`name` = folder, `description`
+  ≤ 250 chars, `stage`, `reviewed_by_owner`), body ≤ 1,200 tokens, only `references/*.md` beside it; our loader
+  (`load` for workflow nodes, `descriptions` + `load_skill` for the supervisor). All six reviewed by the owner on
+  2026-10-19 (13 fixes, e.g. a wrong budget-gap sentence in two skills, a rounding example that was the bake-off's own
+  error, two deck slides asking for numbers no tool returns); `Tools_check.py` guards every name a skill writes
+  against the tools, the rounding examples and the reviewed facts.
+- **Consequences:** `Tools_check.py` 8 phases: compute_toll = 1,000 / 1,000 invoices; finance_kpi = its views on
+  52 × 5 and the hand weeks; RBAC matrix 100 employees × 7 calls, leakage 0; external failure modes all
+  context_unavailable; live PortWatch week 23 = 34.3 transits / day; 6 skills within budget. The audit dry run found
+  the test copy's 5 planted errors with their causes (false alarms 0) and **3 real duplicate charges** in the
+  original invoices (INV-0000626 / 0000925 / 0000630, both copies paid, 336,909.00 SDR) — a property of the random
+  invoice draw (ADR-013, kept as data), the first content of the dashboard's Exceptions page. ADR-004's "0
+  mismatches" still holds (each amount is right; the error is the repetition). Rejected: five small KPI tools (more
+  schema tokens), a free `metric` argument, `employee_id` as a tool argument, a single audit view with a dataset
+  column (would put the test copy inside `finance`), TTL-only caching (a replay would change), Brave (snippets only).
+- **Amendment 1 (2026-10-22, owner, plan §5f F5 / migration 019): the tariff Notes rule in the audit.** Read in the
+  corpus (Suez Notes) and checked against the bands: ballast Petroleum Product tankers' Crude Oil ballast rates are
+  already in the tables; ballast "Oil/Chemical" tankers pay them too, but our chemical category is wider and the data
+  cannot tell the subtype → the audit adds the cause `notes_crude_ballast_rate` and a column `review` (`error` |
+  `manual_review`); `invoice_audit` counts manual reviews apart (`invoices_manual_review`), never as flagged or at
+  stake; OBO has no category here. Today's data has none (the views' rows unchanged + `review = error`). The tool's
+  output gained a field, so cached Insight conversations that call it went to the model again once (plan D-P8-14).
+
+## ADR-050 — The `weekly_pack` workflow: hybrid nodes, PostgresSaver in `agent_state`, human approval
+- **Status:** Accepted (2026-10-19, owner decisions P5-1…P5-8, Agents plan §5b; S4 / S6 decisions the same day).
+  `pipelines/agents/graphs/` (`weekly_pack.py`, `models.py`), `pipelines/agents/roles.py`,
+  `pipelines/agents/checkpointer.py`, `db/migrations/016_agent_state.sql`, `db/create_agent_user.ps1`,
+  `db/check_agent_user.py`, `pipelines/scripts/agents/` (`Checkpointer_setup.py`, `Weekly_pack.py`,
+  `Weekly_pack_check.py` 7 / 7 ✅).
+- **Context:** Stage 1's pack has a fixed shape and must give reproducible numbers, survive a crash, wait for the
+  Finance manager for hours or days, and spend little of the free LLM quotas (ADR-045).
+- **Decision:** (1) **A LangGraph `StateGraph` with hybrid nodes** (P5-1): Data Readiness (gate R1–R4), KPI and
+  Invoice Auditor are code calling the tool functions with the run's user; the Insight agent loops LLM ⇄
+  `ToolNode(STAGE1_TOOLS)` (≤ 4 rounds, `search_documents` capped at 3 passages) then one structured call; the
+  Writer is one structured call (`DeckDraft`, Phase 6 renders the PPTX). (2) **The Validator is code** (first
+  version, P5-2): every number token of the draft must equal a numeric field of the cited structured evidence after
+  an allowed rounding (number-validation), citations must exist, the draft label and deck shape are checked; a small
+  template allowlist and dates are blanked; document / web rows never give numbers (ADR-049). Fail → back to the
+  Writer with the problems, at most 2 rewrites, then `validation_failed`. (3) **Approval by `interrupt()`** (P5-4): a
+  Finance manager or the CEO (checked in PostgreSQL at each decision) approves, edits (the edit goes back through the
+  Validator) or rejects; refusals and edit diffs are logged in the state and saved with the pack (G5). The
+  Publisher saves `reports/2025-W<ww>/` (save only, D9). (4) **Run context, not state:** the user and the dataset
+  come from `RunContext` on every invoke and resume; a scheduled pack runs as a configured Finance manager (P5-5); the
+  CLI keeps that identity in the checkpoint metadata, so an approver never becomes the run's user. (5) **Checkpoints
+  in PostgreSQL** (P5-3, D3): schema `agent_state` owned by postgres; `PostgresSaver.setup()` run once as the owner
+  (deployment step); the runtime login `ports_agent` ∈ `agent_writer` has DML on those tables only (no DDL, no
+  TRUNCATE, nothing elsewhere); `durability="sync"`. (6) **Stops are statuses:** `not_ready`, `not_permitted`,
+  `output_invalid` (a twice-invalid structured reply — a re-run would read the same cached replies),
+  `validation_failed`, `rejected`, `published`; quota exhaustion stays an exception so the thread waits at its
+  checkpoint and resumes later. (7) **Roles over llm.py** (`roles.py`): availability → the fallback of another
+  provider, validity → one retry then stop; `FakeRoles` (same interface, the real parser) lets the whole graph run on
+  52 weeks without quota (P5-7).
+- **Consequences:** proven by `Weekly_pack_check.py`: 52 / 52 weeks reach the approval with fake models and are
+  published; a process killed inside the Writer resumes from PostgreSQL in another process with only writer →
+  validator → approval re-run (1 LLM call) and the same result; real models on weeks 5 / 10 / 23 / 49: two published,
+  two `validation_failed` on real Writer errors (a sign dropped next to "down", a share cited from the wrong dataset)
+  — the Validator caught them; it also found its own two gaps (web titles hid numbers; web dates failed) before the
+  real run went green. The real prompts (9.7K–17K tokens) did not fit Groq's 8K TPM → ADR-045 amendment 1 (pack on
+  Gemini + OpenRouter fallback). Open for Phase 6: a number is matched against any field of the cited evidence (bind
+  it to its field, G1), the Writer's sign and citation errors, the full template allowlist, the PPTX. Rejected: an
+  agent per node (quota, reproducibility), a Validator stub, the writer login owning the schema (DDL at runtime),
+  MemorySaver (no crash resume), the CEO as the pack's identity (level 3 data), a new service employee (a change to
+  a closed table).
+
+## ADR-051 — The weekly deck: number slots, code-drawn template, a Validator that binds every number to its field
+- **Status:** Accepted (2026-10-19, owner decisions P6-1…P6-8, Agents plan §5c; S6 decisions the same day).
+  `pipelines/agents/deck/` (`slots.py`, `validator.py`, `style.py`, `render.py`, `readback.py`, `sample.py`),
+  `pipelines/agents/graphs/` (`weekly_pack.py`, `models.py`: `DeckPatch`), the skills `deck-style-guide` and
+  `number-validation` (rewritten, owner-reviewed), `pipelines/scripts/agents/Deck_check.py` (4 / 4 ✅),
+  `Weekly_pack_check.py` (7 / 7 ✅).
+- **Context:** Phase 5's real Writer failed on signs dropped next to direction words and on fields cited from the
+  wrong dataset, and its Validator accepted a number equal to **any** numeric field of the cited evidence (a
+  category's value under another category's name passed). The pack had no PPTX yet; Writer prompts were 12–17K tokens
+  and a rewrite resent the whole draft.
+- **Decision:** (1) **Slots (P6-1):** the Writer never types a NileGate number; it writes
+  `{<evidence id>[<row key>]:<field>|<format>}` and code writes the value with the allowed rounding, the sign and the
+  unit (`|dir` writes "up" / "down", P6-3); a field missing from the cited result is refused with the result that has
+  it. (2) **Code draws the fixed parts (P6-2):** slide 1, the KPI tiles, every table and chart, the footnotes and the
+  sources slide; the Writer writes slide titles, five summary bullets, ≤ 3 comments on slides 3–8 and the context
+  slide. (3) **Validator v2 (G1):** every number is bound to one (evidence, row, field) — a slot by construction, a
+  literal (a human edit) by search among the rows the sentence names, with its sign (a direction word may carry it)
+  and under a word of its field's family; rules V1–V7 (citations, numbers, label, shape, evidence per slide,
+  direction, attribution: drivers = the week's top three, invoice numbers known, a slot's row = the named row, a total
+  never put on one row, a unit or a direction never written twice). (4) **The file is validated too (P6-7, V8):** every
+  shape of the rendered PPTX carries a contract name (`tpl:` / `bind:` / `txt:` / `tbl:` / `chart:` / `deco:`); the
+  file is read back and compared with the spec and, for bound values, with the evidence — the template allowlist is
+  the template itself. (5) **Native charts (P6-4)** with the tool's exact values (axis formats show M), a **template as
+  code (P6-5)** (`style.py`: 16:9, NileGate navy / teal, billed blue, budget grey — no 13 category colours, dataviz
+  caps categorical hues). (6) **Patch rewrites (P6-6):** the Writer gets only the failing texts, their problems
+  grouped and the evidence they need, and returns a `DeckPatch`; a wrong deck shape (V4) gets the whole deck again; a
+  V8 problem stops the run (a renderer fault). (7) **Preview and publish:** a passing draft is rendered to
+  `reports/_drafts/<thread>.pptx` for the approver (removed on publish or reject); the publisher renders the approved
+  deck, reads it back and saves `deck.pptx`.
+- **Consequences:** `Deck_check.py`: 52 / 52 clean decks pass V1–V8 as slots, as literal text and as files (0 false
+  alarms); **100 / 100 planted wrong numbers caught** with the expected rule where planted (17 draft classes + 8 file
+  classes × the golden weeks 5 / 10 / 23 / 49) — the §5 done-when. Real models (flash-lite, owner P6-8: reported):
+  five runs turned three Validator false alarms, two unhelpful messages and three missed defects into regression
+  cases; the last run published 3 / 4 weeks (the fourth stopped on a real Writer error the Validator caught; runs 2 /
+  4 / 5 gave 3 / 4 / 3 — model variance); Writer calls ≤ 12.4K tokens (17.0K before); a patch prompt ≈ 20 % of a first
+  draft's. Known limits: the measure / direction words are a heuristic list (Phase 7 measures them on golden weeks);
+  a direction word whose clause holds only a level is not checked; style redundancies ("up +18.64 %") pass.
+  Rejected: free text with a declared field per number (a schema the free models fill badly, signs still typed), a
+  Validator that infers the field (the Phase 5 hole), matplotlib images (unreadable by V8), a designed `.pptx` first
+  (owner's time; it can replace `style.py` later), whole-deck rewrites (tokens, regressions of right bullets), more
+  rewrites (§3 keeps two).
+- **Amendment 1 (2026-10-21, plan D-P7-14, owner: "handle every problem with a clear impact"; part of candidate c3,
+  for the owner's review):** the slot **form** is fixed by code before the Validator (`slots.normalize_text`): a
+  format the field does not allow → its default (money → `M`), a row key on a one-row result → dropped, a unit or a
+  direction word written again next to a slot → dropped; every fix is listed in the run state (`normalized`).
+  Numbers are never touched (code writes them) and errors of meaning (an unknown field, another row, another dataset)
+  still go to the Validator; a human edit is checked as written. Why: in Phase 7's real runs these form errors alone
+  stopped packs after two patches (`|k` on counts / days, "days days", "SDR SDR"), and the planted-error gate needs
+  every test week to publish. Deck_check: the recorded sentences pass after the fix, an unknown field and another
+  row still fail, the 52 clean drafts need no fix; the cached Phase 6 real runs now need one patch instead of two.
+- **Amendment 2 (2026-10-27, plan D-P8-17 / D-P8-19, owner: "fix D-P8-17 and days-day, then continue W12"):**
+  (a) **one preview per content:** the approver keeps the preview open in PowerPoint, which locks it, and an edit
+  rewrote the same file → `PermissionError`; the preview is now `reports/_drafts/<thread>_<sha10>.pptx` (an edit
+  writes a new file, a resume after a crash finds the same name), older ones are removed when free and a locked one
+  at the next pass, publish or reject (D-P6-13's single file superseded). (b) a unit written again **behind a hyphen**
+  after a slot ("82 days-day window") is dropped like a spaced one. Checks: `Weekly_pack_check.py` locks the preview
+  the way PowerPoint does and edits (7 / 7), `Deck_check.py` replays the W12 sentence (4 / 4).
+
+## ADR-052 — Acceptance rule for a change to the agents (prompt, model, skill)
+- **Status:** Accepted (2026-10-19, owner: §8a G6 "margin 0.03 + two runs", Agents plan §5d). Written in Phase 7
+  step S1, **before** the first comparison, like ADR-040's rule before RAG Phase 7.
+- **Context:** The Stage 1 agents are about to be measured on golden weeks and finance Q&A golden questions (§5d).
+  Later changes (a prompt line, a model swap after a free-tier change, a skill edit) need a rule fixed in advance, so
+  a change is not kept because one lucky run looked better: the same prompt published 3 / 4 / 3 weeks in Phase 6's
+  runs 2 / 4 / 5 (model variance).
+- **Decision:**
+  - **Runs:** baseline and candidate each run **twice** on the full evaluation (golden weeks + Q&A, EN and AR); the
+    second run uses a run salt in the reply-cache key, so it is a fresh call, not a cache hit.
+  - **Hard gates (every run of the candidate):** deck numbers 100 %; planted findings 5 / 5 (D7 ≥ 95 %; the 5 planted
+    invoice errors — the planted budget miss turned out not to be a miss, plan D-P7-1, same day); false alarms
+    ≤ 5 %; claim accuracy (G1) 100 %; traceability 100 %; RBAC leakage 0; abstention recall 100 %. One failure =
+    the change is rejected.
+  - **Primaries:** narrative finding recall on the golden weeks; Q&A completeness in English and in Arabic (G4). The
+    candidate is kept only if no primary's mean over its two runs falls by more than **0.03** below the baseline's
+    mean over its two runs.
+  - **Ties** (no primary moves by more than 0.03 either way) keep the simpler / cheaper setup (fewer calls or tokens,
+    fewer prompt lines, a model with more free quota). Cost, latency, rewrites and style notes are reported, never
+    deciding.
+  - The first full Phase 7 run is the baseline (`Data/processed/agents/eval/stage1_eval_<date>.json`); a kept change's
+    results become the next baseline.
+  - **Reading when the baseline itself fails a gate** (2026-10-20, plan D-P7-10, assistant while the owner was away —
+    for his review): a gate the baseline already fails may stay failed or improve; a gate it passes must still pass
+    in both candidate runs ("no hard gate regresses", §8a G6's wording). D7 is met only when every gate passes.
+    Coded as `adr052()` in `Stage1_eval.py`.
+- **First use (2026-10-20):** candidate c1 (Validator false-alarm fixes D-P7-9 + Q&A prompt lines D-P7-10) vs the
+  baseline: no gate regressed, planted 1–2 / 5 → 5 / 5, narrative recall +0.10, Q&A EN +0.02 → **kept**; c1 is the
+  baseline (`stage1_eval_2026-10-20_c1.json`). One comparison costs one provider day of flash-lite's 500 free
+  requests (ADR-053).
+- **Second use (2026-10-21):** candidate c2 (month-name dates, passage titles as quotes, the "not_in_data" status
+  line — plan D-P7-12) → **rejected**: the planted gate regressed (test weeks 10 and 23 failed in both runs: two
+  real Writer format errors, `|k` on a count and on days, and two borderline Validator refusals — a date range, and
+  "amount" not read as billed), although abstention rose 0.86 → 1.0 in both runs and narrative recall +0.02 (Q&A EN
+  −0.02, within the margin). c1 stays the baseline. The rule worked as meant: a variance-sensitive gate decides
+  before the averages do.
+- **Third use (2026-10-22):** candidate c3 (c2 + Validator date ranges / "amount" + code-fixed slot form, D-P7-13 /
+  D-P7-14) → **rejected** by the margin alone: Q&A completeness in Arabic 1.0 → 0.95 (−0.05; one item in run 1,
+  q20_ar, refused by the Q&A checker for the digits of a vessel name, "Liquefied Voyager 165"). No gate regressed and
+  the rest rose sharply: packs published 10 / 11 in both runs, planted 5 / 5 both, narrative recall 0.69 → 0.88,
+  abstention 1.0 both; D7 missed only traceability in run 1 (0.9954, one slot not in its bullet's evidence ids).
+  c1 stays the baseline; c4 (D-P7-15) fixes both causes.
+- **Owner exception (2026-10-22): c3 accepted, tuning stopped.** Asked for a stopping rule, the owner chose "accept
+  c3 now and stop" over running c4: the rule's only objection to c3 was one Arabic item refused by a checker false
+  alarm, while every gate held and the primaries rose. **Baseline = `stage1_eval_2026-10-22_c3.json`.** The two form
+  fixes prepared for c4 (D-P7-15: digits inside a tool's own text allowed by the Q&A checker; a slot's evidence id
+  added to its bullet) stay in the code, verified by the deterministic checks only, **not measured in a real run** —
+  the next real evaluation measures them. This exception is recorded, not a new reading of the rule: the next
+  comparison applies ADR-052 as written.
+- **Amendment 1 (2026-10-22, owner, plan §5f F3 / D-P7-1): the planted gate is `planted_all`.** The planted budget
+  miss of test week 36 is real since migration 018, so planted findings = 5 invoice errors + that miss (6); the gate
+  `planted_5_of_5` becomes `planted_all` (every planted finding in both runs); `adr052()` reads the old key of earlier
+  results files as the new one. A comparison against a results file made before findings v3 compares 5 / 5 then with
+  6 / 6 now — stated in that comparison's record.
+- **Fourth use (2026-10-23, plan F8): the confirmation run against c3 — reported, not applied.** `adr052()` printed
+  "reject" (`planted_all`, `false_alarms_le_5pct`; narrative recall −0.086), but the run is a measurement whose file
+  is the final Stage 1 baseline by the owner's decision C-2, not a candidate. The false-alarm "regression" was a
+  scorer false positive (ADR-053, result of the confirmation run); the planted one is real (stopped packs). The next
+  comparison applies the rule as written against `stage1_eval_2026-10-23_confirm.json`.
+
+## ADR-053 — Stage 1 evaluation: golden weeks, a finance Q&A agent, twin KPI views of the evaluation copy
+- **Status:** Accepted (2026-10-20, Agents plan Phase 7 closed by the owner with D7 not met: "close Phase 7 and keep
+  C2 for later"). §5d (P7-1…P7-4), §8a G1–G6 reviewed, deviations D-P7-1…D-P7-12 in the plan's Progress.
+- **Context:** Phases 4–6 had tested each piece (tools, workflow, Validator) but not what the agents say on chosen
+  weeks, nor answers to finance questions; the planted budget miss of `finance_test` had no view; there was no Q&A
+  agent; the free quota of the main model was unknown.
+- **Decision:**
+  - **Golden weeks by rule, frozen before any run** (`Golden_weeks.py`): the 4 test weeks + 7 live weeks (warm-up,
+    peak, quiet, trough, live budget miss, a real duplicate, the largest Suez move); seen / unseen reported apart;
+    expected evidence = the pack's own tool calls; 38 expected findings written by hand, each with where it must
+    appear (a code table or the Writer's narrative).
+  - **Twin KPI views** `finance_test.kpi_weekly` / `kpi_weekly_category` (migration 017): a test run reads the copy's
+    billed and budget, the live receivables; `finance_kpi(source=…)` from the run context only.
+  - **A small finance Q&A agent** (`graphs/finance_qa.py`, skill `finance-qa`): tool loop on the `tools` role →
+    `QaAnswer` with number slots → a code check → one patch; English and Egyptian Arabic. It grows into the
+    Supervisor at Phase 12.
+  - **Golden Q&A** (`Qa_golden.py`): 30 EN (22 answerable + a CEO control, 4 abstentions, 3 refusals) + 10 Egyptian
+    Arabic; expected values from the tools; deterministic scoring (G4), no LLM judge.
+  - **Harness** `Stage1_eval.py`: scorers proven on hand-made failures first; D7 + §8a gates; two runs per setup on
+    fresh caches (ADR-052); a run stops when a main model's daily quota is gone (no mixed models).
+- **Consequences:** the planted budget miss was found **not to be a miss** (D-P7-1: the budget of the week's top
+  category × 1.5 left it above budget) — planted findings = the 5 invoice errors. `gemini-3.5-flash-lite`'s free tier
+  = **500 requests / day** → one full evaluation (≈ 380–400 calls) per provider day. Real runs found five Validator
+  false alarms (week labels, "week N" rows, month-name dates), now Deck_check cases. **Result (c1, the baseline):
+  D7 not met** — deck numbers 100 %, planted 5 / 5, false alarms 0, claims 100 %, RBAC leakage 0, Q&A EN 0.96 / AR
+  1.0; misses: abstention 0.86 (a refusal answered with the wrong status, no leak), traceability 0.996 in one run,
+  publish rate 10 / 11 and 6 / 11 (real Writer errors the Validator caught: model variance). Owner: Phase 7 closed
+  with these misses; candidate c2 (D-P7-12) is carried. **Update 2026-10-22:** c2 rejected, c3 accepted by an owner
+  exception (ADR-052) → the baseline is c3: packs 10 / 11 in both runs, planted 5 / 5, narrative recall 0.88, Q&A EN
+  0.96 / AR 0.95, abstention 1.0, false alarms 0, claims 100 %, leakage 0; **D7 still not met by one slot**
+  (traceability 0.9954 in one run). Tuning stopped by the owner. The slot form is fixed by code (ADR-051 amendment 1). Rejected: an LLM judge (G4), picking golden weeks by hand,
+  rewriting the evaluation copy (generator and migration 012 stay as applied), letting a run continue on the fallback
+  model after the main model's quota ran out.
+- **Consequences:** a comparison costs four full evaluations (≈ 4 × 400 model calls on today's sizes, §5d quota), so
+  it may span days on the free tiers (every reply cached, runs resume). The rule cannot reward a gain that breaks a
+  gate. Rejected: one run each (variance decides), three runs each (quota), a zero margin (noise would block every
+  change), an LLM judge as a primary (§8a G4: deferred).
+- **Amendment 1 (2026-10-22, the owner's review of Phase 7, plan §5f K1 / F2–F4):** 18 review points decided (13
+  accepted as written, 5 changed). (a) **A real planted budget miss** (D-P7-1): migration 018 sets test week 36's LNG
+  budget to its billed × 1.5 (−33.33 %); findings **v3** (t36-b = the planted miss, found when the narrative calls LNG
+  below budget); planted = 6 (ADR-052 amendment 1). (b) **Q&A golden set v2** (42 items): two askers per access
+  profile by rule (D-P7-3), + r03b (the second Operations manager) and r05 (a Finance employee refused the HbR level-3
+  revenue, D-P7-4); the scorer notes fixed by rule, not from a run — category type names among the category words, «فاتور»
+  / «فوتنا» among the Arabic billing words, the report's "940,355 thousand" for r04. (c) **The Q&A agent on LangChain
+  `create_agent`** (D-P7-6) through a chat-model adapter over `roles.py` (the llm.py rules hold), with its own check
+  `Finance_qa_check.py` (D-P7-7) and an operator CLI. (d) Frozen inputs change only through a recorded transition
+  (`REFREEZE`: the old sha prefix + the reason, one step; afterwards the guard holds): expected evidence `bb3b1a3b…` →
+  `7909ccfb…` (018) → `1f2bad35…` (019's `review` column), findings `3a5bde86…` → `dc6e3248…`, golden set
+  `d7d1e94f…` → `5cf72ac3…`. The confirmation run (plan F8) measures all of this at once; its result is recorded below.
+- **Result of the confirmation run (2026-10-23, plan F8 / D-P8-16) — the final Stage 1 baseline
+  `stage1_eval_2026-10-23_confirm.json`; D7 NOT MET.** A measurement, not a candidate (owner C-2): two runs, 290
+  flash-lite calls, 0 fallbacks. Run 1 / run 2: packs 7 / 11 · 10 / 11; deck numbers, claims and **traceability
+  100 %** in both (the c3 miss is fixed); RBAC leakage 0; abstention 1.0; narrative recall mean 0.79; Q&A EN 0.96 /
+  AR 0.95 (G2 holds). **The one gate missed is `planted_all`** (2 / 6 · 3 / 6): a test week whose pack the Validator
+  stops has no deck, so its planted findings count as missed (three such packs), and one published week-36 deck did
+  not call LNG a miss. No wrong deck was published. **Scorer limits (documented):** (1) the false-alarm scorer
+  counted the original of a flagged duplicate as an alarm — the run's only two "false alarms" (0.33 · 0.25 as
+  scored) were true sentences; real false alarms 0 — fixed by rule in `false_alarms()` with two Phase 2 cases, the
+  results file kept as scored; (2) planted recall cannot tell "found nothing" from "published nothing": a stopped
+  pack is scored as a miss (by design — an unpublished finding reaches nobody); (3) the Q&A relevance words and
+  number forms are a fixed list (amendment 1 (b)); a correct answer in other words can score below 1. Stage 1 closes
+  with this verdict; raising the publish rate (the Writer on the free model) is Stage 1 follow-up work, not a gate
+  change.
+
+## ADR-054 — Scheduled weekly pack: Task Scheduler, one pending pack at a time, retention, LangSmith per run
+- **Status:** Accepted (2026-10-22, Agents plan Phase 8 closed; §5e approved 2026-10-20 with P8-1…P8-4 = the
+  recommended options; amended 2026-10-21 while candidate c3 was under test; deviations D-P8-1…D-P8-12 in the plan's
+  Progress). Answers D3 (retention), D8 (observability) and D9 (save only) in practice.
+- **Context:** the pack (ADR-050 / ADR-051) ran only by hand. Phase 8 had to make it run by itself every week, stop
+  at the human approval, keep `agent_state` from growing without losing the approval record, and make the runs
+  visible — on a Windows laptop where Docker Desktop starts after logon, with free LLM quotas (flash-lite 500
+  requests / day, ADR-053) and without tracing the evaluation's ≈ 400 calls by accident.
+- **Decision:**
+  - **Trigger:** Windows Task Scheduler, task "NileGate Weekly Finance Pack", every **Monday 10:30** local time (after
+    the Gemini daily reset), **only while the owner is logged on** (no stored Windows password), start when
+    available after a missed start, 1 h limit, never two instances; registered by `ops/scheduler/register_weekly_pack.ps1`
+    (owner's machine; `-Unregister`). The action is `Weekly_pack.py scheduled`, whose exit code is the task's result.
+  - **Which week (P8-1, D12 replay):** the week after the highest *settled* week (published, or skipped after two
+    attempts that ended without a deck; a reject counts as an attempt); **one pending pack at a time** — a pack
+    waiting at the approval means "wait"; a thread stopped mid-run (an exception, ADR-050 (6): a quota, a 503) is
+    **resumed** from its checkpoint by the next firing before anything new. Idempotent: a second firing the same day
+    starts nothing.
+  - **Robustness on a laptop:** the firing waits for PostgreSQL itself (both logins, every 60 s for up to 30 min) —
+    Task Scheduler's restart-on-failure targets a task that fails to *start*, not an action's exit code; a lock file
+    (stale after 2 h) besides "no second instance"; one JSON line per firing in `reports/_log/scheduled.jsonl`; a
+    Windows toast (built-in WinRT) when a pack waits.
+  - **Run identity (P5-5):** `PACK_RUN_AS` in `.env` = a Finance manager, checked in PostgreSQL at every firing (not
+    the CEO: level-3 data; not an employee); a resumed thread keeps the identity it started with.
+  - **Retention (P8-3, D3):** at the end of every firing (and `Weekly_pack.py prune [--dry-run]`): a thread that
+    **ended** and whose last checkpoint is older than **30 days** is appended to `reports/_log/threads_archive.jsonl`
+    (status, stop reason, approval log, run identity — the G5 record outlives the thread), then deleted with
+    `PostgresSaver.delete_thread` (`agent_writer`'s DELETE; no migration). A pending thread is **never** deleted
+    (reported after 14 days).
+  - **Tracing (P8-4, D8):** LangSmith free developer plan, project `nilegate-agents`. Tracing is a
+    `langsmith.tracing_context` **around each graph run** of the operator entry points (`run`, `resume`,
+    `scheduled`; `Stage1_eval.py` only with `EVAL_TRACE=1`), and only when `LANGSMITH_API_KEY` is set — **never the
+    global `LANGSMITH_TRACING` switch**, which would trace every LangChain call of every script. Tags: week, dataset,
+    entry, `launched_by` (cli / task_scheduler / check / eval); metadata adds thread id, attempt, run identity. The
+    labels go through the tracing context, not the graph config: the checkpoint metadata stays the run identity, and
+    a tracer key never shares a name with a checkpoint key (the config's metadata wins on a shared key). A LangSmith
+    failure never fails a run (the final flush swallows errors; ≈ 45 s when the endpoint is down).
+  - **G5 edit rate** = `Weekly_pack.py report` over the threads, the archive and the published folders — reported,
+    never scored.
+- **Result (done-when, 2026-10-22):** three firings by `Start-ScheduledTask` on real models: the first started W11:1
+  and stopped in the Insight node (Gemini 503 "high demand", exit 1), the second resumed it and stopped the same way,
+  the third (30 min later) **resumed W11:1 from its checkpoint and reached the approval** (Validator passed, PPTX
+  preview, toast shown, exit 0, traced with `launched_by:task_scheduler`); the retention kept both threads. ≈ 6
+  flash-lite requests for the pack plus 4 failed ones. W11 was then edited (one sentence, re-validated) and approved
+  by the second Finance manager (7; the run identity is 6) and published; first G5: edit rate 0.5 over W10 + W11.
+- **Consequences:** a scheduled run needs the owner's session (a firing missed while logged off runs at the next
+  logon) and Docker Desktop. A 503 on the long Insight request while a tiny request passed shows that "high demand"
+  can refuse a large request only; and the ADR-045 fallback (OpenRouter `nemotron-3-super:free`) answers 404 on
+  every request since at least 2026-10-22 (NVIDIA "Function not found for account"), so the role pair had no working
+  fallback that day — closed 2026-10-23 by ADR-045 amendment 2 (`nemotron-3.5-super-vl`, a partial fallback).
+  Resume-on-the-next-firing covered both. Rejected: a stored-password task that runs logged off (a credential
+  on disk; Docker would not be up anyway); today's ISO week mapped to 2025 (jumps, gaps); a daily trigger (one
+  replay week a day: faster than a reviewer); pruning checkpoints inside a thread (more code, little saved); tracing
+  on everywhere through `.env` (the evaluation's quota and the free trace allowance).
+- **Amendment 1 (2026-10-22, plan §5f F1):** the slot-form fixes code makes on the Writer's text (ADR-051 amendment 1)
+  are kept visible: the publisher writes them to `run.json` (`normalized`), the archive keeps them, and
+  `Weekly_pack.py report` adds `form_fixes` {packs, fixes} next to the G5 edit rate (W11, the first scheduled pack:
+  5 fixes). `Weekly_pack.py show` prints the approver's comment.
+- **Amendment 2 (2026-10-27, plan D-P8-18, owner's yes): the trigger follows local time.** `New-ScheduledTaskTrigger`
+  had stored the start with the offset of the day it ran (`…T10:30:00+03:00`), so after a daylight-saving change the
+  task would fire an hour off (09:30 in Cairo winter, before the Gemini daily reset that P8-2's 10:30 waits for).
+  `ops/scheduler/register_weekly_pack.ps1` stores the start without an offset (local wall-clock time) and refuses a
+  registration whose stored trigger has an offset or whose next run is not at the asked time; re-registered,
+  next run 2026-11-02 10:30. First missed-Monday firing the same day (W12, machine off on 10-26): started at logon,
+  waited for PostgreSQL, reached the approval. An edit while the preview was open in PowerPoint failed to rewrite it
+  (D-P8-17) — fixed the same day by ADR-051 amendment 2; W12 then published after the owner's edits.
 
 ---
 

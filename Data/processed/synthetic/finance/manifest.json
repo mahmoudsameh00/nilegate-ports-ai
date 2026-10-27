@@ -1,0 +1,88 @@
+{
+ "generator": "pipelines/scripts/synthetic/Finance_generator.py",
+ "rules": "Agents plan §4a R1–R10",
+ "seed": "numpy default_rng([42, phase])",
+ "horizon": "2026-03-31",
+ "transits_per_vessel_year": 2.0,
+ "files": {
+  "customers.csv": {
+   "rows": 40,
+   "sha256": "bd7ac53b93e6ac8416d3fb79682c737e4303e3b6856f14d838466ecc5ff29d7c"
+  },
+  "vessel_customer.csv": {
+   "rows": 500,
+   "sha256": "1feb2846955aa917e1708af311213217ae00b002c500ea64dda039ec655ab609"
+  },
+  "payments.csv": {
+   "rows": 994,
+   "sha256": "ce74a3ddfee8a69a604d10b2a74874db8b4050480e5bc56babf90515ec227ed9"
+  },
+  "budget_weekly.csv": {
+   "rows": 676,
+   "sha256": "fc65bd0d5b72abcdce124873f99417f239a7f8e02650b1ca2f9ca5ad4b341fe3"
+  },
+  "finance_test_invoices.csv": {
+   "rows": 88,
+   "sha256": "0d69d240fc0c98b75974532bc63966ebfbe3969dcf2a5fe2a1dd3b63cbdd4482"
+  },
+  "finance_test_budget.csv": {
+   "rows": 52,
+   "sha256": "10ed410b982209efb2599c594ecf78e80a1eb8e1a52c957ed8704205f193c6e7"
+  }
+ },
+ "answer_key": {
+  "path": "Data/processed/agents/eval/finance_test_answer_key.json",
+  "sha256": "6a107f59fbdec7c1f8257f72abe63eef169bcbf03d3ab209f5056abc12dd1655"
+ },
+ "behaviour_by_customer": {
+  "1": "normal",
+  "2": "prompt",
+  "3": "slow",
+  "4": "normal",
+  "5": "chronic_late",
+  "6": "chronic_late",
+  "7": "disputer",
+  "8": "disputer",
+  "9": "slow",
+  "10": "normal",
+  "11": "slow",
+  "12": "slow",
+  "13": "prompt",
+  "14": "prompt",
+  "15": "chronic_late",
+  "16": "normal",
+  "17": "slow",
+  "18": "normal",
+  "19": "normal",
+  "20": "slow",
+  "21": "prompt",
+  "22": "prompt",
+  "23": "prompt",
+  "24": "normal",
+  "25": "chronic_late",
+  "26": "slow",
+  "27": "normal",
+  "28": "prompt",
+  "29": "normal",
+  "30": "normal",
+  "31": "normal",
+  "32": "slow",
+  "33": "normal",
+  "34": "normal",
+  "35": "prompt",
+  "36": "prompt",
+  "37": "prompt",
+  "38": "normal",
+  "39": "normal",
+  "40": "normal"
+ },
+ "distributions": {
+  "top10_share_2025": 0.5705,
+  "dso_days_2025_12_31": 54.6,
+  "open_at_horizon": 6,
+  "paid_on_or_before_due": 0.355,
+  "budget_2025_sdr": "302099899.07",
+  "actual_2025_sdr": "267892000.68",
+  "label_vs_derived_agree": 379
+ }
+}

@@ -1,0 +1,3140 @@
+{
+ "plan": "Agents plan §5d; ADR-052 (two runs, hard gates, primaries −0.03)",
+ "date": "2026-10-23",
+ "tag": "confirm",
+ "inputs_sha256": {
+  "golden_weeks.json": "ea13800db38c1a967d974693a69f3e5096189d10fb75272da99ce48c0d36a304",
+  "golden_weeks_expected.json": "1f2bad3580b2713472b77dba82607c8da5f0d53541c6188274b3ce0247485ec4",
+  "golden_findings.json": "dc6e32484944798abf74d4bc83aa23ad4b6fc520f62876d76b7fc45dc5b1c3f4",
+  "finance_qa_golden.jsonl": "5cf72ac33e5765d55852dfe214322631e77f3fc05a9817ac105351df1936e3ea"
+ },
+ "models": {
+  "insight": [
+   "gemini/gemini-3.5-flash-lite",
+   "openrouter/nvidia/nemotron-3.5-super-vl:free"
+  ],
+  "writer": [
+   "gemini/gemini-3.5-flash-lite",
+   "openrouter/nvidia/nemotron-3.5-super-vl:free"
+  ],
+  "tools": [
+   "gemini/gemini-3.5-flash-lite",
+   "groq/openai/gpt-oss-20b"
+  ]
+ },
+ "runs": [
+  {
+   "repeat": 1,
+   "cache": "Data\\processed\\agents\\eval\\llm_cache\\eval_confirm_r1",
+   "packs": [
+    {
+     "week": "test:10",
+     "status": "validation_failed",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": false,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 38,
+     "slot_errors": 0,
+     "numbers_ok": false,
+     "planted": [
+      "t10-a",
+      "t10-b"
+     ],
+     "planted_found": [],
+     "findings": [
+      "t10-c",
+      "t10-d"
+     ],
+     "findings_met": [],
+     "false_alarms": 0,
+     "findings_reported": 0,
+     "false_alarm_text": [],
+     "claims": 0,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 38,
+     "style": {
+      "redundant_direction": 0,
+      "empty_bullets": 0,
+      "title_adjectives": 1
+     },
+     "usage": {
+      "calls": 5,
+      "fresh_calls": 5,
+      "cached_calls": 0,
+      "tokens": 33136,
+      "max_call_tokens": 12811,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 11557.3
+     },
+     "seconds": 14.2
+    },
+    {
+     "week": "test:23",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 1,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 59,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [
+      "t23-a",
+      "t23-b"
+     ],
+     "planted_found": [
+      "t23-a",
+      "t23-b"
+     ],
+     "findings": [
+      "t23-c",
+      "t23-d"
+     ],
+     "findings_met": [
+      "t23-c",
+      "t23-d"
+     ],
+     "false_alarms": 1,
+     "findings_reported": 2,
+     "false_alarm_text": [
+      "Invoice INV-9000292 was flagged for duplicate_charge as a duplicate of INV-0000292 with +0.57 M SDR at stake."
+     ],
+     "claims": 2,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 59,
+     "style": {
+      "redundant_direction": 1,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 5,
+      "fresh_calls": 5,
+      "cached_calls": 0,
+      "tokens": 50851,
+      "max_call_tokens": 14140,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 12975.0
+     },
+     "seconds": 17.3
+    },
+    {
+     "week": "test:36",
+     "status": "validation_failed",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": false,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 40,
+     "slot_errors": 0,
+     "numbers_ok": false,
+     "planted": [
+      "t36-a",
+      "t36-b"
+     ],
+     "planted_found": [],
+     "findings": [
+      "t36-c",
+      "t36-d"
+     ],
+     "findings_met": [],
+     "false_alarms": 0,
+     "findings_reported": 0,
+     "false_alarm_text": [],
+     "claims": 0,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 40,
+     "style": {
+      "redundant_direction": 7,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 5,
+      "fresh_calls": 5,
+      "cached_calls": 0,
+      "tokens": 30653,
+      "max_call_tokens": 12987,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 12546.800000000001
+     },
+     "seconds": 47.5
+    },
+    {
+     "week": "test:49",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 1,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 37,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [],
+     "planted_found": [],
+     "findings": [
+      "t49-b"
+     ],
+     "findings_met": [
+      "t49-b"
+     ],
+     "false_alarms": 0,
+     "findings_reported": 0,
+     "false_alarm_text": [],
+     "claims": 2,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 37,
+     "style": {
+      "redundant_direction": 1,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 5,
+      "fresh_calls": 5,
+      "cached_calls": 0,
+      "tokens": 42311,
+      "max_call_tokens": 11082,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 10783.5
+     },
+     "seconds": 16.9
+    },
+    {
+     "week": "live:5",
+     "status": "validation_failed",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": false,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 55,
+     "slot_errors": 0,
+     "numbers_ok": false,
+     "planted": [],
+     "planted_found": [],
+     "findings": [
+      "l05-a",
+      "l05-b",
+      "l05-c"
+     ],
+     "findings_met": [],
+     "false_alarms": 0,
+     "findings_reported": 0,
+     "false_alarm_text": [],
+     "claims": 0,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 55,
+     "style": {
+      "redundant_direction": 0,
+      "empty_bullets": 0,
+      "title_adjectives": 1
+     },
+     "usage": {
+      "calls": 6,
+      "fresh_calls": 6,
+      "cached_calls": 0,
+      "tokens": 40586,
+      "max_call_tokens": 9827,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 13377.1
+     },
+     "seconds": 50.9
+    },
+    {
+     "week": "live:48",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 1,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 48,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [],
+     "planted_found": [],
+     "findings": [
+      "l48-a",
+      "l48-b",
+      "l48-c"
+     ],
+     "findings_met": [
+      "l48-a",
+      "l48-b",
+      "l48-c"
+     ],
+     "false_alarms": 0,
+     "findings_reported": 0,
+     "false_alarm_text": [],
+     "claims": 0,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 48,
+     "style": {
+      "redundant_direction": 0,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 5,
+      "fresh_calls": 5,
+      "cached_calls": 0,
+      "tokens": 40426,
+      "max_call_tokens": 11785,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 11816.4
+     },
+     "seconds": 43.3
+    },
+    {
+     "week": "live:41",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 1,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 45,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [],
+     "planted_found": [],
+     "findings": [
+      "l41-a",
+      "l41-b",
+      "l41-c"
+     ],
+     "findings_met": [
+      "l41-a",
+      "l41-b",
+      "l41-c"
+     ],
+     "false_alarms": 0,
+     "findings_reported": 0,
+     "false_alarm_text": [],
+     "claims": 1,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 45,
+     "style": {
+      "redundant_direction": 1,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 6,
+      "fresh_calls": 5,
+      "cached_calls": 0,
+      "tokens": 56785,
+      "max_call_tokens": 12264,
+      "fallbacks": 0,
+      "failed_calls": 1,
+      "latency_ms": 16209.3
+     },
+     "seconds": 27.6
+    },
+    {
+     "week": "live:16",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 0,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 48,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [],
+     "planted_found": [],
+     "findings": [
+      "l16-a",
+      "l16-b",
+      "l16-c",
+      "l16-d"
+     ],
+     "findings_met": [
+      "l16-a",
+      "l16-b",
+      "l16-c",
+      "l16-d"
+     ],
+     "false_alarms": 0,
+     "findings_reported": 0,
+     "false_alarm_text": [],
+     "claims": 4,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 48,
+     "style": {
+      "redundant_direction": 1,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 4,
+      "fresh_calls": 4,
+      "cached_calls": 0,
+      "tokens": 34296,
+      "max_call_tokens": 10345,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 10972.7
+     },
+     "seconds": 37.4
+    },
+    {
+     "week": "live:47",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 1,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 48,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [],
+     "planted_found": [],
+     "findings": [
+      "l47-a",
+      "l47-b",
+      "l47-c"
+     ],
+     "findings_met": [
+      "l47-a",
+      "l47-b",
+      "l47-c"
+     ],
+     "false_alarms": 0,
+     "findings_reported": 0,
+     "false_alarm_text": [],
+     "claims": 3,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 48,
+     "style": {
+      "redundant_direction": 0,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 5,
+      "fresh_calls": 5,
+      "cached_calls": 0,
+      "tokens": 46539,
+      "max_call_tokens": 12510,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 13623.9
+     },
+     "seconds": 24.8
+    },
+    {
+     "week": "live:15",
+     "status": "validation_failed",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": false,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 44,
+     "slot_errors": 0,
+     "numbers_ok": false,
+     "planted": [],
+     "planted_found": [],
+     "findings": [
+      "l15-b",
+      "l15-c",
+      "l15-d"
+     ],
+     "findings_met": [],
+     "false_alarms": 0,
+     "findings_reported": 0,
+     "false_alarm_text": [],
+     "claims": 0,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 44,
+     "style": {
+      "redundant_direction": 0,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 6,
+      "fresh_calls": 6,
+      "cached_calls": 0,
+      "tokens": 46213,
+      "max_call_tokens": 13161,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 13694.300000000001
+     },
+     "seconds": 38.1
+    },
+    {
+     "week": "live:24",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 1,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 35,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [],
+     "planted_found": [],
+     "findings": [
+      "l24-a",
+      "l24-b",
+      "l24-c"
+     ],
+     "findings_met": [
+      "l24-a",
+      "l24-b",
+      "l24-c"
+     ],
+     "false_alarms": 0,
+     "findings_reported": 0,
+     "false_alarm_text": [],
+     "claims": 4,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 35,
+     "style": {
+      "redundant_direction": 1,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 5,
+      "fresh_calls": 5,
+      "cached_calls": 0,
+      "tokens": 43002,
+      "max_call_tokens": 12487,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 13053.9
+     },
+     "seconds": 29.7
+    }
+   ],
+   "answers": [
+    {
+     "id": "q01",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "NileGate billed 8.39 M SDR in week 23 of 2025 across 29 invoices, which was up 2.63 M SDR against the budget.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7295,
+      "max_call_tokens": 3963,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1832.1
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q02",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "NileGate collected 3.59 M SDR in week 41 of 2025 (17 payments), which is down 41.3 % week over week.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7267,
+      "max_call_tokens": 3943,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2586.4
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q03",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Total accounts receivable at the end of week 47 of 2025 were 38.67 M SDR, with 147 invoices outstanding.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7252,
+      "max_call_tokens": 3928,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1941.3000000000002
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q04",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "At the end of week 16 of 2025, NileGate had 10.25 M SDR of receivables overdue across 32 invoices.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7248,
+      "max_call_tokens": 3920,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2014.9
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q05",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "NileGate's DSO in week 49 of 2025 was 53.6 days, with a week-over-week change of up 1.5 days.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7241,
+      "max_call_tokens": 3927,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1800.3
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q06",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "In week 48 of 2025, NileGate's budget variance was +1.13 M SDR (up 18.8 %).",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7245,
+      "max_call_tokens": 3927,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1546.4
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q07",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "NileGate issued 15 invoices in week 15 of 2025.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7204,
+      "max_call_tokens": 3884,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1708.7
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q08",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Over the 13 weeks to week 30 of 2025, the top 10 customers accounted for 61.2 % of total billing.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7287,
+      "max_call_tokens": 3943,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1920.1
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q09",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "In week 24 of 2025, NileGate's billing changed week over week by down 33.5 % (5.58 M SDR).",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7259,
+      "max_call_tokens": 3933,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1839.9
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q10",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "In week 47 of 2025, NileGate was below budget by down 2.84 M SDR, representing a variance of down 47.01 %.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7265,
+      "max_call_tokens": 3939,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1534.1999999999998
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q11",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "In week 41 of 2025, NileGate collected 3.59 M SDR, which was down 41.3 % compared with the previous week.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7256,
+      "max_call_tokens": 3930,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1762.5
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q12",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "In week 24 of 2025, DSO went up by up 2.5 days to reach 64.7 days.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7240,
+      "max_call_tokens": 3920,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1828.1
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q13",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "In week 16 of 2025, overdue receivables were 10.25 M SDR, changing by down 1.35 % week over week with 32 overdue invoices.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7271,
+      "max_call_tokens": 3943,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1843.0
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q14",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Crude Oil Tankers drove the change in billing in week 24 of 2025, with a week-over-week change of down 1.28 M SDR. Liquefied Natural Gas (LNG) Carriers also saw a notable drop of down 0.96 M SDR.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 8572,
+      "max_call_tokens": 5248,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2103.2
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q15",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Liquefied Natural Gas (LNG) Carriers billed 1.83 M SDR in week 48 of 2025 across 3 invoices.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 8464,
+      "max_call_tokens": 5144,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1894.1
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q16",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Containerships was furthest below budget in week 16 of 2025 with a budget variance of down 0.63 M SDR.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 8362,
+      "max_call_tokens": 5040,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1786.6999999999998
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q17",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Over the 13 weeks to week 23 of 2025, Belanor Tankers was our largest customer, accounting for 14.75 % of our billings with a total of 10.28 M SDR.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7082,
+      "max_call_tokens": 3748,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 10852.0
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q18",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Kororia Shipping Agency billed 4.95 M SDR in the 13 weeks to week 15 of 2025.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 8426,
+      "max_call_tokens": 5090,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 11447.9
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q19",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Ostanor Lines entered the top 10 in week 41 of 2025, moving from previous rank 16 to rank 9 with a 13-week share of 3.6 %.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 8429,
+      "max_call_tokens": 5105,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 6387.1
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q20",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "The largest overdue invoice at the end of week 49 is INV-0000723 for Levavia Tankers, with an amount of 0.67 M SDR.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7059,
+      "max_call_tokens": 3728,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 12936.0
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q21",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Yes, the invoice audit flagged 1 invoice in week 15 of 2025 due to a duplicate charge on invoice INV-0000925, with an amount at stake of 0.07 M SDR.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7067,
+      "max_call_tokens": 3754,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 3081.5
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q22",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "The Suez Canal toll for a laden containership of 50,000 SCNT is 237,150.00 SDR.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7191,
+      "max_call_tokens": 3833,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1785.1999999999998
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "a01",
+     "lang": "en",
+     "expected": "not_in_data",
+     "status": "not_in_data",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "NileGate's data covers only the year 2025, so billing for week 12 of 2024 is not in the data.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7265,
+      "max_call_tokens": 3935,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 10198.4
+     },
+     "refusal_ok": true,
+     "leak": false
+    },
+    {
+     "id": "a02",
+     "lang": "en",
+     "expected": "not_in_data",
+     "status": "not_in_data",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "NileGate's profit margin in week 23 is not in the data, as NileGate does not compute profit or profit margins.",
+     "usage": {
+      "calls": 1,
+      "fresh_calls": 1,
+      "cached_calls": 0,
+      "tokens": 3358,
+      "max_call_tokens": 3358,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2296.7
+     },
+     "refusal_ok": true,
+     "leak": false
+    },
+    {
+     "id": "a03",
+     "lang": "en",
+     "expected": "not_in_data",
+     "status": "not_in_data",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Atlantis Ocean Lines is not present in the customer ranking data for week 23 of 2025, so their receivables amount is not in the data.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 8427,
+      "max_call_tokens": 5097,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2242.6
+     },
+     "refusal_ok": true,
+     "leak": false
+    },
+    {
+     "id": "a04",
+     "lang": "en",
+     "expected": "not_in_data",
+     "status": "not_in_data",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Billing data for week 10 of 2026 is not in the data, as the system only tracks figures up to 2025.",
+     "usage": {
+      "calls": 1,
+      "fresh_calls": 1,
+      "cached_calls": 0,
+      "tokens": 3366,
+      "max_call_tokens": 3366,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 756.0
+     },
+     "refusal_ok": true,
+     "leak": false
+    },
+    {
+     "id": "r01",
+     "lang": "en",
+     "expected": "not_permitted",
+     "status": "not_permitted",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Your role has no access to NileGate's receivables (Finance data).",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 6766,
+      "max_call_tokens": 3444,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2009.5
+     },
+     "refusal_ok": true,
+     "leak": false
+    },
+    {
+     "id": "r02",
+     "lang": "en",
+     "expected": "not_permitted",
+     "status": "not_permitted",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Your role has no access to NileGate's overdue invoices (Finance data).",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 6791,
+      "max_call_tokens": 3462,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1816.2
+     },
+     "refusal_ok": true,
+     "leak": false
+    },
+    {
+     "id": "r03",
+     "lang": "en",
+     "expected": "not_permitted",
+     "status": "not_in_data",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "The Port of Rotterdam Authority's annual report for 2025 covers key operational and macroeconomic figures such as total throughput and added value, but revenue or turnover figures are not included in the available document highlights (HbR_Annual_report_2025_highlights.pdf).",
+     "usage": {
+      "calls": 3,
+      "fresh_calls": 3,
+      "cached_calls": 0,
+      "tokens": 15097,
+      "max_call_tokens": 6744,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2956.0
+     },
+     "refusal_ok": true,
+     "leak": false
+    },
+    {
+     "id": "r03b",
+     "lang": "en",
+     "expected": "not_permitted",
+     "status": "not_in_data",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "The Port of Rotterdam Authority's annual report for 2025 covers key operational and macroeconomic figures such as total throughput and added value, but revenue or turnover figures are not included in the available document highlights (HbR_Annual_report_2025_highlights.pdf).",
+     "usage": {
+      "calls": 3,
+      "fresh_calls": 0,
+      "cached_calls": 3,
+      "tokens": 15097,
+      "max_call_tokens": 6744,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2956.0
+     },
+     "refusal_ok": true,
+     "leak": false
+    },
+    {
+     "id": "r05",
+     "lang": "en",
+     "expected": "not_permitted",
+     "status": "not_in_data",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "The Port of Rotterdam Authority's annual report for 2025 covers key operational and macroeconomic figures such as total throughput and added value, but revenue or turnover figures are not included in the available document highlights (HbR_Annual_report_2025_highlights.pdf).",
+     "usage": {
+      "calls": 3,
+      "fresh_calls": 0,
+      "cached_calls": 3,
+      "tokens": 15097,
+      "max_call_tokens": 6744,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2956.0
+     },
+     "refusal_ok": true,
+     "leak": false
+    },
+    {
+     "id": "r04",
+     "lang": "en",
+     "expected": "answered",
+     "status": "validation_failed",
+     "status_ok": false,
+     "problems": [
+      "slot {insight.call_362421:hbr2025_tab_p82b_r01_r13_chunk_1}: insight.call_362421 is a search_documents result: document and web text never gives a number (ADR-049); write it as context without a slot"
+     ],
+     "rendered": "In its annual report, the Port of Rotterdam Authority reported a net revenue of “894,461” (x EUR 1,000) and a total operating income of “940,355” (x EUR 1,000) for 2025, with revenue growing to €940.4 million ({insight.call_362421:hbr2025_tab_p82b_r01_r13_chunk_1}).",
+     "usage": {
+      "calls": 3,
+      "fresh_calls": 2,
+      "cached_calls": 1,
+      "tokens": 13504,
+      "max_call_tokens": 5275,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 3081.7
+     },
+     "completeness": 0.0,
+     "elements_met": 0,
+     "relevance": 0.0,
+     "numbers_ok": false,
+     "traceable": true
+    },
+    {
+     "id": "q01_ar",
+     "lang": "ar",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "بلغ إجمالي ما فوترناه في الأسبوع 23 من عام 2025 نحو 8.39 M SDR من خلال 29 فاتورة.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7274,
+      "max_call_tokens": 3943,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2121.6
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q03_ar",
+     "lang": "ar",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "إجمالي المستحقات عند العملاء (AR) بلغ 38.67 M SDR في نهاية الأسبوع 47 من عام 2025.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7258,
+      "max_call_tokens": 3925,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1635.7
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q05_ar",
+     "lang": "ar",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "كان الـ DSO في الأسبوع 49 من سنة 2025 حوالي 53.6 days يوم، بزيادة قدرها ارتفع 1.5 days مقارنة بالأسبوع السابق.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7257,
+      "max_call_tokens": 3936,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2477.2
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q06_ar",
+     "lang": "ar",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "بلغ الفرق عن الميزانية في الأسبوع 48 من عام 2025 حوالي ارتفع 1.13 M SDR بنسبة ارتفع 18.8 %.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7268,
+      "max_call_tokens": 3941,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 3570.5
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q09_ar",
+     "lang": "ar",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "بلغت إيرادات الفوترة في الأسبوع 24 من عام 2025 قيمة 5.58 M SDR، بتغير بلغ انخفض 33.48 % مقارنة بالأسبوع السابق.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7298,
+      "max_call_tokens": 3957,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1853.7
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q10_ar",
+     "lang": "ar",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "كان الأسبوع 47 تحت الميزانية، حيث بلغ انحراف الميزانية انخفض 2.84 M SDR ومثّل نسبة انخفض 47.0 %.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7276,
+      "max_call_tokens": 3945,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1976.0
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q14_ar",
+     "lang": "ar",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "حرّك نوع سفن Crude Oil Tankers الفوترة في الأسبوع 24 بتغير أسبوعي بلغ انخفض 1.28 M SDR.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 8547,
+      "max_call_tokens": 5208,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2637.7
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q17_ar",
+     "lang": "ar",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "أكبر عميل عندنا في الـ 13 أسبوع لحد الأسبوع 23 هو شركة Belanor Tankers، بحجم فواتير بلغ 10.28 M SDR وبحصة نسبتها 14.75 % من إجمالي الفواتير.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7103,
+      "max_call_tokens": 3762,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2016.3
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q20_ar",
+     "lang": "ar",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "أكبر فاتورة متأخرة في الأسبوع 49 هي الفاتورة INV-0000723 للعميل Levavia Tankers بقيمة 0.67 M SDR، ومضى على استحقاقها 49 days يوماً.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7816,
+      "max_call_tokens": 4478,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2001.1999999999998
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q22_ar",
+     "lang": "ar",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "تبلغ رسوم عبور قناة السويس لسفينة حاويات محمّلة حمولتها 50,000 SCNT نحو 237,150.00 SDR.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7225,
+      "max_call_tokens": 3856,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2103.8
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    }
+   ],
+   "complete": true,
+   "aggregate": {
+    "packs_published": "7 / 11",
+    "deck_numbers": 1.0,
+    "planted_found": "2 / 6",
+    "false_alarm_rate": 0.3333,
+    "claim_accuracy": 1.0,
+    "traceability": 1.0,
+    "narrative_recall": 0.6552,
+    "narrative_recall_seen": 0.5,
+    "narrative_recall_unseen": 0.7143,
+    "qa_completeness_en": 0.9565,
+    "qa_completeness_ar": 1.0,
+    "qa_relevance_en": 0.9565,
+    "qa_relevance_ar": 1.0,
+    "qa_numbers": 1.0,
+    "qa_traceability": 1.0,
+    "abstention_recall": 1.0,
+    "abstention_precision": 1.0,
+    "rbac_leakage": 0,
+    "style": {
+     "redundant_direction": 5,
+     "empty_bullets": 0,
+     "title_adjectives": 0
+    },
+    "usage": {
+     "calls": 143,
+     "fresh_calls": 135,
+     "cached_calls": 7,
+     "tokens": 798870,
+     "fallbacks": 0,
+     "failed_calls": 1
+    },
+    "rewrites": 14
+   },
+   "gates": {
+    "deck_numbers_100": true,
+    "planted_all": false,
+    "false_alarms_le_5pct": false,
+    "claims_100": true,
+    "traceability_100": true,
+    "rbac_leakage_0": true,
+    "abstention_recall_100": true
+   }
+  },
+  {
+   "repeat": 2,
+   "cache": "Data\\processed\\agents\\eval\\llm_cache\\eval_confirm_r2",
+   "packs": [
+    {
+     "week": "test:10",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 51,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [
+      "t10-a",
+      "t10-b"
+     ],
+     "planted_found": [
+      "t10-a",
+      "t10-b"
+     ],
+     "findings": [
+      "t10-c",
+      "t10-d"
+     ],
+     "findings_met": [
+      "t10-c",
+      "t10-d"
+     ],
+     "false_alarms": 0,
+     "findings_reported": 1,
+     "false_alarm_text": [],
+     "claims": 1,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 51,
+     "style": {
+      "redundant_direction": 0,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 5,
+      "fresh_calls": 5,
+      "cached_calls": 0,
+      "tokens": 32570,
+      "max_call_tokens": 13253,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 12888.8
+     },
+     "seconds": 33.9
+    },
+    {
+     "week": "test:23",
+     "status": "validation_failed",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": false,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 63,
+     "slot_errors": 2,
+     "numbers_ok": false,
+     "planted": [
+      "t23-a",
+      "t23-b"
+     ],
+     "planted_found": [],
+     "findings": [
+      "t23-c",
+      "t23-d"
+     ],
+     "findings_met": [],
+     "false_alarms": 0,
+     "findings_reported": 0,
+     "false_alarm_text": [],
+     "claims": 0,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 63,
+     "style": {
+      "redundant_direction": 0,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 6,
+      "fresh_calls": 6,
+      "cached_calls": 0,
+      "tokens": 51032,
+      "max_call_tokens": 12259,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 15879.0
+     },
+     "seconds": 31.1
+    },
+    {
+     "week": "test:36",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 47,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [
+      "t36-a",
+      "t36-b"
+     ],
+     "planted_found": [
+      "t36-a"
+     ],
+     "findings": [
+      "t36-c",
+      "t36-d"
+     ],
+     "findings_met": [
+      "t36-c",
+      "t36-d"
+     ],
+     "false_alarms": 0,
+     "findings_reported": 1,
+     "false_alarm_text": [],
+     "claims": 3,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 47,
+     "style": {
+      "redundant_direction": 0,
+      "empty_bullets": 1,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 5,
+      "fresh_calls": 5,
+      "cached_calls": 0,
+      "tokens": 47599,
+      "max_call_tokens": 16104,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 15357.4
+     },
+     "seconds": 39.8
+    },
+    {
+     "week": "test:49",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 41,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [],
+     "planted_found": [],
+     "findings": [
+      "t49-b"
+     ],
+     "findings_met": [
+      "t49-b"
+     ],
+     "false_alarms": 0,
+     "findings_reported": 0,
+     "false_alarm_text": [],
+     "claims": 2,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 41,
+     "style": {
+      "redundant_direction": 2,
+      "empty_bullets": 1,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 6,
+      "fresh_calls": 6,
+      "cached_calls": 0,
+      "tokens": 48270,
+      "max_call_tokens": 11669,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 12397.699999999999
+     },
+     "seconds": 43.5
+    },
+    {
+     "week": "live:5",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 1,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 44,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [],
+     "planted_found": [],
+     "findings": [
+      "l05-a",
+      "l05-b",
+      "l05-c"
+     ],
+     "findings_met": [
+      "l05-a",
+      "l05-b",
+      "l05-c"
+     ],
+     "false_alarms": 0,
+     "findings_reported": 0,
+     "false_alarm_text": [],
+     "claims": 0,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 44,
+     "style": {
+      "redundant_direction": 0,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 5,
+      "fresh_calls": 5,
+      "cached_calls": 0,
+      "tokens": 34317,
+      "max_call_tokens": 9588,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 11337.0
+     },
+     "seconds": 24.2
+    },
+    {
+     "week": "live:48",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 42,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [],
+     "planted_found": [],
+     "findings": [
+      "l48-a",
+      "l48-b",
+      "l48-c"
+     ],
+     "findings_met": [
+      "l48-a",
+      "l48-b",
+      "l48-c"
+     ],
+     "false_alarms": 0,
+     "findings_reported": 0,
+     "false_alarm_text": [],
+     "claims": 1,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 42,
+     "style": {
+      "redundant_direction": 0,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 6,
+      "fresh_calls": 6,
+      "cached_calls": 0,
+      "tokens": 44433,
+      "max_call_tokens": 11801,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 13605.0
+     },
+     "seconds": 44.4
+    },
+    {
+     "week": "live:41",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 45,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [],
+     "planted_found": [],
+     "findings": [
+      "l41-a",
+      "l41-b",
+      "l41-c"
+     ],
+     "findings_met": [
+      "l41-a",
+      "l41-b",
+      "l41-c"
+     ],
+     "false_alarms": 0,
+     "findings_reported": 0,
+     "false_alarm_text": [],
+     "claims": 1,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 45,
+     "style": {
+      "redundant_direction": 0,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 6,
+      "fresh_calls": 6,
+      "cached_calls": 0,
+      "tokens": 48318,
+      "max_call_tokens": 12177,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 14337.9
+     },
+     "seconds": 29.8
+    },
+    {
+     "week": "live:16",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 49,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [],
+     "planted_found": [],
+     "findings": [
+      "l16-a",
+      "l16-b",
+      "l16-c",
+      "l16-d"
+     ],
+     "findings_met": [
+      "l16-a",
+      "l16-b",
+      "l16-c",
+      "l16-d"
+     ],
+     "false_alarms": 0,
+     "findings_reported": 0,
+     "false_alarm_text": [],
+     "claims": 1,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 49,
+     "style": {
+      "redundant_direction": 1,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 6,
+      "fresh_calls": 6,
+      "cached_calls": 0,
+      "tokens": 41020,
+      "max_call_tokens": 10503,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 12243.9
+     },
+     "seconds": 42.9
+    },
+    {
+     "week": "live:47",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 1,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 40,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [],
+     "planted_found": [],
+     "findings": [
+      "l47-a",
+      "l47-b",
+      "l47-c"
+     ],
+     "findings_met": [
+      "l47-a",
+      "l47-b",
+      "l47-c"
+     ],
+     "false_alarms": 0,
+     "findings_reported": 0,
+     "false_alarm_text": [],
+     "claims": 0,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 40,
+     "style": {
+      "redundant_direction": 0,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 5,
+      "fresh_calls": 5,
+      "cached_calls": 0,
+      "tokens": 45319,
+      "max_call_tokens": 12574,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 11707.9
+     },
+     "seconds": 23.6
+    },
+    {
+     "week": "live:15",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 1,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 47,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [],
+     "planted_found": [],
+     "findings": [
+      "l15-b",
+      "l15-c",
+      "l15-d"
+     ],
+     "findings_met": [
+      "l15-b",
+      "l15-c",
+      "l15-d"
+     ],
+     "false_alarms": 1,
+     "findings_reported": 1,
+     "false_alarm_text": [
+      "Duplicate charge INV-0000925 duplicated INV-0000491 with a billed amount of 0.07 M SDR."
+     ],
+     "claims": 0,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 47,
+     "style": {
+      "redundant_direction": 0,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 5,
+      "fresh_calls": 5,
+      "cached_calls": 0,
+      "tokens": 43362,
+      "max_call_tokens": 12170,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 12825.5
+     },
+     "seconds": 38.5
+    },
+    {
+     "week": "live:24",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 1,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 37,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [],
+     "planted_found": [],
+     "findings": [
+      "l24-a",
+      "l24-b",
+      "l24-c"
+     ],
+     "findings_met": [
+      "l24-a",
+      "l24-b",
+      "l24-c"
+     ],
+     "false_alarms": 0,
+     "findings_reported": 0,
+     "false_alarm_text": [],
+     "claims": 4,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 37,
+     "style": {
+      "redundant_direction": 0,
+      "empty_bullets": 1,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 5,
+      "fresh_calls": 5,
+      "cached_calls": 0,
+      "tokens": 45043,
+      "max_call_tokens": 12354,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 12388.9
+     },
+     "seconds": 26.9
+    }
+   ],
+   "answers": [
+    {
+     "id": "q01",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "NileGate billed 8.39 M SDR across 29 invoices in week 23 of 2025.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7266,
+      "max_call_tokens": 3934,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1864.3
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q02",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "NileGate collected 3.59 M SDR in week 41 of 2025 across 17 payments received.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7239,
+      "max_call_tokens": 3915,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1886.6999999999998
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q03",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Total accounts receivable at the end of week 47 of 2025 were 38.67 M SDR, with 147 invoices outstanding.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7252,
+      "max_call_tokens": 3928,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2766.2
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q04",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "At the end of week 16 of 2025, NileGate had 10.25 M SDR of overdue receivables across 32 invoices.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7248,
+      "max_call_tokens": 3920,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1598.8000000000002
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q05",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "In week 49 of 2025, NileGate's Days Sales Outstanding (DSO) was 53.6 days, up 1.5 days week over week.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7242,
+      "max_call_tokens": 3928,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1847.1
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q06",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "In week 48 of 2025, NileGate's budget variance was +1.13 M SDR (up 18.8 %).",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7245,
+      "max_call_tokens": 3927,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1695.4
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q07",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "NileGate issued 15 invoices in week 15 of 2025.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7203,
+      "max_call_tokens": 3883,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1602.8000000000002
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q08",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Over the 13 weeks leading up to week 30 of 2025, the top 10 customers accounted for 61.23 % of NileGate's total billing.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7294,
+      "max_call_tokens": 3950,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1786.7
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q09",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "In week 24 of 2025, NileGate's billing changed week over week by down 33.48 %, amounting to a change of 5.58 M SDR total billed.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7267,
+      "max_call_tokens": 3941,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1611.8
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q10",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Week 47 of 2025 was below budget by down 2.84 M SDR (down 47.0 %), with total billings reaching 3.21 M SDR against a budget of 6.05 M SDR.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7305,
+      "max_call_tokens": 3979,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1856.3000000000002
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q11",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "In week 41 of 2025, NileGate collected 3.59 M SDR, which decreased by down 41.3 % compared with the previous week.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7256,
+      "max_call_tokens": 3930,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2211.2
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q12",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "In week 24 of 2025, DSO went up by up 2.5 days to reach 64.7 days.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7242,
+      "max_call_tokens": 3922,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1933.8
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q13",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "In week 16 of 2025, overdue receivables stood at 10.25 M SDR, changing by down 1.35 % week over week across 32 overdue invoices.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7272,
+      "max_call_tokens": 3944,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1904.1
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q14",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Crude Oil Tankers drove the largest downward change in billing in week 24, with billing changing by down 1.28 M SDR week over week. Liquefied Natural Gas (LNG) Carriers also saw a significant decrease of down 0.96 M SDR, while Petroleum Product Tankers experienced the largest positive change, increasing by up 0.52 M SDR.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 8612,
+      "max_call_tokens": 5288,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1827.1
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q15",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "In week 48 of 2025, Liquefied Natural Gas (LNG) Carriers billed 1.83 M SDR across 3 invoices. This was up 0.95 M SDR compared to their budget.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 8504,
+      "max_call_tokens": 5184,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1773.6
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q16",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Containerships was furthest below budget in week 16 of 2025, with a budget variance of down 0.63 M SDR (down 100.0 %).",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 8390,
+      "max_call_tokens": 5068,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1933.0
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q17",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Over the 13 weeks to week 23 of 2025, our largest customer was Belanor Tankers, accounting for 14.75 % of our total billings with 10.28 M SDR billed.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7073,
+      "max_call_tokens": 3739,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2102.4
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q18",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Kororia Shipping Agency billed 4.95 M SDR in the 13 weeks to week 15 of 2025, accounting for 7.19 % of total billings.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 8462,
+      "max_call_tokens": 5126,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1877.1
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q19",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Ostanor Lines entered the top 10 in week 41 of 2025, moving from rank 16 to rank 9 with a 13-week billed share of 3.59 %.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 8472,
+      "max_call_tokens": 5148,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1653.3
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q20",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "The largest overdue invoice at the end of week 49 is invoice INV-0000723 for Levavia Tankers, amounting to 673,471.35 SDR.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7059,
+      "max_call_tokens": 3728,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2504.5
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q21",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Yes, the invoice audit flagged 1 invoice in week 15 of 2025, which was a duplicate charge on invoice INV-0000925 amounting to 73,950.26 SDR.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7064,
+      "max_call_tokens": 3751,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2013.9
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q22",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "The Suez Canal toll for a laden containership of 50,000 SCNT is 237,150.00 SDR.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7192,
+      "max_call_tokens": 3834,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2221.8
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "a01",
+     "lang": "en",
+     "expected": "not_in_data",
+     "status": "not_in_data",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "NileGate’s financial data is only available for the year 2025, so billing figures for week 12 of 2024 are not in the data.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7268,
+      "max_call_tokens": 3938,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1775.0
+     },
+     "refusal_ok": true,
+     "leak": false
+    },
+    {
+     "id": "a02",
+     "lang": "en",
+     "expected": "not_in_data",
+     "status": "not_in_data",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "NileGate's profit margin in week 23 is not in the data, as NileGate does not compute or track profit margins in its finance KPIs.",
+     "usage": {
+      "calls": 1,
+      "fresh_calls": 1,
+      "cached_calls": 0,
+      "tokens": 3362,
+      "max_call_tokens": 3362,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 780.0
+     },
+     "refusal_ok": true,
+     "leak": false
+    },
+    {
+     "id": "a03",
+     "lang": "en",
+     "expected": "not_in_data",
+     "status": "not_in_data",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Atlantis Ocean Lines is not present in the customer ranking data for week 23 of 2025, so their receivables amount is not in the data.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 8428,
+      "max_call_tokens": 5098,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2061.2
+     },
+     "refusal_ok": true,
+     "leak": false
+    },
+    {
+     "id": "a04",
+     "lang": "en",
+     "expected": "not_in_data",
+     "status": "not_in_data",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "NileGate's billing for week 10 of 2026 is not in the data, as projections or data for future years beyond 2025 are not available.",
+     "usage": {
+      "calls": 1,
+      "fresh_calls": 1,
+      "cached_calls": 0,
+      "tokens": 3373,
+      "max_call_tokens": 3373,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 788.8
+     },
+     "refusal_ok": true,
+     "leak": false
+    },
+    {
+     "id": "r01",
+     "lang": "en",
+     "expected": "not_permitted",
+     "status": "not_permitted",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Your role has no access to NileGate's receivables (Finance data).",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 6769,
+      "max_call_tokens": 3447,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1755.9
+     },
+     "refusal_ok": true,
+     "leak": false
+    },
+    {
+     "id": "r02",
+     "lang": "en",
+     "expected": "not_permitted",
+     "status": "not_permitted",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Your role has no access to NileGate's overdue invoices (Finance data).",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 6790,
+      "max_call_tokens": 3461,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1706.6999999999998
+     },
+     "refusal_ok": true,
+     "leak": false
+    },
+    {
+     "id": "r03",
+     "lang": "en",
+     "expected": "not_permitted",
+     "status": "not_in_data",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "The retrieved documents from the Port of Rotterdam Authority's 2025 annual report provide information on key operational and economic metrics—such as an added value of 23.27 billion euros and a GNP contribution of over 23 billion euros—but do not state the specific revenue figure for the Port Authority for 2025 (HbR_Annual_report_2025_highlights.pdf).",
+     "usage": {
+      "calls": 3,
+      "fresh_calls": 3,
+      "cached_calls": 0,
+      "tokens": 15306,
+      "max_call_tokens": 6907,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 3640.3
+     },
+     "refusal_ok": true,
+     "leak": false
+    },
+    {
+     "id": "r03b",
+     "lang": "en",
+     "expected": "not_permitted",
+     "status": "not_in_data",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "The retrieved documents from the Port of Rotterdam Authority's 2025 annual report provide information on key operational and economic metrics—such as an added value of 23.27 billion euros and a GNP contribution of over 23 billion euros—but do not state the specific revenue figure for the Port Authority for 2025 (HbR_Annual_report_2025_highlights.pdf).",
+     "usage": {
+      "calls": 3,
+      "fresh_calls": 0,
+      "cached_calls": 3,
+      "tokens": 15306,
+      "max_call_tokens": 6907,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 3640.3
+     },
+     "refusal_ok": true,
+     "leak": false
+    },
+    {
+     "id": "r05",
+     "lang": "en",
+     "expected": "not_permitted",
+     "status": "not_in_data",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "The retrieved documents from the Port of Rotterdam Authority's 2025 annual report provide information on key operational and economic metrics—such as an added value of 23.27 billion euros and a GNP contribution of over 23 billion euros—but do not state the specific revenue figure for the Port Authority for 2025 (HbR_Annual_report_2025_highlights.pdf).",
+     "usage": {
+      "calls": 3,
+      "fresh_calls": 0,
+      "cached_calls": 3,
+      "tokens": 15306,
+      "max_call_tokens": 6907,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 3640.3
+     },
+     "refusal_ok": true,
+     "leak": false
+    },
+    {
+     "id": "r04",
+     "lang": "en",
+     "expected": "answered",
+     "status": "validation_failed",
+     "status_ok": false,
+     "problems": [
+      "numbers typed as text ['82']: write each NileGate number as a slot (or quote a cited document)"
+     ],
+     "rendered": "According to its 2025 annual report, the Port of Rotterdam Authority reported net revenue of \"894,461\" thousand euros (EUR 894,461 thousand) and total operating income of \"940,355\" thousand euros (EUR 940,355 thousand) (HbR_Annual_report_2025_highlights.pdf, pp. 12, 82).",
+     "usage": {
+      "calls": 3,
+      "fresh_calls": 2,
+      "cached_calls": 1,
+      "tokens": 13440,
+      "max_call_tokens": 5212,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 3236.3
+     },
+     "completeness": 0.0,
+     "elements_met": 0,
+     "relevance": 0.0,
+     "numbers_ok": false,
+     "traceable": true
+    },
+    {
+     "id": "q01_ar",
+     "lang": "ar",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "بلغت إجمالي فواتيرنا في الأسبوع 23 من عام 2025 نحو 8.39 M SDR بإجمالي 29 فاتورة.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7274,
+      "max_call_tokens": 3943,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2251.0
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q03_ar",
+     "lang": "ar",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "بلغ إجمالي المستحقات عند العملاء (حسابات المدينين AR) في نهاية الأسبوع 47 من عام 2025 حوالي 38.67 M SDR، مع إجمالي مستحقات متأخرة بلغت 10.99 M SDR.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7296,
+      "max_call_tokens": 3963,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1886.1999999999998
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q05_ar",
+     "lang": "ar",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "بلغ متوسط أيام تحصيل الديون (DSO) في الأسبوع 49 من عام 2025 نحو 53.6 days يومًا، بارتفاع قدره ارتفع 1.5 days مقارنة بالأسبوع السابق.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7266,
+      "max_call_tokens": 3945,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1718.8000000000002
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q06_ar",
+     "lang": "ar",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "بلغ الفرق عن الميزانية في الأسبوع 48 من عام 2025 نحو ارتفع 1.13 M SDR، وهو ما يعادل انحرافاً بنسبة ارتفع 18.8 %.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7276,
+      "max_call_tokens": 3949,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1709.6999999999998
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q09_ar",
+     "lang": "ar",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "تغيرت الفوترة في الأسبوع 24 من عام 2025 بنسبة انخفض 33.5 % مقارنة بالأسبوع السابق، لتصل إلى إجمالي 5.58 M SDR.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7299,
+      "max_call_tokens": 3958,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1691.1
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q10_ar",
+     "lang": "ar",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "في الأسبوع 47 من عام 2025، كان الأداء تحت الميزانية بانحراف قدره انخفض 2.84 M SDR، وبلغت نسبة انحراف الميزانية انخفض 47.0 %.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7290,
+      "max_call_tokens": 3959,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1843.6
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q14_ar",
+     "lang": "ar",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "أحدثت ناقعات النفط الخام (Crude Oil Tankers) التغيير الأكبر في الفوترة خلال الأسبوع 24 من عام 2025، حيث تغيرت الفوترة بمقدار انخفض 1.28 M SDR مقارنة بالأسبوع السابق.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 8574,
+      "max_call_tokens": 5235,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 3159.3
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q17_ar",
+     "lang": "ar",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "أكبر عميل عندنا في الـ 13 أسبوع لحد الأسبوع 23 هو شركة Belanor Tankers بإجمالي فواتير بلغ 10.28 M SDR وحصة سوقية بنسبة 14.75 %.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 8497,
+      "max_call_tokens": 5160,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1769.5
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q20_ar",
+     "lang": "ar",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "أكبر فاتورة متأخرة في أسبوع 49 هي الفاتورة INV-0000723 للعميل Levavia Tankers بقيمة 0.67 M SDR، والتي مضى على استحقاقها 49 days يوماً.",
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7816,
+      "max_call_tokens": 4478,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1808.9
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true
+    },
+    {
+     "id": "q22_ar",
+     "lang": "ar",
+     "expected": "answered",
+     "status": "validation_failed",
+     "status_ok": false,
+     "problems": [
+      "slot {insight.call_374045:rows[0].amount_sdr|sdr}: malformed slot: write {<evidence id>[<row>]:<field>|<format>}",
+      "numbers typed as text ['0']: write each NileGate number as a slot (or quote a cited document)"
+     ],
+     "rendered": "تبلغ رسوم عبور قناة السويس لسفينة حاويات محمّلة بحمولة 50,000 SCNT نحو {insight.call_374045:rows[0].amount_sdr|sdr}.",
+     "usage": {
+      "calls": 3,
+      "fresh_calls": 3,
+      "cached_calls": 0,
+      "tokens": 11363,
+      "max_call_tokens": 4137,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2812.9
+     },
+     "completeness": 0.0,
+     "elements_met": 0,
+     "relevance": 0.0,
+     "numbers_ok": false,
+     "traceable": true
+    }
+   ],
+   "complete": true,
+   "aggregate": {
+    "packs_published": "10 / 11",
+    "deck_numbers": 1.0,
+    "planted_found": "3 / 6",
+    "false_alarm_rate": 0.25,
+    "claim_accuracy": 1.0,
+    "traceability": 1.0,
+    "narrative_recall": 0.931,
+    "narrative_recall_seen": 0.75,
+    "narrative_recall_unseen": 1.0,
+    "qa_completeness_en": 0.9565,
+    "qa_completeness_ar": 0.9,
+    "qa_relevance_en": 0.9565,
+    "qa_relevance_ar": 0.9,
+    "qa_numbers": 1.0,
+    "qa_traceability": 1.0,
+    "abstention_recall": 1.0,
+    "abstention_precision": 1.0,
+    "rbac_leakage": 0,
+    "style": {
+     "redundant_direction": 3,
+     "empty_bullets": 3,
+     "title_adjectives": 0
+    },
+    "usage": {
+     "calls": 147,
+     "fresh_calls": 140,
+     "cached_calls": 7,
+     "tokens": 821741,
+     "fallbacks": 0,
+     "failed_calls": 0
+    },
+    "rewrites": 18
+   },
+   "gates": {
+    "deck_numbers_100": true,
+    "planted_all": false,
+    "false_alarms_le_5pct": false,
+    "claims_100": true,
+    "traceability_100": true,
+    "rbac_leakage_0": true,
+    "abstention_recall_100": true
+   }
+  }
+ ],
+ "stopped": null,
+ "primaries_mean": {
+  "narrative_recall": 0.7931,
+  "qa_completeness_en": 0.9565,
+  "qa_completeness_ar": 0.95
+ },
+ "gates_all_runs": {
+  "deck_numbers_100": true,
+  "planted_all": false,
+  "false_alarms_le_5pct": false,
+  "claims_100": true,
+  "traceability_100": true,
+  "rbac_leakage_0": true,
+  "abstention_recall_100": true
+ },
+ "g2_arabic_threshold": true,
+ "d7_met": false,
+ "adr052_vs": {
+  "baseline": "stage1_eval_2026-10-22_c3.json",
+  "gates_regressed": [
+   "planted_all",
+   "false_alarms_le_5pct"
+  ],
+  "primary_change": {
+   "narrative_recall": -0.0862,
+   "qa_completeness_en": 0.0,
+   "qa_completeness_ar": 0.0
+  },
+  "kept": false,
+  "verdict": "reject"
+ }
+}

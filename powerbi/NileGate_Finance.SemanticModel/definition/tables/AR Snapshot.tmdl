@@ -1,0 +1,155 @@
+/// finance.fact_ar_snapshot: open invoices as of each report week's Sunday (semi-additive: one week at a time).
+table 'AR Snapshot'
+	lineageTag: 8d0b4fa9-184f-4c6d-96a1-ac7c91361aa7
+
+	column report_week
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 20fba0f7-2a24-432c-92b8-a12f49f21cd2
+		summarizeBy: none
+		sourceColumn: report_week
+
+		annotation SummarizationSetBy = Automatic
+
+	column as_of_date
+		dataType: dateTime
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: 317ddfde-941a-4e93-ad3f-4758983c959e
+		summarizeBy: none
+		sourceColumn: as_of_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column invoice_number
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: 6fd6f27a-cc25-4472-8070-78088b94e28a
+		summarizeBy: none
+		sourceColumn: invoice_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column invoice_date
+		dataType: dateTime
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: 59ea465b-029c-465d-a095-dc8adabdcc8d
+		summarizeBy: none
+		sourceColumn: invoice_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column due_date
+		dataType: dateTime
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: 49731962-5f84-4b02-b2a5-e17f5a5a11d7
+		summarizeBy: none
+		sourceColumn: due_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column customer_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 9019a60d-5584-439a-bae5-0c6bb4ffec9d
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column vessel_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 2c60056f-b5b0-4610-abae-e5bf8e7b5480
+		summarizeBy: none
+		sourceColumn: vessel_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column vessel_category
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: 53ec43d5-861a-434b-8bf2-dbd59df39d04
+		summarizeBy: none
+		sourceColumn: vessel_category
+
+		annotation SummarizationSetBy = Automatic
+
+	column amount_sdr
+		dataType: double
+		isHidden
+		sourceProviderType: decimal
+		lineageTag: e66b9073-d9fa-438d-a9d3-6f569811208d
+		summarizeBy: none
+		sourceColumn: amount_sdr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column days_past_due
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: fedb8e6f-f6e6-4bc6-a6df-70b0bb3dc68b
+		summarizeBy: none
+		sourceColumn: days_past_due
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_overdue
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: ff86f9bc-97bc-4620-8c1d-f0b4905bf5bb
+		summarizeBy: none
+		sourceColumn: is_overdue
+
+		annotation SummarizationSetBy = Automatic
+
+	column aging_bucket
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: c7be3ecb-5cee-4312-b868-9867dcabf39e
+		summarizeBy: none
+		sourceColumn: aging_bucket
+		sortByColumn: aging_bucket_order
+
+		annotation SummarizationSetBy = Automatic
+
+	column aging_bucket_order
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 8155f6b2-c048-494e-b900-b59fc77cd4fd
+		summarizeBy: none
+		sourceColumn: aging_bucket_order
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'finance fact_ar_snapshot' = m
+		mode: directQuery
+		source =
+				let
+				  Source = PostgreSQL.Database("127.0.0.1:5432", "ports_logistics"),
+				  #"Navigation 1" = Source{[Schema = "finance", Item = "fact_ar_snapshot"]}[Data]
+				in
+				  #"Navigation 1"
+
+	annotation PBI_ResultType = Table
+

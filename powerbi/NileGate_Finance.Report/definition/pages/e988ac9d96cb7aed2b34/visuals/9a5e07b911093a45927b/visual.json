@@ -1,0 +1,132 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "9a5e07b911093a45927b",
+  "position": {
+    "x": 980,
+    "y": 340,
+    "z": 4,
+    "height": 310,
+    "width": 920,
+    "tabOrder": 4
+  },
+  "visual": {
+    "visualType": "lineChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Weekly Trend"
+                    }
+                  },
+                  "Property": "trend_week_label"
+                }
+              },
+              "queryRef": "Weekly Trend.trend_week_label",
+              "nativeQueryRef": "trend_week_label",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Weekly KPIs"
+                    }
+                  },
+                  "Property": "Trend DSO Days"
+                }
+              },
+              "queryRef": "Weekly KPIs.Trend DSO Days",
+              "nativeQueryRef": "Trend DSO Days"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "labels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'DSO - last 13 weeks (days)'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "465437f270c230719b72",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Weekly KPIs"
+              }
+            },
+            "Property": "Trend DSO Days"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "6c4a028c26a6196ec39a",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Weekly Trend"
+              }
+            },
+            "Property": "trend_week_label"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
+  }
+}

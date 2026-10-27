@@ -183,4 +183,168 @@ SELECT count(*) AS documents, sum(chunk_count) AS chunks, sum(page_count) AS pag
 FROM documents;
 SELECT p.department_name, d.sensitivity_level, count(*) FROM documents d JOIN departments p USING (department_id) GROUP BY 1, 2 ORDER BY 1, 2;
 
+\echo '### 17. FINANCE DATA (migration 012, Agents plan §4a)'
+-- expected: 40 | 500 | 994 | 0 | 0 | 0 | 676 | 88 | 52
+SELECT (SELECT count(*) FROM customers) AS customers,
+       (SELECT count(*) FROM vessels WHERE customer_id IS NOT NULL) AS vessels_with_customer,
+       (SELECT count(*) FROM payments) AS payments,
+       (SELECT count(*) FROM payments p JOIN invoices i USING (invoice_number) WHERE p.amount_sdr <> i.amount) AS payment_amount_mismatch,
+       (SELECT count(*) FROM payments p JOIN invoices i USING (invoice_number) WHERE p.paid_date < i.invoice_date) AS paid_before_invoice,
+       (SELECT count(*) FROM payments WHERE paid_date > DATE '2026-03-31') AS paid_after_horizon,
+       (SELECT count(*) FROM budget_weekly) AS budget_rows,
+       (SELECT count(*) FROM finance_test.invoices) AS test_invoices,
+       (SELECT count(*) FROM finance_test.budget_weekly) AS test_budget_rows;
+-- expected: 6 segments; every customer has at least one vessel; terms 30 / 45 / 60
+SELECT c.segment, count(DISTINCT c.customer_id) AS customers, count(v.vessel_id) AS vessels
+FROM customers c LEFT JOIN vessels v USING (customer_id) GROUP BY 1 ORDER BY 1;
+
+\echo '### 18. FINANCE VIEWS (migrations 013-014, Agents plan Phases 2-3)'
+-- expected: 14 | 0 | 0 | 455 | 52 | 1000 | 994 | 4 | 13 | 598  (12 views before 014, 13 before 015)
+SELECT (SELECT count(*) FROM pg_class WHERE relnamespace = 'finance'::regnamespace AND relkind = 'v') AS finance_views,
+       (SELECT count(*) FROM pg_class c WHERE c.relnamespace = 'finance'::regnamespace AND c.relkind = 'v'
+          AND obj_description(c.oid, 'pg_class') IS NULL) AS views_without_comment,
+       (SELECT count(*) FROM pg_attribute a JOIN pg_class t ON t.oid = a.attrelid
+        WHERE t.relnamespace = 'finance'::regnamespace AND t.relkind = 'v' AND a.attnum > 0 AND NOT a.attisdropped
+          AND col_description(t.oid, a.attnum) IS NULL) AS columns_without_comment,
+       (SELECT count(*) FROM finance.dim_date) AS dim_date_days,
+       (SELECT count(*) FROM finance.kpi_weekly) AS kpi_weeks,
+       (SELECT count(*) FROM finance.fact_invoice) AS fact_invoices,
+       (SELECT count(*) FROM finance.fact_payment) AS fact_payments,
+       (SELECT count(*) FROM finance.fact_invoice WHERE invoice_report_week IS NULL) AS invoices_in_2026_w01,
+       (SELECT count(*) FROM finance.kpi_weekly WHERE is_warmup) AS warmup_weeks,
+       (SELECT count(*) FROM finance.kpi_weekly_trend) AS trend_rows;
+-- expected 14 | 0 | 0 (13 before 015): finance_bi reads the finance views, writes nothing, reads nothing outside schema finance
+-- (PostGIS grants SELECT on its own catalog objects to PUBLIC; they are excluded)
+SELECT count(*) FILTER (WHERE c.relnamespace = 'finance'::regnamespace AND has_table_privilege('finance_bi', c.oid, 'SELECT')) AS bi_finance_select,
+       count(*) FILTER (WHERE has_table_privilege('finance_bi', c.oid, 'INSERT,UPDATE,DELETE,TRUNCATE')) AS bi_write,
+       count(*) FILTER (WHERE c.relnamespace <> 'finance'::regnamespace AND has_table_privilege('finance_bi', c.oid, 'SELECT')) AS bi_outside_finance
+FROM pg_class c
+WHERE c.relnamespace IN ('finance'::regnamespace, 'public'::regnamespace, 'finance_test'::regnamespace) AND c.relkind IN ('r', 'v')
+  AND c.relname NOT IN ('spatial_ref_sys', 'geometry_columns', 'geography_columns');
+-- expected ≤ 0.02 (rounded inputs): AR(w) = AR(w−1) + billed(w) − collected(w) on all 52 weeks
+SELECT max(abs(coalesce(prev_ar, 0) + billed_sdr - collected_sdr - ar_sdr)) AS ar_roll_forward_max_diff
+FROM (SELECT ar_sdr, billed_sdr, collected_sdr, lag(ar_sdr) OVER (ORDER BY report_week) AS prev_ar FROM finance.kpi_weekly) k;
+
+\echo '### 19. INVOICE AUDIT VIEWS (migration 015, Agents plan Phase 4)'
+-- expected: 3 | 3 | 0 | 0 | 0 | 0 | 5 | 1 | 1 | 1 | 1 | 1 | 0
+-- live: the 3 reviewed same-vessel, same-day, same-amount pairs (ADR-013 data); test: the 5 planted errors with
+-- their causes, nothing in clean week 49
+SELECT (SELECT count(*) FROM finance.invoice_audit) AS live_findings,
+       (SELECT count(*) FROM finance.invoice_audit WHERE check_code = 'duplicate_charge') AS live_duplicates,
+       (SELECT count(*) FROM finance.invoice_audit WHERE check_code = 'amount_mismatch') AS live_amount,
+       (SELECT count(*) FROM finance.invoice_audit WHERE check_code = 'tonnage_mismatch') AS live_tonnage,
+       (SELECT count(*) FROM finance.invoice_audit WHERE check_code = 'rate_mismatch') AS live_rate,
+       (SELECT count(*) FROM finance.invoice_audit WHERE report_week IS NULL) AS live_outside_weeks,
+       (SELECT count(*) FROM finance_test.invoice_audit) AS test_findings,
+       (SELECT count(*) FROM finance_test.invoice_audit WHERE probable_cause = 'flat_terminal_rate') AS test_flat_rate,
+       (SELECT count(*) FROM finance_test.invoice_audit WHERE probable_cause = 'condition_swapped') AS test_cond_swap,
+       (SELECT count(*) FROM finance_test.invoice_audit WHERE probable_cause = 'sfu_priced_ballast') AS test_sfu,
+       (SELECT count(*) FROM finance_test.invoice_audit WHERE check_code = 'tonnage_mismatch') AS test_tonnage,
+       (SELECT count(*) FROM finance_test.invoice_audit WHERE check_code = 'duplicate_charge') AS test_duplicates,
+       (SELECT count(*) FROM finance_test.invoice_audit WHERE report_week = 49) AS test_week49;
+-- expected t | f | t | t: Power BI reads the live audit only; the tools' role reads both
+SELECT has_table_privilege('finance_bi', 'finance.invoice_audit', 'SELECT') AS bi_live,
+       has_table_privilege('finance_bi', 'finance_test.invoice_audit', 'SELECT') AS bi_test,
+       has_table_privilege('ports_readonly', 'finance.invoice_audit', 'SELECT') AS ro_live,
+       has_table_privilege('ports_readonly', 'finance_test.invoice_audit', 'SELECT') AS ro_test;
+
+\echo '### 20. AGENT STATE (migration 016, Agents plan Phase 5)'
+-- expected: t | postgres | t | f | ports_agent | {search_path=agent_state} | f
+-- (login: NULL / NULL before db/create_agent_user.ps1)
+SELECT to_regnamespace('agent_state') IS NOT NULL AS schema_exists,
+       (SELECT pg_get_userbyid(nspowner) FROM pg_namespace WHERE nspname = 'agent_state') AS schema_owner,
+       EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'agent_writer') AS writer_role,
+       (SELECT rolcanlogin FROM pg_roles WHERE rolname = 'agent_writer') AS writer_can_login,
+       (SELECT string_agg(r.rolname, ',') FROM pg_auth_members m JOIN pg_roles r ON r.oid = m.member
+        WHERE m.roleid = (SELECT oid FROM pg_roles WHERE rolname = 'agent_writer')) AS writer_members,
+       (SELECT s.setconfig::text FROM pg_db_role_setting s JOIN pg_roles r ON r.oid = s.setrole
+        WHERE r.rolname = 'ports_agent') AS login_settings,
+       has_schema_privilege('agent_writer', 'agent_state', 'CREATE') AS writer_can_create;
+-- expected: 4 | 4 | 0 | 0 | 0 | 0 (0 | 0 | 0 | 0 | 0 | 0 before Checkpointer_setup.py): the checkpoint tables, DML for
+-- agent_writer, no TRUNCATE, nothing for ports_readonly / finance_bi, nothing outside agent_state for the writer
+SELECT count(*) FILTER (WHERE c.relnamespace = 'agent_state'::regnamespace) AS state_tables,
+       count(*) FILTER (WHERE c.relnamespace = 'agent_state'::regnamespace
+                          AND has_table_privilege('agent_writer', c.oid, 'SELECT')
+                          AND has_table_privilege('agent_writer', c.oid, 'INSERT')
+                          AND has_table_privilege('agent_writer', c.oid, 'UPDATE')
+                          AND has_table_privilege('agent_writer', c.oid, 'DELETE')) AS writer_dml,
+       count(*) FILTER (WHERE c.relnamespace = 'agent_state'::regnamespace
+                          AND has_table_privilege('agent_writer', c.oid, 'TRUNCATE')) AS writer_truncate,
+       count(*) FILTER (WHERE c.relnamespace = 'agent_state'::regnamespace
+                          AND has_table_privilege('ports_readonly', c.oid, 'SELECT')) AS readonly_reads_state,
+       count(*) FILTER (WHERE c.relnamespace = 'agent_state'::regnamespace
+                          AND has_table_privilege('finance_bi', c.oid, 'SELECT')) AS bi_reads_state,
+       count(*) FILTER (WHERE c.relnamespace <> 'agent_state'::regnamespace
+                          AND c.relname NOT IN ('spatial_ref_sys', 'geometry_columns', 'geography_columns')
+                          AND has_table_privilege('agent_writer', c.oid, 'SELECT,INSERT,UPDATE,DELETE')) AS writer_outside
+FROM pg_class c
+WHERE c.relkind IN ('r', 'v')
+  AND c.relnamespace IN ('agent_state'::regnamespace, 'public'::regnamespace, 'finance'::regnamespace,
+                         'finance_test'::regnamespace);
+
+\echo '### 21. TWIN KPI VIEWS OF THE EVALUATION COPY (migration 017, Agents plan Phase 7)'
+-- expected: 52 | 4 | 0 | 0 | 1 | -23600.00 | 598696.79 | -64363.84
+-- category rows (4 weeks x 13) | weekly rows | clean week 49 differing from the live views (billed, budget) | other
+-- columns differing from live | budget rows changed (week 36 LNG, the planted x 1.5) | billed test - live of weeks
+-- 10 / 23 / 36 (the planted errors: wrong rate; duplicate + laden / ballast swap; SFU priced ballast)
+SELECT (SELECT count(*) FROM finance_test.kpi_weekly_category) AS category_rows,
+       (SELECT count(*) FROM finance_test.kpi_weekly) AS weekly_rows,
+       (SELECT count(*) FROM finance_test.kpi_weekly t JOIN finance.kpi_weekly l USING (report_week)
+        WHERE t.report_week = 49 AND (t.billed_sdr, t.budget_sdr, t.billed_wow_pct)
+                                 IS DISTINCT FROM (l.billed_sdr, l.budget_sdr, l.billed_wow_pct)) AS week49_diff,
+       (SELECT count(*) FROM finance_test.kpi_weekly t JOIN finance.kpi_weekly l USING (report_week)
+        WHERE (t.ar_sdr, t.overdue_sdr, t.collected_sdr, t.dso_days, t.top10_share_13w_pct)
+              IS DISTINCT FROM (l.ar_sdr, l.overdue_sdr, l.collected_sdr, l.dso_days, l.top10_share_13w_pct)) AS live_cols_diff,
+       (SELECT count(*) FROM finance_test.kpi_weekly_category t
+        JOIN finance.kpi_weekly_category l USING (report_week, vessel_category)
+        WHERE t.budget_sdr <> l.budget_sdr) AS budget_rows_changed,
+       (SELECT t.billed_sdr - l.billed_sdr FROM finance_test.kpi_weekly t JOIN finance.kpi_weekly l USING (report_week)
+        WHERE report_week = 10) AS w10_billed_diff,
+       (SELECT t.billed_sdr - l.billed_sdr FROM finance_test.kpi_weekly t JOIN finance.kpi_weekly l USING (report_week)
+        WHERE report_week = 23) AS w23_billed_diff,
+       (SELECT t.billed_sdr - l.billed_sdr FROM finance_test.kpi_weekly t JOIN finance.kpi_weekly l USING (report_week)
+        WHERE report_week = 36) AS w36_billed_diff;
+-- expected f | f | t | t: Power BI never sees the copy; the tools' read-only role reads both twins
+SELECT has_table_privilege('finance_bi', 'finance_test.kpi_weekly', 'SELECT') AS bi_weekly,
+       has_table_privilege('finance_bi', 'finance_test.kpi_weekly_category', 'SELECT') AS bi_category,
+       has_table_privilege('ports_readonly', 'finance_test.kpi_weekly', 'SELECT') AS ro_weekly,
+       has_table_privilege('ports_readonly', 'finance_test.kpi_weekly_category', 'SELECT') AS ro_category;
+
+\echo '### 22. THE PLANTED BUDGET MISS OF THE COPY (migration 018, Agents plan D-P7-1)'
+-- expected: 2718323.04 | -33.33 | 1 | 1 | -25.85
+-- week 36 LNG budget (= its billed 1,812,215.36 x 1.5) | its variance % | copy budget rows differing from live (only
+-- that row) | categories below budget in week 36 of the copy among the top three by billed (LNG) | week 36 variance %
+SELECT (SELECT budget_sdr FROM finance_test.budget_weekly WHERE budget_year = 2025 AND iso_week = 36
+          AND vessel_category = 'Liquefied Natural Gas (LNG) Carriers') AS w36_lng_budget,
+       (SELECT budget_variance_pct FROM finance_test.kpi_weekly_category WHERE report_week = 36
+          AND vessel_category = 'Liquefied Natural Gas (LNG) Carriers') AS w36_lng_variance_pct,
+       (SELECT count(*) FROM finance_test.budget_weekly t JOIN public.budget_weekly l
+          USING (budget_year, iso_week, vessel_category) WHERE t.budget_sdr <> l.budget_sdr) AS budget_rows_changed,
+       (SELECT count(*) FROM (SELECT budget_variance_pct FROM finance_test.kpi_weekly_category WHERE report_week = 36
+          ORDER BY billed_sdr DESC LIMIT 3) t WHERE budget_variance_pct < 0
+          AND budget_variance_pct < -30) AS w36_top3_missed_over_30pct,
+       (SELECT budget_variance_pct FROM finance_test.kpi_weekly WHERE report_week = 36) AS w36_variance_pct;
+
+\echo '### 23. THE TARIFF NOTES RULE IN THE AUDIT (migration 019, Agents plan §5f F5)'
+-- expected: 3 | 5 | 0 | 0 | t | t | t | f
+-- live findings | test findings | live manual_review | test manual_review | review column in both views |
+-- product tankers' ballast bands = the Crude Oil ballast bands (the Notes rule already in the tables) | chemical
+-- tankers' ballast bands differ from them (the rule 019 models as manual review)
+SELECT (SELECT count(*) FROM finance.invoice_audit) AS live_findings,
+       (SELECT count(*) FROM finance_test.invoice_audit) AS test_findings,
+       (SELECT count(*) FROM finance.invoice_audit WHERE review = 'manual_review') AS live_manual_review,
+       (SELECT count(*) FROM finance_test.invoice_audit WHERE review = 'manual_review') AS test_manual_review,
+       (SELECT count(*) = 2 FROM information_schema.columns WHERE column_name = 'review'
+          AND table_name = 'invoice_audit' AND table_schema IN ('finance', 'finance_test')) AS review_column,
+       NOT EXISTS (SELECT band_order, band_min_tons, band_max_tons, rate_sdr_per_ton FROM toll_rate_bands
+                     WHERE vessel_category = 'Petroleum Product Tankers' AND laden_ballast = 'Ballast'
+                   EXCEPT SELECT band_order, band_min_tons, band_max_tons, rate_sdr_per_ton FROM toll_rate_bands
+                     WHERE vessel_category = 'Crude Oil Tankers' AND laden_ballast = 'Ballast') AS product_eq_crude,
+       EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'finance'
+                 AND table_name = 'invoice_audit' AND column_name = 'review') AS live_review,
+       NOT EXISTS (SELECT band_order, rate_sdr_per_ton FROM toll_rate_bands
+                     WHERE vessel_category = 'Chemical Tankers & Other Liquid Bulk Tankers' AND laden_ballast = 'Ballast'
+                   EXCEPT SELECT band_order, rate_sdr_per_ton FROM toll_rate_bands
+                     WHERE vessel_category = 'Crude Oil Tankers' AND laden_ballast = 'Ballast') AS chemical_eq_crude;
+
 \echo '### END'

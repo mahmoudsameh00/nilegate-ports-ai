@@ -1,0 +1,163 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "17ea38888013623551e5",
+  "position": {
+    "x": 20,
+    "y": 280,
+    "z": 3,
+    "height": 440,
+    "width": 940,
+    "tabOrder": 3
+  },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Category KPIs"
+                    }
+                  },
+                  "Property": "vessel_category"
+                }
+              },
+              "queryRef": "Category KPIs.vessel_category",
+              "nativeQueryRef": "vessel_category",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Weekly KPIs"
+                    }
+                  },
+                  "Property": "Category Billed SDR"
+                }
+              },
+              "queryRef": "Weekly KPIs.Category Billed SDR",
+              "nativeQueryRef": "Category Billed SDR"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Weekly KPIs"
+                    }
+                  },
+                  "Property": "Category Budget SDR"
+                }
+              },
+              "queryRef": "Weekly KPIs.Category Budget SDR",
+              "nativeQueryRef": "Category Budget SDR"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Weekly KPIs"
+                  }
+                },
+                "Property": "Category Billed SDR"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Billed vs Budget by vessel category (SDR)'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "778ac9e2b6e434ea1758",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Weekly KPIs"
+              }
+            },
+            "Property": "Category Billed SDR"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "5b3af880d5d12f99c92c",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Weekly KPIs"
+              }
+            },
+            "Property": "Category Budget SDR"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "f416081e6ee16bf626c7",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Category KPIs"
+              }
+            },
+            "Property": "vessel_category"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
+  }
+}

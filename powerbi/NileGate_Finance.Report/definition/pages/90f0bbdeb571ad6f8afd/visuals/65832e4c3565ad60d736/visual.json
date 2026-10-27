@@ -1,0 +1,84 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "65832e4c3565ad60d736",
+  "position": {
+    "x": 20,
+    "y": 100,
+    "z": 2,
+    "height": 160,
+    "width": 1880,
+    "tabOrder": 2
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Weekly KPIs"
+                    }
+                  },
+                  "Property": "Top10 Share 13w %"
+                }
+              },
+              "queryRef": "Weekly KPIs.Top10 Share 13w %",
+              "nativeQueryRef": "Top10 Share 13w %"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Weekly KPIs"
+                    }
+                  },
+                  "Property": "Billed 13w SDR"
+                }
+              },
+              "queryRef": "Weekly KPIs.Billed 13w SDR",
+              "nativeQueryRef": "Billed 13w SDR"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Weekly KPIs"
+                    }
+                  },
+                  "Property": "Top 10 Billed 13w SDR"
+                }
+              },
+              "queryRef": "Weekly KPIs.Top 10 Billed 13w SDR",
+              "nativeQueryRef": "Top 10 Billed 13w SDR"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Weekly KPIs"
+                  }
+                },
+                "Property": "Top10 Share 13w %"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

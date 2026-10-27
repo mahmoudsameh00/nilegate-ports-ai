@@ -1,0 +1,130 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "10aed6006147e423d120",
+  "position": {
+    "x": 20,
+    "y": 100,
+    "z": 2,
+    "height": 160,
+    "width": 1880,
+    "tabOrder": 2
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Weekly KPIs"
+                    }
+                  },
+                  "Property": "Revenue SDR"
+                }
+              },
+              "queryRef": "Weekly KPIs.Revenue SDR",
+              "nativeQueryRef": "Revenue SDR"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Weekly KPIs"
+                    }
+                  },
+                  "Property": "Invoice Count"
+                }
+              },
+              "queryRef": "Weekly KPIs.Invoice Count",
+              "nativeQueryRef": "Invoice Count"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Weekly KPIs"
+                    }
+                  },
+                  "Property": "SCNT Tons"
+                }
+              },
+              "queryRef": "Weekly KPIs.SCNT Tons",
+              "nativeQueryRef": "SCNT Tons"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Weekly KPIs"
+                  }
+                },
+                "Property": "Revenue SDR"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "4e99fe3bed4da92e4dc3",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Weekly KPIs"
+              }
+            },
+            "Property": "Revenue SDR"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "4523de8fef9abe8467ef",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Weekly KPIs"
+              }
+            },
+            "Property": "Invoice Count"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "f1aa46b7df452c2bbe00",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Weekly KPIs"
+              }
+            },
+            "Property": "SCNT Tons"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

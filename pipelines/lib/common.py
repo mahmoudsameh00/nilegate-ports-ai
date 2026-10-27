@@ -4,7 +4,9 @@ import re
 from pathlib import Path
 
 SECRET_KEYS = ("JINA_API_KEY", "VOYAGE_API_KEY", "GEMINI_API_KEY", "QDRANT_API_KEY",
-               "PGPASSWORD", "PG_RO_PASSWORD", "MONGO_ROOT_PASSWORD", "MONGO_APP_PASSWORD")
+               "GROQ_API_KEY", "OPENROUTER_API_KEY", "LANGSMITH_API_KEY", "LANGCHAIN_API_KEY", "TAVILY_API_KEY",
+               "PGPASSWORD", "PG_RO_PASSWORD", "PG_BI_PASSWORD", "PG_AGENT_PASSWORD", "MONGO_ROOT_PASSWORD",
+               "MONGO_APP_PASSWORD")
 
 
 def project_root(start: Path | None = None) -> Path:

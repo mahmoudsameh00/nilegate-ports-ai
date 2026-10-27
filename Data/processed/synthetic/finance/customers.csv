@@ -1,0 +1,41 @@
+customer_id,customer_name,country,segment,payment_terms_days,credit_rating
+1,Ostanor Lines,Switzerland,container,45,B
+2,Pharanor Container Lines,China,container,60,A
+3,Cyravia Lines,South Korea,container,30,B
+4,Zanenta Lines,Greece,container,45,A
+5,Ardanor Container Lines,Egypt,container,45,C
+6,Velondo Container Lines,Greece,container,60,C
+7,Quoromar Container Lines,South Korea,container,30,C
+8,Korussa Container Lines,China,container,30,C
+9,Belanor Tankers,Singapore,tanker,60,B
+10,Thalomar Shipping,Singapore,tanker,30,A
+11,Thalanor Shipping,Greece,tanker,45,C
+12,Nilussa Shipping,United Arab Emirates,tanker,45,C
+13,Ostomar Shipping,Turkey,tanker,60,A
+14,Zananor Tankers,India,tanker,45,A
+15,Levavia Tankers,China,tanker,45,C
+16,Pharomar Tankers,Germany,tanker,45,A
+17,Nilomar Tankers,Saudi Arabia,tanker,60,B
+18,Aegussa Tankers,Switzerland,tanker,45,A
+19,Ostavia Maritime,Denmark,bulk,30,B
+20,Quorondo Maritime,Turkey,bulk,45,C
+21,Belenta Bulk,Egypt,bulk,60,A
+22,Zanussa Maritime,Egypt,bulk,30,A
+23,Meromar Bulk,Norway,bulk,30,B
+24,Koranor Maritime,Norway,bulk,30,B
+25,Nilenta Maritime,Singapore,bulk,45,C
+26,Dalavia Bulk,Germany,bulk,60,B
+27,Pharavia Maritime,India,bulk,30,C
+28,Velussa Maritime,United Arab Emirates,bulk,60,A
+29,Thalondo Car Carriers,Japan,roro,30,B
+30,Ostenta Ro-Ro Lines,Saudi Arabia,roro,45,B
+31,Belavia Ro-Ro Lines,Greece,roro,30,A
+32,Dalanor Car Carriers,Greece,roro,60,C
+33,Koravia Ro-Ro Lines,Japan,roro,60,A
+34,Korilis Cruises,United Arab Emirates,cruise,30,B
+35,Ardondo Cruises,Singapore,cruise,30,A
+36,Dalenta Cruises,China,cruise,30,A
+37,Kororia Shipping Agency,Japan,agent,30,A
+38,Quoravia Shipping Agency,Germany,agent,30,B
+39,Aegenta Marine Services,Denmark,agent,30,A
+40,Cyrenta Marine Services,Egypt,agent,45,C

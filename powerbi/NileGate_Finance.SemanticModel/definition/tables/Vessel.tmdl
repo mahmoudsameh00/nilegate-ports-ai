@@ -1,0 +1,138 @@
+/// finance.dim_vessel (with port names)
+table Vessel
+	lineageTag: 1fbd91f5-970e-4376-af20-f3cfa1105ee0
+
+	column vessel_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: fb87f699-1d9c-4ce6-8420-bb63d5dae0c3
+		summarizeBy: none
+		sourceColumn: vessel_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column imo_number
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: da76f3a2-1acc-422d-bc94-f432574eb234
+		summarizeBy: none
+		sourceColumn: imo_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column vessel_name
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: 47213d29-88ef-482c-837c-62a4cb6a9939
+		summarizeBy: none
+		sourceColumn: vessel_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column vessel_category
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: a6ca737b-0295-4424-a794-b68eef3c61d0
+		summarizeBy: none
+		sourceColumn: vessel_category
+
+		annotation SummarizationSetBy = Automatic
+
+	column flag_country
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: 30c8ba86-bd6a-4d02-9edc-3dd5d61172d6
+		summarizeBy: none
+		sourceColumn: flag_country
+
+		annotation SummarizationSetBy = Automatic
+
+	column scnt_tons
+		dataType: double
+		sourceProviderType: decimal
+		lineageTag: f984367a-4bad-4cef-90dd-d9fd5ae2def1
+		summarizeBy: none
+		sourceColumn: scnt_tons
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column condition
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: 40f40df0-e923-4b3f-a611-5c22bb99ec12
+		summarizeBy: none
+		sourceColumn: condition
+
+		annotation SummarizationSetBy = Automatic
+
+	column origin_locode
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: bf093267-ec42-44a8-8b84-9fc33d0c47d8
+		summarizeBy: none
+		sourceColumn: origin_locode
+
+		annotation SummarizationSetBy = Automatic
+
+	column origin_port
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: 9e701b98-3931-4678-822b-05b7f19eaca4
+		summarizeBy: none
+		sourceColumn: origin_port
+
+		annotation SummarizationSetBy = Automatic
+
+	column destination_locode
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: 81618dd2-88c9-49e9-bcfc-57d41b72afb9
+		summarizeBy: none
+		sourceColumn: destination_locode
+
+		annotation SummarizationSetBy = Automatic
+
+	column destination_port
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: f0b0aebb-1239-49fd-a293-14aa38072036
+		summarizeBy: none
+		sourceColumn: destination_port
+
+		annotation SummarizationSetBy = Automatic
+
+	column route
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: 0e7b0d3f-d320-42a1-9ae2-70f7687eb611
+		summarizeBy: none
+		sourceColumn: route
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: bf2f3bf8-8438-47f2-8372-23bd80950cae
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'finance dim_vessel' = m
+		mode: directQuery
+		source =
+				let
+				  Source = PostgreSQL.Database("127.0.0.1:5432", "ports_logistics"),
+				  #"Navigation 1" = Source{[Schema = "finance", Item = "dim_vessel"]}[Data]
+				in
+				  #"Navigation 1"
+
+	annotation PBI_ResultType = Table
+

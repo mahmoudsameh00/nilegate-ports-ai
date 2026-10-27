@@ -3,7 +3,7 @@
 Origin:  Converted from Notebooks/structured/ExtractPortsConnection.ipynb (archived in docs/archive/notebooks/).
          Refactored (ADR-036 D3) 2026-10-01: same steps, same output file byte for byte; exploration displays replaced by
          assertions and a short summary. The original INSERT is kept as `insert_port_connections()` and runs only with
-         `--insert` (owner decision 2026-10-01: the table is complete, the project rules rule 2).
+         `--insert` (owner decision 2026-10-01: the table is complete, project rule 2).
 Run:     uv run python tools/run.py pipelines/scripts/structured/ExtractPortsConnection.py  (from the project root)
 
 Reads:   Data/raw/structured/Port_flows/port_flows.shp; PostgreSQL `ports` (read-only session)
@@ -61,7 +61,7 @@ def insert_port_connections(conn: psycopg.Connection, flows: gpd.GeoDataFrame) -
     """How the table was loaded (2026-09): one INSERT per pair. Refuses to run on a non-empty table."""
     existing = conn.execute("SELECT count(*) FROM port_connections").fetchone()[0]
     if existing:
-        raise SystemExit(f"port_connections already holds {existing} rows: not inserting (the project rules rule 2)")
+        raise SystemExit(f"port_connections already holds {existing} rows: not inserting (project rule 2)")
     with conn.cursor() as cur:
         for row in flows.itertuples(index=False):
             cur.execute(

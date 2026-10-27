@@ -1,0 +1,76 @@
+relationship 'Weekly KPIs -> Week'
+	fromColumn: 'Weekly KPIs'.report_week
+	toColumn: Week.report_week
+
+relationship 'Category KPIs -> Week'
+	fromColumn: 'Category KPIs'.report_week
+	toColumn: Week.report_week
+
+relationship 'Customer KPIs 13w -> Week'
+	fromColumn: 'Customer KPIs 13w'.report_week
+	toColumn: Week.report_week
+
+relationship 'Overdue List -> Week'
+	fromColumn: 'Overdue List'.report_week
+	toColumn: Week.report_week
+
+relationship 'AR Snapshot -> Week'
+	fromColumn: 'AR Snapshot'.report_week
+	toColumn: Week.report_week
+
+relationship 'Weekly Trend -> Week'
+	fromColumn: 'Weekly Trend'.report_week
+	toColumn: Week.report_week
+
+relationship 'Invoices -> Week'
+	fromColumn: Invoices.invoice_report_week
+	toColumn: Week.report_week
+
+relationship 'Payments -> Week'
+	fromColumn: Payments.paid_report_week
+	toColumn: Week.report_week
+
+relationship 'Invoices -> Customer'
+	fromColumn: Invoices.customer_id
+	toColumn: Customer.customer_id
+
+relationship 'Payments -> Customer'
+	fromColumn: Payments.customer_id
+	toColumn: Customer.customer_id
+
+relationship 'AR Snapshot -> Customer'
+	fromColumn: 'AR Snapshot'.customer_id
+	toColumn: Customer.customer_id
+
+relationship 'Customer KPIs 13w -> Customer'
+	fromColumn: 'Customer KPIs 13w'.customer_id
+	toColumn: Customer.customer_id
+
+relationship 'Overdue List -> Customer'
+	fromColumn: 'Overdue List'.customer_id
+	toColumn: Customer.customer_id
+
+relationship 'Invoices -> Vessel'
+	fromColumn: Invoices.vessel_id
+	toColumn: Vessel.vessel_id
+
+relationship 'Payments -> Vessel'
+	fromColumn: Payments.vessel_id
+	toColumn: Vessel.vessel_id
+
+relationship 'AR Snapshot -> Vessel'
+	fromColumn: 'AR Snapshot'.vessel_id
+	toColumn: Vessel.vessel_id
+
+relationship 'Overdue List -> Vessel'
+	fromColumn: 'Overdue List'.vessel_id
+	toColumn: Vessel.vessel_id
+
+relationship 'Invoices -> Toll Band'
+	fromColumn: Invoices.toll_rate_band_id
+	toColumn: 'Toll Band'.toll_rate_band_id
+
+relationship 'Invoice Audit -> Week'
+	fromColumn: 'Invoice Audit'.report_week
+	toColumn: Week.report_week
+

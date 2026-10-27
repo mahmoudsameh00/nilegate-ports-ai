@@ -1,0 +1,129 @@
+/// finance.kpi_weekly_trend: the 13-week window (w-12 .. w) of each report week; filter Week, chart over trend_week.
+table 'Weekly Trend'
+	lineageTag: eb8e069b-9f5c-4e68-af3a-3c565d5c03ba
+
+	column report_week
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 66f0b043-65ca-4c82-817a-7dedf44fd5a2
+		summarizeBy: none
+		sourceColumn: report_week
+
+	column trend_week
+		dataType: int64
+		formatString: 0
+		lineageTag: 1e322b29-dd17-4ca6-88d2-269fc8963ced
+		summarizeBy: none
+		sourceColumn: trend_week
+
+	column week_offset
+		dataType: int64
+		formatString: 0
+		lineageTag: d657d080-daf2-4bc8-9470-e2aeaccf6fbf
+		summarizeBy: none
+		sourceColumn: week_offset
+
+	column is_report_week
+		dataType: boolean
+		lineageTag: 23096898-5939-4655-a75f-8e7d59bcb84d
+		summarizeBy: none
+		sourceColumn: is_report_week
+
+	column trend_week_label
+		dataType: string
+		lineageTag: c319b0eb-19ad-4fbd-af68-60c133d1e54a
+		summarizeBy: none
+		sourceColumn: trend_week_label
+		sortByColumn: trend_week
+
+	column trend_week_end
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 417933af-0d79-49c8-b2cd-3ef16f8d7231
+		summarizeBy: none
+		sourceColumn: trend_week_end
+
+	column is_warmup
+		dataType: boolean
+		lineageTag: be8eae28-7ea3-4d8c-9fe8-f73eabd5ef92
+		summarizeBy: none
+		sourceColumn: is_warmup
+
+	column invoices_billed
+		dataType: int64
+		formatString: 0
+		lineageTag: 463dd61e-fd2a-4ddc-85f5-d82c0f4ab491
+		summarizeBy: none
+		sourceColumn: invoices_billed
+
+	column billed_sdr
+		dataType: double
+		isHidden
+		lineageTag: 01cdadb2-fdd7-4716-894a-1c271b3af7ee
+		summarizeBy: none
+		sourceColumn: billed_sdr
+
+	column collected_sdr
+		dataType: double
+		isHidden
+		lineageTag: 13f8a6b0-19db-48e9-9921-f60ddd6b46b8
+		summarizeBy: none
+		sourceColumn: collected_sdr
+
+	column ar_sdr
+		dataType: double
+		isHidden
+		lineageTag: aeb907f3-8bcf-4880-9249-1a1454b20a22
+		summarizeBy: none
+		sourceColumn: ar_sdr
+
+	column overdue_sdr
+		dataType: double
+		formatString: #,0
+		lineageTag: 0435dae9-0d54-41b7-8643-550cff11df86
+		summarizeBy: none
+		sourceColumn: overdue_sdr
+
+	column dso_days
+		dataType: double
+		isHidden
+		lineageTag: a0cbcb2d-e211-4830-83c2-5e3091b02bf7
+		summarizeBy: none
+		sourceColumn: dso_days
+
+	column budget_sdr
+		dataType: double
+		isHidden
+		lineageTag: 5f86f0fe-0862-42cf-ba47-545d8e62a50b
+		summarizeBy: none
+		sourceColumn: budget_sdr
+
+	column budget_variance_sdr
+		dataType: double
+		formatString: #,0
+		lineageTag: 37ee7a07-485e-49d5-b13a-4229d692a76a
+		summarizeBy: none
+		sourceColumn: budget_variance_sdr
+
+	column budget_variance_pct
+		dataType: double
+		lineageTag: d9676f55-b29f-4557-a10a-ba206af75b68
+		summarizeBy: none
+		sourceColumn: budget_variance_pct
+
+	column top10_share_13w_pct
+		dataType: double
+		lineageTag: 149f3458-a0a3-4e50-9137-e3797c3d5eca
+		summarizeBy: none
+		sourceColumn: top10_share_13w_pct
+
+	partition 'finance kpi_weekly_trend' = m
+		mode: directQuery
+		source =
+				let
+				  Source = PostgreSQL.Database("127.0.0.1:5432", "ports_logistics"),
+				  #"Navigation 1" = Source{[Schema = "finance", Item = "kpi_weekly_trend"]}[Data]
+				in
+				  #"Navigation 1"
+

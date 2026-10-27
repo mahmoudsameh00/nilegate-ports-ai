@@ -1,0 +1,56 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "fe42736e99845ae0420e",
+  "position": {
+    "x": 20,
+    "y": 900,
+    "z": 1,
+    "height": 160,
+    "width": 1880,
+    "tabOrder": 4
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Every finding comes from the database view finance.invoice_audit (migrations 015 / 019): each invoice is recomputed from the progressive Suez toll bands. Check: duplicate_charge, tonnage_mismatch, amount_mismatch (with its probable cause), rate_mismatch.",
+                    "textStyle": {
+                      "fontSize": "12pt"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Review = error: the invoice is wrong and needs a corrected invoice or a credit note. Review = manual_review: a ballast chemical tanker billed at the Crude Oil ballast rate — the tariff Notes allow it for oil / chemical tankers, so a person confirms the vessel type; it is not counted as an error.",
+                    "textStyle": {
+                      "fontSize": "12pt"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "The agents' invoice_audit tool reads the same view, so this page and the weekly deck agree.",
+                    "textStyle": {
+                      "fontSize": "12pt"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

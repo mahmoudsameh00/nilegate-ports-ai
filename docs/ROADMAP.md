@@ -1,13 +1,100 @@
 # Roadmap & status
 
-Single place for project status. Last updated: 2026-10-08 (RAG retrieval plan closed, ADR-037 – ADR-044; migration 011).
+Single place for project status. Last updated: 2026-10-23 (Agents plan §5f Phases 7–8 closure DONE: final Stage 1 baseline `stage1_eval_2026-10-23_confirm.json`, D7 not met on planted findings only; new fallback ADR-045 amendment 2; Phase 8 CLOSED: scheduled weekly pack, retention, LangSmith, ADR-054; Phase 7 CLOSED: evaluation, finance Q&A agent, migration 017, ADR-052 / ADR-053, D7 not met — owner decision; Phase 6 CLOSED: the NileGate PPTX, number slots, Validator v2 + V8, ADR-051; Phase 5 CLOSED: the `weekly_pack` workflow + PostgresSaver + approval, ADR-050, migration 016, ADR-045 amendment 1; Phase 4 CLOSED: Stage 1 tools + skills, ADR-049; Phase 3 CLOSED 2026-10-15: Power BI dashboard, ADR-048; Phase 2 closed 2026-10-14, ADR-047; Phase 1 closed 2026-10-14, ADR-046; Phase 0 closed 2026-10-12, ADR-045).
 Labels: `DONE`, `IN PROGRESS`, `PARTIAL`, `NEXT`, `PLANNED`, `PROPOSED`, `DEFERRED`, `BLOCKED`.
 
 ## Current phase
 
 **RAG retrieval CLOSED 2026-10-08** — plan archived as `docs/archive/2026-10-08_RAG_Embeddings_Qdrant_plan.md` (implementation record at the top). Result: Gemini `gemini-embedding-2` vectors (ADR-037) for the 2,163 chunks in Qdrant `nilegate_docs`; `search_documents` (`pipelines/lib/retrieval.py`) with RBAC inside Qdrant, exact dense + Jina rerank (ADR-038; balanced 0.850, RBAC leakage 0; baseline `Data/processed/rag/eval/results_2026-10-08.json`); three-level evaluation (ADR-040); conversation uploads with a local bge-m3 lane (ADR-042 – ADR-044); `documents.ingested_at` filled (migration 011). Phase 9 clean-up: the bake-off vectors moved to `Data/embeddings/bakeoff/`, the two rejected local models removed (`Upload_eval.py` keeps their recorded rows), promoted documents' migrations carry `ingested_at`.
 
-**Next: the agents phase — a multi-agent platform in two stages** (owner, 2026-10-09; LangChain + LangGraph, LLMs through free APIs chosen by a bake-off): **Stage 1 the Weekly Finance Pack** (a Power BI finance dashboard kept current + the weekly PowerPoint report, Invoice Auditor, human approval), **Stage 2 the Operations Desk** (Route & Cost Advisor: Suez vs Cape; Voyage & Disruption Watch: ETA, weather, alerts). Plan **APPROVED 2026-10-09**: `docs/plans/Agents_plan.md`; start from its "SESSION HANDOFF" (Phase 0: packages, LLM smoke test, bake-off). Decide there: DuckDB (ADR-018), Redis as a shared cache, DirectML for the session lane (ADR-043), a PostgreSQL connection pool.
+**Agents plan §5f — Phases 7–8 closure DONE (2026-10-23; F1–F9), waiting for the owner's commit** — no open point left before the Stage 1
+checkpoint (K1–K9, owner decisions C-1…C-4, order F1…F9). Done: K1 the owner's review (18 points: 13 accepted, 5
+changed); F1 `show` prints the comment, `form_fixes` in `run.json` / `report`, `list_runs` kept with a pinned reason;
+F2 the finance Q&A agent on LangChain `create_agent` + `Finance_qa_check.py` 6 / 6 + CLI `Finance_qa.py`; F3 a real
+planted budget miss (migration 018, findings v3, planted gate `planted_all` = 6); F4 Q&A golden set v2 (42 items);
+F5 the tariff Notes rule (migration 019, `review` = error | manual_review); F6 the Power BI Exceptions page; F7 the
+new fallback `nvidia/nemotron-3.5-super-vl:free` (1 / 2 forced-fallback packs published, dots 0 / 2; ADR-045
+amendment 2); **F8 the confirmation evaluation = the final Stage 1 baseline** `stage1_eval_2026-10-23_confirm.json`:
+**D7 not met** on one gate, planted findings 2 / 6 · 3 / 6 (packs 7 / 11 · 10 / 11: a pack the Validator stops has no
+deck, so its planted findings count as missed; no wrong deck published); deck numbers, claims, traceability 100 %,
+RBAC leakage 0, abstention 1.0, Q&A EN 0.96 / AR 0.95, narrative recall 0.79; the scored false alarms were a scorer
+false positive (real 0, fixed by rule, D-P8-16, ADR-053); F9 docs + every check green (Tools 10 / 10, Weekly_pack
+7 / 7, Deck 4 / 4, Finance_qa 6 / 6, Scheduler 6 / 6, Stage1_eval 1–4, frozen inputs 0 changed). **Next:** the owner's
+one commit → the Stage 1 checkpoint PR of `feat/agents` → Phase 9 (Stage 2 tools; decisions answered 2026-10-23:
+plan §6a / §7 — no live AIS in Stage 2, the rest the recommended options). Follow-up (not a gate): the Writer's
+publish rate on the free model.
+
+**Agents plan Phase 8 CLOSED (2026-10-22)** — ADR-054, plan §5e (P8-1…P8-4, deviations D-P8-1…D-P8-12): Windows
+Task Scheduler task "NileGate Weekly Finance Pack" (Monday 10:30, logged-on only; `ops/scheduler/register_weekly_pack.ps1`,
+registered on the owner's machine) runs `Weekly_pack.py scheduled` — the next week of the 2025 replay as `PACK_RUN_AS`
+(Finance manager 6), one pending pack at a time, a pack stopped mid-run resumed, a stopped attempt retried once, the
+firing waits for PostgreSQL, a lock, a toast; retention = archive (`reports/_log/threads_archive.jsonl`) then
+`delete_thread` for ended threads older than 30 days, pending never; `prune`, `report` (G5 edit rate). LangSmith
+(free developer plan, project `nilegate-agents`): a tracing context per graph run of `run` / `resume` / `scheduled`
+(+ `Stage1_eval.py` with `EVAL_TRACE=1`), never the global switch. `Scheduler_check.py` **6 / 6 ✅** (incl. a trace
+read back from LangSmith); Weekly_pack_check 7 / 7, Deck_check 4 / 4, Stage1_eval Phases 1–4 ✅ (0 calls).
+**Done-when met (2026-10-22):** two firings stopped on a Gemini 503 ("high demand") in the Insight node; the third
+resumed `weekly_pack:live:2025-W11:1` from its checkpoint and reached the approval (toast, trace
+`launched_by:task_scheduler`); W11 then edited (one sentence) and approved by Finance manager 7 → published; G5
+edit rate 0.5 over W10 + W11. Monday 2026-10-26 the task makes W12. **Found:** the ADR-045 fallback (OpenRouter
+`nemotron-3-super:free`) answers 404 on every request (NVIDIA "Function not found for account") → no working
+fallback for the pack's Insight / Writer that day (closed 2026-10-23 by ADR-045 amendment 2, §5f F7). **Next: the Stage 1
+checkpoint** (§5 row "S1 ✔": the owner's commit + a PR of `feat/agents`), then the Stage 2 decisions (§7, S2-D1…)
+before Phase 9.
+
+**Agents plan Phase 7 CLOSED (2026-10-20)** — ADR-053 (+ ADR-052, the acceptance rule), plan §5d (P7-1…P7-4,
+deviations D-P7-1…D-P7-12): 11 golden weeks chosen by rule and frozen (4 test + 7 live) with their evidence and 38
+hand-written findings; migration 017 (`finance_test` twin KPI views, applied by the assistant, `verify_readonly.sql`
+§21); the finance Q&A agent (`pipelines/agents/graphs/finance_qa.py`, skill `finance-qa`, English + Egyptian Arabic);
+a 40-question golden set; `Stage1_eval.py` (scorers proven on hand-made failures, D7 + §8a gates, two runs per setup).
+Results: baseline D7 not met; candidate c1 (Validator false-alarm fixes + Q&A prompt lines) kept by ADR-052 = the
+baseline (`stage1_eval_2026-10-20_c1.json`): deck numbers 100 %, **planted 5 / 5**, false alarms 0, claims 100 %,
+RBAC leakage 0, Q&A EN 0.96 / AR 1.0, narrative recall 0.69; **misses** abstention 0.86, traceability 0.996 in one
+run, publish rate 10 / 11 and 6 / 11 → owner: close Phase 7, keep c2 for later. **Update 2026-10-22:** c2 rejected; c3 (Validator false-alarm fixes, code-fixed slot form) accepted by an owner exception to ADR-052 = the baseline `stage1_eval_2026-10-22_c3.json`: packs 10 / 11 in both runs, recall 0.88, abstention 1.0, Q&A EN 0.96 / AR 0.95; D7 not met by one slot; tuning stopped. Findings: the planted budget miss is
+not a miss (D-P7-1); flash-lite's free tier = 500 requests / day (one full evaluation per day). **Next: Phase 8** —
+scheduling, LangSmith, checkpoint retention.
+
+**Agents plan Phase 6 CLOSED (2026-10-19)** — ADR-051, plan §5c (owner decisions P6-1…P6-8): the weekly deck
+(`pipelines/agents/deck/`). The Writer writes numbers as **slots** (`{evidence[row]:field|format}`; code writes the
+rounding, sign, unit, `|dir` for up / down); code draws slide 1, the KPI tiles, every table and native chart, the
+footnotes and the sources slide (template as code: 16:9, NileGate navy / teal); the **Validator v2** binds every
+number to one (evidence, row, field) — V1–V7: citations, numbers, label, shape, evidence per slide, direction,
+attribution (drivers = top three, known invoices, the named row, no total on one row, no unit / direction written
+twice) — and **V8 reads the rendered PPTX back** (every shape a contract name; the template allowlist = the
+template). A rewrite is a `DeckPatch` of the failing texts (≈ 20 % of a first draft's prompt); the approver opens a
+preview (`reports/_drafts/`); the publisher saves `deck.pptx` after its read-back. Skills `deck-style-guide` and
+`number-validation` rewritten (owner-reviewed). `Deck_check.py` **4 / 4 ✅**: 52 / 52 clean decks pass V1–V8 (0 false
+alarms), **100 / 100 planted wrong numbers caught** (17 draft + 8 file classes × weeks 5 / 10 / 23 / 49 — the done-when),
+every real failure replayed. `Weekly_pack_check.py` **7 / 7 ✅**; real models (5 runs, reported per P6-8): the last
+published 3 / 4 (the fourth stopped on a real Writer error the Validator caught), Writer calls ≤ 12.4K tokens (17.0K
+before). **Next: Phase 7** — evaluation (§8) on golden weeks + finance Q&A golden questions, with the §8a generation
+checks (G1–G6, still PROPOSED: the owner reviews them first) and the planted budget miss of `finance_test`.
+
+**Agents plan Phase 5 CLOSED (2026-10-19)** — ADR-050, plan §5b (owner decisions P5-1…P5-8 + three S6 decisions):
+the LangGraph `weekly_pack` workflow (`pipelines/agents/graphs/`): Data Readiness gate, KPI and Invoice Auditor as
+code over the Stage 1 tool functions, the Insight agent (LLM ⇄ `ToolNode(STAGE1_TOOLS)`), the Writer (`DeckDraft`),
+a code Validator (numbers = cited structured evidence after the allowed roundings; ≤ 2 rewrites), the approval
+`interrupt()` (Finance manager / CEO; approve, edit → re-validated, reject; logged) and the Publisher
+(`reports/2025-W<ww>/`, save only). Checkpoints: migration 016 (schema `agent_state`, `agent_writer` DML only),
+login `ports_agent`, `PostgresSaver.setup()` as a deployment step; `durability="sync"`. Roles over `llm.py`
+(`roles.py`): the real prompts (9.7K–17K tokens) exceed Groq's 8K TPM → **ADR-045 amendment 1** (the pack's Insight /
+Writer on Gemini flash-lite + OpenRouter nemotron). `Weekly_pack_check.py` **7 / 7 ✅**: 52 / 52 weeks to the
+approval and published with fake models, the approval rules, the Validator loop + 26 rule cases, a process killed
+inside the Writer resumed from PostgreSQL in another process, real models on weeks 5 / 10 / 23 / 49 (2 published, 2
+`validation_failed` on real Writer errors), the schema / dataset contract. CLI `Weekly_pack.py`; first real pack:
+week 10 approved by the CEO. **Next: Phase 6** — PPTX template (NileGate style) + Writer + Validator (signs and
+citations of the Writer, numbers bound to their fields — G1, the full template allowlist; done when the Validator
+catches every planted wrong number in a test deck).
+
+**Agents plan Phase 4 CLOSED (2026-10-19)** — ADR-049, plan §5a (owner decisions P4-1…P4-8): six Stage 1 tools in `pipelines/agents/tools/` under one result contract (`finance_kpi`, `invoice_audit`, `compute_toll`, `search_documents`, `suez_transits` via IMF PortWatch, `web_search` via Tavily), the user and the dataset from the run context (never a model argument), RBAC in every tool; migration 015 (`finance.invoice_audit` + twin in `finance_test`); external calls cached / 10 s timeout / "context unavailable"; the skill loader + 6 Stage 1 skills. `Tools_check.py` **8 / 8 ✅ (2026-10-19)** (compute_toll = 1,000 invoices, finance_kpi = the views on 52 × 5 and the hand weeks, invoice_audit = the answer key 5 / 5 with causes and false alarms 0, RBAC matrix 100 × 7 leakage 0, external failure modes, live PortWatch and Tavily, skills within budget). Finding: 3 real duplicate charges in the original invoices (336,909.00 SDR, both copies paid). Migration 015 applied by the owner (2026-10-19): snapshot refreshed, `verify_readonly.sql` §18 (14 views) / §19 as expected, 0 errors (`db/audit/2026-10-19_after_015_report.txt`, `ANALYZE` re-run: statistics had been reset); Tavily key set. All 6 skills reviewed by the owner (2026-10-19, 13 fixes, each turned into a check) and retrieved / web text now screened for injection (`tools/trust.py`); final run `Tools_check.py` 8 / 8, pending none. Open items for later phases in the plan's Progress (budget-miss view for Phase 7, Exceptions page in Power BI, Validator allowlist / numbers from structured fields only, tariff Notes rules, token budget). Phase 5 followed (closed 2026-10-19, above).
+
+**Agents plan Phase 3 CLOSED (2026-10-15)** — ADR-048: Power BI Desktop 2.158 project `powerbi/NileGate_Finance.pbip` (TMDL + PBIR in git), DirectQuery on 12 `finance` views (+ migration 014 `kpi_weekly_trend`) through the read-only login `ports_bi` (`finance_bi` only, 11 / 11); model by the Power BI Modeling MCP: `Week` filters every table (18 relationships, referential integrity off), 38 thin measures (SELECTEDVALUE / HASONEVALUE-guarded / SUM; no KPI logic in DAX), 1 label column; 5 pages — Overview, Revenue, Receivables, Customers, Exceptions (placeholder until the Auditor tool) — with one synced single-select week slicer. Done-when met: every number of pages 1–4 = `finance.kpi_weekly` read from PostgreSQL for weeks 5 / 23 / 49, breakdowns sum to the week's KPI. Docker containers now `--restart unless-stopped`. **Next: Phase 4** — Stage 1 tools (§3) + tests (external tools behind cache + timeout), the skill loader and the Stage 1 skills (`pipelines/agents/skills/`), including the Auditor tool that fills the Exceptions page. Still open: the owner's review of §8a (G1–G6, PROPOSED).
+
+**Agents plan Phase 2 CLOSED (2026-10-14)** — ADR-047: schema `finance` = 12 plain views (dims, `fact_invoice` with the derived due date, `fact_payment`, `fact_ar_snapshot` as-of status, KPI views `kpi_weekly` / `kpi_weekly_category` / `kpi_customer_13w` / `kpi_overdue_list`), migration 013; definitions in `docs/finance_metrics.md` (DSO = AR ÷ billed last 91 days × 91, warm-up weeks 1–13 on the available window, strict ISO weeks as of Sunday); `Finance_views_check.py` 7 / 7 ✅ (views = independent pandas reference on all 52 weeks; hand-check weeks 5 / 16 / 23 / 49 frozen; RBAC leakage 0; group role `finance_bi` reads only `finance`). **Next: Phase 3** — Power BI Desktop (owner, guided): install, PBIP project `powerbi/`, the `finance_bi` login, DirectQuery to the views, the 5 pages; done when the dashboard's numbers for 3 weeks = the KPI views. Still open: the owner's review of §8a (G1–G6, PROPOSED).
+
+**Agents plan Phase 1 CLOSED (2026-10-14)** — ADR-046: 40 customers, `vessels.customer_id`, 994 payments (DSO 55 days), a weekly budget (planning model, −11.3 % vs actual), the `finance_test` copy with planted errors (answer key outside the database); `invoices.status` is a documented label (it was random); migration 012 applied, `verify_readonly.sql` §17 clean. **Next: Phase 2** (`finance` star views + KPI views, `docs/finance_metrics.md`; metric definitions go to the owner first), and the owner's review of the plan's §8a generation evaluation (G1–G6, PROPOSED). **Agents plan Phase 0 CLOSED (2026-10-12)** — ADR-045 **Accepted** (best-case bound: the two incomplete candidates cannot change the selection). Phase 0 summary (2026-10-10 / 12) — done: 12 packages pinned (ARCHITECTURE §8), `common.SECRET_KEYS` + `.env.example`, 5 reviewed `langchain-skills` (the local skills folder), `pipelines/agents/llm.py`, `LLM_smoke_test.py` (3 providers pass), `.gitattributes` (data files LF: a CRLF checkout had broken the frozen hashes), the ADR-037 data-policy amendment, and the LLM bake-off (`LLM_bakeoff.py`, tasks frozen `ed6723f5…`, 5 / 9 candidates complete) → **ADR-045 Accepted**: Writer / Insight `qwen/qwen3.8-27b` (Groq) + `gemini-3.5-flash-lite`; Tools `gemini-3.5-flash-lite` + `openai/gpt-oss-20b` (Groq). Handoff in the plan.
+
+**The agents phase — a multi-agent platform in two stages** (owner, 2026-10-09; LangChain + LangGraph, LLMs through free APIs chosen by a bake-off): **Stage 1 the Weekly Finance Pack** (a Power BI finance dashboard kept current + the weekly PowerPoint report, Invoice Auditor, human approval), **Stage 2 the Operations Desk** (Route & Cost Advisor: Suez vs Cape; Voyage & Disruption Watch: ETA, weather, alerts). Plan **APPROVED 2026-10-09**: `docs/plans/Agents_plan.md`; start from its "SESSION HANDOFF" (Phase 0: packages, LLM smoke test, bake-off). Decide there: DuckDB (ADR-018), Redis as a shared cache, DirectML for the session lane (ADR-043), a PostgreSQL connection pool.
 
 History of the RAG plan, phase by phase: **Phase 0 done 2026-10-01** (rewrite confirmed, D9–D11 answered; `Provider_smoke_test.py` 4/4 pass: Jina, Voyage, Gemini embeddings + Jina reranker). **Phase 1 done 2026-10-02** (golden set frozen: 40 EN + 24 Egyptian Arabic twins, 9 identifier queries, 8 RBAC cases; `Data/processed/rag/eval/golden_set.jsonl`). **Phases 2 and 4 done 2026-10-08 — Gemini `gemini-embedding-2`, composed unit** (ADR-037; D1 0.912 vs Voyage 0.804, Jina 0.733, after the title / text normalization ADR-041 and with the three-level evaluation ADR-040); vectors in `Data/embeddings/gemini-embedding-2/`. **Phase 3 done 2026-10-02** (`ports-qdrant` 1.19.1, probe all pass, server-side BM25 available). **Phase 5 done 2026-10-08** (`nilegate_docs`: 2,163 points, dense 3,072 + server BM25, payload = chunk rows, idempotent). **Phase 6 done 2026-10-08** (`search_documents` in `pipelines/lib/retrieval.py`: RBAC inside every prefetch, metadata filters, exact dense + optional BM25 / RRF / rerank / shaping, query cache, fail-fast rate policy; RBAC matrix 88 searches, level 3 to the CEO only). **Phase 7 done 2026-10-08 → ADR-038:** defaults = exact dense + Jina rerank (balanced 0.812 → 0.850; hybrid and context shaping rejected by the ADR-040 rule; RBAC leakage 0); query cache in memory (Redis measured, deferred). **Phase 8 done 2026-10-08 (ADR-042 – ADR-044):** documents uploaded at inference time — one company document shape "NileGate Document v1" (PDF / DOCX, `docs/templates/`), validator + layered injection screening (52 fixtures as expected, 0 false positives on the corpus), conversation-only uploads in memory with a local ONNX embedding lane, `search_documents(..., session=)` returning corpus `results` + labelled `session_results` (baseline unchanged: dense 0.812 / dense + rerank 0.8495), manager promotion through an offline review (self-test 11/11). Session-lane model `BAAI/bge-m3` (hit@3 EN 1.000 / Egyptian Arabic over English uploads 1.000; the owner's pick `llama2-embedding-600m-8k` 0.767 / 0.167, e5-base 0.933 / 0.500), measured after the project moved to `D:\Project` (2026-10-08). Owner decisions 2026-10-08: floor 0.45 (hit@3 EN 1.000 / AR 0.900), DirectML deferred to the API phase. **Phase 9 done 2026-10-08** (close). **Closed 2026-10-01: notebooks → scripts** (ADR-036, `docs/archive/2026-10-01_Scripts_and_ingestion_plan.md`): 15 scripts in `pipelines/` (`pipelines/README.md`), refactored (levels A / B) and verified 15/15 on the owner's machine; notebooks in `docs/archive/notebooks/`.
 
@@ -49,10 +136,11 @@ History of the RAG plan, phase by phase: **Phase 0 done 2026-10-01** (rewrite co
 | MongoDB + AIS/EDI profiling, generators, loader | DONE | 2026-09-27: `Notebooks/semi_structured/` (profiling 28 cells, AIS generator 22, EDI generator 16, loader 32; all 0 errors); 1,321,568 / 10,534 / 435 documents; 0 schema violations, 0 unaccounted records, consistency audit all pass (incl. tracks at sea); idempotent (ADR-029 – ADR-032) |
 | Synthetic incidents / synthetic FBLs | PLANNED (optional) | |
 | Causal consistency checks (PostgreSQL ↔ AIS ↔ incidents ↔ RAG) | PLANNED | needs a shared event timeline per vessel/shipment |
-| Agents (Supervisor + Analytics) | NEXT | ADR-012; the document tool exists (`search_documents`, untrusted-upload contract in `docs/RETRIEVAL_FLOW.md` §2.1) |
-| API, auth, audit_log, guardrails | PLANNED | audit_log redesign in ADR-014 |
-| Evaluation (golden tasks), observability (trace IDs) | PLANNED | |
-| Power BI integration | PLANNED | `docs/plans/Agents_plan.md` Stage 1: Power BI Desktop (free) + PBIP in git + DirectQuery on `finance` views (ADR-018 star-schema trigger reached) |
+| Agents (Supervisor + Analytics) | IN PROGRESS | Agents plan Phase 0 CLOSED 2026-10-12 (packages, `pipelines/agents/llm.py`, LLM bake-off → ADR-045); Phase 1 CLOSED 2026-10-14 (finance data, migration 012, ADR-046); Phase 2 CLOSED 2026-10-14 (`finance` views, migration 013, ADR-047); Phase 3 CLOSED 2026-10-15 (Power BI dashboard, ADR-048); Phase 4 CLOSED 2026-10-19 (Stage 1 tools + skills, ADR-049; migration 015; `Tools_check.py` 8 / 8); Phase 5 CLOSED 2026-10-19 (`weekly_pack` workflow + PostgresSaver + approval, ADR-050; migration 016; `Weekly_pack_check.py` 7 / 7); Phase 6 CLOSED 2026-10-19 (NileGate PPTX, slots, Validator v2 + V8, ADR-051; `Deck_check.py` 4 / 4, 100 / 100 planted numbers caught); Phase 7 CLOSED 2026-10-20 (evaluation: golden weeks, finance Q&A agent, migration 017, ADR-052 / ADR-053; D7 not met, closed by the owner; c3 accepted 2026-10-22 as the baseline, tuning stopped); Phase 8 CLOSED 2026-10-22 (scheduled pack, retention, LangSmith, ADR-054; `Scheduler_check.py` 6 / 6); next the Stage 1 checkpoint (PR), then Stage 2; ADR-012; the document tool exists (`search_documents`, untrusted-upload contract in `docs/RETRIEVAL_FLOW.md` §2.1) |
+| API, auth, audit_log, guardrails | PLANNED | audit_log redesign in ADR-014; concurrency requirements to design for: "Missing work → Deferred" (2026-10-25) |
+| Evaluation (golden tasks), observability (trace IDs) | PARTIAL | Stage 1 evaluation DONE 2026-10-20 (ADR-053: golden weeks + finance Q&A, `Stage1_eval.py`; D7 not met, owner closed); observability for the agents DONE 2026-10-22 (LangSmith, ADR-054); API trace ids with the API |
+| Scheduled weekly pack + checkpoint retention | DONE | 2026-10-22, Agents plan Phase 8 (ADR-054): Task Scheduler (Monday 10:30), `Weekly_pack.py scheduled / prune / report`, `Scheduler_check.py` 6 / 6 |
+| Power BI integration | DONE (2026-10-15) | ADR-048: `powerbi/NileGate_Finance.pbip` (Desktop, PBIP in git), DirectQuery on the `finance` views via the read-only login `ports_bi`; 5 pages (Exceptions = placeholder until the Auditor tool, Phase 4 / 7); numbers = `kpi_weekly` for weeks 5 / 23 / 49 |
 | Docker Compose for all services | PLANNED | not before the core works |
 
 RAG ingestion order (do not skip ahead): inventory → metadata → extraction → cleaning → chunking → embedding model → Qdrant (local Docker) → collection → small controlled subset → retrieval test → metadata filtering → RBAC → scale → hybrid/reranking only if evaluation shows it is needed.
@@ -73,7 +161,27 @@ RAG ingestion order (do not skip ahead): inventory → metadata → extraction �
 - Agents phase → decide on DuckDB as the analysis sandbox.
 - Agents / API phase → Redis as a shared cache (query vectors, reranker results, sessions) if several workers or agents must share it; measured 2026-10-08: Redis GET 0.57 ms vs in-process 0.2 µs (ADR-038; owner: use it later if needed).
 - API / Docker Compose phase → decide on a job queue (Redis or other) and on object storage for raw files (MinIO).
-- Power BI phase → decide on star-schema views.
+- **API phase → concurrency requirements (owner, 2026-10-25; to enter the FastAPI design, not decided yet).** Today
+  every run is one process (the scheduled pack's lock file, Task Scheduler "IgnoreNew"), so per-process state is
+  safe; several FastAPI workers break that. The design must cover, each with a check:
+  1. **Daily quota** (`llm_cache/usage.json` is per process: two workers reading 499 both send) → one shared,
+     atomic counter (PostgreSQL `UPDATE … RETURNING` or Redis `INCR`).
+  2. **Per-minute limits** (`llm.py` `Budget` counts per process) → a shared rate limiter (token bucket); excess
+     requests wait in a queue instead of failing.
+  3. **Reply / tool caches** (JSONL files with one writer today) → a store safe for concurrent writers (PostgreSQL
+     table or Redis), keeping replay determinism (a cached reply never expires).
+  4. **The same question at the same moment** → single-flight (one model call, the others wait for its reply).
+  5. **The same conversation twice at once** (two requests on one LangGraph thread) → a per-thread lock.
+  6. **Database connections** → pool size × workers below PostgreSQL `max_connections` (100 by default).
+  7. **Long work** (a weekly pack takes minutes) → never inside an HTTP request: a job queue, `202` + job id, a
+     background worker.
+  8. **Back-pressure** → `429` / `503` with `Retry-After` when the quota or the queue is full, never a crash.
+  9. **Sync code under async FastAPI** (psycopg / httpx / LLM calls are blocking) → a threadpool or async clients.
+  Already safe: tools are stateless (the user comes from `RunContext` per request, never a global), pools are
+  bounded, checkpoints live in PostgreSQL. Free first: PostgreSQL for the counter and locks; Redis only if a
+  measurement shows the need (the trigger of the line above). Proof: a load test with fake models (e.g. 50
+  simultaneous requests) — exact counter, no corrupted file, no cross-user data, excess refused with 429.
+- ~~Power BI phase → decide on star-schema views~~ decided: plain views in schema `finance` (ADR-047), used by Power BI (ADR-048).
 
 **Blocked**
 - Nothing (agents were blocked on retrieval until 2026-10-08).
@@ -87,7 +195,7 @@ RAG ingestion order (do not skip ahead): inventory → metadata → extraction �
 
 - ~~USCG dedup labels depended on `PYTHONHASHSEED`~~ closed 2026-10-01: when two units covered an Executive Summary sentence equally, `covered_by` followed set / hash order (decisions — 49 trimmed, 390 restated — never changed; chunks unaffected). Fix (owner option A): ties go to the earliest sentence in report order (listed patch in `tools/nb_to_script.py`). The regenerated `USCG_ROI_logical_units.json` (3 labels: MICHIPICOTEN u0089→u0082, u0091→u0084, u0094→u0087, each the analysis section instead of the conclusion) is committed; it now reproduces under any seed. `run.py --hashseed 1` / `2` showed no other hash-order dependence.
 - `SyntheticGenerator` (notebook and script alike) does not reproduce `employees.csv` on Linux (cloud session, 2026-10-01): hire dates and then names differ from the first draw, with the same Faker 40.38.0, seed, reference date and with TZ=Africa/Cairo. On the owner's Windows machine the script passes (2026-10-01, `files changed: 0`), so the generator is reproducible there but not across platforms. Not caused by the conversion (the original notebook fails at the same cell on Linux).
-- ~~Guard hook untested on Windows~~ closed 2026-10-01: a Read of an archived `.ipynb` was blocked in a the coding assistant session on the owner's machine. The guard hook path is now the local guard hook (a relative path blocked every command once the shell changed directory); to confirm it still runs on the owner's Windows setup (the local script runs went through PowerShell, not the coding assistant, so they do not test it).
+- ~~Guard hook untested on Windows~~ closed 2026-10-01: a Read of an archived `.ipynb` was blocked in an assistant session on the owner's machine. The guard hook path is now the local guard hook (a relative path blocked every command once the shell changed directory); to confirm it still runs on the owner's Windows setup (the local script runs went through PowerShell, not the coding assistant, so they do not test it).
 - Git: the USCG WIP up to Phase 4 is committed (e89ef95); the finished notebook, its three artifacts (extracted, cleaned, chunks) and the 2026-09-27 docs (archive, ADR-024–026, ARCHITECTURE, ROADMAP) are to be committed by the owner. Seen from the Linux VM, several data files show as modified only because of CRLF line endings (no content change).
 - Cleaned-file format differs by source: LPI Connecting to Compete and HbR store `{source, units, duplicate_audit, coverage_audit}`, older sources store a plain list of units. Not blocking: the embedding phase reads the chunk parquet files (one schema), not the cleaned files.
 - The old DB password was committed in notebooks before ADR-015 (local development container only).

@@ -1,6 +1,6 @@
 # RBAC mapping
 
-Decision record: ADR-006 in `docs/decisions.md`. Status: **the rule is decided; nothing enforces it yet** (retrieval and API are not built).
+Decision record: ADR-006 in `docs/decisions.md`. Status: **enforced** by `search_documents` inside Qdrant (2026-10-08, ADR-038) and by every Stage 1 agent tool before its query (2026-10-18, ADR-049: `pipelines/agents/tools/context.py`, RBAC matrix in `pipelines/scripts/agents/Tools_check.py`); the API is not built yet.
 
 ## 1. Access rule
 
@@ -39,6 +39,15 @@ Qdrant filter (conceptual): `sensitivity_level <= role_level OR (department == u
 | `roles` | 2 | IT | defines the permission system |
 | `employees` | 2 | HR | contains PII (names, emails). HR employees get access through their department |
 | `invoices` | 2 | Finance | financial data. Finance employees get access through their department |
+| `customers` | 2 | Finance | commercial terms and credit rating of the billed companies (migration 012, Agents plan §4a R8) |
+| `payments` | 2 | Finance | payments received per invoice (migration 012) |
+| `budget_weekly` | 2 | Finance | weekly budget 2025 per vessel category (migration 012) |
+| `finance_test.*` | 2 | Finance | evaluation copy with planted errors (migration 012); the answer key is outside the database |
+| `finance.*` (views) | 2 | Finance | star + weekly KPI views of the Weekly Finance Pack (migration 013, Agents plan Phase 2); read as one unit by the finance tools and Power BI (login in group role `finance_bi`, SELECT on `finance` only). The dimension views over level-1 tables (`dim_date`, `dim_week`, `dim_vessel`, `dim_toll_band`) take the schema's level |
+| `vessels.customer_id` | 1 | Operations | an id only (the vessels table stays level 1); the customer's details are level 2 |
+| `finance.invoice_audit` / `finance_test.invoice_audit` (views, migration 015) | 2 | Finance | invoice audit findings (ADR-049); covered by the `finance.*` / `finance_test.*` rows; only the first is readable by `finance_bi` |
+| `finance_test.kpi_weekly` / `finance_test.kpi_weekly_category` (views, migration 017) | 2 | Finance | twin KPI views of the evaluation copy (Agents plan Phase 7); covered by the `finance_test.*` row; not readable by `finance_bi` |
+| `agent_state.*` (LangGraph checkpoints, migration 016) | 2 | Finance | the tool results of each pack run at rest (KPI rows, audit findings, drafts); no employee reads it directly: only the runtime login `ports_agent` (group role `agent_writer`, DML on this schema only) and the owner; `ports_readonly` and `finance_bi` get nothing (ADR-050). The pack itself runs as a Finance manager and the tools check RBAC on every call |
 | `audit_log` (planned, API phase) | 3 | IT | security audit trail, CEO only |
 
 ## 3. Semi-structured (MongoDB, implemented 2026-09-27)
@@ -66,6 +75,17 @@ External, publicly published sources are level 1. Their owner department is the 
 | HbR: the Port Authority's own financial results and position — balance sheet and income statement (p.82), the 3.2.2 paragraphs on revenue, operating expenses, EBITDA / net result and gross investments, and the gross-investments chart (p.13) | **3** | Finance |
 
 HbR is deliberately treated as "our internal report" so the corpus contains one document with sections at different levels. Sensitivity is stored per chunk. Implemented 2026-09-26 (ADR-021): every unit that mentions money or finance was reviewed; 37 units / 5 chunks are level 3, all others level 1, and no chunk mixes levels.
+
+## 4a. Agent tools and external sources (ADR-049, 2026-10-18)
+
+| Tool | Reads | Level | Owner department |
+|---|---|---:|---|
+| `finance_kpi`, `invoice_audit` | `finance.*` (live) / `finance_test.*` (evaluation runs only, chosen by the run context) | 2 | Finance |
+| `compute_toll` | `toll_rate_bands` (+ `vessels` with a vessel_id) | 1 | Finance / Operations |
+| `search_documents` | Qdrant chunks, per chunk (§4) | per chunk | per chunk |
+| `suez_transits` (IMF PortWatch), `web_search` (Tavily news) | public external sources | 1 | Operations |
+| Skills (`pipelines/agents/skills/`) | instructions only, no data | — | — |
+| `weekly_pack` approval (ADR-050) | a decision on a pack (approve / edit / reject), no data | — | Finance managers and the CEO only, checked in PostgreSQL at every decision; anyone else is refused and logged |
 
 ## 5. Synthetic company documents (planned)
 
