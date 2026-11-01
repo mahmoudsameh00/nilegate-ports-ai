@@ -1,6 +1,6 @@
 """Finance Q&A golden set (Agents plan Phase 7, §5d step S3): 30 English + 10 Egyptian Arabic questions, frozen.
 
-Plan:    docs/plans/Agents_plan.md §5d (approved 2026-10-19); §8a G2 (Arabic), G3 (abstention / RBAC), G4
+Plan:    docs/archive/2026-11-01_Agents_plan.md §5d (approved 2026-10-19); §8a G2 (Arabic), G3 (abstention / RBAC), G4
          (completeness / relevance, deterministic); acceptance rule ADR-052.
 Run:     uv run python tools/run.py pipelines/scripts/agents/Qa_golden.py  (from the project root)
 

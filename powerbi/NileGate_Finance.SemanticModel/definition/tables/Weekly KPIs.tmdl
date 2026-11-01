@@ -254,6 +254,99 @@ table 'Weekly KPIs'
 		displayFolder: 5 Exceptions
 		lineageTag: 517fc7c6-edcc-4db4-8d6f-865132ddf7e1
 
+	/// Σ kpi_weekly.billed_sdr over the selected weeks (flows add up over weeks; AR and DSO do not). Executive analysis R4, 2026-10-31.
+	measure 'Billed Period SDR' = SUM('Weekly KPIs'[billed_sdr])
+		formatString: #,0.00
+		displayFolder: 6 Executive
+		lineageTag: e5155100-f929-4be2-b2cc-8f22e8d3e13c
+
+	/// Σ kpi_weekly.budget_sdr over the selected weeks.
+	measure 'Budget Period SDR' = SUM('Weekly KPIs'[budget_sdr])
+		formatString: #,0.00
+		displayFolder: 6 Executive
+		lineageTag: cdfd23c1-062c-4131-8f2f-08665e385036
+
+	/// Billed vs budget over the selected weeks (M9 over a period).
+	measure 'Variance Period %' = DIVIDE([Billed Period SDR] - [Budget Period SDR], [Budget Period SDR])
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 6 Executive
+		lineageTag: f400c1d8-8a73-4c47-8d6d-9b10ad8846ba
+
+	/// Billing of the 13 weeks ending at the week in context; blank before week 13 (no full window).
+	measure 'Billed 13w Rolling SDR' =
+			VAR w = MAX(Week[report_week])
+			RETURN IF(w >= 13, CALCULATE([Billed Period SDR], REMOVEFILTERS(Week), Week[report_week] > w - 13, Week[report_week] <= w))
+		formatString: #,0.00
+		displayFolder: 6 Executive
+		lineageTag: 06b1a562-886c-43b2-b6eb-37f1f6af2c24
+
+	/// Budget of the 13 weeks ending at the week in context; blank before week 13.
+	measure 'Budget 13w Rolling SDR' =
+			VAR w = MAX(Week[report_week])
+			RETURN IF(w >= 13, CALCULATE([Budget Period SDR], REMOVEFILTERS(Week), Week[report_week] > w - 13, Week[report_week] <= w))
+		formatString: #,0.00
+		displayFolder: 6 Executive
+		lineageTag: dd2fba4f-731e-4383-afe8-59e08e9b7ae2
+
+	/// Rolling 13-week billed vs budget: weekly variance is billing noise, the rolling view is the readable one.
+	measure 'Variance 13w Rolling %' = DIVIDE([Billed 13w Rolling SDR] - [Budget 13w Rolling SDR], [Budget 13w Rolling SDR])
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 6 Executive
+		lineageTag: a4b71d63-fc93-4840-9bbb-f087abffe6d0
+
+	/// M12 (docs/finance_metrics.md): current (not overdue) AR ÷ DSO-window billing × window days — the DSO if every customer paid on its terms. One selected week.
+	measure 'Best Possible DSO Days' = ROUND(DIVIDE(SELECTEDVALUE('Weekly KPIs'[aging_current_sdr]), SELECTEDVALUE('Weekly KPIs'[dso_window_billed_sdr])) * SELECTEDVALUE('Weekly KPIs'[dso_window_days]), 1)
+		formatString: 0.0
+		displayFolder: 6 Executive
+		lineageTag: 36f2481c-0c93-40e3-bfae-c8a2d2b7d48a
+
+	/// M12: DSO − best-possible DSO = the days of billing outstanding because customers pay late.
+	measure 'Delinquency DSO Days' = IF(NOT ISBLANK([Best Possible DSO Days]), [DSO Days] - [Best Possible DSO Days])
+		formatString: 0.0
+		displayFolder: 6 Executive
+		lineageTag: 9ef17489-51c4-443a-be18-eed181d81f90
+
+	/// Mean paid date − due date of payments received in the 2025 report weeks (≤ 0 = on time). Payments of 2026 (no report week) are excluded, so a 2025 view never uses later payments.
+	measure 'Mean Days Late' = CALCULATE(AVERAGE(Payments[days_paid_after_due]), NOT ISBLANK(Payments[paid_report_week]))
+		formatString: +0.0;-0.0;0.0
+		displayFolder: 6 Executive
+		lineageTag: ba959646-340f-4a0a-b3c6-bc515229e712
+
+	/// Share of 2025-report-week payments made on or before the due date.
+	measure 'On-time Pay %' =
+			VAR paid = CALCULATE(COUNTROWS(Payments), NOT ISBLANK(Payments[paid_report_week]))
+			RETURN DIVIDE(CALCULATE(COUNTROWS(Payments), NOT ISBLANK(Payments[paid_report_week]), Payments[days_paid_after_due] <= 0), paid)
+		formatString: 0.0%
+		displayFolder: 6 Executive
+		lineageTag: 152c8060-d253-49be-90f7-76f5e066ab62
+
+	/// Receivables more than 90 days past due at the selected week (fact_ar_snapshot); one week only.
+	measure 'AR 90+ SDR' = CALCULATE([AR by Bucket SDR], 'AR Snapshot'[aging_bucket] = "90+")
+		formatString: #,0.00
+		displayFolder: 6 Executive
+		lineageTag: ee21c5c3-293c-4394-b2be-54885185ea81
+
+	/// Invoice revenue of the 52 report weeks of 2025 (excludes the 4 invoices dated 2025-12-29/30 = ISO 2026-W01), as in the executive deck.
+	measure 'Revenue 2025 SDR' = CALCULATE([Revenue SDR], NOT ISBLANK(Invoices[invoice_report_week]))
+		formatString: #,0.00
+		displayFolder: 6 Executive
+		lineageTag: 0fc0a642-aff9-450c-87a9-4452ac5a8358
+
+	/// The report weeks whose invoice audit has at least one finding, whatever week is selected (review 2026-10-31: an empty week looked like a broken page).
+	measure 'Audit Weeks With Findings' = CONCATENATEX(FILTER(ALL(Week), CALCULATE(COUNTROWS('Invoice Audit')) > 0), Week[iso_week_label], ", ", Week[report_week], ASC)
+		displayFolder: 5 Exceptions
+		lineageTag: 3cce1927-291c-4085-a312-d165126c2c8f
+
+	/// One line for the Exceptions page: the selected week's audit result and the weeks that have findings.
+	measure 'Audit Week Status' =
+			VAR wk = SELECTEDVALUE(Week[iso_week_label])
+			VAR f = CALCULATE(COUNTROWS('Invoice Audit'))
+			RETURN IF(ISBLANK(wk), "Select one week",
+			    IF(f > 0, FORMAT(f, "0") & " audit finding(s) in " & wk & " — listed below. Weeks with findings: " & [Audit Weeks With Findings],
+			        "No audit findings in " & wk & ": every invoice of the week matches the tariff. Weeks with findings: " & [Audit Weeks With Findings]))
+		displayFolder: 5 Exceptions
+		lineageTag: 3342f801-337a-4297-b6c0-2db830a8edb3
+
 	column report_week
 		dataType: int64
 		isHidden

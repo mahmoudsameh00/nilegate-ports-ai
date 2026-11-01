@@ -1,6 +1,6 @@
 """LLM provider smoke test (Agents plan Phase 0): each key present -> live model list + one tool-calling request.
 
-Plan:    docs/plans/Agents_plan.md, Phase 0 and §7a (before the bake-off: prove each key, the model ids and tool calling).
+Plan:    docs/archive/2026-11-01_Agents_plan.md, Phase 0 and §7a (before the bake-off: prove each key, the model ids and tool calling).
 Run:     uv run python tools/run.py pipelines/scripts/agents/LLM_smoke_test.py  (from the project root)
 
 Reads:   .env (GEMINI_API_KEY, GROQ_API_KEY, OPENROUTER_API_KEY; a missing key = that provider is skipped, reported);

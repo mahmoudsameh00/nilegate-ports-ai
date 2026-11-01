@@ -1,7 +1,8 @@
 """A deterministic slot draft of the weekly deck (Agents plan §5c): what a correct Writer returns.
 
-Test support, not a production path: the checks (`Deck_check.py`, `Weekly_pack_check.py`) use it as the fake
-Writer's reply and as the clean base the planted wrong numbers are planted into. It follows the §5c deck — slide
+The checks (`Deck_check.py`, `Weekly_pack_check.py`) use it as the fake Writer's reply and as the clean base the
+planted wrong numbers are planted into; since c4 (plan 2026-10-30) the pack's `fallback` node also takes from it the
+texts that replace a Writer's failing ones after its rewrites (`weekly_pack.fallback_draft`). It follows the §5c deck — slide
 titles, five summary bullets, at most three comments on slides 3–8, a context line on slide 9, nothing on slides 1 and
 10 — with every number a slot and every null in words ("not available").
 """

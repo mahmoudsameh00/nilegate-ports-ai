@@ -46,6 +46,20 @@ TILES = (("Billed", "billed_sdr", "M", "billed_wow_pct", "WoW"),
          ("Overdue", "overdue_sdr", "M", "overdue_wow_pct", "WoW"),
          ("DSO", "dso_days", None, "dso_wow_days", "WoW"),
          ("Budget variance", "budget_variance_sdr", "M", "budget_variance_pct", "vs budget"))
+# c4 (owner 2026-10-30, docs/finance_metrics.md): a large category billed well below its budget, drawn on slide 5 by
+# code. Small categories swing to −100 % every week; with this floor the rule matched once in the 52 live + 4 test
+# weeks (test week 36, LNG, the planted miss).
+BUDGET_MISS_MIN_SDR, BUDGET_MISS_PCT, BUDGET_MISS_ROWS = 1_000_000, -25.0, 2
+DRAW_BUDGET_MISS = True            # False only for the evaluation's before-c4 side (Stage1_eval.py EVAL_C4=0)
+BUDGET_MISS_HEAD = "Below budget this week (a weekly budget of at least 1 M SDR, billed at least 25 % short)"
+
+
+def budget_misses(evidence: dict) -> list[dict]:
+    """The `kpi.category` rows the rule calls a budget miss, the largest shortfall first."""
+    rows = [r for r in evidence["kpi.category"]["rows"]
+            if (r.get("budget_sdr") or 0) >= BUDGET_MISS_MIN_SDR and r.get("budget_variance_pct") is not None
+            and r["budget_variance_pct"] <= BUDGET_MISS_PCT]
+    return sorted(rows, key=lambda r: (r["budget_variance_pct"], r["vessel_category"]))
 
 
 @dataclass
@@ -207,9 +221,22 @@ class _Spec:
         largest_first = sorted(self.ev["kpi.category"]["rows"],
                                key=lambda r: (-(r["billed_sdr"] or 0), r["vessel_category"]))
         rows = largest_first[::-1]
-        out.append(El("chart:mix", "chart", _in(0.6, 1.5, 8.3, 5.0), chart={
+        misses = budget_misses(self.ev) if DRAW_BUDGET_MISS else []
+        out.append(El("chart:mix", "chart", _in(0.6, 1.5, 8.3, 4.2 if misses else 5.0), chart={
             "type": "bar", "categories": [r["vessel_category"] for r in rows], "fmt": S.AXIS_M,
             "series": [("Billed", [r["billed_sdr"] for r in rows]), ("Budget", [r["budget_sdr"] for r in rows])]}))
+        if misses:                     # c4: drawn by code, so a budget miss never depends on the Writer saying it
+            shown = misses[:BUDGET_MISS_ROWS]
+            more = f" — the largest {len(shown)} of {len(misses)}" if len(misses) > len(shown) else ""
+            out.append(El("tpl:budget_miss", "text", _in(0.6, 5.75, 8.3, 0.3), BUDGET_MISS_HEAD + more,
+                          {"size": S.SMALL_PT, "bold": True, "color": S.INK}))
+            out.append(El("tbl:budget_miss", "table", _in(0.6, 6.05, 8.3, 0.25 * (len(shown) + 1)), cells=[
+                [Cell(h) for h in ("Category", "Billed", "Budget", "vs budget %")]] + [
+                [Cell(r["vessel_category"]),
+                 _cell(self.ev, "kpi.category", "billed_sdr", "M", r["vessel_category"]),
+                 _cell(self.ev, "kpi.category", "budget_sdr", "M", r["vessel_category"]),
+                 _cell(self.ev, "kpi.category", "budget_variance_pct", "%1", r["vessel_category"])] for r in shown],
+                widths=(0.46, 0.18, 0.18, 0.18), style={"size": Pt(10)}))
         out += self.comments(5, Inches(9.2), S.BODY_TOP + Inches(0.2), Inches(3.5), Inches(1.4))
         return out
 

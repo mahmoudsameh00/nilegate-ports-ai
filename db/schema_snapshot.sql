@@ -1899,9 +1899,9 @@ CREATE VIEW finance.kpi_customer_13w AS
          SELECT w.report_week,
             w.week_start,
             w.week_end,
-            c_1.customer_id
+            c.customer_id
            FROM (finance.dim_week w
-             CROSS JOIN public.customers c_1)
+             CROSS JOIN public.customers c)
         ), billing AS (
          SELECT g.report_week,
             g.customer_id,
@@ -1925,25 +1925,56 @@ CREATE VIEW finance.kpi_customer_13w AS
             sum(b.billed_13w_sdr) OVER (PARTITION BY b.report_week) AS total_13w_sdr,
             row_number() OVER (PARTITION BY b.report_week ORDER BY b.billed_13w_sdr DESC, b.customer_id) AS rank_13w
            FROM billing b
+        ), prev AS (
+         SELECT r.report_week,
+            r.customer_id,
+            c.customer_name,
+            c.segment,
+            c.country,
+            c.credit_rating,
+            c.payment_terms_days,
+            round(r.billed_week_sdr, 2) AS billed_week_sdr,
+            round(r.billed_13w_sdr, 2) AS billed_13w_sdr,
+            round((((100)::numeric * r.billed_13w_sdr) / NULLIF(r.total_13w_sdr, (0)::numeric)), 2) AS share_13w_pct,
+            r.rank_13w,
+            lag(r.rank_13w) OVER (PARTITION BY r.customer_id ORDER BY r.report_week) AS rank_13w_prev,
+            ((r.rank_13w <= 10) AND (r.billed_13w_sdr > (0)::numeric)) AS is_top10,
+            round(COALESCE(o.ar_sdr, (0)::numeric), 2) AS ar_sdr,
+            round(COALESCE(o.overdue_sdr, (0)::numeric), 2) AS overdue_sdr
+           FROM ((ranked r
+             JOIN public.customers c ON ((c.customer_id = r.customer_id)))
+             LEFT JOIN open_ar o ON (((o.report_week = r.report_week) AND (o.customer_id = r.customer_id))))
+        ), punctuality AS (
+         SELECT g.report_week,
+            g.customer_id,
+            ((100.0 * (count(p_1.invoice_number) FILTER (WHERE (p_1.days_paid_after_due <= 0)))::numeric) / (NULLIF(count(p_1.invoice_number), 0))::numeric) AS ontime_13w
+           FROM (grid g
+             LEFT JOIN finance.fact_payment p_1 ON (((p_1.customer_id = g.customer_id) AND ((p_1.paid_date >= (g.week_end - 90)) AND (p_1.paid_date <= g.week_end)))))
+          GROUP BY g.report_week, g.customer_id
         )
- SELECT r.report_week,
-    r.customer_id,
-    c.customer_name,
-    c.segment,
-    c.country,
-    c.credit_rating,
-    c.payment_terms_days,
-    round(r.billed_week_sdr, 2) AS billed_week_sdr,
-    round(r.billed_13w_sdr, 2) AS billed_13w_sdr,
-    round((((100)::numeric * r.billed_13w_sdr) / NULLIF(r.total_13w_sdr, (0)::numeric)), 2) AS share_13w_pct,
-    r.rank_13w,
-    lag(r.rank_13w) OVER (PARTITION BY r.customer_id ORDER BY r.report_week) AS rank_13w_prev,
-    ((r.rank_13w <= 10) AND (r.billed_13w_sdr > (0)::numeric)) AS is_top10,
-    round(COALESCE(o.ar_sdr, (0)::numeric), 2) AS ar_sdr,
-    round(COALESCE(o.overdue_sdr, (0)::numeric), 2) AS overdue_sdr
-   FROM ((ranked r
-     JOIN public.customers c ON ((c.customer_id = r.customer_id)))
-     LEFT JOIN open_ar o ON (((o.report_week = r.report_week) AND (o.customer_id = r.customer_id))));
+ SELECT p.report_week,
+    p.customer_id,
+    p.customer_name,
+    p.segment,
+    p.country,
+    p.credit_rating,
+    p.payment_terms_days,
+    p.billed_week_sdr,
+    p.billed_13w_sdr,
+    p.share_13w_pct,
+    p.rank_13w,
+    p.rank_13w_prev,
+    p.is_top10,
+    p.ar_sdr,
+    p.overdue_sdr,
+    round((((100)::numeric * p.ar_sdr) / NULLIF(p.billed_13w_sdr, (0)::numeric)), 2) AS ar_to_billed_13w_pct,
+        CASE
+            WHEN (p.report_week <= 13) THEN NULL::boolean
+            ELSE ((p.ar_sdr >= (1000000)::numeric) AND ((p.billed_13w_sdr = (0)::numeric) OR (p.ar_sdr >= (0.8 * p.billed_13w_sdr))))
+        END AS is_watchlist,
+    round(pu.ontime_13w, 2) AS ontime_13w_pct
+   FROM (prev p
+     JOIN punctuality pu ON (((pu.report_week = p.report_week) AND (pu.customer_id = p.customer_id))));
 
 
 --
@@ -2056,6 +2087,27 @@ COMMENT ON COLUMN finance.kpi_customer_13w.ar_sdr IS 'Open receivables of the cu
 --
 
 COMMENT ON COLUMN finance.kpi_customer_13w.overdue_sdr IS 'Overdue part of ar_sdr (SDR)';
+
+
+--
+-- Name: COLUMN kpi_customer_13w.ar_to_billed_13w_pct; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.kpi_customer_13w.ar_to_billed_13w_pct IS 'Customer AR ÷ its own 13-week billing × 100; NULL when it billed nothing in 13 weeks (M15).';
+
+
+--
+-- Name: COLUMN kpi_customer_13w.is_watchlist; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.kpi_customer_13w.is_watchlist IS 'AR ≥ 1,000,000 SDR and (no 13-week billing or AR ≥ 80 % of it); NULL in warm-up weeks 1–13 (M15, W-R1 / W-R7).';
+
+
+--
+-- Name: COLUMN kpi_customer_13w.ontime_13w_pct; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.kpi_customer_13w.ontime_13w_pct IS 'Share of the customer''s payments in the 91 days ending Sunday paid on or before due, percent; NULL without payments (M16).';
 
 
 --
@@ -2253,10 +2305,10 @@ CREATE VIEW finance.kpi_weekly AS
           GROUP BY w.report_week
         ), collected AS (
          SELECT w.report_week,
-            count(p.invoice_number) AS payments_received,
-            COALESCE(sum(p.amount_sdr), (0)::numeric) AS collected_sdr
+            count(p_1.invoice_number) AS payments_received,
+            COALESCE(sum(p_1.amount_sdr), (0)::numeric) AS collected_sdr
            FROM (finance.dim_week w
-             LEFT JOIN finance.fact_payment p ON (((p.paid_date >= w.week_start) AND (p.paid_date <= w.week_end))))
+             LEFT JOIN finance.fact_payment p_1 ON (((p_1.paid_date >= w.week_start) AND (p_1.paid_date <= w.week_end))))
           GROUP BY w.report_week
         ), ar AS (
          SELECT w.report_week,
@@ -2320,39 +2372,145 @@ CREATE VIEW finance.kpi_weekly AS
              JOIN dso_base d ON ((d.report_week = w.report_week)))
              LEFT JOIN budget bu ON ((bu.report_week = w.report_week)))
              LEFT JOIN concentration k ON ((k.report_week = w.report_week)))
+        ), prev AS (
+         SELECT base.report_week,
+            base.iso_week_label,
+            base.week_start,
+            base.week_end,
+            base.is_warmup,
+            base.invoices_billed,
+            round(base.billed_sdr, 2) AS billed_sdr,
+            base.payments_received,
+            round(base.collected_sdr, 2) AS collected_sdr,
+            base.ar_invoices,
+            round(base.ar_sdr, 2) AS ar_sdr,
+            base.overdue_invoices,
+            round(base.overdue_sdr, 2) AS overdue_sdr,
+            round(base.aging_current_sdr, 2) AS aging_current_sdr,
+            round(base.aging_1_30_sdr, 2) AS aging_1_30_sdr,
+            round(base.aging_31_60_sdr, 2) AS aging_31_60_sdr,
+            round(base.aging_61_90_sdr, 2) AS aging_61_90_sdr,
+            round(base.aging_90_plus_sdr, 2) AS aging_90_plus_sdr,
+            base.dso_window_days,
+            round(base.dso_window_billed_sdr, 2) AS dso_window_billed_sdr,
+            round(base.dso_days, 1) AS dso_days,
+            round(base.budget_sdr, 2) AS budget_sdr,
+            round((base.billed_sdr - base.budget_sdr), 2) AS budget_variance_sdr,
+            round((((100)::numeric * (base.billed_sdr - base.budget_sdr)) / NULLIF(base.budget_sdr, (0)::numeric)), 2) AS budget_variance_pct,
+            round(((100)::numeric * base.top10_share), 2) AS top10_share_13w_pct,
+            round((((100)::numeric * (base.billed_sdr - lag(base.billed_sdr) OVER wk)) / NULLIF(lag(base.billed_sdr) OVER wk, (0)::numeric)), 2) AS billed_wow_pct,
+            round((((100)::numeric * (base.collected_sdr - lag(base.collected_sdr) OVER wk)) / NULLIF(lag(base.collected_sdr) OVER wk, (0)::numeric)), 2) AS collected_wow_pct,
+            round((((100)::numeric * (base.ar_sdr - lag(base.ar_sdr) OVER wk)) / NULLIF(lag(base.ar_sdr) OVER wk, (0)::numeric)), 2) AS ar_wow_pct,
+            round((((100)::numeric * (base.overdue_sdr - lag(base.overdue_sdr) OVER wk)) / NULLIF(lag(base.overdue_sdr) OVER wk, (0)::numeric)), 2) AS overdue_wow_pct,
+            round((base.dso_days - lag(base.dso_days) OVER wk), 1) AS dso_wow_days
+           FROM base
+          WINDOW wk AS (ORDER BY base.report_week)
+        ), rolling AS (
+         SELECT base.report_week,
+            count(*) OVER r13 AS roll_window_weeks,
+            sum(base.billed_sdr) OVER r13 AS billed_13w_sdr,
+            sum(base.budget_sdr) OVER r13 AS budget_13w_sdr,
+            round(((base.aging_current_sdr / NULLIF(base.dso_window_billed_sdr, (0)::numeric)) * (base.dso_window_days)::numeric), 1) AS dso_best_days
+           FROM base
+          WINDOW r13 AS (ORDER BY base.report_week ROWS BETWEEN 12 PRECEDING AND CURRENT ROW)
+        ), swing AS (
+         SELECT p_1.report_week,
+            ( SELECT
+                        CASE
+                            WHEN (count(*) >= 8) THEN percentile_cont((0.5)::double precision) WITHIN GROUP (ORDER BY ((abs(x.billed_wow_pct))::double precision))
+                            ELSE NULL::double precision
+                        END AS "case"
+                   FROM prev x
+                  WHERE (((x.report_week >= (p_1.report_week - 12)) AND (x.report_week <= p_1.report_week)) AND (x.billed_wow_pct IS NOT NULL))) AS billed_typ,
+            ( SELECT
+                        CASE
+                            WHEN (count(*) >= 8) THEN percentile_cont((0.5)::double precision) WITHIN GROUP (ORDER BY ((abs(x.collected_wow_pct))::double precision))
+                            ELSE NULL::double precision
+                        END AS "case"
+                   FROM prev x
+                  WHERE (((x.report_week >= (p_1.report_week - 12)) AND (x.report_week <= p_1.report_week)) AND (x.collected_wow_pct IS NOT NULL))) AS collected_typ,
+            ( SELECT
+                        CASE
+                            WHEN (count(*) >= 8) THEN percentile_cont((0.5)::double precision) WITHIN GROUP (ORDER BY ((abs(x.ar_wow_pct))::double precision))
+                            ELSE NULL::double precision
+                        END AS "case"
+                   FROM prev x
+                  WHERE (((x.report_week >= (p_1.report_week - 12)) AND (x.report_week <= p_1.report_week)) AND (x.ar_wow_pct IS NOT NULL))) AS ar_typ,
+            ( SELECT
+                        CASE
+                            WHEN (count(*) >= 8) THEN percentile_cont((0.5)::double precision) WITHIN GROUP (ORDER BY ((abs(x.overdue_wow_pct))::double precision))
+                            ELSE NULL::double precision
+                        END AS "case"
+                   FROM prev x
+                  WHERE (((x.report_week >= (p_1.report_week - 12)) AND (x.report_week <= p_1.report_week)) AND (x.overdue_wow_pct IS NOT NULL))) AS overdue_typ
+           FROM prev p_1
+        ), flows AS (
+         SELECT w.report_week,
+            COALESCE(sum(f.amount_sdr) FILTER (WHERE (((f.due_date >= (w.week_end - 7)) AND (f.due_date <= (w.week_end - 1))) AND ((f.paid_date IS NULL) OR (f.paid_date > w.week_end)))), (0)::numeric) AS overdue_new_sdr,
+            COALESCE(sum(f.amount_sdr) FILTER (WHERE ((f.due_date <= (w.week_end - 8)) AND ((f.paid_date >= w.week_start) AND (f.paid_date <= w.week_end)))), (0)::numeric) AS overdue_paid_sdr,
+            COALESCE(sum(f.amount_sdr) FILTER (WHERE ((f.due_date >= w.week_start) AND (f.due_date <= w.week_end))), (0)::numeric) AS due_week_sdr,
+            COALESCE(sum(f.amount_sdr) FILTER (WHERE (((f.due_date >= w.week_start) AND (f.due_date <= w.week_end)) AND (f.paid_date <= w.week_end))), (0)::numeric) AS due_week_collected_sdr
+           FROM (finance.dim_week w
+             CROSS JOIN finance.fact_invoice f)
+          GROUP BY w.report_week
+        ), punctuality AS (
+         SELECT w.report_week,
+            ((100.0 * (count(p_1.invoice_number) FILTER (WHERE (p_1.days_paid_after_due <= 0)))::numeric) / (NULLIF(count(p_1.invoice_number), 0))::numeric) AS ontime_13w
+           FROM (finance.dim_week w
+             LEFT JOIN finance.fact_payment p_1 ON (((p_1.paid_date >= (w.week_end - 90)) AND (p_1.paid_date <= w.week_end))))
+          GROUP BY w.report_week
         )
- SELECT report_week,
-    iso_week_label,
-    week_start,
-    week_end,
-    is_warmup,
-    invoices_billed,
-    round(billed_sdr, 2) AS billed_sdr,
-    payments_received,
-    round(collected_sdr, 2) AS collected_sdr,
-    ar_invoices,
-    round(ar_sdr, 2) AS ar_sdr,
-    overdue_invoices,
-    round(overdue_sdr, 2) AS overdue_sdr,
-    round(aging_current_sdr, 2) AS aging_current_sdr,
-    round(aging_1_30_sdr, 2) AS aging_1_30_sdr,
-    round(aging_31_60_sdr, 2) AS aging_31_60_sdr,
-    round(aging_61_90_sdr, 2) AS aging_61_90_sdr,
-    round(aging_90_plus_sdr, 2) AS aging_90_plus_sdr,
-    dso_window_days,
-    round(dso_window_billed_sdr, 2) AS dso_window_billed_sdr,
-    round(dso_days, 1) AS dso_days,
-    round(budget_sdr, 2) AS budget_sdr,
-    round((billed_sdr - budget_sdr), 2) AS budget_variance_sdr,
-    round((((100)::numeric * (billed_sdr - budget_sdr)) / NULLIF(budget_sdr, (0)::numeric)), 2) AS budget_variance_pct,
-    round(((100)::numeric * top10_share), 2) AS top10_share_13w_pct,
-    round((((100)::numeric * (billed_sdr - lag(billed_sdr) OVER wk)) / NULLIF(lag(billed_sdr) OVER wk, (0)::numeric)), 2) AS billed_wow_pct,
-    round((((100)::numeric * (collected_sdr - lag(collected_sdr) OVER wk)) / NULLIF(lag(collected_sdr) OVER wk, (0)::numeric)), 2) AS collected_wow_pct,
-    round((((100)::numeric * (ar_sdr - lag(ar_sdr) OVER wk)) / NULLIF(lag(ar_sdr) OVER wk, (0)::numeric)), 2) AS ar_wow_pct,
-    round((((100)::numeric * (overdue_sdr - lag(overdue_sdr) OVER wk)) / NULLIF(lag(overdue_sdr) OVER wk, (0)::numeric)), 2) AS overdue_wow_pct,
-    round((dso_days - lag(dso_days) OVER wk), 1) AS dso_wow_days
-   FROM base
-  WINDOW wk AS (ORDER BY report_week);
+ SELECT p.report_week,
+    p.iso_week_label,
+    p.week_start,
+    p.week_end,
+    p.is_warmup,
+    p.invoices_billed,
+    p.billed_sdr,
+    p.payments_received,
+    p.collected_sdr,
+    p.ar_invoices,
+    p.ar_sdr,
+    p.overdue_invoices,
+    p.overdue_sdr,
+    p.aging_current_sdr,
+    p.aging_1_30_sdr,
+    p.aging_31_60_sdr,
+    p.aging_61_90_sdr,
+    p.aging_90_plus_sdr,
+    p.dso_window_days,
+    p.dso_window_billed_sdr,
+    p.dso_days,
+    p.budget_sdr,
+    p.budget_variance_sdr,
+    p.budget_variance_pct,
+    p.top10_share_13w_pct,
+    p.billed_wow_pct,
+    p.collected_wow_pct,
+    p.ar_wow_pct,
+    p.overdue_wow_pct,
+    p.dso_wow_days,
+    r.roll_window_weeks,
+    round(r.billed_13w_sdr, 2) AS billed_13w_sdr,
+    round(r.budget_13w_sdr, 2) AS budget_13w_sdr,
+    round((((100)::numeric * (r.billed_13w_sdr - r.budget_13w_sdr)) / NULLIF(r.budget_13w_sdr, (0)::numeric)), 2) AS budget_variance_13w_pct,
+    r.dso_best_days,
+    (p.dso_days - r.dso_best_days) AS dso_delinquency_days,
+    round((s.billed_typ)::numeric, 2) AS billed_wow_typical_pct,
+    round((s.collected_typ)::numeric, 2) AS collected_wow_typical_pct,
+    round((s.ar_typ)::numeric, 2) AS ar_wow_typical_pct,
+    round((s.overdue_typ)::numeric, 2) AS overdue_wow_typical_pct,
+    round(fl.overdue_new_sdr, 2) AS overdue_new_sdr,
+    round(fl.overdue_paid_sdr, 2) AS overdue_paid_sdr,
+    round(fl.due_week_sdr, 2) AS due_week_sdr,
+    round(fl.due_week_collected_sdr, 2) AS due_week_collected_sdr,
+    round((((100)::numeric * fl.due_week_collected_sdr) / NULLIF(fl.due_week_sdr, (0)::numeric)), 2) AS due_week_collected_pct,
+    round(pu.ontime_13w, 2) AS ontime_13w_pct
+   FROM ((((prev p
+     JOIN rolling r ON ((r.report_week = p.report_week)))
+     JOIN swing s ON ((s.report_week = p.report_week)))
+     JOIN flows fl ON ((fl.report_week = p.report_week)))
+     JOIN punctuality pu ON ((pu.report_week = p.report_week)));
 
 
 --
@@ -2573,6 +2731,118 @@ COMMENT ON COLUMN finance.kpi_weekly.dso_wow_days IS 'DSO change vs the previous
 
 
 --
+-- Name: COLUMN kpi_weekly.roll_window_weeks; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.kpi_weekly.roll_window_weeks IS 'Weeks in the rolling window of the *_13w columns: 13, or the report week number before week 13 (M9b).';
+
+
+--
+-- Name: COLUMN kpi_weekly.billed_13w_sdr; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.kpi_weekly.billed_13w_sdr IS 'Billed revenue of the rolling window (weeks w-12 … w, from week 1 before week 13), SDR (M9b).';
+
+
+--
+-- Name: COLUMN kpi_weekly.budget_13w_sdr; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.kpi_weekly.budget_13w_sdr IS 'Budget of the same rolling window, SDR (M9b).';
+
+
+--
+-- Name: COLUMN kpi_weekly.budget_variance_13w_pct; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.kpi_weekly.budget_variance_13w_pct IS '(billed_13w − budget_13w) ÷ budget_13w × 100: the period''s position against plan (M9b).';
+
+
+--
+-- Name: COLUMN kpi_weekly.dso_best_days; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.kpi_weekly.dso_best_days IS 'Best-possible DSO: current (not overdue) AR ÷ DSO-window billing × window days, 1 decimal (M12).';
+
+
+--
+-- Name: COLUMN kpi_weekly.dso_delinquency_days; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.kpi_weekly.dso_delinquency_days IS 'dso_days − dso_best_days: the days of billing outstanding because customers pay late (M12).';
+
+
+--
+-- Name: COLUMN kpi_weekly.billed_wow_typical_pct; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.kpi_weekly.billed_wow_typical_pct IS 'Typical weekly swing of billed: median |billed_wow_pct| over the rolling window, at least 8 values, else NULL (M13).';
+
+
+--
+-- Name: COLUMN kpi_weekly.collected_wow_typical_pct; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.kpi_weekly.collected_wow_typical_pct IS 'Typical weekly swing of collected: median |collected_wow_pct| over the rolling window, at least 8 values (M13).';
+
+
+--
+-- Name: COLUMN kpi_weekly.ar_wow_typical_pct; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.kpi_weekly.ar_wow_typical_pct IS 'Typical weekly swing of AR: median |ar_wow_pct| over the rolling window, at least 8 values (M13).';
+
+
+--
+-- Name: COLUMN kpi_weekly.overdue_wow_typical_pct; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.kpi_weekly.overdue_wow_typical_pct IS 'Typical weekly swing of overdue: median |overdue_wow_pct| over the rolling window, at least 8 values (M13).';
+
+
+--
+-- Name: COLUMN kpi_weekly.overdue_new_sdr; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.kpi_weekly.overdue_new_sdr IS 'Invoices that became overdue in the week (due from the previous Sunday to this Saturday) and are unpaid at Sunday, SDR (M14).';
+
+
+--
+-- Name: COLUMN kpi_weekly.overdue_paid_sdr; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.kpi_weekly.overdue_paid_sdr IS 'Payments in the week on invoices already overdue at the previous Sunday, SDR; overdue change = new − paid (M14).';
+
+
+--
+-- Name: COLUMN kpi_weekly.due_week_sdr; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.kpi_weekly.due_week_sdr IS 'Invoices falling due in the week (Monday–Sunday), SDR (M14).';
+
+
+--
+-- Name: COLUMN kpi_weekly.due_week_collected_sdr; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.kpi_weekly.due_week_collected_sdr IS 'Part of due_week_sdr paid by the week''s Sunday, SDR (M14).';
+
+
+--
+-- Name: COLUMN kpi_weekly.due_week_collected_pct; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.kpi_weekly.due_week_collected_pct IS 'due_week_collected_sdr ÷ due_week_sdr × 100 (M14).';
+
+
+--
+-- Name: COLUMN kpi_weekly.ontime_13w_pct; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.kpi_weekly.ontime_13w_pct IS 'Share of the payments made in the 91 days ending Sunday that were paid on or before due, percent (M16).';
+
+
+--
 -- Name: kpi_weekly_category; Type: VIEW; Schema: finance; Owner: -
 --
 
@@ -2604,7 +2874,8 @@ CREATE VIEW finance.kpi_weekly_category AS
     round((((100)::numeric * (billed_sdr - budget_sdr)) / NULLIF(budget_sdr, (0)::numeric)), 2) AS budget_variance_pct,
     round(lag(billed_sdr) OVER cw, 2) AS billed_prev_sdr,
     round((billed_sdr - lag(billed_sdr) OVER cw), 2) AS billed_wow_change_sdr,
-    round((((100)::numeric * (billed_sdr - lag(billed_sdr) OVER cw)) / NULLIF(lag(billed_sdr) OVER cw, (0)::numeric)), 2) AS billed_wow_pct
+    round((((100)::numeric * (billed_sdr - lag(billed_sdr) OVER cw)) / NULLIF(lag(billed_sdr) OVER cw, (0)::numeric)), 2) AS billed_wow_pct,
+    lag(invoices_billed) OVER cw AS invoices_prev
    FROM base
   WINDOW cw AS (PARTITION BY vessel_category ORDER BY report_week);
 
@@ -2684,6 +2955,13 @@ COMMENT ON COLUMN finance.kpi_weekly_category.billed_wow_change_sdr IS 'billed_s
 --
 
 COMMENT ON COLUMN finance.kpi_weekly_category.billed_wow_pct IS 'Change vs the previous week, percent; NULL when the previous week was 0';
+
+
+--
+-- Name: COLUMN kpi_weekly_category.invoices_prev; Type: COMMENT; Schema: finance; Owner: -
+--
+
+COMMENT ON COLUMN finance.kpi_weekly_category.invoices_prev IS 'Invoices billed in the category in the previous report week; NULL in week 1 (shows how many invoices sit behind a WoW driver).';
 
 
 --
@@ -3721,6 +3999,87 @@ COMMENT ON COLUMN finance_test.kpi_weekly_category.billed_wow_pct IS 'Week-over-
 
 
 --
+-- Name: bunker_prices; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.bunker_prices (
+    fuel text NOT NULL,
+    price_usd_per_t numeric NOT NULL,
+    price_date date NOT NULL,
+    price_source text NOT NULL,
+    usd_per_sdr numeric NOT NULL,
+    rate_date date NOT NULL,
+    rate_source text NOT NULL,
+    set_by text NOT NULL,
+    CONSTRAINT bunker_prices_fuel_chk CHECK ((fuel = 'VLSFO'::text)),
+    CONSTRAINT bunker_prices_positive_chk CHECK (((price_usd_per_t > (0)::numeric) AND (usd_per_sdr > (0)::numeric)))
+);
+
+
+--
+-- Name: TABLE bunker_prices; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON TABLE public.bunker_prices IS 'Dated bunker price set by the owner with the dated USD-per-SDR rate beside it (Agents plan P9-3); money is reported in SDR (ADR-003); level 1 / Operations (migration 020)';
+
+
+--
+-- Name: COLUMN bunker_prices.fuel; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.bunker_prices.fuel IS 'fuel grade (VLSFO only)';
+
+
+--
+-- Name: COLUMN bunker_prices.price_usd_per_t; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.bunker_prices.price_usd_per_t IS 'price in US dollars per metric tonne';
+
+
+--
+-- Name: COLUMN bunker_prices.price_date; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.bunker_prices.price_date IS 'date the price was published';
+
+
+--
+-- Name: COLUMN bunker_prices.price_source; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.bunker_prices.price_source IS 'where the price was read (publication + URL)';
+
+
+--
+-- Name: COLUMN bunker_prices.usd_per_sdr; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.bunker_prices.usd_per_sdr IS 'US dollars per SDR on rate_date (IMF SDR valuation); SDR per tonne = price_usd_per_t / usd_per_sdr';
+
+
+--
+-- Name: COLUMN bunker_prices.rate_date; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.bunker_prices.rate_date IS 'date of the IMF rate';
+
+
+--
+-- Name: COLUMN bunker_prices.rate_source; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.bunker_prices.rate_source IS 'where the rate was read (publication + URL)';
+
+
+--
+-- Name: COLUMN bunker_prices.set_by; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.bunker_prices.set_by IS 'who set the row (the owner)';
+
+
+--
 -- Name: containers; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -4298,6 +4657,147 @@ ALTER SEQUENCE public.toll_rate_bands_id_seq OWNED BY public.toll_rate_bands.id;
 
 
 --
+-- Name: vessel_performance; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.vessel_performance (
+    vessel_type text NOT NULL,
+    size_band smallint NOT NULL,
+    scnt_min numeric NOT NULL,
+    scnt_max numeric,
+    imo_ship_type text NOT NULL,
+    imo_size_bin text NOT NULL,
+    imo_size_unit text NOT NULL,
+    imo_days_at_sea numeric NOT NULL,
+    imo_main_kt numeric NOT NULL,
+    imo_aux_kt numeric NOT NULL,
+    ref_speed_kn numeric NOT NULL,
+    main_t_per_day numeric NOT NULL,
+    aux_t_per_day numeric NOT NULL,
+    source text NOT NULL,
+    source_ref text NOT NULL,
+    CONSTRAINT vessel_performance_open_band_chk CHECK (((scnt_max IS NULL) = (size_band = 3))),
+    CONSTRAINT vessel_performance_positive_chk CHECK (((imo_days_at_sea > (0)::numeric) AND (imo_days_at_sea <= (365)::numeric) AND (imo_main_kt > (0)::numeric) AND (imo_aux_kt >= (0)::numeric) AND (ref_speed_kn > (0)::numeric) AND (main_t_per_day > (0)::numeric) AND (aux_t_per_day >= (0)::numeric))),
+    CONSTRAINT vessel_performance_scnt_chk CHECK (((scnt_min >= (0)::numeric) AND ((scnt_max IS NULL) OR (scnt_max > scnt_min)))),
+    CONSTRAINT vessel_performance_size_band_chk CHECK (((size_band >= 1) AND (size_band <= 3))),
+    CONSTRAINT vessel_performance_unit_chk CHECK ((imo_size_unit = ANY (ARRAY['dwt'::text, 'teu'::text, 'cbm'::text, 'gt'::text]))),
+    CONSTRAINT vessel_performance_vessel_type_chk CHECK ((vessel_type = ANY (ARRAY['Chemical Tankers & Other Liquid Bulk Tankers'::text, 'Containerships'::text, 'Crude Oil Tankers'::text, 'Cruise Ships'::text, 'Dry Bulk Vessels'::text, 'General Cargo / Multi-Purpose / Heavy Lift Vessels'::text, 'Liquefied Natural Gas (LNG) Carriers'::text, 'Liquefied Petroleum Gas (LPG) Carriers'::text, 'Other Vessels'::text, 'Petroleum Product Tankers'::text, 'Roll-On/Roll-Off (Ro/Ro) Vessels'::text, 'Special Floating Units'::text, 'Vehicles Carriers'::text])))
+);
+
+
+--
+-- Name: TABLE vessel_performance; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON TABLE public.vessel_performance IS 'Fuel and speed parameters per tariff vessel category and SCNT size band (Fourth IMO GHG Study 2020, Table 35, 2018 fleet), read by the Stage 2 tool vessel_params; level 1 / Operations (migration 020)';
+
+
+--
+-- Name: COLUMN vessel_performance.vessel_type; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.vessel_performance.vessel_type IS 'tariff vessel category (the 13 values of vessels.vessel_type, ADR-033)';
+
+
+--
+-- Name: COLUMN vessel_performance.size_band; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.vessel_performance.size_band IS '1 small / 2 medium / 3 large: tertiles of our vessels'' SCNT in the category';
+
+
+--
+-- Name: COLUMN vessel_performance.scnt_min; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.vessel_performance.scnt_min IS 'band lower bound in SCNT tons (inclusive; band 1 starts at 0)';
+
+
+--
+-- Name: COLUMN vessel_performance.scnt_max; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.vessel_performance.scnt_max IS 'band upper bound in SCNT tons (exclusive); NULL for the open band 3';
+
+
+--
+-- Name: COLUMN vessel_performance.imo_ship_type; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.vessel_performance.imo_ship_type IS 'IMO ship type the band is mapped to (rank mapping; SCNT is not convertible to dwt / TEU / cbm)';
+
+
+--
+-- Name: COLUMN vessel_performance.imo_size_bin; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.vessel_performance.imo_size_bin IS 'IMO size bin of that ship type (in imo_size_unit)';
+
+
+--
+-- Name: COLUMN vessel_performance.imo_size_unit; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.vessel_performance.imo_size_unit IS 'unit of the IMO size bin: dwt, teu, cbm or gt';
+
+
+--
+-- Name: COLUMN vessel_performance.imo_days_at_sea; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.vessel_performance.imo_days_at_sea IS 'IMO: average days at sea per year (2018)';
+
+
+--
+-- Name: COLUMN vessel_performance.imo_main_kt; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.vessel_performance.imo_main_kt IS 'IMO: average main-engine fuel consumption per vessel per year, thousand tonnes';
+
+
+--
+-- Name: COLUMN vessel_performance.imo_aux_kt; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.vessel_performance.imo_aux_kt IS 'IMO: average auxiliary-engine fuel consumption per vessel per year, thousand tonnes';
+
+
+--
+-- Name: COLUMN vessel_performance.ref_speed_kn; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.vessel_performance.ref_speed_kn IS 'IMO: average speed over ground at sea, knots — the speed main_t_per_day belongs to';
+
+
+--
+-- Name: COLUMN vessel_performance.main_t_per_day; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.vessel_performance.main_t_per_day IS 'main-engine tonnes per sea day at ref_speed_kn = imo_main_kt × 1000 / imo_days_at_sea; scaled by (speed / ref_speed_kn)³';
+
+
+--
+-- Name: COLUMN vessel_performance.aux_t_per_day; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.vessel_performance.aux_t_per_day IS 'auxiliary tonnes per day = imo_aux_kt × 1000 / 365; independent of speed';
+
+
+--
+-- Name: COLUMN vessel_performance.source; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.vessel_performance.source IS 'publication the IMO figures come from';
+
+
+--
+-- Name: COLUMN vessel_performance.source_ref; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.vessel_performance.source_ref IS 'IMO ship type, size bin and printed page of Table 35';
+
+
+--
 -- Name: vessels_vessel_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -4420,6 +4920,14 @@ ALTER TABLE ONLY finance_test.invoices
 
 ALTER TABLE ONLY public.budget_weekly
     ADD CONSTRAINT budget_weekly_pkey PRIMARY KEY (budget_year, iso_week, vessel_category);
+
+
+--
+-- Name: bunker_prices bunker_prices_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.bunker_prices
+    ADD CONSTRAINT bunker_prices_pkey PRIMARY KEY (fuel, price_date);
 
 
 --
@@ -4572,6 +5080,14 @@ ALTER TABLE ONLY public.toll_rate_bands
 
 ALTER TABLE ONLY public.toll_rate_bands
     ADD CONSTRAINT toll_rate_bands_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: vessel_performance vessel_performance_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.vessel_performance
+    ADD CONSTRAINT vessel_performance_pkey PRIMARY KEY (vessel_type, size_band);
 
 
 --

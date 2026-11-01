@@ -4,5 +4,12 @@
   "displayName": "Exceptions",
   "displayOption": "FitToPage",
   "height": 1080,
-  "width": 1920
+  "width": 1920,
+  "visualInteractions": [
+    {
+      "source": "a1e0c0de5e1c7e000001",
+      "target": "a1e0c0de5e1c7e000003",
+      "type": "NoFilter"
+    }
+  ]
 }

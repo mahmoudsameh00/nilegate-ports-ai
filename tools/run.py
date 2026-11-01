@@ -73,6 +73,8 @@ def is_subsequence(want: list[str], got: list[str]) -> bool:
 
 
 def main() -> int:
+    # a scheduled task redirects stdout in the console's code page (cp1252): ✅ must not crash the report
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("script"); p.add_argument("--timeout", type=int, default=7200)
     p.add_argument("--compare", action="store_true")

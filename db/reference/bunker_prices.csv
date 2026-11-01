@@ -1,0 +1,2 @@
+fuel,price_usd_per_t,price_date,price_source,usd_per_sdr,rate_date,rate_source,set_by
+VLSFO,936.50,2026-10-26,"Ship & Bunker, Global 20 Ports Average (G20) VLSFO, https://shipandbunker.com/prices",1.354820,2026-10-26,"IMF, SDR Valuation (SDR1 = US$), https://www.imf.org/external/np/fin/data/rms_sdrv.aspx",owner

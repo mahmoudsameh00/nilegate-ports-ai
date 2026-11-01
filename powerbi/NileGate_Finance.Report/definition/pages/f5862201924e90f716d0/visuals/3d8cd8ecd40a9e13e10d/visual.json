@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "3d8cd8ecd40a9e13e10d",
   "position": {
     "x": 1180,
     "y": 740,
-    "z": 7,
+    "z": 7000,
     "height": 320,
     "width": 720,
-    "tabOrder": 7
+    "tabOrder": 7000
   },
   "visual": {
     "visualType": "clusteredBarChart",
@@ -102,20 +102,6 @@
   },
   "filterConfig": {
     "filters": [
-      {
-        "name": "e1343bbd239aa373b763",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Weekly KPIs"
-              }
-            },
-            "Property": "Revenue SDR"
-          }
-        },
-        "type": "Advanced"
-      },
       {
         "name": "8e2f941e4817d600b766",
         "field": {

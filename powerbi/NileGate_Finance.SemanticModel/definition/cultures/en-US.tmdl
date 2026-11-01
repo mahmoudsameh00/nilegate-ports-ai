@@ -340,6 +340,342 @@ cultureInfo en-US
 			          }
 			        }
 			      ]
+			    },
+			    "weekly_kpis.audit_findings": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Weekly KPIs",
+			          "ConceptualProperty": "Audit Findings"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Findings": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "weekly_kpis.invoices_flagged": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Weekly KPIs",
+			          "ConceptualProperty": "Invoices Flagged"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Invoices flagged (errors)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "weekly_kpis.invoices_manual_review": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Weekly KPIs",
+			          "ConceptualProperty": "Invoices Manual Review"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "For manual review (tariff Notes)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "invoice_audit.invoice_number": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Invoice Audit",
+			          "ConceptualProperty": "invoice_number"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Invoice": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "invoice_audit.invoice_date": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Invoice Audit",
+			          "ConceptualProperty": "invoice_date"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Date": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "invoice_audit.vessel_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Invoice Audit",
+			          "ConceptualProperty": "vessel_name"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Vessel": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "invoice_audit.vessel_category": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Invoice Audit",
+			          "ConceptualProperty": "vessel_category"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Category": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "invoice_audit.vessel_condition": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Invoice Audit",
+			          "ConceptualProperty": "vessel_condition"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Condition": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "invoice_audit.check_code": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Invoice Audit",
+			          "ConceptualProperty": "check_code"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Check": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "invoice_audit.probable_cause": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Invoice Audit",
+			          "ConceptualProperty": "probable_cause"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Probable cause": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "invoice_audit.review": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Invoice Audit",
+			          "ConceptualProperty": "review"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Review": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "invoice_audit.billed_sdr": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Invoice Audit",
+			          "ConceptualProperty": "billed_sdr"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Billed (SDR)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "invoice_audit.expected_sdr": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Invoice Audit",
+			          "ConceptualProperty": "expected_sdr"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Expected (SDR)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "invoice_audit.difference_sdr": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Invoice Audit",
+			          "ConceptualProperty": "difference_sdr"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Difference (SDR)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "invoice_audit.duplicate_of": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Invoice Audit",
+			          "ConceptualProperty": "duplicate_of"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Duplicate of": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "invoice_audit.evidence": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Invoice Audit",
+			          "ConceptualProperty": "evidence"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Evidence": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
 			    }
 			  }
 			}

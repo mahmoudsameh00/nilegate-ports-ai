@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "0459d3ee90dae5156917",
   "position": {
     "x": 560,
     "y": 740,
-    "z": 6,
+    "z": 6000,
     "height": 320,
     "width": 600,
-    "tabOrder": 6
+    "tabOrder": 6000
   },
   "visual": {
     "visualType": "clusteredBarChart",
@@ -99,37 +99,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "ca4973ec959d1f79593d",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Weekly KPIs"
-              }
-            },
-            "Property": "Revenue SDR"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "f92861bc385d0f0f0a35",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Toll Band"
-              }
-            },
-            "Property": "band_label"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
   }
 }

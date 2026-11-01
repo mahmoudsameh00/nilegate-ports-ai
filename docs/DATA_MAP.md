@@ -1,5 +1,12 @@
 # Data Map — كل الداتا اللي معانا، بتخدم إيه، ومربوطة ببعض إزاي
 
+> **تحديث الحالة (2026-10-29):** من بعد 2026-10-08 مرحلة الـ agents بنت أدوات Stage 1 (`finance_kpi`، `invoice_audit`،
+> `compute_toll`، `search_documents`، `suez_transits`، `web_search` — ADR-049) وأدوات Stage 2 (`sea_route`، `vessel_params`،
+> `voyage_status`، `marine_weather` — ADR-055) + `voyage_eta` (ADR-058). أداتين `query_records` و`query_operations` اللي
+> هنا **لسه ما اتبنوش**: أسئلة الفلوس بتروح لأدوات الـ finance، و"السفينة فين دلوقتي" لـ `voyage_status`. الـ Supervisor
+> هو Phase 12 (الخطة §6d، APPROVED 2026-10-29): `create_agent` واحد فوق كل الأدوات دي ورا router بالكود. التفاصيل في
+> `docs/RETRIEVAL_FLOW.md` (تحديث الحالة).
+
 الملف ده مرجع لتصميم الـ **RAG workflow**. كل الأرقام متحققة يوم 2026-09-27؛ جزء Qdrant والـ retrieval اتحدّث يوم 2026-10-08 (قفل خطة الـ RAG).
 (الرسومات مكتوبة بـ Mermaid: بتتعرض في VS Code عن طريق Markdown Preview، وعلى GitHub.)
 

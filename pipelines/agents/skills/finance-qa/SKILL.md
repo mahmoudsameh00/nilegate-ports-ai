@@ -2,7 +2,7 @@
 name: finance-qa
 description: How to answer one finance question about NileGate: which tool and dataset to call, numbers as slots, sources, and when to answer "not in the data" or "not permitted" instead of guessing. Load before answering any finance question.
 stage: 1
-reviewed_by_owner: 2026-10-22
+reviewed_by_owner: 2026-10-29
 ---
 # Finance Q&A
 
@@ -21,6 +21,9 @@ You answer one question from a NileGate employee. The system knows who asks and 
      `search_documents(query)` for a document (annual report, tariff notes); `suez_transits` for canal traffic.
 3. **A tool result with status `not_permitted`:** answer with status `not_permitted`, say the user's role has no
    access to that data, and give **no number**. Never answer from memory or another tool instead.
+   **Exception — the supervisor** (the answer brief lists a part as "Not permitted to this user"): answer the
+   permitted parts, name the refused part in one sentence without its figures, status `partial` (skill
+   `supervisor-qa`); `not_permitted` only when nothing asked is permitted.
 4. **`no_data` or nothing relevant in the passages:** status `not_in_data`; say what is missing. Never estimate.
 
 ## Writing the answer

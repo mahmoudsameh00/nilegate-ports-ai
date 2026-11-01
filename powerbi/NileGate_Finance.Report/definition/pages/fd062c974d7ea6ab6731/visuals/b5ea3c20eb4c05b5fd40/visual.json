@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "b5ea3c20eb4c05b5fd40",
   "position": {
     "x": 20,
     "y": 120,
-    "z": 2,
+    "z": 2000,
     "height": 260,
     "width": 1880,
-    "tabOrder": 2
+    "tabOrder": 2000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -294,93 +294,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "cac193aac4993ffebf64",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Weekly KPIs"
-              }
-            },
-            "Property": "Billed SDR"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "0ac3529bb3718b7a07f8",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Weekly KPIs"
-              }
-            },
-            "Property": "Collected SDR"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "7c9135d0f0e1f08c7bba",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Weekly KPIs"
-              }
-            },
-            "Property": "AR SDR"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "f25239ae97429cf2afdf",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Weekly KPIs"
-              }
-            },
-            "Property": "Overdue SDR"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "e3c2bc72403b4016d6a8",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Weekly KPIs"
-              }
-            },
-            "Property": "DSO Days"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "d31728cc5c63d10493d3",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Weekly KPIs"
-              }
-            },
-            "Property": "Budget Variance %"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

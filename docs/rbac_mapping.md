@@ -33,6 +33,8 @@ Qdrant filter (conceptual): `sensitivity_level <= role_level OR (department == u
 | `port_connections` | 1 | Operations | aggregated flow statistics |
 | `toll_rate_bands` | 1 | Finance | published tariff |
 | `departments` | 1 | HR | organisational structure |
+| `vessel_performance` | 1 | Operations | fuel and speed parameters per vessel category and size band, from a public study (migration 020, ADR-055) |
+| `bunker_prices` | 1 | Operations | the dated public VLSFO price + USD-per-SDR rate set by the owner: a market price, not company finance (migration 020) |
 | `vessels` | 1 | Operations | daily operational data |
 | `containers` | 1 | Operations | operational shipment data |
 | `documents` | 1 | IT | RAG document registry |
@@ -57,6 +59,9 @@ Qdrant filter (conceptual): `sensitivity_level <= role_level OR (department == u
 | `ais_positions` (time-series; real + synthetic fixes) | 1 | Operations |
 | `ais_vessels` (static / voyage data per MMSI) | 1 | Operations |
 | `edi_messages` | 1 | Operations (synthetic IFTMIN carries no amounts; can move to 2 later if commercial values must be restricted) |
+| `voyages_synthetic.parquet` (the generator's voyage file, read by `voyage_status`) | 1 | Operations (the same data as the synthetic tracks; its `arrival_ts` is never returned before arrival, ADR-055) |
+
+The agent tools read MongoDB as the read-only user `MONGO_RO_USER` (role `read`, 2026-10-27); the loader keeps the app user.
 
 Every document carries `sensitivity_level` and `department` (as the chunks do), so the rule in §1 can be applied as a query predicate. Names replace the earlier `ais_events` (ADR-029). `edi_messages.keys.invoice_number` is a reference to a level-2 / Finance invoice, not its content (no amounts, D14), so the collection stays level 1; reading the invoice itself still needs level 2 or the Finance department. Implemented 2026-09-27: every document of the three collections carries level 1 / Operations (validated by the loader's schema audit).
 
@@ -84,6 +89,19 @@ HbR is deliberately treated as "our internal report" so the corpus contains one 
 | `compute_toll` | `toll_rate_bands` (+ `vessels` with a vessel_id) | 1 | Finance / Operations |
 | `search_documents` | Qdrant chunks, per chunk (§4) | per chunk | per chunk |
 | `suez_transits` (IMF PortWatch), `web_search` (Tavily news) | public external sources | 1 | Operations |
+| `sea_route` (Stage 2, ADR-055) | `ports` + the local `searoute` library | 1 | Operations |
+| `vessel_params` (Stage 2) | `vessel_performance`, `bunker_prices` (+ `vessels` and the voyage file with a vessel_id) | 1 | Operations |
+| `voyage_status` (Stage 2) | `vessels` (MMSI), MongoDB `ais_positions`, the voyage file, `ports`; fixes up to the run's clock | 1 | Operations |
+| `marine_weather` (Stage 2; Open-Meteo) | public external source | 1 | Operations |
+| `route_advice` graph (Stage 2, ADR-057; CLI `Route_advice.py`) | `vessel_params`, `sea_route`, `compute_toll`, `suez_transits`, `web_search` with the asking user | 1 | Operations (every employee may ask; each tool checks the user; a refused input → `not_permitted`, no number) |
+| `agent_state` threads `route_advice:<employee>:…` | one route question and its answer | 1 | Operations (no employee reads the table directly; `Route_advice.py show` / `list`; deleted after 30 days) |
+| `voyage_watch` graph (Stage 2, ADR-058; CLI `Voyage_watch.py`) | `voyage_status`, `vessel_params`, `marine_weather`, `suez_transits` (+ `vessels` names) with the run's user; the tool `voyage_eta` | 1 | Operations (every employee may read the alerts; the scheduled run identity is an Operations manager, `WATCH_RUN_AS`; a refused user → `not_permitted` before any read) |
+| `agent_state` threads `voyage_watch:<as_of>:<n>` + `reports/voyage_watch/<thread>.json` | one watch run: ETAs, alerts, the brief | 1 | Operations (read through `Voyage_watch.py alerts --as` / `show` / `list`, which check the identity; threads deleted after 30 days, the files kept — save only) |
+| `voyage_eta` (supervisor product tool, Phase 12; `tools/eta.py`) | `voyage_status` + `vessel_params` resources; fixes up to the run's clock | 1 | Operations |
+| `watch_alerts` (supervisor product tool, Phase 12; `tools/watch.py`) | one saved run file of `reports/voyage_watch/`: the latest at or before the run's clock (never chosen by the model); since c1 each alert carries its vessel's `customer_id` (from `vessels`, a level-1 id) and one count row per customer | 1 | Operations (every employee; the identity is checked; ids only, never a customer's name or money) |
+| `fleet_customers` (supervisor product tool, Phase 12; `tools/fleet.py`) | `vessels` (`vessel_id`, `vessel_name`, `vessel_type`, `customer_id`) | 1 | Operations (ids only: the customer's name, terms and money stay in `finance_kpi`, level 2 / Finance) |
+| `route_advice` tool (supervisor product tool, Phase 12, P12-2; `tools/products.py`) | the `route_advice` graph above, one thread per call (metadata `trigger: supervisor`), with the asking user and clock | 1 | Operations (a refused user → `not_permitted` before any model call, no row) |
+| `agent_state` threads `ask:<employee>:<as_of>:<n>` (the supervisor, Phase 12 S4; CLI `Ask.py`) | one question, its routing (the refused part) and its checked answer — may hold the asker's finance figures | as the answer's data (≤ the asker's access) | the asker and the CEO only (`Ask.py show` / `list` check the identity); deleted after 30 days by the shared retention, archived first |
 | Skills (`pipelines/agents/skills/`) | instructions only, no data | — | — |
 | `weekly_pack` approval (ADR-050) | a decision on a pack (approve / edit / reject), no data | — | Finance managers and the CEO only, checked in PostgreSQL at every decision; anyone else is refused and logged |
 

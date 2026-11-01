@@ -1,6 +1,6 @@
 """Finance Q&A check (Agents plan §5f F2, D-P7-6 / D-P7-7): the `create_agent` Q&A agent on fake models.
 
-Plan:    docs/plans/Agents_plan.md §5f (owner decisions 2026-10-22: the Q&A on LangChain create_agent; its own check).
+Plan:    docs/archive/2026-11-01_Agents_plan.md §5f (owner decisions 2026-10-22: the Q&A on LangChain create_agent; its own check).
 Run:     uv run python tools/run.py pipelines/scripts/agents/Finance_qa_check.py  (from the project root)
 
 Reads:   PostgreSQL read-only through the real Stage 1 tools (finance_kpi), employees / roles. No LLM call (scripted
@@ -18,7 +18,8 @@ Phases
    number; an "answered" over a refused tool → patched, then validation_failed.
 5. Limits and records: an answer tool called with invalid arguments every time → the call limit ends the run →
    output_invalid; usage, calls and slot-form fixes recorded.
-6. The operator CLI (`Finance_qa.py answer`) on fake models: summary keys, untraced without a key.
+(6. The operator CLI: moved 2026-10-29 to `Supervisor_check.py` Phase 5 — `Ask.py` replaced `Finance_qa.py`, Agents
+   plan Phase 12 S4; the Stage 1 agent itself is unchanged.)
 Final Checkpoint (pending phases listed).
 """
 # %% Setup
@@ -30,9 +31,7 @@ from langchain_core.messages import AIMessage
 
 ROOT = next(p for p in [Path.cwd(), *Path.cwd().parents] if (p / "pyproject.toml").exists() and (p / "Data").is_dir())
 sys.path.insert(0, str(ROOT))
-sys.path.insert(0, str(ROOT / "pipelines" / "scripts" / "agents"))
 os.environ["LANGSMITH_API_KEY"] = os.environ["LANGCHAIN_API_KEY"] = ""      # no trace from a check (§5e P8-4)
-import Finance_qa as cli  # noqa: E402
 
 from pipelines.agents import roles  # noqa: E402
 from pipelines.agents.graphs import finance_qa as qa  # noqa: E402
@@ -168,22 +167,11 @@ print("✅ Phase 5 validation passed: the call limit ends a run with invalid ans
       "and slot-form fixes recorded")
 DONE.append(5)
 
-# %% Phase 6 — The operator CLI on fake models
-st, traced = cli.answer("How much did we bill in week 23?", FIN_EMP.employee_id,
-                        roles=roles.FakeRoles(Script([("tool", KPI), ("answer_call", ans(GOOD))])))
-out = cli.summary(st)
-actual = {"keys": sorted(out), "status": out["status"], "evidence_tool": out["evidence"]["insight.c1"]["tool"],
-          "traced": traced}
-expected = {"keys": ["answer", "cached", "evidence", "model_calls", "problems", "status", "stop_reason"],
-            "status": "answered", "evidence_tool": "finance_kpi", "traced": False}
-assert actual == expected, {k: (actual[k], expected[k]) for k in actual if actual[k] != expected[k]}
-print(f"Phase 6: {out['answer']}")
-print("✅ Phase 6 validation passed: the CLI answers through the agent and is untraced without a key")
-DONE.append(6)
+# (Phase 6 — the operator CLI — moved 2026-10-29 to Supervisor_check.py Phase 5: Ask.py replaced Finance_qa.py.)
 
 # %% Final Checkpoint
 # Narrative: pipelines/checkpoints/agents/Finance_qa_check.md (every step, its problems and their fixes).
-PHASES = {1: "answer paths", 2: "middleware", 3: "check + patch", 4: "RBAC", 5: "limits + records", 6: "CLI"}
+PHASES = {1: "answer paths", 2: "middleware", 3: "check + patch", 4: "RBAC", 5: "limits + records"}
 pending = [f"{k} {v}" for k, v in PHASES.items() if k not in DONE]
 print(f"Final Checkpoint: done {DONE}; pending: {pending}")
 print(f"✅ Final Checkpoint: {len(DONE)} / {len(PHASES)} phases passed")

@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "dcd3e71238eca7fab6a6",
   "position": {
     "x": 20,
     "y": 780,
-    "z": 5,
+    "z": 5000,
     "height": 290,
     "width": 1880,
-    "tabOrder": 5
+    "tabOrder": 5000
   },
   "visual": {
     "visualType": "tableEx",
@@ -177,121 +177,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "0b61c13162d2f325ffb9",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Overdue List"
-              }
-            },
-            "Property": "rank_by_amount"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "a1558abbd911344359c9",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Overdue List"
-              }
-            },
-            "Property": "invoice_number"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "7dd9d5dc3e6058bf237e",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Overdue List"
-              }
-            },
-            "Property": "customer_name"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "59cb61bd4413496c85b8",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Overdue List"
-              }
-            },
-            "Property": "vessel_name"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "2c70661196d52394b772",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Overdue List"
-              }
-            },
-            "Property": "due_date"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "2f65b42b387fe8f656f7",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Overdue List"
-              }
-            },
-            "Property": "days_past_due"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "b9e69b0c510935700857",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Overdue List"
-              }
-            },
-            "Property": "aging_bucket"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "9e25a222d9d3ce130ce4",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Overdue List"
-              }
-            },
-            "Property": "amount_sdr"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "96196d218ea1639cf2f8",
   "position": {
     "x": 1140,
     "y": 400,
-    "z": 4,
+    "z": 4000,
     "height": 300,
     "width": 760,
-    "tabOrder": 4
+    "tabOrder": 4000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -80,51 +80,5 @@
       }
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "dc79ec39a02f6336c226",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Weekly KPIs"
-              }
-            },
-            "Property": "Week Label"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "5cc12754e1c4ae0db0ec",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Weekly KPIs"
-              }
-            },
-            "Property": "Invoices Billed"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "6688cc256a8a538cbbc6",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Weekly KPIs"
-              }
-            },
-            "Property": "Top10 Share 13w %"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

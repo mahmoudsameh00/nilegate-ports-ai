@@ -129,8 +129,16 @@ def _allowed_number(n: str, question: str, quoted: str) -> bool:
     return (v.is_integer() and (1 <= v <= 53 or 2020 <= v <= 2030))   # week numbers, "13 weeks", "top 10", years
 
 
-def check_answer(answer: dict, evidence: dict, question: str, lang: str = "en") -> tuple[str, list[dict], list[str]]:
-    """(rendered text, bound slots, problems). The deterministic rules of this agent; the harness scores with it too."""
+FINANCE_YEAR = 2025                                     # the finance data covers 2025 only (migration 012)
+FINANCE_TOOLS = {"finance_kpi", "invoice_audit"}
+YEAR_RE = re.compile(r"(?<!\d)(20\d{2})(?!\d)")
+
+
+def check_answer(answer: dict, evidence: dict, question: str, lang: str = "en",
+                 asked: str | None = None) -> tuple[str, list[dict], list[str]]:
+    """(rendered text, bound slots, problems). The deterministic rules of this agent; the harness scores with it too.
+    `asked` = the question as the user wrote it, for the year rule (default `question`; the supervisor appends the
+    cited rows' ids to `question`, and an id is not a year)."""
     problems = []
     text = answer["answer"]
     unknown = [e for e in answer.get("evidence_ids") or [] if e not in evidence]
@@ -155,6 +163,12 @@ def check_answer(answer: dict, evidence: dict, question: str, lang: str = "en") 
     status = answer["status"]
     if status != "answered" and (bound or typed):
         problems.append(f"status {status} must hold no number: say what is missing or not permitted, without figures")
+    # D-P12-12: a question about another year is not in the data — a 2025 figure in its place is a wrong answer
+    # (dp127 run 2, a01: "week 12 of 2024" answered with 2025-W12's billing); other tools keep their own years
+    other = sorted({y for y in YEAR_RE.findall((asked or question).translate(ARABIC_DIGITS)) if int(y) != FINANCE_YEAR})
+    if other and any((evidence.get(b.slot.eid) or {}).get("tool") in FINANCE_TOOLS for b in bound):
+        problems.append(f"the question asks about {', '.join(other)}: NileGate's finance data holds {FINANCE_YEAR} "
+                        "only — status not_in_data without figures; never answer with another year's numbers")
     structured = [r for r in evidence.values() if r.get("tool") in slots.NUMERIC_TOOLS]
     if status == "answered" and structured and all(r.get("status") == "not_permitted" for r in structured):
         problems.append("every structured tool refused this user's access: the status is not_permitted")

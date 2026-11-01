@@ -1,6 +1,6 @@
 """LLM bake-off on free APIs (Agents plan Phase 0, §7a): which model per role (Writer / Insight, Tools / routing).
 
-Plan:    docs/plans/Agents_plan.md §7a + "Progress / deviations" (owner decisions 2026-10-10).
+Plan:    docs/archive/2026-11-01_Agents_plan.md §7a + "Progress / deviations" (owner decisions 2026-10-10).
 Run:     uv run python tools/run.py pipelines/scripts/agents/LLM_bakeoff.py --timeout 14400
          (project root; ports-postgres and ports-qdrant up)
 

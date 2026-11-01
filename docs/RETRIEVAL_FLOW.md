@@ -5,6 +5,17 @@ Status: the document tool (§2, §2.1) is **IMPLEMENTED** (2026-10-08, RAG plan 
 Supervisor, the other tools and the answer step (§1, §3) stay **PLANNED** for the agents phase. §5 records the research of
 2026-09-28 and what the measurements chose. Research sources are listed at the end.
 
+> **Status update (2026-10-29) — what the agents phase built since, against this design.** Built: the Stage 1 tools
+> `finance_kpi`, `invoice_audit`, `compute_toll`, `search_documents`, `suez_transits`, `web_search` (ADR-049) and the
+> Stage 2 tools `sea_route`, `vessel_params`, `voyage_status`, `marine_weather` (ADR-055) + the ETA rule `voyage_eta`
+> (ADR-058), all under the same rule as here (RBAC inside every tool, the user from the run context). **Not built:**
+> `query_records` and `query_operations`. Today money questions (rows 5, 11) go to `finance_kpi` / `invoice_audit` /
+> `compute_toll`, and "operations now" (row 6) to `voyage_status` / `voyage_eta`; the generic record, shipment-chain and
+> geography questions (rows 4, 7, 8) have no tool yet and stay **PLANNED**. The Supervisor is Phase 12 (Agents plan §6d,
+> APPROVED 2026-10-29): one `create_agent` over the Stage 1 + Stage 2 tools and the product graphs as tools, behind a
+> code router — not the two-tool plan of §1. Whether `query_records` / `query_operations` are built is decided when a
+> Phase 12 golden question needs them.
+
 The **Supervisor agent** owns the answer. It never reads a store directly: it calls **tools**, and every tool applies the
 user's access rights **inside** its query (ADR-006). This plan builds the document tool; the other tools reuse the same
 authorization context and are built in the agents phase.

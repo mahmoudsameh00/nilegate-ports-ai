@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "ac327af9d418a1ddeaae",
   "position": {
     "x": 20,
     "y": 740,
-    "z": 5,
+    "z": 5000,
     "height": 320,
     "width": 1880,
-    "tabOrder": 5
+    "tabOrder": 5000
   },
   "visual": {
     "visualType": "tableEx",
@@ -222,34 +222,6 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "8819c3c03922a3878fc5",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Customer KPIs 13w"
-              }
-            },
-            "Property": "rank_13w"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "7df76360cda36154ee27",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Customer KPIs 13w"
-              }
-            },
-            "Property": "rank_13w_prev"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
         "name": "1181eeab66108c036192",
         "field": {
           "Column": {
@@ -349,104 +321,6 @@
             }
           ]
         }
-      },
-      {
-        "name": "07299739454cf371d84a",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Customer KPIs 13w"
-              }
-            },
-            "Property": "segment"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "b1256cc4240874b8c33f",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Customer KPIs 13w"
-              }
-            },
-            "Property": "credit_rating"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "bffe9eff06079efee666",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Customer KPIs 13w"
-              }
-            },
-            "Property": "payment_terms_days"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "98a3fd0d9e71869c351b",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Weekly KPIs"
-              }
-            },
-            "Property": "Billed 13w SDR"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "7cf93f29b31ffa69342c",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Weekly KPIs"
-              }
-            },
-            "Property": "Share 13w %"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "66e5dfbb4a5b3c966598",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Weekly KPIs"
-              }
-            },
-            "Property": "Customer AR SDR"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "ad2a49e3abe8beb52ba9",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Weekly KPIs"
-              }
-            },
-            "Property": "Customer Overdue SDR"
-          }
-        },
-        "type": "Advanced"
       }
     ]
   }

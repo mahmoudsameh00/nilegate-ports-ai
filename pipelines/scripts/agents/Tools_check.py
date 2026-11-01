@@ -1,6 +1,6 @@
 """Stage 1 tools check (Agents plan Phase 4, §5a): each tool tested on its own, the RBAC matrix, the skills.
 
-Plan:    docs/plans/Agents_plan.md §5a (owner decisions P4-1…P4-8, approved 2026-10-18); one phase per step S1…S9.
+Plan:    docs/archive/2026-11-01_Agents_plan.md §5a (owner decisions P4-1…P4-8, approved 2026-10-18); one phase per step S1…S9.
 Run:     uv run python tools/run.py pipelines/scripts/agents/Tools_check.py  (from the project root)
 
 Reads:   PostgreSQL read-only (PG_RO_USER): employees / roles / departments, invoices, vessels, toll_rate_bands, the
@@ -198,13 +198,22 @@ def ref_rows(sql: str, params: tuple = ()) -> list[dict]:
     return [{n: (float(v) if isinstance(v, Decimal) else v) for n, v in zip(names, row)} for row in cur.fetchall()]
 
 
+# Migration 021 (weekly-pack plan Phase A, applied 2026-10-31) appended columns the tool returns only from Phase B
+# (after the c4 evaluation): they must be the views' trailing columns, so the tool's evidence stays unchanged.
+PENDING_021 = {
+    "weekly": {"roll_window_weeks", "billed_13w_sdr", "budget_13w_sdr", "budget_variance_13w_pct", "dso_best_days",
+               "dso_delinquency_days", "billed_wow_typical_pct", "collected_wow_typical_pct", "ar_wow_typical_pct",
+               "overdue_wow_typical_pct", "overdue_new_sdr", "overdue_paid_sdr", "due_week_sdr",
+               "due_week_collected_sdr", "due_week_collected_pct", "ontime_13w_pct"},
+    "category": {"invoices_prev"},
+    "customers": {"ar_to_billed_13w_pct", "is_watchlist", "ontime_13w_pct"}}
 col_mismatch = {}
 for ds, (view, cols, _) in finance.DATASETS.items():
     schema_name, table = view.split(".")
     view_cols = tuple(r["column_name"] for r in ref_rows(
         "SELECT column_name FROM information_schema.columns WHERE table_schema = %s AND table_name = %s "
         "ORDER BY ordinal_position", (schema_name, table)))
-    if view_cols != cols:
+    if view_cols[:len(cols)] != cols or set(view_cols[len(cols):]) != PENDING_021.get(ds, set()):
         col_mismatch[ds] = set(view_cols) ^ set(cols)
 assert not col_mismatch, col_mismatch
 
@@ -212,9 +221,9 @@ ORDER_KEY = {"weekly": None, "category": "vessel_category", "customers": "rank_1
              "trend": "trend_week"}
 row_mismatch, rows_compared = [], 0
 for w in range(1, 53):
-    for ds, (view, _, _) in finance.DATASETS.items():
+    for ds, (view, cols, _) in finance.DATASETS.items():
         res = finance.finance_kpi(finance_emp, report_week=w, dataset=ds, limit=50)
-        ref = ref_rows(f"SELECT * FROM {view} WHERE report_week = %s", (w,))
+        ref = ref_rows(f"SELECT {', '.join(cols)} FROM {view} WHERE report_week = %s", (w,))
         key = ORDER_KEY[ds]
         if ds in finance.RANKED:
             ref = sorted(ref, key=lambda r: r[key])[:50]
@@ -857,7 +866,8 @@ import re  # noqa: E402
 
 from pipelines.agents import skill_loader  # noqa: E402
 
-skills = skill_loader.catalog()
+# the Stage 1 skills only: a Stage 2 skill (route-cost-advice, Agents plan §6b S3) is checked by Route_advice_check.py
+skills = {n: s for n, s in skill_loader.catalog().items() if s.stage == "1"}
 STAGE1_SKILLS = ["deck-style-guide", "finance-kpi-definitions", "finance-qa", "number-validation", "suez-toll-audit",
                  "untrusted-content", "weekly-variance-analysis"]           # finance-qa: Agents plan Phase 7 (S4)
 
@@ -890,7 +900,7 @@ AUDIT_TERMS = {"duplicate_charge", "tonnage_mismatch", "amount_mismatch", "rate_
 # name and a fact contradicted across two skills had slipped in): view columns, datasets, tool names, result and
 # argument fields, statuses, audit check codes and causes
 from pipelines.agents.tools.schemas import Status  # noqa: E402
-from pipelines.agents.graphs.models import QaAnswer  # noqa: E402
+from pipelines.agents.graphs.models import QaAnswer, SupervisorAnswer  # noqa: E402
 from pipelines.agents.deck.slots import FORMATS  # noqa: E402
 
 known_names = ({c for _, cols, _ in finance.DATASETS.values() for c in cols} | set(finance.DATASETS)
@@ -900,7 +910,10 @@ known_names = ({c for _, cols, _ in finance.DATASETS.values() for c in cols} | s
                | {f for t in registry.STAGE1_TOOLS for f in t.tool_call_schema.model_json_schema()["properties"]}
                # the Q&A answer (Phase 7): QaAnswer fields and statuses, the slot formats
                | set(QaAnswer.model_fields) | set(QaAnswer.model_fields["status"].annotation.__args__)
-               | {f for fs in FORMATS.values() for f in fs})
+               | {f for fs in FORMATS.values() for f in fs}
+               # Phase 12 (owner review of supervisor-qa, 2026-10-29): finance-qa names the supervisor's `partial`
+               # status and the skill `supervisor-qa`
+               | set(SupervisorAnswer.model_fields["status"].annotation.__args__) | set(skill_loader.catalog()))
 unknown_fields = {n: u for n, s in skills.items()
                   if (u := sorted(t for t in set(re.findall(r"`([a-z0-9_*]+)`", s.body))
                                   if not any(re.fullmatch(t.replace("*", ".*"), c) for c in known_names)))}

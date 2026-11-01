@@ -1,6 +1,6 @@
 """Scheduler check (Agents plan Phase 8, §5e S1): the week picker, the scheduled firing, retention and the G5 report.
 
-Plan:    docs/plans/Agents_plan.md §5e (owner decisions P8-1…P8-4, approved 2026-10-20).
+Plan:    docs/archive/2026-11-01_Agents_plan.md §5e (owner decisions P8-1…P8-4, approved 2026-10-20).
 Run:     uv run python tools/run.py pipelines/scripts/agents/Scheduler_check.py  (from the project root)
 
 Reads:   PostgreSQL read-only (PG_RO_USER): employees / roles / departments, the finance and audit views.
@@ -181,7 +181,9 @@ class Script:
 script = Script()
 saver = checkpointer.saver()
 pool = checkpointer.pool()
-g = wp.build_graph(roles.FakeRoles(script), saver, REPORTS)
+# c4: a failing Writer now reaches the approval through the code fallback; the scheduler's handling of a stopped
+# pack (still possible: a V8 fault, a fallback that fails) is tested on the graph without the fallback
+g = wp.build_graph(roles.FakeRoles(script), saver, REPORTS, use_fallback=False)
 
 
 def clean():
@@ -277,7 +279,7 @@ expected = {
                 ("03:1", "rejected", ["rejected"], fin_mgr.employee_id)],
     "report": {"packs_decided": 2, "published": 1, "rejected": 1, "packs_edited": 1, "edit_rate": 0.5,
                "decisions": {"approved": 1, "edited": 1, "rejected": 1}, "edited_slides": {bullet0["slide"]: 1},
-               "form_fixes": {"packs": 0, "fixes": 0}},          # the sample drafts' slots are well formed
+               "form_fixes": {"packs": 0, "fixes": 0}, "degraded": 0},   # the sample drafts' slots are well formed
     "report_threads": 5,
     "threads_after_cleanup": [],
 }
@@ -306,7 +308,8 @@ actual = {"rule": rule, "exit": {c: r.returncode for c, r in cli.items()},
           "live_unchanged": sch.thread_ids(pool, P) == live_before}
 expected = {"rule": {"finance manager": True, "finance employee": False, "operations manager": False, "ceo": False},
             "exit": {"prune --dry-run": 0, "report": 0}, "dry_deleted": [],
-            "report_keys": ["decisions", "edit_rate", "edited_slides", "form_fixes", "packs_decided", "packs_edited",
+            "report_keys": ["decisions", "degraded", "edit_rate", "edited_slides", "form_fixes", "packs_decided",
+                            "packs_edited",
                             "published", "rejected", "threads"],
             "live_unchanged": True}
 assert actual == expected, (actual, outs)
@@ -339,7 +342,7 @@ def body(x):
     return x + 1
 with tracing.trace(T, entry="run", run_as=12) as on:
     out["yielded"], out["result"] = on, RunnableLambda(body).invoke(1)
-out["inside"], out["after"] = seen, tracing_is_enabled()
+out["inside"], out["after"], out["root_runs"] = seen, tracing_is_enabled(), len(tracing._last_runs)
 try:
     with tracing.trace(T, entry="resume", run_as=12):
         raise ValueError("the run's own error")
@@ -348,6 +351,7 @@ except ValueError as exc:
 os.environ.update(LANGSMITH_API_KEY="", LANGCHAIN_API_KEY="")
 with tracing.trace(T, entry="run", run_as=12) as on:
     out["empty_key"] = on
+out["line_off"] = tracing.describe(on)
 print(json.dumps(out))
 """
 child_env = {**os.environ, "PYTHONIOENCODING": "utf-8", "LANGSMITH_API_KEY": "lsv2_check_fake_key_000000",
@@ -363,18 +367,19 @@ got = json.loads(child.stdout.strip().splitlines()[-1])
 actual = {"switch_env": tracing.global_switch(), "switch_example": [k for k in tracing.SWITCHES if k in example],
           "example_keys": [k for k in ("LANGSMITH_API_KEY", "PACK_RUN_AS") if k in example],
           "secret": "LANGSMITH_API_KEY" in SECRET_KEYS, "child": got,
-          "labels_foreign": tracing.labels("other:thread", "run", None)[1]["week"]}
+          "labels_foreign": tracing.labels("ask:check:1", "ask", None)[0]}
 expected = {"switch_env": None, "switch_example": [], "example_keys": ["LANGSMITH_API_KEY", "PACK_RUN_AS"],
             "secret": True,
             "child": {"before": False, "yielded": True, "result": 2,
                       "inside": {"on": True, "project": "nilegate-agents",
-                                 "tags": ["weekly_pack", "entry:run", "launched_by:cli", "week:2025-W11",
-                                          "dataset:live"],
+                                 "tags": ["weekly_pack", "graph:weekly_pack", "entry:run", "launched_by:cli",
+                                          "week:2025-W11", "dataset:live"],
                                  "metadata": {"thread_id": "weekly_pack:live:2025-W11:2", "week": "2025-W11",
                                               "attempt": "2", "dataset": "live", "run_as": 12, "entry": "run",
                                               "launched_by": "cli"}},
-                      "after": False, "propagated": "the run's own error", "empty_key": False},
-            "labels_foreign": None}
+                      "after": False, "root_runs": 1, "propagated": "the run's own error", "empty_key": False,
+                      "line_off": "off (no LANGSMITH_API_KEY)"},
+            "labels_foreign": ["entry:ask", "launched_by:cli"]}
 assert actual == expected, {k: (actual[k], expected[k]) for k in actual if actual[k] != expected[k]}
 print(f"Phase 4: child {child_s:.0f} s (upload refused locally, run unaffected); no global switch; "
       f"key in this environment: {tracing.has_key()}")
@@ -395,7 +400,8 @@ else:
     rec = sch.fire(g, saver, pool, fin_mgr, REPORTS, prefix=CP, notify=False,
                    tracer=lambda t, r: tracing.trace(t, entry="scheduled", run_as=r, launched_by="check"))
     tid = rec["result"]["thread_id"]
-    cp_meta = [s.metadata for s in g.get_state_history({"configurable": {"thread_id": tid}})]
+    link = tracing.last_url()     # the CLIs' `LangSmith:` line (D-P12-11): must open this firing's root run
+    cp_meta =[s.metadata for s in g.get_state_history({"configurable": {"thread_id": tid}})]
     client, root, in_trace = Client(), None, 0
     for _ in range(36):           # ingestion lag: up to 3 min; the root can arrive before its child runs
         root = root or next((r for r in client.list_runs(project_name=tracing.PROJECT, is_root=True,
@@ -410,19 +416,21 @@ else:
     assert root is not None, f"no root run of {tid} in LangSmith project {tracing.PROJECT}"
     meta = root.extra["metadata"]
     actual = {"traced": rec["traced"], "status": rec["result"]["status"],
-              "tags": sorted(set(root.tags) & {"weekly_pack", "entry:scheduled", "launched_by:check", "week:2025-W01",
-                                                "dataset:check"}),
+              "tags": sorted(set(root.tags) & {"weekly_pack", "graph:weekly_pack", "entry:scheduled", "launched_by:check",
+                                                "week:2025-W01", "dataset:check"}),
+              "link_to_root": bool(link) and link.endswith(f"/r/{root.id}?poll=true"),
               "meta": {k: meta.get(k) for k in ("week", "attempt", "run_as", "entry", "launched_by", "trigger")},
               "error": root.error, "runs_in_trace_ge_5": in_trace >= 5,
               "cp_run_as": {x.get("run_as") for x in cp_meta if x.get("run_as")},
               "cp_trace_keys": sorted({k for x in cp_meta for k in x} & {"entry", "week", "attempt"})}
     expected = {"traced": True, "status": "awaiting_approval",
-                "tags": ["dataset:check", "entry:scheduled", "launched_by:check", "week:2025-W01", "weekly_pack"],
+                "tags": ["dataset:check", "entry:scheduled", "graph:weekly_pack", "launched_by:check", "week:2025-W01",
+                         "weekly_pack"], "link_to_root": True,
                 "meta": {"week": "2025-W01", "attempt": "1", "run_as": fin_mgr.employee_id, "entry": "scheduled",
                          "launched_by": "check", "trigger": "scheduled"},    # trigger = the checkpoint's own key
                 "error": None, "runs_in_trace_ge_5": True, "cp_run_as": {fin_mgr.employee_id}, "cp_trace_keys": []}
     assert actual == expected, {k: (actual[k], expected[k]) for k in actual if actual[k] != expected[k]}
-    print(f"Phase 5: root run {root.id} ({in_trace} runs in the trace), tags {actual['tags']}")
+    print(f"Phase 5: root run {root.id} ({in_trace} runs in the trace), tags {actual['tags']}, link {link}")
     print("✅ Phase 5 validation passed: a scheduled firing is traced in nilegate-agents and read back with its tags "
           "and metadata; the checkpoint metadata is unchanged")
     DONE.append(5)

@@ -1,0 +1,615 @@
+{
+ "meta": {
+  "as_of": "2025-12-28",
+  "period": "2025 ISO weeks 1-52",
+  "unit": "SDR",
+  "source": "schema finance (read-only)",
+  "data": "synthetic company data",
+  "payments_after_asof": 148,
+  "payments_horizon": "2026-03-31"
+ },
+ "year": {
+  "billed": 267892000.68,
+  "invoices": 996,
+  "budget": 302099899.07,
+  "variance": -34207898.39,
+  "variance_pct": -11.3234,
+  "collected": 227198497.24,
+  "ar_w52": 40693503.44,
+  "overdue_w52": 11089028.88,
+  "overdue_share_w52_pct": 27.2501,
+  "ar90_w52": 1286102.15,
+  "dso_w52": 55.0,
+  "weekly_billed_mean": 5151769.2438
+ },
+ "F1": {
+  "trend_slope_per_week": 738.8786,
+  "trend_p": 0.948,
+  "lag1_autocorr": 0.2074,
+  "count_dispersion": 0.8034,
+  "quarters_billed": [
+   68107976.56,
+   68954656.1,
+   63467561.08,
+   67361806.94
+  ],
+  "quarters_budget": [
+   72298404.78,
+   74246859.8,
+   77267858.87,
+   78286775.62
+  ],
+  "weeks_abs_z_gt2": [
+   23
+  ],
+  "wow_abs_median_pct": 21.61,
+  "weeks_wow_gt20_pct": 52.9412,
+  "category_weeks_zero_pct": 21.8935,
+  "weekly_sd": 1199546.3232
+ },
+ "F3": {
+  "var_13w_pct_at": {
+   "13": -5.8,
+   "26": -7.1,
+   "39": -17.9,
+   "52": -14.0
+  },
+  "var_13w_min": -17.9,
+  "var_13w_max": -4.5,
+  "corr_weekly_variance_billed": 0.986,
+  "band_mid": 66973000.17,
+  "band_half": 8650051.5509,
+  "rolling_inside_band_pct": 100.0
+ },
+ "F2": {
+  "gap": -34207898.39,
+  "volume_effect": 453001.7796,
+  "ticket_effect": -34660900.1696,
+  "ballast_effect": -21003295.4232,
+  "ballast_share_of_gap_pct": 61.399,
+  "other_ticket_effect": -13657604.7464,
+  "invoices": 996,
+  "plan_invoices": 1000,
+  "ballast_invoices": 461,
+  "ballast_share_pct": 46.2851,
+  "max_abs_volume_z": 1.989,
+  "categories": [
+   {
+    "category": "Containerships",
+    "variance": -7728301.83,
+    "variance_pct": -22.8,
+    "volume_effect": -3812615.0348,
+    "ticket_effect": -3915686.7953,
+    "n": 71,
+    "plan_n": 80
+   },
+   {
+    "category": "Liquefied Petroleum Gas (LPG) Carriers",
+    "variance": -5428537.99,
+    "variance_pct": -23.6,
+    "volume_effect": -4592076.654,
+    "ticket_effect": -836461.336,
+    "n": 72,
+    "plan_n": 90
+   },
+   {
+    "category": "Petroleum Product Tankers",
+    "variance": -4799089.58,
+    "variance_pct": -15.0,
+    "volume_effect": -302300.6688,
+    "ticket_effect": -4496788.9112,
+    "n": 105,
+    "plan_n": 106
+   },
+   {
+    "category": "Liquefied Natural Gas (LNG) Carriers",
+    "variance": -4407855.19,
+    "variance_pct": -10.0,
+    "volume_effect": 0.0,
+    "ticket_effect": -4407855.19,
+    "n": 88,
+    "plan_n": 88
+   },
+   {
+    "category": "General Cargo / Multi-Purpose / Heavy Lift Vessels",
+    "variance": -4198519.02,
+    "variance_pct": -25.0,
+    "volume_effect": -3242594.0714,
+    "ticket_effect": -955924.9486,
+    "n": 71,
+    "plan_n": 88
+   },
+   {
+    "category": "Special Floating Units",
+    "variance": -3840050.07,
+    "variance_pct": -15.6,
+    "volume_effect": 352240.9831,
+    "ticket_effect": -4192291.0531,
+    "n": 71,
+    "plan_n": 70
+   },
+   {
+    "category": "Roll-On/Roll-Off (Ro/Ro) Vessels",
+    "variance": -2128067.37,
+    "variance_pct": -17.5,
+    "volume_effect": 0.0,
+    "ticket_effect": -2128067.37,
+    "n": 58,
+    "plan_n": 58
+   },
+   {
+    "category": "Crude Oil Tankers",
+    "variance": -1238320.34,
+    "variance_pct": -5.7,
+    "volume_effect": 3747311.479,
+    "ticket_effect": -4985631.819,
+    "n": 61,
+    "plan_n": 52
+   },
+   {
+    "category": "Cruise Ships",
+    "variance": -1069475.16,
+    "variance_pct": -2.9,
+    "volume_effect": 4399849.9584,
+    "ticket_effect": -5469325.1184,
+    "n": 112,
+    "plan_n": 100
+   },
+   {
+    "category": "Chemical Tankers & Other Liquid Bulk Tankers",
+    "variance": -713944.26,
+    "variance_pct": -6.5,
+    "volume_effect": -1069300.7952,
+    "ticket_effect": 355356.5352,
+    "n": 56,
+    "plan_n": 62
+   },
+   {
+    "category": "Dry Bulk Vessels",
+    "variance": 102566.45,
+    "variance_pct": 0.5,
+    "volume_effect": 1858061.9127,
+    "ticket_effect": -1755495.4627,
+    "n": 72,
+    "plan_n": 66
+   },
+   {
+    "category": "Vehicles Carriers",
+    "variance": 319509.63,
+    "variance_pct": 2.2,
+    "volume_effect": 897523.5144,
+    "ticket_effect": -578013.8844,
+    "n": 68,
+    "plan_n": 64
+   },
+   {
+    "category": "Other Vessels",
+    "variance": 922186.34,
+    "variance_pct": 8.2,
+    "volume_effect": 2216901.1559,
+    "ticket_effect": -1294714.8159,
+    "n": 91,
+    "plan_n": 76
+   }
+  ]
+ },
+ "F4": {
+  "top_customer": {
+   "id": 9,
+   "name": "Belanor Tankers",
+   "rating": "B",
+   "segment": "tanker",
+   "terms": 60,
+   "invoices": 136,
+   "revenue": 38887105.93,
+   "revenue_share_pct": 14.516,
+   "ar_share_pct": 21.2285,
+   "overdue_share_pct": 18.922,
+   "late_mean_days": 26.4,
+   "ontime_pct": 0.0,
+   "days_to_cash": 86.0,
+   "rank1_from_week13": true,
+   "share_13w_at": {
+    "13": 12.28,
+    "26": 15.03,
+    "39": 17.86,
+    "52": 13.09
+   },
+   "ar_share_mean_w14_52_pct": 23.1
+  },
+  "high_revenue_late_payers": [
+   {
+    "name": "Belanor Tankers",
+    "rating": "B",
+    "revenue_share_pct": 14.5,
+    "ar_share_pct": 21.2,
+    "overdue_share_pct": 18.9,
+    "late_mean_days": 26.4
+   },
+   {
+    "name": "Nilussa Shipping",
+    "rating": "C",
+    "revenue_share_pct": 4.4,
+    "ar_share_pct": 3.6,
+    "overdue_share_pct": 7.1,
+    "late_mean_days": 28.9
+   },
+   {
+    "name": "Thalanor Shipping",
+    "rating": "C",
+    "revenue_share_pct": 3.7,
+    "ar_share_pct": 2.4,
+    "overdue_share_pct": 4.5,
+    "late_mean_days": 27.8
+   },
+   {
+    "name": "Nilomar Tankers",
+    "rating": "B",
+    "revenue_share_pct": 3.6,
+    "ar_share_pct": 6.2,
+    "overdue_share_pct": 7.7,
+    "late_mean_days": 30.1
+   },
+   {
+    "name": "Levavia Tankers",
+    "rating": "C",
+    "revenue_share_pct": 2.9,
+    "ar_share_pct": 7.1,
+    "overdue_share_pct": 16.9,
+    "late_mean_days": 74.0
+   },
+   {
+    "name": "Quorondo Maritime",
+    "rating": "C",
+    "revenue_share_pct": 2.4,
+    "ar_share_pct": 3.3,
+    "overdue_share_pct": 4.0,
+    "late_mean_days": 28.2
+   }
+  ]
+ },
+ "F6": {
+  "spearman_rho": -0.031,
+  "p": 0.85,
+  "quadrants": {
+   "large_late": 6,
+   "large_prompt": 14,
+   "small_late": 8,
+   "small_prompt": 12
+  }
+ },
+ "F5": {
+  "by_rating": [
+   {
+    "credit_rating": "A",
+    "customers": 16.0,
+    "revenue_share": 36.6,
+    "ar_share": 28.5,
+    "overdue_share": 8.6,
+    "overdue": 954160.94,
+    "late_mean": -1.4,
+    "late_median": -2.0,
+    "ontime_pct": 70.2
+   },
+   {
+    "credit_rating": "B",
+    "customers": 12.0,
+    "revenue_share": 45.3,
+    "ar_share": 44.7,
+    "overdue_share": 28.1,
+    "overdue": 3120891.36,
+    "late_mean": 12.0,
+    "late_median": 8.0,
+    "ontime_pct": 19.6
+   },
+   {
+    "credit_rating": "C",
+    "customers": 12.0,
+    "revenue_share": 18.1,
+    "ar_share": 26.8,
+    "overdue_share": 63.3,
+    "overdue": 7013976.58,
+    "late_mean": 32.6,
+    "late_median": 28.0,
+    "ontime_pct": 5.2
+   }
+  ],
+  "by_segment": [
+   {
+    "segment": "agent",
+    "customers": 4.0,
+    "revenue_share": 12.3,
+    "ar_share": 7.9,
+    "overdue_share": 5.7,
+    "overdue": 633475.86,
+    "late_mean": -0.8,
+    "late_median": -1.0,
+    "ontime_pct": 66.4
+   },
+   {
+    "segment": "bulk",
+    "customers": 10.0,
+    "revenue_share": 12.4,
+    "ar_share": 12.4,
+    "overdue_share": 9.5,
+    "overdue": 1053559.8,
+    "late_mean": 11.4,
+    "late_median": 3.0,
+    "ontime_pct": 38.0
+   },
+   {
+    "segment": "container",
+    "customers": 8.0,
+    "revenue_share": 9.8,
+    "ar_share": 14.2,
+    "overdue_share": 23.8,
+    "overdue": 2642860.89,
+    "late_mean": 10.9,
+    "late_median": 5.0,
+    "ontime_pct": 35.1
+   },
+   {
+    "segment": "cruise",
+    "customers": 3.0,
+    "revenue_share": 13.3,
+    "ar_share": 8.9,
+    "overdue_share": 0.0,
+    "overdue": 0.0,
+    "late_mean": -0.2,
+    "late_median": -1.0,
+    "ontime_pct": 58.4
+   },
+   {
+    "segment": "roro",
+    "customers": 5.0,
+    "revenue_share": 9.2,
+    "ar_share": 8.6,
+    "overdue_share": 2.4,
+    "overdue": 261235.22,
+    "late_mean": 4.8,
+    "late_median": 5.0,
+    "ontime_pct": 30.3
+   },
+   {
+    "segment": "tanker",
+    "customers": 10.0,
+    "revenue_share": 43.1,
+    "ar_share": 48.1,
+    "overdue_share": 58.6,
+    "overdue": 6497897.11,
+    "late_mean": 19.7,
+    "late_median": 16.0,
+    "ontime_pct": 18.3
+   }
+  ],
+  "kruskal_p": 9.56e-85,
+  "payments_asof": 842,
+  "b_late_max": 45,
+  "c_late_over_90": 6
+ },
+ "F12": {
+  "top_n_share_pct": {
+   "1": 14.5,
+   "5": 38.4,
+   "10": 57.0,
+   "20": 82.6
+  },
+  "customers_for_80pct": 19,
+  "hhi": 516.0,
+  "top10_13w_min": 56.09,
+  "top10_13w_max": 64.96,
+  "trend_note": "overlapping 13-week windows: a regression p-value is not valid, no trend is claimed"
+ },
+ "F7": {
+  "first_week": 22,
+  "slope_per_week": 32301.3551,
+  "p": 1.6e-10,
+  "w52": 1286102.15,
+  "share_of_ar_w52_pct": 3.2,
+  "other_trend_p": {
+   "ar_sdr": 0.144,
+   "overdue_sdr": 0.504,
+   "dso_days": 0.265
+  },
+  "holder": {
+   "id": 8,
+   "name": "Korussa Container Lines",
+   "rating": "C",
+   "revenue_share_pct": 0.6,
+   "first_week_in_90": 24,
+   "dominant_from_week": 26,
+   "share_of_90_min_from_pct": 67.0,
+   "weeks_at_100pct": 20,
+   "weeks_from": 27,
+   "share_of_90_w52_pct": 88.0,
+   "billed_2025": 1505491.38,
+   "invoices_2025": 4,
+   "unpaid_at_horizon": 3,
+   "unpaid_at_horizon_sdr": 1134543.5
+  },
+  "other_90_invoices": [
+   {
+    "customer": "Levavia Tankers",
+    "invoice": "INV-0000073",
+    "weeks": [
+     38,
+     39
+    ],
+    "amount": 339778.63,
+    "paid_date": "2025-09-30"
+   },
+   {
+    "customer": "Levavia Tankers",
+    "invoice": "INV-0000354",
+    "weeks": [
+     51,
+     52
+    ],
+    "amount": 151558.65,
+    "paid_date": "2026-01-09"
+   },
+   {
+    "customer": "Levavia Tankers",
+    "invoice": "INV-0000389",
+    "weeks": [
+     40,
+     41
+    ],
+    "amount": 372965.23,
+    "paid_date": "2025-10-14"
+   },
+   {
+    "customer": "Levavia Tankers",
+    "invoice": "INV-0000908",
+    "weeks": [
+     49,
+     49
+    ],
+    "amount": 151558.65,
+    "paid_date": "2025-12-12"
+   },
+   {
+    "customer": "Nilenta Maritime",
+    "invoice": "INV-0000388",
+    "weeks": [
+     22,
+     24
+    ],
+    "amount": 443600.85,
+    "paid_date": "2025-06-18"
+   },
+   {
+    "customer": "Nilenta Maritime",
+    "invoice": "INV-0000669",
+    "weeks": [
+     23,
+     25
+    ],
+    "amount": 443600.85,
+    "paid_date": "2025-06-25"
+   }
+  ],
+  "unpaid_at_horizon_all": 6,
+  "unpaid_at_horizon_all_sdr": 1646896.01
+ },
+ "F8": {
+  "dso_w52": 55.0,
+  "best_w52": 40.0,
+  "delinquency_w52": 15.0,
+  "dso_min_w14_52": 51.4,
+  "dso_max_w14_52": 64.7,
+  "best_mean_w14_52": 41.8,
+  "delinquency_mean_w14_52": 14.6,
+  "trend_p": {
+   "dso_days": 0.27,
+   "dso_best": 0.35,
+   "dso_delinquency": 0.67
+  },
+  "dso_move_share_from_ar": 0.9,
+  "corr_dso_ar": 0.9123,
+  "corr_dso_window_billing": 0.0264
+ },
+ "F9": {
+  "scenarios": [
+   {
+    "label": "current",
+    "released": 0.0,
+    "dso": 55.0
+   },
+   {
+    "label": "top3",
+    "released": 5104280.11,
+    "dso": 48.1
+   },
+   {
+    "label": "top5",
+    "released": 7001906.42,
+    "dso": 45.5
+   },
+   {
+    "label": "top10",
+    "released": 9769643.65,
+    "dso": 41.8
+   },
+   {
+    "label": "all",
+    "released": 11089028.88,
+    "dso": 40.0
+   }
+  ],
+  "top5_overdue_share_pct": 63.1,
+  "top5_names": [
+   "Belanor Tankers",
+   "Levavia Tankers",
+   "Korussa Container Lines",
+   "Ardanor Container Lines",
+   "Nilomar Tankers"
+  ],
+  "note": "arithmetic, not a forecast"
+ },
+ "F10": {
+  "mature_months": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9
+  ],
+  "ontime_range": [
+   31.9,
+   37.7
+  ],
+  "within30_range": [
+   80.2,
+   89.4
+  ],
+  "early_paid_pct": 30.9
+ },
+ "F11": {
+  "xcorr_peak_lag_weeks": 4,
+  "xcorr_peak": 0.3477,
+  "collected_to_billed_by_quarter": [
+   0.3743,
+   0.9335,
+   1.1245,
+   0.9793
+  ]
+ },
+ "F13": {
+  "findings": [
+   {
+    "week": 10,
+    "invoice": "INV-0000626",
+    "category": "Cruise Ships",
+    "check": "duplicate_charge",
+    "duplicate_of": "INV-0000293",
+    "amount": 81837.02,
+    "review": "error"
+   },
+   {
+    "week": 15,
+    "invoice": "INV-0000925",
+    "category": "Chemical Tankers & Other Liquid Bulk Tankers",
+    "check": "duplicate_charge",
+    "duplicate_of": "INV-0000491",
+    "amount": 73950.26,
+    "review": "error"
+   },
+   {
+    "week": 50,
+    "invoice": "INV-0000630",
+    "category": "Liquefied Natural Gas (LNG) Carriers",
+    "check": "duplicate_charge",
+    "duplicate_of": "INV-0000262",
+    "amount": 181121.72,
+    "review": "error"
+   }
+  ],
+  "total": 336909.0,
+  "share_of_billing_pct": 0.1258
+ }
+}

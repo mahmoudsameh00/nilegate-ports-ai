@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "6b8777850e55dbbaa9c2",
   "position": {
     "x": 20,
     "y": 740,
-    "z": 5,
+    "z": 5000,
     "height": 320,
     "width": 520,
-    "tabOrder": 5
+    "tabOrder": 5000
   },
   "visual": {
     "visualType": "donutChart",
@@ -99,37 +99,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "aa7e0fa1616f43032bea",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Weekly KPIs"
-              }
-            },
-            "Property": "Revenue SDR"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "0f21aa4b0ff6e0f38ec2",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Invoices"
-              }
-            },
-            "Property": "priced_condition"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
   }
 }

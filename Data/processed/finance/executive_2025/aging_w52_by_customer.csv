@@ -1,0 +1,35 @@
+customer_id,customer_name,credit_rating,1-30,31-60,61-90,90+,current
+1,Ostanor Lines,B,0.0,0.0,0.0,0.0,885428.68
+2,Pharanor Container Lines,A,0.0,0.0,0.0,0.0,1424806.83
+4,Zanenta Lines,A,0.0,0.0,0.0,0.0,624595.67
+5,Ardanor Container Lines,C,522063.66,0.0,522063.66,0.0,0.0
+6,Velondo Container Lines,C,0.0,464190.07,0.0,0.0,208131.85
+8,Korussa Container Lines,C,0.0,0.0,0.0,1134543.5,0.0
+9,Belanor Tankers,B,1927746.11,170523.92,0.0,0.0,6540340.42
+10,Thalomar Shipping,A,384438.07,0.0,0.0,0.0,1147583.86
+11,Thalanor Shipping,C,502831.97,0.0,0.0,0.0,487043.7
+12,Nilussa Shipping,C,787391.47,0.0,0.0,0.0,661425.28
+13,Ostomar Shipping,A,0.0,0.0,0.0,0.0,545180.15
+14,Zananor Tankers,A,0.0,0.0,0.0,0.0,1005333.52
+15,Levavia Tankers,C,673471.35,372965.23,673471.35,151558.65,1015861.16
+17,Nilomar Tankers,B,853498.99,0.0,0.0,0.0,1657907.27
+19,Ostavia Maritime,B,0.0,0.0,0.0,0.0,520346.16
+20,Quorondo Maritime,C,440836.61,0.0,0.0,0.0,889767.96
+21,Belenta Bulk,A,0.0,0.0,0.0,0.0,1177468.44
+22,Zanussa Maritime,A,0.0,0.0,0.0,0.0,534695.18
+23,Meromar Bulk,B,0.0,0.0,0.0,0.0,324381.83
+24,Koranor Maritime,B,0.0,0.0,0.0,0.0,163905.84
+25,Nilenta Maritime,C,0.0,443600.85,0.0,0.0,0.0
+26,Dalavia Bulk,B,169122.34,0.0,0.0,0.0,366119.08
+29,Thalondo Car Carriers,B,0.0,0.0,0.0,0.0,729479.6
+30,Ostenta Ro-Ro Lines,B,0.0,0.0,0.0,0.0,1423306.32
+31,Belavia Ro-Ro Lines,A,0.0,0.0,0.0,0.0,711860.9
+32,Dalanor Car Carriers,C,261235.22,0.0,0.0,0.0,188575.23
+33,Koravia Ro-Ro Lines,A,0.0,0.0,0.0,0.0,190638.83
+34,Korilis Cruises,B,0.0,0.0,0.0,0.0,1636205.15
+35,Ardondo Cruises,A,0.0,0.0,0.0,0.0,464815.14
+36,Dalenta Cruises,A,0.0,0.0,0.0,0.0,1510157.1
+37,Kororia Shipping Agency,A,0.0,0.0,0.0,0.0,994333.53
+38,Quoravia Shipping Agency,B,0.0,0.0,0.0,0.0,811540.65
+39,Aegenta Marine Services,A,569722.87,0.0,0.0,0.0,310306.09
+40,Cyrenta Marine Services,C,63752.99,0.0,0.0,0.0,452933.14

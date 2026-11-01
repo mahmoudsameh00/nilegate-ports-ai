@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "a1e0c0de5e1c7e000002",
   "position": {
     "x": 20,
     "y": 100,
-    "z": 2,
+    "z": 3000,
     "height": 200,
     "width": 1880,
-    "tabOrder": 2
+    "tabOrder": 2000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -65,51 +65,5 @@
       }
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "a1e0c0de5e1c7e000020",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Weekly KPIs"
-              }
-            },
-            "Property": "Audit Findings"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "a1e0c0de5e1c7e000021",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Weekly KPIs"
-              }
-            },
-            "Property": "Invoices Flagged"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "a1e0c0de5e1c7e000022",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Weekly KPIs"
-              }
-            },
-            "Property": "Invoices Manual Review"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

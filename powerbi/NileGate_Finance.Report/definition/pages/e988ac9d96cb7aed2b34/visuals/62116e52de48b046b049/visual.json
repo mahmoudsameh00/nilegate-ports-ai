@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "62116e52de48b046b049",
   "position": {
     "x": 20,
     "y": 100,
-    "z": 2,
+    "z": 2000,
     "height": 220,
     "width": 1880,
-    "tabOrder": 2
+    "tabOrder": 2000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -210,65 +210,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "8c29ca34b2ffcd5cc386",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Weekly KPIs"
-              }
-            },
-            "Property": "AR SDR"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "758a82ae3beb131376dd",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Weekly KPIs"
-              }
-            },
-            "Property": "Overdue SDR"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "14db906f24a67a46f953",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Weekly KPIs"
-              }
-            },
-            "Property": "DSO Days"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "b55f71880003ba4fd6c1",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Weekly KPIs"
-              }
-            },
-            "Property": "Collected SDR"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

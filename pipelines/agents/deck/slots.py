@@ -16,13 +16,34 @@ the value, and a field that is not in the cited result is refused with a hint na
 One module serves the renderer (tables and tiles use `format_value` directly), the approval payload and the
 Validator. Roundings = skill `number-validation` rule 2 (half away from zero, never cut, the sign kept, `*_pct`
 already percent). Only the structured tools give numbers (ADR-049, untrusted-content rule 4).
+
+Stage 2 (Agents plan §6b S1, additive): the route advice cites `route.*` evidence — the Stage 2 tools (ADR-055) and
+the code-computed route comparison (`route_costs`) — with four more kinds by suffix: `_nm` distance, `_kn` speed,
+`_t` tonnes, `_t_per_day` tonnes per day (`sea_days` is already a `_days` field):
+
+    {route.compare[cape]:distance_nm}            → 11,876.7 nm
+    {route.difference:change_sea_days}           → +9.7 days
+    {route.compare[suez]:fuel_t|t0}              → 2,437 t
+
+Phase 11 (§6c, additive): the voyage watch's brief cites `watch.*` evidence — the alerts and fleet counts its code
+computes (`watch_alerts` rows keyed `vessel_id/kind`, `watch_fleet`) — with two more kinds: `_m` metres (waves) and
+`_h` hours:
+
+    {watch.alerts[36/weather]:wave_height_max_m}  → 5.2 m
+    {watch.alerts[36/weather]:eta_in_h}           → 41.5 h
 """
 import re
 from dataclasses import dataclass
 from decimal import ROUND_HALF_UP, Decimal
 
 # tools whose numeric fields may be cited: NileGate's structured tools (ADR-049) + public structured context
-NUMERIC_TOOLS = {"finance_kpi", "invoice_audit", "compute_toll", "suez_transits"}
+NUMERIC_TOOLS = {"finance_kpi", "invoice_audit", "compute_toll", "suez_transits",
+                 # Stage 2 (ADR-055) + the route comparison the route_advice graph computes in code from them
+                 "sea_route", "vessel_params", "voyage_status", "marine_weather", "route_costs",
+                 # Phase 11 (§6c): the voyage watch's code-computed alerts and fleet counts, and the ETA tool
+                 "watch_alerts", "watch_fleet", "voyage_eta",
+                 # Phase 12 (§6d S3): the route_advice graph run as a tool (its code rows, keyed by route)
+                 "route_advice"}
 MINUS = "−"                                            # U+2212, the deck's minus sign (deck-style-guide)
 
 # a result's row key: the field(s) a slot names in [...] to pick one row of a list; "/" joins the parts
@@ -32,16 +53,23 @@ ROW_KEYS_BY_VIEW = {"finance.kpi_weekly": (), "finance.kpi_weekly_category": ("v
                     # the evaluation copy's twins (migration 017, Phase 7): same rows, same keys
                     "finance_test.kpi_weekly": (), "finance_test.kpi_weekly_category": ("vessel_category",)}
 ROW_KEYS_BY_TOOL = {"invoice_audit": ("invoice_number", "check_code"), "suez_transits": ("date",),
-                    "compute_toll": ()}
+                    "compute_toll": (), "sea_route": (), "vessel_params": (), "voyage_status": (),
+                    "marine_weather": ("date", "lat", "lon"), "route_costs": ("route",),
+                    # watch_alerts: the alert id "<vessel_id>/<kind>" (the same label as before) + the tool's "fleet"
+                    # row (Phase 12 S3; the voyage watch cites full alert ids only)
+                    "watch_alerts": ("alert_id",), "watch_fleet": (), "voyage_eta": (),
+                    "route_advice": ("route",)}
 # result-level fields (not in a row), e.g. the audit totals and the mean daily Suez transits
 RESULT_FIELDS_SKIP = {"tool", "status", "rows", "source", "note"}
 
 # kind → allowed formats (the first is the default)
-FORMATS = {"money": ("sdr", "M", "k"), "pct": ("%2", "%1"), "days": ("d",), "count": ("n",), "number": ("x",)}
+FORMATS = {"money": ("sdr", "M", "k"), "pct": ("%2", "%1"), "days": ("d",), "count": ("n",), "number": ("x",),
+           "distance": ("nm", "nm0"), "speed": ("kn",), "tonnes": ("t", "t0"), "rate": ("tpd",),
+           "height": ("m",), "hours": ("h",)}
 DAY_FIELDS = {"days_past_due"}
 CHANGE_RE = re.compile(r"wow|change|variance|difference")
 
-SLOT_RE = re.compile(r"\{(?P<eid>(?:kpi|audit|insight)\.[A-Za-z0-9_.:-]+?)(?:\[(?P<key>[^\[\]{}]+)\])?"
+SLOT_RE = re.compile(r"\{(?P<eid>(?:kpi|audit|insight|route|watch)\.[A-Za-z0-9_.:-]+?)(?:\[(?P<key>[^\[\]{}]+)\])?"
                      r":(?P<field>[a-z][a-z0-9_]*)(?:\|(?P<fmt>[A-Za-z0-9%]+))?(?:\|(?P<dir>dir))?\}")
 
 
@@ -89,6 +117,18 @@ def field_kind(field: str, value) -> str | None:
         return "pct"
     if field.endswith("_days") or field in DAY_FIELDS:
         return "days"
+    if field.endswith("_nm"):                            # Stage 2 route fields (§6b S1)
+        return "distance"
+    if field.endswith("_kn"):
+        return "speed"
+    if field.endswith("_t_per_day"):
+        return "rate"
+    if field.endswith("_t"):
+        return "tonnes"
+    if field.endswith("_m"):                             # Phase 11 (§6c): wave heights
+        return "height"
+    if field.endswith("_h"):                             # Phase 11: hours ahead, ETA in hours
+        return "hours"
     return "count" if isinstance(value, int) else "number"
 
 
@@ -113,6 +153,18 @@ def _magnitude(kind: str, fmt: str, v: Decimal, value) -> str:
         return f"{n} {'day' if isinstance(value, int) and value == 1 else 'days'}"
     if kind == "count":
         return f"{v:,}"
+    if kind == "distance":
+        return f"{_q(v, 1):,.1f} nm" if fmt == "nm" else f"{_q(v, 0):,.0f} nm"
+    if kind == "speed":
+        return f"{_q(v, 1):,.1f} kn"
+    if kind == "tonnes":
+        return f"{_q(v, 1):,.1f} t" if fmt == "t" else f"{_q(v, 0):,.0f} t"
+    if kind == "rate":
+        return f"{_q(v, 1):,.1f} t/day"
+    if kind == "height":
+        return f"{_q(v, 1):,.1f} m"
+    if kind == "hours":
+        return f"{_q(v, 1):,.1f} h"
     return f"{v:,f}"                                     # number: as returned (the decimals the tool gave)
 
 
@@ -250,7 +302,13 @@ def bound_text(slot_text: str, evidence: dict) -> str:
     return format_value(s[0].field, value, s[0].fmt, s[0].direction)
 
 
-UNIT_OF_KIND = {"money": r"SDR\b", "pct": r"%", "days": r"days?\b"}
+# the unit a slot writes, as an answer might write it again right after the slot: English, and (Phase 12, D-P12-8:
+# "61.3 h ساعة" in the S4 smoke) the Egyptian Arabic words — longest first, so "ميل بحري" goes whole
+UNIT_OF_KIND = {"money": r"SDR\b", "pct": r"(?:%|٪)", "days": r"(?:days?\b|أيام\b|ايام\b|يوم\b)",
+                "distance": r"(?:nm|nautical miles?)\b|(?:أميال بحرية|ميل بحري|أميال|ميل)\b",
+                "speed": r"(?:kn|knots?)\b|(?:عقدة|عقد)\b", "tonnes": r"(?:t|tonnes?)\b(?!/)|(?:أطنان|طن)\b(?!/)",
+                "rate": r"t/day\b|طن ?(?:/|في) ?(?:اليوم|يوم)",
+                "height": r"(?:m|metres?|meters?)\b(?!/)|(?:أمتار|متر)\b", "hours": r"(?:h|hours?)\b|(?:ساعات|ساعة)\b"}
 DIR_WORD_BEFORE_RE = re.compile(r"(?i)\b(up|down|rose|fell|increased|decreased|grew|declined|dropped|"
                                 r"ارتفع|انخفض|زاد|قل)\s*$")
 
@@ -284,7 +342,7 @@ def normalize_text(text: str, evidence: dict) -> tuple[str, list[str]]:
             unit = UNIT_OF_KIND.get(kind or "")
             after = text[s.end:]
             # "{…dso_window_days|d}-day window" → "82 days-day window" (W12, 2026-10-27): a hyphen before the unit too
-            m_unit = re.match(rf"\s*-?\s*{unit}", after) if unit else None
+            m_unit = re.match(rf"\s*-?\s*(?:{unit})", after) if unit else None
             if m_unit:
                 fixes.append(f"{s.raw}: the slot writes its unit; {m_unit.group(0).strip()!r} after it dropped")
                 pos_after = s.end + m_unit.end()

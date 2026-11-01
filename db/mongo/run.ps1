@@ -23,20 +23,22 @@ $env:APP_PWD = $cfg.MONGO_APP_PASSWORD
 $env:APP_DB = $cfg.MONGO_DB
 $env:ROOT_USER = $cfg.MONGO_ROOT_USER
 $env:ROOT_PWD = $cfg.MONGO_ROOT_PASSWORD
+$env:RO_USER = $cfg.MONGO_RO_USER        # the tools' read-only user (005), empty until it is in .env
+$env:RO_PWD = $cfg.MONGO_RO_PASSWORD
 try {
     docker cp (Join-Path $PSScriptRoot $Script) "ports-mongo:/tmp/$Script" | Out-Null
     if ($AsApp) {
         docker exec -e APP_USER -e APP_PWD -e APP_DB ports-mongo sh -c `
             'mongosh --quiet -u $APP_USER -p $APP_PWD --authenticationDatabase admin $APP_DB --file /tmp/$0' $Script
     } else {
-        docker exec -e APP_USER -e APP_PWD -e APP_DB -e ROOT_USER -e ROOT_PWD ports-mongo sh -c `
+        docker exec -e APP_USER -e APP_PWD -e APP_DB -e ROOT_USER -e ROOT_PWD -e RO_USER -e RO_PWD ports-mongo sh -c `
             'mongosh --quiet -u $ROOT_USER -p $ROOT_PWD --authenticationDatabase admin --file /tmp/$0' $Script
     }
     $code = $LASTEXITCODE
     docker exec ports-mongo rm -f "/tmp/$Script" | Out-Null
     exit $code
 } finally {
-    foreach ($n in "APP_USER", "APP_PWD", "APP_DB", "ROOT_USER", "ROOT_PWD") {
+    foreach ($n in "APP_USER", "APP_PWD", "APP_DB", "ROOT_USER", "ROOT_PWD", "RO_USER", "RO_PWD") {
         [Environment]::SetEnvironmentVariable($n, $null, "Process")
     }
 }

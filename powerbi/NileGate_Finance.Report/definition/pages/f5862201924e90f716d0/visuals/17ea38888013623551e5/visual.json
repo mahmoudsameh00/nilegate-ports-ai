@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "17ea38888013623551e5",
   "position": {
     "x": 20,
     "y": 280,
-    "z": 3,
+    "z": 3000,
     "height": 440,
     "width": 940,
-    "tabOrder": 3
+    "tabOrder": 3000
   },
   "visual": {
     "visualType": "clusteredBarChart",
@@ -113,51 +113,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "778ac9e2b6e434ea1758",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Weekly KPIs"
-              }
-            },
-            "Property": "Category Billed SDR"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "5b3af880d5d12f99c92c",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Weekly KPIs"
-              }
-            },
-            "Property": "Category Budget SDR"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "f416081e6ee16bf626c7",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Category KPIs"
-              }
-            },
-            "Property": "vessel_category"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
   }
 }

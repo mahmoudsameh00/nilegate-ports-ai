@@ -1,0 +1,87 @@
+{
+ "plan": "§6c P11-1…P11-3",
+ "data_as_of": "2026-09-13T00:00:00+00:00",
+ "predictions": 126,
+ "by_group": {
+  "arrived": 75,
+  "at_sea": 51
+ },
+ "by_cut": {
+  "25%": 39,
+  "50%": 35,
+  "75%": 27,
+  "as_of": 25
+ },
+ "mean_remaining_h": 366.61,
+ "methods": {
+  "R": {
+   "mae_h": 0.885,
+   "median_h": 0.364,
+   "p90_h": 2.396,
+   "max_h": 10.755,
+   "bias_h": -0.089
+  },
+  "N": {
+   "mae_h": 117.826,
+   "median_h": 68.614,
+   "p90_h": 272.466,
+   "max_h": 990.809,
+   "bias_h": -117.826
+  },
+  "S": {
+   "mae_h": 1.636,
+   "median_h": 1.726,
+   "p90_h": 2.0,
+   "max_h": 2.678,
+   "bias_h": -1.426
+  },
+  "R0": {
+   "mae_h": 1.274,
+   "median_h": 0.953,
+   "p90_h": 2.465,
+   "max_h": 10.272,
+   "bias_h": -0.827
+  }
+ },
+ "R_by_bucket": {
+  "<24h": {
+   "mae_h": 0.048,
+   "median_h": 0.048,
+   "p90_h": 0.048,
+   "max_h": 0.048,
+   "bias_h": 0.048,
+   "n": 1
+  },
+  "1-5d": {
+   "mae_h": 0.147,
+   "median_h": 0.143,
+   "p90_h": 0.255,
+   "max_h": 0.544,
+   "bias_h": -0.003,
+   "n": 21
+  },
+  ">5d": {
+   "mae_h": 1.043,
+   "median_h": 0.451,
+   "p90_h": 2.739,
+   "max_h": 10.755,
+   "bias_h": -0.108,
+   "n": 104
+  }
+ },
+ "R_speed_source": {
+  "recent speed": 126
+ },
+ "threshold_R_beats_N": true,
+ "ml_margin": {
+  "rule": "a learned model only if MAE(R) > 2 h and > 5 % of the mean remaining hours",
+  "needed": false
+ },
+ "R_worst": {
+  "vessel_id": 77,
+  "cut": "25%",
+  "remaining_h": 2033.04,
+  "err_R_h": -10.755,
+  "speed_source": "recent speed"
+ }
+}

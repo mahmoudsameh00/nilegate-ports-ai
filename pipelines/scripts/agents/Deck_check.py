@@ -1,6 +1,6 @@
 """Deck check (Agents plan Phase 6, §5c): number slots, the NileGate PPTX, the Validator v2 and its planted numbers.
 
-Plan:    docs/plans/Agents_plan.md §5c (owner decisions P6-1…P6-8, approved 2026-10-19); one phase per test of §5c.
+Plan:    docs/archive/2026-11-01_Agents_plan.md §5c (owner decisions P6-1…P6-8, approved 2026-10-19); one phase per test of §5c.
 Run:     uv run python tools/run.py pipelines/scripts/agents/Deck_check.py  (from the project root)
 
 Reads:   PostgreSQL read-only (PG_RO_USER): employees / roles / departments, the finance views, the audit views.
