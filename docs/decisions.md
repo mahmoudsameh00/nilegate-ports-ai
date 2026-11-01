@@ -1366,6 +1366,41 @@ Never delete an entry; supersede it with a new one. Sources for older entries ar
 - **Consequences:** a crashed or missed weekly pack reaches the owner by Sentry's email, not only a log line; LLM
   behaviour stays in LangSmith alone. Not covered on the free plan: a cron monitor for the voyage watch ($0.78 /
   month). `Monitoring_check.py` (Phases 1–5, 0 network; Phase 6 live with `MONITORING_LIVE=1`) is the contract.
+- **Amendment 1 (2026-11-01, owner: S2–S4 as one batch, choices as recommended) — the rest of the observability
+  plan:** (S2) **LangSmith Datasets & Experiments as a mirror** (`Langsmith_mirror.py`): each frozen golden set is a
+  dataset named with its file's sha256 prefix (a REFREEZE = a new dataset), each evaluation run an experiment whose
+  target returns the stored answer and whose evaluator returns the stored code scores — 0 model calls, idempotent;
+  the local files and the code scorer stay the acceptance rule (ADR-052). (S3) **A review queue, no LLM judge:**
+  annotation queue `nilegate-review` + automation rule "nilegate: errors and refused parts -> review" on project
+  `nilegate-agents`, filter `and(eq(is_root, true), or(eq(status, "error"), has(tags, "refused")))`, sampling 1.0
+  (created through `POST /api/v1/runs/rules`; the pinned langsmith 0.14.7 has no rule method; accepted on the free
+  plan); `Ask.py` adds a plain `refused` tag beside `refused:<tool>` so one filter finds every partial answer; the
+  owner reviews the queue and moves useful items into the next frozen golden set. (S4) **Sentry alert 6273246**
+  "NileGate: new, regressed or reappeared issue (any priority)" → email, beside the default high-priority alert; the
+  cron monitor is connected to it after its first check-in.
+
+## ADR-063 — Engineering hygiene: a lint ratchet, a database-free CI, dependency audit and a threat model
+- **Status:** Accepted (2026-11-01, owner: "Engineering hygiene" + pyright, as recommended; plan
+  `docs/archive/2026-11-01_Engineering_hygiene_plan.md`). Free tools only.
+- **Context:** the code base predates linting and type checking (490 ruff findings on bug rules, 278 pyright errors on
+  `pipelines/agents` + `pipelines/lib`), the full checks need the owner's loaded databases, and the scheduled products
+  run the code on disk — a mass fix would change their behaviour untested.
+- **Decision:** (1) `ruff==0.17.1` (rules E4 / E7 / E9 / F / B; the project's script idioms E402, E701, E702, E731,
+  E741, B007, B905 ignored) and `pyright==1.1.414` (basic mode, `pipelines/agents` + `pipelines/lib`) as uv dev tools,
+  configured in `pyproject.toml`. (2) **A ratchet, not a clean slate:** `tools/lint_ratchet.py` compares the counts
+  per tool × rule × file with `tools/lint_baseline.json` (325 on 2026-11-01: ruff 49, pyright 276) and fails on any
+  increase; fixes are paid down file by file and locked with `--update`. (3) **CI** (`.github/workflows/ci.yml`,
+  GitHub Actions free minutes, ubuntu, `uv sync --frozen`, `.env` from `.env.example`): the ratchet, `Monitoring_check.py`
+  and the offline phase of `Langsmith_mirror.py`; every `*_check.py` that needs the databases stays on the owner's
+  machine. (4) **Dependencies:** Dependabot weekly PRs (uv + GitHub Actions); `pip-audit` (`uvx --from
+  pip-audit==2.9.0`) on the locked runtime set before an upgrade. (5) **`docs/THREAT_MODEL.md`:** the OWASP Top 10 for
+  LLM Applications (2025) and the applicable OWASP Agentic AI threats mapped to the existing controls and the gaps;
+  web items added with the API (ADR-060). (6) Mermaid diagrams of the system and the four graphs in `ARCHITECTURE.md`
+  §1.1, drawn from the graph code.
+- **Consequences:** new code must be lint- and type-clean while old findings stay visible as a number that only goes
+  down. Open at acceptance: the 2026-11-01 audit lists 63 advisories in 8 packages (pillow, filelock, pyasn1, tornado,
+  certifi, dnspython, langgraph-checkpoint-postgres, pymongo) — upgraded as one change with the full checks after the
+  2026-11-02 scheduled firing. CI first runs when the owner pushes.
 
 ---
 

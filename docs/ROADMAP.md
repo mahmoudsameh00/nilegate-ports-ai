@@ -6,9 +6,13 @@ Labels: `DONE`, `IN PROGRESS`, `PARTIAL`, `NEXT`, `PLANNED`, `PROPOSED`, `DEFERR
 ## Current phase
 
 **Observability (Sentry, then the LangSmith mirror) — `docs/plans/Observability_Sentry_plan.md` APPROVED
-2026-10-31.** S1 done on the checks (`Monitoring_check.py` 6 / 6 incl. the live event read back; ADR-062); open: the
-first real check-in of `nilegate-weekly-pack` (Monday 2026-11-02 10:30), then S2–S4. **Waiting for the owner: the one
-commit (Stage 2 + c4 + Sentry S1).** Then the weekly-pack improvement Phases B–E (candidate c5 vs c4) and FastAPI.
+2026-10-31.** S1 done on the checks (`Monitoring_check.py` 6 / 6 incl. the live event read back; ADR-062); **S2–S4
+DONE 2026-11-01** (one batch, ADR-062 amendment 1): the LangSmith mirror (3 sha-named datasets, 12 experiments,
+`Langsmith_mirror.py`), the review queue `nilegate-review` + automation rule (errors + refused parts), the Sentry
+alert for every new issue. Open: the first real check-in of `nilegate-weekly-pack` (Monday 2026-11-02 10:30) —
+verified by the one-time Claude task `nilegate-sentry-first-checkin` (11:00), which closes S1 and then the plan can be
+archived. The one Stage 2 commit is DONE (2026-11-01, by the owner). Then the weekly-pack improvement Phases B–E
+(candidate c5 vs c4) and FastAPI.
 
 **Agents plan — CLOSED 2026-11-01** (`docs/archive/2026-11-01_Agents_plan.md`, implementation record at the top).
 Its last stage, for the record: **Stage 2 — Phase 12 (the supervisor over both products) DONE (2026-10-30)** — plan §6d (P12-1…P12-5 as recommended; S1–S5 + candidate c1 each approved before their code), ADR-059:
@@ -64,7 +68,11 @@ automation rule (PLANNED, owner 2026-10-30):** a trace with an error or a `refus
 (no LLM judge, 0 model calls; free-plan automation limits to be confirmed), so real failures are reviewed by the owner
 and the useful ones become new golden-set items in the next frozen version. No LangSmith evaluators for the gates:
 the code scorer stays the acceptance rule (ADR-052); an LLM judge, if ever, only as a reported metric (its own ADR).
-**Then: engineering hygiene (PLANNED, owner 2026-10-30; free tools only, no paid plan)** — from a production-readiness
+**Engineering hygiene — DONE 2026-11-01** (ADR-063, `docs/archive/2026-11-01_Engineering_hygiene_plan.md`): ruff +
+pyright through a lint ratchet (`tools/lint_ratchet.py`, baseline 325), CI on GitHub Actions (first run at the
+owner's push), Dependabot, `pip-audit` (**open: 63 advisories in 8 packages — one upgrade with the full checks after
+the 2026-11-02 firing**), `docs/THREAT_MODEL.md`, Mermaid diagrams in ARCHITECTURE §1.1. Original scope
+(owner 2026-10-30; free tools only, no paid plan) — from a production-readiness
 review of the project (most items already exist: ADRs, RBAC, approval interrupt, checkpoints + resume, fallback,
 slots, golden-set regression, LangSmith). (1) **Ruff + type checking + CI:** `ruff` and a type checker (`pyright` or
 `mypy`, chosen in the plan; started on `pipelines/agents/` and `pipelines/lib/`) as uv dev dependencies, then GitHub

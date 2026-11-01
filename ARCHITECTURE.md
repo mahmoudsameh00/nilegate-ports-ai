@@ -23,10 +23,98 @@ A learning/job-readiness project that models a fictional port & logistics compan
                                     (one call, slots) ⇄ Validator (code, cost rule) → render; one thread per question)
               voyage_watch graph (IMPLEMENTED 2026-10-28, ADR-058: fleet → eta (rule R) → weather → traffic → alerts
                                     (code, run file) → brief (one call, slots) ⇄ Validator → render; every 12 h, replay)
-                                  Supervisor → Analytics Agent (PLANNED, ADR-012)
+              supervisor (IMPLEMENTED 2026-10-30, ADR-059: code router → one create_agent over both products'
+                                    tools → code answer checks (slots) → Ask.py; the ADR-012 MVP's successor)
 ```
 
-Today the system is **data preparation plus the document retrieval tool**: pipeline scripts (`pipelines/scripts/`, converted from the notebooks on 2026-10-01, ADR-036), files under `Data/`, a PostgreSQL database, a MongoDB database (AIS + EDI, since 2026-09-27), a Qdrant collection `nilegate_docs` and the shared library `pipelines/lib/` whose `search_documents` is the RBAC-filtered document tool (RAG plan closed 2026-10-08, ADR-037 – ADR-044). Since Agents plan Phase 5 / 6 (2026-10-19) the Weekly Finance Pack runs as a LangGraph workflow with LLM steps and a human approval (ADR-050) and publishes a validated NileGate PPTX (ADR-051: number slots, code-drawn template, every number bound to its field, the file read back); there is no API, Supervisor or Q&A answer step yet. AIS and EDI serve tools / agents and analytics, **not RAG** (ADR-030).
+Today the system is **data preparation plus the document retrieval tool**: pipeline scripts (`pipelines/scripts/`, converted from the notebooks on 2026-10-01, ADR-036), files under `Data/`, a PostgreSQL database, a MongoDB database (AIS + EDI, since 2026-09-27), a Qdrant collection `nilegate_docs` and the shared library `pipelines/lib/` whose `search_documents` is the RBAC-filtered document tool (RAG plan closed 2026-10-08, ADR-037 – ADR-044). Since Agents plan Phase 5 / 6 (2026-10-19) the Weekly Finance Pack runs as a LangGraph workflow with LLM steps and a human approval (ADR-050) and publishes a validated NileGate PPTX (ADR-051: number slots, code-drawn template, every number bound to its field, the file read back); Stage 2 added `route_advice`, `voyage_watch` and the supervisor that answers questions over both products (ADR-057 – ADR-059); there is no API yet (ADR-060 PLANNED). AIS and EDI serve tools / agents and analytics, **not RAG** (ADR-030).
+
+### 1.1 Diagrams (Mermaid; drawn from the code, 2026-11-01)
+
+The whole system:
+
+```mermaid
+flowchart LR
+  subgraph Stores
+    PG[(PostgreSQL + PostGIS<br/>finance views, agent_state)]
+    MG[(MongoDB<br/>AIS + EDI)]
+    QD[(Qdrant<br/>nilegate_docs)]
+  end
+  subgraph Tools["Governed tools (ADR-049 / ADR-055): RBAC + run context"]
+    T1[finance_kpi · invoice_audit · compute_toll]
+    T2[sea_route · vessel_params · voyage_status · marine_weather]
+    T3[search_documents]
+  end
+  PG --> T1
+  PG --> T2
+  MG --> T2
+  QD --> T3
+  T1 --> WP[weekly_pack graph]
+  T2 --> RA[route_advice graph]
+  T2 --> VW[voyage_watch graph]
+  T1 & T2 & T3 --> SV[supervisor<br/>create_agent]
+  RA & VW --> SV
+  WP --> PPTX[[NileGate PPTX<br/>after human approval]]
+  PG --> BI[[Power BI<br/>DirectQuery]]
+  SV --> ASK[[Ask.py answers]]
+  TS{{Task Scheduler}} -->|Mon 10:30| WP
+  TS -->|10:30 + 22:30| VW
+  WP & RA & VW & SV -.traces.-> LS[(LangSmith)]
+  WP & VW & SV -.errors · cron.-> SE[(Sentry)]
+```
+
+`weekly_pack` (ADR-050 / ADR-051, c4 fallback):
+
+```mermaid
+flowchart TD
+  S((start)) --> readiness
+  readiness -->|ready| kpi --> audit --> insight_llm
+  readiness -->|not ready| E((end))
+  insight_llm -->|tool call| insight_tools --> insight_llm
+  insight_llm --> insight_notes --> writer --> validator
+  validator -->|passes| approval
+  validator -->|fails, rewrites left| writer
+  validator -->|rewrites spent| fallback --> validator
+  validator -->|V8 / fallback fails| stop_failed --> E
+  approval -->|approve| publisher --> E
+  approval -->|edit| validator
+  approval -->|reject| E
+```
+
+`route_advice` (ADR-057) and `voyage_watch` (ADR-058):
+
+```mermaid
+flowchart LR
+  subgraph route_advice
+    i[inputs] --> r[routes] --> c[costs]
+    c -->|Suez vs Cape| x[context] --> a[advisor<br/>one call, slots] --> v[validator<br/>cost rule]
+    v -->|patch| a
+    v --> rr[render]
+    c -->|no Suez on route / Suez only| rr
+    i & r & a & v -.-> f[failed]
+  end
+  subgraph voyage_watch
+    fl[fleet] --> et[eta<br/>rule R] --> we[weather] --> tr[traffic] --> al[alerts<br/>run file written]
+    al -->|alerts| br[brief<br/>one call, slots] --> va[validator]
+    va -->|patch| br
+    va --> re[render]
+    br -->|output invalid| re
+    al -->|no alerts| re
+    fl -->|stopped: status set| re
+  end
+```
+
+The supervisor (ADR-059):
+
+```mermaid
+flowchart LR
+  q[question + asker] --> rt[code router<br/>≤ 5 tools, refused tools dropped]
+  rt -->|every tool refused| np[not_permitted<br/>0 model calls]
+  rt --> ag[create_agent] <--> tl[offered tools<br/>+ route_advice / voyage_eta / watch_alerts / fleet_customers]
+  ag --> ck[code checks<br/>slots, join guard, year guard]
+  ck -->|fails| ag
+  ck --> ans[answer / partial / not_in_data]
+```
 
 ## 2. Components
 
@@ -57,7 +145,7 @@ Today the system is **data preparation plus the document retrieval tool**: pipel
 | Retrieval evaluation harness (golden set, golden facts, `pipelines/lib/evaluation.py`, `Evaluation.py`) | IMPLEMENTED (2026-10-08) | ADR-040; baseline `Data/processed/rag/eval/results_2026-10-08.json` for the agents phase |
 | Power BI dashboard (`powerbi/NileGate_Finance.pbip`: TMDL model + PBIR report, Power BI Desktop 2.158) | IMPLEMENTED (2026-10-15, Agents plan Phase 3) | ADR-048. DirectQuery on 13 `finance` views (all but `dim_date`; `invoice_audit` since 2026-10-22) through the login `ports_bi` (member of `finance_bi` only, read-only; `db/create_finance_bi_user.ps1`, `db/check_finance_bi_user.py` 11 / 11). Model edited through the Power BI Modeling MCP (`.mcp.json`): `Week` filters every table (19 many-to-one, single-direction relationships, referential integrity off), 41 thin measures in `Weekly KPIs` (SELECTEDVALUE / HASONEVALUE-guarded SUM / SUM / counts), 1 label column. Report: Overview, Revenue, Receivables, Customers, Exceptions, one single-select week slicer synced on all pages. Numbers = `finance.kpi_weekly` for weeks 5 / 23 / 49. **Exceptions page live since 2026-10-22** (plan §5f F6): table `Invoice Audit` (DirectQuery on `finance.invoice_audit`, 13 DirectQuery tables in all), measures `Audit Findings` / `Invoices Flagged` / `Invoices Manual Review` (no amount at stake in DAX: its definition lives in SQL / the tool), a findings table and a note on error vs manual review; = the `invoice_audit` tool for weeks 10 / 15 / 23 / 49 / 50. **Executive page + 12 measures since 2026-10-31 (ADR-061)**: display folder "6 Executive" of `Weekly KPIs` (period sums, rolling 13 weeks, the M12 DSO split, mean days late / on-time % on 2025 payments, AR 90+, 2025 revenue), a page without the week slicer (rolling revenue vs budget, DSO split, 90+ by customer, customer risk scatter); every measure = `Executive_analysis.py` by DAX. Exceptions page (review 2026-10-31): measures `Audit Weeks With Findings` / `Audit Week Status` and a status card, so a week without findings says so and names the weeks that have them (W10, W15, W50); the findings table lists all of 2025 (the week slicer does not filter it: `visualInteractions` NoFilter slicer → table; the cards stay per week). 55 measures in all. Needs PostgreSQL running when opened. |
 | Executive financial-intelligence deck (`pipelines/scripts/finance/Executive_analysis.py` → `Executive_charts.py` → `Executive_deck.py`) | IMPLEMENTED (2026-10-31, ADR-061) | Read-only on the `finance` views (as of 2025-12-28): `Data/processed/finance/executive_2025/numbers.json` + chart series + 13 PNGs → a 17-slide PPTX `reports/executive/2025/NileGate_2025_Financial_Review.pptx` (git-ignored, rebuilt by the script); every number written by a registering formatter and read back; no LLM. A side product (ADR-061 amendment 1: misread scope, kept by the owner); its facts are Appendix A of `docs/analysis/financial_intelligence/advanced_analytics_findings.md`, whose folder now holds the weekly-pack study and its PROPOSED plan (after c4). |
-| Observability | IMPLEMENTED for the agents (LangSmith traces, Phase 8, ADR-054; Sentry errors + WARNING+ logs + the weekly pack's cron monitor from the four CLIs, 2026-10-31, ADR-062, `pipelines/agents/monitoring.py`, no LLM spans); API trace ids PLANNED | `Monitoring_check.py`; LangSmith Datasets mirror + annotation rule PLANNED (Observability plan S2–S3, after c4) |
+| Observability | IMPLEMENTED for the agents (LangSmith traces, Phase 8, ADR-054; Sentry errors + WARNING+ logs + the weekly pack's cron monitor from the four CLIs, 2026-10-31, ADR-062, `pipelines/agents/monitoring.py`, no LLM spans); API trace ids PLANNED | `Monitoring_check.py`; since 2026-11-01 (ADR-062 amendment 1): LangSmith Datasets & Experiments mirror of the golden sets and evaluation runs (`Langsmith_mirror.py`), review queue `nilegate-review` fed by an automation rule (errors + refused parts), Sentry alert for every new issue |
 | End-to-end answer evaluation, Docker Compose | PLANNED / PROPOSED | see ROADMAP |
 | pgvector single store | ABANDONED | ADR-001 |
 | Star schema | IMPLEMENTED as plain views (schema `finance`, 2026-10-14) | ADR-047 (ADR-018's trigger) |
@@ -389,6 +477,7 @@ Added for the agents platform (2026-10-10, Agents plan Phase 0, `uv add`, all `=
 | 056 | No live AIS in Stage 2 (D11 narrowed to web search, PortWatch, marine weather) |
 | 057 | The `route_advice` graph: code computes, one model call chooses with number slots, a code Validator keeps the cost rule (a cited risk may overrule it), one thread per question |
 | 058 | The `voyage_watch` graph: a rule-based ETA (fixed before measuring, beats the naive baseline), fixed alert rules, one brief with slots, a thread + a JSON file per run, every 12 h on a replay clock |
+| 063 | Engineering hygiene: ruff + pyright through a lint ratchet (counts may not rise), a database-free CI, Dependabot + pip-audit, `docs/THREAT_MODEL.md` |
 | 062 | Sentry for errors, WARNING+ logs and one cron monitor (the weekly pack) from the CLIs' `main()` only; AI integrations off, LangSmith stays the only LLM tracer; `thread_id` tag links the two |
 
 ## 10. Open architectural questions

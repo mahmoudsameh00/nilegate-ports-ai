@@ -144,3 +144,31 @@ checks ✅; the first real `scheduled` firing (Monday 2026-11-02 10:30) shows an
     `send_default_pii=False`: Sentry's server derives it from the connection's IP. Turning it off is a project setting
     (project `python` → Settings → Security & Privacy → "Prevent Storing of IP Addresses"), the owner's to change.
   - **Open:** Monday 2026-11-02 10:30 — the first check-in of `nilegate-weekly-pack` (the monitor is created by it).
+- 2026-11-01 — **S2–S4 APPROVED as one batch (owner, choices as recommended: "التلاتة ورا بعض", "اعملها إنت",
+  "Scheduled check الساعة 11:00"):** run S2 → S3 → S4 without stopping between steps (small decisions = the
+  recommended option, logged here); Claude creates the standing configurations itself (the LangSmith annotation queue +
+  automation rule, the Sentry alert); the first check-in is verified by a one-time Claude scheduled task
+  (`nilegate-sentry-first-checkin`, 2026-11-02 11:00 local), which also connects the new monitor to the alert and writes
+  the result here.
+- 2026-11-01 — **S4 done (Sentry alerts):** the project already had "Send a notification for high priority issues"
+  (email, issue owners → active members; it fired for PYTHON-2). Added alert **6273246** "NileGate: new, regressed or
+  reappeared issue (any priority)" on project `python`'s issue stream → the same email action, 30-min interval, so a
+  medium-priority error (e.g. a caught exception from a scheduled firing) also reaches the owner. The cron monitor
+  does not exist until its first check-in; the Monday task connects its detector to 6273246.
+- 2026-11-01 — **S2 done (LangSmith mirror):** `pipelines/scripts/agents/Langsmith_mirror.py` — 3 datasets
+  (`nilegate-finance-qa@5cf72ac3` 42, `nilegate-supervisor-qa@722f3ca3` 57, `nilegate-golden-weeks@7589e7e7` 11; named
+  by the frozen files' sha256) and 12 experiments (base3 × 3, c4 × 3, dp127b × 2, stage2 2026-10-29 × 2, c1 × 2):
+  stored answers + stored code scores, 0 model calls; Phases 1–4 ✅; the re-run sent 0 (idempotent). D-S2-1: the
+  first read-back saw one experiment short (LangSmith stats lag; 57 / 57 a minute later) → reported, not failed.
+  Not wired into `Stage1_eval.py` / `Stage2_eval.py` (recommended: no change to the frozen harness); after an
+  evaluation, run the mirror with `MIRROR_RESULTS=<file>` (checkpoint `Langsmith_mirror.md`).
+- 2026-11-01 — **S3 done (review queue):** annotation queue `nilegate-review` + automation rule "nilegate: errors and
+  refused parts -> review" on `nilegate-agents` (filter `and(eq(is_root, true), or(eq(status, "error"),
+  has(tags, "refused")))`, sampling 1.0, created by REST `POST /api/v1/runs/rules` — the langsmith 0.14.7 SDK has no
+  rule method; accepted on the free plan). `Ask.py` now adds a plain `refused` tag when any part is refused
+  (`Supervisor_check.py` ✅ 9 lines, 0 files changed). Test: an Operations employee (12) asked a finance question →
+  `not_permitted`, 0 model calls, traced with `refused` (D-S3-1: the first try used employee 2, an Operations
+  *manager*, who may read finance (D-P12-1) → answered, 2 flash-lite calls). **The rule worked:** the refused run
+  reached `nilegate-review` within the wait (the queue held 3 items: the rule also matched earlier root runs).
+- **Next:** the Monday task (2026-11-02 11:00) verifies the first check-in and closes S1 → then this plan is complete:
+  implementation record, archive, ROADMAP, `/graphify . --update`, the owner's commit.

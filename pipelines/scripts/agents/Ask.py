@@ -54,7 +54,8 @@ def answer(question: str, employee: int, lang: str | None = None, as_of: datetim
     r = sv.route(question, user)
     g = graph(roles or roles_mod.Roles())
     tid = sv.new_thread_id(checkpointer.pool(), employee, as_of)
-    tags = ("graph:supervisor", f"lang:{lang}", *[f"refused:{t}" for t in r.refused])
+    # `refused` alone lets one LangSmith rule filter (has(tags, "refused")) find every partial answer (Observability S3)
+    tags = ("graph:supervisor", f"lang:{lang}", *(["refused"] if r.refused else []), *[f"refused:{t}" for t in r.refused])
     monitoring.tag(thread_id=tid, run_as=employee)
     with tracing.trace(tid, entry="ask", run_as=employee, launched_by=launched_by, extra_tags=tags) as traced:
         st = sv.ask(g, question, user, lang, as_of, thread=tid, metadata={"trigger": launched_by})

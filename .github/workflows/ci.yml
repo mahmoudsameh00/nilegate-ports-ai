@@ -1,0 +1,30 @@
+# Engineering hygiene H1 (free GitHub Actions minutes): what runs without the owner's databases.
+# The full *_check.py runs stay on the owner's machine (they need the loaded PostgreSQL / MongoDB / Qdrant).
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.13"
+      - name: Install the locked environment
+        run: uv sync --frozen
+      - name: An empty .env (every key blank = Sentry, LangSmith and the databases off)
+        run: cp .env.example .env
+      - name: Lint ratchet (ruff + pyright may not get worse)
+        run: uv run python tools/lint_ratchet.py
+      - name: Monitoring check (Sentry contract, 0 network)
+        run: uv run python tools/run.py pipelines/scripts/agents/Monitoring_check.py
+      - name: LangSmith mirror, build phase (0 network)
+        run: uv run python tools/run.py pipelines/scripts/agents/Langsmith_mirror.py

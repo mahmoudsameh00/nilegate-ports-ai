@@ -42,4 +42,24 @@ dependencies = [
 [dependency-groups]
 dev = [
     "jupyter>=1.1.1",
+    "pyright==1.1.414",
+    "ruff==0.17.1",
 ]
+
+# Engineering hygiene H1: bug-finding rules only; the ignored codes are this project's script idioms (sys.path insert
+# before imports, short `;` statements, `l` / lambda names, zip without strict). Gate = tools/lint_ratchet.py.
+[tool.ruff]
+line-length = 120
+target-version = "py313"
+extend-exclude = ["Notebooks", "docs/archive", "models"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "B"]
+ignore = ["E402", "E701", "E702", "E731", "E741", "B007", "B905"]
+
+[tool.pyright]
+include = ["pipelines/agents", "pipelines/lib"]
+pythonVersion = "3.13"
+typeCheckingMode = "basic"
+venvPath = "."
+venv = ".venv"
