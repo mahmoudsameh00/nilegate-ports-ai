@@ -27,7 +27,7 @@ dependencies = [
     "psycopg[binary]==3.3.5",
     "pyarrow>=25.0.1",
     "pydantic==2.14.0",
-    "pymongo==4.18.3",
+    "pymongo==4.19.0",
     "pymupdf==1.28.2",
     "python-pptx==1.0.2",
     "qdrant-client==1.19.1",
