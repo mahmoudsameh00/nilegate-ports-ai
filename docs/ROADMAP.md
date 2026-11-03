@@ -14,12 +14,10 @@ amendment 2): the lint baseline paid down to **0** (ruff 48 → 0, pyright 276 �
 changed); THREAT_MODEL LLM01 measured by `Injection_eval.py` on a frozen 11-item injection set, two real runs: prompt
 leak 0, planted instruction followed 0, finance leak 0, escalations refused (`injection_eval_2026-11-03.json`);
 `D:\Project_wip` deleted. D-H3 closed the same day (owner: widen): the screening now flags all 6 planted shapes (ADR-042 note; corpus false
-positives still 0), set v2 re-run on the real model, every gate held. D-H2 closed the same day: every writer of a tracked .json / .jsonl / .csv now writes LF (`newline="
-"`,
-`lineterminator="
-"`; 36 sites in 23 files), each re-run = its committed bytes. Open for the owner: the first CI run
-(push); restore two files before the commit (D-H4: `bakeoff_results.json` run statistics overwritten by a re-run,
-`file_encrypted.pdf` re-encrypted by design).
+positives still 0), set v2 re-run on the real model, every gate held. D-H2 closed the same day: every writer of a tracked .json / .jsonl / .csv now writes LF (`newline="\n"`,
+`lineterminator="\n"`; 36 sites in 23 files), each re-run = its committed bytes; D-H4 (a re-run overwrote `bakeoff_results.json`'s run statistics) restored by
+the owner before the commit. Committed and pushed as `92003ee`; **CI run #2 green** (2026-11-03, 39 s; its Node 20
+deprecation warning fixed the same day: `actions/checkout@v5`, `astral-sh/setup-uv@v7`).
 
 **Weekly pack improvement — CLOSED 2026-11-03** (`docs/analysis/financial_intelligence/implementation_roadmap.md`,
 implementation record at the top; the folder stays in place). Phases A–F: migrations 021 / 022 (`finance_kpi` +16
@@ -33,8 +31,8 @@ error on a non-finance item, every `finance_kpi` number right → closed on the 
 
 **Observability — CLOSED 2026-11-02** (`docs/archive/2026-11-02_Observability_Sentry_plan.md`, ADR-062 + amendment 1):
 S1 Sentry errors / logs / the weekly pack's cron monitor — the first real check-in arrived ok on 2026-11-02 08:30Z;
-S2 LangSmith mirror, S3 review queue, S4 new-issue alert. Open for the owner: **D-S1-6** — connect the monitor
-`nilegate-weekly-pack` to alert 6273246 in Sentry (until then a missed Monday makes an issue but no email).
+S2 LangSmith mirror, S3 review queue, S4 new-issue alert. **D-S1-6 closed 2026-11-03** (owner: "اربطه"): the monitor's detector
+10829356 (`nilegate-weekly-pack`) connected to alert 6273246 through the Sentry MCP — a missed / failed Monday now emails.
 **Dependency upgrade — DONE 2026-11-02** (`docs/archive/2026-11-02_Dependency_upgrade_plan.md`, ADR-063 note): 8
 packages to their lowest fixing releases (+ `langgraph-checkpoint` 4.3.0), `pip-audit` 63 → 0, every check green.
 

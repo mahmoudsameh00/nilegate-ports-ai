@@ -10,7 +10,7 @@
   (11 items, sha `d650a2992ed1e1b2…`); two real runs on 2026-11-03 → `injection_eval_2026-11-03.json`: prompt leak 0,
   planted instruction followed 0, finance leak 0, escalations refused 3 / 3, known-shape planted rows flagged, exposure
   5 / 6 and 6 / 6. THREAT_MODEL LLM01 updated; checkpoint `pipelines/checkpoints/agents/Injection_eval.md`.
-- **F3 CI:** open — runs when the owner pushes (Claude never runs git); the CI steps need no change for a 0 baseline.
+- **F3 CI:** done — run #2 on `92003ee` green (lint ratchet at 0, `Monitoring_check`, `Langsmith_mirror`).
 - **F4 / F5:** already closed (checked).
 - **Deviations:** D-H1 (a comment swallowed part of a `Field(` line in `routes.py`; caught by 4 checks; fixed and
   re-run), D-H2 (the RAG / profiling scripts write CRLF on Windows: 14 artifacts equal their git blobs after CRLF → LF,
@@ -21,19 +21,18 @@
   (`injection_eval_2026-11-03_v2.json`; w01 `validation_failed` in both v2 runs = the Writer's slot-form error
   caught by the code check, not an injection effect — it answered in both v1 runs).
 - **D-H2 closed (owner 2026-11-03: "صلحها"):** every writer of a tracked `.json` / `.jsonl` / `.csv` writes LF —
-  `newline="
-"` on 31 `write_text` / `open` sites (the 7 RAG chunking scripts, `AIS_EDI_profiling`, `Upload_validation`,
+  `newline="\n"` on 31 `write_text` / `open` sites (the 7 RAG chunking scripts, `AIS_EDI_profiling`, `Upload_validation`,
   `Upload_eval`, `Upload_fixtures`, `Upload_promotion`, `AIS_generator`, `EDI_generator`, `MongoDB_loader`,
   `Executive_analysis`, `Embedding_bakeoff`, `Stage2_eval`, `session_store`, the external tool cache, `lint_ratchet`) and
-  `lineterminator="
-"` on 5 `to_csv` calls (`ExtractPortsAttributes`, `ExtractPortsConnection`, `SyntheticGenerator`,
+  `lineterminator="\n"` on 5 `to_csv` calls (`ExtractPortsAttributes`, `ExtractPortsConnection`, `SyntheticGenerator`,
   `Upload_promotion` ×2). The in-memory CSV hashed by `AIS_generator` line 82 is left as it is (changing it changes
   the hash). Re-run: every script = its committed bytes (0 files changed, or changed back to the committed blob),
   except D-H4. `MongoDB_loader` and `Upload_promotion` not re-run (a database writer / the promotion flow).
 - **D-H4 (my slip):** re-running `Embedding_bakeoff.py` rewrote `bakeoff_results.json` with this run's statistics (0 API
   calls, no latency) over the original bake-off run's — the scores and the choice (gemini 0.912) are unchanged, but
   the file must be restored from git; `Upload_fixtures` re-encrypts `file_encrypted.pdf` on every run (by design).
-- **Open for the owner:** restore those two files, then commit and push (first CI run).
+- **Closed by the owner (2026-11-03):** both files restored, committed and pushed (`92003ee`); **F3: CI run #2 green**
+  (39 s). Its Node 20 deprecation warning fixed the same day (`actions/checkout@v5`, `astral-sh/setup-uv@v7`).
 
 ---
 

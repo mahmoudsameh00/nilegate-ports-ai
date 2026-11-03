@@ -32,7 +32,7 @@ Status: **IMPLEMENTED (2026-11-03)** — every phase A–F done; the plan stays 
   after repeat 1 on the Arabic gate by one Writer slot-form error on a non-finance item — every `finance_kpi` number
   right on the hand-check; the owner closed on the hand-check (ADR-052 sixth use). Baselines unchanged (Stage 2 c1,
   Q&A dp127b).
-- **Open for the owner (not this plan):** Sentry D-S1-6 (connect monitor `nilegate-weekly-pack` to alert 6273246);
+- **Open for the owner (not this plan):** ~~Sentry D-S1-6~~ (closed 2026-11-03: detector 10829356 → alert 6273246);
   delete the old parallel copy `D:\Project_wip`. Next phase: FastAPI (plan to be written in a new session).
 
 ## Plan

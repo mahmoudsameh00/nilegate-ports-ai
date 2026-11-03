@@ -13,9 +13,8 @@ Status: **IMPLEMENTED (2026-11-02)** — approved 2026-10-31 (owner: "موافق
 - **S3 (2026-11-01):** annotation queue `nilegate-review` + an automation rule (errors and `refused` traces).
 - **S4 (2026-11-01):** Sentry "new issue" email alert 6273246.
 - **Deviations:** D-S1-1…D-S1-6, D-S2-1, D-S3-1 (Progress below). **Open for the owner:** D-S1-5 (event geo = the
-  laptop's IP, nothing changed) and **D-S1-6** — connect the monitor's detector 10829356 to alert 6273246 (Sentry →
-  Alerts → 6273246 → add `nilegate-weekly-pack` as a source); until then a missed / failed Monday makes a cron issue
-  but no email.
+  laptop's IP, nothing changed) (**D-S1-6 closed 2026-11-03**: detector 10829356 connected to alert 6273246 through the Sentry MCP,
+  owner-approved; the alert's sources are now the issue stream + `nilegate-weekly-pack`).
 - **Lasting decision:** ADR-062 (+ amendment 1).
 
 

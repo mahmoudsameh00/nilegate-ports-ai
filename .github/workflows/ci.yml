@@ -14,8 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v6
+      - uses: actions/checkout@v5            # v5 / v7: the Node 24 majors (v4 / v6 ran on the deprecated Node 20)
+      - uses: astral-sh/setup-uv@v7
         with:
           python-version: "3.13"
       - name: Install the locked environment

@@ -1433,6 +1433,9 @@ Never delete an entry; supersede it with a new one. Sources for older entries ar
   owner reviews the queue and moves useful items into the next frozen golden set. (S4) **Sentry alert 6273246**
   "NileGate: new, regressed or reappeared issue (any priority)" → email, beside the default high-priority alert; the
   cron monitor is connected to it after its first check-in.
+  - **Done 2026-11-03 (D-S1-6, owner: "اربطه"):** the monitor's detector 10829356 (`nilegate-weekly-pack`,
+    `monitor_check_in_failure`) connected to alert 6273246 through the Sentry MCP; the alert's sources are the
+    project issue stream + the monitor, so a missed or failed Monday check-in now sends the email.
 
 ## ADR-063 — Engineering hygiene: a lint ratchet, a database-free CI, dependency audit and a threat model
 - **Status:** Accepted (2026-11-01, owner: "Engineering hygiene" + pyright, as recommended; plan
