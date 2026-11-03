@@ -46,7 +46,7 @@ def pyright_counts() -> Counter:
 def main() -> int:
     now = ruff_counts() + pyright_counts()
     if "--update" in sys.argv:
-        BASELINE.write_text(json.dumps(dict(sorted(now.items())), indent=1) + "\n", encoding="utf-8")
+        BASELINE.write_text(json.dumps(dict(sorted(now.items())), indent=1) + "\n", encoding="utf-8", newline="\n")
         print(f"baseline written: {sum(now.values())} findings in {len(now)} tool|rule|file keys")
         return 0
     base = Counter(json.loads(BASELINE.read_text(encoding="utf-8")))

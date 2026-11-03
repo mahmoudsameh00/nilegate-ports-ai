@@ -312,7 +312,7 @@ def save(messages, vessel_of_msg: list[int], inputs: dict) -> dict:
                            "template": "profiles/iftmin_template.json"},
                 "outputs": {"edi_messages_synthetic.jsonl": {"rows": len(lines),
                                                              "sha256": hashlib.sha256(payload.encode()).hexdigest()}}}
-    (OUT / "edi_generation_manifest.json").write_text(json.dumps(manifest, indent=1) + "\n", encoding="utf-8")
+    (OUT / "edi_generation_manifest.json").write_text(json.dumps(manifest, indent=1) + "\n", encoding="utf-8", newline="\n")
 
     back = [json.loads(l) for l in (OUT / "edi_messages_synthetic.jsonl").read_text(encoding="utf-8").splitlines()]
     assert [b["raw"] for b in back] == [raw for raw, _ in messages]

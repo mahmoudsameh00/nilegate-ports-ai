@@ -198,23 +198,20 @@ def ref_rows(sql: str, params: tuple = ()) -> list[dict]:
     return [{n: (float(v) if isinstance(v, Decimal) else v) for n, v in zip(names, row)} for row in cur.fetchall()]
 
 
-# Migration 021 (weekly-pack plan Phase A, applied 2026-10-31) appended columns the tool returns only from Phase B
-# (after the c4 evaluation): they must be the views' trailing columns, so the tool's evidence stays unchanged.
-PENDING_021 = {
-    "weekly": {"roll_window_weeks", "billed_13w_sdr", "budget_13w_sdr", "budget_variance_13w_pct", "dso_best_days",
-               "dso_delinquency_days", "billed_wow_typical_pct", "collected_wow_typical_pct", "ar_wow_typical_pct",
-               "overdue_wow_typical_pct", "overdue_new_sdr", "overdue_paid_sdr", "due_week_sdr",
-               "due_week_collected_sdr", "due_week_collected_pct", "ontime_13w_pct"},
-    "category": {"invoices_prev"},
-    "customers": {"ar_to_billed_13w_pct", "is_watchlist", "ontime_13w_pct"}}
-col_mismatch = {}
-for ds, (view, cols, _) in finance.DATASETS.items():
+# Since Phase B of the weekly-pack plan the tool returns the columns migration 021 appended (the PENDING_021 guard of
+# Phase A is gone): the tool's lists equal the views' columns, and the evaluation twins (migrations 017 + 022) the same.
+def view_columns(view: str) -> tuple:
     schema_name, table = view.split(".")
-    view_cols = tuple(r["column_name"] for r in ref_rows(
+    return tuple(r["column_name"] for r in ref_rows(
         "SELECT column_name FROM information_schema.columns WHERE table_schema = %s AND table_name = %s "
         "ORDER BY ordinal_position", (schema_name, table)))
-    if view_cols[:len(cols)] != cols or set(view_cols[len(cols):]) != PENDING_021.get(ds, set()):
-        col_mismatch[ds] = set(view_cols) ^ set(cols)
+
+
+col_mismatch = {}
+for ds, (view, cols, _) in finance.DATASETS.items():
+    for v in (view, finance.TEST_VIEWS.get(ds)):
+        if v and view_columns(v) != cols:
+            col_mismatch[v] = set(view_columns(v)) ^ set(cols)
 assert not col_mismatch, col_mismatch
 
 ORDER_KEY = {"weekly": None, "category": "vessel_category", "customers": "rank_13w", "overdue": "rank_by_amount",
@@ -334,7 +331,9 @@ def billed_by_cat(rows, start: date) -> dict[str, tuple[int, Decimal]]:
 
 twin_off, twin_rows = [], 0
 LIVE_COPIED = [c for c in finance.DATASETS["weekly"][1] if c not in (
-    "invoices_billed", "billed_sdr", "budget_sdr", "budget_variance_sdr", "budget_variance_pct", "billed_wow_pct")]
+    "invoices_billed", "billed_sdr", "budget_sdr", "budget_variance_sdr", "budget_variance_pct", "billed_wow_pct",
+    # migration 022: the live 13-week sums with the report week swapped for the copy's
+    "billed_13w_sdr", "budget_13w_sdr", "budget_variance_13w_pct")]
 for w in TEST_KPI_WEEKS:
     start = date(2024, 12, 30) + timedelta(days=7 * (w - 1))
     cur, prev = billed_by_cat(copy_inv, start), billed_by_cat(live_inv, start - timedelta(days=7))
@@ -342,10 +341,11 @@ for w in TEST_KPI_WEEKS:
     ref_cat = {}
     for c, bu in budget.items():
         n, b = cur.get(c, (0, Decimal(0)))
-        p = prev.get(c, (0, Decimal(0)))[1]
+        n_p, p = prev.get(c, (0, Decimal(0)))
         ref_cat[c] = {"report_week": w, "vessel_category": c, "invoices_billed": n, "billed_sdr": q2(b),
                       "budget_sdr": q2(bu), "budget_variance_sdr": q2(b - bu), "budget_variance_pct": pct(b, bu),
-                      "billed_prev_sdr": q2(p), "billed_wow_change_sdr": q2(b - p), "billed_wow_pct": pct(b, p)}
+                      "billed_prev_sdr": q2(p), "billed_wow_change_sdr": q2(b - p), "billed_wow_pct": pct(b, p),
+                      "invoices_prev": n_p}
     got_cat = finance.finance_kpi(finance_emp, source="test", report_week=w, dataset="category")
     twin_rows += len(ref_cat)
     if got_cat.status != "ok" or {r["vessel_category"]: r for r in got_cat.rows} != ref_cat:
@@ -354,9 +354,13 @@ for w in TEST_KPI_WEEKS:
     p_all = sum((s for _, s in prev.values()), Decimal(0))
     bu_all = sum(budget.values(), Decimal(0))
     live_row = finance.finance_kpi(finance_emp, report_week=w, dataset="weekly").rows[0]
+    dec = {f: Decimal(str(live_row[f])) for f in ("billed_13w_sdr", "billed_sdr", "budget_13w_sdr", "budget_sdr")}
+    b13 = dec["billed_13w_sdr"] - dec["billed_sdr"] + b_all
+    bu13 = dec["budget_13w_sdr"] - dec["budget_sdr"] + bu_all
     ref_wk = {**{c: live_row[c] for c in LIVE_COPIED}, "invoices_billed": sum(n for n, _ in cur.values()),
               "billed_sdr": q2(b_all), "budget_sdr": q2(bu_all), "budget_variance_sdr": q2(b_all - bu_all),
-              "budget_variance_pct": pct(b_all, bu_all), "billed_wow_pct": pct(b_all, p_all)}
+              "budget_variance_pct": pct(b_all, bu_all), "billed_wow_pct": pct(b_all, p_all),
+              "billed_13w_sdr": q2(b13), "budget_13w_sdr": q2(bu13), "budget_variance_13w_pct": pct(b13, bu13)}
     got_wk = finance.finance_kpi(finance_emp, source="test", report_week=w, dataset="weekly")
     twin_rows += 1
     if got_wk.status != "ok" or got_wk.rows[0] != ref_wk:
@@ -430,17 +434,17 @@ else:
             if r["scnt_tons"] != v["scnt_tons"]:
                 out.add((n, "tonnage_mismatch", None, None, exp))
             if abs(r["billed_sdr"] - t["exact_sdr"]) > cent:
-                hyps = [("billed_on_invoice_tonnage", lambda: tariff.toll(v["vessel_type"], v["condition"],
+                hyps = [("billed_on_invoice_tonnage", lambda v=v, r=r, t=t: tariff.toll(v["vessel_type"], v["condition"],
                                                                           r["scnt_tons"])["amount_sdr"]
                          if r["scnt_tons"] != v["scnt_tons"] else None),
-                        ("flat_terminal_rate", lambda: tariff.sdr(t["rate_sdr_per_ton"] * v["scnt_tons"])),
-                        ("condition_swapped", lambda: tariff.toll(v["vessel_type"], "Ballast" if v["condition"] ==
+                        ("flat_terminal_rate", lambda v=v, r=r, t=t: tariff.sdr(t["rate_sdr_per_ton"] * v["scnt_tons"])),
+                        ("condition_swapped", lambda v=v, r=r, t=t: tariff.toll(v["vessel_type"], "Ballast" if v["condition"] ==
                                                                   "Laden" else "Laden", v["scnt_tons"])["amount_sdr"]
                          if v["vessel_type"] != tariff.SFU else None),
-                        ("sfu_priced_ballast", lambda: tariff.toll("Other Vessels", "Ballast", v["scnt_tons"])
+                        ("sfu_priced_ballast", lambda v=v, r=r, t=t: tariff.toll("Other Vessels", "Ballast", v["scnt_tons"])
                          ["amount_sdr"] if v["vessel_type"] == tariff.SFU else None),
                         # migration 019: a ballast chemical tanker at the Crude Oil ballast toll (tariff Notes)
-                        ("notes_crude_ballast_rate", lambda: tariff.toll("Crude Oil Tankers", "Ballast",
+                        ("notes_crude_ballast_rate", lambda v=v, r=r, t=t: tariff.toll("Crude Oil Tankers", "Ballast",
                                                                          v["scnt_tons"])["amount_sdr"]
                          if (v["vessel_type"], v["condition"]) == (CHEM, "Ballast") else None)]
                 cause = next((c for c, f in hyps if (h := f()) is not None and abs(r["billed_sdr"] - h) <= cent),
@@ -515,7 +519,19 @@ else:
     stake_t, _, review_t = audit.totals([
         {"invoice_number": "A", "check_code": "amount_mismatch", "review": "manual_review", "difference_sdr": -11403.33},
         {"invoice_number": "B", "check_code": "amount_mismatch", "review": "error", "difference_sdr": 5000.0}])
-    actual = {"wrapper_flagged_w10": wrapper_flagged, "py_equal": py_equal,
+    # the year to date (weekly-pack plan Phase C, slide 8): weeks 1 … w = the weekly audits put together, set by code
+    # only (`through_week` is no field of the model's schema)
+    ytd_equal = {}
+    for ds, w in (("live", 12), ("live", 52), ("test", 49)):
+        y = audit.invoice_audit(finance_emp, report_week=w, dataset=ds, through_week=True)
+        weekly = [audit.invoice_audit(finance_emp, report_week=x, dataset=ds) for x in range(1, w + 1)]
+        rows_w = sorted((r["invoice_number"], r["check_code"]) for res in weekly for r in res.rows)
+        ytd_equal[f"{ds}:{w}"] = (sorted((r["invoice_number"], r["check_code"]) for r in y.rows) == rows_w
+                                  and y.invoices_checked == sum(res.invoices_checked or 0 for res in weekly)
+                                  and y.source.filter == f"report_week <= {w}")
+    ytd_hidden = "through_week" not in audit.invoice_audit_tool.tool_call_schema.model_json_schema()["properties"]
+    actual = {"ytd_equal": ytd_equal, "ytd_hidden": ytd_hidden,
+              "wrapper_flagged_w10": wrapper_flagged, "py_equal": py_equal,
               "notes_file_equals_view": file_equals_view, "notes_rule": notes_rule,
               "manual_review_not_at_stake": (stake_t, review_t),
               "recall": f"{len(set(planted) & found)}/{len(planted)}",
@@ -523,7 +539,8 @@ else:
               "week49_flagged": tool_weeks[49][1], "live_findings_equal_reviewed": live_found == LIVE_FINDINGS,
               "by_number": (by_number.invoices_checked, by_number.invoices_flagged, by_number.amount_at_stake_sdr),
               "by_number_note_unknown": "INV-0999999" in (by_number.note or ""), "arg_errors": audit_arg_errors}
-    expected = {"wrapper_flagged_w10": {"live": 1, "test": 2}, "py_equal": {"live": True, "test": True},
+    expected = {"ytd_equal": {"live:12": True, "live:52": True, "test:49": True}, "ytd_hidden": True,
+                "wrapper_flagged_w10": {"live": 1, "test": 2}, "py_equal": {"live": True, "test": True},
                 "notes_file_equals_view": True,
                 "notes_rule": {"crude_rate": [("amount_mismatch", "notes_crude_ballast_rate", "manual_review")],
                                "wrong": [("amount_mismatch", "unexplained", "error")], "own_rate": []},
@@ -923,7 +940,6 @@ wrong_budget_fact = sorted(n for n, s in skills.items() if re.search(r"budget is
 # every rounding example of number-validation ("<value> → "<short> M|k"") must itself be right: nearest value, half
 # away from zero, sign kept (owner review 2026-10-19: the former example "849.9 k" was the bake-off's own error for
 # −849,964, ADR-045)
-from decimal import ROUND_HALF_UP  # noqa: E402
 
 SCALE = {"M": (Decimal("1e6"), Decimal("0.01")), "k": (Decimal("1e3"), Decimal("0.1"))}
 rounding_examples, rounding_wrong = 0, []

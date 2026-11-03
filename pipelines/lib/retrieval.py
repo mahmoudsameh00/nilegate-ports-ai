@@ -23,6 +23,7 @@ import os
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
+from typing import Any, cast
 
 import httpx
 import numpy as np
@@ -178,7 +179,7 @@ class Retriever:
         if vec is None:
             vec = np.asarray(self.embedder.embed([query], "query")[0], dtype=np.float32)
             self.qcache.put(key, vec)
-        return vec.tolist()
+        return cast(Any, vec).tolist()
 
     # --- optional reranker (memoized per question + candidate set: the same input is never sent twice) ------------
     def rerank(self, query: str, points: list) -> list:
@@ -241,7 +242,7 @@ class Retriever:
             res = self.qdrant.query_points(qdrant_store.COLLECTION, prefetch=prefetch,
                                            query=models.FusionQuery(fusion=models.Fusion.RRF), limit=limit,
                                            with_payload=True)
-            request = {"mode": "hybrid", "prefetch": [{"using": p.using, "filter": p.filter.model_dump()}
+            request = {"mode": "hybrid", "prefetch": [{"using": p.using, "filter": cast(models.Filter, p.filter).model_dump()}
                                                       for p in prefetch]}
         else:
             res = self.qdrant.query_points(qdrant_store.COLLECTION, query=qvec, using="dense", query_filter=flt,
@@ -259,16 +260,16 @@ class Retriever:
 
         out, per_doc, kept_shingles = [], {}, []
         for p in points:
-            doc = p.payload["document_id"]
+            pl = cast(dict[str, Any], p.payload)                   # with_payload=True: never None
+            doc = pl["document_id"]
             if max_per_document and per_doc.get(doc, 0) >= max_per_document:
                 continue
             if dedupe:
-                sh = shingles(p.payload["text"])
+                sh = shingles(pl["text"])
                 if any(near_duplicate(sh, other) for other in kept_shingles):
                     continue
                 kept_shingles.append(sh)
             per_doc[doc] = per_doc.get(doc, 0) + 1
-            pl = p.payload
             if not allowed(user, pl["sensitivity_level"], pl["department"]):  # defence in depth
                 raise PermissionError(f"RBAC violation: {pl['chunk_id']} returned to employee {employee_id}")
             out.append({"rank": len(out) + 1, "score": float(p.score), "chunk_id": pl["chunk_id"],

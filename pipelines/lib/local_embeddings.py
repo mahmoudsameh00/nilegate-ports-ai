@@ -8,7 +8,7 @@ sentence embedding). Runtime settings are measured by `Upload_eval.py` and fixed
 import json
 import os
 import time
-from pathlib import Path
+from typing import cast
 
 import numpy as np
 import onnxruntime as ort
@@ -74,7 +74,7 @@ class LocalEmbedder:
             for r, j in enumerate(idx):  # right padding, as at export
                 n = len(enc[j].ids)
                 ids[r, :n], mask[r, :n] = enc[j].ids, 1
-            out[idx] = self.session.run(None, {"input_ids": ids, "attention_mask": mask})[0]
+            out[idx] = cast(np.ndarray, self.session.run(None, {"input_ids": ids, "attention_mask": mask})[0])
             self.calls += 1
         return out
 

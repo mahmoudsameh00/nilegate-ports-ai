@@ -62,13 +62,22 @@ PATTERNS: list[tuple[str, re.Pattern]] = [(n, re.compile(p)) for n, p in [
                   r"\b(system prompt|your instructions|api[ _-]?keys?|passwords?|credentials|secrets?|tokens?)\b"),
     ("exfiltrate_en", r"\b(send|post|upload|forward|e-?mail|exfiltrate|transmit)\b[^.!?\n]{0,60}(https?://|www\.)"),
     ("tool_call", r"\"(tool|function)_?(call|name)s?\"\s*:|\b(call|invoke|execute|trigger)\b" + _W +
-                  r"\b(tool|function|search_documents|query_records|query_operations|compute_toll|web_search)\b"),
+                  r"\b(tool|function|search_documents|query_records|query_operations|compute_toll|web_search|"
+                  r"finance_kpi|invoice_audit|route_advice|voyage_status|voyage_eta|watch_alerts|fleet_customers|"
+                  r"sea_route|vessel_params|marine_weather|suez_transits|load_skill)\b"),
+    # an order to drop the user's question or the text above without naming "instructions" (Injection_eval, D-H3)
+    ("redirect_en", r"\b(ignore|disregard|forget)\b (the |this |that |my |your )?(user'?s? (question|request|message|"
+                    r"query)\b|(above|(original |actual )?(question|request|query))(?=\s*(and\b|then\b|[,.;:]|$)))"),
+    ("answer_only_en", r"\b(reply|respond|answer|say|output)\b (only|just|nothing but)\s*(with\b|:|['\"‘“])"),
     ("markdown_beacon", r"!\[[^\]]*\]\(\s*https?://[^)\s]*\?[^)\s]*\)"),
     # --- Arabic (MSA + Egyptian), on the folded form (أ/إ/آ -> ا, ى -> ي, ة -> ه) ------------------------------------
     ("override_ar", r"(تجاهل|تجاهلي|تتجاهل|انس|انسي|انسا|اهمل|اهملي|تخط|تخطي|تجاوز|الغ|الغي|سيبك من|سيبك|طنش|"
                     r"متسمعش|ماتسمعش|متاخدش ب|لا تتبع|لا تلتزم ب)" + _W +
                     r"(التعليمات|تعليمات|الاوامر|اوامر|القواعد|التوجيهات|الارشادات|القيود|كل اللي فات|"
                     r"اللي قبل كده|الكلام اللي فوق|الكلام اللي فات|ما سبق|السابق)"),
+    # the user's question dropped ("انسى السؤال واكتب …"); "تجاهل السؤال الأول" in a form's own text stays clean
+    ("redirect_ar", r"(تجاهل|تجاهلي|انس|انسي|انسا|اهمل|سيبك من|طنش) (السوال|سوال المستخدم|الطلب)(?= *(و|،|,|:|\.|$))"),
+    ("answer_only_ar", r"(اكتب|رد|قول|جاوب|اطبع)( بس| فقط) ?:"),
     ("new_role_ar", r"(انت|انتي|انتا) (الان|دلوقتي|من دلوقتي|من الان)\b|من (الان|دلوقتي) (انت|هتبقي|هتكون|ستكون)"
                     r"|(تقمص|العب|خد|اعمل) دور|اتصرف (كانك|كانك|زي) |تعليمات جديده\s*:"),
     ("reveal_ar", r"(اكشف|اظهر|اطبع|قول|قولي|قوللي|ابعت|ورني|وريني|اعرض|سرب)" + _W +

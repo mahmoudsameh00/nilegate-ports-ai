@@ -676,6 +676,111 @@ cultureInfo en-US
 			          }
 			        }
 			      ]
+			    },
+			    "weekly_kpis.dso_delinquency_days": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Weekly KPIs",
+			          "ConceptualProperty": "DSO Delinquency Days"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "DSO late days": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "weekly_kpis.due_week_collected_": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Weekly KPIs",
+			          "ConceptualProperty": "Due Week Collected %"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Due collected %": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "customer_kpis_13w.is_watchlist": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Customer KPIs 13w",
+			          "ConceptualProperty": "is_watchlist"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Watchlist": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "weekly_kpis.customer_ar_to_billed_13w_": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Weekly KPIs",
+			          "ConceptualProperty": "Customer AR to Billed 13w %"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "AR / billed 13w": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "weekly_kpis.customer_ontime_13w_": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Weekly KPIs",
+			          "ConceptualProperty": "Customer On-time 13w %"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "On-time 13w": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
 			    }
 			  }
 			}

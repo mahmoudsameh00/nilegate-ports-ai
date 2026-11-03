@@ -19,6 +19,7 @@ import os
 import re
 from collections.abc import Iterator
 from contextlib import ExitStack, contextmanager
+from typing import Any, cast
 
 PROJECT = "nilegate-agents"
 KEY_NAMES = ("LANGSMITH_API_KEY", "LANGCHAIN_API_KEY")   # .env names the first (§5e P8-4); the library reads both
@@ -77,7 +78,7 @@ def last_url() -> str | None:
         project_id = client.read_project(project_name=PROJECT).id
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", DeprecationWarning)
-            return client.get_run_url(run=SimpleNamespace(id=_last_runs[0].id), project_id=project_id)
+            return client.get_run_url(run=cast(Any, SimpleNamespace(id=_last_runs[0].id)), project_id=project_id)
     except Exception as exc:  # noqa: BLE001 — a missing link never fails a run
         log.warning("LangSmith link unavailable: %s", type(exc).__name__)
         return None
@@ -120,5 +121,5 @@ def trace(thread_id: str, *, entry: str, run_as: int | None, launched_by: str = 
         with stack:
             yield True
     finally:
-        _last_runs[:] = runs.traced_runs
+        _last_runs[:] = cast(Any, runs).traced_runs
         _flush()

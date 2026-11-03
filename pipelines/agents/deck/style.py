@@ -37,15 +37,17 @@ COMPARISON = rgb("A3A29C")             # budget (a reference, not a category)
 HIGHLIGHT = rgb("EB6834")              # the report week's marker (slot 2)
 
 # type sizes
-TITLE_PT, BODY_PT, SMALL_PT, TILE_VALUE_PT, TILE_LABEL_PT, FOOT_PT = Pt(28), Pt(16), Pt(12), Pt(26), Pt(12), Pt(10)
+TITLE_PT, BODY_PT, SMALL_PT, TILE_VALUE_PT, TILE_LABEL_PT, FOOT_PT = Pt(26), Pt(16), Pt(12), Pt(26), Pt(12), Pt(10)
+BADGE_PT = Pt(9)                       # the approval badge, footer-sized (W-R5, L7)
 BRAND_PT, WEEK_PT = Pt(40), Pt(22)
 
 # the grid (EMU)
-TITLE_TOP, TITLE_H = Inches(0.45), Inches(0.9)
+TITLE_TOP, TITLE_H = Inches(0.3), Inches(1.15)   # two lines of a 26 pt title above the body (W-R5, L1)
 BODY_TOP = Inches(1.55)
 FOOTER_TOP, FOOTER_H = HEIGHT - Inches(0.5), Inches(0.35)
 FOOTNOTE_TOP = FOOTER_TOP - Inches(0.4)
 COMMENT_H = Inches(0.42)
+BADGE_W = Inches(1.6)
 
 # number formats inside the native charts (the values stay the tool's exact SDR; the axis shows millions)
 AXIS_M = '#,##0.0,," M"'

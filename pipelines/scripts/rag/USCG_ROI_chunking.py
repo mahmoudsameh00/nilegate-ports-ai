@@ -503,7 +503,7 @@ def ocr_page(rid: str, p: int) -> tuple[dict, str]:
         if cached.get("key") == key:
             return cached, "cache"
     result = {"key": key, **_run_ocr(rid, p)}
-    path.write_text(json.dumps(result, ensure_ascii=False, indent=1), encoding="utf-8")
+    path.write_text(json.dumps(result, ensure_ascii=False, indent=1), encoding="utf-8", newline="\n")
     return result, "ocr"
 
 
@@ -897,7 +897,7 @@ for r in pages_df.itertuples():
                 if not spans:
                     continue
                 main = max(spans, key=lambda s: len(s["text"].strip()))
-                sup = lambda s: bool(s["flags"] & 1) and s["size"] < 0.8 * main["size"]
+                sup = lambda s, main=main: bool(s["flags"] & 1) and s["size"] < 0.8 * main["size"]
                 text = clean_text("".join(s["text"] for s in l["spans"] if not sup(s)), rid, "native")
                 if not text:
                     continue
@@ -1375,7 +1375,7 @@ for rid, g in rows_df.groupby("report_id", sort=True):
 
     def is_running(t: str) -> bool:
         key = re.sub(r"[^A-Z]", "", t.upper())
-        return len(key) >= 4 and any(difflib.SequenceMatcher(None, key, ck).ratio() >= 0.85 for ck in running)
+        return len(key) >= 4 and any(difflib.SequenceMatcher(None, key, ck).ratio() >= 0.85 for ck in running)  # noqa: B023 (called inside this loop pass)
 
 
     for r in g.itertuples():
@@ -2187,13 +2187,13 @@ restored_lines = set()
 for rid, p, old, new in SUPERSCRIPT_RESTORES:
     hit = superscripts_df[(superscripts_df["report_id"] == rid) & (superscripts_df["page_number"] == p)
                           & (superscripts_df["kind"] != "note_ref")]
-    hit = hit[hit["line_key"].map(lambda k: old in lines_df.at[line_ix[k], "text"]) & ~hit["line_key"].isin(restored_lines)]
+    hit = hit[hit["line_key"].map(lambda k, old=old: old in lines_df.at[line_ix[k], "text"]) & ~hit["line_key"].isin(restored_lines)]
     keys = hit["line_key"].unique()
     assert len(keys) == 1, (rid, p, old, keys)
     restore_in(lines_df, line_ix[keys[0]], old, new)
     restore_in(rows_df, row_ix[hit["row_id"].iloc[0]], old, new)
     restored_lines.add(keys[0])
-    for fi in figures_df.index[figures_df["row_ids"].map(lambda ids: hit["row_id"].iloc[0] in ids)]:
+    for fi in figures_df.index[figures_df["row_ids"].map(lambda ids, hit=hit: hit["row_id"].iloc[0] in ids)]:
         assert figures_df.at[fi, "caption"].count(old) == 1           # the caption unit carries the same text
         figures_df.at[fi, "caption"] = figures_df.at[fi, "caption"].replace(old, new)
 for k, g in superscripts_df[(superscripts_df["kind"] == "trademark") & ~superscripts_df["line_key"].isin(restored_lines)
@@ -2436,7 +2436,7 @@ for rid, p, text in CAPTION_CONTINUATIONS:
     assert len(hit) == 1, (rid, p, text)
     above = rows_df[(rows_df["report_id"] == rid) & (rows_df["page_number"] == p) & (rows_df["role"] == "caption")
                     & (rows_df["y0"] < hit["y0"].iloc[0])].sort_values("y0").iloc[-1]
-    fi = figures_df.index[figures_df["row_ids"].map(lambda ids: above.row_id in ids)][0]
+    fi = figures_df.index[figures_df["row_ids"].map(lambda ids, above=above: above.row_id in ids)][0]
     figures_df.at[fi, "row_ids"] = figures_df.at[fi, "row_ids"] + [hit["row_id"].iloc[0]]
     figures_df.at[fi, "caption"] = figures_df.at[fi, "caption"] + " " + text
     rows_df.loc[hit.index, "role"] = "caption"
@@ -3271,7 +3271,7 @@ for rid in REPORT_IDS:
     vals = []
 
     def put(field_id, value, basis, evidence, **kw):
-        vals.append({"field_id": field_id, "field": FIELD[field_id], "value": value, "basis": basis, "evidence": evidence, **kw})
+        vals.append({"field_id": field_id, "field": FIELD[field_id], "value": value, "basis": basis, "evidence": evidence, **kw})  # noqa: B023 (called inside this loop pass)
 
     put("1.2.2", str(pd.Timestamp(meta_of.at[rid, "incident_date"]).date()), "printed",
         {"row_ids": [first_title_row[rid]], "printed": "casualty title (Phase 4 incident date)"})
@@ -3313,8 +3313,7 @@ profile_df = pd.DataFrame(profile_values)
 
 
 def profile_text(rid: str) -> str:
-    m = meta_of.loc[rid]
-    lines = [f"Incident profile (IMO casualty-reporting fields, MSC-MEPC.3/Circ.4/Rev.1) — values as printed in the report:"]
+    lines = ["Incident profile (IMO casualty-reporting fields, MSC-MEPC.3/Circ.4/Rev.1) — values as printed in the report:"]
     for v in profiles[rid]:
         if v["value"] is None:
             continue
@@ -3391,7 +3390,7 @@ for rid, f in INDIVIDUAL_PARTIES:
     vf_safe.loc[(vf_safe["report_id"] == rid) & (vf_safe["field"] == f) & (vf_safe["value"].str.strip() != ""), "value"] = PARTY_ROLE[f]
 report_layers = []
 for rid in REPORT_IDS:
-    sel = lambda df: df[df["report_id"] == rid].drop(columns=["report_id"])
+    sel = lambda df, rid=rid: df[df["report_id"] == rid].drop(columns=["report_id"])
     pg = pages_df[pages_df["report_id"] == rid]
     report_layers.append({
         "report_id": rid, "filename": FILE_OF[rid], "sha256": SHA_OF[rid], "misle": str(meta_of.at[rid, "misle"]),
@@ -3417,8 +3416,8 @@ extracted = {"source": source_metadata, "reports": report_layers,
 unit_cols = ["unit_id", "report_id", "unit_type", "part", "sub_part", "section", "parent_chunk", "sub_chunk", "content",
              "page_start", "page_end", "provenance", "row_ids", "citations", "redacted_notes", "department", "sensitivity_level"]
 cleaned = {"source": source_metadata, "units": records(units_df[unit_cols]), "duplicate_audit": records(duplicate_audit_df)}
-EXTRACTED_PATH.write_text(json.dumps(extracted, ensure_ascii=False, indent=1, default=str), encoding="utf-8")
-CLEANED_PATH.write_text(json.dumps(cleaned, ensure_ascii=False, indent=1, default=str), encoding="utf-8")
+EXTRACTED_PATH.write_text(json.dumps(extracted, ensure_ascii=False, indent=1, default=str), encoding="utf-8", newline="\n")
+CLEANED_PATH.write_text(json.dumps(cleaned, ensure_ascii=False, indent=1, default=str), encoding="utf-8", newline="\n")
 print("Saved:", EXTRACTED_PATH.name, f"{EXTRACTED_PATH.stat().st_size / 1e6:.1f} MB |", CLEANED_PATH.name,
       f"{CLEANED_PATH.stat().st_size / 1e6:.1f} MB")
 
@@ -3837,7 +3836,7 @@ coverage_audit = {"lines": len(coverage_df), "dispositions": coverage_df["dispos
                   "line_dispositions": records(coverage_df[["line_key", "disposition"]])}
 cl = json.loads(CLEANED_PATH.read_text(encoding="utf-8"))
 cl["coverage_audit"] = coverage_audit
-CLEANED_PATH.write_text(json.dumps(cl, ensure_ascii=False, indent=1, default=str), encoding="utf-8")
+CLEANED_PATH.write_text(json.dumps(cl, ensure_ascii=False, indent=1, default=str), encoding="utf-8", newline="\n")
 assert set(json.loads(CLEANED_PATH.read_text(encoding="utf-8"))) == {"source", "units", "duplicate_audit", "coverage_audit"}
 REVIEWED_COVERAGE = {"in_chunks": 11413, "in_chunks_ocr": 3127, "metadata": 2044, "layout_excluded": 1597,
                      "figure_internal": 426, "signature_excluded": 269, "duplicate_trimmed": 84, "no_text": 15,

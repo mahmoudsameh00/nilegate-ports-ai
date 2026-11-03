@@ -24,7 +24,7 @@ import json
 import re
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Annotated, Literal
+from typing import Annotated, Any, cast, Literal
 
 from langchain.agents import create_agent
 from langchain.agents.middleware import AgentMiddleware, AgentState, ModelCallLimitMiddleware, hook_config
@@ -280,7 +280,7 @@ MODEL_DROP = {"watch_alerts": {"lat", "lon", "reason", "wave_source", "wind_sour
 def model_view(res: dict) -> dict:
     if not isinstance(res, dict) or res.get("status") != "ok":
         return res
-    drop = MODEL_DROP.get(res.get("tool"), set())
+    drop = MODEL_DROP.get(cast(str, res.get("tool")), set())
     rows = []
     for r in res.get("rows") or []:
         flat = {}
@@ -322,7 +322,7 @@ def _data_messages(messages: list) -> list:
 
 
 def _calls(messages: list) -> dict[str, dict]:
-    return {_evidence_id(c["id"]): {"tool": c["name"], "args": c["args"]}
+    return {_evidence_id(cast(str, c["id"])): {"tool": c["name"], "args": c["args"]}
             for x in _data_messages(messages) if isinstance(x, AIMessage) for c in x.tool_calls}
 
 
@@ -360,7 +360,7 @@ class SupervisorTurn(AgentMiddleware):
         refused = st.get("refused") or []
         brief = HumanMessage(ANSWER_TASK.format(
             question=st.get("question", ""), clock=st.get("clock", ""),
-            refused="; ".join(REFUSED_PART.get(t, t) for t in refused) or "(nothing: every part may be answered)",
+            refused="; ".join(cast(str, REFUSED_PART.get(t, t)) for t in refused) or "(nothing: every part may be answered)",
             language="Egyptian Arabic" if st.get("lang") == "ar" else "English",
             skills="\n".join(f"- {s.name}: {s.description}" for s in skill_loader.catalog().values()
                              if s.name in (st.get("skills") or [])) or "(none)",
@@ -441,8 +441,8 @@ def build_graph(roles, checkpointer=None, saver=None, pool=None):
     tools = supervisor_tools(roles, saver, pool) + [skill_loader.load_skill_tool]
     return create_agent(SupervisorChatModel(roles=roles), tools, system_prompt=SUP_TASK,
                         response_format=ToolStrategy(m.SupervisorAnswer, handle_errors=True),
-                        middleware=[SupervisorTurn(),
-                                    ModelCallLimitMiddleware(run_limit=MAX_MODEL_CALLS, exit_behavior="end")],
+                        middleware=cast(Any, [SupervisorTurn(),
+                                    ModelCallLimitMiddleware(run_limit=MAX_MODEL_CALLS, exit_behavior="end")]),
                         context_schema=RunContext, checkpointer=checkpointer, name="supervisor")
 
 

@@ -22,7 +22,6 @@ Final Checkpoint.
 """
 # %% Setup
 import datetime as dt
-import math
 import os
 import sys
 from decimal import Decimal

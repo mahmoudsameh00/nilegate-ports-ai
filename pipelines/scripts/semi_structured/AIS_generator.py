@@ -503,7 +503,7 @@ manifest = {
                "port_connections": len(conns), "profiles": ["noaa_profile.json", "aishub_profile.json"]},
     "outputs": {name: {"rows": len(df), "content_sha256": content_sha(df)} for name, df in files.items()},
 }
-(OUT / "ais_generation_manifest.json").write_text(json.dumps(manifest, indent=1, default=str) + "\n", encoding="utf-8")
+(OUT / "ais_generation_manifest.json").write_text(json.dumps(manifest, indent=1, default=str) + "\n", encoding="utf-8", newline="\n")
 
 # ---- Phase 6 validation ------------------------------------------------------------------------------------------
 reloaded = {name: pd.read_parquet(OUT / name) for name in files}

@@ -347,6 +347,96 @@ table 'Weekly KPIs'
 		displayFolder: 5 Exceptions
 		lineageTag: 3342f801-337a-4297-b6c0-2db830a8edb3
 
+	/// kpi_weekly.budget_variance_13w_pct ÷ 100 (M9b): billing vs budget over the rolling window (13 weeks, or weeks 1…w before week 13) — the period position the weekly pack reports next to the week.
+	measure 'Budget Variance 13w %' = DIVIDE(SELECTEDVALUE('Weekly KPIs'[budget_variance_13w_pct]), 100)
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 1 Overview
+		lineageTag: a08227a7-ecff-4fe8-af47-808a55e546a3
+
+	/// kpi_weekly.roll_window_weeks: weeks in the rolling window (13, or w before week 13).
+	measure 'Roll Window Weeks' = SELECTEDVALUE('Weekly KPIs'[roll_window_weeks])
+		formatString: 0
+		displayFolder: 1 Overview
+		lineageTag: fe611d57-c1fb-451e-8426-b6292df8250c
+
+	/// kpi_weekly.billed_wow_typical_pct ÷ 100 (M13): the median |WoW| of the rolling window; a move inside it is a normal week.
+	measure 'Billed WoW Typical %' = DIVIDE(SELECTEDVALUE('Weekly KPIs'[billed_wow_typical_pct]), 100)
+		formatString: 0.0%
+		displayFolder: 1 Overview
+		lineageTag: 01b5a1b6-7d8e-4234-9bc3-e491142e24f6
+
+	/// kpi_weekly.collected_wow_typical_pct ÷ 100 (M13).
+	measure 'Collected WoW Typical %' = DIVIDE(SELECTEDVALUE('Weekly KPIs'[collected_wow_typical_pct]), 100)
+		formatString: 0.0%
+		displayFolder: 1 Overview
+		lineageTag: f1f1a30e-14bc-4181-93c8-55b8e45dc408
+
+	/// kpi_weekly.ar_wow_typical_pct ÷ 100 (M13).
+	measure 'AR WoW Typical %' = DIVIDE(SELECTEDVALUE('Weekly KPIs'[ar_wow_typical_pct]), 100)
+		formatString: 0.0%
+		displayFolder: 1 Overview
+		lineageTag: 4f8c5612-98ec-4e5b-8a6c-e3f21b8bcdf4
+
+	/// kpi_weekly.overdue_wow_typical_pct ÷ 100 (M13).
+	measure 'Overdue WoW Typical %' = DIVIDE(SELECTEDVALUE('Weekly KPIs'[overdue_wow_typical_pct]), 100)
+		formatString: 0.0%
+		displayFolder: 1 Overview
+		lineageTag: a75e93cf-a989-49ea-bc93-61baf8aea976
+
+	/// kpi_weekly.dso_best_days (M12): the DSO if every customer paid on its terms (current AR ÷ window billing × window days).
+	measure 'DSO Best Days' = SELECTEDVALUE('Weekly KPIs'[dso_best_days])
+		formatString: 0.0
+		displayFolder: 3 Receivables
+		lineageTag: ca0f56d7-1bca-4c12-afc5-c2df276a1ca2
+
+	/// kpi_weekly.dso_delinquency_days (M12): DSO − best DSO = the days added by late payment.
+	measure 'DSO Delinquency Days' = SELECTEDVALUE('Weekly KPIs'[dso_delinquency_days])
+		formatString: 0.0
+		displayFolder: 3 Receivables
+		lineageTag: 05e1410e-9676-4dc0-ba62-d80496f9e0be
+
+	/// kpi_weekly.overdue_new_sdr (M14): invoices that fell due in the week and were unpaid at its Sunday.
+	measure 'Overdue New SDR' = SELECTEDVALUE('Weekly KPIs'[overdue_new_sdr])
+		formatString: #,0.00
+		displayFolder: 3 Receivables
+		lineageTag: c272da95-920b-4250-88e2-438ae10ce00f
+
+	/// kpi_weekly.overdue_paid_sdr (M14): older overdue invoices paid in the week.
+	measure 'Overdue Paid SDR' = SELECTEDVALUE('Weekly KPIs'[overdue_paid_sdr])
+		formatString: #,0.00
+		displayFolder: 3 Receivables
+		lineageTag: 47494f87-12a5-49ee-a7ca-e1b5dd7ac1e2
+
+	/// kpi_weekly.due_week_sdr (M14): invoices falling due in the week.
+	measure 'Due Week SDR' = SELECTEDVALUE('Weekly KPIs'[due_week_sdr])
+		formatString: #,0.00
+		displayFolder: 3 Receivables
+		lineageTag: 19d9ead3-ea08-4512-a67a-593848a17b09
+
+	/// kpi_weekly.due_week_collected_pct ÷ 100 (M14): of the cash due in the week, the share collected by its Sunday.
+	measure 'Due Week Collected %' = DIVIDE(SELECTEDVALUE('Weekly KPIs'[due_week_collected_pct]), 100)
+		formatString: 0.0%
+		displayFolder: 3 Receivables
+		lineageTag: 36bbe3ab-c3a6-4dab-b646-de21a71d7ddd
+
+	/// kpi_weekly.ontime_13w_pct ÷ 100 (M16): payments of the last 91 days made on or before due.
+	measure 'On-time 13w %' = DIVIDE(SELECTEDVALUE('Weekly KPIs'[ontime_13w_pct]), 100)
+		formatString: 0.0%
+		displayFolder: 3 Receivables
+		lineageTag: f8a7dfea-d726-4cf1-b65d-2aa77097d361
+
+	/// kpi_customer_13w.ar_to_billed_13w_pct ÷ 100 (M15) of one customer and one report week (blank on totals): AR against the customer's own 13-week billing.
+	measure 'Customer AR to Billed 13w %' = DIVIDE(SELECTEDVALUE('Customer KPIs 13w'[ar_to_billed_13w_pct]), 100)
+		formatString: 0.0%
+		displayFolder: 4 Customers
+		lineageTag: a5d7bc1d-081a-4075-947f-8b1cd4555cdd
+
+	/// kpi_customer_13w.ontime_13w_pct ÷ 100 (M16) of one customer and one report week (blank on totals).
+	measure 'Customer On-time 13w %' = DIVIDE(SELECTEDVALUE('Customer KPIs 13w'[ontime_13w_pct]), 100)
+		formatString: 0.0%
+		displayFolder: 4 Customers
+		lineageTag: 3c985191-4ac6-47d0-940f-89b74d23348b
+
 	column report_week
 		dataType: int64
 		isHidden
@@ -699,6 +789,134 @@ table 'Weekly KPIs'
 		annotation SummarizationSetBy = Automatic
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column roll_window_weeks
+		dataType: int64
+		isHidden
+		sourceProviderType: bigint
+		lineageTag: 87d936d7-13b2-4513-a524-2f92ad1dd95e
+		summarizeBy: none
+		sourceColumn: roll_window_weeks
+
+	column billed_13w_sdr
+		dataType: double
+		isHidden
+		sourceProviderType: decimal
+		lineageTag: 537e36e5-ebe9-476e-9218-af94c2c43efc
+		summarizeBy: none
+		sourceColumn: billed_13w_sdr
+
+	column budget_13w_sdr
+		dataType: double
+		isHidden
+		sourceProviderType: decimal
+		lineageTag: 36e7285e-d428-4711-a0af-2f4f278cc0a8
+		summarizeBy: none
+		sourceColumn: budget_13w_sdr
+
+	column budget_variance_13w_pct
+		dataType: double
+		isHidden
+		sourceProviderType: decimal
+		lineageTag: 8a875d65-07ae-401f-ace0-101f6c7a517a
+		summarizeBy: none
+		sourceColumn: budget_variance_13w_pct
+
+	column dso_best_days
+		dataType: double
+		isHidden
+		sourceProviderType: decimal
+		lineageTag: f30fcbcb-a893-4d0c-9beb-41e77be36cac
+		summarizeBy: none
+		sourceColumn: dso_best_days
+
+	column dso_delinquency_days
+		dataType: double
+		isHidden
+		sourceProviderType: decimal
+		lineageTag: c60686ad-0c3f-4d18-b680-c5426505ad0b
+		summarizeBy: none
+		sourceColumn: dso_delinquency_days
+
+	column billed_wow_typical_pct
+		dataType: double
+		isHidden
+		sourceProviderType: decimal
+		lineageTag: fffc3027-bef9-425e-993a-cccedd5c9889
+		summarizeBy: none
+		sourceColumn: billed_wow_typical_pct
+
+	column collected_wow_typical_pct
+		dataType: double
+		isHidden
+		sourceProviderType: decimal
+		lineageTag: 4ef8c670-95cf-4f80-b222-b60d7714a98c
+		summarizeBy: none
+		sourceColumn: collected_wow_typical_pct
+
+	column ar_wow_typical_pct
+		dataType: double
+		isHidden
+		sourceProviderType: decimal
+		lineageTag: ef3e231b-1058-4cc0-aef1-9b0e991c43c5
+		summarizeBy: none
+		sourceColumn: ar_wow_typical_pct
+
+	column overdue_wow_typical_pct
+		dataType: double
+		isHidden
+		sourceProviderType: decimal
+		lineageTag: 3defb0a6-fa04-45b1-9cfd-4ec3a24cd954
+		summarizeBy: none
+		sourceColumn: overdue_wow_typical_pct
+
+	column overdue_new_sdr
+		dataType: double
+		isHidden
+		sourceProviderType: decimal
+		lineageTag: 2604bf42-3264-4553-bbf5-cf55895c27c2
+		summarizeBy: none
+		sourceColumn: overdue_new_sdr
+
+	column overdue_paid_sdr
+		dataType: double
+		isHidden
+		sourceProviderType: decimal
+		lineageTag: ccf03e21-920b-4be4-9c3b-c7572c4f56f8
+		summarizeBy: none
+		sourceColumn: overdue_paid_sdr
+
+	column due_week_sdr
+		dataType: double
+		isHidden
+		sourceProviderType: decimal
+		lineageTag: d8c681a9-9584-4f17-b28b-86b15b91e19f
+		summarizeBy: none
+		sourceColumn: due_week_sdr
+
+	column due_week_collected_sdr
+		dataType: double
+		isHidden
+		sourceProviderType: decimal
+		lineageTag: 63a9fa89-9139-48b4-9e79-b2beedac8e8d
+		summarizeBy: none
+		sourceColumn: due_week_collected_sdr
+
+	column due_week_collected_pct
+		dataType: double
+		isHidden
+		sourceProviderType: decimal
+		lineageTag: 807292ee-5731-46a2-9f9a-cacac7fbdb24
+		summarizeBy: none
+		sourceColumn: due_week_collected_pct
+
+	column ontime_13w_pct
+		dataType: double
+		isHidden
+		sourceProviderType: decimal
+		lineageTag: 69cc1114-407a-4cef-b566-45f4a0048bd6
+		summarizeBy: none
+		sourceColumn: ontime_13w_pct
 
 	partition 'finance kpi_weekly' = m
 		mode: directQuery

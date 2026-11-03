@@ -8,6 +8,7 @@ question joins the two by id and an Operations employee gets ids, never a custom
 
 Access: `vessels` is level 1 / Operations (ADR-006): every employee; the identity is still checked.
 """
+from typing import cast
 from langchain.tools import ToolRuntime, tool
 from pydantic import BaseModel, Field, model_validator
 
@@ -48,7 +49,7 @@ def fleet_customers(user, **args) -> ToolResult:
         rows = db.fetch(f"SELECT {COLS} FROM vessels WHERE vessel_id = ANY(%s) ORDER BY vessel_id", (ids,))
         flt = f"vessel_id IN {ids}"
     else:
-        name = " ".join(a.vessel_name.split())
+        name = " ".join(cast(str, a.vessel_name).split())
         rows = db.fetch(f"SELECT {COLS} FROM vessels WHERE lower(vessel_name) = lower(%s) ORDER BY vessel_id", (name,))
         flt = f"vessel_name = '{name}' (case-insensitive)"
         if not rows:                                   # a part of the name: at most a few candidates

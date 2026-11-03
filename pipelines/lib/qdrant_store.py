@@ -12,6 +12,7 @@ the sparse vector), so the client never needs fastembed. Both vectors describe t
 """
 import os
 import uuid
+from typing import cast
 
 from qdrant_client import QdrantClient, models
 
@@ -79,9 +80,11 @@ def ensure_collection(client: QdrantClient, dim: int, name: str = COLLECTION) ->
     Returns True when it was created."""
     if client.collection_exists(name):
         cfg = client.get_collection(name).config.params
-        assert cfg.vectors["dense"].size == dim, f"{name}: dense size {cfg.vectors['dense'].size} != {dim}"
-        assert cfg.vectors["dense"].distance == models.Distance.COSINE
-        assert cfg.sparse_vectors["bm25"].modifier == models.Modifier.IDF
+        vectors = cast(dict[str, models.VectorParams], cfg.vectors)
+        sparse = cast(dict[str, models.SparseVectorParams], cfg.sparse_vectors)
+        assert vectors["dense"].size == dim, f"{name}: dense size {vectors['dense'].size} != {dim}"
+        assert vectors["dense"].distance == models.Distance.COSINE
+        assert sparse["bm25"].modifier == models.Modifier.IDF
         have = set(client.get_collection(name).payload_schema)
         for field, schema in PAYLOAD_INDEXES.items():  # an index added to the spec later is created here
             if field not in have:
@@ -116,7 +119,7 @@ def upsert_document(client: QdrantClient, document_id: str, rows: list[dict], de
     stale = models.Filter(
         must=[models.FieldCondition(key="document_id",
                                     match=models.MatchAny(any=[document_id, *supersedes]))],
-        must_not=[models.HasIdCondition(has_id=ids)])
+        must_not=cast(list[models.Condition], [models.HasIdCondition(has_id=cast(list[models.ExtendedPointId], ids))]))
     removed = client.count(name, count_filter=stale, exact=True).count
     if removed:
         client.delete(name, points_selector=models.FilterSelector(filter=stale), wait=True)

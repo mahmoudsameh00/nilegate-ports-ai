@@ -19,6 +19,7 @@ from collections import Counter
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from typing import Any, cast
 
 REPORT_YEAR = 2025
 LIVE_PREFIX = f"weekly_pack:live:{REPORT_YEAR}-W"
@@ -205,15 +206,15 @@ def fire_watch(g, saver, pool, user, archive: Path, data_as_of: datetime, prefix
     from pipelines.agents.tools.context import RunContext, load_user
 
     d = plan_watch(describe_voyage_watch(g, pool, prefix), data_as_of, prefix)
-    rec = {"decision": as_log(d)}
+    rec: dict[str, Any] = {"decision": as_log(d)}
     if d.action in ("start", "resume"):
         cfg = {"configurable": {"thread_id": d.thread_id}}
         if d.action == "start":
             cfg["metadata"] = {"run_as": user.employee_id, "trigger": "scheduled"}
-            run_as, inp, ctx = user.employee_id, {"request": {}}, RunContext(user, as_of=d.as_of)
+            run_as, inp, ctx = user.employee_id, {"request": {}}, RunContext(user, as_of=cast(datetime, d.as_of))
         else:
             run_as = run_as_of(g, cfg) or user.employee_id
-            inp, ctx = None, RunContext(load_user(run_as), as_of=d.as_of)
+            inp, ctx = None, RunContext(load_user(run_as), as_of=cast(datetime, d.as_of))
         with tracer(d.thread_id, run_as) if tracer else nullcontext() as traced:
             for _ in g.stream(inp, cfg, context=ctx, stream_mode="updates", durability="sync"):
                 pass
@@ -386,7 +387,7 @@ def fire(g, saver, pool, user, reports_dir: Path, prefix: str = LIVE_PREFIX, not
     from pipelines.agents.tools.context import RunContext, load_user
 
     d = plan(describe_all(g, pool, prefix), prefix)
-    rec = {"decision": as_log(d)}
+    rec: dict[str, Any] = {"decision": as_log(d)}
     if d.action in ("start", "resume"):
         cfg = {"configurable": {"thread_id": d.thread_id}}
         if d.action == "start":
@@ -400,7 +401,8 @@ def fire(g, saver, pool, user, reports_dir: Path, prefix: str = LIVE_PREFIX, not
             for _ in g.stream(inp, cfg, context=ctx, stream_mode="updates", durability="sync"):
                 pass
         rec["traced"] = bool(traced)
-        after = describe(g, d.thread_id, prefix)
+        after = describe(g, cast(str, d.thread_id), prefix)
+        assert after is not None                            # the thread was just run
         rec["result"] = {"thread_id": d.thread_id, "state": after.state, "status": after.status}
     pending = rec.get("result", {}).get("state") == "pending" or d.action == "wait"
     if pending and notify:

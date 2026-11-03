@@ -15,7 +15,7 @@
 """
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Callable
+from typing import Callable, cast
 
 from langchain_core.messages import AIMessage, BaseMessage, HumanMessage
 from langchain_core.utils.function_calling import convert_to_openai_tool
@@ -120,7 +120,7 @@ class Role:
                 calls.append(_record(self.name, c.name, "chat", None, est_in, f"exhausted: {str(exc)[:120]}"))
                 continue
             if not reply.ok:
-                calls.append(_record(self.name, c.name, "chat", reply, est_in, f"failed: {reply.error['kind']}"))
+                calls.append(_record(self.name, c.name, "chat", reply, est_in, f"failed: {cast(dict, reply.error)['kind']}"))
                 continue
             calls.append(_record(self.name, c.name, "chat", reply, est_in, "ok"))
             return RoleReply(reply.message, None, c.name, calls)
@@ -143,12 +143,13 @@ class Role:
                     break                                   # availability → the next candidate
                 if not reply.ok:
                     calls.append(_record(self.name, c.name, "structured", reply, est_in,
-                                         f"failed: {reply.error['kind']}"))
+                                         f"failed: {cast(dict, reply.error)['kind']}"))
                     break
                 obj, why = llm.parse_structured(reply, schema)
                 if obj is not None:
                     calls.append(_record(self.name, c.name, "structured", reply, est_in, "ok"))
                     return RoleReply(reply.message, obj, c.name, calls)
+                assert why is not None                      # parse_structured: an object or a reason
                 calls.append(_record(self.name, c.name, "structured", reply, est_in, f"invalid: {why[:120]}"))
                 if attempt == 1:
                     raise StructuredError(f"role {self.name}, {c.name}: two invalid replies for "

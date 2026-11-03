@@ -143,7 +143,7 @@ report = {"cases": len(EXPECTED), "by_kind": by_kind, "corpus_false_positives": 
                            "removed": [f"{x.where}: {x.message[:80]}" for x in r.removed],
                            "notes": sorted({x.code for x in r.notes}), "what": EXPECTED[n]["what"]}
                        for n, r in reports.items()}}
-(UP / "validation_report.json").write_text(json.dumps(report, indent=1, ensure_ascii=False), encoding="utf-8")
+(UP / "validation_report.json").write_text(json.dumps(report, indent=1, ensure_ascii=False), encoding="utf-8", newline="\n")
 assert lat["p95_ms"] < 5_000, "validation must stay well inside an interactive budget"
 print("✅ Phase 5 validation passed.")
 

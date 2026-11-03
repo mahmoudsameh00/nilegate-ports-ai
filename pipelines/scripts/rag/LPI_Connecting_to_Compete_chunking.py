@@ -3086,7 +3086,6 @@ print("Units > MAX_CHUNK_CHARS (to be split at chunking):",
 # =========================================================
 # Comparison-only representations: the unit `content` itself is never modified here.
 
-import difflib
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
@@ -3476,7 +3475,7 @@ assert not final_units_df.loc[final_units_df["unit_type"] == "paragraph", "conte
 # informative notes: present in a kept unit, or inside a suppressed unit whose items are all covered
 kept_text = "\n".join(final_units_df["content"])
 for n in note_registry_df.loc[note_registry_df["policy"] == "informative", "note_no"]:
-    owner = units_df[units_df["footnote_refs"].map(lambda refs: n in refs)]["unit_id"].iloc[0]
+    owner = units_df[units_df["footnote_refs"].map(lambda refs, n=n: n in refs)]["unit_id"].iloc[0]
     if f"Note: {note_text[n]}" in kept_text:
         continue
     d = dec_by_id.loc[owner]
@@ -3583,14 +3582,14 @@ duplicate_audit = {
 }
 
 EXTRACTED_DIR.mkdir(parents=True, exist_ok=True)
-EXTRACTED_PATH.write_text(json.dumps(extracted_payload, ensure_ascii=False, indent=1), encoding="utf-8")
+EXTRACTED_PATH.write_text(json.dumps(extracted_payload, ensure_ascii=False, indent=1), encoding="utf-8", newline="\n")
 # cleaned file = post-dedup units + the duplicate audit (the coverage audit is added in Phase 19)
 cleaned_payload = {
     "source": {**source_metadata, "sha256": SOURCE_SHA256},
     "units": to_records(final_units_df[UNIT_FIELDS]),
     "duplicate_audit": duplicate_audit,
 }
-LOGICAL_UNITS_PATH.write_text(json.dumps(cleaned_payload, ensure_ascii=False, indent=1), encoding="utf-8")
+LOGICAL_UNITS_PATH.write_text(json.dumps(cleaned_payload, ensure_ascii=False, indent=1), encoding="utf-8", newline="\n")
 
 # ---- reload + validate ----
 re_extracted = json.loads(EXTRACTED_PATH.read_text(encoding="utf-8"))
@@ -4069,7 +4068,7 @@ cleaned_payload["coverage_audit"] = {
     "summary": json.loads(summary.reset_index().to_json(orient="records")),
     "lines": to_records(coverage_df[["page_number", "block_no", "line_no", "disposition", "detail", "text"]]),
 }
-LOGICAL_UNITS_PATH.write_text(json.dumps(cleaned_payload, ensure_ascii=False, indent=1), encoding="utf-8")
+LOGICAL_UNITS_PATH.write_text(json.dumps(cleaned_payload, ensure_ascii=False, indent=1), encoding="utf-8", newline="\n")
 re_cleaned = json.loads(LOGICAL_UNITS_PATH.read_text(encoding="utf-8"))
 assert set(re_cleaned) == {"source", "units", "duplicate_audit", "coverage_audit"}
 assert len(re_cleaned["coverage_audit"]["lines"]) == len(coverage_df)

@@ -18,7 +18,7 @@ state, so a number is bound to its (result, row, field) by construction. Phase 1
 Supervisor. Evidence ids: `insight.<tool_call_id>` (the pack's convention, so the slot syntax is the same).
 """
 import re
-from typing import Annotated, Any, Literal
+from typing import Annotated, Any, cast, Literal
 
 from langchain.agents import create_agent
 from langchain.agents.middleware import AgentMiddleware, AgentState, ModelCallLimitMiddleware, hook_config
@@ -204,7 +204,7 @@ def _data_messages(messages: list) -> list:
 
 
 def _calls(messages: list) -> dict[str, dict]:
-    return {_evidence_id(c["id"]): {"tool": c["name"], "args": c["args"]}
+    return {_evidence_id(cast(str, c["id"])): {"tool": c["name"], "args": c["args"]}
             for x in _data_messages(messages) if isinstance(x, AIMessage) for c in x.tool_calls}
 
 
@@ -301,7 +301,7 @@ def build_graph(roles, checkpointer=None):
     return create_agent(RoleChatModel(roles=roles), STAGE1_TOOLS, system_prompt=QA_TASK.format(skills=skills),
                         # an invalid QaAnswer call goes back to the model with the error (counted by the call limit)
                         response_format=ToolStrategy(m.QaAnswer, handle_errors=True),
-                        middleware=[QaTurn(), ModelCallLimitMiddleware(run_limit=MAX_MODEL_CALLS, exit_behavior="end")],
+                        middleware=cast(Any, [QaTurn(), ModelCallLimitMiddleware(run_limit=MAX_MODEL_CALLS, exit_behavior="end")]),
                         context_schema=RunContext, checkpointer=checkpointer, name="finance_qa")
 
 

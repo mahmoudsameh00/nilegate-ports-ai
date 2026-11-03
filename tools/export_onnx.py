@@ -103,7 +103,6 @@ def sha256(p: Path) -> str:
 def main(name: str) -> None:
     import onnx
     import onnxruntime as ort
-    from onnxruntime.quantization import QuantType, quantize_dynamic
     from tokenizers import Tokenizer
 
     spec = MODELS[name]

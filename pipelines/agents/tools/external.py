@@ -75,7 +75,7 @@ class ExternalCache:
     def put(self, key: str, args: dict, payload, is_settled: bool) -> dict:
         e = {"key": key, "args": args, "stored_at": time.time(), "settled": is_settled, "payload": payload}
         self.path.parent.mkdir(parents=True, exist_ok=True)
-        with self.path.open("a", encoding="utf-8") as f:
+        with self.path.open("a", encoding="utf-8", newline="\n") as f:
             f.write(json.dumps(e, ensure_ascii=False, default=str) + "\n")
         self.entries[key] = e
         return e
@@ -103,11 +103,11 @@ def cached_call(tool_name: str, args: dict, window_end: date | None, fetch) -> t
     except Unavailable:
         raise
     except httpx.TimeoutException:
-        raise Unavailable(f"no answer within {TIMEOUT_S:.0f} s")
+        raise Unavailable(f"no answer within {TIMEOUT_S:.0f} s") from None
     except httpx.HTTPError as exc:
-        raise Unavailable(redact(f"network error: {type(exc).__name__}"))
+        raise Unavailable(redact(f"network error: {type(exc).__name__}")) from None
     except (ValueError, KeyError, TypeError) as exc:                  # bad JSON or a payload of the wrong shape
-        raise Unavailable(redact(f"unexpected answer: {type(exc).__name__}"))
+        raise Unavailable(redact(f"unexpected answer: {type(exc).__name__}")) from None
     return cache.put(key, args, payload, settled(window_end)), False
 
 
@@ -205,7 +205,7 @@ class WebArgs(BaseModel):
     def _window(self):
         if (self.start_date is None) != (self.end_date is None):
             raise ValueError("give both start_date and end_date, or neither")
-        if self.start_date and self.end_date < self.start_date:
+        if self.start_date and self.end_date and self.end_date < self.start_date:
             raise ValueError("end_date is before start_date")
         return self
 
@@ -214,7 +214,7 @@ def _fetch_news(a: WebArgs, key: str):
     def fetch(client: httpx.Client):
         body = {"query": a.query, "topic": "news", "search_depth": "basic", "max_results": a.max_results,
                 "include_answer": False, "include_raw_content": False}
-        if a.start_date:
+        if a.start_date and a.end_date:
             body |= {"start_date": a.start_date.isoformat(), "end_date": a.end_date.isoformat()}
         r = client.post(TAVILY_URL, json=body, headers={"Authorization": f"Bearer {key}"})
         if r.status_code != 200:

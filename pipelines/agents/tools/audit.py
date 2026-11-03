@@ -12,7 +12,7 @@ ballast rates — right if it is an oil/chemical tanker): those are counted apar
 flagged as errors nor added to the amount at stake.
 Access: level 2 / Finance for both datasets (ADR-006, docs/rbac_mapping.md).
 """
-from typing import Literal
+from typing import cast, Literal
 
 from langchain.tools import ToolRuntime, tool
 from pydantic import BaseModel, Field, model_validator
@@ -38,11 +38,16 @@ class AuditArgs(BaseModel):
                                               description="or audit these invoices (INV-0000123 format)")
     dataset: Literal["live", "test"] = Field(default="live", description="live = NileGate's invoices; test = the "
                                                                          "evaluation copy with planted errors")
+    # weekly-pack plan Phase C (W-R4): the year to date, weeks 1 … report_week — set by the pack's code only, never
+    # offered to a model (AuditToolArgs has no such field)
+    through_week: bool = False
 
     @model_validator(mode="after")
     def _one_way(self):
         if (self.report_week is None) == (self.invoice_numbers is None):
             raise ValueError("give report_week or invoice_numbers (exactly one)")
+        if self.through_week and self.report_week is None:
+            raise ValueError("through_week needs report_week")
         if self.invoice_numbers and any(not (len(n) == 11 and n.startswith("INV-") and n[4:].isdigit())
                                         for n in self.invoice_numbers):
             raise ValueError("invoice numbers look like INV-0000123")
@@ -86,12 +91,14 @@ def invoice_audit(user, **args) -> ToolResult:
     view = VIEWS[a.dataset]
     order = "abs(difference_sdr) DESC, invoice_number, check_code"
     if a.report_week is not None:
-        rows = db.fetch(f"SELECT {', '.join(COLUMNS)} FROM {view} WHERE report_week = %s ORDER BY {order}",
+        op = "<=" if a.through_week else "="
+        rows = db.fetch(f"SELECT {', '.join(COLUMNS)} FROM {view} WHERE report_week {op} %s ORDER BY {order}",
                         (a.report_week,))
-        checked = {r["invoice_number"] for r in db.fetch(CHECKED[a.dataset], (a.report_week,))}
-        flt, unknown = f"report_week = {a.report_week}", []
+        checked = {r["invoice_number"] for r in db.fetch(CHECKED[a.dataset].replace("= %s", f"{op} %s"),
+                                                         (a.report_week,))}
+        flt, unknown = f"report_week {op} {a.report_week}", []
     else:
-        nums = sorted(set(a.invoice_numbers))
+        nums = sorted(set(cast(list[str], a.invoice_numbers)))
         rows = db.fetch(f"SELECT {', '.join(COLUMNS)} FROM {view} WHERE invoice_number = ANY(%s) ORDER BY {order}",
                         (nums,))
         checked = {r["invoice_number"] for r in db.fetch(

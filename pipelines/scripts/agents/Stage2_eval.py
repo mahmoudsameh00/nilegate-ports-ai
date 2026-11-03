@@ -557,7 +557,7 @@ else:
         print("✅ Phase 4 validation passed: every run complete and scored; results file written (the Stage 2 baseline)")
     else:
         partial = SCRATCH / "stage2_eval_partial.json"
-        partial.write_text(json.dumps(out, indent=1, ensure_ascii=False, default=str), encoding="utf-8")
+        partial.write_text(json.dumps(out, indent=1, ensure_ascii=False, default=str), encoding="utf-8", newline="\n")
         print(f"Phase 4 INCOMPLETE ({stopped}); partial results → {partial.relative_to(ROOT)}")
 
 

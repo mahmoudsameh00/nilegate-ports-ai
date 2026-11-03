@@ -35,6 +35,7 @@ computes (`watch_alerts` rows keyed `vessel_id/kind`, `watch_fleet`) — with tw
 import re
 from dataclasses import dataclass
 from decimal import ROUND_HALF_UP, Decimal
+from typing import Any, cast
 
 # tools whose numeric fields may be cited: NileGate's structured tools (ADR-049) + public structured context
 NUMERIC_TOOLS = {"finance_kpi", "invoice_audit", "compute_toll", "suez_transits",
@@ -133,8 +134,9 @@ def field_kind(field: str, value) -> str | None:
 
 
 def is_change(field: str) -> bool:
-    """A change (WoW, change, budget variance, audit difference): always written with its sign or direction."""
-    return bool(CHANGE_RE.search(field))
+    """A change (WoW, change, budget variance, audit difference): always written with its sign or direction. A
+    typical swing (`*_wow_typical_pct`, M13: a median of |WoW|) is a size, not a change: no sign."""
+    return bool(CHANGE_RE.search(field)) and "_typical_" not in field
 
 
 def _q(v: Decimal, d: int) -> Decimal:
@@ -199,8 +201,8 @@ def format_value(field: str, value, fmt: str | None = None, direction: bool = Fa
 
 def row_keys(res: dict) -> tuple[str, ...]:
     if res.get("tool") == "finance_kpi":
-        return ROW_KEYS_BY_VIEW.get((res.get("source") or {}).get("name"), ())
-    return ROW_KEYS_BY_TOOL.get(res.get("tool"), ())
+        return ROW_KEYS_BY_VIEW.get(cast(str, (res.get("source") or {}).get("name")), ())
+    return ROW_KEYS_BY_TOOL.get(cast(str, res.get("tool")), ())
 
 
 def _row_label(row: dict, keys: tuple[str, ...]) -> str:
@@ -284,7 +286,8 @@ def resolve(slot: Slot, evidence: dict, lang: str = "en") -> Bound:
                              f"{' or '.join(FORMATS[kind])}")
     if slot.direction and not is_change(slot.field):
         raise SlotError(raw, f"|dir only on a change field (wow, change, variance, difference), not {slot.field}")
-    return Bound(slot, row_i, value, kind, fmt, format_value(slot.field, value, fmt, slot.direction, lang))
+    num = cast(Any, value)                                  # field_kind above: a number
+    return Bound(slot, row_i, num, kind, fmt, format_value(slot.field, num, fmt, slot.direction, lang))
 
 
 def binding(eid: str, field: str, fmt: str | None = None, row: str | None = None, direction: bool = False) -> str:

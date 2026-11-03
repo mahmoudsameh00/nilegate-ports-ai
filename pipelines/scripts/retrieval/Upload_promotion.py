@@ -67,7 +67,7 @@ def load_request(folder: Path) -> dict:
 
 
 def save(folder: Path, name: str, obj) -> None:
-    (folder / name).write_text(json.dumps(obj, indent=2, ensure_ascii=False, default=str), encoding="utf-8")
+    (folder / name).write_text(json.dumps(obj, indent=2, ensure_ascii=False, default=str), encoding="utf-8", newline="\n")
 
 
 def users() -> retrieval.Retriever:
@@ -167,7 +167,7 @@ def approve(folder: Path) -> dict:
            "sensitivity_level": int(doc["sensitivity_level"]), "version_date": doc["version_date"],
            "ingestion_scope": None, "source_url": None, "sha256": req["sha256"], "file_size_bytes": len(data),
            "page_count": rep.stats.get("pages"), "chunk_count": len(rows)}
-    pd.DataFrame([row], columns=REGISTRY_COLUMNS).to_csv(stage / "documents_row.csv", index=False)
+    pd.DataFrame([row], columns=REGISTRY_COLUMNS).to_csv(stage / "documents_row.csv", index=False, lineterminator="\n")
     (stage / "migration.sql").write_text(migration_sql(row, "NNN", None), encoding="utf-8")
     decision = {"approved": True, "approved_at": dt.datetime.now().isoformat(timespec="seconds"),
                 "document_id": doc["document_id"], "chunks": len(rows), "data_policy": policy,
@@ -245,7 +245,7 @@ def commit(folder: Path, collection: str = qdrant_store.COLLECTION, out_dir: Pat
     reg = out_dir / "documents_promoted.csv"
     have = pd.read_csv(reg) if reg.exists() else pd.DataFrame(columns=REGISTRY_COLUMNS)
     have = pd.concat([have[have.document_id != doc_id], pd.DataFrame([row])], ignore_index=True)
-    have[REGISTRY_COLUMNS].to_csv(reg, index=False)
+    have[REGISTRY_COLUMNS].to_csv(reg, index=False, lineterminator="\n")
 
     rows = frame.to_dict("records")
     composed = [chunks.compose(r["title"], r["text"]) for r in rows]

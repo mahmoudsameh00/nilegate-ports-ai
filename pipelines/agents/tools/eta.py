@@ -16,6 +16,7 @@ The data has no weather or traffic effect on speed (F7): an ETA is never correct
 import json
 from datetime import datetime
 from functools import cache
+from typing import cast
 
 import numpy as np
 import pandas as pd
@@ -43,7 +44,7 @@ def harbour_kn() -> float:
 
 
 def _ts(s: str) -> pd.Timestamp:
-    return pd.Timestamp(s).tz_convert("UTC") if pd.Timestamp(s).tzinfo else pd.Timestamp(s, tz="UTC")
+    return cast(pd.Timestamp, pd.Timestamp(s).tz_convert("UTC") if pd.Timestamp(s).tzinfo else pd.Timestamp(s, tz="UTC"))
 
 
 def _iso(t: pd.Timestamp) -> str:
@@ -71,7 +72,7 @@ def eta_rule(status: dict, planned_kn: float, approach: bool = True) -> dict:
     t0 = _ts(status["last_fix"]["ts"])
     eta = t0 + pd.Timedelta(hours=hours)
     asof = _ts(status["as_of"])
-    return {"method": "R" if approach else "R0", "eta_utc": _iso(eta),
+    return {"method": "R" if approach else "R0", "eta_utc": _iso(cast(pd.Timestamp, eta)),
             "eta_in_h": round((eta - asof).total_seconds() / 3600, 1), "speed_kn": round(v, 2), "speed_source": src,
             "distance_left_nm": status["distance_left_nm"], "approach_nm": APPROACH_NM if approach else 0.0,
             "harbour_kn": harbour_kn() if approach else None}
@@ -84,13 +85,13 @@ def eta_naive(status: dict, planned_kn: float) -> dict:
     d = float(routes.gc_nm(np.array(f["lat"]), np.array(f["lon"]), np.array(lat), np.array(lon)))
     v = float(f["sog_kn"]) if f["sog_kn"] and f["sog_kn"] >= MIN_SOG_KN else float(planned_kn)
     eta = _ts(f["ts"]) + pd.Timedelta(hours=d / v)
-    return {"method": "N", "eta_utc": _iso(eta), "straight_nm": round(d, 1), "speed_kn": v}
+    return {"method": "N", "eta_utc": _iso(cast(pd.Timestamp, eta)), "straight_nm": round(d, 1), "speed_kn": v}
 
 
 def eta_schedule(status: dict, planned_kn: float) -> dict:
     """S: departure + the whole route at the planned speed (ignores where the vessel is)."""
     eta = _ts(status["departure_ts"]) + pd.Timedelta(hours=float(status["route_nm"]) / float(planned_kn))
-    return {"method": "S", "eta_utc": _iso(eta)}
+    return {"method": "S", "eta_utc": _iso(cast(pd.Timestamp, eta))}
 
 
 def next_leg_points(vessel_id: int, status: dict, eta: dict) -> list[dict]:

@@ -14,7 +14,7 @@
 Access: `ports` is level 1 / Operations (everyone, `docs/rbac_mapping.md` §2).
 """
 import warnings
-from typing import Literal
+from typing import cast, Literal
 
 import numpy as np
 import searoute
@@ -74,7 +74,7 @@ def sea_leg(a: tuple[float, float], b: tuple[float, float]):
 
 def sea_path(a: tuple[float, float], b: tuple[float, float], closed: tuple[str, ...] = ALWAYS_CLOSED):
     """(lat, lon, passages) of the sea path a → b with the port points at its ends; None when there is no path."""
-    f = _searoute(a, b, closed)
+    f = cast(dict, _searoute(a, b, closed))
     if f["properties"]["length"] <= 0 or len(f["geometry"]["coordinates"]) < 2:
         return None
     lat, lon = _with_ports(a, b, f)
@@ -110,7 +110,7 @@ def _simplified(r: dict) -> list[list[float]]:
 class RouteArgs(BaseModel):
     origin: str = Field(pattern=LOCODE, description="UN/LOCODE of the departure port, e.g. SGSIN")
     destination: str = Field(pattern=LOCODE, description="UN/LOCODE of the arrival port, e.g. NLRTM")
-    avoid: list[Literal[PASSAGES]] = Field(default_factory=list, max_length=len(PASSAGES),
+    avoid: list[Literal[PASSAGES]] = Field(default_factory=list, max_length=len(PASSAGES),  # pyright: ignore[reportInvalidTypeForm]
                                            description="passages to keep closed, e.g. ['suez'] for the route round "
                                                        "the Cape of Good Hope; empty = the shortest sea route")
     speed_kn: float | None = Field(default=None, ge=4, le=25, description="constant speed in knots, to get the sea "

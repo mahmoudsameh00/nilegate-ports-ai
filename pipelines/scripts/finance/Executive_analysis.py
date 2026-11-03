@@ -386,7 +386,7 @@ FILES = {"weekly.csv": kw[weekly_cols], "customers.csv": cu, "categories.csv": c
                                    "late_days"]]}
 for name, df in FILES.items():
     df.round(4).to_csv(OUT / name, index=False, lineterminator="\n")
-(OUT / "numbers.json").write_text(json.dumps(N, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
+(OUT / "numbers.json").write_text(json.dumps(N, indent=1, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
 back = json.loads((OUT / "numbers.json").read_text(encoding="utf-8"))
 assert back == json.loads(json.dumps(N)), "numbers.json does not reload equal"
 for name, df in FILES.items():

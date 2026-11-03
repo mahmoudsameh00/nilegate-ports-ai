@@ -114,6 +114,13 @@ table 'Category KPIs'
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	column invoices_prev
+		dataType: int64
+		sourceProviderType: bigint
+		lineageTag: cd67b6f5-e2e2-440d-a8dc-2a45ae592426
+		summarizeBy: none
+		sourceColumn: invoices_prev
+
 	partition 'finance kpi_weekly_category' = m
 		mode: directQuery
 		source =

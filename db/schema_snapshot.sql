@@ -3611,6 +3611,13 @@ CREATE VIEW finance_test.kpi_weekly AS
            FROM (weeks w
              LEFT JOIN finance.fact_invoice f ON (((f.invoice_date >= (w.week_start - 7)) AND (f.invoice_date <= (w.week_end - 7)))))
           GROUP BY w.report_week
+        ), rolling AS (
+         SELECT k_1.report_week,
+            ((k_1.billed_13w_sdr - k_1.billed_sdr) + b_1.billed_sdr) AS billed_13w_sdr,
+            ((k_1.budget_13w_sdr - k_1.budget_sdr) + bu_1.budget_sdr) AS budget_13w_sdr
+           FROM ((finance.kpi_weekly k_1
+             JOIN billed b_1 ON ((b_1.report_week = k_1.report_week)))
+             JOIN budget bu_1 ON ((bu_1.report_week = k_1.report_week)))
         )
  SELECT k.report_week,
     k.iso_week_label,
@@ -3641,11 +3648,28 @@ CREATE VIEW finance_test.kpi_weekly AS
     k.collected_wow_pct,
     k.ar_wow_pct,
     k.overdue_wow_pct,
-    k.dso_wow_days
-   FROM (((finance.kpi_weekly k
+    k.dso_wow_days,
+    k.roll_window_weeks,
+    round(r.billed_13w_sdr, 2) AS billed_13w_sdr,
+    round(r.budget_13w_sdr, 2) AS budget_13w_sdr,
+    round((((100)::numeric * (r.billed_13w_sdr - r.budget_13w_sdr)) / NULLIF(r.budget_13w_sdr, (0)::numeric)), 2) AS budget_variance_13w_pct,
+    k.dso_best_days,
+    k.dso_delinquency_days,
+    k.billed_wow_typical_pct,
+    k.collected_wow_typical_pct,
+    k.ar_wow_typical_pct,
+    k.overdue_wow_typical_pct,
+    k.overdue_new_sdr,
+    k.overdue_paid_sdr,
+    k.due_week_sdr,
+    k.due_week_collected_sdr,
+    k.due_week_collected_pct,
+    k.ontime_13w_pct
+   FROM ((((finance.kpi_weekly k
      JOIN billed b ON ((b.report_week = k.report_week)))
      JOIN budget bu ON ((bu.report_week = k.report_week)))
-     JOIN prev p ON ((p.report_week = k.report_week)));
+     JOIN prev p ON ((p.report_week = k.report_week)))
+     JOIN rolling r ON ((r.report_week = k.report_week)));
 
 
 --
@@ -3866,6 +3890,118 @@ COMMENT ON COLUMN finance_test.kpi_weekly.dso_wow_days IS 'LIVE value (finance.k
 
 
 --
+-- Name: COLUMN kpi_weekly.roll_window_weeks; Type: COMMENT; Schema: finance_test; Owner: -
+--
+
+COMMENT ON COLUMN finance_test.kpi_weekly.roll_window_weeks IS 'LIVE value (finance.kpi_weekly, M9b)';
+
+
+--
+-- Name: COLUMN kpi_weekly.billed_13w_sdr; Type: COMMENT; Schema: finance_test; Owner: -
+--
+
+COMMENT ON COLUMN finance_test.kpi_weekly.billed_13w_sdr IS 'Live 13-week billed with the report week replaced by the copy''s billed (planted errors included), M9b';
+
+
+--
+-- Name: COLUMN kpi_weekly.budget_13w_sdr; Type: COMMENT; Schema: finance_test; Owner: -
+--
+
+COMMENT ON COLUMN finance_test.kpi_weekly.budget_13w_sdr IS 'Live 13-week budget with the report week replaced by the copy''s budget (week 36 carries the planted miss), M9b';
+
+
+--
+-- Name: COLUMN kpi_weekly.budget_variance_13w_pct; Type: COMMENT; Schema: finance_test; Owner: -
+--
+
+COMMENT ON COLUMN finance_test.kpi_weekly.budget_variance_13w_pct IS '(billed_13w − budget_13w) / budget_13w, percent, both as in this view';
+
+
+--
+-- Name: COLUMN kpi_weekly.dso_best_days; Type: COMMENT; Schema: finance_test; Owner: -
+--
+
+COMMENT ON COLUMN finance_test.kpi_weekly.dso_best_days IS 'LIVE value (finance.kpi_weekly, M12)';
+
+
+--
+-- Name: COLUMN kpi_weekly.dso_delinquency_days; Type: COMMENT; Schema: finance_test; Owner: -
+--
+
+COMMENT ON COLUMN finance_test.kpi_weekly.dso_delinquency_days IS 'LIVE value (finance.kpi_weekly, M12)';
+
+
+--
+-- Name: COLUMN kpi_weekly.billed_wow_typical_pct; Type: COMMENT; Schema: finance_test; Owner: -
+--
+
+COMMENT ON COLUMN finance_test.kpi_weekly.billed_wow_typical_pct IS 'LIVE value (finance.kpi_weekly, M13): the typical swing is the history of the live weeks';
+
+
+--
+-- Name: COLUMN kpi_weekly.collected_wow_typical_pct; Type: COMMENT; Schema: finance_test; Owner: -
+--
+
+COMMENT ON COLUMN finance_test.kpi_weekly.collected_wow_typical_pct IS 'LIVE value (finance.kpi_weekly, M13)';
+
+
+--
+-- Name: COLUMN kpi_weekly.ar_wow_typical_pct; Type: COMMENT; Schema: finance_test; Owner: -
+--
+
+COMMENT ON COLUMN finance_test.kpi_weekly.ar_wow_typical_pct IS 'LIVE value (finance.kpi_weekly, M13)';
+
+
+--
+-- Name: COLUMN kpi_weekly.overdue_wow_typical_pct; Type: COMMENT; Schema: finance_test; Owner: -
+--
+
+COMMENT ON COLUMN finance_test.kpi_weekly.overdue_wow_typical_pct IS 'LIVE value (finance.kpi_weekly, M13)';
+
+
+--
+-- Name: COLUMN kpi_weekly.overdue_new_sdr; Type: COMMENT; Schema: finance_test; Owner: -
+--
+
+COMMENT ON COLUMN finance_test.kpi_weekly.overdue_new_sdr IS 'LIVE value (finance.kpi_weekly, M14)';
+
+
+--
+-- Name: COLUMN kpi_weekly.overdue_paid_sdr; Type: COMMENT; Schema: finance_test; Owner: -
+--
+
+COMMENT ON COLUMN finance_test.kpi_weekly.overdue_paid_sdr IS 'LIVE value (finance.kpi_weekly, M14)';
+
+
+--
+-- Name: COLUMN kpi_weekly.due_week_sdr; Type: COMMENT; Schema: finance_test; Owner: -
+--
+
+COMMENT ON COLUMN finance_test.kpi_weekly.due_week_sdr IS 'LIVE value (finance.kpi_weekly, M14)';
+
+
+--
+-- Name: COLUMN kpi_weekly.due_week_collected_sdr; Type: COMMENT; Schema: finance_test; Owner: -
+--
+
+COMMENT ON COLUMN finance_test.kpi_weekly.due_week_collected_sdr IS 'LIVE value (finance.kpi_weekly, M14)';
+
+
+--
+-- Name: COLUMN kpi_weekly.due_week_collected_pct; Type: COMMENT; Schema: finance_test; Owner: -
+--
+
+COMMENT ON COLUMN finance_test.kpi_weekly.due_week_collected_pct IS 'LIVE value (finance.kpi_weekly, M14)';
+
+
+--
+-- Name: COLUMN kpi_weekly.ontime_13w_pct; Type: COMMENT; Schema: finance_test; Owner: -
+--
+
+COMMENT ON COLUMN finance_test.kpi_weekly.ontime_13w_pct IS 'LIVE value (finance.kpi_weekly, M16)';
+
+
+--
 -- Name: kpi_weekly_category; Type: VIEW; Schema: finance_test; Owner: -
 --
 
@@ -3916,9 +4052,11 @@ CREATE VIEW finance_test.kpi_weekly_category AS
     round((((100)::numeric * (b.billed_sdr - b.budget_sdr)) / NULLIF(b.budget_sdr, (0)::numeric)), 2) AS budget_variance_pct,
     round(p.billed_prev_sdr, 2) AS billed_prev_sdr,
     round((b.billed_sdr - p.billed_prev_sdr), 2) AS billed_wow_change_sdr,
-    round((((100)::numeric * (b.billed_sdr - p.billed_prev_sdr)) / NULLIF(p.billed_prev_sdr, (0)::numeric)), 2) AS billed_wow_pct
-   FROM (base b
-     JOIN prev p ON (((p.report_week = b.report_week) AND (p.vessel_category = b.vessel_category))));
+    round((((100)::numeric * (b.billed_sdr - p.billed_prev_sdr)) / NULLIF(p.billed_prev_sdr, (0)::numeric)), 2) AS billed_wow_pct,
+    lc.invoices_prev
+   FROM ((base b
+     JOIN prev p ON (((p.report_week = b.report_week) AND (p.vessel_category = b.vessel_category))))
+     LEFT JOIN finance.kpi_weekly_category lc ON (((lc.report_week = b.report_week) AND (lc.vessel_category = b.vessel_category))));
 
 
 --
@@ -3996,6 +4134,13 @@ COMMENT ON COLUMN finance_test.kpi_weekly_category.billed_wow_change_sdr IS 'bil
 --
 
 COMMENT ON COLUMN finance_test.kpi_weekly_category.billed_wow_pct IS 'Week-over-week change of billed, percent (NULL when the previous week billed 0)';
+
+
+--
+-- Name: COLUMN kpi_weekly_category.invoices_prev; Type: COMMENT; Schema: finance_test; Owner: -
+--
+
+COMMENT ON COLUMN finance_test.kpi_weekly_category.invoices_prev IS 'LIVE value (finance.kpi_weekly_category): invoices of the category in the previous week (the copy holds no previous week)';
 
 
 --

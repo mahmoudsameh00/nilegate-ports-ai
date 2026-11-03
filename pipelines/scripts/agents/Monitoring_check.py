@@ -235,7 +235,7 @@ for stem in ("Weekly_pack", "Voyage_watch"):
     sentry_sdk.get_current_scope().clear()
     os.environ["SENTRY_DSN"] = FAKE_DSN
     real_init = monitoring.init
-    monitoring.init = lambda entry, launched_by="cli", rec=rec: real_init(entry, launched_by, transport=rec)
+    monitoring.init = lambda entry, launched_by="cli", rec=rec, real_init=real_init: real_init(entry, launched_by, transport=rec)
     sys.argv = [f"{stem}.py", "scheduled", "--as", "6"]
     try:
         cli.main()

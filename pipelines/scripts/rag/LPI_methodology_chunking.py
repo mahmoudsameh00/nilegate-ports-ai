@@ -4310,7 +4310,7 @@ assert all_referenced_numbers == known_numbers, (
 for number, note in footnote_text_map.items():
     linked = paragraphs_enriched_df[
         paragraphs_enriched_df["footnote_refs"].apply(
-            lambda refs: number in (refs or [])
+            lambda refs, number=number: number in (refs or [])
         )
     ]
 
@@ -4558,7 +4558,7 @@ assert heading_key_check["expected"] == heading_key_check["removed"]
 for number, policy_row in footnote_policy_df.set_index("footnote_number").iterrows():
     linked = paragraph_units_df[
         paragraph_units_df["footnote_refs"].apply(
-            lambda refs: int(number) in (refs or [])
+            lambda refs, number=number: int(number) in (refs or [])
         )
     ]
     assert len(linked) == 1
@@ -4760,7 +4760,7 @@ extracted_payload = {
     ],
 }
 
-with open(extracted_path, "w", encoding="utf-8") as f:
+with open(extracted_path, "w", encoding="utf-8", newline="\n") as f:
     json.dump(json_safe(extracted_payload), f, ensure_ascii=False, indent=2, default=str)
 
 print("Extracted artifact saved:")
@@ -4780,7 +4780,7 @@ print(
 
 cleaned_path = CLEANED_DIR / f"{PDF_PATH.stem}_logical_units.json"
 
-with open(cleaned_path, "w", encoding="utf-8") as f:
+with open(cleaned_path, "w", encoding="utf-8", newline="\n") as f:
     json.dump(
         json_safe(units_df.to_dict("records")),
         f,

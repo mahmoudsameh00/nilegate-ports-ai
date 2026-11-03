@@ -1,18 +1,42 @@
 # Roadmap & status
 
-Single place for project status. Last updated: 2026-11-01 (**Agents plan CLOSED and archived** — `docs/archive/2026-11-01_Agents_plan.md`: Stage 1 candidate c4 kept, D7 `planted_all` met (D-C4-1); active plan `docs/plans/Observability_Sentry_plan.md`, Sentry S1 done on the checks, ADR-062; 2026-10-30: Agents plan Phase 12 — the supervisor — done: Stage 2 done-when MET, baseline `stage2_eval_2026-10-30_c1.json`, ADR-059 + ADR-045 amendment 3; D-P12-7 scheduled 2026-10-31, then the one Stage 2 commit; 2026-10-29: voyage-watch task registered; D-P11-2 weather pacing after the first firing; Agents plan Phase 11 CLOSED: the `voyage_watch` graph, ADR-058, autonomous session — owner reviewed and approved 2026-10-29; Phase 12 design §6d APPROVED 2026-10-29; Phase 10 CLOSED 2026-10-27: `route_advice`, ADR-057; Phase 9 CLOSED 2026-10-27: Stage 2 tools, ADR-055 / ADR-056; Agents plan §5f Phases 7–8 closure DONE: final Stage 1 baseline `stage1_eval_2026-10-23_confirm.json`, D7 not met on planted findings only; new fallback ADR-045 amendment 2; Phase 8 CLOSED: scheduled weekly pack, retention, LangSmith, ADR-054; Phase 7 CLOSED: evaluation, finance Q&A agent, migration 017, ADR-052 / ADR-053, D7 not met — owner decision; Phase 6 CLOSED: the NileGate PPTX, number slots, Validator v2 + V8, ADR-051; Phase 5 CLOSED: the `weekly_pack` workflow + PostgresSaver + approval, ADR-050, migration 016, ADR-045 amendment 1; Phase 4 CLOSED: Stage 1 tools + skills, ADR-049; Phase 3 CLOSED 2026-10-15: Power BI dashboard, ADR-048; Phase 2 closed 2026-10-14, ADR-047; Phase 1 closed 2026-10-14, ADR-046; Phase 0 closed 2026-10-12, ADR-045).
+Single place for project status. Last updated: 2026-11-03 (**weekly-pack improvement CLOSED** — implementation record in `docs/analysis/financial_intelligence/implementation_roadmap.md`, no-regression re-run D-RR-1; next: FastAPI plan; 2026-11-02: **Observability plan CLOSED** — first real Sentry check-in ok, `docs/archive/2026-11-02_Observability_Sentry_plan.md`; **dependency upgrade DONE** — audit 63 → 0, `docs/archive/2026-11-02_Dependency_upgrade_plan.md`; weekly-pack Phases B–D in place, c5 scheduled 2026-11-03 09:30; 2026-11-01: **Agents plan CLOSED and archived** — `docs/archive/2026-11-01_Agents_plan.md`: Stage 1 candidate c4 kept, D7 `planted_all` met (D-C4-1); active plan `docs/plans/Observability_Sentry_plan.md`, Sentry S1 done on the checks, ADR-062; 2026-10-30: Agents plan Phase 12 — the supervisor — done: Stage 2 done-when MET, baseline `stage2_eval_2026-10-30_c1.json`, ADR-059 + ADR-045 amendment 3; D-P12-7 scheduled 2026-10-31, then the one Stage 2 commit; 2026-10-29: voyage-watch task registered; D-P11-2 weather pacing after the first firing; Agents plan Phase 11 CLOSED: the `voyage_watch` graph, ADR-058, autonomous session — owner reviewed and approved 2026-10-29; Phase 12 design §6d APPROVED 2026-10-29; Phase 10 CLOSED 2026-10-27: `route_advice`, ADR-057; Phase 9 CLOSED 2026-10-27: Stage 2 tools, ADR-055 / ADR-056; Agents plan §5f Phases 7–8 closure DONE: final Stage 1 baseline `stage1_eval_2026-10-23_confirm.json`, D7 not met on planted findings only; new fallback ADR-045 amendment 2; Phase 8 CLOSED: scheduled weekly pack, retention, LangSmith, ADR-054; Phase 7 CLOSED: evaluation, finance Q&A agent, migration 017, ADR-052 / ADR-053, D7 not met — owner decision; Phase 6 CLOSED: the NileGate PPTX, number slots, Validator v2 + V8, ADR-051; Phase 5 CLOSED: the `weekly_pack` workflow + PostgresSaver + approval, ADR-050, migration 016, ADR-045 amendment 1; Phase 4 CLOSED: Stage 1 tools + skills, ADR-049; Phase 3 CLOSED 2026-10-15: Power BI dashboard, ADR-048; Phase 2 closed 2026-10-14, ADR-047; Phase 1 closed 2026-10-14, ADR-046; Phase 0 closed 2026-10-12, ADR-045).
 Labels: `DONE`, `IN PROGRESS`, `PARTIAL`, `NEXT`, `PLANNED`, `PROPOSED`, `DEFERRED`, `BLOCKED`.
 
 ## Current phase
 
-**Observability (Sentry, then the LangSmith mirror) — `docs/plans/Observability_Sentry_plan.md` APPROVED
-2026-10-31.** S1 done on the checks (`Monitoring_check.py` 6 / 6 incl. the live event read back; ADR-062); **S2–S4
-DONE 2026-11-01** (one batch, ADR-062 amendment 1): the LangSmith mirror (3 sha-named datasets, 12 experiments,
-`Langsmith_mirror.py`), the review queue `nilegate-review` + automation rule (errors + refused parts), the Sentry
-alert for every new issue. Open: the first real check-in of `nilegate-weekly-pack` (Monday 2026-11-02 10:30) —
-verified by the one-time Claude task `nilegate-sentry-first-checkin` (11:00), which closes S1 and then the plan can be
-archived. The one Stage 2 commit is DONE (2026-11-01, by the owner). Then the weekly-pack improvement Phases B–E
-(candidate c5 vs c4) and FastAPI.
+**NEXT: FastAPI (PLANNED)** — the plan is written as `docs/plans/FastAPI_plan.md` (`Status: PROPOSED`) in a new
+session, starting from the concurrency requirements below ("API phase → concurrency requirements"), and waits for the
+owner's approval before any code (owner, 2026-11-03).
+
+**Engineering hygiene follow-ups — CLOSED 2026-11-03** (`docs/archive/2026-11-03_Hygiene_followups_plan.md`, ADR-063
+amendment 2): the lint baseline paid down to **0** (ruff 48 → 0, pyright 276 → 0; every check re-run with 0 files
+changed); THREAT_MODEL LLM01 measured by `Injection_eval.py` on a frozen 11-item injection set, two real runs: prompt
+leak 0, planted instruction followed 0, finance leak 0, escalations refused (`injection_eval_2026-11-03.json`);
+`D:\Project_wip` deleted. D-H3 closed the same day (owner: widen): the screening now flags all 6 planted shapes (ADR-042 note; corpus false
+positives still 0), set v2 re-run on the real model, every gate held. D-H2 closed the same day: every writer of a tracked .json / .jsonl / .csv now writes LF (`newline="
+"`,
+`lineterminator="
+"`; 36 sites in 23 files), each re-run = its committed bytes. Open for the owner: the first CI run
+(push); restore two files before the commit (D-H4: `bakeoff_results.json` run statistics overwritten by a re-run,
+`file_encrypted.pdf` re-encrypted by design).
+
+**Weekly pack improvement — CLOSED 2026-11-03** (`docs/analysis/financial_intelligence/implementation_roadmap.md`,
+implementation record at the top; the folder stays in place). Phases A–F: migrations 021 / 022 (`finance_kpi` +16
+weekly columns, customer watchlist, twins), `audit.ytd`, the redrawn slides + layout fixes (D-C5-3, one-line titles),
+Validator **V9** rules 1–8, the two skills reviewed by the owner 2026-11-02, **c5b kept** on a hand-check (ADR-051
+amendment 4, ADR-052 fifth use; Stage 1 packs baseline `stage1_eval_2026-11-02_c5b.json`), Power BI (ADR-048
+amendment 1); W13 published 2026-11-03 on the new code. No-regression re-run 2026-11-03 (D-RR-1, ADR-052 sixth use):
+finance Q&A vs dp127b "tie: keep"; Stage 2 vs c1 stopped after repeat 1 on the Arabic gate by one Writer slot-form
+error on a non-finance item, every `finance_kpi` number right → closed on the owner's hand-check; baselines unchanged.
+~~Open for the owner: delete `D:\Project_wip` (the old parallel copy).~~ Done (found deleted 2026-11-03).
+
+**Observability — CLOSED 2026-11-02** (`docs/archive/2026-11-02_Observability_Sentry_plan.md`, ADR-062 + amendment 1):
+S1 Sentry errors / logs / the weekly pack's cron monitor — the first real check-in arrived ok on 2026-11-02 08:30Z;
+S2 LangSmith mirror, S3 review queue, S4 new-issue alert. Open for the owner: **D-S1-6** — connect the monitor
+`nilegate-weekly-pack` to alert 6273246 in Sentry (until then a missed Monday makes an issue but no email).
+**Dependency upgrade — DONE 2026-11-02** (`docs/archive/2026-11-02_Dependency_upgrade_plan.md`, ADR-063 note): 8
+packages to their lowest fixing releases (+ `langgraph-checkpoint` 4.3.0), `pip-audit` 63 → 0, every check green.
 
 **Agents plan — CLOSED 2026-11-01** (`docs/archive/2026-11-01_Agents_plan.md`, implementation record at the top).
 Its last stage, for the record: **Stage 2 — Phase 12 (the supervisor over both products) DONE (2026-10-30)** — plan §6d (P12-1…P12-5 as recommended; S1–S5 + candidate c1 each approved before their code), ADR-059:
@@ -51,7 +75,7 @@ candidate **c5** vs c4 under ADR-052. Before c4 only the SQL layer (the tools re
 Executive page; Power BI fixes kept (Exceptions status card + all-year findings table, Overview note). These files
 go into the one Stage 2 commit.
 **Observability plan — Sentry S1 DONE on the checks 2026-10-31 (started before the Stage 2 commit by the owner's
-choice; `docs/plans/Observability_Sentry_plan.md` APPROVED, ADR-062):** `pipelines/agents/monitoring.py` in the four
+choice; `docs/archive/2026-11-02_Observability_Sentry_plan.md`, ADR-062):** `pipelines/agents/monitoring.py` in the four
 CLIs' `main()` — errors + WARNING+ logs, the one free cron monitor on the weekly pack (`nilegate-weekly-pack`), no
 LLM spans; `Monitoring_check.py` 5 / 6 ✅. **Open:** the owner's `SENTRY_DSN` in `.env` → the live Phase 6 → the
 first real check-in (Monday 2026-11-02 10:30). Then S2–S4 after c4. Original scope (owner 2026-10-30):

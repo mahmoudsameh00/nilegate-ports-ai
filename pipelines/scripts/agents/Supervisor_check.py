@@ -479,7 +479,8 @@ actual_3 = {"items_run": len(results), "statuses": by_status, "wrong": 0,
             "fits_at_4_chars_per_token": max(sizes3) * 3 / 4 <= BUDGET}
 REVIEWED_3 = {"items_run": 33, "statuses": {"answered": 27, "not_in_data": 3, "partial": 3}, "wrong": 0,
               "patch": ("answered", 1), "always_bad": "validation_failed", "loop": ("output_invalid", True),
-              "max_request_est_tokens": 7137, "over_conservative_budget": ["c10", "c10_ar"],
+              # 7,137 → 7,339 on 2026-11-01: finance_kpi returns the migration-021 columns (weekly-pack plan Phase B)
+              "max_request_est_tokens": 7339, "over_conservative_budget": ["c10", "c10_ar"],
               "fits_at_4_chars_per_token": True}
 assert actual_3 == REVIEWED_3, actual_3
 print(f"agent: {len(results)} golden items run end to end, statuses {by_status}; largest request "

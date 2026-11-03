@@ -19,6 +19,7 @@ no_data → the same status, no rows. Access is checked by the graph's tools bef
 from datetime import datetime
 
 from langchain.tools import ToolRuntime, tool
+from langchain_core.runnables import RunnableConfig
 from pydantic import Field
 
 from pipelines.agents import checkpointer as cp
@@ -55,7 +56,8 @@ def run_route_advice(user, roles, as_of: datetime | None = None, saver=None, poo
     pool = pool or cp.pool()
     g = ra.build_graph(roles, saver or cp.saver())
     tid = ra.new_thread_id(pool, user.employee_id, ctx.as_of, req.origin, req.destination)
-    cfg = {"configurable": {"thread_id": tid}, "metadata": {"run_as": user.employee_id, "trigger": "supervisor"}}
+    cfg: RunnableConfig = {"configurable": {"thread_id": tid},
+                           "metadata": {"run_as": user.employee_id, "trigger": "supervisor"}}
     g.invoke({"request": req.model_dump(mode="json")}, cfg, context=ctx, durability="sync")
     st = g.get_state(cfg).values
     res, status, ev = st.get("result") or {}, st.get("status") or "ok", st.get("evidence") or {}

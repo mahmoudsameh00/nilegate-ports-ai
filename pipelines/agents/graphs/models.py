@@ -6,7 +6,8 @@ instead of enums, no unions — because free providers support different JSON-sc
 Format rules live here (slide range, evidence-id shape, non-empty text); content rules (five summary bullets, every
 number from a tool) belong to the Validator, so a broken draft comes back as a readable diff, not as a parse error.
 
-Evidence ids name a tool result kept in the state: `kpi.<dataset>`, `audit.week`, `insight.<tool_call_id>`.
+Evidence ids name a tool result kept in the state: `kpi.<dataset>`, `audit.week`, `audit.ytd`,
+`insight.<tool_call_id>`.
 """
 import re
 from typing import Literal
@@ -93,8 +94,8 @@ class DeckPatch(BaseModel):
 
 class Problem(BaseModel):
     # V1 citation, V2 number, V3 draft label, V4 deck shape; Phase 6 (§5c): V5 evidence per slide, V6 direction,
-    # V7 attribution, V8 the rendered PPTX
-    rule: Literal["V1", "V2", "V3", "V4", "V5", "V6", "V7", "V8"]
+    # V7 attribution, V8 the rendered PPTX; weekly-pack plan Phase D: V9 the claim check (W-R6)
+    rule: Literal["V1", "V2", "V3", "V4", "V5", "V6", "V7", "V8", "V9"]
     slide: int | None = None
     bullet: int | None = Field(default=None, description="index of the bullet in DeckDraft.bullets")
     token: str | None = Field(default=None, description="the number token that failed, if any")
@@ -207,7 +208,7 @@ class RouteReason(BaseModel):
 class RouteAdvice(BaseModel):
     """What the advisor writes (skill `route-cost-advice`): the choice, a headline and the reasons, numbers as slots;
     the comparison table, the assumptions and the sources are written by code."""
-    recommendation: Literal[ROUTES] = Field(description="suez or cape")
+    recommendation: Literal[ROUTES] = Field(description="suez or cape")  # pyright: ignore[reportInvalidTypeForm] (Literal built from the data tuple)
     headline: str = Field(min_length=1, max_length=300, description="one sentence: the choice and its main reason")
     reasons: list[RouteReason] = Field(min_length=1, max_length=5, description="cost, time and risk reasons")
     risks: list[RouteReason] = Field(default_factory=list, max_length=4,
@@ -217,11 +218,11 @@ class RouteAdvice(BaseModel):
 
 class RouteAdviceResult(BaseModel):
     """The answer the graph returns and keeps in its checkpoint (one thread per question, P10-3)."""
-    status: Literal[ROUTE_STATUSES]
+    status: Literal[ROUTE_STATUSES]  # pyright: ignore[reportInvalidTypeForm] (Literal built from the data tuple)
     request: dict
     as_of: str
     comparison: list[dict] = Field(default_factory=list, description="route.compare rows (+ the difference row)")
-    recommendation: Literal[ROUTES] | None = None
+    recommendation: Literal[ROUTES] | None = None  # pyright: ignore[reportInvalidTypeForm] (Literal built from the data tuple)
     headline: str | None = None
     reasons: list[str] = Field(default_factory=list, description="rendered: slots filled by code")
     risks: list[str] = Field(default_factory=list)
@@ -267,12 +268,12 @@ class WatchBrief(BaseModel):
 
 class VoyageWatchResult(BaseModel):
     """What one watch run returns and saves (the thread's checkpoint + the run file, P11-5)."""
-    status: Literal[WATCH_STATUSES]
+    status: Literal[WATCH_STATUSES]  # pyright: ignore[reportInvalidTypeForm] (Literal built from the data tuple)
     as_of: str
     fleet: dict = Field(default_factory=dict, description="watch.fleet: counts by status, alerts, weather points")
     etas: list[dict] = Field(default_factory=list, description="one row per vessel at sea / at anchor")
     alerts: list[dict] = Field(default_factory=list, description="watch.alerts rows, high first")
-    brief_status: Literal[BRIEF_STATUSES] | None = None
+    brief_status: Literal[BRIEF_STATUSES] | None = None  # pyright: ignore[reportInvalidTypeForm] (Literal built from the data tuple)
     headline: str | None = None
     items: list[dict] = Field(default_factory=list, description="rendered: slots filled by code, with alert ids")
     assumptions: list[str] = Field(default_factory=list)

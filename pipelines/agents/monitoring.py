@@ -20,6 +20,7 @@ import time
 import tomllib
 from collections.abc import Iterator
 from contextlib import contextmanager
+from typing import Any, cast
 
 CRON_WEEKLY_PACK = "nilegate-weekly-pack"
 WEEKLY_PACK_MONITOR = {                        # the task "NileGate Weekly Finance Pack" (ADR-054)
@@ -87,7 +88,7 @@ def init(entry: str, launched_by: str = "cli", *, transport=None) -> bool:
             event_scrubber=EventScrubber(denylist=[*DEFAULT_DENYLIST, *EXTRA_DENYLIST]),
             integrations=[LoggingIntegration(level=logging.INFO, event_level=logging.ERROR,
                                              sentry_logs_level=logging.WARNING)],
-            before_send=_before_send, before_send_log=_before_send, transport=transport)
+            before_send=cast(Any, _before_send), before_send_log=cast(Any, _before_send), transport=transport)
         sentry_sdk.set_tag("entry", entry)
         sentry_sdk.set_tag("launched_by", launched_by)
         _on = True
@@ -136,7 +137,7 @@ def _checkin(slug: str, status: str, check_in_id: str | None = None, duration: f
     try:
         from sentry_sdk.crons import capture_checkin
         return capture_checkin(monitor_slug=slug, check_in_id=check_in_id, status=status, duration=duration,
-                               monitor_config=WEEKLY_PACK_MONITOR if slug == CRON_WEEKLY_PACK else None)
+                               monitor_config=cast(Any, WEEKLY_PACK_MONITOR if slug == CRON_WEEKLY_PACK else None))
     except Exception as exc:  # noqa: BLE001
         log.warning("Sentry check-in failed: %s", type(exc).__name__)
         return None

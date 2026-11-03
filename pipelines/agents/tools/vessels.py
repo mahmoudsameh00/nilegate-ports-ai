@@ -14,7 +14,7 @@ Access: `vessel_performance` and `bunker_prices` are level 1 / Operations (`docs
 reads `vessels` and the voyage file (level 1 / Operations).
 """
 from decimal import ROUND_HALF_UP, Decimal
-from typing import Literal
+from typing import cast, Literal
 
 from langchain.tools import ToolRuntime, tool
 from pydantic import BaseModel, Field, model_validator
@@ -47,7 +47,7 @@ class ParamsArgs(BaseModel):
     vessel_id: int | None = Field(default=None, ge=1, description="one of NileGate's vessels; its category, SCNT and "
                                                                  "service speed are read from the vessels table and "
                                                                  "its voyage")
-    vessel_type: Literal[CATEGORIES] | None = Field(default=None, description="tariff vessel category")
+    vessel_type: Literal[CATEGORIES] | None = Field(default=None, description="tariff vessel category")  # pyright: ignore[reportInvalidTypeForm]
     scnt_tons: float | None = Field(default=None, gt=0, description="Suez Canal Net Tonnage (SCNT)")
     speed_kn: float | None = Field(default=None, ge=4, le=25, description="speed in knots to price the fuel at; "
                                                                           "default: the vessel's service speed")
@@ -80,7 +80,7 @@ def vessel_params(user, **args) -> ToolResult:
     else:
         vt, tons = a.vessel_type, Decimal(str(a.scnt_tons))
         flt = f"{vt} / {tons} SCNT"
-    b, p = band(vt, tons), latest_price()
+    b, p = band(cast(str, vt), tons), latest_price()
     if b is None or p is None:
         return ToolResult(tool="vessel_params", status="no_data",
                           note="no performance band for this category and SCNT" if b is None else "no bunker price set")

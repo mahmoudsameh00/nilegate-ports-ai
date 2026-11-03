@@ -162,6 +162,51 @@
               "queryRef": "Weekly KPIs.Customer Overdue SDR",
               "nativeQueryRef": "Overdue (SDR)",
               "displayName": "Overdue (SDR)"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Customer KPIs 13w"
+                    }
+                  },
+                  "Property": "is_watchlist"
+                }
+              },
+              "queryRef": "Customer KPIs 13w.is_watchlist",
+              "nativeQueryRef": "Watchlist",
+              "displayName": "Watchlist"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Weekly KPIs"
+                    }
+                  },
+                  "Property": "Customer AR to Billed 13w %"
+                }
+              },
+              "queryRef": "Weekly KPIs.Customer AR to Billed 13w %",
+              "nativeQueryRef": "AR / billed 13w",
+              "displayName": "AR / billed 13w"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Weekly KPIs"
+                    }
+                  },
+                  "Property": "Customer On-time 13w %"
+                }
+              },
+              "queryRef": "Weekly KPIs.Customer On-time 13w %",
+              "nativeQueryRef": "On-time 13w",
+              "displayName": "On-time 13w"
             }
           ]
         }

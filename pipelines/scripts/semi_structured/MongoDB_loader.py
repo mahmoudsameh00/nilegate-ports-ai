@@ -920,7 +920,7 @@ report = {
     "real_vessels_linked": real_linked, "indexes": index_names, "coverage": coverage, "content_sha256": hashes,
     "consistency_audit": audit,
 }
-(AUDIT_DIR / f"{LOAD_RUN}.json").write_text(json.dumps(report, indent=1, default=str) + "\n", encoding="utf-8")
+(AUDIT_DIR / f"{LOAD_RUN}.json").write_text(json.dumps(report, indent=1, default=str) + "\n", encoding="utf-8", newline="\n")
 rejected[["source", "src_row", "mmsi", "reason"]].to_csv(AUDIT_DIR / f"{LOAD_RUN}_rejected.csv", index=False,
                                                           lineterminator="\n")
 reloaded_report = json.loads((AUDIT_DIR / f"{LOAD_RUN}.json").read_text(encoding="utf-8"))

@@ -113,6 +113,8 @@ print(f"✅ Phase 1 validation passed: the four frozen inputs unchanged (hashes)
 ERROR_WORDS = re.compile(r"duplicat|error|wrong|mismatch|flagged|overbill|underbill|overcharg|undercharg|"
                          r"exception|mispric|incorrect", re.I)
 ORIGINAL_WORDS = re.compile(r"\boriginal\b|الأصل", re.I)
+EARLIER_WORDS = re.compile(r"\b(?:year[- ]to[- ]date|YTD|so far this year|this year|earlier|prior|previous|past"
+                           r"|historical|still open|before)\b", re.I)
 BELOW_WORDS = re.compile(r"below (its |the )?budget|under (its |the )?budget|missed (its |the )?budget|"
                          r"short of (its |the )?budget|budget miss", re.I)
 STRONG_WORDS = re.compile(r"\b(surg|soar|plung|jump|slump|collaps|spik|tumbl|crash|skyrocket)\w*", re.I)
@@ -210,8 +212,13 @@ def false_alarms(narrative: list[dict], ev: dict) -> tuple[int, int, list[str]]:
     The original of a flagged duplicate, named in the same sentence ("INV-9000292 duplicates INV-0000292"), is not
     called wrong (§5f F8: the confirmation run's only two "false alarms" were such sentences); nor is it when the
     sentence calls it the original ("The flagged duplicate … matched original invoice INV-0000491": c4 run 1, live
-    week 15, the only scored false alarm of the c4 comparison, true by hand) — named as a duplicate, it still is."""
+    week 15, the only scored false alarm of the c4 comparison, true by hand) — named as a duplicate, it still is.
+    Nor is a finding of an earlier week (`audit.ytd`, weekly-pack plan W-R4) told as such — with its own week or a
+    year-to-date word (D-C5-1: 9 of c5's 11 scored false alarms were such true sentences, by hand); told as this
+    week's, it still counts."""
     flagged = {r["invoice_number"] for r in ev["audit.week"]["rows"]}
+    earlier = {r["invoice_number"]: r["report_week"] for r in (ev.get("audit.ytd") or {}).get("rows") or []
+               if r["invoice_number"] not in flagged}
     original_of = {r["invoice_number"]: r.get("duplicate_of") for r in ev["audit.week"]["rows"]}
     variance = {r["vessel_category"]: r["budget_variance_sdr"] for r in ev["kpi.category"]["rows"]}
     fa, ok, bad = 0, 0, []
@@ -221,7 +228,10 @@ def false_alarms(narrative: list[dict], ev: dict) -> tuple[int, int, list[str]]:
             originals = {original_of[i] for i in named & flagged if original_of[i]}
             if ORIGINAL_WORDS.search(b["text"]):
                 originals |= named & set(original_of.values())
+            weeks = {int(x) for x in re.findall(r"(?i)\b(?:weeks?|W)\s*(\d{1,2})\b", b["text"])}
             for inv in named - originals:
+                if inv in earlier and (earlier[inv] in weeks or EARLIER_WORDS.search(b["text"])):
+                    continue                     # an earlier week's finding, told as one
                 if inv in flagged:
                     ok += 1
                 else:
@@ -265,6 +275,17 @@ def claims(narrative: list[dict], ev: dict) -> tuple[int, int, list[str]]:
     return n, wrong, bad
 
 
+def holds_frozen(run, frozen) -> bool:
+    """Every frozen value is in the run's evidence, unchanged: the same results, rows (same order and count) and
+    fields with the same values. Fields and results added later (migration 021's columns and `audit.ytd`, weekly-pack
+    plan Phase B / C, D-D-1) are allowed — the frozen numbers are what the pack must have seen."""
+    if isinstance(frozen, dict):
+        return isinstance(run, dict) and all(k in run and holds_frozen(run[k], v) for k, v in frozen.items())
+    if isinstance(frozen, list):
+        return isinstance(run, list) and len(run) == len(frozen) and all(map(holds_frozen, run, frozen))
+    return run == frozen
+
+
 def score_pack(key: str, st: dict, pptx: Path | None) -> dict:
     """One golden week's finished run → its metrics (numbers, planted, findings, false alarms, claims, traceability,
     style, cost)."""
@@ -275,7 +296,7 @@ def score_pack(key: str, st: dict, pptx: Path | None) -> dict:
     bullets = _rendered_bullets(draft, ev) if draft else []
     narrative = [b for b in bullets if b["slide"] in NARRATIVE_SLIDES]
     context_b = [b for b in bullets if b["slide"] == 9]
-    ev_same = all(ev.get(k) == v for k, v in exp.items())
+    ev_same = holds_frozen(ev, exp)
     n_bound = sum(len(b["bound"]) for b in bullets)
     slot_errors = sum(len(b["errors"]) for b in bullets)
     numbers_ok = published and ev_same and slot_errors == 0 and bool((st.get("verdict") or {}).get("passed"))
@@ -426,6 +447,15 @@ def fake_state(key: str, draft: dict | None = None, **over) -> dict:
             "verdict": {"passed": True}, "rewrites": 0, "llm_usage": [], **over}
 
 
+def ytd_state(key: str) -> dict:
+    """A fake state whose evidence carries `audit.ytd` (the golden evidence was frozen before it): live week 10's
+    reviewed duplicate INV-0000626, the c5 sentences' finding."""
+    st = fake_state(key)
+    st["evidence"]["audit.ytd"] = {"rows": [{"invoice_number": "INV-0000626", "report_week": 10,
+                                             "check_code": "duplicate_charge", "difference_sdr": 81837.02}]}
+    return st
+
+
 def with_bullet(st: dict, slide: int, text: str, ids: list[str]) -> dict:
     d = json.loads(json.dumps(st["draft"]))
     d["bullets"].append({"slide": slide, "text": text, "evidence_ids": ids})
@@ -457,6 +487,12 @@ cases = {
         None)["false_alarms"],
     "original_called_duplicate": score_pack("test:23", with_bullet(
         fake_state("test:23"), 2, "INV-0000292 is a duplicate charge", ["audit.week"]), None)["false_alarms"],
+    # c5 (D-C5-1): an earlier week's finding (audit.ytd) told with its week or as year to date — no alarm; told as
+    # this week's, still one
+    "ytd_with_week": score_pack("live:47", with_bullet(ytd_state("live:47"), 8,
+        "INV-0000626 was flagged as a duplicate charge in week 10", ["audit.ytd"]), None)["false_alarms"],
+    "ytd_as_this_week": score_pack("live:47", with_bullet(ytd_state("live:47"), 8,
+        "The audit flagged INV-0000626 as a duplicate charge", ["audit.ytd"]), None)["false_alarms"],
     # week 36 of the copy: Special Floating Units is above budget (+25.53 %), LNG is the planted miss (−33.33 %)
     "false_miss": score_pack("test:36", with_bullet(fake_state("test:36"), 5,
                                                     "Special Floating Units billed below budget",
@@ -526,7 +562,7 @@ qa_cases = {
 actual = {"pack": cases, "qa": qa_cases}
 expected_cases = {"pack": {"good": (True, 0, 0, True), "evidence_tampered": False, "false_invoice": 1,
                            "duplicate_with_original": (0, 1), "duplicate_with_other": 1,
-                           "original_named_as_original": 0, "original_called_duplicate": 1, "false_miss": 1, "planted_miss_found": True, "planted_miss_silent": False,
+                           "original_named_as_original": 0, "original_called_duplicate": 1, "ytd_with_week": 0, "ytd_as_this_week": 1, "false_miss": 1, "planted_miss_found": True, "planted_miss_silent": False,
                            "wrong_direction": 1, "non_driver": 1, "untraced": True,
                            "budget_miss_named": True, "flat_week_strong": False, "not_published": []},
                   "qa": {"good_complete": 1.0, "good_relevant": 1.0, "wrong_week_value": 0.0, "refusal_ok": True,
@@ -847,7 +883,7 @@ else:
                 answers.append(a)
                 print(f"  r{r} {item['id']}: {a['status']} (expected {a['expected']})"
                       + (f", completeness {a['completeness']:.2f}" if "completeness" in a else "")
-                      + (f", LEAK" if a.get("leak") else ""))
+                      + (", LEAK" if a.get("leak") else ""))
         except llm.Exhausted as exc:
             stopped = f"repeat {r}: {str(exc)[:300]}"
         finally:

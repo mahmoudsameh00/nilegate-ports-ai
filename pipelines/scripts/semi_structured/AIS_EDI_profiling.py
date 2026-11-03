@@ -244,7 +244,6 @@ print("✅ Phase 2 validation passed.")
 # sentinels hide 2,320 COG and 5,050 HEADING values. DEST is empty for 3,881 records and a known UN/LOCODE for 883.
 
 import re
-from datetime import timezone
 
 NAVSTAT_LABELS = {
     0: "under way using engine", 1: "at anchor", 2: "not under command", 3: "restricted manoeuvrability",
@@ -730,7 +729,7 @@ profiles = {
 }
 OUT.mkdir(parents=True, exist_ok=True)
 for name, content in profiles.items():
-    (OUT / name).write_text(json.dumps(to_json(content), indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
+    (OUT / name).write_text(json.dumps(to_json(content), indent=1, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
 print({name: (OUT / name).stat().st_size for name in profiles})
 
 # ---- Phase 7 validation ------------------------------------------------------------------------------------------

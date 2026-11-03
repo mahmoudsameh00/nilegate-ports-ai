@@ -18,6 +18,9 @@ decision; the model only writes a short brief over the alerts, with number slots
 - **8 render:** `VoyageWatchResult`, the run file rewritten with the brief.
 Evidence ids `watch.<name>`; results kept as plain data (the checkpoint, P11-5).
 """
+# pyright: reportTypedDictNotRequiredAccess=false
+# (the state is total=False: a node runs only after the node that sets the keys it reads; LangGraph's config
+#  always carries `configurable` — ADR-063 amendment 2)
 import json
 import operator
 import os
@@ -26,7 +29,7 @@ import time
 from collections import Counter
 from datetime import datetime
 from pathlib import Path
-from typing import Annotated, TypedDict
+from typing import Annotated, Any, cast, TypedDict
 
 from langchain_core.messages import HumanMessage, SystemMessage
 from langgraph.graph import END, START, StateGraph
@@ -152,7 +155,7 @@ def weather_at(user, eta_rows: list[dict]) -> tuple[dict, dict]:
                 if attempt == 2:
                     errors[(res.note or res.status)[:120]] += 1
                 continue
-            sources.add(res.source.name)
+            sources.add(cast(Any, res.source).name)         # status ok: the source is set
             out |= {k: row for k, row in zip(batch, res.rows)}
         batches = failed
         if not failed:
@@ -533,7 +536,7 @@ def make_nodes(roles, reports_dir: Path) -> dict:
         return {"problems": problems, "brief_status": None if problems else "ok"}
 
     def node_render(state: WatchState, runtime: Runtime[RunContext], config) -> dict:
-        out = result_of(state, runtime.context.as_of)
+        out = result_of(cast(dict, state), runtime.context.as_of)
         if out["status"] == "ok":
             out["run_file"] = str(run_file_path(reports_dir, _thread(config)))
         res = m.VoyageWatchResult.model_validate(out).model_dump(mode="json")

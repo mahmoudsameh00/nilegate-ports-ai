@@ -189,6 +189,7 @@ class SessionStore:
         rep = uploads.validate_upload(data, filename, uploader, timeout)
         if not rep.accepted:
             return rep
+        assert rep.document is not None                     # accepted => the document is set
         doc_id = rep.document["document_id"]
         replacing = doc_id in session.uploads
         n_up = len(session.uploads) - replacing
@@ -239,6 +240,7 @@ class SessionStore:
                 problems.append("the original file was not kept")
         if problems:
             return {"accepted": False, "problems": problems}
+        assert up is not None and up.original is not None   # both are problems above
         rid = f"{dt.datetime.now():%Y%m%d_%H%M%S}_{document_id}_{uuid.uuid4().hex[:6]}"
         folder = (root or PROMOTION_DIR) / rid
         folder.mkdir(parents=True, exist_ok=False)
@@ -248,5 +250,5 @@ class SessionStore:
                                     "department": requester.department},
                    "filename": up.filename, "sha256": up.sha256, "document": up.document,
                    "chunk_count": len(up.rows), "note": note[:500]}
-        (folder / "request.json").write_text(json.dumps(request, indent=2, ensure_ascii=False), encoding="utf-8")
+        (folder / "request.json").write_text(json.dumps(request, indent=2, ensure_ascii=False), encoding="utf-8", newline="\n")
         return {"accepted": True, "request_id": rid, "folder": folder}

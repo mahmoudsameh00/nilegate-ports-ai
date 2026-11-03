@@ -16,8 +16,12 @@ file back (`deck/readback.py`, V8); a rewrite is a patch of the failing texts on
   `interrupt()`, and every node only returns state updates (the validator's preview and the publisher's files are
   overwritten, never appended).
 
-Evidence ids (`graphs/models.py`): `kpi.<dataset>`, `audit.week`, `insight.<tool_call_id>`.
+Evidence ids (`graphs/models.py`): `kpi.<dataset>`, `audit.week`, `audit.ytd` (weeks 1 … w, weekly-pack plan
+Phase C), `insight.<tool_call_id>`.
 """
+# pyright: reportTypedDictNotRequiredAccess=false
+# (the state is total=False: a node runs only after the node that sets the keys it reads; LangGraph's config
+#  always carries `configurable` — ADR-063 amendment 2)
 import hashlib
 import json
 import operator
@@ -25,7 +29,7 @@ import re
 import shutil
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Annotated, Any, Literal, TypedDict
+from typing import Annotated, Any, cast, Literal, TypedDict
 
 from langchain_core.messages import AIMessage, AnyMessage, HumanMessage, SystemMessage, ToolMessage
 from langchain_core.runnables import RunnableConfig
@@ -156,7 +160,10 @@ def kpi(state: PackState, runtime: Runtime[RunContext]) -> dict:
 # --- 3 Invoice Auditor ----------------------------------------------------------------------------------------------
 
 def audit_evidence(user, report_week: int, dataset: str) -> dict[str, dict]:
+    """The week's audit + the year to date (weeks 1 … w, slide 8 when the week has no finding: W-R4)."""
     return {"audit.week": audit_tool.invoice_audit(user, report_week=report_week, dataset=dataset)
+            .model_dump(mode="json"),
+            "audit.ytd": audit_tool.invoice_audit(user, report_week=report_week, dataset=dataset, through_week=True)
             .model_dump(mode="json")}
 
 
@@ -172,14 +179,17 @@ def audit(state: PackState, runtime: Runtime[RunContext]) -> dict:
 DIGEST_FIELDS = {
     "kpi.weekly": None,                                               # one row: every field
     "kpi.category": ("vessel_category", "billed_sdr", "billed_wow_change_sdr", "billed_wow_pct", "budget_sdr",
-                     "budget_variance_sdr", "budget_variance_pct"),
-    "kpi.customers": ("rank_13w", "rank_13w_prev", "customer_name", "billed_13w_sdr", "share_13w_pct", "ar_sdr",
-                      "overdue_sdr"),
+                     "budget_variance_sdr", "budget_variance_pct", "invoices_billed", "invoices_prev"),
+    # weekly-pack plan Phase B: slide 7's risk columns (M15, M16)
+    "kpi.customers": ("rank_13w", "rank_13w_prev", "customer_name", "credit_rating", "billed_13w_sdr",
+                      "share_13w_pct", "ar_sdr", "overdue_sdr", "ar_to_billed_13w_pct", "is_watchlist",
+                      "ontime_13w_pct"),
     "kpi.overdue": ("rank_by_amount", "invoice_number", "customer_name", "amount_sdr", "days_past_due",
                     "aging_bucket"),
     "kpi.trend": ("trend_week_label", "billed_sdr", "budget_sdr", "budget_variance_pct"),
     "audit.week": ("invoice_number", "vessel_category", "check_code", "probable_cause", "billed_sdr", "expected_sdr",
                    "difference_sdr", "duplicate_of"),
+    "audit.ytd": ("report_week", "invoice_number", "vessel_category", "check_code", "difference_sdr"),
 }
 AUDIT_TOTALS = ("invoices_checked", "invoices_flagged", "amount_at_stake_sdr")
 
@@ -201,7 +211,7 @@ def digest(evidence: dict[str, dict], ids=None) -> str:
         if res.get("note"):
             head += f" note: {res['note']}"
         lines = [head]
-        if eid == "audit.week" and res["status"] == "ok":
+        if eid in ("audit.week", "audit.ytd") and res["status"] == "ok":
             lines.append(" | ".join(f"{k}={_cell(res.get(k))}" for k in AUDIT_TOTALS))
         rows = res.get("rows") or []
         fields = DIGEST_FIELDS.get(eid) or (tuple(rows[0]) if rows else ())
@@ -272,7 +282,7 @@ def _tool_evidence(messages: list) -> dict[str, dict]:
 def evidence_index(evidence: dict[str, dict], messages: list) -> str:
     """One line per evidence id: what it is. The model never sees its own tool-call ids, so without this list it
     cites tool names (seen in S6: "suez_transits" as an evidence id)."""
-    calls = {_evidence_id(c["id"]): c for x in messages if isinstance(x, AIMessage) for c in x.tool_calls}
+    calls = {_evidence_id(cast(str, c["id"])): c for x in messages if isinstance(x, AIMessage) for c in x.tool_calls}
     lines = []
     for eid, res in sorted(evidence.items()):
         what = (f"{calls[eid]['name']}({json.dumps(calls[eid]['args'], ensure_ascii=False)})" if eid in calls
@@ -444,8 +454,9 @@ def make_writer(roles):
         week, label = state["report_week"], _week_label(ev)
         index = "[evidence ids you may cite]\n" + evidence_index(ev, state.get("messages") or [])
         try:
-            if rewrite and _patchable(verdict["problems"]):
-                fixes, needed = _fix_list(state["draft"], verdict["problems"])
+            problems: list[dict] = cast(dict, verdict)["problems"] if rewrite else []   # rewrite => a failed verdict
+            if rewrite and _patchable(problems):
+                fixes, needed = _fix_list(state["draft"], problems)
                 msgs = [SystemMessage(PATCH_TASK.format(week=week, year=REPORT_YEAR, slide_map=_slide_map(),
                                                         slot_rules=SLOT_RULES.format(week=week))),
                         HumanMessage("\n\n".join([f"[texts to fix]\n{fixes}", index,
@@ -457,7 +468,7 @@ def make_writer(roles):
                         "[insight notes]\n" + json.dumps(state["insight"], ensure_ascii=False)]
                 if rewrite:      # a wrong deck shape: the whole deck again, with the problems and the draft
                     body.append("[validator] your previous draft failed these checks; fix them and return the whole "
-                                "deck:\n" + json.dumps(verdict["problems"], ensure_ascii=False)
+                                "deck:\n" + json.dumps(problems, ensure_ascii=False)
                                 + "\n[previous draft]\n" + json.dumps(state["draft"], ensure_ascii=False))
                 msgs = [SystemMessage(WRITER_TASK.format(week=week, year=REPORT_YEAR, label=label, draft=DRAFT_LABEL,
                                                          slide_map=_slide_map(),
@@ -527,7 +538,7 @@ def make_validator(reports_dir: Path):
     def validator(state: PackState, config: RunnableConfig) -> dict:
         week, ev = state["report_week"], state["evidence"]
         v = v2.validate(state["draft"], ev, week)
-        out = {"preview": None}                          # a failing draft has no preview
+        out: dict[str, Any] = {"preview": None}          # a failing draft has no preview
         if v.passed:
             data = render.render(state["draft"], ev, state["readiness"], DRAFT_LABEL)
             problems = readback.validate_pptx(data, state["draft"], ev, state["readiness"], DRAFT_LABEL)
@@ -742,7 +753,7 @@ def build_graph(roles: Any, checkpointer=None, reports_dir: Path | None = None, 
     g.add_node("stop_failed", stop_failed)
     g.add_node("fallback", fallback if use_fallback else stop_failed)   # False: the evaluation's before-c4 side
     g.add_node("approval", make_approval(reports_dir))
-    g.add_node("publisher", make_publisher(reports_dir))
+    g.add_node("publisher", cast(Any, make_publisher(reports_dir)))
     g.add_edge(START, "readiness")
     g.add_conditional_edges("readiness", after_readiness, ["kpi", END])
     g.add_edge("kpi", "audit")

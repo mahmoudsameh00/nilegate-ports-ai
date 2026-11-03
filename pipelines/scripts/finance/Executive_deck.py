@@ -195,7 +195,10 @@ def chart(slide, name: str, x, y, w):
     return pic
 
 
-def action(slide, label: str, body: str, y=Inches(6.05)):
+ACTION_Y, TABLE_PT = Inches(6.05), Pt(12)          # default band position / table text size
+
+
+def action(slide, label: str, body: str, y=ACTION_Y):
     """The management action of the slide: a tinted band with a bold label (no edge stripe)."""
     rect(slide, S.MARGIN, y, S.CONTENT_W, Inches(0.6), S.TILE_BG, name="action.bg")
     text(slide, S.MARGIN + Inches(0.2), y, S.CONTENT_W - Inches(0.4), Inches(0.6),
@@ -203,7 +206,7 @@ def action(slide, label: str, body: str, y=Inches(6.05)):
          name="action")
 
 
-def table(slide, x, y, widths, rows, size=Pt(12), name=None):
+def table(slide, x, y, widths, rows, size=TABLE_PT, name=None):
     shp = slide.shapes.add_table(len(rows), len(widths), x, y, sum(widths, Inches(0)), Inches(0.36 * len(rows)))
     if name:
         shp.name = name

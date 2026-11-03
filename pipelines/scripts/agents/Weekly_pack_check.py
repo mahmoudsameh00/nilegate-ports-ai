@@ -358,7 +358,8 @@ actual = {"pack_user": (fin_mgr.role, fin_mgr.department), "paths": sorted(paths
           "denied": (denied_path, denied["status"], numbers_in(denied))}
 expected = {"pack_user": ("manager", "Finance"), "paths": [("readiness", "kpi", "audit")], "weeks_ready": 52,
             "warmup_weeks": list(range(1, 14)),
-            "evidence_keys": ["audit.week", "kpi.category", "kpi.customers", "kpi.overdue", "kpi.trend",
+            # + audit.ytd since the weekly-pack plan Phase C (slide 8's year-to-date findings, 2026-11-01)
+            "evidence_keys": ["audit.week", "audit.ytd", "kpi.category", "kpi.customers", "kpi.overdue", "kpi.trend",
                               "kpi.weekly"],
             "evidence_equal_direct": 52,
             "live_findings": {10: [("INV-0000626", "duplicate_charge", "INV-0000293")],

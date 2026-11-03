@@ -18,12 +18,15 @@ only chooses and explains with number slots; node 6 (the Validator) and node 7 (
   advice goes on.
 Evidence ids `route.<name>`; results kept as `model_dump(mode="json")` (plain data in the checkpoint, P10-3).
 """
+# pyright: reportTypedDictNotRequiredAccess=false
+# (the state is total=False: a node runs only after the node that sets the keys it reads; LangGraph's config
+#  always carries `configurable` — ADR-063 amendment 2)
 import json
 import operator
 import re
 from datetime import date, datetime, timedelta
 from decimal import ROUND_HALF_UP, Decimal
-from typing import Annotated, TypedDict
+from typing import Annotated, Any, cast, TypedDict
 
 from langchain_core.messages import HumanMessage, SystemMessage
 from langgraph.graph import END, START, StateGraph
@@ -144,8 +147,9 @@ def traffic(user, day: date) -> dict:
     before = external.suez_transits(user, start=(start - timedelta(days=365)).isoformat(),
                                     end=(end - timedelta(days=365)).isoformat())
     ev = {"route.transits": now.model_dump(mode="json"), "route.transits_year_before": before.model_dump(mode="json")}
-    if now.status == "ok" and before.status == "ok" and before.mean_daily_transits:
-        a, b = _d(now.mean_daily_transits), _d(before.mean_daily_transits)
+    now_x, before_x = cast(Any, now), cast(Any, before)    # suez_transits adds mean_daily_transits (extra field)
+    if now.status == "ok" and before.status == "ok" and before_x.mean_daily_transits:
+        a, b = _d(now_x.mean_daily_transits), _d(before_x.mean_daily_transits)
         ev["route.traffic"] = _costs_result("traffic", [{
             "route": "traffic", "window": f"{start.isoformat()} … {end.isoformat()}",
             "mean_daily_transits_recent": float(a), "mean_daily_transits_year_before": float(b),

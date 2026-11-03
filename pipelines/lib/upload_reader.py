@@ -19,6 +19,7 @@ import json
 import re
 import sys
 import zipfile
+from typing import Any, cast
 
 MAX_PAGES = 30
 MAX_UNZIPPED = 25 * 1024 * 1024   # DOCX: total uncompressed size (zip-bomb guard)
@@ -92,7 +93,7 @@ def read_pdf(data: bytes) -> dict:
         out["metadata_text"].append(re.sub(r"<[^>]+>", " ", xmp))
 
     block_no = 0
-    for pno, page in enumerate(doc, start=1):
+    for pno, page in enumerate(cast(Any, doc), start=1):
         for link in page.get_links():
             kind, uri = link.get("kind"), link.get("uri") or ""
             if kind == pymupdf.LINK_URI and not uri.lower().startswith("https://"):
@@ -114,7 +115,7 @@ def read_pdf(data: bytes) -> dict:
             if not r.intersects(prect):
                 _note(out, "N_OFF_PAGE_TEXT", f"page {pno}: text outside the page box was ignored")
             elif sp.get("type") == 3 or sp.get("opacity", 1) == 0:
-                invisible.append(tuple(r))
+                invisible.append(tuple(cast(Any, r)))
 
         d = page.get_text("dict", sort=True)
         page_chars = 0
@@ -330,8 +331,8 @@ def read_docx(data: bytes) -> dict:
     def fields(root, where):
         for el in root.iter():
             instr = el.text if el.tag == W + "instrText" else el.get(W + "instr") if el.tag == W + "fldSimple" else None
-            if instr and FIELD_BAD.search(instr):
-                _issue(out, "E_ACTIVE_CONTENT", f"{where}: field {FIELD_BAD.search(instr).group(1).upper()}")
+            if instr and (bad := FIELD_BAD.search(instr)):
+                _issue(out, "E_ACTIVE_CONTENT", f"{where}: field {bad.group(1).upper()}")
             if el.tag == W + "altChunk":
                 _issue(out, "E_ACTIVE_CONTENT", f"{where}: altChunk (imported foreign content)")
 

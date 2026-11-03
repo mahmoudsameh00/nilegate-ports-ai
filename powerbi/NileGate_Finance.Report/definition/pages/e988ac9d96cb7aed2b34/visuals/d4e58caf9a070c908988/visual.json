@@ -1,0 +1,114 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "d4e58caf9a070c908988",
+  "position": {
+    "x": 980.36220838608,
+    "y": 650.00335856563413,
+    "z": 5001,
+    "height": 108.92913426512,
+    "width": 919.64760895961967,
+    "tabOrder": 5001
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Weekly KPIs"
+                    }
+                  },
+                  "Property": "DSO Best Days"
+                }
+              },
+              "queryRef": "Weekly KPIs.DSO Best Days",
+              "nativeQueryRef": "DSO Best Days"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Weekly KPIs"
+                    }
+                  },
+                  "Property": "DSO Delinquency Days"
+                }
+              },
+              "queryRef": "Weekly KPIs.DSO Delinquency Days",
+              "nativeQueryRef": "DSO late days",
+              "displayName": "DSO late days"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Weekly KPIs"
+                    }
+                  },
+                  "Property": "Overdue New SDR"
+                }
+              },
+              "queryRef": "Weekly KPIs.Overdue New SDR",
+              "nativeQueryRef": "Overdue New SDR"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Weekly KPIs"
+                    }
+                  },
+                  "Property": "Overdue Paid SDR"
+                }
+              },
+              "queryRef": "Weekly KPIs.Overdue Paid SDR",
+              "nativeQueryRef": "Overdue Paid SDR"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Weekly KPIs"
+                    }
+                  },
+                  "Property": "Due Week Collected %"
+                }
+              },
+              "queryRef": "Weekly KPIs.Due Week Collected %",
+              "nativeQueryRef": "Due collected %",
+              "displayName": "Due collected %"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Weekly KPIs"
+                  }
+                },
+                "Property": "DSO Best Days"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

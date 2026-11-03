@@ -1,6 +1,23 @@
 # Observability plan — Sentry errors, logs and one cron monitor; the LangSmith mirror after c4
 
-Status: **APPROVED (2026-10-31)** — owner: "موافق، ابدأ S1" (S1 as written; S2–S4 each approved before their code).
+Status: **IMPLEMENTED (2026-11-02)** — approved 2026-10-31 (owner: "موافق، ابدأ S1"; S2–S4 approved 2026-11-01 as one batch).
+
+## Implementation record (2026-11-02)
+
+- **S1 (2026-10-31):** Sentry errors + WARNING+ logs from the four CLIs' `main()` only (`pipelines/agents/monitoring.py`,
+  `sentry-sdk==2.72.0`, the LangChain / AI integrations off, no spans); the one cron monitor `nilegate-weekly-pack`
+  on `Weekly_pack.py scheduled`; `Monitoring_check.py`. **Closed 2026-11-02:** the first real check-in arrived ok at
+  2026-11-02T08:30Z (≈ 42 s, exit 0, week 13 awaiting approval), no issue in the last 24 h.
+- **S2 (2026-11-01):** `Langsmith_mirror.py` — the frozen evaluations mirrored as 3 LangSmith datasets + experiments,
+  0 model calls, idempotent.
+- **S3 (2026-11-01):** annotation queue `nilegate-review` + an automation rule (errors and `refused` traces).
+- **S4 (2026-11-01):** Sentry "new issue" email alert 6273246.
+- **Deviations:** D-S1-1…D-S1-6, D-S2-1, D-S3-1 (Progress below). **Open for the owner:** D-S1-5 (event geo = the
+  laptop's IP, nothing changed) and **D-S1-6** — connect the monitor's detector 10829356 to alert 6273246 (Sentry →
+  Alerts → 6273246 → add `nilegate-weekly-pack` as a source); until then a missed / failed Monday makes a cron issue
+  but no email.
+- **Lasting decision:** ADR-062 (+ amendment 1).
+
 
 `docs/plans/` held two plans for one day (owner 2026-10-31); `Agents_plan.md` closed after Stage 1 candidate c4 and
 was archived on 2026-11-01 (`docs/archive/2026-11-01_Agents_plan.md`) — this file is now the only active plan.
@@ -172,3 +189,19 @@ checks ✅; the first real `scheduled` firing (Monday 2026-11-02 10:30) shows an
   reached `nilegate-review` within the wait (the queue held 3 items: the rule also matched earlier root runs).
 - **Next:** the Monday task (2026-11-02 11:00) verifies the first check-in and closes S1 → then this plan is complete:
   implementation record, archive, ROADMAP, `/graphify . --update`, the owner's commit.
+- 2026-11-02 — **First real check-in verified (scheduled task `nilegate-sentry-first-checkin`, 11:00 local).**
+  `reports/_log/scheduled.jsonl` last line: `at` 2026-11-02T08:30:06Z, `cmd` scheduled, **`exit` 0**, no `error`,
+  decision `start` (next week of the replay) → week **13**, thread `weekly_pack:live:2025-W13:1`, result `pending` /
+  `awaiting_approval` (the pack waits for the owner's approval), retention deleted nothing, `traced` true.
+  Sentry: monitor **`nilegate-weekly-pack`** exists (created by this check-in; project `python`, `30 10 * * 1`
+  Africa/Cairo, margin 720, max runtime 60), environment `local` status **ok**, one check-in **ok** at
+  2026-11-02T08:30Z (duration 42,328 ms ≈ 42 s), next expected 2026-11-09T08:30Z;
+  https://terbo.sentry.io/crons/python/nilegate-weekly-pack/ . Issues in `python` seen in the last 24 h: none.
+  The check-in status matches the jsonl record (exit 0 → ok).
+  - **D-S1-6 (deviation, open for the owner):** the monitor's detector is **10829356** (type
+    `monitor_check_in_failure`, `workflowIds` []), but connecting it to alert 6273246 (`update_alert_rule`,
+    `addDetectorIds ["10829356"]`) was **refused by the session's permission classifier** (standing-rule change in an
+    unattended run) → **not connected**; nothing else changed in Sentry. To do: the owner connects it (Sentry → Alerts →
+    6273246 → add the monitor `nilegate-weekly-pack` as a source), or approves the call in a live session. Until then a
+    missed / failed Monday firing makes a cron issue but sends no email through 6273246.
+  - **S1 CLOSED — the first real check-in arrived.**
