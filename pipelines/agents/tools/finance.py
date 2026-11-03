@@ -7,7 +7,7 @@ silently change what the agents see; the check script compares them with the vie
 
 Access: the `finance` views are level 2 / Finance (ADR-006): Finance staff, every manager and the CEO.
 """
-from typing import Literal
+from typing import cast, Literal
 
 from langchain.tools import ToolRuntime, tool
 from pydantic import BaseModel, Field
@@ -23,16 +23,22 @@ DATASETS = {
         "aging_current_sdr", "aging_1_30_sdr", "aging_31_60_sdr", "aging_61_90_sdr", "aging_90_plus_sdr",
         "dso_window_days", "dso_window_billed_sdr", "dso_days", "budget_sdr", "budget_variance_sdr",
         "budget_variance_pct", "top10_share_13w_pct", "billed_wow_pct", "collected_wow_pct", "ar_wow_pct",
-        "overdue_wow_pct", "dso_wow_days"), "report_week"),
+        "overdue_wow_pct", "dso_wow_days",
+        # migration 021 (weekly-pack plan Phase B): window length, 13-week position, DSO split, typical swings,
+        # overdue roll-forward, cash due this week, punctuality (docs/finance_metrics.md M9b, M12–M14, M16)
+        "roll_window_weeks", "billed_13w_sdr", "budget_13w_sdr", "budget_variance_13w_pct", "dso_best_days",
+        "dso_delinquency_days", "billed_wow_typical_pct", "collected_wow_typical_pct", "ar_wow_typical_pct",
+        "overdue_wow_typical_pct", "overdue_new_sdr", "overdue_paid_sdr", "due_week_sdr", "due_week_collected_sdr",
+        "due_week_collected_pct", "ontime_13w_pct"), "report_week"),
     # the week's drivers first: largest |WoW change| (M10), then by name
     "category": ("finance.kpi_weekly_category", (
         "report_week", "vessel_category", "invoices_billed", "billed_sdr", "budget_sdr", "budget_variance_sdr",
-        "budget_variance_pct", "billed_prev_sdr", "billed_wow_change_sdr", "billed_wow_pct"),
+        "budget_variance_pct", "billed_prev_sdr", "billed_wow_change_sdr", "billed_wow_pct", "invoices_prev"),
         "abs(billed_wow_change_sdr) DESC NULLS LAST, vessel_category"),
     "customers": ("finance.kpi_customer_13w", (
         "report_week", "customer_id", "customer_name", "segment", "country", "credit_rating", "payment_terms_days",
         "billed_week_sdr", "billed_13w_sdr", "share_13w_pct", "rank_13w", "rank_13w_prev", "is_top10", "ar_sdr",
-        "overdue_sdr"), "rank_13w"),
+        "overdue_sdr", "ar_to_billed_13w_pct", "is_watchlist", "ontime_13w_pct"), "rank_13w"),
     "overdue": ("finance.kpi_overdue_list", (
         "report_week", "as_of_date", "invoice_number", "customer_id", "customer_name", "vessel_id", "vessel_name",
         "vessel_category", "invoice_date", "due_date", "amount_sdr", "days_past_due", "aging_bucket",
@@ -51,7 +57,8 @@ TEST_VIEWS = {"weekly": "finance_test.kpi_weekly", "category": "finance_test.kpi
 class KpiArgs(BaseModel):
     report_week: int = Field(ge=1, le=52, description="ISO week of 2025, 1 to 52 (as of its Sunday 23:59)")
     dataset: Literal["weekly", "category", "customers", "overdue", "trend"] = Field(description=(
-        "weekly = the week's KPIs (billed, collected, AR, aging, overdue, DSO, budget variance, top-10 share, WoW); "
+        "weekly = the week's KPIs (billed, collected, AR, aging, overdue, DSO, budget variance, top-10 share, WoW, "
+        "the typical weekly swing, the 13-week budget position, the overdue roll-forward); "
         "category = billed vs budget and WoW change per vessel category, largest change first (the drivers); "
         "customers = customers ranked on the trailing 13 weeks; overdue = overdue invoices, largest first; "
         "trend = the 13-week trend ending at the week"))
@@ -91,7 +98,7 @@ def finance_kpi(user, source: str = "live", **args) -> ToolResult:
                      "previous week from the live views" if a.dataset in TEST_VIEWS
                      else "live data: the evaluation copy has no customers, payments or trend of its own")
     return ToolResult(tool="finance_kpi", status="ok", rows=rows, note="; ".join(notes) or None,
-                      source=Source(kind="view", name=view, filter=flt))
+                      source=Source(kind="view", name=cast(str, view), filter=flt))
 
 
 @tool("finance_kpi", args_schema=KpiArgs)

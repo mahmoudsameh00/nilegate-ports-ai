@@ -18,7 +18,7 @@ state, so a number is bound to its (result, row, field) by construction. Phase 1
 Supervisor. Evidence ids: `insight.<tool_call_id>` (the pack's convention, so the slot syntax is the same).
 """
 import re
-from typing import Annotated, Any, Literal
+from typing import Annotated, Any, cast, Literal
 
 from langchain.agents import create_agent
 from langchain.agents.middleware import AgentMiddleware, AgentState, ModelCallLimitMiddleware, hook_config
@@ -129,8 +129,16 @@ def _allowed_number(n: str, question: str, quoted: str) -> bool:
     return (v.is_integer() and (1 <= v <= 53 or 2020 <= v <= 2030))   # week numbers, "13 weeks", "top 10", years
 
 
-def check_answer(answer: dict, evidence: dict, question: str, lang: str = "en") -> tuple[str, list[dict], list[str]]:
-    """(rendered text, bound slots, problems). The deterministic rules of this agent; the harness scores with it too."""
+FINANCE_YEAR = 2025                                     # the finance data covers 2025 only (migration 012)
+FINANCE_TOOLS = {"finance_kpi", "invoice_audit"}
+YEAR_RE = re.compile(r"(?<!\d)(20\d{2})(?!\d)")
+
+
+def check_answer(answer: dict, evidence: dict, question: str, lang: str = "en",
+                 asked: str | None = None) -> tuple[str, list[dict], list[str]]:
+    """(rendered text, bound slots, problems). The deterministic rules of this agent; the harness scores with it too.
+    `asked` = the question as the user wrote it, for the year rule (default `question`; the supervisor appends the
+    cited rows' ids to `question`, and an id is not a year)."""
     problems = []
     text = answer["answer"]
     unknown = [e for e in answer.get("evidence_ids") or [] if e not in evidence]
@@ -155,6 +163,12 @@ def check_answer(answer: dict, evidence: dict, question: str, lang: str = "en") 
     status = answer["status"]
     if status != "answered" and (bound or typed):
         problems.append(f"status {status} must hold no number: say what is missing or not permitted, without figures")
+    # D-P12-12: a question about another year is not in the data — a 2025 figure in its place is a wrong answer
+    # (dp127 run 2, a01: "week 12 of 2024" answered with 2025-W12's billing); other tools keep their own years
+    other = sorted({y for y in YEAR_RE.findall((asked or question).translate(ARABIC_DIGITS)) if int(y) != FINANCE_YEAR})
+    if other and any((evidence.get(b.slot.eid) or {}).get("tool") in FINANCE_TOOLS for b in bound):
+        problems.append(f"the question asks about {', '.join(other)}: NileGate's finance data holds {FINANCE_YEAR} "
+                        "only — status not_in_data without figures; never answer with another year's numbers")
     structured = [r for r in evidence.values() if r.get("tool") in slots.NUMERIC_TOOLS]
     if status == "answered" and structured and all(r.get("status") == "not_permitted" for r in structured):
         problems.append("every structured tool refused this user's access: the status is not_permitted")
@@ -190,7 +204,7 @@ def _data_messages(messages: list) -> list:
 
 
 def _calls(messages: list) -> dict[str, dict]:
-    return {_evidence_id(c["id"]): {"tool": c["name"], "args": c["args"]}
+    return {_evidence_id(cast(str, c["id"])): {"tool": c["name"], "args": c["args"]}
             for x in _data_messages(messages) if isinstance(x, AIMessage) for c in x.tool_calls}
 
 
@@ -287,7 +301,7 @@ def build_graph(roles, checkpointer=None):
     return create_agent(RoleChatModel(roles=roles), STAGE1_TOOLS, system_prompt=QA_TASK.format(skills=skills),
                         # an invalid QaAnswer call goes back to the model with the error (counted by the call limit)
                         response_format=ToolStrategy(m.QaAnswer, handle_errors=True),
-                        middleware=[QaTurn(), ModelCallLimitMiddleware(run_limit=MAX_MODEL_CALLS, exit_behavior="end")],
+                        middleware=cast(Any, [QaTurn(), ModelCallLimitMiddleware(run_limit=MAX_MODEL_CALLS, exit_behavior="end")]),
                         context_schema=RunContext, checkpointer=checkpointer, name="finance_qa")
 
 

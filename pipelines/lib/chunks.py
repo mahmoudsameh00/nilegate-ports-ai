@@ -11,6 +11,7 @@ by the PDF ingestion script before anything is embedded or loaded.
 """
 import re
 from pathlib import Path
+from typing import Any, cast
 
 import pandas as pd
 
@@ -98,7 +99,7 @@ def plain_value(v):
     if v is None or v is pd.NA or (isinstance(v, float) and v != v):
         return None
     if hasattr(v, "tolist") and not isinstance(v, str):
-        return v.tolist()
+        return cast(Any, v).tolist()
     return v
 
 
@@ -114,7 +115,7 @@ def load(chunk_dir: Path) -> pd.DataFrame:
 def check(df: pd.DataFrame, departments: set[str] = DEPARTMENTS) -> dict:
     """Assert the contract; return a small summary (counts) for the caller's reviewed snapshot."""
     assert list(df.columns) == COLUMNS, f"columns differ from the 16-column schema: {list(df.columns)}"
-    nulls = {c: int(df[c].isna().sum()) for c in REQUIRED if df[c].isna().any()}
+    nulls = {c: int(cast(Any, df[c].isna().sum())) for c in REQUIRED if cast(Any, df[c].isna()).any()}
     assert not nulls, f"nulls in required columns: {nulls}"
     assert df.chunk_id.is_unique, "duplicate chunk_id"
     assert str(df.sensitivity_level.dtype) == "Int64" and df.sensitivity_level.between(1, 3).all(), \

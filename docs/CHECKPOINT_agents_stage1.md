@@ -4,7 +4,7 @@
 
 الملف ده شرح كامل بالعامية لكل اللي اتعمل في Stage 1 من خطة الـ agents: كل Phase كان هدفها إيه، اتبنت إزاي، كان
 قدامنا أنهي اختيارات واخترنا إيه وليه، قابلنا مشاكل إيه واتحلت إزاي، والملفات اللي اتعملت وكل واحد بيعمل إيه.
-مصادر الشرح ده (لو عايز التفاصيل الخام): `docs/plans/Agents_plan.md` (الخطة + قسم Progress بكل يوم)، و
+مصادر الشرح ده (لو عايز التفاصيل الخام): `docs/archive/2026-11-01_Agents_plan.md` (الخطة + قسم Progress بكل يوم)، و
 `docs/decisions.md` من ADR-045 لحد ADR-054، و`ARCHITECTURE.md`، وملفات الـ checkpoints في `pipelines/checkpoints/agents/`.
 
 ---
@@ -679,7 +679,7 @@ placeholder لحد §5f F6).
   - middleware `QaTurn` بيحط تعليمات الإجابة في كل request، ويشيل الـ tools بعد 3 لفات، ويعمل check + patch واحد.
   - `ModelCallLimitMiddleware(8)`.
   - `Finance_qa_check.py` 6 / 6، ولقى باج حقيقي واتصلّح.
-  - CLI جديد: `Finance_qa.py ask "…" --as E [--lang ar]`.
+  - CLI جديد: `Finance_qa.py ask "…" --as E [--lang ar]` (اتشال 2026-10-29 واتحط مكانه `Ask.py` بتاع الـsupervisor، Phase 12 S4).
 - **F3:** migration 018 + الـ generator + إعادة قفل الـ evidence (`REFREEZE`: انتقال واحد متسجل بالـ hash القديم والسبب).
 - **F4:** الأسئلة الذهبية v2 = 42 (32 EN + 10 AR). كلمات الـ scorer اتصلحت **بقاعدة مش من نتيجة**: "category / vessel
   category"، و«فاتور» / «فوتنا»، و"940,355 thousand".
@@ -786,7 +786,7 @@ reports/                                                التقارير الم�
 
 docs/finance_metrics.md                                 تعريف كل KPI
 docs/decisions.md  ADR-045 … ADR-054                    القرارات
-docs/plans/Agents_plan.md                               الخطة + Progress بكل يوم
+docs/archive/2026-11-01_Agents_plan.md                               الخطة + Progress بكل يوم
 ```
 
 ---

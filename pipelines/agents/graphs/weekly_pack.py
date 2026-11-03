@@ -16,8 +16,12 @@ file back (`deck/readback.py`, V8); a rewrite is a patch of the failing texts on
   `interrupt()`, and every node only returns state updates (the validator's preview and the publisher's files are
   overwritten, never appended).
 
-Evidence ids (`graphs/models.py`): `kpi.<dataset>`, `audit.week`, `insight.<tool_call_id>`.
+Evidence ids (`graphs/models.py`): `kpi.<dataset>`, `audit.week`, `audit.ytd` (weeks 1 … w, weekly-pack plan
+Phase C), `insight.<tool_call_id>`.
 """
+# pyright: reportTypedDictNotRequiredAccess=false
+# (the state is total=False: a node runs only after the node that sets the keys it reads; LangGraph's config
+#  always carries `configurable` — ADR-063 amendment 2)
 import hashlib
 import json
 import operator
@@ -25,7 +29,7 @@ import re
 import shutil
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Annotated, Any, Literal, TypedDict
+from typing import Annotated, Any, cast, Literal, TypedDict
 
 from langchain_core.messages import AIMessage, AnyMessage, HumanMessage, SystemMessage, ToolMessage
 from langchain_core.runnables import RunnableConfig
@@ -37,7 +41,7 @@ from langgraph.types import interrupt
 from pydantic import ValidationError
 
 from pipelines.agents import skill_loader
-from pipelines.agents.deck import readback, render, slots
+from pipelines.agents.deck import readback, render, sample, slots
 from pipelines.agents.deck import validator as v2
 from pipelines.agents.graphs import models as m
 from pipelines.agents.roles import StructuredError
@@ -68,7 +72,8 @@ class PackState(TypedDict, total=False):
     messages: Annotated[list[AnyMessage], add_messages]
     insight: dict
     draft: dict
-    draft_origin: Literal["writer", "edit"]
+    draft_origin: Literal["writer", "edit", "fallback"]
+    degraded: dict                     # c4: what code replaced after the rewrites failed (shown to the approver)
     verdict: dict
     rewrites: int
     approval_log: Annotated[list[dict], operator.add]
@@ -155,7 +160,10 @@ def kpi(state: PackState, runtime: Runtime[RunContext]) -> dict:
 # --- 3 Invoice Auditor ----------------------------------------------------------------------------------------------
 
 def audit_evidence(user, report_week: int, dataset: str) -> dict[str, dict]:
+    """The week's audit + the year to date (weeks 1 … w, slide 8 when the week has no finding: W-R4)."""
     return {"audit.week": audit_tool.invoice_audit(user, report_week=report_week, dataset=dataset)
+            .model_dump(mode="json"),
+            "audit.ytd": audit_tool.invoice_audit(user, report_week=report_week, dataset=dataset, through_week=True)
             .model_dump(mode="json")}
 
 
@@ -171,14 +179,17 @@ def audit(state: PackState, runtime: Runtime[RunContext]) -> dict:
 DIGEST_FIELDS = {
     "kpi.weekly": None,                                               # one row: every field
     "kpi.category": ("vessel_category", "billed_sdr", "billed_wow_change_sdr", "billed_wow_pct", "budget_sdr",
-                     "budget_variance_sdr", "budget_variance_pct"),
-    "kpi.customers": ("rank_13w", "rank_13w_prev", "customer_name", "billed_13w_sdr", "share_13w_pct", "ar_sdr",
-                      "overdue_sdr"),
+                     "budget_variance_sdr", "budget_variance_pct", "invoices_billed", "invoices_prev"),
+    # weekly-pack plan Phase B: slide 7's risk columns (M15, M16)
+    "kpi.customers": ("rank_13w", "rank_13w_prev", "customer_name", "credit_rating", "billed_13w_sdr",
+                      "share_13w_pct", "ar_sdr", "overdue_sdr", "ar_to_billed_13w_pct", "is_watchlist",
+                      "ontime_13w_pct"),
     "kpi.overdue": ("rank_by_amount", "invoice_number", "customer_name", "amount_sdr", "days_past_due",
                     "aging_bucket"),
     "kpi.trend": ("trend_week_label", "billed_sdr", "budget_sdr", "budget_variance_pct"),
     "audit.week": ("invoice_number", "vessel_category", "check_code", "probable_cause", "billed_sdr", "expected_sdr",
                    "difference_sdr", "duplicate_of"),
+    "audit.ytd": ("report_week", "invoice_number", "vessel_category", "check_code", "difference_sdr"),
 }
 AUDIT_TOTALS = ("invoices_checked", "invoices_flagged", "amount_at_stake_sdr")
 
@@ -200,7 +211,7 @@ def digest(evidence: dict[str, dict], ids=None) -> str:
         if res.get("note"):
             head += f" note: {res['note']}"
         lines = [head]
-        if eid == "audit.week" and res["status"] == "ok":
+        if eid in ("audit.week", "audit.ytd") and res["status"] == "ok":
             lines.append(" | ".join(f"{k}={_cell(res.get(k))}" for k in AUDIT_TOTALS))
         rows = res.get("rows") or []
         fields = DIGEST_FIELDS.get(eid) or (tuple(rows[0]) if rows else ())
@@ -271,7 +282,7 @@ def _tool_evidence(messages: list) -> dict[str, dict]:
 def evidence_index(evidence: dict[str, dict], messages: list) -> str:
     """One line per evidence id: what it is. The model never sees its own tool-call ids, so without this list it
     cites tool names (seen in S6: "suez_transits" as an evidence id)."""
-    calls = {_evidence_id(c["id"]): c for x in messages if isinstance(x, AIMessage) for c in x.tool_calls}
+    calls = {_evidence_id(cast(str, c["id"])): c for x in messages if isinstance(x, AIMessage) for c in x.tool_calls}
     lines = []
     for eid, res in sorted(evidence.items()):
         what = (f"{calls[eid]['name']}({json.dumps(calls[eid]['args'], ensure_ascii=False)})" if eid in calls
@@ -443,8 +454,9 @@ def make_writer(roles):
         week, label = state["report_week"], _week_label(ev)
         index = "[evidence ids you may cite]\n" + evidence_index(ev, state.get("messages") or [])
         try:
-            if rewrite and _patchable(verdict["problems"]):
-                fixes, needed = _fix_list(state["draft"], verdict["problems"])
+            problems: list[dict] = cast(dict, verdict)["problems"] if rewrite else []   # rewrite => a failed verdict
+            if rewrite and _patchable(problems):
+                fixes, needed = _fix_list(state["draft"], problems)
                 msgs = [SystemMessage(PATCH_TASK.format(week=week, year=REPORT_YEAR, slide_map=_slide_map(),
                                                         slot_rules=SLOT_RULES.format(week=week))),
                         HumanMessage("\n\n".join([f"[texts to fix]\n{fixes}", index,
@@ -456,7 +468,7 @@ def make_writer(roles):
                         "[insight notes]\n" + json.dumps(state["insight"], ensure_ascii=False)]
                 if rewrite:      # a wrong deck shape: the whole deck again, with the problems and the draft
                     body.append("[validator] your previous draft failed these checks; fix them and return the whole "
-                                "deck:\n" + json.dumps(verdict["problems"], ensure_ascii=False)
+                                "deck:\n" + json.dumps(problems, ensure_ascii=False)
                                 + "\n[previous draft]\n" + json.dumps(state["draft"], ensure_ascii=False))
                 msgs = [SystemMessage(WRITER_TASK.format(week=week, year=REPORT_YEAR, label=label, draft=DRAFT_LABEL,
                                                          slide_map=_slide_map(),
@@ -526,7 +538,7 @@ def make_validator(reports_dir: Path):
     def validator(state: PackState, config: RunnableConfig) -> dict:
         week, ev = state["report_week"], state["evidence"]
         v = v2.validate(state["draft"], ev, week)
-        out = {"preview": None}                          # a failing draft has no preview
+        out: dict[str, Any] = {"preview": None}          # a failing draft has no preview
         if v.passed:
             data = render.render(state["draft"], ev, state["readiness"], DRAFT_LABEL)
             problems = readback.validate_pptx(data, state["draft"], ev, state["readiness"], DRAFT_LABEL)
@@ -551,11 +563,63 @@ def after_validator(state: PackState) -> str:
         return "stop_failed"                   # the renderer and its own read-back disagree: never shown or saved
     if state["verdict"]["passed"] or state.get("draft_origin") == "edit":
         return "approval"                      # a failed human edit goes back to the human, with the problems
-    return "writer" if state.get("rewrites", 0) < MAX_REWRITES else "stop_failed"
+    if state.get("draft_origin") == "fallback":
+        return "stop_failed"                   # code's own replacement failed too: nothing is shown or saved
+    return "writer" if state.get("rewrites", 0) < MAX_REWRITES else "fallback"
 
 
 def stop_failed(state: PackState) -> dict:
     return {"status": "validation_failed"}
+
+
+# --- 6b Fallback (c4, plan 2026-10-30): the code-drawn parts always reach the approver --------------------------------
+# A draft that still fails after its rewrites would publish nothing, and the audit table code drew from `audit.week`
+# would be lost with the Writer's text. Code replaces only the failing texts with its own (deck/sample.py, valid by
+# construction): a summary bullet by the code bullet of its position, a comment dropped, the context line by code's,
+# a failing title by code's; the Writer's passing bullets stay. The result goes through the same Validator + V8.
+
+def fallback_draft(draft: dict, problems: list[dict], week: int, evidence: dict) -> tuple[dict, dict]:
+    """(the draft with code's texts in place of the failing ones, what was replaced / dropped)."""
+    code = sample.slot_draft(week, evidence)
+    code_by_slide: dict[int, list[dict]] = {}
+    for b in code["bullets"]:
+        code_by_slide.setdefault(b["slide"], []).append(b)
+    bad_bullets = {p["bullet"] for p in problems if p.get("bullet") is not None}
+    bad_slides = {p["slide"] for p in problems if p.get("bullet") is None and p.get("slide") is not None}
+    shape = {p["slide"] for p in problems if p["rule"] == "V4" and p.get("slide") is not None}
+    replaced, dropped, out = [], [], []
+    position: dict[int, int] = {}
+    for i, b in enumerate(draft["bullets"]):
+        pos = position[b["slide"]] = position.get(b["slide"], -1) + 1
+        if b["slide"] in shape:
+            continue                                     # a wrong slide shape: that slide is code's below
+        if i not in bad_bullets:
+            out.append(b)
+        elif b["slide"] in (2, 9) and pos < len(code_by_slide.get(b["slide"], [])):
+            out.append(code_by_slide[b["slide"]][pos])
+            replaced.append(i)
+        else:
+            dropped.append(i)
+    for s in sorted(shape | ({9} if not any(b["slide"] == 9 for b in out) else set())):
+        out = [b for b in out if b["slide"] != s] + code_by_slide.get(s, [])
+    if len([b for b in out if b["slide"] == 2]) != len(code_by_slide[2]):
+        out = [b for b in out if b["slide"] != 2] + code_by_slide[2]
+        shape.add(2)
+    titles = {t["slide"]: t for t in draft["slide_titles"]}
+    code_titles = {t["slide"]: t for t in code["slide_titles"]}
+    new_titles = [code_titles[s] if (s in bad_slides or s not in titles) else titles[s] for s in sorted(code_titles)]
+    title_bad = any(p.get("slide") is None and p.get("bullet") is None for p in problems)
+    fixed = {"title": code["title"] if title_bad else draft["title"], "slide_titles": new_titles,
+             "bullets": sorted(out, key=lambda b: b["slide"])}
+    return fixed, {"replaced_bullets": replaced, "dropped_bullets": dropped, "code_slides": sorted(shape),
+                   "code_slide_titles": sorted(bad_slides & set(code_titles)), "code_title": title_bad,
+                   "problems_before": len(problems)}
+
+
+def fallback(state: PackState) -> dict:
+    draft, degraded = fallback_draft(state["draft"], state["verdict"]["problems"], state["report_week"],
+                                     state["evidence"])
+    return {"draft": draft, "draft_origin": "fallback", "degraded": degraded}
 
 
 # --- 7 Approval (human in the loop, P5-4) ---------------------------------------------------------------------------
@@ -589,6 +653,7 @@ def approval(state: PackState, config: RunnableConfig, reports_dir: Path) -> dic
         # what the approver reads: the slots filled; the PPTX preview exists only for a passing draft
         "draft_rendered": v2.render_draft(state["draft"], state["evidence"]), "preview": state.get("preview"),
         "audit": {k: audit_res.get(k) for k in AUDIT_TOTALS},
+        "degraded": state.get("degraded"),       # c4: the texts code put in place of the Writer's failing ones
         "decisions": ["approve", "edit", "reject"] if state["verdict"]["passed"] else ["edit", "reject"]})
     entry = {"at": _now(), "decision": None, "approver_employee_id": None}
 
@@ -648,7 +713,8 @@ def make_publisher(reports_dir: Path):
                "max_total_tokens": max((c["total_tokens"] or 0 for c in usage), default=0),
                "models": sorted({c["model"] for c in usage if c["outcome"] == "ok"}),
                # D-P7-14: every slot-form fix code made on the Writer's text stays visible (report: form_fixes)
-               "normalized": state.get("normalized") or []}
+               "normalized": state.get("normalized") or [],
+               "degraded": state.get("degraded")}
         # the approved deck: rendered with "Approved", read back (V8) before it is saved — never a file that differs
         data = render.render(draft, state["evidence"], state["readiness"], APPROVED_LABEL)
         problems = readback.validate_pptx(data, draft, state["evidence"], state["readiness"], APPROVED_LABEL)
@@ -671,8 +737,9 @@ def make_publisher(reports_dir: Path):
 
 # --- graph ----------------------------------------------------------------------------------------------------------
 
-def build_graph(roles: Any, checkpointer=None, reports_dir: Path | None = None):
-    """The compiled workflow; `roles` = `roles.Roles()` (real models) or `roles.FakeRoles(script)` (checks)."""
+def build_graph(roles: Any, checkpointer=None, reports_dir: Path | None = None, use_fallback: bool = True):
+    """The compiled workflow; `roles` = `roles.Roles()` (real models) or `roles.FakeRoles(script)` (checks).
+    `use_fallback=False` (the evaluation's before-c4 side only) stops a draft that fails its rewrites, as before c4."""
     g = StateGraph(PackState, context_schema=RunContext)
     g.add_node("readiness", readiness)
     g.add_node("kpi", kpi)
@@ -684,8 +751,9 @@ def build_graph(roles: Any, checkpointer=None, reports_dir: Path | None = None):
     reports_dir = reports_dir or project_root() / "reports"
     g.add_node("validator", make_validator(reports_dir))
     g.add_node("stop_failed", stop_failed)
+    g.add_node("fallback", fallback if use_fallback else stop_failed)   # False: the evaluation's before-c4 side
     g.add_node("approval", make_approval(reports_dir))
-    g.add_node("publisher", make_publisher(reports_dir))
+    g.add_node("publisher", cast(Any, make_publisher(reports_dir)))
     g.add_edge(START, "readiness")
     g.add_conditional_edges("readiness", after_readiness, ["kpi", END])
     g.add_edge("kpi", "audit")
@@ -694,7 +762,8 @@ def build_graph(roles: Any, checkpointer=None, reports_dir: Path | None = None):
     g.add_edge("insight_tools", "insight_llm")
     g.add_conditional_edges("insight_notes", after_agent_step("writer"), ["writer", END])
     g.add_conditional_edges("writer", after_agent_step("validator"), ["validator", END])
-    g.add_conditional_edges("validator", after_validator, ["approval", "writer", "stop_failed"])
+    g.add_conditional_edges("validator", after_validator, ["approval", "writer", "fallback", "stop_failed"])
+    g.add_edge("fallback", "validator" if use_fallback else END)
     g.add_edge("stop_failed", END)
     g.add_conditional_edges("approval", after_approval, ["publisher", "validator", "approval", END])
     g.add_edge("publisher", END)

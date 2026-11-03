@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "ad5fabed950e33c9e807",
   "position": {
     "x": 20,
     "y": 400,
-    "z": 3,
+    "z": 3000,
     "height": 640,
     "width": 1100,
-    "tabOrder": 3
+    "tabOrder": 3000
   },
   "visual": {
     "visualType": "clusteredColumnChart",
@@ -107,7 +107,21 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'One week vs its budget. Weekly billing swings widely by chance: judge the trend on the 13-week view of the Executive page.'"
+                }
+              }
+            },
+            "titleWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
                 }
               }
             }
@@ -116,37 +130,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "7d2ecfc450a35394e9e1",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Weekly KPIs"
-              }
-            },
-            "Property": "Billed SDR"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "12a72d2113c3bcf0a428",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Weekly KPIs"
-              }
-            },
-            "Property": "Budget SDR"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

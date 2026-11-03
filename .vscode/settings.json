@@ -1,0 +1,10 @@
+{
+    "chat.mcp.serverSampling": {
+        "Project/.mcp.json: powerbi-modeling": {
+            "allowedModels": [
+                "copilot/auto",
+                "copilotcli/auto"
+            ]
+        }
+    }
+}

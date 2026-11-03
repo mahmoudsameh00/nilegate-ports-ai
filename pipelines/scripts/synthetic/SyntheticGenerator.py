@@ -89,7 +89,7 @@ def save_or_verify(df: pd.DataFrame, path: Path) -> None:
             )
         print(f"{path.name}: identical to the saved file, nothing written.")
         return
-    df.to_csv(path, index=False)
+    df.to_csv(path, index=False, lineterminator="\n")
     print(f"{path.name}: written ({len(df)} rows).")
 
 

@@ -1,6 +1,6 @@
 """Finance views check — schema `finance` (migration 013) against an independent pandas computation.
 
-Plan:    docs/plans/Agents_plan.md §5 Phase 2 (owner decisions P2-1…P2-9, 2026-10-14); definitions docs/finance_metrics.md.
+Plan:    docs/archive/2026-11-01_Agents_plan.md §5 Phase 2 (owner decisions P2-1…P2-9, 2026-10-14); definitions docs/finance_metrics.md.
 Run:     uv run python tools/run.py pipelines/scripts/finance/Finance_views_check.py  (after 013; ports-postgres up)
 
 Reads:   PostgreSQL read-only (PG_RO_USER): the base tables invoices, vessels, customers, payments, budget_weekly,
@@ -15,11 +15,13 @@ Phases
 4. Invariants: AR roll-forward, aging = AR, Σ categories = total, the ISO edge (2026-W01), warm-up weeks.
 5. Hand-check weeks 5 (warm-up), 16 (quietest), 23 (peak), 49 (clean test week): the arithmetic, a reviewed snapshot.
 6. RBAC (ADR-006 / ADR-034): matrix over every employee with the tool predicate; privileges of finance_bi.
+7. Migration 021 (weekly-pack plan, docs/analysis/financial_intelligence/implementation_roadmap.md): the new columns
+   of kpi_weekly / kpi_customer_13w / kpi_weekly_category = an independent pandas reference on all 52 weeks, the
+   overdue roll-forward identity, a reviewed snapshot of week 12; reported as pending until 021 is applied.
 Final Checkpoint.
 """
 # %% Setup
 import datetime as dt
-import math
 import os
 import sys
 from decimal import Decimal
@@ -208,13 +210,15 @@ n_cat = compare(V["kpi_weekly_category"], ref_cat, ["report_week", "vessel_categ
 n_cust = compare(V["kpi_customer_13w"], ref_cust, ["report_week", "customer_id"], "kpi_customer_13w")
 n_od = compare(V["kpi_overdue_list"][["report_week", "invoice_number", "amount_sdr", "days_past_due"]], ref_od,
                ["report_week", "invoice_number"], "kpi_overdue_list")
+# invoice_audit: migration 015 (ADR-049) — checked by Tools_check.py, listed here so the schema has no stray object
+# (the list missed it from 2026-10-19 until 2026-10-31, failing this phase)
 expected_views = ["dim_customer", "dim_date", "dim_toll_band", "dim_vessel", "dim_week", "fact_ar_snapshot",
-                  "fact_invoice", "fact_payment", "kpi_customer_13w", "kpi_overdue_list", "kpi_weekly",
+                  "fact_invoice", "fact_payment", "invoice_audit", "kpi_customer_13w", "kpi_overdue_list", "kpi_weekly",
                   "kpi_weekly_category", "kpi_weekly_trend"]
 assert views_in_db == expected_views, f"finance objects: {views_in_db}"
 assert tuple(undocumented) == (0, 0), f"views / columns without COMMENT: {undocumented}"
 print(f"compared: kpi_weekly 52 × {n_wk} columns, kpi_weekly_category 676 × {n_cat}, kpi_customer_13w 2080 × {n_cust}, "
-      f"kpi_overdue_list {len(ref_od)} × {n_od}; 13 views, every view and column documented")
+      f"kpi_overdue_list {len(ref_od)} × {n_od}; {len(expected_views)} views, every view and column documented")
 print("✅ Phase 3 validation passed: every KPI view equals the reference on all 52 weeks")
 
 
@@ -325,13 +329,77 @@ assert "`finance.*`" in rbac_text, "the finance views are not registered in docs
 
 fin = privileges[privileges.schema == "finance"]
 pub = privileges[privileges.schema != "finance"]
-assert len(fin) == 13 and fin.bi_select.all() and not fin.bi_write.any() and fin.ro_select.all(), "finance grants"
+assert len(fin) == len(expected_views) and fin.bi_select.all() and not fin.bi_write.any() and fin.ro_select.all(), \
+    "finance grants"
 assert not pub.bi_select.any(), f"finance_bi can read outside finance: {pub[pub.bi_select].relname.tolist()}"
 print(f"RBAC matrix (role, granted) → employees: {matrix}; leakage {len(leak)}; denied {len(denied)} "
       f"(all role employee outside Finance)")
-print(f"privileges: finance_bi SELECT on {int(fin.bi_select.sum())} / 13 finance views, write 0, "
-      f"SELECT on {int(pub.bi_select.sum())} / {len(pub)} public + finance_test tables; ports_readonly reads all 13")
+print(f"privileges: finance_bi SELECT on {int(fin.bi_select.sum())} / {len(fin)} finance views, write 0, "
+      f"SELECT on {int(pub.bi_select.sum())} / {len(pub)} public + finance_test tables; ports_readonly reads all {len(fin)}")
 print("✅ Phase 6 validation passed: non-Finance employees get nothing; finance_bi reads only schema finance")
+
+
+# %% Phase 7 — Migration 021: the weekly-pack columns (M9b, M12–M16)
+# Written again from the base tables and the Phase 2 reference, not from the SQL of 021. Until the owner applies 021
+# the views lack the columns and the phase says so (no ✅).
+applied_021 = "roll_window_weeks" in V["kpi_weekly"].columns
+if not applied_021:
+    print("⏸ Phase 7 pending: migration 021 is not applied (kpi_weekly has no roll_window_weeks)")
+else:
+    f["days_paid_after_due"] = (f.paid_date - f.due_date).dt.days
+    rw = ref_wk.set_index("report_week")
+    rows7, cust7 = [], []
+    for w in range(1, 53):
+        s, e = week_bounds(w)
+        lo = max(1, w - 12)
+        wow = {c: rw.loc[lo:w, f"{c}_wow_pct"].round(2).dropna().abs() for c in ["billed", "collected", "ar", "overdue"]}
+        best = round(rw.at[w, "aging_current_sdr"] / rw.at[w, "dso_window_billed_sdr"] * rw.at[w, "dso_window_days"], 1)
+        unpaid_at_e = f.paid_date.isna() | (f.paid_date > e)
+        due_week = f.due_date.between(s, e)
+        paid13 = f[f.paid_date.between(e - pd.Timedelta(days=90), e)]
+        row = dict(report_week=w, roll_window_weeks=w - lo + 1,
+                   billed_13w_sdr=rw.loc[lo:w, "billed_sdr"].sum(), budget_13w_sdr=rw.loc[lo:w, "budget_sdr"].sum(),
+                   dso_best_days=best, dso_delinquency_days=round(rw.at[w, "dso_days"], 1) - best,
+                   overdue_new_sdr=f.loc[f.due_date.between(e - pd.Timedelta(days=7), e - pd.Timedelta(days=1)) & unpaid_at_e,
+                                         "amount_sdr"].sum(),
+                   overdue_paid_sdr=f.loc[(f.due_date <= e - pd.Timedelta(days=8)) & f.paid_date.between(s, e), "amount_sdr"].sum(),
+                   due_week_sdr=f.loc[due_week, "amount_sdr"].sum(),
+                   due_week_collected_sdr=f.loc[due_week & (f.paid_date <= e), "amount_sdr"].sum(),
+                   ontime_13w_pct=100 * (paid13.days_paid_after_due <= 0).mean() if len(paid13) else None)
+        for c, v in wow.items():
+            row[f"{c}_wow_typical_pct"] = v.median() if len(v) >= 8 else None
+        rows7.append(row)
+        for cid, g in paid13.groupby("customer_id"):
+            cust7.append(dict(report_week=w, customer_id=cid, ontime_13w_pct=100 * (g.days_paid_after_due <= 0).mean()))
+    ref7 = pd.DataFrame(rows7)
+    ref7["budget_variance_13w_pct"] = 100 * (ref7.billed_13w_sdr - ref7.budget_13w_sdr) / ref7.budget_13w_sdr
+    ref7["due_week_collected_pct"] = 100 * ref7.due_week_collected_sdr / ref7.due_week_sdr.where(ref7.due_week_sdr != 0)
+    rc = ref_cust[["report_week", "customer_id", "ar_sdr", "billed_13w_sdr"]].copy()
+    rc["ar_to_billed_13w_pct"] = 100 * rc.ar_sdr / rc.billed_13w_sdr.where(rc.billed_13w_sdr != 0)
+    rc["is_watchlist"] = [None if w <= 13 else bool(a >= 1e6 and (b == 0 or a >= 0.8 * b))
+                          for w, a, b in zip(rc.report_week, rc.ar_sdr, rc.billed_13w_sdr)]
+    rc = rc.merge(pd.DataFrame(cust7), on=["report_week", "customer_id"], how="left")
+    rcat = ref_cat[["report_week", "vessel_category", "invoices_billed"]].copy()
+    rcat["invoices_prev"] = rcat.groupby("vessel_category").invoices_billed.shift(1)
+    n7 = compare(V["kpi_weekly"], ref7, ["report_week"], "kpi_weekly (021)")
+    n7c = compare(V["kpi_customer_13w"], rc.drop(columns=["ar_sdr", "billed_13w_sdr"]), ["report_week", "customer_id"],
+                  "kpi_customer_13w (021)")
+    n7k = compare(V["kpi_weekly_category"], rcat.drop(columns=["invoices_billed"]), ["report_week", "vessel_category"],
+                  "kpi_weekly_category (021)")
+    kv = V["kpi_weekly"].set_index("report_week")
+    resid = (kv.overdue_sdr - kv.overdue_sdr.shift(1, fill_value=0.0) - (kv.overdue_new_sdr - kv.overdue_paid_sdr)).abs().max()
+    assert resid <= 2 * TOL["sdr"], f"overdue roll-forward does not close: {resid}"
+    belanor = V["kpi_customer_13w"].query("report_week == 12 and customer_id == 9").iloc[0]
+    actual7 = {"w12_billed_typical": float(kv.at[12, "billed_wow_typical_pct"]), "w12_dso_split": (float(kv.at[12, "dso_best_days"]),
+               float(kv.at[12, "dso_delinquency_days"])), "w12_overdue_flow": (float(kv.at[12, "overdue_new_sdr"]),
+               float(kv.at[12, "overdue_paid_sdr"])), "w12_belanor_ar_to_billed": float(belanor.ar_to_billed_13w_pct),
+               "watchlist_customer_weeks": int(V["kpi_customer_13w"].is_watchlist.fillna(False).astype(bool).sum())}
+    REVIEWED_021 = {"w12_billed_typical": 10.44, "w12_dso_split": (42.7, 11.5), "w12_overdue_flow": (2632878.40, 1119877.33),
+                    "w12_belanor_ar_to_billed": 95.35, "watchlist_customer_weeks": 256}   # dry run of 021, 2026-10-31
+    assert actual7 == REVIEWED_021, actual7
+    print(f"021: kpi_weekly 52 × {n7} new columns, kpi_customer_13w 2080 × {n7c}, kpi_weekly_category 676 × {n7k} = "
+          f"reference; roll-forward residual {resid:.2f}; week 12 = the reviewed snapshot")
+    print("✅ Phase 7 validation passed: the migration 021 columns equal the reference on all 52 weeks")
 
 
 # %% Final Checkpoint

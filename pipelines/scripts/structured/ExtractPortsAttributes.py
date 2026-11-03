@@ -89,7 +89,7 @@ def main() -> None:
           f"lat {ports['lat'].min()} to {ports['lat'].max()} | outflows {ports['outflows'].min()} to "
           f"{ports['outflows'].max()}")
     print(f"Status values: {sorted(ports['Status'].unique())}")
-    ports.to_csv(OUT_FILE, index=False)
+    ports.to_csv(OUT_FILE, index=False, lineterminator="\n")
     print(f"✅ ports validation passed: {len(ports)} rows written to {OUT_FILE.relative_to(PROJECT_ROOT).as_posix()}")
 
 

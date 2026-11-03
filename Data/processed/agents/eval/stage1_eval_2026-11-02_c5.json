@@ -1,0 +1,1769 @@
+{
+ "plan": "Agents plan §5d; ADR-052 (two runs, hard gates, primaries −0.03)",
+ "date": "2026-11-02",
+ "tag": "c5",
+ "scope": "packs",
+ "c4": true,
+ "inputs_sha256": {
+  "golden_weeks.json": "ea13800db38c1a967d974693a69f3e5096189d10fb75272da99ce48c0d36a304",
+  "golden_weeks_expected.json": "1f2bad3580b2713472b77dba82607c8da5f0d53541c6188274b3ce0247485ec4",
+  "golden_findings.json": "dc6e32484944798abf74d4bc83aa23ad4b6fc520f62876d76b7fc45dc5b1c3f4",
+  "finance_qa_golden.jsonl": "5cf72ac33e5765d55852dfe214322631e77f3fc05a9817ac105351df1936e3ea"
+ },
+ "models": {
+  "insight": [
+   "gemini/gemini-3.5-flash-lite",
+   "openrouter/nvidia/nemotron-3.5-super-vl:free"
+  ],
+  "writer": [
+   "gemini/gemini-3.5-flash-lite",
+   "openrouter/nvidia/nemotron-3.5-super-vl:free"
+  ],
+  "tools": [
+   "gemini/gemini-3.5-flash-lite",
+   "groq/openai/gpt-oss-20b"
+  ]
+ },
+ "runs": [
+  {
+   "repeat": 1,
+   "cache": "Data\\processed\\agents\\eval\\llm_cache\\eval_c5_r1",
+   "packs": [
+    {
+     "week": "test:10",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 1,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 64,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [
+      "t10-a",
+      "t10-b"
+     ],
+     "planted_found": [
+      "t10-a",
+      "t10-b"
+     ],
+     "findings": [
+      "t10-c",
+      "t10-d"
+     ],
+     "findings_met": [
+      "t10-c",
+      "t10-d"
+     ],
+     "false_alarms": 0,
+     "findings_reported": 2,
+     "false_alarm_text": [],
+     "claims": 1,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 64,
+     "style": {
+      "redundant_direction": 1,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 6,
+      "fresh_calls": 6,
+      "cached_calls": 0,
+      "tokens": 54061,
+      "max_call_tokens": 13345,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 106577.1
+     },
+     "seconds": 109.6
+    },
+    {
+     "week": "test:23",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 61,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [
+      "t23-a",
+      "t23-b"
+     ],
+     "planted_found": [
+      "t23-a",
+      "t23-b"
+     ],
+     "findings": [
+      "t23-c",
+      "t23-d"
+     ],
+     "findings_met": [
+      "t23-c",
+      "t23-d"
+     ],
+     "false_alarms": 0,
+     "findings_reported": 2,
+     "false_alarm_text": [],
+     "claims": 1,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 61,
+     "style": {
+      "redundant_direction": 1,
+      "empty_bullets": 0,
+      "title_adjectives": 1
+     },
+     "usage": {
+      "calls": 6,
+      "fresh_calls": 6,
+      "cached_calls": 0,
+      "tokens": 51533,
+      "max_call_tokens": 12943,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 105177.6
+     },
+     "seconds": 106.6
+    },
+    {
+     "week": "test:36",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 39,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [
+      "t36-a",
+      "t36-b"
+     ],
+     "planted_found": [
+      "t36-a",
+      "t36-b"
+     ],
+     "findings": [
+      "t36-c",
+      "t36-d"
+     ],
+     "findings_met": [
+      "t36-c",
+      "t36-d"
+     ],
+     "false_alarms": 0,
+     "findings_reported": 1,
+     "false_alarm_text": [],
+     "claims": 2,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 39,
+     "style": {
+      "redundant_direction": 1,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 6,
+      "fresh_calls": 5,
+      "cached_calls": 0,
+      "tokens": 56379,
+      "max_call_tokens": 14958,
+      "fallbacks": 0,
+      "failed_calls": 1,
+      "latency_ms": 100094.7
+     },
+     "seconds": 101.5
+    },
+    {
+     "week": "test:49",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 49,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [],
+     "planted_found": [],
+     "findings": [
+      "t49-b"
+     ],
+     "findings_met": [
+      "t49-b"
+     ],
+     "false_alarms": 2,
+     "findings_reported": 1,
+     "false_alarm_text": [
+      "Year-to-date findings include duplicate charge of +0.57 M SDR on invoice INV-9000292 and amount mismatch of −0.06 M SDR on invoice INV-0000769",
+      "Year-to-date findings include duplicate charge of +0.57 M SDR on invoice INV-9000292 and amount mismatch of −0.06 M SDR on invoice INV-0000769"
+     ],
+     "claims": 0,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 49,
+     "style": {
+      "redundant_direction": 0,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 6,
+      "fresh_calls": 6,
+      "cached_calls": 0,
+      "tokens": 56261,
+      "max_call_tokens": 12829,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 94017.2
+     },
+     "seconds": 116.5
+    },
+    {
+     "week": "live:5",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 46,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [],
+     "planted_found": [],
+     "findings": [
+      "l05-a",
+      "l05-b",
+      "l05-c"
+     ],
+     "findings_met": [
+      "l05-a",
+      "l05-b",
+      "l05-c"
+     ],
+     "false_alarms": 0,
+     "findings_reported": 0,
+     "false_alarm_text": [],
+     "claims": 0,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 46,
+     "style": {
+      "redundant_direction": 0,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 9,
+      "fresh_calls": 9,
+      "cached_calls": 0,
+      "tokens": 59367,
+      "max_call_tokens": 11019,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 49713.799999999996
+     },
+     "seconds": 77.8
+    },
+    {
+     "week": "live:48",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 51,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [],
+     "planted_found": [],
+     "findings": [
+      "l48-a",
+      "l48-b",
+      "l48-c"
+     ],
+     "findings_met": [
+      "l48-a",
+      "l48-b",
+      "l48-c"
+     ],
+     "false_alarms": 2,
+     "findings_reported": 0,
+     "false_alarm_text": [
+      "Year-to-date audit findings included duplicate charges on invoice number INV-0000626 in report week 10 with a difference of +81.8 k SDR and invoice number INV-0000925 in report week 15 with a difference of +74.0 k SDR.",
+      "Year-to-date audit findings included duplicate charges on invoice number INV-0000626 in report week 10 with a difference of +81.8 k SDR and invoice number INV-0000925 in report week 15 with a difference of +74.0 k SDR."
+     ],
+     "claims": 2,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 51,
+     "style": {
+      "redundant_direction": 1,
+      "empty_bullets": 0,
+      "title_adjectives": 2
+     },
+     "usage": {
+      "calls": 5,
+      "fresh_calls": 5,
+      "cached_calls": 0,
+      "tokens": 37442,
+      "max_call_tokens": 13724,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 13881.6
+     },
+     "seconds": 42.2
+    },
+    {
+     "week": "live:41",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 57,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [],
+     "planted_found": [],
+     "findings": [
+      "l41-a",
+      "l41-b",
+      "l41-c"
+     ],
+     "findings_met": [
+      "l41-a",
+      "l41-b",
+      "l41-c"
+     ],
+     "false_alarms": 1,
+     "findings_reported": 2,
+     "false_alarm_text": [
+      "The audit flagged invoice INV-0000626 for duplicate charge with a difference of +81.8 k SDR in report week 10 of 2025."
+     ],
+     "claims": 0,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 57,
+     "style": {
+      "redundant_direction": 0,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 6,
+      "fresh_calls": 6,
+      "cached_calls": 0,
+      "tokens": 59489,
+      "max_call_tokens": 13568,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 15872.6
+     },
+     "seconds": 26.8
+    },
+    {
+     "week": "live:16",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 46,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [],
+     "planted_found": [],
+     "findings": [
+      "l16-a",
+      "l16-b",
+      "l16-c",
+      "l16-d"
+     ],
+     "findings_met": [
+      "l16-a",
+      "l16-b",
+      "l16-c",
+      "l16-d"
+     ],
+     "false_alarms": 0,
+     "findings_reported": 0,
+     "false_alarm_text": [],
+     "claims": 2,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 46,
+     "style": {
+      "redundant_direction": 0,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 6,
+      "fresh_calls": 6,
+      "cached_calls": 0,
+      "tokens": 55638,
+      "max_call_tokens": 13934,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 14358.1
+     },
+     "seconds": 48.6
+    },
+    {
+     "week": "live:47",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 51,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [],
+     "planted_found": [],
+     "findings": [
+      "l47-a",
+      "l47-b",
+      "l47-c"
+     ],
+     "findings_met": [
+      "l47-a",
+      "l47-b",
+      "l47-c"
+     ],
+     "false_alarms": 2,
+     "findings_reported": 2,
+     "false_alarm_text": [
+      "Year-to-date audit findings included duplicate charges on invoice INV-0000626 with a difference of +81.8 k SDR and invoice INV-0000925 with a difference of +74.0 k SDR",
+      "Year-to-date audit findings included duplicate charges on invoice INV-0000626 with a difference of +81.8 k SDR and invoice INV-0000925 with a difference of +74.0 k SDR"
+     ],
+     "claims": 1,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 51,
+     "style": {
+      "redundant_direction": 0,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 7,
+      "fresh_calls": 6,
+      "cached_calls": 0,
+      "tokens": 66395,
+      "max_call_tokens": 13223,
+      "fallbacks": 0,
+      "failed_calls": 1,
+      "latency_ms": 21043.4
+     },
+     "seconds": 42.7
+    },
+    {
+     "week": "live:15",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 40,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [],
+     "planted_found": [],
+     "findings": [
+      "l15-b",
+      "l15-c",
+      "l15-d"
+     ],
+     "findings_met": [
+      "l15-b",
+      "l15-c",
+      "l15-d"
+     ],
+     "false_alarms": 0,
+     "findings_reported": 3,
+     "false_alarm_text": [],
+     "claims": 0,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 40,
+     "style": {
+      "redundant_direction": 0,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 6,
+      "fresh_calls": 6,
+      "cached_calls": 0,
+      "tokens": 42629,
+      "max_call_tokens": 10846,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 16269.599999999999
+     },
+     "seconds": 31.7
+    },
+    {
+     "week": "live:24",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 62,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [],
+     "planted_found": [],
+     "findings": [
+      "l24-a",
+      "l24-b",
+      "l24-c"
+     ],
+     "findings_met": [
+      "l24-a",
+      "l24-b",
+      "l24-c"
+     ],
+     "false_alarms": 0,
+     "findings_reported": 0,
+     "false_alarm_text": [],
+     "claims": 0,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 62,
+     "style": {
+      "redundant_direction": 0,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 6,
+      "fresh_calls": 6,
+      "cached_calls": 0,
+      "tokens": 53176,
+      "max_call_tokens": 13522,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 14249.199999999999
+     },
+     "seconds": 44.7
+    }
+   ],
+   "answers": [],
+   "complete": true,
+   "aggregate": {
+    "packs_published": "11 / 11",
+    "deck_numbers": 1.0,
+    "planted_found": "6 / 6",
+    "false_alarm_rate": 0.35,
+    "claim_accuracy": 1.0,
+    "traceability": 1.0,
+    "narrative_recall": 1.0,
+    "narrative_recall_seen": 1.0,
+    "narrative_recall_unseen": 1.0,
+    "qa_completeness_en": null,
+    "qa_completeness_ar": null,
+    "qa_relevance_en": null,
+    "qa_relevance_ar": null,
+    "qa_numbers": null,
+    "qa_traceability": null,
+    "abstention_recall": null,
+    "abstention_precision": null,
+    "rbac_leakage": 0,
+    "style": {
+     "redundant_direction": 4,
+     "empty_bullets": 0,
+     "title_adjectives": 3
+    },
+    "usage": {
+     "calls": 69,
+     "fresh_calls": 67,
+     "cached_calls": 0,
+     "tokens": 592370,
+     "fallbacks": 0,
+     "failed_calls": 2
+    },
+    "rewrites": 21
+   },
+   "gates": {
+    "deck_numbers_100": true,
+    "planted_all": true,
+    "false_alarms_le_5pct": false,
+    "claims_100": true,
+    "traceability_100": true
+   }
+  },
+  {
+   "repeat": 2,
+   "cache": "Data\\processed\\agents\\eval\\llm_cache\\eval_c5_r2",
+   "packs": [
+    {
+     "week": "test:10",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 56,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [
+      "t10-a",
+      "t10-b"
+     ],
+     "planted_found": [
+      "t10-a",
+      "t10-b"
+     ],
+     "findings": [
+      "t10-c",
+      "t10-d"
+     ],
+     "findings_met": [
+      "t10-c",
+      "t10-d"
+     ],
+     "false_alarms": 0,
+     "findings_reported": 2,
+     "false_alarm_text": [],
+     "claims": 2,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 56,
+     "style": {
+      "redundant_direction": 2,
+      "empty_bullets": 0,
+      "title_adjectives": 1
+     },
+     "usage": {
+      "calls": 6,
+      "fresh_calls": 6,
+      "cached_calls": 0,
+      "tokens": 50743,
+      "max_call_tokens": 13896,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 14465.9
+     },
+     "seconds": 27.5
+    },
+    {
+     "week": "test:23",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 65,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [
+      "t23-a",
+      "t23-b"
+     ],
+     "planted_found": [
+      "t23-a",
+      "t23-b"
+     ],
+     "findings": [
+      "t23-c",
+      "t23-d"
+     ],
+     "findings_met": [
+      "t23-c",
+      "t23-d"
+     ],
+     "false_alarms": 0,
+     "findings_reported": 1,
+     "false_alarm_text": [],
+     "claims": 0,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 65,
+     "style": {
+      "redundant_direction": 0,
+      "empty_bullets": 0,
+      "title_adjectives": 1
+     },
+     "usage": {
+      "calls": 6,
+      "fresh_calls": 6,
+      "cached_calls": 0,
+      "tokens": 48690,
+      "max_call_tokens": 13119,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 14644.3
+     },
+     "seconds": 47.1
+    },
+    {
+     "week": "test:36",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 40,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [
+      "t36-a",
+      "t36-b"
+     ],
+     "planted_found": [
+      "t36-a",
+      "t36-b"
+     ],
+     "findings": [
+      "t36-c",
+      "t36-d"
+     ],
+     "findings_met": [
+      "t36-c",
+      "t36-d"
+     ],
+     "false_alarms": 0,
+     "findings_reported": 0,
+     "false_alarm_text": [],
+     "claims": 1,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 40,
+     "style": {
+      "redundant_direction": 1,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 6,
+      "fresh_calls": 6,
+      "cached_calls": 0,
+      "tokens": 62479,
+      "max_call_tokens": 14322,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 19969.4
+     },
+     "seconds": 38.9
+    },
+    {
+     "week": "test:49",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 48,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [],
+     "planted_found": [],
+     "findings": [
+      "t49-b"
+     ],
+     "findings_met": [
+      "t49-b"
+     ],
+     "false_alarms": 0,
+     "findings_reported": 0,
+     "false_alarm_text": [],
+     "claims": 0,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 48,
+     "style": {
+      "redundant_direction": 0,
+      "empty_bullets": 1,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 7,
+      "fresh_calls": 6,
+      "cached_calls": 0,
+      "tokens": 63289,
+      "max_call_tokens": 12645,
+      "fallbacks": 0,
+      "failed_calls": 1,
+      "latency_ms": 16463.5
+     },
+     "seconds": 41.8
+    },
+    {
+     "week": "live:5",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 45,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [],
+     "planted_found": [],
+     "findings": [
+      "l05-a",
+      "l05-b",
+      "l05-c"
+     ],
+     "findings_met": [
+      "l05-a",
+      "l05-b",
+      "l05-c"
+     ],
+     "false_alarms": 0,
+     "findings_reported": 2,
+     "false_alarm_text": [],
+     "claims": 0,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 45,
+     "style": {
+      "redundant_direction": 0,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 7,
+      "fresh_calls": 7,
+      "cached_calls": 0,
+      "tokens": 57771,
+      "max_call_tokens": 14172,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 67293.8
+     },
+     "seconds": 84.1
+    },
+    {
+     "week": "live:48",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 56,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [],
+     "planted_found": [],
+     "findings": [
+      "l48-a",
+      "l48-b",
+      "l48-c"
+     ],
+     "findings_met": [
+      "l48-a",
+      "l48-b",
+      "l48-c"
+     ],
+     "false_alarms": 1,
+     "findings_reported": 0,
+     "false_alarm_text": [
+      "Historical audit checks recorded duplicate charge findings in week 10 for invoice INV-0000626 under Cruise Ships with a difference of +81.8 k SDR"
+     ],
+     "claims": 5,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 56,
+     "style": {
+      "redundant_direction": 5,
+      "empty_bullets": 0,
+      "title_adjectives": 1
+     },
+     "usage": {
+      "calls": 5,
+      "fresh_calls": 5,
+      "cached_calls": 0,
+      "tokens": 36027,
+      "max_call_tokens": 13451,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 13337.1
+     },
+     "seconds": 16.2
+    },
+    {
+     "week": "live:41",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 67,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [],
+     "planted_found": [],
+     "findings": [
+      "l41-a",
+      "l41-b",
+      "l41-c"
+     ],
+     "findings_met": [
+      "l41-a",
+      "l41-b",
+      "l41-c"
+     ],
+     "false_alarms": 0,
+     "findings_reported": 0,
+     "false_alarm_text": [],
+     "claims": 4,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 67,
+     "style": {
+      "redundant_direction": 4,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 6,
+      "fresh_calls": 6,
+      "cached_calls": 0,
+      "tokens": 48189,
+      "max_call_tokens": 12896,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 15476.1
+     },
+     "seconds": 50.2
+    },
+    {
+     "week": "live:16",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 62,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [],
+     "planted_found": [],
+     "findings": [
+      "l16-a",
+      "l16-b",
+      "l16-c",
+      "l16-d"
+     ],
+     "findings_met": [
+      "l16-a",
+      "l16-b",
+      "l16-c",
+      "l16-d"
+     ],
+     "false_alarms": 1,
+     "findings_reported": 2,
+     "false_alarm_text": [
+      "Prior audit findings included invoice INV-0000626 in category Cruise Ships with check code duplicate_charge and difference of +0.08 M SDR."
+     ],
+     "claims": 2,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 62,
+     "style": {
+      "redundant_direction": 1,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 6,
+      "fresh_calls": 6,
+      "cached_calls": 0,
+      "tokens": 51123,
+      "max_call_tokens": 12416,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 22199.2
+     },
+     "seconds": 45.8
+    },
+    {
+     "week": "live:47",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 48,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [],
+     "planted_found": [],
+     "findings": [
+      "l47-a",
+      "l47-b",
+      "l47-c"
+     ],
+     "findings_met": [
+      "l47-a",
+      "l47-b",
+      "l47-c"
+     ],
+     "false_alarms": 0,
+     "findings_reported": 1,
+     "false_alarm_text": [],
+     "claims": 2,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 48,
+     "style": {
+      "redundant_direction": 1,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 6,
+      "fresh_calls": 6,
+      "cached_calls": 0,
+      "tokens": 50318,
+      "max_call_tokens": 12282,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 39380.0
+     },
+     "seconds": 45.4
+    },
+    {
+     "week": "live:15",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 58,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [],
+     "planted_found": [],
+     "findings": [
+      "l15-b",
+      "l15-c",
+      "l15-d"
+     ],
+     "findings_met": [
+      "l15-b",
+      "l15-c",
+      "l15-d"
+     ],
+     "false_alarms": 0,
+     "findings_reported": 4,
+     "false_alarm_text": [],
+     "claims": 0,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 58,
+     "style": {
+      "redundant_direction": 0,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 7,
+      "fresh_calls": 7,
+      "cached_calls": 0,
+      "tokens": 53274,
+      "max_call_tokens": 12567,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 20505.6
+     },
+     "seconds": 40.8
+    },
+    {
+     "week": "live:24",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 55,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [],
+     "planted_found": [],
+     "findings": [
+      "l24-a",
+      "l24-b",
+      "l24-c"
+     ],
+     "findings_met": [
+      "l24-a",
+      "l24-b",
+      "l24-c"
+     ],
+     "false_alarms": 2,
+     "findings_reported": 2,
+     "false_alarm_text": [
+      "Crude Oil Tankers missed budget by +0.42 M SDR with 0.84 M SDR billed against the budget of 0.41 M SDR.",
+      "Year-to-date findings include invoice INV-0000626 in category Cruise Ships with check code duplicate_charge and difference of +81.8 k SDR thousand SDR."
+     ],
+     "claims": 1,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 55,
+     "style": {
+      "redundant_direction": 0,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 6,
+      "fresh_calls": 6,
+      "cached_calls": 0,
+      "tokens": 52785,
+      "max_call_tokens": 12985,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 15544.599999999999
+     },
+     "seconds": 33.1
+    }
+   ],
+   "answers": [],
+   "complete": true,
+   "aggregate": {
+    "packs_published": "11 / 11",
+    "deck_numbers": 1.0,
+    "planted_found": "6 / 6",
+    "false_alarm_rate": 0.2222,
+    "claim_accuracy": 1.0,
+    "traceability": 1.0,
+    "narrative_recall": 1.0,
+    "narrative_recall_seen": 1.0,
+    "narrative_recall_unseen": 1.0,
+    "qa_completeness_en": null,
+    "qa_completeness_ar": null,
+    "qa_relevance_en": null,
+    "qa_relevance_ar": null,
+    "qa_numbers": null,
+    "qa_traceability": null,
+    "abstention_recall": null,
+    "abstention_precision": null,
+    "rbac_leakage": 0,
+    "style": {
+     "redundant_direction": 14,
+     "empty_bullets": 1,
+     "title_adjectives": 3
+    },
+    "usage": {
+     "calls": 68,
+     "fresh_calls": 67,
+     "cached_calls": 0,
+     "tokens": 574688,
+     "fallbacks": 0,
+     "failed_calls": 1
+    },
+    "rewrites": 22
+   },
+   "gates": {
+    "deck_numbers_100": true,
+    "planted_all": true,
+    "false_alarms_le_5pct": false,
+    "claims_100": true,
+    "traceability_100": true
+   }
+  },
+  {
+   "repeat": 3,
+   "cache": "Data\\processed\\agents\\eval\\llm_cache\\eval_c5_r3",
+   "packs": [
+    {
+     "week": "test:10",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 66,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [
+      "t10-a",
+      "t10-b"
+     ],
+     "planted_found": [
+      "t10-a",
+      "t10-b"
+     ],
+     "findings": [
+      "t10-c",
+      "t10-d"
+     ],
+     "findings_met": [
+      "t10-c",
+      "t10-d"
+     ],
+     "false_alarms": 0,
+     "findings_reported": 3,
+     "false_alarm_text": [],
+     "claims": 0,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 66,
+     "style": {
+      "redundant_direction": 0,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 6,
+      "fresh_calls": 6,
+      "cached_calls": 0,
+      "tokens": 51888,
+      "max_call_tokens": 13170,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 15887.4
+     },
+     "seconds": 49.5
+    },
+    {
+     "week": "test:23",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 62,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [
+      "t23-a",
+      "t23-b"
+     ],
+     "planted_found": [
+      "t23-a",
+      "t23-b"
+     ],
+     "findings": [
+      "t23-c",
+      "t23-d"
+     ],
+     "findings_met": [
+      "t23-c",
+      "t23-d"
+     ],
+     "false_alarms": 0,
+     "findings_reported": 3,
+     "false_alarm_text": [],
+     "claims": 3,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 62,
+     "style": {
+      "redundant_direction": 2,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 5,
+      "fresh_calls": 5,
+      "cached_calls": 0,
+      "tokens": 51077,
+      "max_call_tokens": 19058,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 15880.7
+     },
+     "seconds": 20.8
+    },
+    {
+     "week": "test:36",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 44,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [
+      "t36-a",
+      "t36-b"
+     ],
+     "planted_found": [
+      "t36-a",
+      "t36-b"
+     ],
+     "findings": [
+      "t36-c",
+      "t36-d"
+     ],
+     "findings_met": [
+      "t36-c",
+      "t36-d"
+     ],
+     "false_alarms": 0,
+     "findings_reported": 4,
+     "false_alarm_text": [],
+     "claims": 0,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 44,
+     "style": {
+      "redundant_direction": 0,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 5,
+      "fresh_calls": 5,
+      "cached_calls": 0,
+      "tokens": 52246,
+      "max_call_tokens": 17406,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 13503.099999999999
+     },
+     "seconds": 40.7
+    },
+    {
+     "week": "test:49",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 50,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [],
+     "planted_found": [],
+     "findings": [
+      "t49-b"
+     ],
+     "findings_met": [
+      "t49-b"
+     ],
+     "false_alarms": 0,
+     "findings_reported": 3,
+     "false_alarm_text": [],
+     "claims": 0,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 50,
+     "style": {
+      "redundant_direction": 0,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 6,
+      "fresh_calls": 6,
+      "cached_calls": 0,
+      "tokens": 67341,
+      "max_call_tokens": 16623,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 17222.6
+     },
+     "seconds": 31.2
+    },
+    {
+     "week": "live:5",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 43,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [],
+     "planted_found": [],
+     "findings": [
+      "l05-a",
+      "l05-b",
+      "l05-c"
+     ],
+     "findings_met": [
+      "l05-a",
+      "l05-b",
+      "l05-c"
+     ],
+     "false_alarms": 0,
+     "findings_reported": 0,
+     "false_alarm_text": [],
+     "claims": 0,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 43,
+     "style": {
+      "redundant_direction": 0,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 6,
+      "fresh_calls": 6,
+      "cached_calls": 0,
+      "tokens": 36170,
+      "max_call_tokens": 8532,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 28093.899999999998
+     },
+     "seconds": 51.5
+    },
+    {
+     "week": "live:48",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 43,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [],
+     "planted_found": [],
+     "findings": [
+      "l48-a",
+      "l48-b",
+      "l48-c"
+     ],
+     "findings_met": [
+      "l48-a",
+      "l48-b",
+      "l48-c"
+     ],
+     "false_alarms": 0,
+     "findings_reported": 0,
+     "false_alarm_text": [],
+     "claims": 1,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 43,
+     "style": {
+      "redundant_direction": 1,
+      "empty_bullets": 0,
+      "title_adjectives": 1
+     },
+     "usage": {
+      "calls": 6,
+      "fresh_calls": 5,
+      "cached_calls": 0,
+      "tokens": 47909,
+      "max_call_tokens": 13533,
+      "fallbacks": 0,
+      "failed_calls": 1,
+      "latency_ms": 17447.2
+     },
+     "seconds": 27.5
+    },
+    {
+     "week": "live:41",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 45,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [],
+     "planted_found": [],
+     "findings": [
+      "l41-a",
+      "l41-b",
+      "l41-c"
+     ],
+     "findings_met": [
+      "l41-a",
+      "l41-b",
+      "l41-c"
+     ],
+     "false_alarms": 0,
+     "findings_reported": 0,
+     "false_alarm_text": [],
+     "claims": 2,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 45,
+     "style": {
+      "redundant_direction": 1,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 6,
+      "fresh_calls": 6,
+      "cached_calls": 0,
+      "tokens": 45636,
+      "max_call_tokens": 11999,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 12839.199999999999
+     },
+     "seconds": 40.3
+    },
+    {
+     "week": "live:16",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 45,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [],
+     "planted_found": [],
+     "findings": [
+      "l16-a",
+      "l16-b",
+      "l16-c",
+      "l16-d"
+     ],
+     "findings_met": [
+      "l16-a",
+      "l16-b",
+      "l16-c",
+      "l16-d"
+     ],
+     "false_alarms": 1,
+     "findings_reported": 0,
+     "false_alarm_text": [
+      "Duplicate charge check identified invoice INV-0000626 with a difference of +0.08 M SDR."
+     ],
+     "claims": 0,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 45,
+     "style": {
+      "redundant_direction": 0,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 7,
+      "fresh_calls": 6,
+      "cached_calls": 0,
+      "tokens": 64385,
+      "max_call_tokens": 12894,
+      "fallbacks": 0,
+      "failed_calls": 1,
+      "latency_ms": 22322.399999999998
+     },
+     "seconds": 55.6
+    },
+    {
+     "week": "live:47",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 72,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [],
+     "planted_found": [],
+     "findings": [
+      "l47-a",
+      "l47-b",
+      "l47-c"
+     ],
+     "findings_met": [
+      "l47-a",
+      "l47-b"
+     ],
+     "false_alarms": 1,
+     "findings_reported": 0,
+     "false_alarm_text": [
+      "Past audit flags include invoice INV-0000626 in week 10 for duplicate_charge with a difference of +81.8 k SDR"
+     ],
+     "claims": 1,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 72,
+     "style": {
+      "redundant_direction": 1,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 6,
+      "fresh_calls": 6,
+      "cached_calls": 0,
+      "tokens": 56626,
+      "max_call_tokens": 13801,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 15438.3
+     },
+     "seconds": 23.4
+    },
+    {
+     "week": "live:15",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 41,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [],
+     "planted_found": [],
+     "findings": [
+      "l15-b",
+      "l15-c",
+      "l15-d"
+     ],
+     "findings_met": [
+      "l15-b",
+      "l15-c",
+      "l15-d"
+     ],
+     "false_alarms": 0,
+     "findings_reported": 2,
+     "false_alarm_text": [],
+     "claims": 2,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 41,
+     "style": {
+      "redundant_direction": 2,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 6,
+      "fresh_calls": 6,
+      "cached_calls": 0,
+      "tokens": 43348,
+      "max_call_tokens": 10713,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 13197.5
+     },
+     "seconds": 49.7
+    },
+    {
+     "week": "live:24",
+     "status": "published",
+     "stop_reason": null,
+     "rewrites": 2,
+     "published": true,
+     "evidence_equal_frozen": true,
+     "numbers_bound": 40,
+     "slot_errors": 0,
+     "numbers_ok": true,
+     "planted": [],
+     "planted_found": [],
+     "findings": [
+      "l24-a",
+      "l24-b",
+      "l24-c"
+     ],
+     "findings_met": [
+      "l24-a",
+      "l24-b",
+      "l24-c"
+     ],
+     "false_alarms": 1,
+     "findings_reported": 2,
+     "false_alarm_text": [
+      "Roll-On/Roll-Off (Ro/Ro) Vessels missed budget by +0.17 M SDR in week 24 ."
+     ],
+     "claims": 0,
+     "claims_wrong": 0,
+     "claim_text": [],
+     "traceable": 40,
+     "style": {
+      "redundant_direction": 0,
+      "empty_bullets": 0,
+      "title_adjectives": 0
+     },
+     "usage": {
+      "calls": 6,
+      "fresh_calls": 6,
+      "cached_calls": 0,
+      "tokens": 56715,
+      "max_call_tokens": 12619,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 16285.4
+     },
+     "seconds": 27.6
+    }
+   ],
+   "answers": [],
+   "complete": true,
+   "aggregate": {
+    "packs_published": "11 / 11",
+    "deck_numbers": 1.0,
+    "planted_found": "6 / 6",
+    "false_alarm_rate": 0.15,
+    "claim_accuracy": 1.0,
+    "traceability": 1.0,
+    "narrative_recall": 0.9655,
+    "narrative_recall_seen": 1.0,
+    "narrative_recall_unseen": 0.9524,
+    "qa_completeness_en": null,
+    "qa_completeness_ar": null,
+    "qa_relevance_en": null,
+    "qa_relevance_ar": null,
+    "qa_numbers": null,
+    "qa_traceability": null,
+    "abstention_recall": null,
+    "abstention_precision": null,
+    "rbac_leakage": 0,
+    "style": {
+     "redundant_direction": 7,
+     "empty_bullets": 0,
+     "title_adjectives": 1
+    },
+    "usage": {
+     "calls": 65,
+     "fresh_calls": 63,
+     "cached_calls": 0,
+     "tokens": 573341,
+     "fallbacks": 0,
+     "failed_calls": 2
+    },
+    "rewrites": 22
+   },
+   "gates": {
+    "deck_numbers_100": true,
+    "planted_all": true,
+    "false_alarms_le_5pct": false,
+    "claims_100": true,
+    "traceability_100": true
+   }
+  }
+ ],
+ "stopped": null,
+ "primaries_mean": {
+  "narrative_recall": 0.9885
+ },
+ "gates_all_runs": {
+  "deck_numbers_100": true,
+  "planted_all": true,
+  "false_alarms_le_5pct": false,
+  "claims_100": true,
+  "traceability_100": true
+ },
+ "g2_arabic_threshold": null,
+ "d7_met": null,
+ "adr052_vs": {
+  "baseline": "stage1_eval_2026-11-01_c4.json",
+  "gates_regressed": [],
+  "primary_change": {
+   "narrative_recall": 0.023
+  },
+  "kept": true,
+  "verdict": "tie: keep the simpler / cheaper"
+ }
+}

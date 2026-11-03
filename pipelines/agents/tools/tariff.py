@@ -9,7 +9,7 @@ This Python implementation is deliberately independent of the SQL audit views (m
 compares the two on every invoice (P4-2).
 """
 from decimal import ROUND_HALF_UP, Decimal
-from typing import Literal
+from typing import cast, Literal
 
 from langchain.tools import ToolRuntime, tool
 from pydantic import BaseModel, Field, model_validator
@@ -58,6 +58,7 @@ def toll(vessel_category: str, laden_ballast: str, scnt_tons) -> dict:
             lines.append({"band": b["band_label"], "tons": inside, "rate_sdr_per_ton": b["rate_sdr_per_ton"],
                           "sdr": b["rate_sdr_per_ton"] * inside})
             terminal = b
+    assert terminal is not None                             # tons > 0: the first band always applies
     return {"vessel_category": vessel_category, "laden_ballast_priced": priced, "scnt_tons": tons,
             "exact_sdr": amount, "amount_sdr": sdr(amount), "terminal_band": terminal["band_label"],
             "terminal_band_id": terminal["id"], "rate_sdr_per_ton": terminal["rate_sdr_per_ton"], "bands": lines}
@@ -66,7 +67,7 @@ def toll(vessel_category: str, laden_ballast: str, scnt_tons) -> dict:
 class TollArgs(BaseModel):
     vessel_id: int | None = Field(default=None, description="one of NileGate's vessels; its category, condition and "
                                                             "SCNT are read from the vessels table")
-    vessel_category: Literal[CATEGORIES] | None = Field(default=None, description="tariff vessel category")
+    vessel_category: Literal[CATEGORIES] | None = Field(default=None, description="tariff vessel category")  # pyright: ignore[reportInvalidTypeForm]
     laden_ballast: Literal["Laden", "Ballast"] | None = Field(default=None, description="the vessel's condition")
     scnt_tons: float | None = Field(default=None, gt=0, description="Suez Canal Net Tonnage (SCNT)")
 
@@ -95,7 +96,7 @@ def compute_toll(user, **args) -> ToolResult:
     else:
         cat, cond, tons = a.vessel_category, a.laden_ballast, a.scnt_tons
         flt = f"{cat} / {cond} / {tons} SCNT"
-    t = toll(cat, cond, tons)
+    t = toll(cast(str, cat), cast(str, cond), tons)
     row = {"vessel_category": cat, "laden_ballast_priced": t["laden_ballast_priced"], "scnt_tons": float(t["scnt_tons"]),
            "amount_sdr": float(t["amount_sdr"]), "terminal_band": t["terminal_band"],
            "rate_sdr_per_ton": float(t["rate_sdr_per_ton"]),

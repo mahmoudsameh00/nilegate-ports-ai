@@ -981,7 +981,7 @@ assert not missing, f"Contents entries missing from section_map: {missing}"
 NAV_TO_CHAPTER = dict(zip(NAV_LABELS, CHAPTERS))
 nav_mismatch = []
 for p in RETRIEVAL_PAGES:
-    prior = section_map[section_map["key"].map(lambda k: k <= (p, 1, 1e9))]
+    prior = section_map[section_map["key"].map(lambda k, p=p: k <= (p, 1, 1e9))]
     chapter = prior["l1"].iloc[-1]
     if chapter != NAV_TO_CHAPTER[signals_df.loc[p - 1, "active_nav"]]:
         nav_mismatch.append((p, chapter, signals_df.loc[p - 1, "active_nav"]))
@@ -3414,13 +3414,13 @@ duplicate_audit = {
     "pairs": to_records(audit_pairs_df),
 }
 
-EXTRACTED_PATH.write_text(json.dumps(extracted_payload, ensure_ascii=False, indent=1), encoding="utf-8")
+EXTRACTED_PATH.write_text(json.dumps(extracted_payload, ensure_ascii=False, indent=1), encoding="utf-8", newline="\n")
 cleaned_payload = {
     "source": {**source_metadata, "sha256": SOURCE_SHA256},
     "units": to_records(final_units_df[UNIT_FIELDS]),
     "duplicate_audit": duplicate_audit,
 }
-LOGICAL_UNITS_PATH.write_text(json.dumps(cleaned_payload, ensure_ascii=False, indent=1), encoding="utf-8")
+LOGICAL_UNITS_PATH.write_text(json.dumps(cleaned_payload, ensure_ascii=False, indent=1), encoding="utf-8", newline="\n")
 
 # ---- reload + validate ----
 re_extracted = json.loads(EXTRACTED_PATH.read_text(encoding="utf-8"))
@@ -4022,7 +4022,7 @@ cleaned_payload["coverage_audit"] = {
     "summary": json.loads(summary.reset_index().to_json(orient="records")),
     "lines": to_records(coverage_df[["page_number", "block_no", "line_no", "disposition", "detail", "text"]]),
 }
-LOGICAL_UNITS_PATH.write_text(json.dumps(cleaned_payload, ensure_ascii=False, indent=1), encoding="utf-8")
+LOGICAL_UNITS_PATH.write_text(json.dumps(cleaned_payload, ensure_ascii=False, indent=1), encoding="utf-8", newline="\n")
 re_cleaned = json.loads(LOGICAL_UNITS_PATH.read_text(encoding="utf-8"))
 assert set(re_cleaned) == {"source", "units", "duplicate_audit", "coverage_audit"}
 assert len(re_cleaned["coverage_audit"]["lines"]) == len(coverage_df)

@@ -14,8 +14,9 @@ Status = Literal["ok", "not_permitted", "context_unavailable", "no_data"]
 
 
 class Source(BaseModel):
-    kind: Literal["view", "table", "api", "documents"]
-    name: str = Field(description="the view / table (schema.name) or the API endpoint")
+    kind: Literal["view", "table", "api", "documents", "library"]
+    name: str = Field(description="the view / table (schema.name), the API endpoint, or the local library (Stage 2: "
+                                  "searoute) with the table it read")
     filter: str = Field(description="the exact filter that selected the rows, e.g. report_week = 23")
     retrieved_at: str | None = Field(default=None, description="external sources: when the data was fetched (UTC)")
 

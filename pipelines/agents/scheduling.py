@@ -19,6 +19,7 @@ from collections import Counter
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from typing import Any, cast
 
 REPORT_YEAR = 2025
 LIVE_PREFIX = f"weekly_pack:live:{REPORT_YEAR}-W"
@@ -84,6 +85,148 @@ def describe(g, thread_id: str, prefix: str) -> ThreadInfo | None:
 
 def describe_all(g, pool, prefix: str = LIVE_PREFIX) -> list[ThreadInfo]:
     return [i for t in thread_ids(pool, prefix) if (i := describe(g, t, prefix)) is not None]
+
+
+ROUTE_ADVICE_PREFIX = "route_advice:"       # Agents plan §6b P10-3: one thread per route question
+
+
+def _describe_questions(g, pool, prefix: str, root: str) -> list[ThreadInfo]:
+    """One-question threads `<root><employee>:…:<n>` as ThreadInfo, so `prune` keeps one retention rule for every
+    graph: `g` = the compiled graph (its checkpointer); week 0, attempt = the thread's last number, run_as = its
+    employee. A finished question has no next node (ended); one stopped mid-run is stalled (kept, reported when
+    stale)."""
+    out = []
+    for t in thread_ids(pool, prefix):
+        snap = g.get_state({"configurable": {"thread_id": t}})
+        # the employee is always the field right after the root, whatever narrower prefix was listed
+        tail, head = t.rsplit(":", 1)[-1], t.removeprefix(root).split(":", 1)[0]
+        out.append(ThreadInfo(t, 0, int(tail) if tail.isdigit() else 0, "stalled" if snap.next else "ended",
+                              snap.values.get("status"), datetime.fromisoformat(snap.created_at),
+                              int(head) if head.isdigit() else None))
+    return out
+
+
+def describe_route_advice(g, pool, prefix: str = ROUTE_ADVICE_PREFIX) -> list[ThreadInfo]:
+    """The route-advice threads (`g` = the compiled route_advice graph)."""
+    return _describe_questions(g, pool, prefix, ROUTE_ADVICE_PREFIX)
+
+
+ASK_PREFIX = "ask:"                 # Agents plan §6d S4: one thread per supervisor question (Ask.py)
+
+
+def describe_ask(g, pool, prefix: str = ASK_PREFIX) -> list[ThreadInfo]:
+    """The supervisor's question threads `ask:<employee>:<as_of>:<n>` (`g` = the compiled supervisor graph)."""
+    return _describe_questions(g, pool, prefix, ASK_PREFIX)
+
+
+# --- the voyage watch (Agents plan Phase 11, §6c P11-7) --------------------------------------------------------------
+
+WATCH_PREFIX = "voyage_watch:"      # one thread per run: voyage_watch:<as_of %Y%m%dT%H%MZ>:<n>
+WATCH_STEP_H = 12                   # every 12 h (the Open-Meteo quota, F12)
+WATCH_REPLAY_DAYS = 7               # the replay starts 7 days before the data's as-of instant
+
+
+def allowed_watch_run_as(user) -> bool:
+    """P11-8: the scheduled watch runs as an Operations manager (its data is level 1 / Operations)."""
+    return user is not None and (user.role, user.department) == ("manager", "Operations")
+
+
+def watch_grid(data_as_of: datetime) -> list[datetime]:
+    """The replay instants: data_as_of − 7 days … data_as_of every 12 h (15 instants)."""
+    start = data_as_of - timedelta(days=WATCH_REPLAY_DAYS)
+    n = WATCH_REPLAY_DAYS * 24 // WATCH_STEP_H
+    return [start + timedelta(hours=WATCH_STEP_H * k) for k in range(n + 1)]
+
+
+@dataclass(frozen=True)
+class WatchInfo:
+    thread_id: str
+    as_of: datetime
+    n: int
+    state: str                   # ended | stalled (stopped mid-run, resumable)
+    status: str | None
+    last_at: datetime
+    run_as: int | None
+
+
+def describe_voyage_watch(g, pool, prefix: str = WATCH_PREFIX) -> list[WatchInfo]:
+    """The watch threads in agent_state (`g` = the compiled voyage_watch graph, for its checkpointer)."""
+    from pipelines.agents.graphs.voyage_watch import parse_thread
+
+    out = []
+    for t in thread_ids(pool, prefix):
+        parsed = parse_thread(t, prefix)
+        if parsed is None:
+            continue
+        cfg = {"configurable": {"thread_id": t}}
+        snap = g.get_state(cfg)
+        out.append(WatchInfo(t, *parsed, state="stalled" if snap.next else "ended", status=snap.values.get("status"),
+                             last_at=datetime.fromisoformat(snap.created_at), run_as=run_as_of(g, cfg)))
+    return out
+
+
+def as_thread_info(i: WatchInfo) -> ThreadInfo:
+    """For `prune`: one retention rule for every graph (ended + older than 30 days → archive, delete)."""
+    return ThreadInfo(i.thread_id, 0, i.n, i.state, i.status, i.last_at, i.run_as)
+
+
+@dataclass(frozen=True)
+class WatchDecision:
+    action: str                  # resume | start | done
+    as_of: datetime | None
+    thread_id: str | None
+    reason: str
+
+
+def plan_watch(infos: list[WatchInfo], data_as_of: datetime, prefix: str = WATCH_PREFIX) -> WatchDecision:
+    """A stalled run is resumed first; else the earliest replay instant without a finished run (a run by hand at an
+    instant counts for it); after the last instant, done."""
+    from pipelines.agents.graphs.voyage_watch import stamp
+
+    stalled = sorted((i for i in infos if i.state == "stalled"), key=lambda i: (i.as_of, i.n))
+    if stalled:
+        s = stalled[0]
+        return WatchDecision("resume", s.as_of, s.thread_id, f"the run at {stamp(s.as_of)} stopped mid-run; resumed")
+    done = {i.as_of for i in infos if i.state == "ended"}
+    todo = [t for t in watch_grid(data_as_of) if t not in done]
+    if not todo:
+        return WatchDecision("done", None, None, "the replay of the voyage watch is complete")
+    t = todo[0]
+    n = max((i.n for i in infos if i.as_of == t), default=0) + 1
+    return WatchDecision("start", t, f"{prefix}{stamp(t)}:{n}", f"next replay instant {stamp(t)}")
+
+
+def fire_watch(g, saver, pool, user, archive: Path, data_as_of: datetime, prefix: str = WATCH_PREFIX,
+               now: datetime | None = None, tracer=None) -> dict:
+    """One scheduled watch firing: plan → start / resume / done → retention of the watch threads. `user` = the
+    scheduled identity (an Operations manager, P11-8); a resumed run keeps the identity and the clock it started
+    with. An exception inside the run propagates — the thread waits at its checkpoint for the next firing."""
+    from contextlib import nullcontext
+
+    from pipelines.agents.tools.context import RunContext, load_user
+
+    d = plan_watch(describe_voyage_watch(g, pool, prefix), data_as_of, prefix)
+    rec: dict[str, Any] = {"decision": as_log(d)}
+    if d.action in ("start", "resume"):
+        cfg = {"configurable": {"thread_id": d.thread_id}}
+        if d.action == "start":
+            cfg["metadata"] = {"run_as": user.employee_id, "trigger": "scheduled"}
+            run_as, inp, ctx = user.employee_id, {"request": {}}, RunContext(user, as_of=cast(datetime, d.as_of))
+        else:
+            run_as = run_as_of(g, cfg) or user.employee_id
+            inp, ctx = None, RunContext(load_user(run_as), as_of=cast(datetime, d.as_of))
+        with tracer(d.thread_id, run_as) if tracer else nullcontext() as traced:
+            for _ in g.stream(inp, cfg, context=ctx, stream_mode="updates", durability="sync"):
+                pass
+        rec["traced"] = bool(traced)
+        res = g.get_state(cfg).values.get("result") or {}
+        rec["result"] = {"thread_id": d.thread_id, "status": res.get("status"), "brief": res.get("brief_status"),
+                         "alerts": len(res.get("alerts") or []),
+                         "high": sum(a["severity"] == "high" for a in res.get("alerts") or []),
+                         "run_file": res.get("run_file")}
+    rec["retention"] = prune(g, saver, [as_thread_info(i) for i in describe_voyage_watch(g, pool, prefix)], archive,
+                             now=now)
+    return rec
 
 
 # --- the week picker (P8-1) ------------------------------------------------------------------------------------------
@@ -178,6 +321,7 @@ def approval_report(entries: list[dict]) -> dict:
             "edit_rate": round(len(edited) / len(decided), 3) if decided else None,
             "decisions": dict(sorted(outcomes.items())), "edited_slides": dict(sorted(slides.items())),
             "form_fixes": {"packs": sum(n > 0 for n in fixes), "fixes": sum(fixes)},
+            "degraded": sum(bool(e.get("degraded")) for e in entries),     # c4: decks whose failing text code replaced
             "threads": sorted(e["thread_id"] for e in entries)}
 
 
@@ -187,7 +331,7 @@ def report_entries(g, infos: list[ThreadInfo], reports_dir: Path) -> list[dict]:
     for i in infos:
         v = g.get_state({"configurable": {"thread_id": i.thread_id}}).values
         seen[i.thread_id] = {"thread_id": i.thread_id, "status": i.status, "approval_log": v.get("approval_log") or [],
-                             "normalized": v.get("normalized") or []}
+                             "normalized": v.get("normalized") or [], "degraded": v.get("degraded")}
     arch = reports_dir / LOG_DIR / "threads_archive.jsonl"
     if arch.exists():
         for line in arch.read_text(encoding="utf-8").splitlines():
@@ -233,7 +377,7 @@ def as_log(obj) -> dict:
 
 
 def fire(g, saver, pool, user, reports_dir: Path, prefix: str = LIVE_PREFIX, notify: bool = True,
-         now: datetime | None = None, tracer=None) -> dict:
+         now: datetime | None = None, tracer=None, route_graph=None, ask_graph=None) -> dict:
     """One scheduled firing: plan → start / resume / wait / done → retention. `user` = the scheduled run identity
     (a Finance manager, P5-5); a resumed thread keeps the identity it started with. `tracer(thread_id, run_as)` → a
     context manager around the graph run (LangSmith, `tracing.trace`; None = untraced). Returns the log record; an
@@ -243,7 +387,7 @@ def fire(g, saver, pool, user, reports_dir: Path, prefix: str = LIVE_PREFIX, not
     from pipelines.agents.tools.context import RunContext, load_user
 
     d = plan(describe_all(g, pool, prefix), prefix)
-    rec = {"decision": as_log(d)}
+    rec: dict[str, Any] = {"decision": as_log(d)}
     if d.action in ("start", "resume"):
         cfg = {"configurable": {"thread_id": d.thread_id}}
         if d.action == "start":
@@ -257,7 +401,8 @@ def fire(g, saver, pool, user, reports_dir: Path, prefix: str = LIVE_PREFIX, not
             for _ in g.stream(inp, cfg, context=ctx, stream_mode="updates", durability="sync"):
                 pass
         rec["traced"] = bool(traced)
-        after = describe(g, d.thread_id, prefix)
+        after = describe(g, cast(str, d.thread_id), prefix)
+        assert after is not None                            # the thread was just run
         rec["result"] = {"thread_id": d.thread_id, "state": after.state, "status": after.status}
     pending = rec.get("result", {}).get("state") == "pending" or d.action == "wait"
     if pending and notify:
@@ -265,4 +410,10 @@ def fire(g, saver, pool, user, reports_dir: Path, prefix: str = LIVE_PREFIX, not
                              f"{REPORT_YEAR}-W{d.week:02d} waits for your approval ({d.thread_id})")
     rec["retention"] = prune(g, saver, describe_all(g, pool, prefix), reports_dir / LOG_DIR / "threads_archive.jsonl",
                              now=now)
+    if route_graph is not None:                  # §6b P10-3: route-advice threads follow the same 30-day rule
+        rec["retention_route_advice"] = prune(route_graph, saver, describe_route_advice(route_graph, pool),
+                                              reports_dir / LOG_DIR / "threads_archive.jsonl", now=now)
+    if ask_graph is not None:                    # §6d S4: the supervisor's question threads, the same 30-day rule
+        rec["retention_ask"] = prune(ask_graph, saver, describe_ask(ask_graph, pool),
+                                     reports_dir / LOG_DIR / "threads_archive.jsonl", now=now)
     return rec

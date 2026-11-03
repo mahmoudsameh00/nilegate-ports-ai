@@ -1,6 +1,6 @@
 """Deck check (Agents plan Phase 6, §5c): number slots, the NileGate PPTX, the Validator v2 and its planted numbers.
 
-Plan:    docs/plans/Agents_plan.md §5c (owner decisions P6-1…P6-8, approved 2026-10-19); one phase per test of §5c.
+Plan:    docs/archive/2026-11-01_Agents_plan.md §5c (owner decisions P6-1…P6-8, approved 2026-10-19); one phase per test of §5c.
 Run:     uv run python tools/run.py pipelines/scripts/agents/Deck_check.py  (from the project root)
 
 Reads:   PostgreSQL read-only (PG_RO_USER): employees / roles / departments, the finance views, the audit views.
@@ -201,7 +201,8 @@ text_expected = {
                  "{<evidence id>[<row>]:<field>|<format>}",
 }
 actual = {"text": text_actual, "readback": readback}
-expected = {"text": text_expected, "readback": {"values": 905, "formats": 1820, "dir": 396, "failed": []}}
+# re-snapshotted 2026-11-01 (weekly-pack plan Phase B): the 021 columns add 106 values (905 → 1,011), every one read back
+expected = {"text": text_expected, "readback": {"values": 1011, "formats": 2015, "dir": 409, "failed": []}}
 assert actual == expected, {k: v for k, v in text_actual.items() if text_expected.get(k) != v} or readback
 refused = sum(v.startswith("ERR") for v in text_actual.values())
 print(f"Phase 1: {len(TEXT_CASES)} text cases ({refused} refused with their fix); read-back of weeks 10 + 23: "
@@ -273,20 +274,26 @@ tables = {w: c[2] for w, c in shape_counts.items()}
 actual = {"bullets": n_bullets, "slots": n_slots, "false_alarms": false_alarms, "false_alarms_lit": false_alarms_lit,
           "v8_false": v8_false, "slides_charts": sorted({c[:2] for c in shape_counts.values()}),
           "audit_table_weeks": sorted(w for w in tables if EVS[w]["audit.week"]["rows"]),
-          "tables_ok": all(tables[w] == 3 + bool(EVS[w]["audit.week"]["rows"]) + bool(EVS[w]["kpi.overdue"]["rows"])
-                           for w in tables),
+          "tables_ok": all(tables[w] == 3 + bool(EVS[w]["kpi.overdue"]["rows"])
+                           + bool(EVS[w]["audit.week"]["rows"] or EVS[w]["audit.ytd"]["rows"]) for w in tables),
+          "flow_chart_weeks": sorted(w for w, c in shape_counts.items() if c[1] == 4),
           "footnote_weeks": warm_notes}
 # reviewed snapshot (2026-10-19): 16 bullets a week, 1,285 slots, no problem on any week in any form; every deck 10
-# slides and 3 native charts; tables = drivers + customers + sources, + overdue when there is one, + audit in the
-# weeks with findings (10 / 15 / 50); the warm-up footnote on weeks 1–13 only
-expected = {"bullets": 832, "slots": 1285, "false_alarms": {}, "false_alarms_lit": {}, "v8_false": {},
-            "slides_charts": [(10, 3)], "audit_table_weeks": [10, 15, 50], "tables_ok": True,
-            "footnote_weeks": list(range(1, 14))}
+# slides; tables = drivers + customers + sources, + overdue when there is one, + audit in the weeks with findings
+# (10 / 15 / 50); the warm-up footnote on weeks 1–13 only. Re-snapshotted 2026-11-01 (weekly-pack plan Phase C):
+# 4 native charts (trend, variance bars, aging, overdue roll-forward) from week 2 — week 1 has no previous week to roll
+# forward from (3 charts); a week without findings shows the year-to-date findings table when the year has one
+# 2026-11-01 (Phase D): the sample comments of slides 3 / 6 / 7 / 8 add a fact the tiles do not show (V9) → 1,386
+# slots (same 832 bullets)
+expected = {"bullets": 832, "slots": 1386, "false_alarms": {}, "false_alarms_lit": {}, "v8_false": {},
+            "slides_charts": [(10, 3), (10, 4)], "audit_table_weeks": [10, 15, 50], "tables_ok": True,
+            "flow_chart_weeks": list(range(2, 53)), "footnote_weeks": list(range(1, 14))}
 assert actual == expected, actual
 print(f"Phase 2: 52 drafts, {n_bullets} bullets, {n_slots} slots; problems: slot form 0, literal form 0; 52 PPTX "
       f"rendered and read back in {render_s:.0f} s, V8 problems 0; previews of weeks 10 / 23 in Notebooks/_scratch/")
 print("✅ Phase 2 validation passed: 52 / 52 weeks of the slot Writer pass V1–V7 as slots and as literal text, and "
-      "their rendered PPTX pass V8 (10 slides, 3 native charts, the tables of the week, warm-up footnote on 1–13)")
+      "their rendered PPTX pass V8 (10 slides, 4 native charts from week 2, the tables of the week, warm-up "
+      "footnote on 1–13)")
 DONE.append(2)
 
 # %% Phase 3 — Planted wrong numbers (S2: drafts; S3 adds the PPTX)
@@ -434,7 +441,7 @@ def _set_run(sh, text):
 
 
 def _cell_bump(sl, sh):
-    c = sh.table.cell(1, 3)
+    c = sh.table.cell(1, 4)                  # the top customer's 13-week billing (column 3 until Phase C)
     c.text_frame.paragraphs[0].runs[0].text = _bump(c.text)
 
 
@@ -704,11 +711,173 @@ print("✅ Phase 4 validation passed: the real failures replayed — Phase 5: si
       "row by position, a total on one invoice, a unit written twice — each refused with the slot that fixes it")
 DONE.append(4)
 
+# %% Phase 5 — V9 claim check (weekly-pack plan Phase D, W-R6)
+# The approved W11 / W12 decks were right on every number and wrong in their words (advanced_analytics_findings W9):
+# "Consistent Outperformance Against Budget" (the period −3.7 %), "Stable Receivables" (AR +6.1 %), "Revenue Mix
+# Growth" (billing −4.9 %), "Red Sea Disruptions" on the cover, comments repeating the tiles. Each over-claim and its
+# variants is planted alone in the clean slot deck of W11 and W12 — only where the claim is false in that week's own
+# evidence (else "not applicable") — and must fail with V9 on the planted text and with no other rule; the
+# storyboard's accepted W12 titles must pass V1–V9; the 52 clean decks of Phase 2 pass with V9 in force (both forms).
+
+
+def _title(d, slide, text):
+    dd = copy.deepcopy(d)
+    for st in dd["slide_titles"]:
+        if st["slide"] == slide:
+            st["title"] = text
+    return dd, slide, None
+
+
+def _comment(d, slide, text, ids):
+    dd = copy.deepcopy(d)
+    i = _idx(dd, slide, 0)
+    dd["bullets"][i] = {"slide": slide, "text": text, "evidence_ids": ids}
+    return dd, slide, i
+
+
+def claim_cases(ev, d):
+    """class → (draft, slide, bullet or None), or None when the claim is true that week (not applicable)."""
+    k = ev["kpi.weekly"]["rows"][0]
+    ar, bil, typ = k["ar_wow_pct"], k["billed_wow_pct"], k["billed_wow_typical_pct"]
+    var_w, var_p = k["budget_variance_pct"], k["budget_variance_13w_pct"]
+    split = var_w is not None and var_p is not None and (var_w > 0) != (var_p > 0)
+    moved = ar is not None and abs(ar) >= 2
+    inside = bil is not None and typ is not None and abs(bil) <= typ
+    ar_trend = [r["ar_sdr"] for r in ev["kpi.trend"]["rows"]][-3:]
+    ar_falling = len(ar_trend) == 3 and ar_trend[2] < ar_trend[1] < ar_trend[0]
+    above = [r["vessel_category"] for r in ev["kpi.category"]["rows"] if (r["budget_variance_sdr"] or 0) > 0]
+    this_week = {r["invoice_number"] for r in ev["audit.week"]["rows"]}
+    earlier = [r["invoice_number"] for r in ev["audit.ytd"]["rows"] if r["invoice_number"] not in this_week]
+    cu = ev["kpi.customers"]["rows"][0]["customer_name"]
+    return {
+        "stable receivables (W12 slide 2)": _title(d, 2, "Stable receivables") if moved else None,
+        "receivables held steady": _title(d, 6, "Receivables held steady this week") if moved else None,
+        "consistent outperformance (W12 slide 4)":
+            _title(d, 4, "Consistent outperformance against budget") if split and var_w > 0 else None,
+        "receivables continued to fall (trend)":
+            _title(d, 6, "Receivables continued to fall") if not ar_falling else None,
+        "revenue mix growth (W12 slide 5)": _title(d, 5, "Revenue mix growth") if bil is not None and bil < 0 else None,
+        "billing pullback inside the swing": _title(d, 3, "Billing pullback this week") if inside else None,
+        "a sharp move inside the swing": _title(d, 1, "A sharp move in billing") if inside else None,
+        "external cause on the cover (W12)": _title(d, 1, "Billing reflects Red Sea disruptions"),
+        "external cause in a comment": _comment(d, 4, "Billing moved with the Red Sea crisis", ["kpi.trend"]),
+        "comment repeats the audit tiles (W12 slide 8)": _comment(
+            d, 8, "{audit.week:invoices_checked} invoices checked, {audit.week:invoices_flagged} flagged",
+            ["audit.week"]),
+        "comment repeats a KPI tile": _comment(d, 3, "Overdue {kpi.weekly:overdue_sdr|M}", ["kpi.weekly"]),
+        # rules 6–8, after candidate c5 (2026-11-02): its live W24 / W16 sentences, planted here
+        "a category above budget called a miss (c5 W24)":
+            _comment(d, 5, f"{above[0]} missed its budget this week", ["kpi.category"]) if above else None,
+        "an earlier finding told as this week's (c5 W16)":
+            _comment(d, 8, f"The audit flagged {earlier[0]} as a duplicate charge", ["audit.ytd"]) if earlier else None,
+        "a unit written twice after a slot (c5 W24)": _comment(
+            d, 7, f"{cu} billed {slots.binding('kpi.customers', 'billed_13w_sdr', 'M', cu)} million over 13 weeks",
+            ["kpi.customers"]),
+    }
+
+
+CLAIM_WEEKS = (11, 12)
+for w in CLAIM_WEEKS:
+    EVS.setdefault(w, week_evidence(w))
+v9_caught, v9_applicable, v9_other = {}, {}, {}
+for w in CLAIM_WEEKS:
+    for cls, case in claim_cases(EVS[w], slot_draft(w, EVS[w])).items():
+        v9_applicable.setdefault(cls, []).append(w if case else None)
+        if case is None:
+            continue
+        dd, slide, bullet = case
+        probs = v2.validate(dd, EVS[w], w).problems
+        v9_caught[(w, cls)] = any(p.rule == "V9" and p.slide == slide and p.bullet == bullet for p in probs)
+        if {p.rule for p in probs} - {"V9"}:
+            v9_other[(w, cls)] = sorted({p.rule for p in probs} - {"V9"})
+ACCEPTED_W12 = {   # the storyboard's W12 titles, slots in place of its typed numbers: must pass V1–V9
+    # (slide 1: "against budget" named after the ";" too — V7 binds a figure to a family word of its own sentence)
+    1: "Week 12: billing {kpi.weekly:budget_variance_pct|%1|dir} against its weekly budget; the year so far "
+       "{kpi.weekly:budget_variance_13w_pct|%1|dir} against budget",
+    3: "Billing {kpi.weekly:billed_wow_pct|%1} WoW is within the typical ±{kpi.weekly:billed_wow_typical_pct|%1} "
+       "swing; receivables {kpi.weekly:ar_wow_pct|%1|dir}",
+    4: "Above budget this week, below it over the year so far",
+    6: "Overdue {kpi.weekly:overdue_wow_pct|%1|dir}: {kpi.weekly:overdue_new_sdr|M} fell due unpaid, "
+       "{kpi.weekly:overdue_paid_sdr|M} of older overdue was collected",
+}
+acc = slot_draft(12, EVS[12])
+for s_, t_ in ACCEPTED_W12.items():
+    acc = _title(acc, s_, t_)[0]
+accepted_problems = [(p.rule, p.slide, p.message[:80]) for p in v2.validate(acc, EVS[12], 12).problems]
+
+missed9 = sorted(k for k, v in v9_caught.items() if not v)
+na9 = {c: [w for w, a in zip(CLAIM_WEEKS, ws) if a is None] for c, ws in v9_applicable.items() if None in ws}
+actual = {"classes": len(v9_applicable), "planted": len(v9_caught), "missed": missed9, "other_rules": v9_other,
+          "accepted_problems": accepted_problems, "applicable_w12": sorted(c for c, ws in v9_applicable.items()
+                                                                           if 12 in ws)}
+expected = {"classes": 14, "planted": 28 - sum(len(v) for v in na9.values()), "missed": [], "other_rules": {},
+            "accepted_problems": [], "applicable_w12": sorted(v9_applicable)}   # every W12 over-claim is false in W12
+# reviewed 2026-11-01: 11 classes, every one false in both W11 and W12 → 22 planted, all caught by V9 alone
+# reviewed 2026-11-02: + 3 classes of rules 6–8 (c5's real sentences) → 14 classes, 28 planted, all caught
+assert na9 == {}, na9
+assert actual == expected, actual
+print(f"Phase 5: {len(v9_caught)} over-claims planted ({len(v9_applicable)} classes × weeks {CLAIM_WEEKS}), "
+      f"caught {len(v9_caught) - len(missed9)} by V9 alone; not applicable (true that week): {na9}; the storyboard's "
+      f"{len(ACCEPTED_W12)} accepted W12 titles pass V1–V9")
+print("✅ Phase 5 validation passed: V9 refuses every planted over-claim of W11 / W12 (stability, persistence, a "
+      "direction without a number, a dramatic word inside the typical swing, an external cause, a comment repeating "
+      "a tile, a category's budget position, an earlier finding told as this week's, a unit written twice) on the "
+      "planted text and with no other rule, and accepts the storyboard's titles")
+DONE.append(5)
+
+# %% Phase 6 — Layout: comments fit (c5b, 2026-11-02)
+# The fake Writer's comments are short; the real ones of candidate c5b were not: on live W48 three comments overlapped
+# on slide 6 (fixed 0.62 in boxes) and slide 7's table ran under the watch rule (the cells' paragraph marks kept the
+# theme's 18 pt). Each comment box is now as tall as its estimated wrap and the type steps down to 10 pt to fit. Here
+# every comment of slides 2–8 is stretched to a long real-length sentence (no numbers: layout only) on a warm-up and
+# a late week, and every comment box must sit inside the slide body — above the footer (the footnote in a warm-up
+# week), clear of every other element and of the other comments. Slide 7's table must end above the watch rule.
+
+
+def _overlap(a, b):
+    ax, ay, aw, ah = a
+    bx, by, bw, bh = b
+    return ax < bx + bw and bx < ax + aw and ay < by + bh and by < ay + ah
+
+
+LONG = {2: 230, 3: 230, 4: 200, 5: 190, 6: 200, 7: 200, 8: 230}   # characters; c5b's longest real comments ≈ 190
+FILL = ("the category billed more invoices than in the previous week while receivables kept building up across the "
+        "watchlist customers and the period stayed behind its budget ") * 3
+layout_problems = {}
+for w in (5, 48):
+    d = copy.deepcopy(DRAFTS[w])
+    for b in d["bullets"]:
+        if b["slide"] in LONG:
+            b["text"] = FILL[:LONG[b["slide"]]].strip().capitalize()
+    for s, els in enumerate(render.build_spec(d, EVS[w], READY[w], LABEL), 1):
+        bottom = render.S.FOOTNOTE_TOP if EVS[w]["kpi.weekly"]["rows"][0]["is_warmup"] else render.S.FOOTER_TOP
+        notes = [e for e in els if re.fullmatch(r"txt:b\d+", e.name)]
+        others = [e for e in els if e not in notes and not e.name.startswith(("deco:", "tpl:footer", "tpl:page",
+                                                                               "tpl:label", "tpl:footnote"))]
+        for e in notes:
+            if e.box[1] + e.box[3] > bottom:
+                layout_problems.setdefault((w, s), []).append(f"{e.name} ends below the body")
+            hit = [o.name for o in others + [n for n in notes if n is not e] if _overlap(e.box, o.box)]
+            if hit:
+                layout_problems.setdefault((w, s), []).append(f"{e.name} overlaps {hit}")
+        if s == 7:
+            tbl = next(e for e in els if e.name == "tbl:customers")
+            rule = next(e for e in els if e.name.endswith("watch.rule"))
+            if tbl.box[1] + render.Inches(0.32) * len(tbl.cells) > rule.box[1]:
+                layout_problems.setdefault((w, s), []).append("the customers table runs under the watch rule")
+print(f"Phase 6: long comments on weeks 5 (warm-up) and 48, slides 2–8: problems {layout_problems or 'none'}")
+assert layout_problems == {}, layout_problems
+print("✅ Phase 6 validation passed: every comment box of slides 2–8, stretched to a long real-length sentence, sits "
+      "above the footer (the footnote in a warm-up week), clear of every other element and of the other comments; "
+      "slide 7's table ends above the watch rule")
+DONE.append(6)
+
 # %% Final Checkpoint
 # Narrative: pipelines/checkpoints/agents/Deck_check.md (written when Phase 6 closes).
 # (§5c listed a Phase 5 "real models" here: it is Weekly_pack_check.py Phase 5 — the real pack, its V1–V8 and the
-# published deck.pptx — so it is not run twice)
-PHASES = {1: "slots", 2: "52 clean decks (V1–V8)", 3: "planted wrong numbers", 4: "real failures replayed"}
+# published deck.pptx — so it is not run twice; the claim check V9 became Phase 5 on 2026-11-01)
+PHASES = {1: "slots", 2: "52 clean decks (V1–V9)", 3: "planted wrong numbers", 4: "real failures replayed",
+          5: "planted over-claims (V9)", 6: "layout: long comments fit"}
 pending = [f"{k} {v}" for k, v in PHASES.items() if k not in DONE]
 assert DONE == sorted(DONE) and set(DONE) <= set(PHASES)
 print(f"Final Checkpoint: done {DONE}; pending: {pending}")

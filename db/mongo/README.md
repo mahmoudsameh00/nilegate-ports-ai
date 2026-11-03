@@ -8,6 +8,7 @@
 | `002_check_app_user.js` | Least-privilege check: allowed in its database, refused `collMod`, other databases, user listing, full database list. Run as the app user. |
 | `003_probe_features.js` | Feature probe of the pinned version in a throwaway database (`ports_probe`, dropped at the end): time-series + validators / indexes. Run as root. |
 | `004_example_queries.js` | Queries the future tools will run (latest fix of a vessel, vessels at anchor near a port, containers on an IFTMIN) and the index each one uses. Run as the app user. |
+| `005_create_reader_user.js` | Creates / updates the agent tools' read-only user (`MONGO_RO_USER` / `MONGO_RO_PASSWORD` from `.env`): role `read` on `ports_logistics` only; refuses the app user's name. Idempotent. Run as root (`run.ps1` passes `RO_USER` / `RO_PWD`). Run 2026-10-27 (`nilegate_reader`); its refused writes are checked by `pipelines/scripts/agents/Stage2_tools_check.py` Phase 0 (Agents plan §6a P9-6). |
 | `audit/` | Saved outputs of the scripts (`YYYY-MM-DD_NNN_*.txt`). |
 
 Collections and indexes are **not** created here: `pipelines/scripts/semi_structured/MongoDB_loader.py` is the only writer

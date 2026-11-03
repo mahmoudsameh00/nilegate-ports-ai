@@ -1057,7 +1057,7 @@ fields, groups, row_role = [], [], {}
 current_app, current_group = None, None
 for r in frows.itertuples():
     if r.row_id in HEADING_ROWS:
-        h = section_map[section_map["rows"].map(lambda ids: r.row_id in ids)].iloc[0]
+        h = section_map[section_map["rows"].map(lambda ids, r=r: r.row_id in ids)].iloc[0]
         row_role[r.row_id] = h.role
         if h.role == "appendix":
             current_app, current_group = int(h.appendix), None
@@ -1128,7 +1128,7 @@ a4_items, dnr_rows = [], []
 section, prev_kind = None, None
 for r in a4_rows.itertuples():
     if r.row_id in HEADING_ROWS:
-        h = section_map[section_map["rows"].map(lambda ids: r.row_id in ids)].iloc[0]
+        h = section_map[section_map["rows"].map(lambda ids, r=r: r.row_id in ids)].iloc[0]
         row_role[r.row_id] = h.role
         if h.role == "a4_section" and h.a4_section not in a4_sections:
             section = int(h.a4_section)
@@ -1218,7 +1218,7 @@ option_tables: dict[int, dict] = {}
 options, table_no, group = [], None, None
 for r in ot_rows.itertuples():
     if r.row_id in HEADING_ROWS:
-        h = section_map[section_map["rows"].map(lambda ids: r.row_id in ids)].iloc[0]
+        h = section_map[section_map["rows"].map(lambda ids, r=r: r.row_id in ids)].iloc[0]
         row_role[r.row_id] = h.role
         if h.role == "table_label":
             table_no, group = int(h.table_no), None
@@ -2335,13 +2335,13 @@ duplicate_audit = {
     "pair_counts": pairs_df.groupby(["scope", "relationship"]).size().rename("pairs").reset_index().to_dict("records"),
 }
 
-EXTRACTED_PATH.write_text(json.dumps(extracted_payload, ensure_ascii=False, indent=1, default=json_default), encoding="utf-8")
+EXTRACTED_PATH.write_text(json.dumps(extracted_payload, ensure_ascii=False, indent=1, default=json_default), encoding="utf-8", newline="\n")
 cleaned_payload = {
     "source": {**source_metadata, "sha256": SOURCE_SHA256},
     "units": to_records(final_units_df[UNIT_FIELDS]),
     "duplicate_audit": duplicate_audit,
 }
-LOGICAL_UNITS_PATH.write_text(json.dumps(cleaned_payload, ensure_ascii=False, indent=1, default=json_default), encoding="utf-8")
+LOGICAL_UNITS_PATH.write_text(json.dumps(cleaned_payload, ensure_ascii=False, indent=1, default=json_default), encoding="utf-8", newline="\n")
 
 # ---- reload + validate ----
 re_extracted = json.loads(EXTRACTED_PATH.read_text(encoding="utf-8"))
@@ -2991,7 +2991,7 @@ cleaned_payload["coverage_audit"] = {
     "lines": to_records(coverage_df[["page_number", "block_no", "line_no", "zone", "disposition", "detail", "text"]]),
 }
 LOGICAL_UNITS_PATH.write_text(json.dumps(cleaned_payload, ensure_ascii=False, indent=1, default=json_default),
-                              encoding="utf-8")
+                              encoding="utf-8", newline="\n")
 re_cleaned = json.loads(LOGICAL_UNITS_PATH.read_text(encoding="utf-8"))
 assert set(re_cleaned) == {"source", "units", "duplicate_audit", "coverage_audit"}
 assert len(re_cleaned["coverage_audit"]["lines"]) == len(coverage_df)

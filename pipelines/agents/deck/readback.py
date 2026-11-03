@@ -13,6 +13,7 @@ every shape with the renderer's spec rebuilt from the same draft and evidence:
 """
 import io
 from pathlib import Path
+from typing import Any, cast
 
 from pptx import Presentation
 
@@ -34,11 +35,11 @@ def read(data: bytes | Path) -> list[list[tuple[str, dict]]]:
         items = []
         for sh in slide.shapes:
             if getattr(sh, "has_chart", False) and sh.has_chart:
-                plot = sh.chart.plots[0]
+                plot = cast(Any, sh).chart.plots[0]
                 items.append((sh.name, {"kind": "chart", "categories": [str(c) for c in plot.categories],
                                         "series": [(s.name, list(s.values)) for s in plot.series]}))
             elif getattr(sh, "has_table", False) and sh.has_table:
-                t = sh.table
+                t = cast(Any, sh).table
                 items.append((sh.name, {"kind": "table", "cells": [[t.cell(i, j).text for j in range(len(t.columns))]
                                                                    for i in range(len(t.rows))]}))
             elif sh.has_text_frame:

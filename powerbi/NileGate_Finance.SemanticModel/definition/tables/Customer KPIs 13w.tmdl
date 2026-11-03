@@ -166,6 +166,31 @@ table 'Customer KPIs 13w'
 		lineageTag: fe96da51-86ef-46d7-aabf-1dc257591b59
 		summarizeBy: none
 
+	column ar_to_billed_13w_pct
+		dataType: double
+		isHidden
+		sourceProviderType: decimal
+		lineageTag: 78711273-4fe6-4a8e-a100-3016087e83f2
+		summarizeBy: none
+		sourceColumn: ar_to_billed_13w_pct
+
+	/// AR at least 1 M SDR and at least 80 % of its own 13-week billing (M15)
+	column is_watchlist
+		dataType: boolean
+		formatString: """Watch"";""Watch"";"""""
+		sourceProviderType: bit
+		lineageTag: 89e3b59e-41f4-4028-85ef-728681ef3210
+		summarizeBy: none
+		sourceColumn: is_watchlist
+
+	column ontime_13w_pct
+		dataType: double
+		isHidden
+		sourceProviderType: decimal
+		lineageTag: 0ccbb188-56cc-4fe0-b821-74d219e9e8df
+		summarizeBy: none
+		sourceColumn: ontime_13w_pct
+
 	partition 'finance kpi_customer_13w' = m
 		mode: directQuery
 		source =

@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "903a1688d1cf3686c4ed",
   "position": {
     "x": 20,
     "y": 340,
-    "z": 3,
+    "z": 3000,
     "height": 420,
     "width": 940,
-    "tabOrder": 3
+    "tabOrder": 3000
   },
   "visual": {
     "visualType": "clusteredColumnChart",
@@ -103,37 +103,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "ccacb58c6d45a08e15cb",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Weekly KPIs"
-              }
-            },
-            "Property": "AR by Bucket SDR"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "6422ae33c7242b554e0b",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "AR Snapshot"
-              }
-            },
-            "Property": "aging_bucket"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
   }
 }

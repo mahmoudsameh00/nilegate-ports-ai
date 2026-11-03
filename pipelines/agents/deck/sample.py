@@ -1,7 +1,8 @@
 """A deterministic slot draft of the weekly deck (Agents plan §5c): what a correct Writer returns.
 
-Test support, not a production path: the checks (`Deck_check.py`, `Weekly_pack_check.py`) use it as the fake
-Writer's reply and as the clean base the planted wrong numbers are planted into. It follows the §5c deck — slide
+The checks (`Deck_check.py`, `Weekly_pack_check.py`) use it as the fake Writer's reply and as the clean base the
+planted wrong numbers are planted into; since c4 (plan 2026-10-30) the pack's `fallback` node also takes from it the
+texts that replace a Writer's failing ones after its rewrites (`weekly_pack.fallback_draft`). It follows the §5c deck — slide
 titles, five summary bullets, at most three comments on slides 3–8, a context line on slide 9, nothing on slides 1 and
 10 — with every number a slot and every null in words ("not available").
 """
@@ -25,14 +26,15 @@ class _Draft:
         self.k = evidence["kpi.weekly"]["rows"][0]
 
     def s(self, eid, field, fmt=None, row=None, alt="not available", direction=False):
-        """A slot, or `alt` when the value is null (a slot to a null is refused)."""
+        """A slot, or `alt` when the value is null (a slot to a null is refused) or absent (evidence frozen before
+        migration 021, e.g. the golden weeks of `Stage1_eval.py`)."""
         res = self.ev[eid]
         if row is None:
-            value = res[field] if field in res else res["rows"][0][field]
+            value = res[field] if field in res else res["rows"][0].get(field)
         else:
-            keys = slots.row_keys(res)
+            keys = list(slots.row_keys(res))
             pair = row.rsplit("/", 1) if len(keys) > 1 and "/" in row else None
-            value = next(r[field] for r in res["rows"]
+            value = next(r.get(field) for r in res["rows"]
                          if ([str(r[keys[0]]), str(r[keys[1]])] == pair if pair else str(r[keys[0]]) == row))
         return alt if value is None else slots.binding(eid, field, fmt, row, direction)
 
@@ -60,16 +62,17 @@ class _Draft:
         add(2, f"AR {s('kpi.weekly', 'ar_sdr', 'M')}; DSO {s('kpi.weekly', 'dso_days')}", "kpi.weekly")
         add(2, f"{s('audit.week', 'invoices_checked')} invoices checked, {s('audit.week', 'invoices_flagged')} "
                "flagged", "audit.week")
-        add(3, f"Collected {s('kpi.weekly', 'collected_sdr', 'M')}, "
-               f"{s('kpi.weekly', 'collected_wow_pct', '%1', direction=True)} WoW", "kpi.weekly")
-        add(3, f"Overdue {s('kpi.weekly', 'overdue_sdr', 'M')}", "kpi.weekly")
+        # slides 3, 6, 7, 8: a comment adds what the tiles do not show (V9, weekly-pack plan Phase D)
+        add(3, f"Collected {s('kpi.weekly', 'collected_sdr', 'M')} from {s('kpi.weekly', 'payments_received')} "
+               "payments", "kpi.weekly")
+        add(3, f"{s('kpi.weekly', 'invoices_billed')} invoices billed this week", "kpi.weekly")
         add(4, f"In {lbl} billed {s('kpi.trend', 'billed_sdr', 'M', lbl)} against a budget of "
                f"{s('kpi.trend', 'budget_sdr', 'M', lbl)}", "kpi.trend")
         add(4, f"{c1} billed {s('kpi.category', 'billed_sdr', 'M', c1)}", "kpi.category")
         add(5, f"{c1} billed {s('kpi.category', 'billed_sdr', 'M', c1)}, budget "
                f"{s('kpi.category', 'budget_sdr', 'M', c1)}", "kpi.category")
-        add(6, f"DSO {s('kpi.weekly', 'dso_days')}, {s('kpi.weekly', 'dso_wow_days', direction=True)} WoW",
-            "kpi.weekly")
+        add(6, f"Overdue {s('kpi.weekly', 'overdue_sdr', 'M')}: {s('kpi.weekly', 'overdue_new_sdr', 'M')} newly "
+               f"overdue, {s('kpi.weekly', 'overdue_paid_sdr', 'M')} of older overdue paid", "kpi.weekly")
         od = ev["kpi.overdue"]["rows"]
         if od:
             inv = od[0]["invoice_number"]
@@ -77,16 +80,23 @@ class _Draft:
                    f"{s('kpi.overdue', 'days_past_due', None, inv)} past due", "kpi.overdue")
         else:
             add(6, "No overdue invoice this week", "kpi.overdue")
-        add(7, f"Top-10 share {s('kpi.weekly', 'top10_share_13w_pct', '%1')}", "kpi.weekly")
         cu = ev["kpi.customers"]["rows"][0]["customer_name"]
-        add(7, f"{cu} billed {s('kpi.customers', 'billed_13w_sdr', 'M', cu)} over 13 weeks, a share of "
-               f"{s('kpi.customers', 'share_13w_pct', '%1', cu)}", "kpi.customers")
+        add(7, f"Top-10 share {s('kpi.weekly', 'top10_share_13w_pct', '%1')}; {cu} has a share of "
+               f"{s('kpi.customers', 'share_13w_pct', '%1', cu)}", "kpi.weekly", "kpi.customers")
+        add(7, f"{cu} billed {s('kpi.customers', 'billed_13w_sdr', 'M', cu)} over 13 weeks, with AR of "
+               f"{s('kpi.customers', 'ar_sdr', 'M', cu)}", "kpi.customers")
         for f in aud["rows"][:MAX_FINDINGS]:
             key = f"{f['invoice_number']}/{f['check_code']}"
             add(8, f"{f['invoice_number']} ({f['check_code']}): {s('audit.week', 'difference_sdr', None, key)} "
                    "against the expected amount", "audit.week")
-        if not aud["rows"]:
-            add(8, f"{s('audit.week', 'invoices_checked')} invoices checked, none flagged", "audit.week")
+        ytd = (ev.get("audit.ytd") or {}).get("rows") or []
+        if not aud["rows"] and ytd:          # the year's largest finding, still on the list (W-R4)
+            f = ytd[0]
+            key = f"{f['invoice_number']}/{f['check_code']}"
+            add(8, f"{f['invoice_number']} ({f['check_code']}) of week {f['report_week']}: "
+                   f"{s('audit.ytd', 'difference_sdr', None, key)}, the year's largest finding so far", "audit.ytd")
+        elif not aud["rows"]:
+            add(8, "No invoice finding so far this year", "audit.week")
         add(9, "External context unavailable for this week")
         titles = {1: f"Billing, receivables and invoice checks of week {w}", 2: "What changed this week",
                   3: f"Billed {s('kpi.weekly', 'billed_sdr', 'M')} in week {w}", 4: f"{c1} moved revenue most",

@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "a1e0c0de5e1c7e000003",
   "position": {
     "x": 20,
-    "y": 320,
-    "z": 3,
-    "height": 560,
+    "y": 420,
+    "z": 5000,
+    "height": 440,
     "width": 1880,
-    "tabOrder": 3
+    "tabOrder": 3000
   },
   "visual": {
     "visualType": "tableEx",
@@ -261,7 +261,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Invoice audit findings of the week (finance.invoice_audit; positive difference = overbilled)'"
+                  "Value": "'Invoice audit findings, all of 2025 (the week slicer does not filter this table; finance.invoice_audit; positive difference = overbilled)'"
                 }
               }
             }
@@ -274,7 +274,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "a1e0c0de5e1c7e000300",
+        "name": "ad094041a0085d079815",
         "field": {
           "Column": {
             "Expression": {
@@ -288,7 +288,7 @@
         "type": "Categorical"
       },
       {
-        "name": "a1e0c0de5e1c7e000301",
+        "name": "6adc63c7ab008189bda0",
         "field": {
           "Column": {
             "Expression": {
@@ -299,10 +299,10 @@
             "Property": "invoice_date"
           }
         },
-        "type": "Advanced"
+        "type": "Categorical"
       },
       {
-        "name": "a1e0c0de5e1c7e000302",
+        "name": "034e6df015c06d5cc740",
         "field": {
           "Column": {
             "Expression": {
@@ -316,7 +316,7 @@
         "type": "Categorical"
       },
       {
-        "name": "a1e0c0de5e1c7e000303",
+        "name": "ea76f8ba9980c6126844",
         "field": {
           "Column": {
             "Expression": {
@@ -330,7 +330,7 @@
         "type": "Categorical"
       },
       {
-        "name": "a1e0c0de5e1c7e000304",
+        "name": "799642d3a32d32c0d93b",
         "field": {
           "Column": {
             "Expression": {
@@ -344,7 +344,7 @@
         "type": "Categorical"
       },
       {
-        "name": "a1e0c0de5e1c7e000305",
+        "name": "b84460151c55b4bc2ecc",
         "field": {
           "Column": {
             "Expression": {
@@ -358,7 +358,7 @@
         "type": "Categorical"
       },
       {
-        "name": "a1e0c0de5e1c7e000306",
+        "name": "706c47f10961a366a35d",
         "field": {
           "Column": {
             "Expression": {
@@ -372,7 +372,7 @@
         "type": "Categorical"
       },
       {
-        "name": "a1e0c0de5e1c7e000307",
+        "name": "1cb857f1225387c845e5",
         "field": {
           "Column": {
             "Expression": {
@@ -386,7 +386,7 @@
         "type": "Categorical"
       },
       {
-        "name": "a1e0c0de5e1c7e000308",
+        "name": "9acf0aea945090243e1b",
         "field": {
           "Column": {
             "Expression": {
@@ -400,7 +400,7 @@
         "type": "Advanced"
       },
       {
-        "name": "a1e0c0de5e1c7e000309",
+        "name": "1efbd11b9481a40d4c61",
         "field": {
           "Column": {
             "Expression": {
@@ -414,7 +414,7 @@
         "type": "Advanced"
       },
       {
-        "name": "a1e0c0de5e1c7e000310",
+        "name": "2079e2cd3bedc1ba8209",
         "field": {
           "Column": {
             "Expression": {
@@ -428,7 +428,7 @@
         "type": "Advanced"
       },
       {
-        "name": "a1e0c0de5e1c7e000311",
+        "name": "64ca56cee2bd264e9b60",
         "field": {
           "Column": {
             "Expression": {
@@ -442,7 +442,7 @@
         "type": "Categorical"
       },
       {
-        "name": "a1e0c0de5e1c7e000312",
+        "name": "f9fc4506806ce6d10cc7",
         "field": {
           "Column": {
             "Expression": {

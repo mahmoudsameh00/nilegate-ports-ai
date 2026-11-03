@@ -28,6 +28,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
+from typing import Any, cast
 
 import httpx
 from langchain_core.messages import AIMessage, BaseMessage, message_to_dict, messages_from_dict
@@ -126,9 +127,9 @@ def chat_model(provider: str, model: str, **params):
         return ChatGoogleGenerativeAI(model=model, google_api_key=key, **common)
     if provider == "groq":
         from langchain_groq import ChatGroq
-        return ChatGroq(model=model, api_key=key, **common)
+        return ChatGroq(model=model, api_key=cast(Any, key), **common)
     from langchain_openai import ChatOpenAI
-    return ChatOpenAI(model=model, api_key=key, base_url=p["base_url"], **common)
+    return ChatOpenAI(model=model, api_key=cast(Any, key), base_url=p["base_url"], **common)
 
 
 # --- error classification -------------------------------------------------------------------------------------------
@@ -137,7 +138,7 @@ DAY_RE = re.compile(r"per.?day|PerDay|\bRPD\b|\bTPD\b|daily|free-models-per-day"
 TOO_LARGE_RE = re.compile(r"request too large|reduce your message size|context_length_exceeded", re.I)
 
 
-def _chain(exc: BaseException) -> list[BaseException]:
+def _chain(exc: BaseException | None) -> list[BaseException]:
     out, seen = [], set()
     while exc is not None and id(exc) not in seen:
         out.append(exc)
@@ -337,7 +338,7 @@ class LLM:
 
         if self._chat is None:
             self._chat = chat_model(self.provider, self.model, **self.params)
-        runnable = self._chat
+        runnable = cast(Any, self._chat)
         if tools:
             runnable = runnable.bind_tools(tools)
         if schema:
@@ -377,7 +378,8 @@ class LLM:
                 self.stopped = f"{kind}: {text[:200]}"
                 raise Exhausted(f"{self.name}: {self.stopped}") from None
             ms = (time.perf_counter() - t0) * 1000
-            msg = out["raw"] if schema else out
+            o = cast(Any, out)
+            msg = o["raw"] if schema else o
             usage = dict(msg.usage_metadata) if getattr(msg, "usage_metadata", None) else None
             self.budget.record((usage or {}).get("total_tokens", est))
             self.quota.record(self.provider, self.model)
@@ -399,7 +401,7 @@ class LLM:
     @staticmethod
     def _reply(rec: dict, cached: bool) -> Reply:
         msg = messages_from_dict([rec["message"]])[0] if rec.get("message") else None
-        return Reply(rec["key"], msg, rec.get("error"), cached, rec.get("latency_ms"), rec.get("usage"))
+        return Reply(rec["key"], cast(Any, msg), rec.get("error"), cached, rec.get("latency_ms"), rec.get("usage"))
 
 
 def parse_structured(reply: Reply, schema: type[BaseModel]) -> tuple[BaseModel | None, str | None]:
@@ -408,7 +410,7 @@ def parse_structured(reply: Reply, schema: type[BaseModel]) -> tuple[BaseModel |
     tolerated)."""
     if not reply.ok:
         return None, f"no reply: {reply.error}"
-    m = reply.message
+    m = cast(Any, reply.message)                           # reply.ok: the message is set
     try:
         if m.tool_calls:
             data = m.tool_calls[0]["args"]

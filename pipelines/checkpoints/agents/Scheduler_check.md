@@ -12,7 +12,7 @@ ADR-050 (threads, statuses, run identity), D3 (retention).
 | 1 | Retention rules (P8-3), dry run | 7 hand-made threads: ended + older than 30 days → 2 would go; ended 29 days kept; pending 90 days kept and reported; stalled 20 days kept and reported; nothing deleted |
 | 2 | Firings end to end (PostgresSaver, fake models) | 7 firings on the prefix `weekly_pack:check:2025-W`: W01 start → waits; same day → wait (no second attempt); edit (another Finance manager) → back through the Validator → approve → published (4 files); W02 wrong twice → `validation_failed` ×2 → skipped; W03 rejected; W03:2 raises inside the Writer (a quota stand-in) → the next firing resumes it → waits; run identity = the scheduled Finance manager on all 5 threads; 31 days later: dry run deletes nothing, then 4 ended threads archived and deleted (0 checkpoint rows left), the pending W03:2 kept and reported; G5 report: 2 decided (1 published, 1 rejected), 1 edited, edit rate 0.5, edited slide 2; every check thread deleted |
 | 3 | Run identity + CLI | only a Finance manager is a scheduled identity (a Finance employee, an Operations manager and the CEO refused); `prune --dry-run` and `report` run on the live threads (exit 0, nothing deleted; W10 approved without edits → edit rate 0.0) |
-| 4 | Tracing contract (P8-4, S2; added 2026-10-21) | child process, fake key, endpoint `127.0.0.1:9` (refused: nothing leaves the machine): off before / after `tracing.trace`, on inside it with project `nilegate-agents`, 5 tags (`weekly_pack`, entry, launched_by, week, dataset) and 7 metadata fields; the run's result unchanged although every upload failed; the run's own error propagates; an empty key = off; no `LANGSMITH_TRACING` / `LANGCHAIN_TRACING_V2` in the environment or `.env.example`; `LANGSMITH_API_KEY` redacted (`SECRET_KEYS`). Child 47 s — the final flush waits for the refused uploads |
+| 4 | Tracing contract (P8-4, S2; added 2026-10-21) | child process, fake key, endpoint `127.0.0.1:9` (refused: nothing leaves the machine): off before / after `tracing.trace`, on inside it with project `nilegate-agents`, 6 tags (`weekly_pack`, `graph:weekly_pack`, entry, launched_by, week, dataset; a non-pack thread such as `ask:` gets only entry + launched_by, D-P12-10) and 7 metadata fields; the run's result unchanged although every upload failed; the run's own error propagates; an empty key = off; no `LANGSMITH_TRACING` / `LANGCHAIN_TRACING_V2` in the environment or `.env.example`; `LANGSMITH_API_KEY` redacted (`SECRET_KEYS`). Child 47 s — the final flush waits for the refused uploads |
 | 5 | LangSmith read-back (S2) | 2026-10-21, with the owner's key: one fake-model scheduled firing on the check prefix (W01:1 → awaiting_approval) traced; its root run found by thread id in `nilegate-agents` (14 runs in the trace, no error), 5 tags, metadata week / attempt / run_as 6 / entry / launched_by `check` (+ the checkpoint's own `trigger: scheduled`); the checkpoint metadata = the run identity only |
 
 ## Problems and fixes
@@ -30,6 +30,13 @@ ADR-050 (threads, statuses, run identity), D3 (retention).
   checkpoint metadata uses; the check asserts both. 6 / 6 at the second run (91 s, 0 LLM calls).
 - 2026-10-22, a later run: Phase 5 found the root run but fewer than 5 runs in its trace — the root is ingested
   before its child runs. Fix: the read-back waits for the children too (up to 3 min). 6 / 6 (74 s).
+- 2026-10-30 (D-P12-10): every trace was tagged `weekly_pack`, also the `Ask.py` / `Route_advice.py` /
+  `Voyage_watch.py` ones. Fix: `tracing.labels()` adds `weekly_pack` + `graph:weekly_pack` only for a pack's thread
+  id; Phase 4 asserts the pack tags and a foreign thread's two. 6 / 6 (102 s).
+- 2026-10-30 (D-P12-11): the CLIs print the trace's LangSmith link (`tracing.describe`). First try: "link
+  unavailable" — the run collected by `collect_runs` names the project `default`, which `get_run_url` reads before
+  the project passed to it. Fix: the run id alone + `read_project(nilegate-agents).id`. Phase 4 asserts one root run
+  collected and the off line, Phase 5 that the link ends with the firing's root run id. 6 / 6 (90 s).
 - Beyond this check (plan Progress, S3): the real Task Scheduler firings on 2026-10-22 — two stopped on a Gemini 503
   in the Insight node, the third resumed the same thread and reached the approval — are the done-when of Phase 8;
   this check proves the same rules on fake models.

@@ -23,6 +23,7 @@ V8 (the PPTX read back) lives with the renderer (S3).
 import re
 from dataclasses import dataclass
 from decimal import ROUND_HALF_UP, Decimal
+from typing import cast
 
 from pipelines.agents.deck import slots
 from pipelines.agents.graphs import models as m
@@ -35,9 +36,10 @@ COMMENT_SLIDES = range(3, 9)
 CONTEXT_SLIDE = 9
 NILEGATE_TOOLS = {"finance_kpi", "invoice_audit", "compute_toll"}   # NileGate's own data (ADR-049), never context
 # evidence a slide may cite (§5c table); "x.*" = every id with that prefix
-SLIDE_EVIDENCE = {1: ("kpi.weekly",), 2: ("kpi.*", "audit.week", "insight.*"), 3: ("kpi.weekly",),
-                  4: ("kpi.trend", "kpi.category", "audit.week"), 5: ("kpi.category",),
-                  6: ("kpi.weekly", "kpi.overdue"), 7: ("kpi.customers", "kpi.weekly"), 8: ("audit.week",),
+SLIDE_EVIDENCE = {1: ("kpi.weekly",), 2: ("kpi.*", "audit.*", "insight.*"), 3: ("kpi.weekly",),
+                  4: ("kpi.trend", "kpi.category", "kpi.weekly", "audit.week"), 5: ("kpi.category",),
+                  6: ("kpi.weekly", "kpi.overdue", "kpi.trend"), 7: ("kpi.customers", "kpi.weekly"),
+                  8: ("audit.week", "audit.ytd"),
                   9: ("insight.*",), 10: ()}
 
 # --- number tokens (the Phase 5 rules, kept) -------------------------------------------------------------------------
@@ -216,7 +218,7 @@ def _first_words(seg: str, n: int) -> str:
 
 
 def _families(seg: str) -> set[str]:
-    return {mt.lastgroup for mt in FAMILY_RE.finditer(seg)}
+    return {cast(str, mt.lastgroup) for mt in FAMILY_RE.finditer(seg)}
 
 
 def _group_before(text: str, sent_start: int, pos: int) -> set[str]:
@@ -230,7 +232,7 @@ def _group_before(text: str, sent_start: int, pos: int) -> set[str]:
         if group[-1].start() - h.end() > 12:
             break
         group.append(h)
-    return {h.lastgroup for h in group}
+    return {cast(str, h.lastgroup) for h in group}
 
 
 def _dirs(seg: str, regex=DIR_RE) -> list[int]:
@@ -400,7 +402,7 @@ class _Text:
             keys = slots.row_keys(res)
             for r in res.get("rows") or []:
                 for f, v in r.items():
-                    if slots.field_kind(f, v) and number_matches(it.mag, it.decimals, it.suffix, abs(v)):
+                    if slots.field_kind(f, v) and number_matches(cast(Decimal, it.mag), it.decimals, it.suffix, abs(cast(Decimal, v))):
                         found.append(f"{eid}" + (f"[{r.get(keys[0])}]" if keys else "") + f":{f}")
         return f"; that value is {', '.join(found[:2])}" if found else ""
 
@@ -422,7 +424,7 @@ class _Text:
     def _bind(self, it: Item, before: str, after: str, s0: int):
         sign_bad, family_bad = [], []
         for eid, row, f, v in self._candidates(it.start, s0):
-            if not number_matches(it.mag, it.decimals, it.suffix, abs(v)):
+            if not number_matches(cast(Decimal, it.mag), it.decimals, it.suffix, abs(cast(Decimal, v))):
                 continue
             # a direction word gives the sign of a change only; "AR down to 47.6 M SDR" is a level, positive
             said = it.dir_sign if slots.is_change(f) else None
@@ -462,7 +464,7 @@ class _Text:
         return f"[{self.evidence[eid]['rows'][row].get(keys[0])}]" if keys and row is not None else ""
 
     def _direction_words(self, it: Item, before: str, after: str):
-        if not slots.is_change(it.field):
+        if not slots.is_change(cast(str, it.field)):
             return
         s = _sign(it.value)
         for d in _dirs(before) + _dirs(after, SUFFIX_DIR_RE):
@@ -471,22 +473,23 @@ class _Text:
                 return
 
     def _check_slot(self, it: Item, before: str, after: str, s0: int):
-        if not self._family_ok(it.field, before, after, s0, it.start, it.eid):
-            self.problems.append(("V7", it.token, self._family_message(it.token, it.field, s0)
+        field, eid = cast(str, it.field), cast(str, it.eid)  # a slot item: both set
+        if not self._family_ok(field, before, after, s0, it.start, eid):
+            self.problems.append(("V7", it.token, self._family_message(it.token, field, s0)
                                   + ": name it, or cite the field it means"))
-        named = self._named_rows(it.eid, it.start, s0)
+        named = self._named_rows(eid, it.start, s0)
         if named and it.row not in named:
             row_name = self._key(it.eid, named[0]).strip("[]")
             res = self.evidence[it.eid]
             raw = res[it.field] if it.row is None else res["rows"][it.row][it.field]
-            kind = slots.field_kind(it.field, raw)
+            kind = slots.field_kind(field, raw)
             same = [f for f, v in res["rows"][named[0]].items() if slots.field_kind(f, v) == kind][:3]
             key = "/".join(str(res["rows"][named[0]].get(k)) for k in slots.row_keys(res))
             if it.row is None:      # a result total (e.g. the week's amount at stake) put on one row
                 msg = f"{it.field} is the result's total, not {row_name}'s"
             else:
                 msg = f"the slot's row is not the row the sentence names ({row_name})"
-            hint = ", ".join(slots.binding(it.eid, f, None, key) for f in same)
+            hint = ", ".join(slots.binding(eid, f, None, key) for f in same)
             self.problems.append(("V7", it.token, msg + (f": cite {row_name}'s own field, e.g. {hint}" if hint
                                                          else "")))
         self._direction_words(it, before, after)
@@ -535,6 +538,182 @@ def check_text(text: str, evidence: dict, cited: list[str], report_week: int) ->
     return t.text, t.check()
 
 
+# --- V9: the claim check (weekly-pack plan Phase D, W-R6; storyboard "Title rules") ----------------------------------
+# V1–V8 prove every number; V9 checks the words around them against the slide's own evidence — the W11 / W12
+# over-claims of the Stage 1 checkpoint ("stable receivables" with AR +6.1 %, "consistent outperformance" with the
+# period below budget, a "pullback" inside the normal swing, a cause from the news, a comment that repeats a tile);
+# rules 6–8 after candidate c5 (2026-11-02): a category "missed budget" with a positive variance, an earlier week's
+# finding told as this week's, a unit written twice after a slot.
+EXTERNAL_RE = re.compile(r"(?i)\b(?:red sea|houthis?|geopolitic\w*|wars?|conflicts?|crisis|sanctions?|attacks?"
+                         r"|rerout\w*|cape of good hope|disruptions?|tensions?|global (?:trade|demand|economy|markets?)"
+                         r"|freight (?:rates?|markets?)|shipping markets?)\b")
+STABLE_RE = re.compile(r"(?i)\b(?:stable|stabili[sz]ed|steady|flat|little changed|held|holding)\b")
+PERSIST_RE = re.compile(r"(?i)\b(?:consistent(?:ly)?|sustained|persistent(?:ly)?|steadily|continu(?:ed|es|ing)"
+                        r"|ongoing|another week of)\b")
+DRAMA_RE = re.compile(r"(?i)\b(?:pull-?backs?|surg(?:e|ed|es|ing)|jump(?:ed|s)?|soar(?:ed|s|ing)?|slump(?:ed|s)?"
+                      r"|plung(?:e|ed|es|ing)|tumbl(?:e|ed|es|ing)|spik(?:e|ed|es)|collaps(?:e|ed|es)|rebound(?:ed|s)?"
+                      r"|sharp(?:ly)?|significant(?:ly)?|strong(?:ly)?|weak(?:ness|ened)?|dramatic(?:ally)?)\b")
+BUDGET_DIR_RE = re.compile(r"(?i)\b(?:(?P<pos>above|ahead|outperform\w*|beat|exceed\w*)"
+                           r"|(?P<neg>below|short\w*|behind|miss\w*|underperform\w*))\b")
+EARLIER_RE = re.compile(r"(?i)\b(?:year[- ]to[- ]date|YTD|so far this year|this year|earlier|prior|previous|past"
+                        r"|historical|still open|before)\b")
+UNIT_AGAIN_RE = re.compile(r"(?:\s*SDR)?\s+(?:thousand|million|billion)\b|\s*SDR\s+SDR\b", re.I)
+WOW_OF = {"billed": "billed_wow_pct", "collected": "collected_wow_pct", "ar": "ar_wow_pct",
+          "overdue": "overdue_wow_pct", "dso": "dso_wow_days"}
+TYPICAL_OF = {f: f"{f}_wow_typical_pct" for f in ("billed", "collected", "ar", "overdue")}
+LEVEL_OF = {"billed": "billed_sdr", "collected": "collected_sdr", "ar": "ar_sdr", "overdue": "overdue_sdr",
+            "dso": "dso_days"}
+STABLE_MAX = {"dso": 1.0}                 # |WoW| below which "stable" holds: 1 day of DSO, else 2 %
+STABLE_MAX_PCT = 2.0
+# the values a slide already shows in code-drawn tiles / bound text; a comment made of these alone repeats the slide
+TILE_FIELDS = {
+    3: {("kpi.weekly", f) for f in ("billed_sdr", "collected_sdr", "ar_sdr", "overdue_sdr", "dso_days",
+                                    "budget_variance_sdr", "billed_wow_pct", "collected_wow_pct", "ar_wow_pct",
+                                    "overdue_wow_pct", "dso_wow_days", "budget_variance_pct", "billed_wow_typical_pct",
+                                    "collected_wow_typical_pct", "ar_wow_typical_pct", "overdue_wow_typical_pct")},
+    6: {("kpi.weekly", f) for f in ("dso_days", "dso_wow_days", "dso_best_days", "dso_delinquency_days",
+                                    "due_week_collected_pct", "due_week_sdr")},
+    7: {("kpi.weekly", "top10_share_13w_pct")},
+    8: {("audit.week", f) for f in ("invoices_checked", "invoices_flagged", "amount_at_stake_sdr")}}
+
+
+CLAUSE_SEP_RE = re.compile(r"[,;:!?]|\.(?=\s|$)|\bwhile\b|\bbut\b")   # a decimal point ("9.8 %") is no boundary
+
+
+def _clause_of(text: str, pos: int) -> str:
+    """The clause around `pos`: between the sentence's commas / semicolons / colons."""
+    seps = list(CLAUSE_SEP_RE.finditer(text))
+    start = max([0] + [mt.end() for mt in seps if mt.end() <= pos])
+    end = next((mt.start() for mt in seps if mt.start() >= pos), len(text))
+    return text[start:end]
+
+
+def _clause_families(text: str, pos: int) -> list[str]:
+    return [next(f for f, v in mt.groupdict().items() if v) for mt in FAMILY_RE.finditer(_clause_of(text, pos))]
+
+
+def _num(v):
+    return None if v is None else float(v)
+
+
+def claim_problems(t: _Text, slide: int, title: bool, evidence: dict) -> list[tuple[str | None, str]]:
+    """V9 on one text of slides 1–8 (after `t.check()`): (token, message) per refused claim."""
+    out: list[tuple[str | None, str]] = []
+    text = t.text
+    k = ((evidence.get("kpi.weekly") or {}).get("rows") or [{}])[0]
+    # 1 no external cause on a NileGate slide (context is slide 9's, never a cause)
+    for mt in EXTERNAL_RE.finditer(text):
+        out.append((mt.group(0), f"'{mt.group(0)}' is external context: it belongs on slide 9 and never explains a "
+                                 "NileGate figure — drop it here"))
+        break
+    # 2 a stability word must agree with the family's week-on-week change
+    for mt in STABLE_RE.finditer(text):
+        for fam in dict.fromkeys(_clause_families(text, mt.start())):
+            v = _num(k.get(WOW_OF.get(fam, "")))
+            limit = STABLE_MAX.get(fam, STABLE_MAX_PCT)
+            if v is not None and abs(v) >= limit:
+                out.append((mt.group(0), f"'{mt.group(0)}' but {WOW_OF[fam]} is {v:+}: state the change "
+                                         f"({{kpi.weekly:{WOW_OF[fam]}|dir}}) instead of calling it stable"))
+    # 2b a title's direction word with no number in its clause ("Revenue mix growth" with billing −4.9 %) must agree
+    #    with the week's change of the family it names — unless the clause names a row (a category's own move)
+    if title:
+        rows_named = [str(r.get(keys[0])) for e in ("kpi.category", "kpi.customers")
+                      if (keys := slots.row_keys(evidence.get(e) or {})) for r in (evidence.get(e) or {}).get("rows")
+                      or []]
+        for mt in DIR_RE.finditer(text):
+            clause = _clause_of(text, mt.start())
+            if any(i.start <= mt.start() < i.end for i in t.items):
+                continue                         # the word a |dir slot writes itself
+            if any(text[i.start:i.end] in clause for i in t.items) or any(n in clause for n in rows_named):
+                continue                         # a number in the clause: V6 judges the direction word
+            fams = [f for f in _clause_families(text, mt.start()) if f in WOW_OF or f == "budget"]
+            if not fams:
+                continue
+            fam = "budget" if "budget" in fams else fams[0]
+            field = "budget_variance_pct" if fam == "budget" else WOW_OF[fam]
+            v, said = _num(k.get(field)), (-1 if mt["neg"] else 1)
+            if v is not None and v != 0 and _sign(v) != said:
+                out.append((mt.group(0), f"'{mt.group(0)}' but {field} is {v:+}: the title's direction must match "
+                                         f"the week (write {{kpi.weekly:{field}|%1|dir}})"))
+    # 3 a persistence word needs the 13-week evidence (budget) or the trend's last weeks (a level) to agree
+    for mt in PERSIST_RE.finditer(text):
+        sent = text[_sentence(t.bounds, mt.start())[0]:_sentence(t.bounds, mt.start())[1]]
+        bd = BUDGET_DIR_RE.search(sent)
+        if re.search(r"(?i)\bbudget|plan|target\b", sent) and bd:
+            want = -1 if bd["neg"] else 1
+            wk, per = _num(k.get("budget_variance_pct")), _num(k.get("budget_variance_13w_pct"))
+            if wk is None or per is None or _sign(wk) != want or _sign(per) != want:
+                out.append((mt.group(0), f"'{mt.group(0)}' claims a lasting position against budget, but this week "
+                                         f"is {wk} % and the period {per} %: write the week and the period apart "
+                                         "({kpi.weekly:budget_variance_pct|%1} / "
+                                         "{kpi.weekly:budget_variance_13w_pct|%1})"))
+            continue
+        dirs = _dirs(sent)
+        fams = [f for f in _clause_families(text, mt.start()) if f in LEVEL_OF]
+        if dirs and fams:
+            trend = [_num(r.get(LEVEL_OF[fams[0]])) for r in (evidence.get("kpi.trend") or {}).get("rows") or []]
+            last = [x for x in trend if x is not None][-3:]
+            moves = {_sign(b - a) for a, b in zip(last, last[1:])}
+            if len(last) < 3 or moves != {dirs[0]}:
+                out.append((mt.group(0), f"'{mt.group(0)}' claims a run of weeks, but {LEVEL_OF[fams[0]]} did not "
+                                         "move the same way in each of the last two weeks (kpi.trend): describe "
+                                         "this week only"))
+    # 4 a headline word for a move inside the typical weekly swing (titles: the slide's message)
+    if title:
+        for mt in DRAMA_RE.finditer(text):
+            for fam in dict.fromkeys(_clause_families(text, mt.start())):
+                v, typ = _num(k.get(WOW_OF.get(fam, ""))), _num(k.get(TYPICAL_OF.get(fam, "")))
+                if v is not None and typ is not None and abs(v) <= typ:
+                    out.append((mt.group(0), f"'{mt.group(0)}' for a move inside the typical swing ({WOW_OF[fam]} "
+                                             f"{v:+} vs ±{typ}): say it is within its normal weekly swing"))
+    # 5 a comment must add something the slide's tiles do not already show
+    if not title and slide in TILE_FIELDS:
+        bound = [(i.eid, i.field, i.row) for i in t.items if i.field]
+        # a comment that names a row (an invoice, a customer, a category) adds what a tile cannot show
+        names_row = any(str(r.get(keys[0])) in text for e in t._ok(t.cited)
+                        if (keys := slots.row_keys(evidence[e])) for r in evidence[e].get("rows") or [])
+        # slot-written values only: a typed number binds by value and may match a tile by chance ("15 payments" =
+        # a 15.0 % swing), so the literal form (a human edit) is left to V1–V8
+        if bound and not names_row and all((e, f) in TILE_FIELDS[slide] for e, f, _ in bound) \
+                and len(bound) == len(t.items) and all(i.origin == "slot" for i in t.items):
+            out.append((None, "repeats what the slide's tiles already show: add a fact they do not (a driver, a "
+                              "customer, a finding, a comparison with the period)"))
+    # 6 a category's position against budget must agree with its own variance (c5: "Crude Oil Tankers missed budget
+    #   by +0.42 M SDR" for a category billed 0.84 M against 0.41 M)
+    variance = {str(r["vessel_category"]): _num(r.get("budget_variance_sdr"))
+                for r in (evidence.get("kpi.category") or {}).get("rows") or []}
+    for mt in BUDGET_DIR_RE.finditer(text):
+        if any(i.start <= mt.start() < i.end for i in t.items):
+            continue                             # the word a |dir slot writes itself
+        clause = _clause_of(text, mt.start())
+        if not re.search(r"(?i)\bbudget", clause):
+            continue
+        c0 = max([0] + [s.end() for s in CLAUSE_SEP_RE.finditer(text) if s.end() <= mt.start()])
+        named = sorted(((clause.rfind(c, 0, mt.start() - c0), c) for c in variance if c in clause), reverse=True)
+        cat = named[0][1] if named else None     # the category nearest before the word (else the first after it)
+        v, said = variance.get(cat) if cat else None, (-1 if mt["neg"] else 1)
+        if v is not None and v != 0 and _sign(v) != said:
+            out.append((mt.group(0), f"'{mt.group(0)}' but {cat}'s budget_variance_sdr is {v:+,.0f}: write its "
+                                     f"position with the slot ({{kpi.category[{cat}]:budget_variance_sdr|M|dir}})"))
+    # 7 a finding of an earlier week (audit.ytd, not this week's) must say when it was found
+    week_of = {r["invoice_number"]: r["report_week"] for r in (evidence.get("audit.ytd") or {}).get("rows") or []}
+    this_week = {r["invoice_number"] for r in (evidence.get("audit.week") or {}).get("rows") or []}
+    for inv in dict.fromkeys(re.findall(r"INV-\d{7}", text)):
+        if inv not in week_of or inv in this_week:
+            continue
+        sent = text[slice(*_sentence(t.bounds, text.index(inv)))]
+        weeks = {int(x) for x in re.findall(r"(?i)\b(?:weeks?|W)\s*(\d{1,2})\b", sent)}
+        if week_of[inv] not in weeks and not EARLIER_RE.search(sent):
+            out.append((inv, f"{inv} is a finding of week {week_of[inv]}, not this week's: say so "
+                             f"(\"… of week {week_of[inv]}\" or \"year to date\")"))
+    # 8 a unit written again after a slot that already carries it ("+81.8 k SDR thousand SDR")
+    for i in t.items:
+        if text[i.start:i.end].endswith(("SDR", "k", "M")) and (mt := UNIT_AGAIN_RE.match(text, i.end)):
+            out.append((mt.group(0).strip(), f"'{text[i.start:i.end]}{mt.group(0)}' repeats the unit: the slot "
+                                              "already writes it"))
+    return out
+
+
 # --- the deck -------------------------------------------------------------------------------------------------------
 
 def validate(draft: dict, evidence: dict, report_week: int) -> m.Verdict:
@@ -558,7 +737,7 @@ def validate(draft: dict, evidence: dict, report_week: int) -> m.Verdict:
             add("V3", f"slide {st.slide}'s title repeats the deck title or its label (code draws them): state the "
                       "slide's finding", st.slide)
     # (text, slide whose evidence applies, slide reported — None for the deck title, bullet index)
-    texts = [(d.title, 1, None, None, on_slide(1))] + [(st.title, st.slide, st.slide, None, on_slide(st.slide))
+    texts: list[tuple] = [(d.title, 1, None, None, on_slide(1))] + [(st.title, st.slide, st.slide, None, on_slide(st.slide))
                                                        for st in d.slide_titles]
     for i, b in enumerate(d.bullets):
         unknown = [e for e in b.evidence_ids if (evidence.get(e) or {}).get("status") != "ok"]
@@ -581,8 +760,12 @@ def validate(draft: dict, evidence: dict, report_week: int) -> m.Verdict:
             if nilegate:
                 add("V5", f"slide 9 is external context only: no NileGate figure or result here ({nilegate}); drop "
                           "it and keep the line about Suez transits, news or tariff rules", where, bullet)
-        for rule, token, message in check_text(text, evidence, used, report_week)[1]:
+        t = _Text(text, evidence, used, report_week)
+        for rule, token, message in t.check():
             add(rule, message, where, bullet, token)
+        if slide < CONTEXT_SLIDE:                    # V9 on the NileGate slides (1–8) and the deck title
+            for token, message in claim_problems(t, slide, bullet is None, evidence):
+                add("V9", message, where, bullet, token)
     titles = sorted(st.slide for st in d.slide_titles)
     if titles != list(range(1, m.SLIDES + 1)):
         add("V4", f"one title per slide 1–{m.SLIDES} needed, got {titles}")

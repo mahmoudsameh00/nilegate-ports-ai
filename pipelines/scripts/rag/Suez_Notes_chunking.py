@@ -162,7 +162,6 @@ print(cleaned_path)
 # No source-specific phrases are hardcoded.
 
 import fitz
-import re
 
 doc = fitz.open(pdf_path)
 page = doc[3]

@@ -1,6 +1,6 @@
 """Weekly pack check (Agents plan Phase 5, §5b): the `weekly_pack` graph, its models and roles, node by node.
 
-Plan:    docs/plans/Agents_plan.md §5b (owner decisions P5-1…P5-8, approved 2026-10-19); one phase per test of §5b.
+Plan:    docs/archive/2026-11-01_Agents_plan.md §5b (owner decisions P5-1…P5-8, approved 2026-10-19); one phase per test of §5b.
 Run:     uv run python tools/run.py pipelines/scripts/agents/Weekly_pack_check.py  (from the project root)
 
 Reads:   PostgreSQL read-only (PG_RO_USER): employees / roles / departments, the finance views, the audit views.
@@ -358,7 +358,8 @@ actual = {"pack_user": (fin_mgr.role, fin_mgr.department), "paths": sorted(paths
           "denied": (denied_path, denied["status"], numbers_in(denied))}
 expected = {"pack_user": ("manager", "Finance"), "paths": [("readiness", "kpi", "audit")], "weeks_ready": 52,
             "warmup_weeks": list(range(1, 14)),
-            "evidence_keys": ["audit.week", "kpi.category", "kpi.customers", "kpi.overdue", "kpi.trend",
+            # + audit.ytd since the weekly-pack plan Phase C (slide 8's year-to-date findings, 2026-11-01)
+            "evidence_keys": ["audit.week", "audit.ytd", "kpi.category", "kpi.customers", "kpi.overdue", "kpi.trend",
                               "kpi.weekly"],
             "evidence_equal_direct": 52,
             "live_findings": {10: [("INV-0000626", "duplicate_charge", "INV-0000293")],
@@ -521,15 +522,19 @@ DONE.append(2)
 # rewrite and no preview. The patch prompt must be less than half the first draft's (Phase 6 input: 12–17K-token
 # Writer prompts). The rules themselves are tested in Deck_check.py (slots, 52 clean decks, 100 planted numbers, the
 # S6 replay).
-loop, sizes = {}, {}
-for mode in ("wrong_once", "always_wrong", "shape_once"):
-    sc = PackScript(mode)
-    g = wp.build_graph(roles.FakeRoles(sc), InMemorySaver(), REPORTS / mode)
+# c4 (plan 2026-10-30): a draft that still fails after its two rewrites goes to the code `fallback` (the failing
+# bullet replaced by code's), validated again and shown to the approver marked degraded; `use_fallback=False` (the
+# evaluation's before-c4 side) still stops as before.
+loop, sizes, degraded = {}, {}, {}
+for mode in ("wrong_once", "always_wrong", "shape_once", "always_wrong_no_fallback"):
+    sc = PackScript(mode.removesuffix("_no_fallback"))
+    g = wp.build_graph(roles.FakeRoles(sc), InMemorySaver(), REPORTS / mode,
+                       use_fallback=not mode.endswith("_no_fallback"))
     visited, st, cfg = run(fin_mgr, W, g=g, sc=sc)
     loop[mode] = (visited.count("writer"), visited.count("validator"), st["status"], st.get("rewrites"),
                   st["verdict"]["passed"], tuple(g.get_state(cfg).next),
                   sorted({p["token"] for p in st["verdict"]["problems"]}), [s for s, _ in sc.prompts])
-    sizes[mode] = sc.prompts
+    sizes[mode], degraded[mode] = sc.prompts, st.get("degraded")
 real_validate_pptx = wp.readback.validate_pptx            # a renderer fault: the read-back disagrees
 wp.readback.validate_pptx = lambda *a, **k: [m.Problem(rule="V8", slide=3, token="tpl:footer", message="planted")]
 try:
@@ -545,16 +550,23 @@ wrong_token = m_sdr(script.ev["kpi.weekly"]["rows"][0]["billed_sdr"] + 10_000).r
 actual = {"loop": loop, "v8": v8_case, "patch_under_half": patch < full / 2}
 expected = {"loop": {"wrong_once": (2, 2, "awaiting_approval", 1, True, ("approval",), [],
                                     ["DeckDraft", "DeckPatch"]),
-                     "always_wrong": (3, 3, "validation_failed", 2, False, (), [wrong_token],
+                     "always_wrong": (3, 4, "awaiting_approval", 2, True, ("approval",), [],
                                       ["DeckDraft", "DeckPatch", "DeckPatch"]),
                      "shape_once": (2, 2, "awaiting_approval", 1, True, ("approval",), [],
-                                    ["DeckDraft", "DeckDraft"])},
+                                    ["DeckDraft", "DeckDraft"]),
+                     "always_wrong_no_fallback": (3, 3, "validation_failed", 2, False, (), [wrong_token],
+                                                  ["DeckDraft", "DeckPatch", "DeckPatch"])},
             "v8": (1, "validation_failed", (), None, ["V8"]), "patch_under_half": True}
 assert actual == expected, actual
+d = degraded["always_wrong"]
+assert d and len(d["replaced_bullets"]) + len(d["dropped_bullets"]) == 1 and d["problems_before"] >= 1, d
+assert degraded["wrong_once"] is None and degraded["always_wrong_no_fallback"] is None, degraded
 print(f"Phase 3: loop {loop['wrong_once'][:4]} / {loop['always_wrong'][:4]} / {loop['shape_once'][:4]}; prompt "
       f"characters: first draft {full:,}, patch {patch:,} ({patch / full:.0%})")
 print("✅ Phase 3 validation passed: a planted wrong number fixed by one patch of its bullet; a patch that keeps it "
-      f"stops after two rewrites; a wrong deck shape gets the whole deck again; a V8 fault stops with no preview; the "
+      f"goes, after two rewrites, to the code fallback (its bullet replaced: {d['replaced_bullets'] or d['dropped_bullets']}) "
+      "and reaches the approval marked degraded (without the fallback it stops as before); a wrong deck shape gets "
+      f"the whole deck again; a V8 fault stops with no preview; the "
       f"patch prompt is {patch / full:.0%} of the first draft's")
 DONE.append(3)
 

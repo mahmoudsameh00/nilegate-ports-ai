@@ -111,7 +111,7 @@ METRICS = ["hit@1", "hit@5", "hit@10", "rr", "fact_recall@10", "complete@10", "n
 def aggregate(per_query: pd.DataFrame) -> dict:
     """Mean of every metric overall / per language / per source / per type, the three primaries and the balanced
     score. `per_query` has one row per query with the metric columns plus lang, source, type, identifier."""
-    def block(d: pd.DataFrame) -> dict:
+    def block(d) -> dict:
         r = {m.replace("rr", "mrr") if m == "rr" else m: round(float(d[m].mean()), 4) for m in METRICS}
         r["n"] = int(len(d))
         return r

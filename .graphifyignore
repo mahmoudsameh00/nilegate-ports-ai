@@ -1,0 +1,10 @@
+Data/
+powerbi/
+graphify-out/
+Notebooks/
+models/
+docs/archive/
+# raw audit outputs of the database scripts: noise for the knowledge graph
+db/audit/
+db/mongo/audit/
+db/qdrant/audit/

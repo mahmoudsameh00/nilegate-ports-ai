@@ -6,7 +6,8 @@ instead of enums, no unions — because free providers support different JSON-sc
 Format rules live here (slide range, evidence-id shape, non-empty text); content rules (five summary bullets, every
 number from a tool) belong to the Validator, so a broken draft comes back as a readable diff, not as a parse error.
 
-Evidence ids name a tool result kept in the state: `kpi.<dataset>`, `audit.week`, `insight.<tool_call_id>`.
+Evidence ids name a tool result kept in the state: `kpi.<dataset>`, `audit.week`, `audit.ytd`,
+`insight.<tool_call_id>`.
 """
 import re
 from typing import Literal
@@ -93,8 +94,8 @@ class DeckPatch(BaseModel):
 
 class Problem(BaseModel):
     # V1 citation, V2 number, V3 draft label, V4 deck shape; Phase 6 (§5c): V5 evidence per slide, V6 direction,
-    # V7 attribution, V8 the rendered PPTX
-    rule: Literal["V1", "V2", "V3", "V4", "V5", "V6", "V7", "V8"]
+    # V7 attribution, V8 the rendered PPTX; weekly-pack plan Phase D: V9 the claim check (W-R6)
+    rule: Literal["V1", "V2", "V3", "V4", "V5", "V6", "V7", "V8", "V9"]
     slide: int | None = None
     bullet: int | None = Field(default=None, description="index of the bullet in DeckDraft.bullets")
     token: str | None = Field(default=None, description="the number token that failed, if any")
@@ -149,3 +150,133 @@ class QaAnswer(BaseModel):
         if bad:
             raise ValueError(f"evidence ids look like insight.<id> (from the evidence list): {bad}")
         return self
+
+
+class SupervisorAnswer(QaAnswer):
+    """The answer of the supervisor over both products (Agents plan Phase 12, §6d P12-3): `partial` = the permitted
+    parts answered and the refused part named (which part is refused is decided by code, never by the model)."""
+    status: Literal["answered", "partial", "not_in_data", "not_permitted"] = Field(description=(
+        "answered = the tools gave the whole answer; partial = the permitted parts answered and the part listed as "
+        "not permitted named, without its figures; not_in_data = the data does not hold it; not_permitted = nothing "
+        "asked is permitted to this user"))
+    answer: str = Field(min_length=1, max_length=2000, description=(
+        "the answer in the question's language, two to six sentences; every NileGate number written as a slot"))
+
+
+# --- Route advice (Agents plan Phase 10, §6b: `graphs/route_advice.py`) ---------------------------------------------
+
+ROUTE_EVIDENCE_ID = r"^route\.[a-z_]+$"
+ROUTES = ("suez", "cape")
+ROUTE_STATUSES = ("ok", "no_suez_on_route", "suez_only", "not_permitted", "no_data", "output_invalid",
+                  "validation_failed")
+
+
+class RouteRequest(BaseModel):
+    """One question: a vessel (one of ours, or a hypothetical one) and a voyage; the clock comes from the run context."""
+    vessel_id: int | None = Field(default=None, ge=1)
+    vessel_type: str | None = None
+    condition: Literal["Laden", "Ballast"] | None = None
+    scnt_tons: float | None = Field(default=None, gt=0)
+    origin: str = Field(pattern=r"^[A-Z]{2}[A-Z2-9]{3}$")
+    destination: str = Field(pattern=r"^[A-Z]{2}[A-Z2-9]{3}$")
+    speed_kn: float | None = Field(default=None, ge=4, le=25)
+
+    @model_validator(mode="after")
+    def _vessel(self):
+        hypothetical = [self.vessel_type, self.condition, self.scnt_tons]
+        if self.vessel_id is None and any(v is None for v in hypothetical):
+            raise ValueError("give vessel_id, or vessel_type + condition + scnt_tons")
+        if self.vessel_id is not None and any(v is not None for v in hypothetical):
+            raise ValueError("give vessel_id alone, or the hypothetical vessel, not both")
+        if self.origin == self.destination:
+            raise ValueError("origin and destination must differ")
+        return self
+
+
+class RouteReason(BaseModel):
+    text: str = Field(min_length=1, max_length=400, description="one sentence; every number written as a slot")
+    evidence_ids: list[str] = Field(default_factory=list, description="ids of the route.* results it uses")
+
+    @model_validator(mode="after")
+    def _ids(self):
+        bad = [e for e in self.evidence_ids if not re.match(ROUTE_EVIDENCE_ID, e)]
+        if bad:
+            raise ValueError(f"evidence ids look like route.compare / route.difference / route.news: {bad}")
+        return self
+
+
+class RouteAdvice(BaseModel):
+    """What the advisor writes (skill `route-cost-advice`): the choice, a headline and the reasons, numbers as slots;
+    the comparison table, the assumptions and the sources are written by code."""
+    recommendation: Literal[ROUTES] = Field(description="suez or cape")  # pyright: ignore[reportInvalidTypeForm] (Literal built from the data tuple)
+    headline: str = Field(min_length=1, max_length=300, description="one sentence: the choice and its main reason")
+    reasons: list[RouteReason] = Field(min_length=1, max_length=5, description="cost, time and risk reasons")
+    risks: list[RouteReason] = Field(default_factory=list, max_length=4,
+                                     description="external context only (route.traffic, route.news): no NileGate "
+                                                 "number; 'context unavailable' when a tool said so")
+
+
+class RouteAdviceResult(BaseModel):
+    """The answer the graph returns and keeps in its checkpoint (one thread per question, P10-3)."""
+    status: Literal[ROUTE_STATUSES]  # pyright: ignore[reportInvalidTypeForm] (Literal built from the data tuple)
+    request: dict
+    as_of: str
+    comparison: list[dict] = Field(default_factory=list, description="route.compare rows (+ the difference row)")
+    recommendation: Literal[ROUTES] | None = None  # pyright: ignore[reportInvalidTypeForm] (Literal built from the data tuple)
+    headline: str | None = None
+    reasons: list[str] = Field(default_factory=list, description="rendered: slots filled by code")
+    risks: list[str] = Field(default_factory=list)
+    assumptions: list[str] = Field(default_factory=list)
+    sources: list[dict] = Field(default_factory=list)
+    problems: list[str] = Field(default_factory=list)
+
+
+# --- Voyage watch (Agents plan Phase 11, §6c: `graphs/voyage_watch.py`) ---------------------------------------------
+
+ALERT_ID = r"^\d+/(weather|suez_traffic)$"
+WATCH_STATUSES = ("ok", "no_data", "not_permitted")
+BRIEF_STATUSES = ("ok", "no_alerts", "output_invalid", "validation_failed")
+
+
+class WatchRequest(BaseModel):
+    """One watch run; the clock comes from the run context. `vessel_ids` = a subset (the checks); None = the fleet."""
+    vessel_ids: list[int] | None = Field(default=None, min_length=1, max_length=500)
+
+
+class WatchItem(BaseModel):
+    text: str = Field(min_length=1, max_length=400, description="one sentence; every number written as a slot")
+    # a Suez traffic drop is a fleet-wide event: one sentence may cite every vessel with the canal ahead (D-P11-1)
+    alert_ids: list[str] = Field(min_length=1, max_length=60,
+                                 description="the alerts this sentence is about, e.g. 36/weather, 112/suez_traffic; "
+                                             "one Suez traffic sentence may list every suez_traffic alert")
+
+    @model_validator(mode="after")
+    def _ids(self):
+        bad = [a for a in self.alert_ids if not re.match(ALERT_ID, a)]
+        if bad:
+            raise ValueError(f"alert ids look like <vessel_id>/weather or <vessel_id>/suez_traffic: {bad}")
+        return self
+
+
+class WatchBrief(BaseModel):
+    """What the brief writer returns (skill `voyage-watch-brief`): a headline and up to six items about the alerts,
+    numbers as slots; the alert table, the ETAs, the assumptions and the sources are written by code."""
+    headline: str = Field(min_length=1, max_length=300, description="one sentence: how many vessels are at risk and "
+                                                                    "the most serious alert")
+    items: list[WatchItem] = Field(min_length=1, max_length=6, description="every high alert first, then moderate")
+
+
+class VoyageWatchResult(BaseModel):
+    """What one watch run returns and saves (the thread's checkpoint + the run file, P11-5)."""
+    status: Literal[WATCH_STATUSES]  # pyright: ignore[reportInvalidTypeForm] (Literal built from the data tuple)
+    as_of: str
+    fleet: dict = Field(default_factory=dict, description="watch.fleet: counts by status, alerts, weather points")
+    etas: list[dict] = Field(default_factory=list, description="one row per vessel at sea / at anchor")
+    alerts: list[dict] = Field(default_factory=list, description="watch.alerts rows, high first")
+    brief_status: Literal[BRIEF_STATUSES] | None = None  # pyright: ignore[reportInvalidTypeForm] (Literal built from the data tuple)
+    headline: str | None = None
+    items: list[dict] = Field(default_factory=list, description="rendered: slots filled by code, with alert ids")
+    assumptions: list[str] = Field(default_factory=list)
+    sources: list[dict] = Field(default_factory=list)
+    problems: list[str] = Field(default_factory=list)
+    run_file: str | None = None

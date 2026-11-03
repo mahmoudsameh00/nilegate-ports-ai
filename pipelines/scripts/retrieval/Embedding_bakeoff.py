@@ -128,7 +128,7 @@ def main() -> None:
             "api_calls_this_run": emb.calls, "tokens_this_run": emb.tokens, "retries_this_run": emb.retries,
             "median_batch_latency_ms": round(float(np.median(emb.latencies)), 1) if emb.latencies else None})
 
-    RESULTS.write_text(json.dumps(results, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    RESULTS.write_text(json.dumps(results, ensure_ascii=False, indent=1) + "\n", encoding="utf-8", newline="\n")
     reloaded = json.loads(RESULTS.read_text(encoding="utf-8"))
     assert reloaded["choice"] == results["choice"] and set(reloaded["stage1"]) == set(PROVIDERS)
 

@@ -18,6 +18,7 @@ Commands (from the project root):
         (PACK_RUN_AS in .env, or --as), or wait while a pack waits for approval, or resume a pack stopped mid-run;
         then the retention; one line in reports/_log/scheduled.jsonl; a Windows toast when a pack waits
     uv run python pipelines/scripts/agents/Weekly_pack.py prune [--dry-run]
+        (also the route-advice threads `route_advice:…`, Agents plan §6b P10-3, by the same 30-day rule)
         retention by hand: archive, then delete ended threads older than 30 days (never a pending one)
     uv run python pipelines/scripts/agents/Weekly_pack.py report
         G5: approve / edit / reject counts and the edited slides of every decided pack
@@ -43,7 +44,7 @@ ROOT = next(p for p in [Path.cwd(), *Path.cwd().parents] if (p / "pyproject.toml
 sys.path.insert(0, str(ROOT))
 from langgraph.types import Command  # noqa: E402
 
-from pipelines.agents import checkpointer, roles, scheduling, tracing  # noqa: E402
+from pipelines.agents import checkpointer, monitoring, roles, scheduling, tracing  # noqa: E402
 from pipelines.agents.graphs import weekly_pack as wp  # noqa: E402
 from pipelines.agents.tools import context, db  # noqa: E402
 from pipelines.lib.common import load_env, redact  # noqa: E402
@@ -109,11 +110,11 @@ def scheduled(employee: int | None) -> int:
             return code
         rec["run_as"] = run_as
         rec.update(scheduling.fire(graph(), checkpointer.saver(), checkpointer.pool(), user, REPORTS,
-                                   tracer=lambda t, r: tracing.trace(t, entry="scheduled", run_as=r,
-                                                                     launched_by="task_scheduler")))
+                                   tracer=scheduled_tracer, route_graph=route_graph(), ask_graph=ask_graph()))
     except Exception as exc:  # noqa: BLE001 — logged for the owner; the thread (if any) waits at its checkpoint
         rec["error"], code = redact(f"{type(exc).__name__}: {exc}")[:600], 1
         rec["trace"] = redact(traceback.format_exc(limit=3))[-1200:]
+        monitoring.capture(exc)
     finally:
         rec["exit"] = code
         scheduling.append_jsonl(LOG / "scheduled.jsonl", rec)
@@ -122,8 +123,27 @@ def scheduled(employee: int | None) -> int:
     return code
 
 
+def scheduled_tracer(thread_id: str, run_as: int | None):
+    """The firing's graph run: a LangSmith trace, and the same thread id as a Sentry tag (the link between the two)."""
+    monitoring.tag(thread_id=thread_id, run_as=run_as)
+    return tracing.trace(thread_id, entry="scheduled", run_as=run_as, launched_by="task_scheduler")
+
+
 def graph():
     return wp.build_graph(roles.Roles(), checkpointer.saver())
+
+
+def route_graph():
+    """The route_advice graph on the same checkpointer, only to read and prune its threads (no model is called)."""
+    from pipelines.agents.graphs import route_advice
+    return route_advice.build_graph(None, checkpointer.saver())
+
+
+def ask_graph():
+    """The supervisor on the same checkpointer, only to read and prune its question threads (no model is called;
+    Agents plan §6d S4)."""
+    from pipelines.agents.graphs import supervisor
+    return supervisor.build_graph(None, checkpointer.saver())
 
 
 def show(g, cfg) -> None:
@@ -135,6 +155,11 @@ def show(g, cfg) -> None:
     verdict = st.get("verdict") or {}
     for p in verdict.get("problems", []):
         print(f"  validator {p['rule']} slide {p.get('slide')} bullet {p.get('bullet')}: {p['message']}")
+    deg = st.get("degraded")
+    if deg:                       # c4: the Writer failed its rewrites; code put its own texts in their place
+        print(f"  DEGRADED: the Writer's text failed {deg['problems_before']} check(s) after its rewrites; code "
+              f"replaced bullets {deg['replaced_bullets']}, dropped {deg['dropped_bullets']}, slides by code "
+              f"{deg['code_slides']}, slide titles by code {deg['code_slide_titles']} — read it before approving")
     draft = st.get("draft")
     if draft:                     # the slots filled: what the deck says (Phase 6); edits are written in this form
         draft = wp.v2.render_draft(draft, st.get("evidence") or {})
@@ -178,17 +203,27 @@ def main() -> None:
     pr.add_argument("--dry-run", action="store_true")
     sub.add_parser("report")
     a = ap.parse_args()
+    monitoring.init(entry=f"weekly_pack:{a.cmd}", launched_by="task_scheduler" if a.cmd == "scheduled" else "cli")
 
     if a.cmd == "list":
         print("\n".join(threads(a.week)) or "no thread")
         return
     if a.cmd == "scheduled":
-        raise SystemExit(scheduled(a.employee))
+        with monitoring.cron(monitoring.CRON_WEEKLY_PACK) as result:
+            result["exit"] = scheduled(a.employee)
+        raise SystemExit(result["exit"])
     g = graph()
     if a.cmd in ("prune", "report"):
         infos = scheduling.describe_all(g, checkpointer.pool(), PREFIX)
         if a.cmd == "prune":
             out = scheduling.prune(g, checkpointer.saver(), infos, LOG / "threads_archive.jsonl", dry_run=a.dry_run)
+            rg = route_graph()                    # Agents plan §6b P10-3: the route-advice threads, same rule
+            out["route_advice"] = scheduling.prune(rg, checkpointer.saver(),
+                                                   scheduling.describe_route_advice(rg, checkpointer.pool()),
+                                                   LOG / "threads_archive.jsonl", dry_run=a.dry_run)
+            ag = ask_graph()                      # §6d S4: the supervisor's question threads, same rule
+            out["ask"] = scheduling.prune(ag, checkpointer.saver(), scheduling.describe_ask(ag, checkpointer.pool()),
+                                          LOG / "threads_archive.jsonl", dry_run=a.dry_run)
         else:
             out = scheduling.approval_report(scheduling.report_entries(g, infos, REPORTS))
         print(json.dumps(out, ensure_ascii=False, indent=1, default=str))
@@ -200,6 +235,7 @@ def main() -> None:
         user = context.load_user(a.employee)
         cfg = {"configurable": {"thread_id": next_attempt(a.week)}, "metadata": {"run_as": a.employee}}
         print(f"running week {a.week} as employee {a.employee} ({user.role} / {user.department})")
+        monitoring.tag(thread_id=cfg["configurable"]["thread_id"], run_as=a.employee)
         with tracing.trace(cfg["configurable"]["thread_id"], entry="run", run_as=a.employee) as traced:
             for upd in g.stream({"report_week": a.week}, cfg, context=context.RunContext(user),
                                 stream_mode="updates", durability="sync"):
@@ -215,11 +251,12 @@ def main() -> None:
         decision = {"decision": a.decision, "approver_employee_id": a.employee, "comment": a.comment}
         if a.edits:
             decision["edits"] = json.loads(a.edits.read_text(encoding="utf-8"))
+        monitoring.tag(thread_id=a.thread, run_as=run_as)
         with tracing.trace(a.thread, entry="resume", run_as=run_as) as traced:
             for upd in g.stream(Command(resume=decision), cfg, context=ctx, stream_mode="updates",
                                 durability="sync"):
                 print("  done:", ", ".join(k for k in upd if not k.startswith("__")) or "interrupt")
-    print(f"  LangSmith: {f'traced in project {tracing.PROJECT}' if traced else 'off (no LANGSMITH_API_KEY)'}")
+    print(f"  LangSmith: {tracing.describe(traced)}")
     show(g, cfg)
 
 

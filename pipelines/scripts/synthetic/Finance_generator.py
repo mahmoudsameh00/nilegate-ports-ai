@@ -1,6 +1,6 @@
 """Synthetic finance data for the Weekly Finance Pack (Agents plan Phase 1, rules §4a R1–R10, approved 2026-10-13).
 
-Plan:    docs/plans/Agents_plan.md §4 / §4a; D6 amended (payments realistic, `invoices.status` kept as a label).
+Plan:    docs/archive/2026-11-01_Agents_plan.md §4 / §4a; D6 amended (payments realistic, `invoices.status` kept as a label).
 Run:     uv run python tools/run.py pipelines/scripts/synthetic/Finance_generator.py  (project root; ports-postgres up)
 
 Reads:   PostgreSQL read-only (vessels, invoices, toll_rate_bands)

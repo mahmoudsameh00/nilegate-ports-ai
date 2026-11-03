@@ -15,19 +15,19 @@ dependencies = [
     "langchain-groq==1.1.3",
     "langchain-openai==1.7.0",
     "langgraph==1.2.14",
-    "langgraph-checkpoint-postgres==3.1.2",
+    "langgraph-checkpoint-postgres==3.1.3",
     "langsmith==0.14.7",
     "matplotlib==3.11.2",
     "nbconvert==7.17.1",
     "numpy==2.2.4",
     "onnxruntime==1.30.0",
     "pandas==3.0.5",
-    "pillow>=12.3.0",
+    "pillow==13.0.0",
     "psycopg-pool==3.3.3",
     "psycopg[binary]==3.3.5",
     "pyarrow>=25.0.1",
     "pydantic==2.14.0",
-    "pymongo==4.18.2",
+    "pymongo==4.18.3",
     "pymupdf==1.28.2",
     "python-pptx==1.0.2",
     "qdrant-client==1.19.1",
@@ -35,10 +35,31 @@ dependencies = [
     "scikit-learn==1.9.1",
     "scipy==1.18.1",
     "searoute==1.6.0",
+    "sentry-sdk==2.72.0",
     "tokenizers==0.22.1",
 ]
 
 [dependency-groups]
 dev = [
     "jupyter>=1.1.1",
+    "pyright==1.1.414",
+    "ruff==0.17.1",
 ]
+
+# Engineering hygiene H1: bug-finding rules only; the ignored codes are this project's script idioms (sys.path insert
+# before imports, short `;` statements, `l` / lambda names, zip without strict). Gate = tools/lint_ratchet.py.
+[tool.ruff]
+line-length = 120
+target-version = "py313"
+extend-exclude = ["Notebooks", "docs/archive", "models"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "B"]
+ignore = ["E402", "E701", "E702", "E731", "E741", "B007", "B905"]
+
+[tool.pyright]
+include = ["pipelines/agents", "pipelines/lib"]
+pythonVersion = "3.13"
+typeCheckingMode = "basic"
+venvPath = "."
+venv = ".venv"

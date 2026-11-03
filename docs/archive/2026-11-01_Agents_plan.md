@@ -1,6 +1,37 @@
 # Plan — Multi-agent platform: Stage 1 the Weekly Finance Pack, Stage 2 the Operations Desk
 
-- **Status:** APPROVED (2026-10-09) — every decision answered by the owner (§7 "Answers"); owner: "the same plan in
+## Implementation record (read this first)
+
+- **Status: IMPLEMENTED (2026-11-01)** — Phases 0–12 done on the owner's machine (Stage 1: Phases 0–8 + §5f + candidate
+  c4; Stage 2: Phases 9–12); archived the same day.
+- **Results — Stage 1, the Weekly Finance Pack:** the `finance` star + KPI views (migrations 012–019, 021), the Power
+  BI dashboard (PBIP, DirectQuery, 6 pages + Executive), the Stage 1 tools + reviewed skills, the LangGraph
+  `weekly_pack` (PostgresSaver in `agent_state`, approval interrupt, number slots, Validator v2 + V8, the NileGate
+  PPTX, the code fallback of c4), the scheduled firing every Monday 10:30 with retention and LangSmith, the finance
+  Q&A agent. Evaluation (ADR-052 / ADR-053): the final baseline `stage1_eval_2026-10-23_confirm.json` missed D7 only
+  on `planted_all`; **candidate c4 met it** (2026-11-01: planted 6 / 6 in all three runs, published 32 / 33 vs 24 / 33,
+  narrative recall 0.9655 vs 0.7471; kept on a hand-check, D-C4-1). The Q&A after the `finance-qa` change:
+  `stage1_eval_2026-10-31_dp127b.json`, every gate, completeness EN / AR 1.0.
+- **Results — Stage 2, the Operations Desk:** the Stage 2 tools (ADR-055, no live AIS ADR-056), `route_advice`
+  (ADR-057), `voyage_watch` every 12 h (ETA MAE 0.885 h vs naive 117.8 h; ADR-058), the supervisor over both
+  products with a code router and partial answers (`Ask.py`; ADR-059). Done-when met by candidate c1
+  `stage2_eval_2026-10-30_c1.json` (completeness EN 0.98 / AR 0.95, leakage 0).
+- **Deviations (details in "Progress / deviations"):** D7 was first closed as not met by the owner (Phase 7, then the
+  confirmation run) and met only by c4 after Stage 2; the finance Q&A moved to `create_agent` and its CLI was replaced
+  by the supervisor's `Ask.py`; Phase 11 ran in an autonomous session, reviewed afterwards; the Groq fallback cannot
+  take the supervisor's large requests (ADR-045 amendment 3); a code year guard after D-P12-7's reject (D-P12-12);
+  two scorer false positives of the same family, both true sentences (D-P8-16, D-C4-1); side work kept by the owner:
+  the annual executive deck (ADR-061, a misread scope), the weekly-pack improvement study + migration 021
+  (`docs/analysis/financial_intelligence/`), and Sentry S1 started before this close (ADR-062,
+  `docs/plans/Observability_Sentry_plan.md`).
+- **Lasting decisions:** ADR-045 – ADR-059 (+ amendments), ADR-060 (the web frontend, PLANNED), ADR-061, ADR-062.
+- **Next:** the one Stage 2 commit by the owner (Stage 2 + c4 + Sentry S1); the active plan is
+  `docs/plans/Observability_Sentry_plan.md` (S1's first real check-in Monday 2026-11-02, then S2–S4); then the
+  weekly-pack improvement Phases B–E (candidate c5 vs c4) and FastAPI (`docs/ROADMAP.md`).
+
+---
+
+- **Status (original):** APPROVED (2026-10-09) — every decision answered by the owner (§7 "Answers"); owner: "the same plan in
   two stages, prepare everything for the new session". Nothing is implemented yet; work starts at Phase 0 (handoff at
   the end).
 - **Goal:** one multi-agent platform (LangChain components, LangGraph orchestration, LLMs through **free APIs**) on the
@@ -178,11 +209,11 @@ count (label vs derived) is reported, not enforced. → ADR at the end of Phase 
 | 6 | PPTX template (NileGate style) + Writer + Validator | the Validator catches every planted wrong number in a test deck |
 | 7 | Evaluation (§8) on golden weeks + finance Q&A golden questions | the D7 thresholds are met (or the owner decides) |
 | 8 | Scheduling (Task Scheduler), LangSmith tracing, checkpoint retention | a scheduled run produces the pack and waits for approval |
-| S1 ✔ | **Stage 1 checkpoint:** ADRs, ARCHITECTURE, ROADMAP, a PR; the plan stays active | — |
+| S1 ✔ | **Stage 1 checkpoint:** ADRs, ARCHITECTURE, ROADMAP, a PR; the plan stays active | **DONE 2026-10-27:** PR mahmoudsameh00/nilegate-ports-ai#1 (`feat/agents` → `master`, 16 commits) merged by the owner, merge commit `5e49ad6` |
 | **Stage 2** | | |
-| 9 | Stage 2 tools: `sea_route` (Suez vs Cape distances; `searoute` restriction support checked here), `voyage_status`, `vessel_live` (aisstream.io), `marine_weather`; fuel / speed parameter table (S2-D3) | each tool tested; live tools degrade gracefully |
-| 10 | **B Route & Cost Advisor** graph (`route_advice`): inputs vessel + origin / destination; outputs a Pydantic comparison (distance, sea days at the vessel's speed, Suez dues via `compute_toll`, fuel estimate from the parameter table, risk context: PortWatch trend + news) and a recommendation with its assumptions; the Validator checks every number | the S2 route cases (§8) pass |
-| 11 | **C Voyage & Disruption Watch** graph (`voyage_watch`): ETA (baseline: remaining sea distance / recent speed), delay risk (weather on the next legs, Suez traffic), alerts saved to a table / file (save only) and shown on request; scheduled every N hours (S2-D1) | ETA error on replayed synthetic voyages beats the naive baseline (§8); alerts reproducible |
+| 9 ✔ | Stage 2 tools: `sea_route` (Suez vs Cape distances; `searoute` restriction support checked here), `voyage_status`, ~~`vessel_live` (aisstream.io)~~ (dropped, P9-2 / ADR-056), `marine_weather`; fuel / speed parameter table (S2-D3) + `vessel_params` | each tool tested; live tools degrade gracefully — **DONE 2026-10-27** (§6a, ADR-055; `Stage2_tools_check.py` Phases 0–5 ✅) |
+| 10 ✔ | **B Route & Cost Advisor** graph (`route_advice`): inputs vessel + origin / destination; outputs a Pydantic comparison (distance, sea days at the vessel's speed, Suez dues via `compute_toll`, fuel estimate from the parameter table, risk context: PortWatch trend + news) and a recommendation with its assumptions; the Validator checks every number | the S2 route cases (§8) pass — **DONE 2026-10-27** (§6b, ADR-057; `Route_advice_check.py` all phases ✅, real model 8 / 8) |
+| 11 ✔ | **C Voyage & Disruption Watch** graph (`voyage_watch`): ETA (baseline: remaining sea distance / recent speed), delay risk (weather on the next legs, Suez traffic), alerts saved to a table / file (save only) and shown on request; scheduled every N hours (S2-D1) | ETA error on replayed synthetic voyages beats the naive baseline (§8); alerts reproducible — **DONE 2026-10-28** (§6c, ADR-058; `Voyage_watch_check.py` Phases 1–7 + 4s ✅: MAE 0.885 h vs naive 117.8 h; planted events precision = recall = 1.0; autonomous grant, owner to review) |
 | 12 | Supervisor extended to both products; cross-product questions; RBAC matrix (Operations ↔ Finance) | S2 Q&A golden questions pass; RBAC leakage 0 |
 | 13 | Close: ADRs, ARCHITECTURE, ROADMAP, archive the plan | — |
 
@@ -741,7 +772,8 @@ Linux, the undocumented toll CSV extraction.
 
 - **Users:** Operations employees / managers and the CEO (level-1 operational data). Finance data stays invisible to
   them (level 2 / Finance), and the agents enforce that in their tools.
-- **B Route & Cost Advisor.** "Should vessel X (Laden, 85,000 SCNT) sail Port Said → Rotterdam via Suez or the Cape?" →
+- **B Route & Cost Advisor.** "Should vessel X (Laden, 85,000 SCNT) sail Singapore → Rotterdam via Suez or the Cape?"
+  (corrected 2026-10-27: the first example, Port Said → Rotterdam, never uses the canal — §6a F1a) →
   two routes from `sea_route`, sea days from the vessel's service speed, Suez transit dues from the progressive bands
   (SDR), fuel = days × consumption per day (by vessel type, a documented parameter table) × a bunker price **set by the
   owner and dated** (no free live bunker-price source), risk context from PortWatch and news. The answer always lists
@@ -753,7 +785,9 @@ Linux, the undocumented toll CSV extraction.
 - **Evaluation ground truth:** the synthetic tracks know every real arrival time → cut a voyage at time *t*, predict,
   compare (MAE in hours) against the naive baseline; route cases hand-computed from the same formulas.
 
-### 6a. Phase 9 — Stage 2 tools: concrete design (PROPOSED 2026-10-22; decisions S2-D1…S2-D5 + P9-1…P9-4 to answer before it starts)
+### 6a. Phase 9 — Stage 2 tools: concrete design (draft 2026-10-22; P9-1…P9-4 answered 2026-10-23; concrete design PROPOSED 2026-10-27; P9-5…P9-8 answered; APPROVED 2026-10-27 by the owner, as written; IMPLEMENTED 2026-10-27, ADR-055 / ADR-056 — deviations D-P9-1…D-P9-11 in Progress)
+
+*The draft table and P9-1…P9-4 below are kept as written; the concrete design follows them ("Concrete design").*
 
 **Goal (§5):** the Operations tools, each tested on its own; live tools degrade gracefully. **Starting point:**
 `searoute` 1.6.0 installed (ADR-032 used it for the synthetic tracks), MongoDB AIS / EDI + `voyages_synthetic.parquet`,
@@ -781,9 +815,435 @@ key — D11 narrowed (web search, PortWatch, marine weather), ADR at Phase 9 clo
 USD / t → SDR at a dated rate** (recommended); P9-4 **`searoute` restrictions, support checked first, else two fixed
 corridors** (recommended).
 
-**Checks:** `Stage2_tools_check.py` (each tool against its source; hand-computed routes Port Said → Rotterdam both
-ways; RBAC matrix extended; failure modes: no key, timeout, bad input). **Not in Phase 9:** the `route_advice` and
+**Checks (draft):** `Stage2_tools_check.py` (each tool against its source; hand-computed routes Port Said → Rotterdam
+both ways; RBAC matrix extended; failure modes: no key, timeout, bad input). **Not in Phase 9:** the `route_advice` and
 `voyage_watch` graphs (Phases 10–11).
+
+#### Concrete design (PROPOSED 2026-10-27; APPROVED 2026-10-27 by the owner, as written)
+
+**Verified facts (2026-10-27, read-only probes; scripts and outputs in the session's scratchpad, summary in the shared
+notes).**
+- **F1 `searoute` 1.6.0 supports restrictions (P9-4 → the library, no fixed corridors).** `searoute(origin, destination,
+  units="naut", restrictions=[…], return_passages=True)`; passages: `babalmandab`, `bosporus`, `gibraltar`, `suez`,
+  `panama`, `ormuz`, `northwest`, `malacca`, `sunda`, `chili`, `south_africa`, `bering`; the default list is
+  `["northwest"]` and must be kept when a passage is added. Singapore ↔ Rotterdam 8,383 nm (malacca, babalmandab, suez,
+  gibraltar) / with Suez blocked 11,871 nm (sunda, south_africa), the same both ways — published 8,288 / 11,755 nm (Port
+  of Rotterdam Authority, via trade press): +1.1 % / +1.0 %. Jeddah → Rotterdam 4,026 / 10,995 nm. Blocking Bab
+  el-Mandeb alone also sends Singapore round the Cape (the Red Sea case). First call ~1.2 s (network load), then ms.
+- **F1a Port Said ↔ Rotterdam never uses the canal:** 3,310 nm via Gibraltar both ways, identical with Suez blocked —
+  Port Said is the canal's Mediterranean end. §6's example question ("Port Said → Rotterdam via Suez or the Cape") has
+  no Cape alternative: the route cases use origins east of the canal (Singapore, Jeddah, …) and keep Port Said ↔
+  Rotterdam as the case where "avoid Suez" changes nothing. **F1b** A port inside the Gulf of Suez (Sokhna) with Suez
+  blocked has no path: `searoute` returns length 0, an empty line and a `UserWarning` (no exception).
+- **F2 `voyages_synthetic.parquet`** (500 × 13: vessel_id, voyage_no, status, origin / destination_locode,
+  departure_ts, arrival_ts, last_fix_ts, route `A>B>C`, route_nm, route_fallback, service_kn, ais_ship_type):
+  In Transit 219, At Port 130, Anchored 78, Completed 73. `arrival_ts` is the generator's truth; for the 219 In Transit
+  vessels it lies after the as-of instant (up to 2026-11-23) = the ETA evaluation's answer key. Intermediate ports are
+  waypoints with no dwell (the generator sails origin → destination at the vessel's `service_kn`, harbour speed over
+  the first / last 10 nm): S2-D2's port-call allowance is 0 in this data (a Phase 11 note).
+- **F3 Route geometry is reproducible:** rebuilding each route from `route` with `searoute` per leg (the generator's
+  `sea_leg` rule, ports' lon / lat) gives `route_nm` for 498 / 498 routes (|diff| ≤ 0.05 nm; 1,474 legs, 11 s); the 2
+  fallback vessels (323, 442) are one great-circle leg.
+- **F4 MongoDB:** `ais_positions` = `ts`, `meta{mmsi, imo, source, real_or_synthetic, load_run, source_sha256}`, `loc`
+  (GeoJSON), `sog`, `cog`, `heading`, `navstat`, `src_row`, `sensitivity_level`, `department`; index `mmsi_ts` → a
+  vessel's last fixes in ms. `ais_vessels` (synthetic) has `vessel_id`, `destination_locode` and `eta_raw` = the
+  generator's `arrival_ts` (`%m-%d %H:%M`): **the answer key again** (P9-7). The app user is `readWrite` (ADR-027).
+- **F5 Open-Meteo (free, no key):** Marine `https://marine-api.open-meteo.com/v1/marine`, daily `wave_height_max`,
+  `swell_wave_height_max`, `wind_wave_height_max` (hourly too), `forecast_days` ≤ 8, `past_days` ≤ 92, and
+  `start_date` / `end_date` on past days (probe 2026-09-13…15: values at 3 points); several points in one request
+  (comma lists → a JSON list); a land point → `null`. Wind: Historical Forecast API
+  `https://historical-forecast-api.open-meteo.com/v1/forecast` (from ~2022; the first hours of each model run
+  stitched) with `daily=wind_speed_10m_max,wind_gusts_10m_max&wind_speed_unit=kn` (probe ok); future days from
+  `https://api.open-meteo.com/v1/forecast` (same parameters). Free non-commercial: < 10,000 calls / day, 5,000 / h,
+  600 / min, 300,000 / month, CC BY 4.0 (credit Open-Meteo + providers); how a multi-point request is counted is not
+  stated (UNCERTAIN — a route is ≤ 30 points, far below either way). The docs warn: limited coastal accuracy, "not
+  suitable for coastal navigation" → a caveat in every result.
+- **F6 Parameters:** the synthetic speeds come from the generator's documented ranges (`TYPE_PARAMS`, min–max kn per
+  type) and each voyage's own `service_kn`; SCNT spans 5–15× inside a type (Containerships 14,322–194,578; Crude
+  17,991–291,826) → one fuel figure per type would be off by multiples (P9-5). Fuel source: Fourth IMO GHG Study 2020
+  (full report + annexes, `ghgsmart.imo.org`), per ship type and size bin; the exact tables are read at S3 (UNCERTAIN
+  until then; fallback: the Third IMO GHG Study 2014 annex tables).
+
+**Common contract:** ADR-049 unchanged — `f(user, **args) → ToolResult`, RBAC first, no user field in any schema,
+parameterized SQL, external calls through `external.cached_call` (10 s, failure → `context_unavailable`, never
+cached; settled windows frozen). **One addition — the clock from the run context:** `RunContext` gains `as_of`
+(UTC datetime; default `2026-09-13T00:00Z`, the data's as-of instant, ADR-032). Only the graph / the evaluation
+harness sets it, never the model: a model-chosen `as_of` could move a replayed cut past *t* and read the future
+(ADR-049 (2) extended from the dataset to the clock). Stage 1 tools ignore it.
+
+| Tool | Args (what the model sees) | Reads | Access (ADR-006) | Result |
+|---|---|---|---|---|
+| `sea_route` | `origin`, `destination` (UN/LOCODE, must exist in `ports`), `avoid` ⊂ {suez, babalmandab, panama, gibraltar, bosporus, ormuz, malacca, sunda} (closed list, default none), `speed_kn` (optional, 4–25) | `ports` (lon / lat) + `searoute` locally (restrictions = northwest + avoid; no network) | level 1 (`ports`, public) | `distance_nm`, `passages` used, `waypoints` (simplified, ≤ 60 points), with `speed_kn`: `sea_days` and `day_points` (lat, lon, day n at the end of each sea day — the input of `marine_weather`); no path (F1b) → `no_data` "no sea route with these passages closed"; source = "searoute 1.6.0 MARNET, restrictions=[…]" |
+| `vessel_params` | `vessel_id`, or (`vessel_type`, `scnt_tons`, `condition`); `speed_kn` (optional) | `vessel_performance` + `bunker_prices` (migration 020), `vessels`, the voyage's `service_kn` | level 1 / Operations | service speed (the vessel's own `service_kn` when it has a voyage, else the row's reference speed), fuel t / day at that speed (cube law from the reference speed: F × (v / v_ref)³), the size band row used + its source, the bunker price (USD / t, its date), USD per SDR (its date), the price in SDR / t |
+| `voyage_status` | `vessel_id` (1–500) | MongoDB `ais_positions` (fixes with `ts ≤ as_of`) + `voyages_synthetic.parquet` (route, ports, departure) + the rebuilt route (F3, cached in memory) | level 1 / Operations (`rbac_mapping.md` §3) | `as_of`, last fix (ts, lat, lon, sog, cog, navstat), recent speed (mean SOG of under-way fixes in the last 6 h), status at `as_of` (from the track's navstat, so a cut at *t* is honest — not `vessels.status`), next port, ports left, distance covered / left (nm along the route from the snapped last fix), departure; `arrival_ts` only when ≤ `as_of`; never `eta_raw` (P9-7) |
+| `marine_weather` | `points` (1–30 of {lat, lon, date}) | Open-Meteo Marine (waves) + Historical Forecast (wind, dates ≤ today) / Forecast (later dates) | public external, level 1 | per point and date: `wave_height_max` m, `swell_wave_height_max` m, `wind_wave_height_max` m, `wind_speed_10m_max` kn, `wind_gusts_10m_max` kn; a land / null value stays null with a note; source + retrieved_at + attribution + the coastal caveat |
+
+Reused unchanged from Stage 1: `compute_toll` (the Suez dues of the Suez route), `suez_transits` (traffic),
+`web_search` (news), `search_documents`. Replay note: at `as_of = 2026-09-13` the "next days" are past days, so the
+weather is the Historical Forecast series — close to what happened (slightly kinder than a real 7-day forecast); the
+result says which API served each date.
+
+**Migration 020 — `020_vessel_performance.sql` (P9-1, P9-3, P9-5).** Two tables in `public`, rendered from sourced CSVs
+in `db/reference/` (INSERT rows generated from the CSV, as migration 010 was from its mirror; the check compares the
+table with the CSV row for row):
+- `vessel_performance` — `vessel_type` (the 13-value CHECK of ADR-033), `size_band` 1–3, `scnt_min` / `scnt_max`
+  (null = open last band; contiguous per type, like the toll bands), `ref_speed_kn`, `fuel_t_per_day` (at sea, at the
+  reference speed, main + auxiliary engines), `source`, `source_ref` (study, table, page); UNIQUE (type, band).
+  `ref_speed_kn` = the midpoint of the generator's range (F6), so the parameters and the synthetic tracks agree.
+- `bunker_prices` — `fuel` (CHECK `VLSFO`), `price_usd_per_t` > 0, `price_date`, `usd_per_sdr` > 0, `rate_date`,
+  `price_source`, `rate_source`, `set_by` (the owner). The tool uses the latest row and names both dates; at S4 Claude
+  shows a public price (e.g. a published global VLSFO average) and the IMF USD per SDR rate of that date, and the
+  owner sets the row.
+- CHECKs + COMMENT on every table / column (ADR-033), SELECT through `ports_readonly`'s default privileges, not
+  `finance_bi`; `rbac_mapping.md` §2: both level 1 / Operations (a market price, not company finance).
+  `verify_readonly.sql` §20: row counts, bands contiguous, every vessel maps to exactly one row. Applied by the owner;
+  snapshot + audit by Claude.
+
+**MongoDB read-only access (P9-6).** `voyage_status` reads through a new user with role `read` on `ports_logistics`
+(`db/mongo/005_create_reader_user.js` via `run.ps1`, `.env` `MONGO_RO_USER` / `MONGO_RO_PASSWORD`,
+`common.SECRET_KEYS`), like `PG_RO_USER` for PostgreSQL; a refused write is part of the check.
+
+**Tests (`pipelines/scripts/agents/Stage2_tools_check.py`, one phase per tool, a reviewed snapshot after each).**
+1. `sea_route`: Singapore ↔ Rotterdam both ways via Suez and with `avoid=[suez]` within ±3 % of the published 8,288 /
+   11,755 nm, with the expected passages; Jeddah → Rotterdam; Port Said ↔ Rotterdam = 3,310 nm with and without Suez
+   (F1a); Sokhna → Rotterdam with Suez blocked → `no_data` (F1b); `avoid=[babalmandab]` → the Cape; unknown LOCODE /
+   bad `avoid` refused by the schema; two calls identical. The ~12 cases frozen here are §8's route cases.
+2. Migration 020 + `vessel_params`: the tables = the CSVs; every vessel (500) maps to one band; fuel at the reference
+   speed = the row, at 0.8 × speed = 0.512 × the row; the SDR price = USD price / rate (hand value).
+3. `voyage_status` on all 500 at the default `as_of`: last fix = MongoDB's latest; rebuilt length = `route_nm`
+   (≤ 0.1 nm); covered + left = `route_nm` (±1 nm); for In Transit, distance left = the generator's own remaining
+   distance at the as-of (from its timeline, ±2 nm); status at `as_of` = `vessels.status` (500 / 500); a cut at
+   departure + 50 % uses no fix after it and returns no `arrival_ts`; no result contains `eta_raw` or a future time.
+4. `marine_weather` offline (`httpx.MockTransport`): ok → cached, the second call makes 0 requests; timeout / 500 / bad
+   JSON → `context_unavailable`, nothing cached; > 30 points refused; a land point → null + note; then one live call
+   (3 points on 2026-09-13, the probe's values in the snapshot).
+5. RBAC + contract: 100 employees × the 4 tools = the ADR-006 expectation (all level 1 → granted; Finance tools still
+   refused to Operations as before); no args schema has a user / dataset / `as_of` field; a call without a
+   `RunContext` refused; the Mongo reader cannot write.
+6. Regression: `Tools_check.py` 8 / 8 after the `RunContext` change.
+
+**Order (one step at a time, each with its check):** S1 foundation (`RunContext.as_of`, `registry.STAGE2`, the Mongo
+reader user — owner OK first) → S2 `sea_route` → S3 the parameter CSV with its sources (owner reviews every row) → S4
+migration 020 (SQL shown, owner applies; the bunker price set by the owner) → S5 `vessel_params` → S6 `voyage_status`
+→ S7 `marine_weather` → S8 RBAC + regression → S9 close: ADR-055 (Stage 2 tools, the clock in the run context) and
+ADR-056 (no live AIS in Stage 2 — D11 narrowed, P9-2), ARCHITECTURE, ROADMAP, `rbac_mapping.md`, the §6 example
+question fixed (F1a), handoff.
+
+**Files (new):** `pipelines/agents/tools/` — `routes.py` (`sea_route` + the route rebuild shared with
+`voyage_status`), `vessels.py` (`vessel_params`), `voyages.py` (`voyage_status`), `weather.py` (`marine_weather`),
+`mongo.py` (read-only client); `db/reference/vessel_performance.csv` + `bunker_prices.csv` (sources in their header
+comments / `db/README.md`); `db/migrations/020_vessel_performance.sql`; `db/mongo/005_create_reader_user.js`;
+`pipelines/scripts/agents/Stage2_tools_check.py` + `pipelines/checkpoints/agents/Stage2_tools_check.md`. **Changed:**
+`tools/context.py` (`as_of`, resources), `tools/registry.py` (`STAGE2`), `.env.example`, `common.SECRET_KEYS`,
+`db/verify_readonly.sql` (§20), the docs. No new package (`searoute`, `httpx`, `pymongo`, `shapely` via geopandas are
+installed).
+
+| # | Question (new, 2026-10-27) | Recommended | Alternative(s) |
+|---|---|---|---|
+| P9-5 | Fuel granularity | per vessel type × 3 SCNT size bands (≈ 39 sourced rows) + the cube law for speed | one row per type + a size formula (SCNT^⅔); one row per type, no size |
+| P9-6 | MongoDB access for the tools | a new read-only user (role `read`) | the existing app user (`readWrite`) |
+| P9-7 | AIS-declared ETA (`eta_raw` = the answer key) | never returned by `voyage_status` | returned, labelled "declared ETA", masked by the harness |
+| P9-8 | Weather for replayed (past) dates | Marine with dates + Historical Forecast for wind (verified F5) | forecast for today's dates only (no replay weather) |
+
+**Answers (owner, 2026-10-27, AskUserQuestion — all the recommended option):** P9-5 **type × 3 SCNT size bands +
+the cube law**; P9-6 **a new read-only MongoDB user**; P9-7 **`eta_raw` never returned** (nor `arrival_ts` before
+arrival); P9-8 **Marine with dates + Historical Forecast for wind**. The design above already reads these answers;
+next: the owner's approval of §6a as a whole.
+
+### 6b. Phase 10 — the `route_advice` graph (B Route & Cost Advisor): concrete design (PROPOSED 2026-10-27; decisions P10-1…P10-4 answered the same day — see "Answers" at the end; APPROVED 2026-10-27 by the owner, as written; IMPLEMENTED 2026-10-27, ADR-057 — deviations D-P10-1 / D-P10-2 in Progress)
+
+**Goal (§5 row 10):** "Should this vessel sail A → B via Suez or the Cape?" → a Pydantic comparison of the two routes
+(distance, sea days at the vessel's speed, Suez dues, fuel and its cost in SDR, risk context) and a recommendation
+that lists its assumptions; **no number without a tool behind it** (S2-D5: route numbers 100 % from tools). Done when
+the S2 route cases (§8) pass. **Starting point:** the Phase 9 tools (ADR-055) + `compute_toll`, `suez_transits`,
+`web_search` (ADR-049); the Stage 1 patterns — hybrid workflow nodes (ADR-050), number slots + a code Validator
+(ADR-051), roles with main + fallback and `FakeRoles` (ADR-045, ADR-050 (7)), skills (D13).
+
+**Verified facts it depends on (2026-10-27):** every input tool exists and is tested (`Stage2_tools_check.py` 0–5,
+`Tools_check.py` 8 / 8); `sea_route` returns `passages`, so "does the shortest route use Suez?" is a field, not a guess
+(Port Said → Rotterdam: no — F1a; Sokhna → Rotterdam with Suez closed: no route — F1b); `compute_toll(vessel_id)`
+prices the vessel's condition (SFU → Laden); `web_search` takes a date window, `suez_transits` a window ≤ 120 days
+(PortWatch publishes ~ a week late; settled windows cached for good). **The number slots of Stage 1 are
+finance-shaped** (`deck/slots.py`: ids `kpi.` / `audit.` / `insight.`, kinds money / pct / days / count by the field's
+suffix) → Phase 10 extends them additively (id prefix `route.`, kinds `_nm` distance, `_kn` speed, `_t` tonnes,
+`sea_days`), guarded by the Stage 1 checks (`Deck_check.py`, `Finance_qa_check.py`) unchanged.
+
+**The graph** (`pipelines/agents/graphs/route_advice.py`, a LangGraph `StateGraph`; the user and the clock from
+`RunContext`, the clock = the departure day):
+
+| # | Node | Kind | What it does | Out (state) |
+|---|---|---|---|---|
+| 1 | `inputs` | code | `vessel_id` (its type, condition, SCNT, service speed) or a hypothetical vessel (`vessel_type`, `condition`, `scnt_tons`, optional `speed_kn`); `origin`, `destination` (UN/LOCODE); `vessel_params` → speed, fuel / day, SDR price | `evidence["route.vessel"]` |
+| 2 | `routes` | code | `sea_route` as is; if its `passages` contain `suez`, again with `avoid=["suez"]` | `route.suez`, `route.cape`; status `no_suez_on_route` (the shortest route does not use the canal: one route, no question) or `suez_only` (no route with Suez closed) |
+| 3 | `costs` | code | per route: sea days = distance / (speed × 24); fuel t = days × fuel / day; fuel SDR = t × SDR / t; Suez dues = `compute_toll` (Suez route only, one transit); total SDR; the differences Cape − Suez (days, t, SDR, dues saved, net); exact Decimal, rounded once | `route.compare` (one row per route + a `difference` row) |
+| 4 | `context` | code | `suez_transits` (P10-4 window) and `web_search` (news, window up to the clock); untrusted text screened (ADR-049 (5)); any failure → that item says "context unavailable", the advice goes on without it | `route.transits`, `route.news` |
+| 5 | `advisor` | LLM (role `writer`, one structured call; skill `route-cost-advice`) | `RouteAdvice`: `recommendation` ∈ {suez, cape}, a headline and ≤ 5 reasons written with number slots (`{route.compare[cape]:fuel_sdr\|M}`), each reason citing its evidence ids; risks only from `route.transits` / `route.news` | draft |
+| 6 | `validator` | code | every number token is a slot bound to a numeric field of the cited evidence (ADR-051's rule; news / web rows never give numbers); every citation exists; the recommendation follows the rule of P10-1; fail → one patch with the problems (as the finance Q&A, MAX_PATCHES = 1), then `validation_failed` | verdict |
+| 7 | `render` | code | the answer: the comparison table drawn by code from `route.compare`, the recommendation and reasons with the slots filled, the **assumptions list written by code** (speed and its source, fuel at sea at constant speed by the cube law, harbour legs and canal waiting not modelled, the VLSFO price and both dates, one Suez transit in the vessel's condition, IMO yearly averages, time not priced (P10-2)), the sources with retrieval times | `RouteAdviceResult` |
+
+**Statuses:** `ok`, `no_suez_on_route`, `suez_only`, `not_permitted`, `no_data` (unknown vessel / port),
+`output_invalid` (twice-invalid structured reply), `validation_failed`; the two route-shape statuses still return the
+one route's numbers without calling the model. **Access:** every input is level 1 (ADR-006, `rbac_mapping.md` §2 /
+§4a) → open to every employee, as the tools are; the graph adds no gate of its own. **Models:** role `writer` of
+ADR-045 (main + fallback, one retry on an invalid reply); ≈ 1–2 model calls per question. **Interface:** CLI
+`pipelines/scripts/agents/Route_advice.py ask --vessel 123 --from SGSIN --to NLRTM --as <employee> [--as-of …]`
+(prints the table, the advice, assumptions and sources); later the supervisor (Phase 12) calls the graph as a tool.
+
+**Files (new):** `pipelines/agents/graphs/route_advice.py`, models in `graphs/models.py` (`RouteReason`,
+`RouteAdvice`, `RouteAdviceResult`), `pipelines/agents/skills/route-cost-advice/SKILL.md` (owner review),
+`pipelines/scripts/agents/Route_advice.py` (CLI), `pipelines/scripts/agents/Route_advice_check.py` + checkpoint
+narrative, `Data/processed/agents/eval/route_cases.json` (frozen). **Changed (additive):** `deck/slots.py` (the
+`route.` id and the route kinds), the docs.
+
+**Route cases (§8, frozen before any model run):** 12 = 6 route pairs × 2 vessels (a small and a large one of
+different categories, by rule: the band 1 / band 3 vessel with the lowest id), the pairs = Phase 1's frozen
+`sea_route` cases + their reverse: Singapore → Rotterdam, Rotterdam → Singapore, Jeddah → Rotterdam, Singapore →
+Rotterdam with a slow speed (12 kn), Port Said → Rotterdam (`no_suez_on_route`), Sokhna → Rotterdam (`suez_only`).
+Expected numbers computed **independently** in the check (Decimal formulas over the CSVs, the toll bands and the
+frozen distances), never by the graph's own code.
+
+**Tests (`Route_advice_check.py`, one phase per step, reviewed snapshots):**
+1. Deterministic nodes on the 12 cases = the independent computation (100 %, every field); the two shape statuses.
+2. Slots: the `route.` ids and kinds format right (nm, kn, t, days, SDR); Stage 1's `Deck_check.py` and
+   `Finance_qa_check.py` still pass (the extension is additive).
+3. Validator: ≥ 50 planted wrong numbers in drafts (typed numbers, a slot on the wrong route, a news number, a wrong
+   citation, a recommendation against the rule) all caught; 0 false alarms on the 12 clean drafts.
+4. The graph end to end on `FakeRoles` (12 cases; patch path; output_invalid; context unavailable → the advice still
+   ok and says so).
+5. Real model on the 12 cases (cached through `llm.py`; free quota ≈ 12–24 calls): every number slot-bound, the
+   recommendation follows the rule, no validation_failed — the S2-D5 threshold "route numbers 100 % from tools".
+6. RBAC + contract: 100 employees can ask; the run context's user reaches every tool; no user / clock in any model
+   input schema.
+
+**Order (one step at a time, each with its check):** S1 slots extension (+ Stage 1 regression) → S2 models + the
+deterministic nodes 1–4 + the route cases frozen (owner sees the 12 expected rows) → S3 the skill `route-cost-advice`
+(owner review) → S4 advisor + validator + render on FakeRoles → S5 the CLI + real model on the 12 cases → S6 close
+(ADR-057, ARCHITECTURE, ROADMAP, handoff). Nothing committed until Stage 2 closes (owner).
+
+| # | Question (new, 2026-10-27) | Recommended | Alternative(s) |
+|---|---|---|---|
+| P10-1 | Who decides the recommendation | code ranks the two routes by total cost (fuel + dues, SDR); the model recommends the cheaper one **unless** a cited risk item (news / a Suez traffic drop) justifies the other — the Validator checks this rule | code decides by cost only, the model only explains; the model decides freely from the numbers |
+| P10-2 | The value of time (the Cape adds days) | days reported, **not priced** (no free charter-rate source); stated in the assumptions | an owner-set daily charter rate per vessel category (a new table, migration 021) priced into the total |
+| P10-3 | What is kept of an advice | no checkpointer (one invocation, no approval); each answer saved as JSON in `reports/route_advice/` (save only, git-ignored) + LangSmith trace | a PostgresSaver thread per question; nothing saved |
+| P10-4 | Risk context | PortWatch: the 28 days up to the clock vs the same 28 days a year earlier (the traffic trend) + news of the last 14 days | also `marine_weather` on each route's first 7 sea days; no external context (numbers only) |
+
+**Answers (owner, 2026-10-27, AskUserQuestion):** P10-1 **the cheaper route unless a cited risk justifies the other**
+(recommended); P10-2 **days reported, not priced** (recommended); P10-3 **a PostgresSaver thread per question + the
+LangSmith trace** (the alternative, not the JSON file); P10-4 **PortWatch 28 days vs a year earlier + news of 14
+days** (recommended). What P10-3 changes in the design above:
+- **Checkpointer:** the existing PostgresSaver in schema `agent_state` (runtime login `ports_agent`, ADR-050 (5)),
+  `durability="sync"`; one thread per question, `route_advice:<employee_id>:<as_of date>:<origin>-<destination>:<n>`
+  (n = the next free number), so a question can be re-read later (`Route_advice.py show <thread>` / `list --as …`)
+  and an interrupted run resumes at its last node. No `interrupt()` (advice, not a publication). No JSON file.
+- **Retention:** today's job (ADR-054) deletes only `weekly_pack:` threads → it also deletes `route_advice:` threads
+  older than 30 days (`scheduling.py` prefix list; `Scheduler_check.py` extended: a route-advice thread older than
+  30 days goes, a recent one stays, a pending pack is never touched).
+- **Trace:** `Route_advice.py ask` runs inside the LangSmith per-run context of `pipelines/agents/tracing.py`
+  (project `nilegate-agents`, tag `entry:route_advice`) when `LANGSMITH_API_KEY` is set — never `LANGSMITH_TRACING`.
+- **Tests:** phase 4 adds a crash between `context` and `advisor` → resume from the checkpoint with no repeated tool
+  call; phase 6 adds the thread naming and the retention cases. Files changed also: `pipelines/agents/scheduling.py`,
+  `Scheduler_check.py`.
+
+### 6c. Phase 11 — the `voyage_watch` graph (C Voyage & Disruption Watch): concrete design (PROPOSED 2026-10-27; APPROVED 2026-10-27 by the owner's autonomous grant ("work on your own until I come back", memory `autonomous-when-owner-away`) — every choice = the recommended option, decisions P11-1…P11-10 below, **reviewed and approved by the owner 2026-10-29** (with D-P11-1, D-P11-2); IMPLEMENTED 2026-10-28,
+ADR-058 — deviation D-P11-1 at the end)
+
+**Goal (§5 row 11):** for our synthetic fleet at the run's clock: where each vessel is, its ETA, the delay risk on its
+next legs (weather) and from Suez traffic → alerts saved (save only, S2-D1) and shown on request; scheduled every N
+hours. **Done when:** the ETA error on replayed synthetic voyages beats the naive baseline (S2-D5) and the alerts are
+reproducible; alert precision measured on planted weather / traffic events (S2-D5). **Starting point:** the Phase 9
+tools (ADR-055: `voyage_status` with the clock `as_of`, `marine_weather`, `vessel_params`, `routes`), `suez_transits`
+(ADR-049), the Phase 10 pattern (ADR-057: code computes, one model call explains with number slots, a code Validator,
+a PostgresSaver thread, the same retention), the Phase 8 scheduler pattern (ADR-054).
+
+**Verified facts it depends on (2026-10-27, read-only probes; scratch scripts in the session's scratchpad).**
+- **F7 The generator's speed profile (`AIS_generator.py` Phase 4, read):** harbour speed 6.7 kn over the first and
+  last 10 nm (`HARBOUR_KN` = the median implied moving speed of the real NOAA harbour sample,
+  `profiles/noaa_profile.json`), the voyage's constant `service_kn` in between, SOG noise σ 0.2 kn, no weather or
+  traffic effect on speed, no dwell at intermediate ports (F2). **Consequence, said before measuring:** a rule that
+  knows the route and the recent speed reproduces the generator's arrival almost exactly; the ETA score measures how
+  well the tools rebuild the data, not how good the rule would be on real voyages (real ETAs carry port congestion,
+  weather slow-downs, speed changes). The weather cannot change an ETA in this data → weather is a **risk flag**, never
+  an ETA correction.
+- **F8 `arrival_ts` by status:** In Transit / At Port / Completed = arrival at the berth (along-route end); **Anchored
+  = arrival at the anchorage 5 nm before the destination** (the berth time is not in the data) → Anchored voyages are
+  not ETA cases; the watch reports them "at anchorage off <port> since …", no ETA.
+- **F9 Fleet at the clock (voyage_status on every voyage with `departure_ts <= as_of`):** at 2026-09-13T00:00Z 500
+  candidates → In Transit 219, Anchored 78, At Port 130, Completed 73 (34.8 s); at 2026-09-06T00:00Z 404 candidates →
+  In Transit 380, Completed 19, At Port 5 (14.7 s). `departure_ts` (known once a vessel has sailed) is the only
+  pre-filter: `arrival_ts` is never used to choose who is watched.
+- **F10 The canal on a MARNET path:** Singapore → Rotterdam passes vertices (30.214, 32.558), (30.318, 32.382),
+  (31.103, 32.31) → "Suez ahead" = a route vertex in the box lat 30.0–31.2, lon 32.25–32.65 beyond the distance
+  covered (Port Said 31.265 N and Sokhna 29.65 N lie outside the box: a voyage that ends at Port Said from the
+  Mediterranean does not cross the canal).
+- **F11 Vessel names carry digits** ("Special Voyager 001") → the brief's Validator blanks names and LOCODEs before
+  looking for typed numbers (`validator.number_tokens(text, strings)`).
+- **F12 Open-Meteo quota:** < 10,000 calls / day (F5); whether a multi-location request counts once or per location is
+  **UNCERTAIN** → budgeted per location: ≤ 380 vessels × 4 points × 2 APIs ≈ 3,000 per firing → every 12 h, not 6 h.
+
+**ETA — the rules fixed before any measurement (P11-1, P11-2, P11-3).** All from what is known at the cut *t*
+(voyage_status at `as_of = t`, the planned speed from `vessel_params`, the port's position):
+- **R — the rule-based ETA (the product):** `d` = `distance_left_nm` along the route; `v` = `recent_sog_kn` (mean SOG
+  of the under-way fixes of the last 6 h) when `distance_covered_nm` ≥ 20 nm, else the planned service speed
+  (`vessel_params.speed_kn`: the vessel may still be in its departure harbour leg); approach allowance **A = 10 nm at
+  6.7 kn** (the real NOAA harbour profile, F7); ETA = t + (d − A) / v + A / 6.7 h when d > A, else t + d / 6.7 h.
+  Port-call allowance at intermediate ports = 0 (F2). The ETA time = the last fix's time + the hours (the last fix is
+  at most minutes before t).
+- **N — the naive baseline (the S2-D5 threshold):** t + great-circle distance (last fix → destination port) / the
+  last fix's SOG (planned speed when SOG < 1 kn): the AIS-only estimate that knows neither the route nor the port
+  approach.
+- **References, reported, not thresholds:** **S** "schedule" = departure + `route_nm` / planned speed (ignores the
+  position; nearly exact here because the speed is constant — F7, said plainly); **R0** = R without the approach
+  allowance (what the allowance is worth).
+- **Cases (frozen in `Data/processed/agents/eval/eta_cases.json` before the first prediction):** 50 voyages =
+  25 arrived (At Port + Completed, 203) + 25 In Transit (219), each list sorted by vessel_id, the voyages at ranks
+  round(i × n / 25), i = 0…24; route fallbacks (2) excluded first. Cuts at 25 / 50 / 75 % of the sailing time
+  (departure → `arrival_ts`), kept only when ≤ the data's as-of instant, and the In Transit voyages also at the as-of
+  instant itself (the watch's real case). `arrival_ts` places a cut (sampling) but never reaches a predictor.
+- **Measures:** MAE in hours (|ETA − arrival_ts|), median, p90, max, the mean signed error (bias), by remaining-time
+  bucket (< 24 h, 1–5 days, > 5 days). **Threshold (S2-D5): MAE(R) < MAE(N)** over all predictions. **ML margin
+  (S2-D2, fixed now):** a learned model is built only if MAE(R) > 2 h **and** > 5 % of the mean remaining hours;
+  otherwise it is recorded as not needed in this data.
+
+**Alerts — the rules fixed before any measurement (P11-4).** Per watched vessel, deterministic code:
+- **weather:** the next-leg points = the vessel's position now and at +24 / +48 / +72 h along its route at the ETA's
+  speed `v` (points after the predicted arrival dropped; the last point may be the destination port), each with its
+  date → `marine_weather`; an alert when a point has `wave_height_max` ≥ **4.0 m** (Douglas sea state 6, "very rough")
+  or `wind_speed_10m_max` ≥ **34 kn** (Beaufort 8, gale); severity **high** at ≥ 6.0 m (Douglas 7 "high") or ≥ 48 kn
+  (Beaufort 10, storm), else **moderate**. One weather alert per vessel: the worst point (highest severity, then the
+  earliest). A null value (land, coast, beyond the horizon) is "unknown", never calm, never an alert; counted.
+- **suez_traffic:** the canal ahead on the vessel's remaining route (F10) and PortWatch's mean daily transits of the
+  28 days before the clock vs the same 28 days a year earlier at **−20 %** or lower (the ADR-057 threshold; high at
+  −40 %). PortWatch unavailable → no traffic alert, the run says "Suez traffic context unavailable".
+- **No news alerts:** news is untrusted text with no measurable truth (the watch does not call `web_search`).
+- **Alert id** `<vessel_id>/<kind>`; each alert carries its numbers (wave m, wind kn, hours ahead, the ETA and
+  `eta_in_h`, the traffic change), its point and date, and the source of each value.
+
+**The graph** (`pipelines/agents/graphs/voyage_watch.py`, a LangGraph `StateGraph`; the user and the clock from
+`RunContext`):
+
+| # | Node | Kind | What it does | Out (state) |
+|---|---|---|---|---|
+| 1 | `fleet` | code | voyages with `departure_ts <= as_of` → `voyage_status` each → keep In Transit + Anchored | `vessels` (status rows), `watch.fleet` counts; none → `no_data` |
+| 2 | `eta` | code | R per In Transit vessel (`tools/eta.py`) + its next-leg points; Anchored: "at anchorage", no ETA | `etas` |
+| 3 | `weather` | code | `marine_weather` in batches of ≤ 30 points (deduplicated); a failed batch → its points unknown, said | `weather` |
+| 4 | `traffic` | code | `suez_transits` 28 days vs a year earlier → `change_transits_pct`; Suez-ahead flags | `watch.traffic` |
+| 5 | `alerts` | code | the rules above → `watch.alerts` (rows keyed `vessel_id/kind`); **saves the run file** | `alerts`, file |
+| 6 | `brief` | LLM (role `writer`, one structured call; skill `voyage-watch-brief`) — only when there are alerts | `WatchBrief`: a headline + ≤ 6 items, each citing alert ids, numbers as slots | draft |
+| 7 | `validator` | code | slots bound to the cited alerts / fleet; no typed number (dates are copied and must equal a cited alert's date / ETA; names and LOCODEs blanked); every cited alert exists; every **high** alert is cited; one patch, then the brief is dropped (`validation_failed`) — the alerts stand | verdict |
+| 8 | `render` | code | `VoyageWatchResult` (status, fleet counts, ETAs, alerts, the brief rendered, assumptions written by code, sources, problems); rewrites the run file with the brief | result |
+
+**Statuses:** run `ok` / `no_data` / `not_permitted`; `brief_status` `ok` / `no_alerts` (no model call) /
+`output_invalid` / `validation_failed`. **Save (P11-5):** one PostgresSaver thread per run,
+`voyage_watch:<as_of %Y%m%dT%H%MZ>:<n>` (resumable; 30-day retention by the same `prune`), and one JSON file per run
+`reports/voyage_watch/<as_of>_<n>.json` (git-ignored, written atomically; outlives the thread) — read on request by
+`Voyage_watch.py alerts`; no table, no migration. **Access (P11-8):** every input is level 1 / Operations (ADR-006)
+→ every employee may read the alerts (as the route advice); the scheduled run identity is an Operations manager
+(`WATCH_RUN_AS` in `.env`, checked at every firing; employees 2 and 3). **Models (P11-6):** ≤ 2 calls per run (one +
+one patch), none when there is no alert.
+
+**Schedule (P11-7):** Task Scheduler every **12 h** (10:30 and 22:30 local, F12) → `Voyage_watch.py scheduled`:
+a stalled run is resumed first; else the next replay instant = the last finished run's clock + 12 h, starting at the
+data's as-of instant − 7 days (2026-09-06T00:00Z), up to the as-of instant (15 firings), then `done` (as the weekly
+replay, D12). Registered by `ops/scheduler/register_voyage_watch.ps1` — **written, not registered** (the owner runs
+it). Each firing prunes `voyage_watch:` threads older than 30 days.
+
+**Tests (`pipelines/scripts/agents/Voyage_watch_check.py`, one phase per step, reviewed snapshots):**
+1. ETA rules on the frozen cases: R, N, S, R0 against `arrival_ts`; the threshold MAE(R) < MAE(N); the ML margin
+   decision; no predictor reads `arrival_ts` or a fix after the cut (the tool's guard, re-asserted).
+2. Next-leg points and Suez-ahead: positions = an independent computation on the generator's timeline (the voyage
+   file + searoute directly); the canal box on the routes that cross it.
+3. Alert rules + planted events (P11-9): a mock Open-Meteo with planted storm boxes (waves, wind, near-threshold
+   negatives, a null coast) and a mock PortWatch (−30 %, −10 %, down) over the real fleet at the as-of instant; the
+   truth = the generator's true positions at +0…72 h computed in the check; **precision and recall** (targets fixed
+   now: ≥ 0.95 each), false alarms listed; the same run twice → identical alerts (reproducible).
+4. Slots + the brief's Validator: ≥ 40 planted errors caught (a typed number, a wrong date, a slot on the wrong alert,
+   an invented alert id, a high alert left out, a news-like number), 0 false alarms on clean briefs.
+5. The graph on FakeRoles + the real PostgresSaver: ok with alerts (1 call), no alerts (0 calls), patch, output_invalid
+   and validation_failed (alerts still saved), PortWatch / Open-Meteo down, a crash in `brief` resumed from the
+   checkpoint with no tool call repeated; the run file = the state; thread naming; retention.
+6. The real model once at the as-of instant with the live (cached) weather: the brief passes the Validator (or the
+   failure is reported as is); the live alert counts reported (no truth for real weather).
+7. RBAC + contract + scheduling: 100 employees may read; a probe user → not_permitted before any read; no user /
+   clock in a model-facing schema; the replay planner (start, next, resume, done) and the run identity rule.
+Regression: `Stage2_tools_check.py`, `Route_advice_check.py`, `Tools_check.py`, `Scheduler_check.py`,
+`Deck_check.py` + `Finance_qa_check.py` (the slots extension).
+
+**Order:** S1 §6c + `eta.py` + the frozen cases + Phase 1 → S2 next-leg points + Suez ahead (Phase 2) → S3 slots
+(`watch.` ids, `_m` metres, `_h` hours) + alert rules + planted events (Phases 3–4) → S4 the skill + the graph +
+store (Phase 5) → S5 CLI + scheduler + real model + RBAC (Phases 6–7) → S6 close (ADR-058, docs, handoff).
+
+**Files (new):** `pipelines/agents/tools/eta.py` (the rules R / N / S, next-leg points, Suez ahead), 
+`pipelines/agents/graphs/voyage_watch.py`, models in `graphs/models.py` (`WatchItem`, `WatchBrief`,
+`VoyageWatchResult`), `pipelines/agents/skills/voyage-watch-brief/SKILL.md` (reviewed by the owner 2026-10-29),
+`pipelines/scripts/agents/Voyage_watch.py` (CLI: `run | scheduled | alerts | show | list | prune`),
+`ops/scheduler/register_voyage_watch.ps1`, `pipelines/scripts/agents/Voyage_watch_check.py` + checkpoint narrative,
+`Data/processed/agents/eval/eta_cases.json` (frozen). **Changed (additive):** `deck/slots.py` (`watch.` ids, two
+kinds), `scheduling.py` (the watch's replay planner + `describe_voyage_watch`), `.env.example` (`WATCH_RUN_AS`), the docs.
+
+| # | Decision (autonomous grant, 2026-10-27; the recommended option taken) | Taken | Alternative(s) not taken |
+|---|---|---|---|
+| P11-1 | ETA rule | R: along-route distance left / recent sea speed + a 10 nm approach at the real harbour speed; port calls 0 (F2) | distance / service speed; a learned model first |
+| P11-2 | Naive baseline for S2-D5 | N: straight line to the destination / last SOG (AIS only) + references S, R0 reported | S as the baseline (it is near exact here: no honest bar) |
+| P11-3 | ETA cases | 50 voyages (25 arrived + 25 at sea) × cuts 25 / 50 / 75 % + the as-of instant; Anchored out (F8) | all 500 voyages; one cut per voyage |
+| P11-4 | Alert rules | weather ≥ 4 m / 34 kn (high 6 m / 48 kn) on +0…72 h; Suez −20 % (high −40 %); no news alerts | news-driven alerts; a 7-day horizon |
+| P11-5 | Where alerts live | a thread per run + a JSON file per run in `reports/voyage_watch/` | a new table (migration 021) |
+| P11-6 | The model's part | one `writer` brief per run with alerts, slots + Validator; alerts never depend on it | no model at all; a model per vessel |
+| P11-7 | Schedule | every 12 h, replay from as-of − 7 days to the as-of instant, then done | every 6 h (quota, F12); real time at the as-of instant only |
+| P11-8 | Access | read: every employee (level 1); scheduled identity: an Operations manager | Operations only |
+| P11-9 | Planted events | mock Open-Meteo storm boxes + PortWatch drops, truth from the generator's timeline, targets ≥ 0.95 | real weather only (no truth) |
+| P11-10 | Watched vessels | In Transit (ETA + alerts) and Anchored (listed, no ETA / weather); departed vessels only | every vessel incl. moored |
+
+**Deviation (implementation, 2026-10-28):** **D-P11-1** — a Suez drop alerts every vessel with the canal ahead (at
+−45 %: 40 high + 14 high weather alerts), which 6 items × 8 ids could not cite → `WatchItem.alert_ids` up to 60 (one
+Suez item lists them all) and an item names at most three vessels (400 characters); the skill says so. Results and
+fixes: the handoff in Progress, `pipelines/checkpoints/agents/Voyage_watch_check.md`, ADR-058.
+**D-P11-2 (2026-10-29, the first scheduled firing):** Open-Meteo's free limit of 600 calls / min is counted per location (F12 confirmed in practice): the firing at 2026-09-06 (380 vessels, 1,448 points × 2 APIs sent within a minute) lost 848 points and PortWatch did not answer either (exit 0, 8 alerts — incomplete) → `weather_at` paces its batches under 400 network locations / min (cache hits free; `weather.SENT` counts what was sent), retries the failed batches once after 65 s, and records the reason (`weather_errors`); the assumptions say when a run's weather is incomplete. A full fleet now takes ≈ 4–8 min. Checked in Phase 3 (6 refused requests → 0 lost; pacing peak 360 / 60 s on a fake clock; cached points wait 0 s).
+
+### 6d. Phase 12 — the supervisor over both products: concrete design (PROPOSED 2026-10-28 by the autonomous session; **APPROVED 2026-10-29 by the owner: P12-1…P12-5 all as recommended**)
+
+**Goal (§5 row 12):** one question box for NileGate employees over both stages — finance (Stage 1) and operations
+(Stage 2) — with cross-product questions ("which vessels at risk this week belong to our top-5 customers by
+receivables?") and the RBAC both ways (Operations ↔ Finance). **Done when:** the S2 Q&A golden questions pass
+(§8: ~20 operations + cross-product) and RBAC leakage is 0. **Starting point:** the finance Q&A agent
+(`graphs/finance_qa.py`: LangChain `create_agent` on `RoleChatModel`, `QaTurn` middleware with slot checks, one
+patch, `ModelCallLimitMiddleware`; "Phase 12 grows this agent into the Supervisor"), the Stage 2 tools (ADR-055),
+the two Stage 2 graphs (ADR-057, ADR-058), the D2 decision (a supervisor with subagents-as-tools;
+`langgraph-supervisor` is unmaintained).
+
+**Proposed shape:**
+- **One agent, more tools (not a hierarchy):** `create_agent` with `STAGE1_TOOLS` + `STAGE2_TOOLS` + three
+  product tools — `route_advice` (the ADR-057 graph run as a tool: one thread per question, its result's rows as
+  evidence), `voyage_eta` (ADR-058's tool) and `watch_alerts` (the latest saved run, filtered: `Voyage_watch.read_alerts`
+  as a tool) — and `load_skill` (D13) for the skills of both stages. Free-tier context budget (Groq 8K TPM): the
+  tool list is filtered per question by a cheap code router (finance words / vessel ids / ports) before the model
+  sees it, so one request carries ≤ ~8 tool schemas.
+- **Answers with slots everywhere:** the same `check_answer` (Stage 1) extended with the `route.` / `watch.` ids;
+  the route advice's and the watch's own Validators stay inside their graphs; the supervisor never retypes a number.
+- **RBAC both ways:** each tool already checks the run context's user (ADR-049 / ADR-055); a cross-product answer is
+  only as wide as the narrowest tool the user may use — an Operations employee asking "the receivables of the
+  customers whose vessels are at risk" gets the vessels (level 1) and a `not_permitted` part for receivables
+  (level 2 / Finance), said, never guessed. The CEO (level 3) sees both.
+- **Evaluation:** a frozen S2 golden set (≈ 20 operations + ≈ 10 cross-product + RBAC twins asked by an Operations
+  and a Finance employee), expected numbers from the tools by code, scored like Stage 1 (G1–G4, ADR-052's rule);
+  leakage 0 = a hard gate.
+- **Interface:** CLI `Ask.py "…" --as E [--lang ar]` (the finance Q&A CLI grows), LangSmith per question; FastAPI
+  stays later.
+
+| # | Question for the owner | Recommended | Alternative(s) |
+|---|---|---|---|
+| P12-1 | Supervisor shape | one `create_agent` with all tools behind a code router | a supervisor calling a finance agent and an operations agent as tools (two levels: more calls on the free quota) |
+| P12-2 | Route advice inside Q&A | the graph as a tool (its own thread, Validator, slots) | the supervisor calls the Stage 2 tools itself (numbers not reproduced by the route Validator) |
+| P12-3 | Cross-product RBAC | a partial answer with the refused part named | refuse the whole question when any part is refused |
+| P12-4 | Golden set size | ≈ 30 questions + RBAC twins, frozen before any run | the finance golden set's 42 + 30 (more quota per evaluation) |
+| P12-5 | Language | English + Egyptian Arabic answers (as G2) | English only in Stage 2 |
+
+**Order (PROPOSED 2026-10-29, Phase 12 session; the golden set first, as P12-4 says):** S1 the S2 Q&A golden set
+frozen (`Supervisor_golden.py`, 0 model calls) → S2 the product tools in the registry (`route_advice`, `voyage_eta`,
+`watch_alerts`, the cross-product bridge S1 decides) + the RBAC matrix over every tool → S3 the code router + the
+supervisor agent (`graphs/supervisor.py`, grown from `finance_qa.py`; `check_answer` with the `route.` / `watch.`
+ids; the partial answer) on fake models → S4 CLI `Ask.py` + LangSmith per question → S5 `Stage2_eval.py` (scorers
+proven on hand-made failures first, then the real run; leakage 0 = the hard gate) → S6 close (ADR-059, docs). Each
+step's detail is written in Progress and approved before its code.
 
 ## 7. Decisions — Stage 1 (answered) and Stage 2 (to answer before Phase 9)
 
@@ -1983,7 +2443,1114 @@ rate limits (ai.google.dev); FP&A reporting time (vendor case studies). Vendor f
     offset or the next run is not at the asked time; re-registered by the assistant: StartBoundary
     `2026-10-27T10:30:00`, next run 2026-11-02 10:30. ADR-054 amendment 2.
 
-### SESSION HANDOFF (2026-10-23, §5f DONE) — read this first in the next session
+- 2026-10-29 — **Phase 12 S1 plan — the S2 Q&A golden set (PROPOSED, for the owner; no code yet).** §6d gained its
+  step order (S1…S6, above). Facts checked read-only for this plan: every Stage 2 input is level 1 / Operations
+  (ADR-055 / 057 / 058, `rbac_mapping.md` §2), so "RBAC both ways" means *Operations → finance is refused, Finance →
+  operations is answered* (the twin proves no over-refusal); `vessels.customer_id` is a level-1 id while the customer's
+  details are level 2 / Finance (`rbac_mapping.md` row `vessels.customer_id`); the finance rows that already carry a
+  `vessel_id` are `finance_kpi` `overdue` (and `invoice_audit`), while `customers` carries `customer_id` + `ar_sdr`
+  and no tool maps a customer to its vessels today; finance is a 2025 replay (weeks 1–52), operations a 2026-09 replay
+  (clock ≤ 2026-09-13T00:00Z); the latest saved watch run is `voyage_watch:20260913T0000Z:1` (`reports/voyage_watch/`).
+  - **Script** `pipelines/scripts/agents/Supervisor_golden.py` (percent cells, `tools/run.py`, the `Qa_golden.py`
+    pattern). Reads, read-only: PostgreSQL (`PG_RO_USER`) and MongoDB (`nilegate_reader`) through the tool functions
+    as the CEO at the pinned clock, the voyage file, `route_cases.json`, the pinned watch run file. Writes
+    `Data/processed/agents/eval/supervisor_qa_golden.jsonl` — frozen: a re-run recomputes and stops on any difference;
+    a later change only through a recorded `REFREEZE` (old sha prefix + reason). **0 model calls, 0 Open-Meteo calls**
+    (weather enters only through the pinned run's alerts), safe to re-run. Narrative
+    `pipelines/checkpoints/agents/Supervisor_golden.md`.
+  - **Phase 1 — clock and askers.** The clock = 2026-09-13T00:00Z (the data's as-of = the pinned watch run's clock;
+    its file sha256 stored in every watch item, so a re-run of that run cannot shift the answers silently). Askers by
+    the v2 rule (two lowest ids per profile): Operations employees 12 / 17, Operations managers 2 / 3, Finance
+    employees 13 / 24, the CEO 1. Asserted: Operations users pass every Stage 2 resource and fail `FINANCE_VIEWS`;
+    Finance users pass both.
+  - **Phase 2 — ≈ 20 operations items (EN)**, asked by the Operations employees (the desk's audience), hand-written,
+    expected values from the tools by code: voyage status ×4 (`voyage_status`: status, next port, distance left nm),
+    ETA ×4 (`voyage_eta`: ETA instant, hours left), route advice ×4 (the `route_advice` graph's **code rows** for a
+    frozen route case — cheaper route, Cape − Suez days / SDR, Suez dues — no writer call), watch ×3 (the pinned run's
+    alerts: a vessel's wave height / wind, the high alerts, the Suez-ahead vessels), fuel ×2 (`vessel_params` at a
+    stated speed), distance ×1 (`sea_route` via the Cape), abstention ×3 (`not_in_data`: a vessel id not in the fleet,
+    a real ship's live position — no live AIS, ADR-056 —, a time after the clock). Vessels picked by rule (lowest ids
+    at sea at the clock with the needed property: a high alert, Suez ahead, …), each pick printed as a reviewed snapshot.
+  - **Phase 3 — ≈ 10 cross-product items (EN)**, asked by the Finance employees (they may read both products →
+    `answered`): the finance part names an explicit 2025 week, the operations part is "now" (= the clock) — e.g. "the
+    overdue invoices of week 49: where are those vessels now and when do they arrive?", "does the vessel of the
+    largest overdue invoice of week 49 have an alert?", plus the customer-based ones the bridge decision allows
+    (decision 1 below).
+  - **Phase 4 — RBAC twins.** Each cross-product item asked again by an Operations employee → expected
+    `partial` (P12-3): the operations elements required, the refused part named (`refused_any`: tool `finance_kpi`
+    / `invoice_audit` + EN / AR words such as receivable, overdue, invoice, مستحقات, فواتير), **must-not**: no
+    number of the refused part (its SDR values as patterns, Western and Arabic-Indic digits) and no customer name
+    when only the level-1 id is allowed; 5 operations items asked again by a Finance employee → `answered` (no
+    over-refusal); 1 CEO control (a cross item, answered). A fully refused item (an Operations employee asking a
+    finance-only question) stays in the Stage 1 set (r01–r05), not repeated here.
+  - **Phase 5 — Egyptian Arabic twins (P12-5, G2):** 10 answerable items (6 operations + 4 cross-product), same
+    elements, Arabic relevance words written and frozen before any run; threshold fixed now: AR completeness ≥ EN
+    completeness − 0.10 (the Stage 1 rule).
+  - **Item format** = the Stage 1 golden items (`id`, `lang`, `asker`, `employee_id`, `question`, `expected_status`,
+    `elements` with `value` / `name` / `direction` / `fact`, `relevance`, `must_not_regex`) + `as_of`, `products`
+    (`finance` / `operations`), a new status `partial` with `refused_any`, and a `value` element's `tool` may be
+    `route_advice` / `voyage_eta` / `watch_alerts` (the S2 tool names), its ids the `route.` / `watch.` slot ids.
+  - **Validation cells:** every expected value non-null and from a cited tool result; every picked vessel's property
+    re-checked; askers' permissions as above; counts per kind and per status; must-not patterns match the refused
+    rows and none of the permitted answer's values (checked on hand sentences); frozen sha; a second run changes 0
+    files; LLM and Open-Meteo counters 0. Size ≈ 30 EN + 15 twins + 1 control + 10 AR ≈ **56 items** (one
+    evaluation ≈ 56 questions × ≈ 3–4 calls + the route advice's writer ≈ 200 flash-lite requests, inside the 500 / day;
+    ADR-052's two runs per side = one provider day per side).
+  - **Decisions for the owner (asked as choices, recommended first):** (1) the customer bridge — customer-based cross
+    items in, S2 adds a code lookup customer → vessel ids (level 1, the id rule) **vs** only the `vessel_id` links the
+    finance rows already carry (overdue / audit); (2) the clock — one pinned clock + explicit 2025 weeks **vs** "this
+    week" mapped to the latest finance week; (3) the partial answer — the agent's result carries `status = partial` +
+    the refused tools, the text names the refused part, scored on both **vs** text words only; (4) the Arabic twins —
+    10 **vs** every answerable item (≈ 25, ≈ +60 requests per run).
+  - **Owner answers (2026-10-29), all four as recommended:** (1) customer-based cross items in — S2 adds the code
+    lookup customer → vessel ids (level 1); (2) one pinned clock 2026-09-13T00:00Z + explicit 2025 weeks; (3) the
+    partial answer scored on the result's `status = partial` + refused tools **and** the text; (4) 10 Arabic twins.
+    **S1 plan APPROVED 2026-10-29** by the owner as written with these answers.
+- 2026-10-29 — **Phase 12 S1 DONE: the S2 Q&A golden set frozen.** `pipelines/scripts/agents/Supervisor_golden.py`
+  Phases 1–5 + Final Checkpoint ✅ (narrative `pipelines/checkpoints/agents/Supervisor_golden.md`):
+  `Data/processed/agents/eval/supervisor_qa_golden.jsonl` **57 items** (47 EN + 10 AR; 21 operations, 10
+  cross-product, 16 RBAC twins; 44 answered, 10 partial, 3 not_in_data), sha256 `070a745bee233a92…`; a second run
+  changed 0 files; 0 model / Open-Meteo calls. Clock 2026-09-13T00:00Z, watch run `voyage_watch:20260913T0000Z:1`
+  pinned (sha256 `3164190cbbfa106f…`). Contracts S2 must implement as fixed by the items: `watch_alerts` (args
+  `thread`; rows = the run's alerts keyed `alert_id` + one row `alert_id = "fleet"` with the fleet counts and
+  `change_transits_pct`), `route_advice` (rows `route` = suez / cape / difference of the graph's code results),
+  `voyage_eta`, `fleet_customers` (customer ↔ vessel ids from `vessels.customer_id`, level 1, no names); each item's
+  `tools_needed` is the router's target. Size 57 vs the plan's ≈ 56 (the CEO control counted apart).
+  - **D-P12-1 (finding, applied):** Operations *managers* may read the finance views (ceiling 2 ≥ level 2; Stage 1
+    refused them only the level-3 HbR results) → the refused side of "RBAC both ways" is the Operations *employee*;
+    the twins are asked by employees 12 / 17.
+  - **D-P12-2 (finding, for the owner, nothing in the data changed):** an invoice **is** a Suez toll priced from the
+    public tariff (`toll_rate_bands`, level 1), so `compute_toll(vessel_id=420)` = the overdue invoice INV-0000005's
+    amount (622,758.68 SDR): an Operations employee can always compute any invoice's amount, while the invoice's
+    existence, status and payment stay level 2. Caught by the must-not check (the permitted value matched the refused
+    one); c06 asks the days past due instead and the equality is asserted. Not a leak by `rbac_mapping.md` (the tariff
+    is public, ADR-006), but the cross-product answers should never put the toll next to "your invoice" for a refused
+    user — a rule for S3's partial answer.
+- 2026-10-29 — **Phase 12 S2 plan — the product tools + the RBAC matrix (PROPOSED, for the owner; no code yet).**
+  Facts read for it: `registry.STAGE2` has 4 tools and `Stage2_tools_check.py` Phase 5 asserts exactly those 4
+  (400 granted calls); `voyage_eta` is already a LangChain tool in `tools/eta.py` but in no registry; `read_alerts`
+  lives in the CLI script `Voyage_watch.py` (a tool must not import a script); `Route_advice.ask` builds the graph
+  with `Roles()` + the PostgresSaver and one thread per question; the graph's statuses are ok / no_suez_on_route /
+  suez_only / not_permitted / no_data / output_invalid / validation_failed, while `ToolResult` knows only ok /
+  not_permitted / context_unavailable / no_data; all 500 vessel names end with their id (a synthetic artifact).
+  - **Code (additive):** `pipelines/agents/tools/watch.py` — `watch_alerts` + `read_alerts` moved here from the CLI
+    (the CLI and `Voyage_watch_check.py` import it; behaviour unchanged); `pipelines/agents/tools/fleet.py` —
+    `fleet_customers`; `pipelines/agents/tools/products.py` — `make_route_advice_tool(roles)` (the graph as a tool,
+    roles injected, so a check passes fake roles); `registry.PRODUCTS` (`voyage_eta`, `watch_alerts`,
+    `fleet_customers`; `route_advice` built per agent from the factory) and `registry.supervisor_tools(roles)` =
+    STAGE1 + STAGE2 + PRODUCTS with unique names. `STAGE1` / `STAGE2` unchanged, so `Tools_check.py` and
+    `Stage2_tools_check.py` stay as they are.
+  - **`watch_alerts(vessel_id?, high_only?)`** → rows = the run's alerts (keyed `alert_id`, + `thread_id`) and one
+    row `alert_id = "fleet"` (the fleet counts and `change_transits_pct`), the golden items' contract; the run = the
+    latest saved run **at or before the run context's clock** (decision 2), named in `source.filter`; level 1
+    (`can_read`, ADR-006); no run → `no_data`.
+  - **`fleet_customers(customer_ids? | vessel_ids? | vessel_name?)`** → rows `vessel_id`, `vessel_name`,
+    `vessel_type`, `customer_id` from `vessels` (level 1 / Operations: ids only, never a customer's name or money —
+    those stay in `finance_kpi`, level 2); ≤ 50 ids; unknown → `no_data`.
+  - **`route_advice(vessel_id | vessel_type + condition + scnt_tons, origin, destination, speed_kn?)`** → runs the
+    ADR-057 graph in its own thread `route_advice:<employee>:<as_of>:<from>-<to>:<n>` with the run context's user and
+    clock (LangSmith per run as today); rows = the graph's code rows (`route` = suez / cape / direct / difference) +
+    one row `route = "advice"` (recommendation, the rendered headline / reasons / risks, `thread_id`, the graph
+    status); shape statuses (`no_suez_on_route`, `suez_only`) are `ok` with their rows; a refused user →
+    `not_permitted` before any model call; an advice that fails its Validator → decision 3.
+  - **Check** `pipelines/scripts/agents/Supervisor_tools_check.py` (fake roles + the real checkpointer, 0 real model
+    calls, 0 Open-Meteo calls): Phase 1 `watch_alerts` = the pinned run file (rows, fleet row, clock resolution: at
+    2026-09-13T00:00Z → the pinned run; at 2026-09-06T06:00Z → the 09-06T00 run; before the first run → no_data);
+    Phase 2 `fleet_customers` = an independent SQL over `vessels`; Phase 3 `route_advice` on fake roles: a thread per
+    call, rows = `route_advice.deterministic`, the Validator-failure path, the refused probe before any model call;
+    PortWatch / Tavily read from their caches (the route context), a miss → `context_unavailable` as the graph does;
+    **Phase 4 the golden contract**: every `value` element of `supervisor_qa_golden.jsonl` re-computed by calling the
+    registered tool function **as the item's asker** at the clock — a finance element of an Operations twin must be
+    `not_permitted` with no row, every other one must equal its frozen value; Phase 5 the RBAC matrix 100 employees ×
+    the 4 product tools = ADR-006, the probe user refused by all with no row (leakage 0), no user / dataset / clock
+    field in any model-facing schema, the union list has unique names; `Tools_check.py` 8 / 8 and
+    `Stage2_tools_check.py` re-run unchanged; `Voyage_watch_check.py` re-run after the move.
+  - **Docs:** `docs/rbac_mapping.md` rows for the three new tools; ARCHITECTURE and the ADR at S6.
+  - **Decisions for the owner (asked as choices, recommended first):** (1) where the tools live — a new
+    `registry.PRODUCTS` + a new check **vs** added to `STAGE2` (its check's 400-call snapshot changes); (2) which watch
+    run — the latest at or before the clock, never a model argument (as ADR-055's clock) **vs** a `thread` argument the
+    model fills; (3) an advice its Validator stops — `ok` with the code rows and the advice row marked
+    `validation_failed` (the numbers are the code's) **vs** `context_unavailable` with no rows; (4) a vessel named in a
+    question — `fleet_customers` also resolves `vessel_name` → id **vs** the model reads the id from the name (true
+    only of this synthetic data).
+  - **Owner answers (2026-10-29), all four as recommended:** (1) a new `registry.PRODUCTS` + the new check
+    `Supervisor_tools_check.py`; (2) the latest saved watch run at or before the clock, never a model argument (the
+    golden items' `args.thread` is matched against the run the tool resolved, a scorer rule for S5); (3) a stopped
+    advice → `ok` with the code rows + the advice row marked `validation_failed`; (4) `fleet_customers` resolves
+    `vessel_name` → id. **S2 plan APPROVED 2026-10-29** by the owner as written with these answers.
+- 2026-10-29 — **Phase 12 S2 DONE: the product tools + the RBAC matrix.** New `pipelines/agents/tools/watch.py`
+  (`watch_alerts`; `read_alerts` / `can_read` / `run_files` moved from the CLI, which imports them), `fleet.py`
+  (`fleet_customers`), `products.py` (`route_advice` as a tool: `run_route_advice`, `make_route_advice_tool(roles)`,
+  thread metadata `trigger: supervisor`), `registry.PRODUCTS` + `supervisor_tools(roles)` (14 unique tools); STAGE1 /
+  STAGE2 unchanged. `pipelines/scripts/agents/Supervisor_tools_check.py` Phases 1–5 + Final Checkpoint ✅ (narrative
+  `pipelines/checkpoints/agents/Supervisor_tools_check.md`; 0 real model calls, 0 Open-Meteo calls, ≈ 150 s): the
+  pinned run + the clock rule, `fleet_customers` = SQL, route_advice's code rows = `deterministic` with the
+  stopped-advice paths, **all 41 golden value elements reproduced as their askers and the 6 finance elements of the
+  Operations twins refused**, RBAC 100 × 4 = ADR-006, leakage 0. `docs/rbac_mapping.md` gained the four tool rows.
+  - **D-P12-3 (finding, fixed):** golden item o12 (route case 8) left out the case's 12 kn → the S2 Q&A golden set
+    re-frozen v2 through its recorded transition `070a745bee233a92…` → `722f3ca3b7bf86f7…` (before any model run).
+  - **D-P12-4 (finding, fixed):** a refused route call opens a thread with no row, and failed runs skipped the
+    cleanup → 20 check threads were left in `agent_state`; deleted (only `trigger: supervisor` ones; the one `cli`
+    thread kept); the check now deletes every new `supervisor` thread at the end and at exit.
+- 2026-10-29 — **Phase 12 S3 plan — the code router + the supervisor agent (PROPOSED, for the owner; no code yet).**
+  Facts read for it: `graphs/finance_qa.py` = `create_agent` on the `tools` role (flash-lite + gpt-oss-20b on Groq,
+  8K TPM) through `RoleChatModel`, `QaTurn` (answer brief per request, ≤ 3 tool rounds, `check_answer` + one patch),
+  `ModelCallLimitMiddleware` 8, `QaAnswer` (answered / not_in_data / not_permitted); `slots.ROW_KEYS_BY_TOOL` keys
+  `watch_alerts` rows by `vessel_id/kind` (the S2 fleet row has neither) and `route_advice` is not in `NUMERIC_TOOLS`
+  (only `route_costs`); `check_answer` allows literal numbers only from the question, cited passages, tool text
+  values, weeks 1–53 and years — a vessel id written as "vessel 420" counts as typed.
+  - **Code:** `pipelines/agents/graphs/supervisor.py` (new; `finance_qa.py` stays as it is for Stage 1 and its checks)
+    reusing `RoleChatModel`, the evidence helpers and `check_answer`:
+    - **Router (code, P12-1):** question words (EN + Egyptian Arabic) → products and tools — finance words → `finance_kpi`
+      (+ `invoice_audit` on audit words), toll / dues → `compute_toll`, document words → `search_documents`, a vessel
+      (id / name) or position / arrival words → `fleet_customers`, `voyage_status`, `voyage_eta`, route words →
+      `route_advice` (+ `sea_route` for a distance), alert / weather / traffic words → `watch_alerts`, fuel →
+      `vessel_params`, customer + vessel → `fleet_customers`, news → `web_search`; nothing matched → a small default
+      set; ≤ 8 tools per question. Then the **user's access** (ADR-006, the tools' own resources): a routed tool the
+      user may not use is dropped and recorded as a refused part (decision 1).
+    - **Answer:** `SupervisorAnswer` = `QaAnswer` + the status `partial`; the refused tools are set by code from the
+      router, never by the model; the brief tells the model which part it may not answer and in which language.
+    - **Checks (`check_supervisor_answer`, on top of `check_answer`):** literal ids allowed when a cited row holds them
+      (`vessel_id`, `customer_id`, `voyage_no`); `partial` only with a refused part, and the text names it (the EN / AR
+      words of the golden set's `refused_any`); `answered` while a needed part was refused → `partial`; `not_permitted`
+      when every routed tool was refused; D-P12-2 (decision 4); then one patch, else `validation_failed`, as Stage 1.
+    - **Slots (additive):** `route_advice` in `NUMERIC_TOOLS` keyed by `route`; `watch_alerts` keyed by `alert_id`
+      (the same labels for alerts — `36/weather` — plus `fleet`; the voyage watch's own slots unchanged, its check
+      re-run).
+    - **Limits:** ≤ 4 tool rounds (a cross-product question needs finance → bridge → operations), ≤ 10 model calls;
+      the skills in the system prompt chosen by the router per product (decision 2), the new skill (decision 3).
+  - **Check** `pipelines/scripts/agents/Supervisor_check.py` (FakeRoles, 0 real model calls): Phase 1 the router on
+    the 57 golden items — every `tools_needed` routed (recall 100 %), ≤ 8 tools, the refused part = the golden
+    `refused_any.tools` for every Operations twin and none for the others; Phase 2 `check_supervisor_answer` on hand
+    answers (right ones pass; planted: a typed figure, an unknown id, `partial` without naming the refused part,
+    `answered` while refused, a toll next to "your invoice" for a refused user, a wrong row key, an Arabic answer with
+    Arabic-Indic digits typed) — every planted error caught, 0 false alarms; Phase 3 the agent end to end on scripted
+    fake models for every golden item (the right tool calls → the right status, slots bound to the frozen values) +
+    the patch path + `validation_failed` + the call limit; the largest request measured in tokens against the free
+    tiers (Groq 8K TPM); Phase 4 RBAC in the agent: an Operations employee's agent has no finance tool bound, a fake
+    model that calls one anyway gets no row and no number; Phase 5 `Finance_qa_check.py` 6 / 6 and
+    `Voyage_watch_check.py` re-run unchanged.
+  - **Not in S3:** the CLI `Ask.py` + LangSmith (S4), real models and the scorer (S5).
+  - **Decisions for the owner (asked as choices, recommended first):** (1) a refused part — the router drops the
+    tools the user may not use and code names the refused part (no call, no number can reach the model) **vs** every
+    routed tool bound and the tools refuse (one call more per refused part); (2) skills — chosen by the router into the
+    system prompt (0 extra calls; a deviation from §6d's `load_skill` tool) **vs** a `load_skill` tool the model calls;
+    (3) the skill — a new `supervisor-qa` skill (both products, partial answers, Egyptian Arabic; the owner reviews it
+    before S5) **vs** the `finance-qa` skill extended; (4) D-P12-2 — a code rule (in a `partial` answer a sentence with a
+    `compute_toll` slot may not name an invoice) **vs** a skill line only.
+  - **Owner answers (2026-10-29):** (1) as recommended — the router drops the tools the user may not use, code names
+    the refused part; (2) **the alternative — the `load_skill` tool** (D13's own design: `skill_loader.load_skill_tool`
+    exists, "the Q&A supervisor sees `descriptions()` and gets the `load_skill` tool"; §6d as written) → the system
+    prompt carries the one-line descriptions of the skills of the routed products (+ `supervisor-qa`, `untrusted-content`),
+    `load_skill` is always bound on top of the ≤ 8 data tools, a skill's text is never evidence (excluded from the
+    evidence index and from the literal-number allowances), the limits become ≤ 5 tool rounds (a skill + 4 data
+    rounds) and ≤ 11 model calls, and the Phase 3 token measurement includes a loaded skill; ≈ +1 call per question
+    (≈ +57 per evaluation run, inside flash-lite's 500 / day); (3) as recommended — a new `supervisor-qa` skill, owner
+    review before S5; (4) as recommended — the D-P12-2 code rule. **S3 plan APPROVED 2026-10-29** by the owner as
+    written with these answers.
+- 2026-10-29 — **Phase 12 S3 DONE (fake models): the router + the supervisor agent.** New
+  `pipelines/agents/graphs/supervisor.py` (router of 12 rules EN + Egyptian Arabic, the access split
+  `TOOL_RESOURCES`, `check_supervisor_answer`, `SupervisorChatModel`, `SupervisorTurn` with a tool-call guard,
+  `build_graph`, `ask`), `graphs/models.SupervisorAnswer` (+ `partial`), `deck/slots.py` (`route_advice` keyed by
+  `route`, `watch_alerts` by `alert_id` — the same labels, + `fleet`), the skill `supervisor-qa` (1,096 tokens,
+  **`reviewed_by_owner: no` — the owner reviews it before S5**); `finance_qa.py` unchanged.
+  `pipelines/scripts/agents/Supervisor_check.py` Phases 1–4 + Final Checkpoint ✅ (narrative
+  `pipelines/checkpoints/agents/Supervisor_check.md`; 0 real model calls): router recall 100 % on the 57 golden items
+  (≤ 5 tools, the refused part = the frozen one on the 10 Operations twins), the access table = the tools' own access
+  on 88 calls, 6 right answers pass / 10 / 10 planted errors caught, the agent end to end on 33 golden items (27
+  answered, 3 partial, 3 not_in_data, every frozen value bound), patch / validation_failed / call limit, a refused
+  tool never offered and never run, every part refused → no model call.
+  - **Deviations:** an all-refused question ends `not_permitted` in code with a fixed sentence (EN / AR) and no model
+    call (the plan said only "a check rule"; decision 1 makes the model call useless there); the plain-text
+    untrusted-content rule is one line in the system prompt (the skill itself stays loadable).
+  - **D-P12-5 (finding, for the owner, nothing changed):** the largest model request ≈ 6,969 est tokens (c10 / c10_ar:
+    the weekly row + the whole watch result) — over the conservative Groq budget (8K − 1,500 reserve at 3 chars a
+    token), inside it at 4 chars a token; the first measure (≈ 9.6K) came from the fake model asking 50-row lists. If
+    the Groq fallback meets a 413 in S5, the remedy is a compact watch result for the model (fewer fields per alert).
+- 2026-10-29 — **Phase 12 S4 plan — the CLI `Ask.py`, a thread and a trace per question (PROPOSED, for the owner; no
+  code yet).** Facts read for it: `Finance_qa.py` (Stage 1 CLI) keeps no checkpointer ("one question, one run") and
+  traces each question with `tracing.trace(..., entry="qa")`; `Finance_qa_check.py` Phase 6 tests that CLI on fake
+  models; one retention rule serves the packs, the route advice and the watch (`scheduling.prune` with
+  `describe_route_advice` / `describe_voyage_watch`: a thread with no next node = ended, deleted after 30 days, archived
+  first), run by every scheduled firing and `Weekly_pack.py prune`.
+  - **`pipelines/scripts/agents/Ask.py`:** `ask "…" --as E [--lang en|ar] [--as-of …]` (the language detected from
+    the question when not given; the clock defaults to the data's as-of and may only move back, as every Stage 2 CLI)
+    → prints the status, the answer with its numbers filled by code, the refused part (if any), the evidence (tool,
+    status, source), the problems the code check found, the model calls (cached or fresh) and the thread; `show
+    <thread>` (the stored answer), `list [--as E]`, `prune [--dry-run]`. LangSmith per question (`tracing.trace`, entry
+    `ask`, tags: language, products, refused tools; the route advice's graph inside the same trace), never the global
+    switch (ADR-054).
+  - **Thread per question (decision 1):** `ask:<employee>:<as_of %Y%m%dT%H%MZ>:<n>` in `agent_state` (the
+    PostgresSaver, login `ports_agent`), `durability="sync"`; `scheduling.describe_ask` + the same `prune` (30 days,
+    archive first), added to the scheduled firings' prune and to `Ask.py prune`; `docs/rbac_mapping.md` row (one
+    question and its answer, read back only through `Ask.py show` / `list`, which check the identity — who may read
+    it is decision 4).
+  - **Check** = `Supervisor_check.py` Phase 5 (fake models, 0 real calls): the CLI end to end (EN, AR, a partial
+    answer, an all-refused question with no model call), the thread stored and read back by `show` (= the run's
+    state), `list`, `show` refused to another employee, `prune --dry-run` on a thread aged past 30 days (archived +
+    deleted in a temp archive, a fresh one kept), one traced question read back from LangSmith when a key exists
+    (fake models: no LLM call, the trace only); `Finance_qa_check.py` 6 / 6, `Scheduler_check.py` re-run after the
+    prune change.
+  - **Decisions for the owner (asked as choices, recommended first):** (1) a PostgresSaver thread per question with
+    the 30-day retention (an audit of every answer, `show`, ready for follow-ups in the API phase) **vs** no thread, as
+    `Finance_qa.py` (nothing stored, the trace only); (2) the CLI — a new `Ask.py`, `Finance_qa.py` kept as the Stage 1
+    CLI **vs** `Finance_qa.py` replaced by `Ask.py`; (3) a real-model smoke in S4 — two questions (an English
+    cross-product one and an Egyptian Arabic one, ≈ 10 flash-lite requests) after the owner's review of the skill
+    `supervisor-qa` **vs** no real call before S5; (4) who may read a stored answer (`show`) — the asker and the CEO
+    **vs** also the asker's department manager.
+  - **Owner answers (2026-10-29):** (1) a thread per question with the 30-day retention, **tracing kept** (with a
+    note: the finance Q&A CLI goes the same way); (2) **`Ask.py` replaces `Finance_qa.py` completely** (asked once more
+    to be sure: "Ask.py مكانها بالكامل") → `pipelines/scripts/agents/Finance_qa.py` is removed, `Ask.py` is the only
+    Q&A CLI and every question — finance, operations or both — goes to the supervisor with a thread and a trace;
+    `Finance_qa_check.py` Phase 6 (the CLI on fake models) moves to `Ask.py`; the Stage 1 agent
+    `graphs/finance_qa.py` stays (`Stage1_eval.py` and the Stage 1 baseline use it; its checks Phases 1–5 unchanged);
+    the docs naming the CLI (`CLAUDE.md`, `ARCHITECTURE.md`, `docs/ROADMAP.md`, `pipelines/README.md`,
+    `docs/rbac_mapping.md`, the Stage 1 walk-through) point to `Ask.py`; (3) the two-question real smoke after the
+    owner's review of `supervisor-qa`; (4) `show` / `list`: the asker and the CEO. **S4 plan APPROVED 2026-10-29** by
+    the owner as written with these answers.
+- 2026-10-29 — **Phase 12 S4 code DONE (fake models); the real smoke waits for the owner's review of `supervisor-qa`.**
+  New `pipelines/scripts/agents/Ask.py` (`ask` / `show` / `list` / `prune`; a thread `ask:<employee>:<as_of>:<n>` +
+  a LangSmith trace `entry:ask` per question; `show` / `list` for the asker and the CEO); `supervisor.ask` stores the
+  thread (`metadata`, `durability="sync"` with a checkpointer), `new_thread_id`, `THREAD_PREFIX`; a refused-in-every-
+  part question is stored as an ended thread (`update_state` as the agent's last node + `jump_to: end`);
+  `scheduling._describe_questions` (route advice + ask) + `describe_ask` + `fire(..., ask_graph=)`;
+  `Weekly_pack.py` prunes the ask threads in its scheduled firing and `prune`; **`Finance_qa.py` removed** (owner),
+  `Finance_qa_check.py` now 5 phases (its CLI phase moved); the docs that named it point to `Ask.py`
+  (ARCHITECTURE, CLAUDE, ROADMAP, pipelines/README, the Stage 1 walk-through, the check narrative);
+  `docs/rbac_mapping.md` row for the `ask:` threads. `Supervisor_check.py` Phase 5 ✅ (4 threads, the all-refused one
+  with 0 model calls, show / list access, retention, the LangSmith read-back).
+  - **D-P12-6 (finding, fixed):** `durability="sync"` fails without a checkpointer in langgraph 1.2.14 → passed only
+    when the graph keeps checkpoints.
+- 2026-10-29 — **Owner review of the skill `supervisor-qa`** (point by point): (1) the clash with `finance-qa` step 3
+  (a refused tool → `not_permitted`) — **the owner chose to change `finance-qa` itself** (not the recommended line in
+  `supervisor-qa`): step 3 gained the supervisor's exception (the brief lists a part as not permitted → answer the
+  rest, name it, status `partial`; `not_permitted` only when nothing asked is permitted), `reviewed_by_owner:
+  2026-10-29`; (2) an Egyptian Arabic example added to `supervisor-qa` (1,176 tokens); (3) `supervisor-qa`
+  `reviewed_by_owner: 2026-10-29`. Each change is a check: `Supervisor_check.py` Phase 2s (both skills within budget,
+  every name and example slot real, the rules stated, the Arabic example, `finance-qa`'s exception, both reviewed);
+  `Tools_check.py`'s skill phase knows the supervisor's statuses and the skill names. Re-run: Supervisor_check ✅
+  (the largest request 6,969 → 7,050 est tokens: the loaded skill grew), Tools_check ✅, Finance_qa_check 5 / 5 ✅.
+  - **D-P12-7 (owed, for the owner):** `finance-qa` is a Stage 1 skill loaded whole into the Stage 1 Q&A agent's
+    system prompt, so by ADR-052 its change is a Stage 1 change: before the next Stage 1 evaluation or baseline, the
+    Q&A part is compared against `stage1_eval_2026-10-23_confirm.json` (two runs per side; amendment 2's fixed-deck
+    mode / `--runs 3` are still not coded). The new lines only apply when the brief lists a refused part, which the
+    Stage 1 brief never does.
+- 2026-10-29 — **Phase 12 S4 real smoke (owner: "شغّلها"; 2 questions, 7 fresh flash-lite calls, traced in
+  LangSmith, both threads kept as real records):**
+  - **c02 (English, finance + watch, Finance employee 24)** → thread `ask:24:20260913T0000Z:1`, `answered`, 3 model
+    calls, 0 problems: INV-0000005 → Containerships Voyager 420 with a weather alert (= the frozen answer); the
+    invoice amount as a slot (622.8 k SDR). Two notes for S5: it did not say the alert is **high** (the golden item's
+    third element → 2 / 3); it wrote "waves 6.84 m ≥ 4.0 m" as text, allowed because the alert's `reason` string holds
+    those digits (the Stage 1 rule D-P7-15 for digits inside tool text values) — the value is right, but unbound.
+  - **o05_ar (Egyptian Arabic, ETA, Operations employee 12)** → thread `ask:12:20260913T0000Z:1`, `answered`, 4 model
+    calls (it resolved the name through `fleet_customers` first), 0 problems: arrival 2026-09-15 (= the frozen
+    answer), in Egyptian Arabic.
+  - **D-P12-8 (finding, cosmetic — fixed 2026-10-29 with the owner's yes):** "61.3 h ساعة" — the slot writes its
+    unit (`h`) and the model added the Arabic word after it; `slots.normalize_text` dropped a unit word after a slot
+    only in English (D-P8-19). Now `slots.UNIT_OF_KIND` holds the Egyptian Arabic unit words too (ساعة / ساعات, يوم /
+    أيام, ميل / ميل بحري / أميال, عقدة, طن / أطنان, متر / أمتار, ٪; longest first) and the match groups them; 5 cases in
+    `Supervisor_check.py` Phase 2 (Arabic and English units dropped, another word kept). The number is never touched.
+- 2026-10-29 — **Phase 12 S5 plan — `Stage2_eval.py`, the S2 Q&A evaluation (PROPOSED, for the owner; no code yet).**
+  Facts read for it: `Stage1_eval.py`'s Q&A scorer (`element_met`, `score_qa`) matches a value by the call's tool +
+  args and the bound row's label cut at the first "/" — right for categories, wrong here: a watch row is labelled
+  `234/weather`, and a golden customers row is named by `customer_id` while the slot names it by `customer_name`; the
+  golden watch items carry `args.thread`, which the model never sends (S2 decision 2); Stage 1 evaluates with an
+  `InMemorySaver` (P7-3) and a cache salt per repeat (ADR-052); one Stage 2 run ≈ 57 questions × ≈ 3.5 calls + the
+  route advice's writer calls ≈ 210 flash-lite requests (500 a day).
+  - **`pipelines/scripts/agents/Stage2_eval.py`** (the `Stage1_eval.py` pattern; Phases 1–3 cost 0 calls):
+    1. **Frozen inputs:** the golden set sha256 `722f3ca3b7bf86f7…`, the pinned watch run's sha256, `route_cases.json`;
+       the askers.
+    2. **The scorers on hand-made states**, each must catch its failure: a value element matched by tool + args (a
+       watch element by the run the tool resolved, not `args.thread`) + **the row by its key field in the evidence
+       row** (`customer_id`, `invoice_number`, `route`, `alert_id`); name / direction / date forms (EN + AR); a
+       partial twin — the result's refused tools ⊇ `refused_any.tools`, a refused word in the text, the operations
+       elements, **leak** = a must-not pattern or name in the text or any bound value of a refused tool; an
+       abstention with a number = a failure; relevance (week, metric word, subject).
+    3. **Fake models end to end** (the `Supervisor_check.py` scripted model on the 33 runnable items): every score
+       1.0, 0 leaks — the harness itself proven before a real call.
+    4. **Real models** (`EVAL_REAL_MODELS=1`): all 57 items, `EVAL_REPEATS` runs (repeat k = its own cache folder),
+       an `InMemorySaver` for the questions and the route advice inside (no thread left in `agent_state`), a partial
+       results file resumed after a quota stop, `EVAL_TRACE=1` for LangSmith; the results file
+       `Data/processed/agents/eval/stage2_eval_<date>.json` = the Stage 2 baseline; the verdict below.
+  - **Reported, never deciding:** model calls / tokens / cached per item, latency, patches, routes, values typed from
+    a tool's text (the S4 smoke's "6.84 m"), the Groq fallback's use and any 413 (D-P12-5).
+  - **Decisions for the owner (asked as choices, recommended first):** (1) **the done-when (§5 row 12), fixed now,
+    before any run:** hard gates — RBAC leakage 0, every Operations twin `partial` (or `not_permitted` where allowed)
+    with its refused part named, abstention 100 %, numbers 100 % (no problem left by the code check on an answered
+    item), traceability 100 %; primary — completeness EN ≥ 0.85 and AR ≥ EN − 0.10 **vs** EN ≥ 0.90; (2) the runs — two
+    (ADR-052), one per provider day (≈ 210 requests each) **vs** one; (3) values typed from a tool's text — reported
+    only **vs** counted as a numbers failure; (4) a failed gate — stop and report to the owner (a change is then a
+    candidate under ADR-052) **vs** one candidate fix tried at once.
+  - **Owner answers (2026-10-29):** (1) as recommended — **the done-when is fixed now:** hard gates RBAC leakage 0,
+    every Operations twin `partial` (or its allowed `not_permitted`) with the refused part named, abstention 100 %,
+    numbers 100 %, traceability 100 %; primary completeness EN ≥ 0.85 and AR ≥ EN − 0.10; (2) **"خلص كله ف يوم
+    واحد"** — the two runs of ADR-052 on the same provider day (≈ 420 flash-lite requests + the smoke's 7, of 500; a
+    run the quota stops resumes from its cache the next day, as `Stage1_eval.py`); (3) as recommended — values typed
+    from a tool's text are reported only; (4) as recommended — a failed gate stops the evaluation and is reported to the
+    owner. **S5 plan APPROVED 2026-10-29** by the owner as written with these answers.
+- 2026-10-29 — **Phase 12 S5: `Stage2_eval.py` built (Phases 1–3 ✅, 0 calls) and the first real evaluation run —
+  the done-when NOT met; stopped for the owner.** Phases: frozen inputs (golden v2 `722f3ca3…`, the pinned watch run),
+  the scorers on hand-made states (a row matched by the tool's own key field; the watch run by what the tool
+  resolved), the harness on fake models (33 items at 1.0, 0 leaks). Real run 1 (complete): **RBAC leakage 0, twins
+  10 / 10, abstention 3 / 3, numbers 1.0, traceability 1.0 — every hard gate passed**; completeness **EN 0.70 (< 0.85)**,
+  AR 0.90; run 2 stopped at item 28 (Gemini 503 + the Groq fallback "too large"; 0 leaks). No results file (complete
+  runs only); the narrative and the item-by-item reading: `pipelines/checkpoints/agents/Stage2_eval.md`.
+  - **Causes (run 1):** (a) `voyage_status`'s nested `last_fix` cited as slots → 6 `validation_failed`; (b) weak
+    cross-product joins — **c07 named the wrong customer with a bound figure** (Belenta Bulk for Thalomar Shipping),
+    c01 2 / 6 vessels, c09 the company total for the customer's; (c) route fields (o11 the difference as the dues, o12
+    the totals); (d) c02 "high" unsaid, c03 coordinates typed.
+  - **D-P12-5 measured:** the largest real call 17,727 tokens (2.5× the S3 estimate) — the Groq fallback cannot serve
+    the large questions.
+  - **D-P12-9 (deviation, fixed):** the code stopped only on a hard gate, so repeat 2 started after the completeness
+    gate failed; the owner's rule is any gate → fixed in `Stage2_eval.py`.
+  - **Owner answers (2026-10-29):** (1) **the candidate = all four fixes** — C-a flatten `voyage_status`'s `last_fix`
+    into row fields (slot-addressable), C-b `supervisor-qa` lines (dues from the `suez` row, savings from the
+    `difference` row, a customer's name and overdue from its own `finance_kpi` row by `customer_id`, an alert's
+    severity said), C-c compact tool results for the model (fewer fields per watch alert / customer row: the 17.7K
+    request, D-P12-5), C-d a code join tool (customers ↔ vessels ↔ alerts in code, for c01 / c07 / c09) — the C-d
+    tool needs its own design, approved before code; (2) **run 2 finished tomorrow first** (the baseline's two runs)
+    → `EVAL_FULL=1` added (every repeat runs even after a failed gate; harness only, the agent untouched).
+  - **Order (so the baseline stays one setup):** no change to the agent, its skills or its tools until run 2 is
+    complete (a changed prompt would miss run 2's cache and mix two setups in one run) → resume
+    `$env:EVAL_REAL_MODELS='1'; $env:EVAL_FULL='1'; uv run python tools/run.py pipelines/scripts/agents/Stage2_eval.py`
+    after the Gemini reset (run 1 from the reply cache, run 2 from `llm_cache/s2eval_r2/` + ≈ 100 fresh calls) →
+    `stage2_eval_<date>.json` = the Stage 2 baseline → the C-a…C-d plan (C-d designed) → the owner's approval → code →
+    the candidate's two runs (`EVAL_TAG=c1`) → ADR-052 against the baseline.
+- 2026-10-29 — **Candidate c1 plan — C-a…C-d (PROPOSED, for the owner; no code until the baseline's run 2 is
+  complete).** Facts read for it: `voyage_status`'s nested `last_fix` is read by `eta.py` (rule R), the voyage watch
+  graph and `Stage2_tools_check.py` (which also asserts the LangChain wrapper returns exactly the plain function's
+  result) — flattening inside the tool breaks three consumers; the 17.7K request (c01) was mostly
+  `fleet_customers(customer_ids=[top 5])` (≈ 150 vessel rows) + the watch result + the customers list + the skill;
+  `supervisor-qa` is at 1,176 / 1,200 tokens (C-b lines in it need a trim and a re-review).
+  - **C-a + C-c — a model view at the supervisor boundary** (`SupervisorTurn.wrap_tool_call`, after the tool ran):
+    rows flattened one level (`last_fix.lat` → `last_fix_lat`, …) and per-tool fields the answers never need dropped
+    (watch alerts: `lat`, `lon`, `reason` — the text that let "6.84 m" be typed —, the two `*_source` names; voyage
+    status: the full `route` list; the route advice row: `problems`); the evidence = what the model saw (the slots
+    bind to it); the tools, their contracts (ADR-055 / 057 / 058) and their checks unchanged; the golden contract
+    (`Supervisor_tools_check.py` Phase 4) unchanged.
+  - **C-d — the join in code:** `watch_alerts` gains `customer_id` on every alert row (`vessels.customer_id`, level 1),
+    `customer_ids` / `vessel_ids` filters (c01: the alerts of the top-5 customers' vessels in one call; c02: the
+    alerts of the overdue invoices' vessels) and one summary row per customer with alerts (`alert_id =
+    "customer/<id>"`: `customer_id`, `vessels_with_alerts`, `high`) (c09); plus a **code guard** in
+    `check_supervisor_answer`: a cited `finance_kpi` customers row must be the customer of the vessel the answer
+    cites when the evidence holds that vessel's `customer_id` (c07's wrong customer → a problem → one patch).
+  - **C-b — the hints:** in the product tools' descriptions (`route_advice`: the dues are the `suez` row's
+    `suez_dues_sdr`, the saving the `difference` row's `change_total_sdr`; `watch_alerts`: name each alert's
+    severity, the customer filters) and one line of the code brief (a customer's name and money come from its own
+    `finance_kpi` row, matched by `customer_id`).
+  - **Checks:** `Supervisor_check.py` (the model view on every tool, a planted wrong-customer answer caught, the
+    golden items end to end again), `Supervisor_tools_check.py` (the new `watch_alerts` rows and filters = SQL + the
+    pinned file; the RBAC matrix), the request sizes re-measured; then `EVAL_TAG=c1` two runs and ADR-052 against the
+    baseline.
+  - **Decisions for the owner (asked as choices, recommended first):** (1) C-a + C-c — the model view at the
+    supervisor boundary **vs** changing the tools themselves (three consumers + their checks); (2) C-d — `watch_alerts`
+    extended + the code guard **vs** a new separate tool; (3) C-b — product-tool descriptions + the code brief (no skill
+    change) **vs** lines in `supervisor-qa` (trimmed to budget, the owner reviews it again); (4) the Groq fallback if a
+    request still exceeds it after c1 — flash-lite alone for those questions, recorded as an ADR-045 note **vs** a
+    small bake-off for a bigger-context fallback of the `tools` role.
+  - **Owner answers (2026-10-29), all four as recommended:** (1) the model view at the supervisor boundary; (2)
+    `watch_alerts` extended + the code guard; (3) C-b in the product tools' descriptions + the code brief (no skill
+    change); (4) flash-lite alone for a request the Groq fallback cannot take, as an ADR-045 note. **c1 plan APPROVED
+    2026-10-29** by the owner ("ابدأ c1") as written with these answers, after the baseline was complete.
+- 2026-10-29 — **The Stage 2 baseline is complete: `stage2_eval_2026-10-29.json`** (owner: "كمل" → run 2 resumed the
+  same day, `EVAL_FULL=1`; run 1 replayed from the cache, 0 fresh calls). Both runs: **every hard gate passed**
+  (leakage 0, twins 10 / 10, abstention, numbers, traceability 1.0); completeness EN 0.6985 / 0.826 → **mean 0.7622 <
+  0.85**, AR 0.90 / 0.875 → mean 0.8875 (≥ EN − 0.10); largest call 20,502 tokens; 0 fallbacks. **Done-when NOT MET**
+  (completeness EN). Wrong in both runs: o01 (×3), o03, c01, c06 (×2), c07 — c1's targets. c06's slot
+  `{…:rows[0].amount_sdr}` (a one-row result cited with the result's own path) joins C-a: the model view's
+  normalization rewrites a dotted path to its flattened field (`last_fix.lat` → `last_fix_lat`) and drops a
+  `rows[0].` prefix — both certain fixes of the slot form, never of the number (D-P7-14).
+- 2026-10-29 — **Candidate c1 coded (0 real calls).** `graphs/supervisor.py`: `model_view` (rows flattened one
+  level, `MODEL_DROP` per tool: watch `lat` / `lon` / `reason` / `*_source`, voyage status `route`, route advice
+  `problems`) applied in `SupervisorTurn.wrap_tool_call` after a routed tool ran; `normalize_paths` (`last_fix.lat` →
+  `last_fix_lat`, `rows[0].` dropped) before `slots.normalize_text`; the join guard in `check_supervisor_answer` (a
+  cited customers row must be a customer the operations evidence links to: `fleet_customers` / `watch_alerts` rows
+  or their `customer_ids` filter); one brief line (joins by `customer_id`, name each alert's severity).
+  `tools/watch.py`: `customer_id` on every alert row, `vessel_ids` / `customer_ids` filters, one `customer/<id>` row
+  per customer with alerts (`vessels_with_alerts`, `alerts`, `high_alerts`), the description says so;
+  `tools/products.py`: the route rows' meaning in `route_advice`'s description. Checks: `Supervisor_tools_check.py`
+  Phase 1 (the alert rows = the file + `customer_id` = SQL; the customer rows = an independent count; the filters)
+  ✅; `Supervisor_check.py` c1 cases (the model view, 3 slot paths, the join guard catches the wrong customer and
+  passes the right one) + the 33 golden items end to end again ✅ (largest request est 7,050 → 7,137: longer
+  descriptions + the customer rows); `docs/rbac_mapping.md` `watch_alerts` row. **The candidate's two real runs**
+  need ≈ 350 flash-lite requests and 188 were left on 2026-10-29 → the next provider day, both runs the same day:
+  `$env:EVAL_REAL_MODELS='1'; $env:EVAL_TAG='c1'; $env:EVAL_FULL='1'; $env:EVAL_BASELINE='stage2_eval_2026-10-29.json';
+  uv run python tools/run.py pipelines/scripts/agents/Stage2_eval.py` — `Stage2_eval.py` now applies ADR-052 itself
+  (`adr052()`, proven on the baseline file: equal = tie, worse = reject, better = keep). Re-run after c1:
+  Supervisor_check (9 validation lines), Supervisor_tools_check, Stage2_eval Phases 1–3, Stage2_tools_check,
+  Voyage_watch_check ✅, 0 files changed.
+- 2026-10-29 — **c1 real run 1 started the same day (owner: "ابدأ دلوقتي") and stopped at item 38 / 57** on Gemini's
+  daily quota (429 RESOURCE_EXHAUSTED at 413 flash-lite requests by our counter, not 500 — the provider counts more
+  than `usage.json`); no item mixed models (D-P7-11); resumes from `llm_cache/s2eval_c1_r1/` on the next provider day
+  (Gemini resets at midnight Pacific = 07:00 UTC on 2026-10-30). **Early read of the 38 items (not a result):**
+  completeness 0.943 vs the baseline's 0.764 / 0.888 on the same items, 0 leaks; every item wrong in both baseline
+  runs reached so far is right now — **o01, o03, c01, c06, c07** (c07: the right customer). Still wrong: o11 (a format
+  the slot grammar does not parse: `|money_k_sdr` → "malformed slot"), c03 (a text field `as_of` cited as a slot).
+  Both are slot-form errors of the model; **not fixed inside c1** (a change mid-run would mix two setups) — noted for a
+  later candidate: normalize an unknown format word to the field's default, and copy a non-numeric field as text.
+- 2026-10-30 — **c1's two real runs complete (the scheduled task "NileGate Stage2 Eval c1 (once)", fired 09:30:30
+  local = 07:30 UTC, the first day after Egypt's DST end; finished 09:50): `stage2_eval_2026-10-30_c1.json`,
+  done-when MET.** Run 1 resumed from `llm_cache/s2eval_c1_r1/` (125 cached + 39 fresh calls), run 2 150 fresh + 19
+  cached; 0 fallbacks, 0 failed calls, largest call 17,463 / 16,783 tokens, typed-from-text 0.
+
+  | | run 1 | run 2 | mean | baseline mean |
+  |---|---|---|---|---|
+  | completeness EN | 1.0 | 0.9632 | **0.9816** (≥ 0.85) | 0.7622 |
+  | completeness AR | 0.95 | 0.95 | **0.95** (≥ EN − 0.10) | 0.8875 |
+  | relevance EN / AR | 0.9706 / 1.0 | 0.9412 / 1.0 | | |
+  | leakage · twins · abstention · numbers · traceability | 0 · 1.0 · 1.0 · 1.0 · 1.0 | 0 · 1.0 · 1.0 · 1.0 · 1.0 | every gate passed | |
+
+  **ADR-052 vs `stage2_eval_2026-10-29.json`: "keep (better)"** — no gate regressed, completeness EN +0.2194, AR
+  +0.0625. **c1 is kept = the Stage 2 baseline.** Not fully right: run 1 `o01_ar`; run 2 `o01`, `o01_fe`, `o01_ar`,
+  `c07`. Of the baseline's both-run failures (o01 ×3, o03, c01, c06 ×2, c07) only **o01** stays: the answers give the
+  position and BEANR but drop the voyage status word ("in transit"; the Arabic says only "موجودة حالياً") — a name
+  element, not a number; c07 run 2 gave both route costs but not the saving (`difference.change_total_sdr`).
+  o11 and c03 (the early read's slot-form errors) scored 1.0 in both runs. `c03_ops` / `c04_ops` run 2 answered
+  `not_permitted` (allowed by the golden set's `status_also`: no permitted element in those twins). **Problem:** the
+  task's output (`reports/_log/stage2_eval_c1_task.log`) ends in a `UnicodeEncodeError` in `tools/run.py` printing the
+  ✅ lines to a cp1252 stdout (the scheduler's redirect), so its changed-files report and exit code were lost
+  (task result 1); the script itself finished (its Phase 4 and Final Checkpoint ✅ in
+  `Notebooks/_scratch/run_Stage2_eval.log`). The agent was not changed during the runs.
+- 2026-10-30 — **S6 close started (owner answers, both as recommended):** (1) the close papers today with 0 model
+  calls, D-P12-7 tomorrow on a fresh provider day, the one Stage 2 commit after it; (2) `tools/run.py` fixed —
+  `sys.stdout.reconfigure(encoding="utf-8", errors="replace")` at the start of `main()`; proven with
+  `PYTHONIOENCODING=cp1252` + a redirect (`Supervisor_golden.py`: ✅ lines and the files report printed, exit 0, 0
+  files changed). c1's full log kept as `Notebooks/_scratch/run_Stage2_eval_c1_2026-10-30.log`. (3) **D-P12-7 —
+  the Q&A part alone (owner):** `Stage1_eval.py` gained `EVAL_SCOPE=qa` (packs skipped; gates `traceability_100`,
+  `rbac_leakage_0`, `abstention_recall_100`; primaries `qa_completeness_en` / `_ar`; D7 not judged; `adr052()`
+  compares only what the candidate measured), proven at 0 calls on the confirm baseline (tie / reject / leak
+  regressed / keep better); Phases 1–4 ✅, 0 files changed. The baseline's Q&A part: EN 0.9565, AR 0.95, gates all
+  passed. Windows task **"NileGate Stage1 QA eval D-P12-7 (once)"** — one trigger 2026-10-31 09:30 local (07:30 UTC,
+  after Gemini's 07:00 UTC reset; the US DST ends 2026-11-01), 3 h limit, deleted a day after it expires; runs
+  `EVAL_REAL_MODELS=1 EVAL_SCOPE=qa EVAL_TAG=dp127 EVAL_BASELINE=stage1_eval_2026-10-23_confirm.json` → log
+  `reports/_log/stage1_eval_dp127_task.log`, results `stage1_eval_2026-10-31_dp127.json` (≈ 2 × 90 fresh calls,
+  the confirm runs' Q&A share). (4) **Papers written:** ADR-059 (the supervisor) + ADR-045 amendment 3 (flash-lite
+  alone for the requests the Groq fallback cannot take) in `docs/decisions.md`; ARCHITECTURE (the supervisor row
+  IMPLEMENTED, API / auth / audit_log stay PLANNED; the supervisor interface); ROADMAP (current phase, the agents
+  row); CLAUDE.md (project paragraph); `docs/rbac_mapping.md` already held the four product-tool rows and the `ask:`
+  threads (no change); the checkpoints `Stage2_eval.md` (c1) and `Stage1_eval.md` (the qa scope). **Left for after
+  D-P12-7:** its result here + in ADR-059, then the plan lifecycle (the implementation record at the top, the move to
+  `docs/archive/2026-10-3x_Agents_plan.md`, the archive README row, ROADMAP's next step), `/graphify . --update`, and
+  the git commands for the owner's one Stage 2 commit (no AI attribution).
+- 2026-10-30 — **Stage 1 candidate c4 — the planted findings always reach the deck (PROPOSED, for the owner; no code
+  yet). Owner (2026-10-30): close the `planted_all` point with "a code deck when the text fails", before the Stage 2
+  commit.** Facts read for it: in the final Stage 1 baseline (`stage1_eval_2026-10-23_confirm.json`) the code found
+  every planted error, but planted = 2 / 6 · 3 / 6 because a pack whose Writer fails its 2 rewrites ends
+  `validation_failed` with **no deck** (`stop_failed`), so slide 8's audit table — drawn by code from `audit.week`
+  (`render.py` `tbl:audit`) — is lost with it (run 1 test 10 / 36, run 2 test 23); the 6th (t36-b, LNG −33.33 % vs
+  budget) depends on the Writer saying it (run 2 test 36 published without it). The safety held (no wrong deck).
+  Category budget variance is noisy (small categories at −100 % every week); **a category with a weekly budget ≥ 1 M
+  SDR that billed ≥ 25 % below it** matched exactly once in the 52 live + 4 test weeks — test week 36 LNG (the planted
+  one) — read-only query on `finance` / `finance_test.kpi_weekly_category`, 2026-10-30.
+  - **C4-a — the fallback draft (code):** `after_validator` sends a draft that still fails after `MAX_REWRITES`
+    (not V8) to a new code node `fallback` instead of `stop_failed`: each failing bullet is replaced by code — a
+    failing summary bullet (slide 2) by the fixed code template of its position (billed + WoW, collected, open AR,
+    overdue, DSO: slots on `kpi.weekly`, valid by construction), a failing comment (slides 3–8) dropped (0–3 allowed),
+    a failing context line (slide 9) by a fixed sentence without numbers; the Writer's passing bullets stay. The draft
+    goes through the same Validator + V8 (`draft_origin: "fallback"`); if it still fails → `stop_failed` as today.
+  - **C4-b — the budget-miss line (code, every pack):** slide 5 gets a code-drawn line from `kpi.category` (like
+    `tpl:audit.none`): the categories with budget ≥ 1 M SDR and variance ≤ −25 % ("Below budget: …, billed … vs …
+    (−33.33 %)"), nothing when none; V8 reads it back. The Writer's prompt and skills unchanged.
+  - **C4-c — the approver sees it:** the interrupt payload and `Weekly_pack.py`'s approval report carry `degraded`
+    (which bullets code replaced); approve / edit / reject as for any passing draft; `run.json` records `degraded`.
+  - **C4-d — the scorer:** planted t36-b is also found in slide 5's code line (the PPTX text, like slide 8's table);
+    every other metric unchanged; Phase 2 gains the cases (a degraded deck carries the audit table; the code line
+    names LNG on test 36 only; a fallback that still fails publishes nothing).
+  - **Checks (0 calls):** `Weekly_pack_check.py` (the fallback path on fake models: a Writer failing 3 times → a
+    degraded deck at approval → published; V8 on the code line), `Deck_check.py` (the line rendered / read back, none
+    on a week without a miss), `Stage1_eval.py` Phases 1–4 (fake: planted 6 / 6 also when the fake Writer fails).
+  - **Evaluation (ADR-052 amendment 2):** the publication now depends on the Writer's variance, so a live comparison,
+    three runs per side, packs only (`EVAL_SCOPE=packs`, added next to `qa`): the current code without c4 (tag
+    `base3`) and c4 (tag `c4`), the same provider day, ≈ 6 × 50 = 300 flash-lite calls (one day; after D-P12-7's day).
+    Primary narrative recall (margin 0.03), the pack gates; `planted_all` expected to pass.
+  - **Docs:** ADR-050 / ADR-051 amendments (the fallback and the code line), `docs/finance_metrics.md` (the
+    budget-miss rule), ARCHITECTURE, the checkpoints; the skill `deck-style-guide` only if its slide-5 text names
+    the line (owner review then).
+  - **Decisions for the owner (asked as choices, recommended first):** (1) the fallback: replace the failing bullets
+    only **vs** a code-only deck (every Writer bullet dropped); (2) the budget-miss rule: budget ≥ 1 M SDR and ≤ −25 %
+    **vs** ≤ −33 % **vs** no size floor; (3) the approver may approve a degraded deck **vs** edit / reject only; (4) the
+    evaluation: 3 + 3 packs-only runs on one day **vs** 2 c4 runs against the confirm file (cheaper, but Writer
+    variance can decide it).
+  - **Owner answers (2026-10-30), all four as recommended:** (1) replace the failing bullets only; (2) budget ≥ 1 M
+    SDR and ≤ −25 %; (3) a degraded deck may be approved like any passing draft; (4) 3 + 3 packs-only runs on one
+    provider day. **c4 plan APPROVED 2026-10-30** by the owner ("ابدأ c4") as written with these answers.
+- 2026-10-30 — **c4 coded and checked on fake models (0 model calls).** `graphs/weekly_pack.py`: `fallback_draft()` +
+  node `fallback` (`after_validator`: rewrites spent → `fallback` → `validator`; a failing fallback → `stop_failed`),
+  `degraded` in the state, the interrupt payload and `run.json`, `build_graph(..., use_fallback=True)` (False = the
+  before side); `deck/render.py`: `budget_misses()` + slide 5's `tpl:budget_miss` / `tbl:budget_miss` (the chart
+  4.2 in high when a miss is drawn), `DRAW_BUDGET_MISS`; `deck/sample.py` docstring (now also the fallback's source);
+  `Weekly_pack.py show` prints DEGRADED; `scheduling.approval_report` counts `degraded`. `Stage1_eval.py`:
+  `EVAL_SCOPE=packs`, `EVAL_C4`, the scorer reads slide 5's table (`pptx_table_rows`), Phase 3c (`FakeFailingPack`).
+  **Checks:** Stage1_eval Phases 1–4 + **3c ✅** (with c4 11 / 11, planted 6 / 6, numbers / claims 100 %; before c4
+  0 / 11, 0 / 6; the rule names only test week 36's LNG); Weekly_pack_check **6 / 7 ✅** (Phase 3: `always_wrong` →
+  fallback → approval, `always_wrong_no_fallback` stops as before; Phase 5 = real models); Deck_check **4 / 4 ✅**;
+  Scheduler_check **6 / 6 ✅** (its stopped-pack scenario now on `use_fallback=False`, `degraded` in the report keys);
+  0 files changed by any. Docs: `docs/finance_metrics.md` M9a, ADR-051 amendment 3, ADR-050 amendment 1.
+  **The comparison (scheduled, owner's 3 + 3):** Windows task **"NileGate Stage1 c4 eval (once)"** — 2026-11-01
+  09:30 local (Gemini resets 07:00 UTC that day: the US DST ends at 02:00 PDT), 4 h limit: `EVAL_SCOPE=packs
+  EVAL_REPEATS=3 EVAL_C4=0 EVAL_TAG=base3` → `stage1_eval_2026-11-01_base3.json` (log
+  `reports/_log/stage1_eval_base3_task.log`, the run log copied to `Notebooks/_scratch/run_Stage1_eval_base3.log`),
+  then only if that file exists `EVAL_C4=1 EVAL_TAG=c4 EVAL_BASELINE=stage1_eval_2026-11-01_base3.json` →
+  `stage1_eval_2026-11-01_c4.json` (log `reports/_log/stage1_eval_c4_task.log`). A quota stop resumes from the
+  caches with the same command on the next provider day.
+- 2026-10-30 — **D-P12-10 (deviation, fixed; owner: "أيوه، صلّحه"):** `tracing.labels()` tagged every trace
+  `weekly_pack`, so the `Ask.py` / `Route_advice.py` / `Voyage_watch.py` traces and the Stage 2 evaluation's were
+  found by a LangSmith filter on that tag. Now only a pack's thread id (`weekly_pack:<dataset>:<year>-W<ww>:<attempt>`)
+  gets `weekly_pack` + `graph:weekly_pack` (the other entry points already name `graph:<name>` in `extra_tags`), so
+  `graph:` filters every product the same way; traces sent before today keep the old tags. Tags only: no graph,
+  scorer or checkpoint change, so the scheduled D-P12-7 / c4 evaluations are unaffected. `Scheduler_check.py`
+  Phase 4 expects the new pack tags and that a foreign (`ask:`) thread gets only `entry:` / `launched_by:`;
+  **Scheduler_check 6 / 6 ✅** (Phase 5 read back live from LangSmith), 0 files changed.
+- 2026-10-30 — **D-P12-11 (owner's choice "لينك دلوقتي"): the trace link in the CLIs.** The `agent_state` thread and
+  the LangSmith Threads tab were already joined by `thread_id` (metadata); what was missing was a click. `tracing.trace`
+  also collects the block's root runs (`collect_runs`); `tracing.last_url()` builds the link of the first one
+  (`Client.get_run_url`, deprecated after 2027-01-31 like `list_runs`; the collector's copy names the project
+  `default`, so the run id goes with `read_project(nilegate-agents).id`; ≈ 1 s, two API calls, only when asked; a
+  failure → "link unavailable", never a failed run); `tracing.describe()` = the `LangSmith:` line of `Ask.py`,
+  `Route_advice.py`, `Voyage_watch.py` and `Weekly_pack.py` (run / resume). Scheduled firings print nothing new (no
+  one reads them live; saving the link in `run.json` / the report = the observability plan). `Scheduler_check.py`:
+  Phase 4 asserts one root run collected and the off line; Phase 5 asserts the link opens the firing's root run.
+  **Scheduler_check 6 / 6 ✅**, 0 files changed. **Datasets & Experiments:** owner chose the mirror after Stage 2
+  (ROADMAP, with Sentry); nothing changes in the evaluation harness before the scheduled D-P12-7 / c4 runs.
+- 2026-10-31 — **D-P12-7 run (task "NileGate Stage1 QA eval D-P12-7 (once)", 09:30, 1,038 s, 162 flash-lite calls):
+  ADR-052 REJECT** vs `stage1_eval_2026-10-23_confirm.json` → `stage1_eval_2026-10-31_dp127.json` (kept as scored).
+  Run 1 clean (gates all pass, completeness EN 0.9565, AR 1.0); run 2: gates `rbac_leakage_0` and
+  `abstention_recall_100` regressed by **one item, a01** ("What did NileGate bill in week 12 of 2024?", expected
+  `not_in_data`): answered "NileGate billed 6.11 M SDR in week 12 of 2025 across 24 invoices (data for 2024 is not
+  available)" — a 2025 figure in place of an abstention (the scorer's "refusal with a number" = a leak; not an access
+  leak: the figure was the asker's own level). a01 had been right in all 12 earlier runs (6 results files); one run
+  cannot tell variance from the `finance-qa` change. Primaries mean EN 0.9783 / AR 1.0 (+0.022 / +0.05).
+- 2026-10-31 — **D-P12-12 (owner's choice: a code guard + the run again):** `finance_qa.check_answer` refuses an
+  answer that binds a finance figure (`finance_kpi` / `invoice_audit`) when the question names a year other than
+  `FINANCE_YEAR` 2025 (Western or Arabic digits) → the agent is asked to rewrite as `not_in_data` (else
+  `validation_failed`). The supervisor gets it through `check_supervisor_answer` (`asked=` the user's question, since
+  the appended row ids are not years); other tools keep their own years (a 2024 Suez question stays answerable). The S2
+  golden set names another year only in a03 (Suez 2026, no finance tool) → the Stage 2 baseline is unaffected.
+  Checks: `Stage1_eval.py` Phase 2 (2024 / ٢٠٢٤ refused, 2025 passes) ✅ all phases, `Supervisor_check.py` (the finance
+  2024 answer refused, a Suez 2024 answer passes) ✅ 9 lines, `Finance_qa_check.py` ✅ 5 / 5; 0 files changed.
+  The run again: tag `dp127b`, same command, fresh caches.
+- 2026-10-31 — **D-P12-7 DONE: `stage1_eval_2026-10-31_dp127b.json` = ADR-052 "keep (better)"** vs confirm: no gate
+  regressed in either run (traceability, leakage 0, abstention 1.0), completeness EN 1.0 / AR 1.0 in both runs
+  (+0.0435 / +0.05). a01: run 1 `not_in_data` in 2 calls; **run 2 needed the guard** (3 calls: a 2025 figure refused,
+  rewritten "NileGate's finance data only covers 2025 …") → the failure of `dp127` was real model behaviour, now closed
+  in code. 160 fresh flash-lite calls (328 today). Unchanged from confirm: r03 / r03b / r05 (a level-3 document for a
+  refused asker) end `not_in_data` instead of `not_permitted` — no figure, gates pass. **Next: c4 (2026-11-01 09:30).**
+- 2026-11-01 — **c4 compared live (task "NileGate Stage1 c4 eval (once)", 09:30, exit 0) and KEPT.**
+  `stage1_eval_2026-11-01_base3.json` (the code without c4): published 8 / 11 per run, planted 2 · 3 · 0 / 6,
+  narrative recall 0.7471, false alarms 0 — only `planted_all` failed. `stage1_eval_2026-11-01_c4.json`: published
+  11 · 10 · 11 (the miss `output_invalid`), **planted 6 / 6 in all three runs**, recall 0.9655 (+0.2184), deck numbers /
+  claims / traceability 100 %. As scored: ADR-052 **reject** — `false_alarms_le_5pct` regressed in run 1 (0.25).
+  - **D-C4-1 (scorer false positive, the D-P8-16 family):** the one "false alarm" — live week 15, "The flagged
+    duplicate invoice under Chemical Tankers & Other Liquid Bulk Tankers matched original invoice INV-0000491." — is
+    true (INV-0000925 duplicates INV-0000491: same vessel, date, 73,950.26 SDR, Chemical Tankers; golden l15-a). The
+    D-P8-16 rule exempted an original only when the duplicate's number was in the sentence. Real false alarms 0 in all
+    six runs. **Owner (2026-11-01, choices as recommended): c4 accepted on the hand-check (results files kept as
+    scored, as D-P8-16); the scorer fixed:** `false_alarms()` also exempts an original the sentence calls the original
+    (`ORIGINAL_WORDS`); Phase 2 + `original_named_as_original` (0) / `original_called_duplicate` (1) → `Stage1_eval.py`
+    Phases 1–4 + 3c ✅, 0 files changed. ADR-051 amendment 3 marked kept, ADR-053 result note, checkpoint updated.
+  - **D7 `planted_all` met by c4.** **Next:** the plan lifecycle (implementation record, archive, ROADMAP,
+    `/graphify . --update`) → the one Stage 2 commit (+ c4 + Sentry S1) by the owner.
+- 2026-10-31 — **Sentry started before the Stage 2 commit (owner's choice):** `docs/plans/Observability_Sentry_plan.md`
+  (PROPOSED) sits next to this plan until c4 closes it; its S1 touches only a new `monitoring.py`, the four CLIs,
+  `.env.example` and `pyproject.toml` / `uv.lock` — none of the code c4 runs (`Stage1_eval.py` and its imports).
+
+### SESSION HANDOFF (2026-10-29, Phase 12 S1 DONE) — read this first in the next session
+
+- **Phase 12 S1 done:** §6d gained its step order (S1…S6); the S2 Q&A golden set is frozen (57 items, sha256
+  `070a745bee233a92…`, `Supervisor_golden.py` ✅, 0 calls); findings D-P12-1 (applied) and D-P12-2 (for the owner) in
+  Progress above. **S2 done (2026-10-29):** `registry.PRODUCTS` (`voyage_eta`, `watch_alerts`, `fleet_customers`) +
+  `route_advice` as a tool + `supervisor_tools(roles)`; `Supervisor_tools_check.py` ✅ (golden contract 41 / 41, 6
+  refusals, RBAC 400 / 400, leakage 0, 115 check threads deleted, 0 files changed); `Voyage_watch_check.py`,
+  `Stage2_tools_check.py`, `Tools_check.py` re-run ✅, 0 files changed; the golden set is v2 (`722f3ca3b7bf86f7…`,
+  D-P12-3). **S3 done on fake models (2026-10-29):** `graphs/supervisor.py` + `Supervisor_check.py` ✅ (router recall
+  100 %, 10 / 10 planted answer errors, 33 golden items end to end, RBAC inside the agent); D-P12-5 (request size)
+  for the owner; the skill `supervisor-qa` waits for the owner's review. **S4 plan written** (`Ask.py` with a thread +
+  a trace per question; owner answers: a thread per question, `Ask.py` **replaces** `Finance_qa.py`, a two-question
+  real smoke after the skill review, `show` for the asker and the CEO). **S4 code done (2026-10-29)** — `Ask.py`,
+  the `ask:` threads + retention, `Supervisor_check.py` Phase 5 ✅, `Finance_qa.py` removed. **Skill review done
+  (2026-10-29):** `supervisor-qa` + `finance-qa` reviewed (finance-qa changed by the owner's choice → D-P12-7, a
+  Stage 1 comparison owed). **S4 real smoke done (2026-10-29):** c02 (EN) and o05_ar (AR) both `answered` with the
+  frozen facts, 7 flash-lite calls, traced; notes: the "high" severity unsaid, a value typed from a `reason` string,
+  D-P12-8 (an Arabic unit doubled after a slot — fixed the same day). **S4 closed.** **Next: the S5 plan**
+  (`Stage2_eval.py`: the scorer on the frozen golden set, proven on hand-made failures first, then the real runs;
+  leakage 0 = the hard gate); D-P12-7 (the Stage 1 comparison after the finance-qa change) stays owed. **S5 plan
+  written** with the owner's answers (done-when fixed: hard gates + completeness EN ≥ 0.85, AR ≥ EN − 0.10; two runs
+  on one provider day; typed-from-text values reported only; a failed gate stops and is reported). **S5 first real
+  evaluation (2026-10-29):** run 1 complete — every hard gate passed (leakage 0, twins 10 / 10), **completeness EN
+  0.70 < 0.85 → the done-when not met**, AR 0.90; run 2 stopped at item 28 (Gemini 503 + Groq "too large"); causes
+  and D-P12-9 in Progress. **Baseline complete the same day:** `stage2_eval_2026-10-29.json` — hard gates all
+  passed in both runs, completeness EN mean 0.7622 (< 0.85), AR 0.8875 → done-when NOT MET. **Candidate c1 planned**
+  (C-a + C-c the model view at the supervisor boundary + slot-path normalization, C-b hints in the product tools'
+  descriptions + the brief, C-d `watch_alerts` with `customer_id` / filters / per-customer rows + a wrong-customer code
+  guard; the Groq fallback: flash-lite alone for the big requests). **c1 coded and checked; its run 1 stopped at
+  38 / 57 on the daily quota** (early read 0.943 vs 0.76 / 0.89 on the same items, 0 leaks). **Next (2026-10-30,
+  after 07:00 UTC):** resume, untouched code —
+  `$env:EVAL_REAL_MODELS='1'; $env:EVAL_TAG='c1'; $env:EVAL_FULL='1'; $env:EVAL_BASELINE='stage2_eval_2026-10-29.json'; uv run python tools/run.py pipelines/scripts/agents/Stage2_eval.py`
+  (run 1 from its cache + 19 items, then run 2 ≈ 160 calls) → the ADR-052 verdict → if kept and the done-when met:
+  S6 close (ADR-059, docs, the one Stage 2 commit by the owner). **Scheduled by the assistant (owner: "جدولها",
+  2026-10-29):** Windows Task Scheduler task **"NileGate Stage2 Eval c1 (once)"** — one trigger 2026-10-30 09:30 local
+  wall-clock (no offset, D-P8-18; = 07:30 UTC after Egypt's DST end, half an hour after the Gemini reset), logged-on
+  only, start when available, 3 h limit, deletes itself a day after it expires (end 2026-10-31 09:30); output →
+  `reports/_log/stage2_eval_c1_task.log` (+ the usual `Notebooks/_scratch/run_Stage2_eval.log`, the results file
+  `stage2_eval_2026-10-30_c1.json` if both runs complete). **Result (2026-10-30): both runs complete, done-when MET**
+  (completeness EN 0.9816, AR 0.95, every hard gate passed), **ADR-052 "keep (better)" → c1 = the Stage 2 baseline**;
+  details in Progress. **S6 started 2026-10-30** (ADR-059, ADR-045 am. 3, ARCHITECTURE / ROADMAP / CLAUDE.md written;
+  `tools/run.py` cp1252 fix; `Stage1_eval.py` `EVAL_SCOPE=qa`; D-P12-10 the LangSmith pack tag + D-P12-11 the trace link in the CLIs, Scheduler_check 6 / 6; LangSmith
+Datasets as a mirror → ROADMAP after Stage 2). **2026-10-31: D-P12-7 done** — the scheduled run rejected (a01 answered
+2024 with a 2025 figure in run 2) → D-P12-12 the year guard in code (owner) → `dp127b` = keep (better), every gate in
+both runs; details in Progress. The next step below is now c4 only. **Next (2026-10-31, after 09:30 local):** read
+  task "NileGate Stage1 QA eval D-P12-7 (once)" (`Get-ScheduledTaskInfo`, `reports/_log/stage1_eval_dp127_task.log`,
+  `stage1_eval_2026-10-31_dp127.json`, the printed `ADR-052 vs …`) → record it (Progress, ADR-059, Stage1_eval.md) →
+  if kept: wait for c4. **Then (2026-11-01, after 09:30 local):** read task "NileGate Stage1 c4 eval (once)" (base3 +
+  c4, 3 packs-only runs each, the printed `ADR-052 vs stage1_eval_2026-11-01_base3.json`) → record it (Progress,
+  ADR-051 am. 3, Stage1_eval.md) → if c4 kept and D-P12-7 kept: **the owner's walk-throughs (owner 2026-10-31):**
+  update `docs/CHECKPOINT_agents_stage1.md` (what changed for Stage 1 after 2026-10-23: `Ask.py` replacing
+  `Finance_qa.py`, the `finance-qa` exception + D-P12-7, the year guard D-P12-12, c4 + its result as the new final
+  Stage 1 result, D7, the LangSmith tags / links D-P12-10 / D-P12-11) and write `docs/CHECKPOINT_agents_stage2.md` in
+  the same form (Egyptian Arabic; Phases 9–12 + the closure: goals, choices, problems, files, final results, lessons,
+  next; listed in `CLAUDE.md` "Where things are") → the plan's implementation record + archive + the owner's one
+  commit (Stage 2 + c4); a reject → report to the owner. Was owed (now scheduled): D-P12-7 (the Stage 1 Q&A comparison after
+  the `finance-qa` change). ADR-052 amendment 2: three runs = `EVAL_REPEATS=3` (used by c4, live, both sides the same
+  day); the fixed-deck mode stays uncoded (c4 changes which decks are published, so it cannot be measured on fixed
+  decks). Nothing committed (Stage 2 + c4 commit once).
+
+### SESSION HANDOFF (2026-10-29, open points closed + knowledge graph)
+
+- **Owner review (2026-10-29), everything as recommended:** P11-1…P11-10, D-P11-1, D-P11-2 approved; skill
+  `voyage-watch-brief` `reviewed_by_owner: 2026-10-29` (`Voyage_watch_check.py` re-run ✅, files changed 0);
+  **§6d APPROVED** — P12-1 one `create_agent` behind a code router, P12-2 `route_advice` as a tool, P12-3 a partial
+  answer naming the refused part, P12-4 ≈ 30 golden questions + RBAC twins frozen first, P12-5 English + Egyptian
+  Arabic. **D-P8-20 decided** → ADR-052 amendment 2 (non-Writer changes on a fixed deck set, Writer changes three
+  runs per side, margin 0.03; the fixed-deck mode and `--runs 3` in `Stage1_eval.py` are **not coded yet** — write
+  them before the next Stage 1 comparison).
+- **Consistency pass:** the task-registration and D-P11-2 statements synced in CLAUDE.md, ARCHITECTURE, ROADMAP,
+  ADR-058; `docs/RETRIEVAL_FLOW.md` and `docs/DATA_MAP.md` carry a 2026-10-29 status note (the tools built vs the
+  planned `query_records` / `query_operations`, still not built; Phase 12 decides when a golden question needs them).
+- **Knowledge graph (graphify; local output, ignored by version control):** `graphify-out/graph.json` 3,148 nodes /
+  8,196 edges / 148 communities; every doc node linked to code, SQL and ADRs (1,037 checked link edges stored in the
+  docs' semantic cache); scope in `.graphifyignore` (no Data / powerbi / Notebooks / models / docs/archive / db audit
+  outputs); hooks rebuild the code part after each commit; CLAUDE.md § Knowledge graph says how to use it. After doc
+  edits `/graphify . --update` re-extracts the changed docs and drops their link edges, so re-link those (a doc that
+  was only reworded can keep its cache entry instead).
+- **Insights for later (no action now):** eleven older scripts keep their own `load_env` / `find_root` /
+  `load_env_file` instead of `pipelines/lib/common.py` (Documents_registry, Golden_set, Provider_smoke_test,
+  AIS_EDI_profiling, AIS_generator, EDI_generator, MongoDB_loader, ExtractPortsConnection, SyntheticGenerator,
+  db/export_vessels_mirror) — a refactor only together with their re-verification; the JS extractor reads `ADR-027`
+  in the mongo script comments as isolated `ADR-0027` nodes (a graph artifact).
+- **Next session: Phase 12** in the §6d order (the golden set frozen before any run first).
+
+### SESSION HANDOFF (2026-10-29, first scheduled firing + D-P11-2)
+
+- **Owner (2026-10-29):** `WATCH_RUN_AS=2` added to `.env`, `register_voyage_watch.ps1` run → task "NileGate Voyage Watch" Ready, triggers 10:30 + 22:30 local (no offset). **First firing by `Start-ScheduledTask`** (06:56): exit 0, `voyage_watch:20260906T0000Z:1` (380 at sea, 8 alerts / 1 high, brief ok, traced, toast shown) — but **848 of 1,448 weather points failed** (Open-Meteo's per-minute limit, counted per location) and PortWatch did not answer → **D-P11-2** (pacing + one retry + the reason recorded, §6c). That run stays as it is (an honest record; re-running it would spend ≈ 2,900 of the day's 10,000 Open-Meteo calls). `Voyage_watch_check.py` ✅ (Phase 3 tests the retry and the pacing), `Stage2_tools_check.py` ✅ after the `weather.SENT` counter. Next firing 10:30 → 2026-09-06T12:00Z (≈ 8 min paced).
+- **Reader note:** `Voyage_watch.py alerts` shows the run with the latest *clock*, so the smoke run at 2026-09-13 stays "latest" until the replay reaches it; `--thread voyage_watch:20260906T0000Z:1` reads a replay run.
+
+### SESSION HANDOFF (2026-10-28, Phase 11 CLOSED — autonomous session)
+
+- **Phase 11 closed (S4–S6), owner to review:** the decisions P11-1…P11-10 (§6c table), D-P11-1, the skill
+  `voyage-watch-brief` (`reviewed_by_owner: no`). `Voyage_watch_check.py` **Phases 1–7 + 4s ✅, pending none**, files
+  changed 0 once cached: S4 Phase 5 — the graph on FakeRoles + PostgresSaver (9 paths; validation_failed /
+  output_invalid keep every alert; a crash in the brief → the run file already holds the alerts, the resume repeats 0
+  tool calls); S5 Phase 6 — **the real model once**: 297 watched, 12 live weather alerts (3 high), PortWatch +2.7 %,
+  the brief passed the Validator on its first reply (flash-lite, 1 call, cached); Phase 7 — RBAC 100 employees, a
+  probe user refused with 0 reads, the replay planner, four firings on the whole fleet (start, start, crash,
+  resume), retention 3 / 3. Fixes found: the run file ≠ the final state (defaults) → render writes the validated
+  result; the alert reader knew one prefix; the fake brief > 400 characters → the skill names at most three vessels.
+  A first live run met failing Open-Meteo batches (213 / 810 points unknown — never cached, said), the next complete.
+- **New files:** `tools/eta.py`, `graphs/voyage_watch.py`, `skills/voyage-watch-brief/`, `scripts/agents/Voyage_watch.py`,
+  `Voyage_watch_check.py`, `ops/scheduler/register_voyage_watch.ps1`, `checkpoints/agents/Voyage_watch_check.md`,
+  `eval/eta_cases.json` + `eta_eval.json`. **Changed (additive):** `deck/slots.py`, `graphs/models.py`,
+  `graphs/route_advice.py` (`traffic()` extracted), `scheduling.py`, `.env.example` (`WATCH_RUN_AS`), the docs
+  (ADR-058, ARCHITECTURE, ROADMAP, CLAUDE.md, rbac §4a, pipelines/README, §5 row 11 ✔).
+- **For the owner (not done by design):** add `WATCH_RUN_AS=2` (or 3) to `.env`, then
+  `powershell -NoProfile -ExecutionPolicy Bypass -File ops\scheduler\register_voyage_watch.ps1` (10:30 + 22:30).
+  Nothing committed (one commit when Stage 2 closes).
+- **§6d written as PROPOSED** (Phase 12 supervisor; P12-1…P12-5 for the owner) — no Phase 12 code.
+- **Regression (2026-10-28), files changed 0 in all:** `Voyage_watch_check.py` ✅ (cached), `Stage2_tools_check.py`
+  ✅, `Route_advice_check.py` ✅ (after `traffic()`), `Tools_check.py` ✅, `Scheduler_check.py` 6 / 6, `Deck_check.py`
+  4 / 4, `Finance_qa_check.py` 6 / 6. **CLI smoke:** `Voyage_watch.py run --as 2` → thread
+  `voyage_watch:20260913T0000Z:1` (a real run: kept until the 30-day retention; it counts for the replay's last
+  instant), ok, 12 alerts / 3 high, brief ok, 1 model call (cached), traced in LangSmith, file
+  `reports/voyage_watch/voyage_watch_20260913T0000Z_1.json`; `alerts --as 13 --high` → 234 / 339 / 420 weather;
+  `list` → next replay instant 2026-09-06T00:00Z. `Notebooks/_scratch/run_*.log` are this session's logs (the owner
+  removes them with the older leftovers).
+
+### SESSION HANDOFF (2026-10-28, Phase 11 S2 + S3 DONE — autonomous session)
+
+- **S2 done:** Phase 2 ✅ — 810 next-leg points of the 219 at sea against the generator's timeline: ≤ 1.75 nm at
+  h = 0 (Phase 9's figure), ≤ 7.1 nm at +72 h (the 6 h mean SOG's noise), points kept / dropped as the truth 810 / 810;
+  Suez ahead = searoute's passages on all 498 routes, 40 of the 219 still have the canal ahead. **Fix found:** the
+  next-leg points started at the last fix, not at the clock (up to 10 min of sailing) → dead-reckoned from the clock.
+  The check's own truth first used the file's `service_kn` (rounded to 2 decimals → 6 nm over 1,900 h): now the
+  timeline's implied speed, as Phase 9.
+- **S3 done:** `deck/slots.py` additively (`watch.` ids, `watch_alerts` keyed `vessel_id/kind`, `watch_fleet`,
+  `voyage_eta`; kinds `_m` metres, `_h` hours + their units); `graphs/models.py` (`WatchRequest`, `WatchItem`,
+  `WatchBrief`, `VoyageWatchResult`); `graphs/voyage_watch.py` (the 8 nodes, alert rules, Validator, run file, thread
+  naming); `route_advice.traffic()` extracted from `context()` (same calls; Route_advice_check = regression); skill
+  `voyage-watch-brief` (227 chars, 1,023 tokens, **reviewed_by_owner: no — owner review pending**). Phase 3 ✅:
+  planted storms (32 discs, 6 kinds) → weather precision = recall = 1.0 (27 / 27, severities agree), Suez −30 % /
+  −45 % → 40 / 40, −10 % and PortWatch down → 0, near-threshold and null discs → no alert, reproducible; sensitivity
+  (reported): 10 nm discs 22 / 22, 5 nm discs recall 0.95 (smaller than the dead-reckoning error). Phase 4 ✅: 49 / 49
+  planted brief errors caught, 0 false alarms on 3 clean briefs, the normaliser touches none. Phase 4s ✅.
+  **D-P11-1:** a Suez drop alerts every vessel with the canal ahead (54 high alerts at −45 %) → `WatchItem.alert_ids`
+  up to 60 (one Suez item for all), the skill says so.
+- **Docker note:** Docker Desktop was not running on 2026-10-28 (the machine had restarted) → started by Claude
+  (`Docker Desktop.exe`), the three containers came up by themselves.
+- **Next: S4** — Phase 5: the graph on FakeRoles + PostgresSaver (alerts → 1 call, none → 0 calls, patch,
+  output_invalid, validation_failed, PortWatch / Open-Meteo down, crash in `brief` + resume, run file = state).
+
+### SESSION HANDOFF (2026-10-28, Phase 11 S1 DONE — autonomous session)
+
+- **S1 done:** `pipelines/agents/tools/eta.py` (rules R / R0 / N / S, `harbour_kn()` = 6.7 from the NOAA profile,
+  `next_leg_points`, `suez_ahead`, the tool `voyage_eta` — not yet in a registry, Phase 12 binds it);
+  `Data/processed/agents/eval/eta_cases.json` **frozen** before the first prediction (126 cuts of 50 voyages: 75 on
+  the 25 arrived + 51 on the 25 at sea); `Voyage_watch_check.py` Phase 1 ✅ and its results **frozen** in
+  `eta_eval.json` after the first clean run (no tuning after it). **ETA result (126 predictions): MAE R 0.885 h,
+  N 117.826 h, S 1.636 h, R0 1.274 h** → S2-D5 met (R < N); the ML margin (MAE(R) > 2 h and > 5 % of the mean
+  remaining 366.6 h) not reached → no ML. Worst R −10.8 h (vessel 77, cut 25 %, 2,033 h left: the 6 h mean SOG's
+  noise over 85 days). Honest reading (F7): R reproduces the generator; S is near exact too because the speed is
+  constant; N's error is the straight line vs the real route. Buckets: < 24 h n = 1, 1–5 d n = 21, > 5 d n = 104.
+- **Next: S2** — next-leg points + Suez ahead, Phase 2 against the generator's timeline.
+
+### SESSION HANDOFF (2026-10-27, Phase 11 design written — autonomous session)
+
+- **Owner asleep; autonomous grant (memory `autonomous-when-owner-away`).** §6c written and marked "APPROVED by the
+  autonomous grant, owner to review" (decisions P11-1…P11-10, facts F7–F12; ETA rules R / N / S / R0, the cases
+  rule, the ML margin, the alert rules and precision targets all fixed **before** any measurement). Nothing
+  committed (one commit when Stage 2 closes). **Next: S1** — `tools/eta.py` + the frozen `eta_cases.json` +
+  `Voyage_watch_check.py` Phase 1.
+
+### SESSION HANDOFF (2026-10-27, Phase 10 CLOSED)
+
+- **Phase 10 closed (S6):** ADR-057 in `docs/decisions.md`; ARCHITECTURE (overview diagram, the component row,
+  §7 interface, ADR table), `docs/rbac_mapping.md` §4a (the graph + its threads), `pipelines/README.md` (the CLI and the
+  check), `pipelines/checkpoints/agents/Route_advice_check.md` (phases, 7 problems and fixes, notes), §5 row 10 ✔,
+  ROADMAP, CLAUDE.md. Deviations: D-P10-1 (Tools_check Phase 8 = stage-1 skills only), D-P10-2 (the retention test in
+  Route_advice_check). Nothing committed (one commit when Stage 2 closes).
+- **Next: Phase 11 — the `voyage_watch` graph** (C Voyage & Disruption Watch: ETA baseline, delay risk from the weather
+  on the next legs and Suez traffic, alerts saved, scheduled every N hours — S2-D1): write its concrete design as
+  PROPOSED (§6c), the owner's approval before code. Mind §6a F2 (no port stops in the synthetic voyages: a
+  rule-based ETA is nearly exact) when fixing the baseline rule.
+
+### SESSION HANDOFF (2026-10-27, Phase 10 S5 DONE)
+
+- Regression + smoke (2026-10-27): `Scheduler_check.py` 6 / 6, files changed 0; `Route_advice.py ask --vessel 36
+  --from SGSIN --to NLRTM --as 13` → thread `route_advice:13:2026-09-13:SGSIN-NLRTM:1`, ok, Suez (2.23 M vs 2.46 M
+  SDR), 1 model call (cached), 3 comparison rows, 6 assumptions, 10 sources, traced in LangSmith; `list --as 13` shows
+  it (ended, ok). That thread is a real question: it stays until the 30-day retention.
+
+- **S5 done:** CLI `pipelines/scripts/agents/Route_advice.py` (`ask --vessel | --type --condition --scnt --from --to
+  [--speed] --as [--as-of]`, `show <thread>`, `list --as`; LangSmith tag `graph:route_advice`); retention:
+  `scheduling.describe_route_advice()` (route threads as ThreadInfo → the same `prune`), `fire(..., route_graph=)` and
+  `Weekly_pack.py scheduled` / `prune` pass the route graph (`route_graph()`, no model). **D-P10-2:** the retention test
+  lives in `Route_advice_check.py` Phase 6, not in `Scheduler_check.py` (its frozen snapshots untouched; it runs as
+  the regression). **Fix found by Phase 6:** `describe_route_advice` read the employee after the listed prefix (a
+  narrower prefix made the thread number the employee) → always after `route_advice:`.
+- `Route_advice_check.py` **all phases ✅, pending none** (7 + 3s): Phase 5 real model (flash-lite, the writer role's
+  main): 8 / 8 advices pass the Validator — every number slot-bound, the rule kept (case 8 → the Cape, the cheaper);
+  first run 11 calls, 3 patches; the third run 9 / 9 cached, files changed 0 (the context had changed between runs:
+  PortWatch answered again, so the prompts differed). 0 overrules (no risk in the context). Phase 6: 100 employees
+  may ask, a probe user → not_permitted before any model call, no user / clock / dataset in a schema, retention 31
+  days later: 2 ended threads archived + deleted, the stalled one kept.
+- **Observation for the owner:** case 7's headline says "traffic remains stable despite regional tensions" — a
+  qualitative claim with no number (the Validator checks numbers and the rule, not the wording of context claims).
+- **Next: S6 close** — ADR-057, ARCHITECTURE, ROADMAP, CLAUDE.md, `pipelines/README.md`, checkpoint narrative
+  `Route_advice_check.md`, rbac §4a (the graph), the plan's row 10 ✔.
+
+### SESSION HANDOFF (2026-10-27, Phase 10 S4 DONE)
+
+- **S4 done:** `graphs/route_advice.py` — the advisor (one `writer` structured call with skills route-cost-advice +
+  untrusted-content over `advisor_digest`: the question, the computed rows, the context; news marked untrusted; the
+  Stage 1 slot-form fixes via `normalize_advice`), `validate()` (every cited id exists; slots resolve; no typed number
+  — dates only; a slot's evidence cited by its reason; the rule: the dearer route only when the **first** reason
+  cites `route.news` with results or `route.traffic` ≤ −20 %), `assumptions()` (written by code), `sources()`,
+  `shape_headline()`, the StateGraph (inputs → routes → costs → context → advisor ⇄ validator (1 patch) → render;
+  `failed` for not_permitted / no_data / output_invalid / validation_failed; shape statuses skip the model),
+  `new_thread_id()` (`route_advice:<employee>:<as_of date>:<o>-<d>:<n>`). `Route_advice_check.py` Phases 3 + 4 ✅:
+  64 / 64 planted errors caught, 0 false alarms on the 8 two-route cases, the news / −25 % overrides pass, −10 %
+  refused; the graph on FakeRoles + the real PostgresSaver: 8 ok (8 model calls, case 8 → the Cape), 4 shape answers
+  (0 calls), patch (2 calls), validation_failed, output_invalid, PortWatch down → ok + "context unavailable", crash
+  in the advisor resumed with 0 tool calls repeated; check threads deleted (0 `route_advice:` threads left).
+- **Not yet (S5):** the CLI `Route_advice.py` (ask / show / list) + LangSmith context, the retention of
+  `route_advice:` threads (`scheduling.py` + `Scheduler_check.py`), the real model on the 12 cases (Phase 5), the
+  RBAC / contract phase (6).
+
+### SESSION HANDOFF (2026-10-27, Phase 10 S3 DONE)
+
+- **Owner (2026-10-27, AskUserQuestion):** the skill `route-cost-advice` approved as it is (`reviewed_by_owner:
+  2026-10-27`), the −20 % traffic-drop threshold confirmed (recommended). `Tools_check.py` after D-P10-1: 8 / 8 ✅,
+  pending none, files changed 0. Next: S4 (advisor + validator + render on
+  FakeRoles; checkpointer + thread naming; the Validator enforces the rule).
+
+### SESSION HANDOFF (2026-10-27, Phase 10 S3 waiting for the owner's skill review)
+
+- **S3 drafted:** `pipelines/agents/skills/route-cost-advice/SKILL.md` (stage 2, 226 chars, 1,153 tokens,
+  `reviewed_by_owner: no`): the evidence fields, the decision rule (cheaper route; overrule only with a cited risk —
+  a `route.news` item on attacks / closure / serious disruption, or `change_transits_pct` ≤ −20 %; no risk evidence =
+  the cheaper route; days never priced), RouteAdvice's shape, numbers as slots (route formats), literal numbers =
+  dates only, three examples. `Route_advice_check.py` Phase 3s ✅ (budgets, 42 named fields all real, 8 example slots
+  render on case 2, the rule sentences present). **D-P10-1:** `Tools_check.py` Phase 8 now checks the stage-1 skills
+  only (the new skill is stage 2, checked by Route_advice_check); regression run in progress. **New parameter for the
+  owner's review:** the −20 % traffic-drop threshold.
+- **Next:** the owner reviews the skill → `reviewed_by_owner: <date>` → S4 (advisor + validator + render on
+  FakeRoles; the Validator enforces the rule).
+
+### SESSION HANDOFF (2026-10-27, Phase 10 S2 DONE)
+
+- **S2 done:** `graphs/models.py` + `RouteRequest`, `RouteReason`, `RouteAdvice`, `RouteAdviceResult`
+  (`ROUTE_EVIDENCE_ID = route.<name>`); `graphs/route_advice.py` nodes 1–4 as functions (`inputs`, `route_pair`,
+  `toll`, `costs`, `context`, `deterministic`): costs from the tools' shown (rounded) numbers so the table adds up by
+  hand; `route.compare` rows suez / cape / direct, `route.difference` (Cape − Suez, `change_*`, `cheaper_route`),
+  `route.traffic` (PortWatch 28 days vs a year earlier, `change_transits_pct`). `Data/processed/agents/eval/
+  route_cases.json` **frozen** (12 cases by rule: lowest-id vessel of category k in band 1 / 3; vessels 21, 36, 43, 15,
+  37, 17, 66, 6, 9, 2, 39, 149). `Route_advice_check.py` Phase 1 ✅: 20 route rows = an independent computation (toll
+  from the bands' CSV, fuel from the performance CSV + the voyage file, distances from searoute directly), cases 9–10
+  `no_suez_on_route`, 11–12 `suez_only`, unknown vessel / port → no_data, a hypothetical vessel's toll by hand.
+  Case 8 (LPG band 3, ballast, 12 kn): **the Cape is cheaper** (917,344.60 vs 1,019,460.23 SDR: dues > extra fuel) —
+  the rule's other branch is in the set.
+- **External (pending, not our code):** on 2026-10-27 PortWatch's ArcGIS service answered 400 "Invalid URL" and
+  timeouts intermittently (the same query succeeded once minutes earlier) → `suez_transits` = context_unavailable, as
+  designed; the check marks "Phase 1 live Suez traffic" pending. News (Tavily) ok, cached.
+- **Next: S3** — the skill `route-cost-advice` (owner review), then S4 advisor + validator + render on FakeRoles.
+
+### SESSION HANDOFF (2026-10-27, Phase 10 S1 in progress)
+
+- **§6b approved by the owner (2026-10-27, as written).** S1 code done: `pipelines/agents/deck/slots.py` extended
+  additively — `NUMERIC_TOOLS` + the Stage 2 tools and `route_costs`, `ROW_KEYS_BY_TOOL` for them (`route_costs`
+  keyed by `route`), the `route.` evidence id, kinds by suffix `_nm` distance (`nm` / `nm0`), `_kn` speed (`kn`),
+  `_t_per_day` rate (`tpd`), `_t` tonnes (`t` / `t0`), their units for the form fix. Difference fields carry
+  `change` in their names (`change_sea_days`, …) so their sign is always written. New
+  `pipelines/scripts/agents/Route_advice_check.py` Phase 2 ✅ (14 route slots render + read back, 7 bad slots refused,
+  Stage 1 kinds unchanged, units next to a slot dropped). Note for S4: Stage 1's `number_matches` takes a plain
+  number only when exact, so the route Validator must accept the kinds' 0 / 1-decimal roundings itself.
+- **S1 closed — regression after the slots change (2026-10-27):** `Deck_check.py` 4 / 4, `Finance_qa_check.py`
+  6 / 6, `Weekly_pack_check.py` 6 / 7 (the 7th = Phase 5 real models, skipped by design without
+  `PACK_REAL_MODELS=1`, as before), `Tools_check.py` 8 / 8; files changed 0 in all four. **Next: S2** — models +
+  the deterministic nodes 1–4 + the 12 route cases frozen (shown to the owner).
+
+### SESSION HANDOFF (2026-10-27, Phase 10 design PROPOSED)
+
+- **§6b written** (Phase 10 `route_advice`): 7 nodes (inputs, routes, costs, context = code; advisor = one `writer`
+  call with number slots; validator = code, one patch; render = code incl. the assumptions list), statuses
+  (`no_suez_on_route`, `suez_only`, …), the slots extension (`route.` ids, nm / kn / t / sea days), 12 frozen route
+  cases computed independently, `Route_advice_check.py` 6 phases, order S1…S6. Owner answers P10-1…P10-4 recorded
+  (P10-3 = PostgresSaver thread per question + trace → retention extended to `route_advice:` threads). **Waiting
+  for the owner's approval of §6b as a whole; no code.** The owner already removed this phase's `_scratch` files.
+
+### SESSION HANDOFF (2026-10-27, Phase 9 CLOSED)
+
+- **Phase 9 closed (S9):** ADR-055 (Stage 2 tools, the clock in the run context, migration 020, the answer key never
+  returned) and ADR-056 (no live AIS, D11 narrowed) in `docs/decisions.md`; ARCHITECTURE (components, §4 two tables,
+  §7 interfaces + MongoDB reader, ADR table), `docs/rbac_mapping.md` (§2 two tables, §3 the voyage file + reader,
+  §4a four tools), `db/README.md` (snapshot line, audit), `db/mongo/README.md` (005), `pipelines/README.md`,
+  `pipelines/checkpoints/agents/Stage2_tools_check.md` (phases, 7 problems and fixes, notes for Phases 10–11), §5
+  row 9 ✔, §6's example question corrected (F1a), ROADMAP, CLAUDE.md. `_scratch` cleanup **pending**: deleting
+  `Notebooks/_scratch/imo_ghg4/` (the 28 MB IMO PDF) and `run_Stage2_tools_check.log` was refused by the session's
+  permissions → the owner removes them (Stage 1 leftovers are his too). Final run: Phases 0–5 ✅, files changed 0.
+- **Deviations D-P9-1…D-P9-11** are listed in the S1–S6 handoffs below (Phase 0, run.ps1, `Source.kind library`,
+  ref speed = IMO SOG, main + aux, raw IMO columns, §24, no condition argument, `sea_leg`, spherical projection, COG).
+- **Nothing committed** (owner: one commit when Stage 2 closes).
+- **Next: Phase 10 — the `route_advice` graph** (B Route & Cost Advisor): write its concrete design as PROPOSED
+  (inputs, the comparison model, the Validator rule "no number without a tool", the ~12 route cases of §8 from
+  Phase 1's frozen cases), the owner's approval before code. Open Stage 1 decision D-P8-20 still not part of it.
+
+### SESSION HANDOFF (2026-10-27, Phase 9 S8 DONE)
+
+- **S8 closed:** `Stage2_tools_check.py` Phase 5 ✅ — RBAC matrix 100 employees × the 4 Stage 2 tools = the ADR-006
+  expectation from each tool's resources (all level 1: 400 / 400 granted); a probe user below every ceiling is
+  refused by all 4 with no row and no source (leakage 0); no user / employee / dataset / as_of / runtime field in any
+  model-facing schema; 4 / 4 wrappers refuse a call without a RunContext. Whole check: Phases 0–5 ✅, pending none,
+  64 s, files changed 0 (the live weather now read from its settled cache). `Tools_check.py` regression 8 / 8 ✅
+  (+ 3b), pending none, files changed 0 (135 s) — Stage 1's matrix (Finance tools refused to Operations) unchanged.
+- **Next: S9 close** — ADR-055 (Stage 2 tools: contract, the clock in the run context, the facts F1–F6, D-P9-1…11)
+  and ADR-056 (no live AIS in Stage 2, D11 narrowed, P9-2); ARCHITECTURE (components, interfaces, schema §4 two tables,
+  MongoDB reader), ROADMAP, `rbac_mapping.md` (§2 two tables, §3 the voyage file, §4a Stage 2 tools), §6 example
+  question (F1a), `pipelines/checkpoints/agents/Stage2_tools_check.md`, `pipelines/README.md`, `db/mongo/README.md`
+  (005), the README snapshot line, `_scratch` cleanup (IMO PDF, logs) — then the plan's Phase 9 row ✔.
+
+### SESSION HANDOFF (2026-10-27, Phase 9 S7 DONE)
+
+- **S7 closed:** `pipelines/agents/tools/weather.py` (`marine_weather(points ≤ 30 of {lat, lon, date})`, dates within
+  92 days; waves = Open-Meteo Marine up to today + 7; wind in kn = Historical Forecast API before today, Forecast API
+  from today up to + 15; one request per API for all points, each point keeps its own date; coordinates rounded to
+  2 decimals; through `external.cached_call`; any failed request → `context_unavailable`, no partial numbers; land /
+  beyond the horizon → null + note "unknown, not calm"; the coastal caveat + CC BY 4.0 credit in every note),
+  `STAGE2["marine_weather"]`. `Stage2_tools_check.py` Phase 4 ✅ first run: offline (MockTransport, fixed today
+  2026-10-27): own date per point, past → historical-forecast + marine hosts, future → forecast, cached (0 requests on
+  repeat), timeout / 500 / not JSON / wrong shape → context_unavailable with nothing cached, 4 bad argument sets
+  refused, wrapper = function; **live** 3 probe points on 2026-09-13 = the §6a F5 probe (waves 0.84 / 0.52 / 4.14 m,
+  wind 12.2 / 15.9 / 32.7 kn), cached for good in `Data/processed/agents/tool_cache/marine_weather.jsonl`
+  (git-ignored; created by this run). Pending none.
+- **Next: S8** — RBAC matrix (100 employees × the 4 Stage 2 tools, Phase 5) + `Tools_check.py` regression; then
+  S9 close (ADR-055 / ADR-056, ARCHITECTURE, ROADMAP, `rbac_mapping.md`, §6 example question, checkpoint narrative,
+  `_scratch` cleanup incl. the IMO PDF, README snapshot line).
+
+### SESSION HANDOFF (2026-10-27, Phase 9 S6 DONE)
+
+- **S6 closed:** `pipelines/agents/tools/voyages.py` (`voyage_status(vessel_id)`, clock from the run context; MMSI from
+  PostgreSQL, synthetic fixes `ts <= as_of` from MongoDB as `nilegate_reader`; the route rebuilt leg by leg with
+  `routes.sea_leg` = the generator's rule; covered distance = the last under-way fix projected on the route **on the
+  sphere**, the projection chosen by the fix's COG vs the route's course (± 60°), then the closest to the odometer;
+  status from the track: navstat 0 In Transit, 1 Anchored, 5 + no move Not departed, 5 + last fix > 3 h old
+  Completed, else At Port; next port / ports left; `arrival_ts` only once arrived and ≤ `as_of`; never `eta_raw`),
+  `STAGE2["voyage_status"]`. `Stage2_tools_check.py` Phase 3 ✅ (49 s run): route = `route_nm` (≤ 0.1 nm) and last
+  fix = the generator's for all 500, status = `vessels.status` 500 / 500 (219 / 130 / 78 / 73), distance left vs the
+  generator's own timeline ≤ 1.79 nm for the 219 at sea, anchored ≈ 5 nm, the cut half-way to the as-of for all
+  219 (no later fix, no arrival, ≤ 2 nm), before departure = Not departed, no fix → no_data, a clock past the data
+  refused, no answer-key field or future time in any result; snapshot frozen.
+- **Fixes found by the check (deviations):** D-P9-9 `routes.sea_leg` added — two ports snapped to the same network node
+  give a zero-length searoute path, which `sea_path` (rightly, for `sea_route`) calls "no route", but the generator
+  still routes through that node (48 routes were off by up to 78.7 nm); D-P9-10 projection on the sphere instead of a
+  local plane (long MARNET steps); D-P9-11 port visits that retrace the same water are told apart by COG (the
+  odometer alone ran a few nm short and picked the wrong pass, vessel 100: 9.5 nm).
+- **Next: S7 `marine_weather`** (`tools/weather.py`, Open-Meteo Marine + Historical Forecast / Forecast, ≤ 30 points,
+  `external.cached_call`; Phase 4 offline MockTransport + one live call).
+
+### SESSION HANDOFF (2026-10-27, Phase 9 S5 DONE)
+
+- **S5 closed:** `pipelines/agents/tools/vessels.py` (`vessel_params`: `vessel_id` or `vessel_type` + `scnt_tons`,
+  optional `speed_kn`; speed = argument > the vessel's `service_kn` > the band's IMO reference speed; fuel / sea day
+  = main × (v / v_ref)³ + aux; SDR price = latest VLSFO ÷ USD per SDR, both dates returned; exact Decimal, rounded
+  once), `pipelines/agents/tools/voyages.py` (the voyage file loader, extended in S6), resource
+  `context.VESSEL_PARAMS`, `STAGE2["vessel_params"]`. **D-P9-8:** no `condition` argument (§6a listed one) — the IMO
+  figures are yearly averages over laden and ballast. `Stage2_tools_check.py` Phase 2 ✅: tables = the CSVs (39 + 1),
+  500 vessels each in its band at its own service speed (39 bands used), the cube law and 691.24 SDR / t by hand,
+  band edges (lower inclusive, upper exclusive), 6 bad argument sets refused, wrapper = function; snapshot frozen
+  (vessel 1: SFU band 1, 8.97 kn, 10.21 t / day, 7,060.40 SDR / day). Files changed 0.
+- **Next: S6 `voyage_status`** (MongoDB fixes ≤ `as_of`, the rebuilt route, next port, distance left; no
+  `eta_raw`, no `arrival_ts` before arrival; Phase 3 of the check).
+
+### SESSION HANDOFF (2026-10-27, Phase 9 S4 DONE)
+
+- **Migration 020 applied** by Claude (owner confirmed the price row and said apply): dry run rolled back (39 + 1
+  rows) → BEGIN / 2 CREATE TABLE / INSERT 0 39 / INSERT 0 1 / 25 COMMENT / COMMIT → `ANALYZE` → snapshot refreshed
+  → `db/audit/2026-10-27_after_020_report.txt`, 0 errors, §24 = expected `39 | 13 | 0 | 0 | 0 | 0 | 1 | 691.24 | t | f`;
+  the rest = the 019 report except the two new tables (`ports_readonly` reads 16 / 16, writes 0). `db/README.md`
+  updated (status row, §24, reference files). Note for the snapshot's header line in README: still says 2026-09-27.
+- **Next: S5 `vessel_params`** (`tools/vessels.py`, resource `VESSEL_PARAMS` level 1 / Operations,
+  `STAGE2["vessel_params"]`, Phase 2 of the check: tables = CSVs, cube law, SDR price).
+
+### SESSION HANDOFF (2026-10-27, Phase 9 S4 SQL shown, waiting to apply)
+
+- **S4 drafted:** `db/migrations/020_vessel_performance.sql` (135 lines, rendered by a scratch script from
+  `db/reference/vessel_performance.csv` + `db/reference/bunker_prices.csv`): tables `vessel_performance` (PK type +
+  band, 6 CHECKs incl. the 13-value list, open band 3 only) and `bunker_prices` (PK fuel + date, VLSFO only,
+  positive), INSERTs, a COMMENT on every table / column; SELECT via `ports_readonly`'s default privileges.
+  **Proposed price row (owner to confirm):** VLSFO 936.50 USD / t, Ship & Bunker G20 average, 2026-10-26; USD per
+  SDR 1.354820, IMF SDR valuation, 2026-10-26 → 691.24 SDR / t. `db/verify_readonly.sql` **§24** (D-P9-7: §20 was
+  taken by migration 016) — expected `39 | 13 | 0 | 0 | 0 | 0 | 1 | 691.24 | t | f`; pre-checked from the CSV: 500
+  vessels each in one band, derived values = PostgreSQL's half-up rounding.
+- **Next:** the owner confirms (or changes) the price row and says apply → dry run (rolled back), apply, ANALYZE,
+  snapshot, `verify_readonly.sql` → audit file; then S5 `vessel_params`.
+
+### SESSION HANDOFF (2026-10-27, Phase 9 S3 DONE)
+
+- **Owner (2026-10-27, AskUserQuestion):** D-P9-4 `ref_speed_kn` = IMO's average SOG (recommended), D-P9-5 main + aux
+  split (recommended), the 39 rows approved as they are. The full table was printed in the reply right after the
+  approval; any row change before S4 just re-runs the scratch builder. **Next: S4** — migration 020 SQL shown to the
+  owner (tables `vessel_performance` with the CSV's columns + `bunker_prices`), the bunker price row set by him.
+
+### SESSION HANDOFF (2026-10-27, Phase 9 S3 waiting for the owner's review)
+
+- S2 snapshot: `single_legs` frozen at 9. **S3 drafted:** `db/reference/vessel_performance.csv` (39 rows = 13 types ×
+  3 SCNT bands) from the **Fourth IMO GHG Study 2020, Table 35** (2018 detailed results, printed pp. 99–101; PDF
+  downloaded with the owner's OK to `Notebooks/_scratch/imo_ghg4/`, 28,686,552 bytes, SHA-256 `0dadcab7…44411b`,
+  git-ignored, removed at Phase 9 close). Built by a scratch script (values transcribed from the PDF text). Rules:
+  bands = tertiles of our vessels' SCNT per type (rounded to 1,000; band 1 from 0, band 3 open); each band → one IMO
+  bin by rank (small / medium / large of the trading fleet; our SCNT cannot be converted to dwt / TEU / cbm);
+  `main_t_per_day` = main kt × 1,000 / days at sea, `aux_t_per_day` = aux kt × 1,000 / 365, `ref_speed_kn` = IMO's
+  average SOG at sea; the raw IMO numbers kept beside the derived ones.
+- **Deviations proposed (owner to confirm with the review):** D-P9-4 `ref_speed_kn` = IMO's average SOG (the speed the
+  consumption was measured at), not the generator's range midpoint of §6a — the tool applies the cube law to the
+  vessel's own `service_kn`; D-P9-5 fuel split into `main_t_per_day` (cube law) + `aux_t_per_day` (constant) instead
+  of one `fuel_t_per_day`; D-P9-6 extra raw columns (IMO type, bin, unit, days at sea, main / aux kt).
+- **Next:** the owner's row-by-row review → then S4 (migration 020 SQL shown + the bunker price row).
+
+### SESSION HANDOFF (2026-10-27, Phase 9 S2 DONE)
+
+- **No commit until Stage 2 closes** (owner, 2026-10-27): keep this handoff current; one commit at the Stage 2 close.
+- **S2 closed:** `pipelines/agents/tools/routes.py` (`sea_route`: `origin`, `destination`, `avoid` ⊂ 8 passages,
+  `speed_kn`; northwest always closed; length = the generator's rule — port points at both ends + great-circle sum;
+  no path / unknown LOCODE → `no_data`; with speed: `sea_days` + `day_points`; shared helpers `ports`, `gc_nm`,
+  `sea_path`, `line`, `point_at` for `voyage_status`), `registry.STAGE2["sea_route"]`, `schemas.Source.kind` +
+  `"library"` (D-P9-3: searoute is neither a view, a table nor an API). `Stage2_tools_check.py` Phase 1 ✅: 12 route
+  cases frozen (Singapore ↔ Rotterdam 8,388.5 / 11,876.7 nm both ways, +1.2 % / +1.0 % vs the published 8,288 /
+  11,755; Jeddah 4,036.3 / 11,005.1; Port Said ↔ Rotterdam 3,315.8 with and without Suez; Bab el-Mandeb closed → the
+  Cape; Sokhna with Suez closed → `no_data`), 9 single-leg voyages = `route_nm` (|diff| 0.000), 4 bad argument sets
+  refused, wrapper = plain function, schema has no user field. Files changed 0.
+- **Next: S3** — the parameter CSV `db/reference/vessel_performance.csv` (13 types × 3 SCNT bands, fuel t / day at the
+  reference speed from the Fourth IMO GHG Study 2020 annex, reference speed = the generator's range midpoint), every
+  row with its source; the owner reviews every row before S4 (migration 020).
+- Note: the auto-mode safety check failed intermittently on large edits this session; edits went in small pieces.
+
+### SESSION HANDOFF (2026-10-27, Phase 9 S1 DONE)
+
+- **S1 closed:** the owner added `MONGO_RO_USER` / `MONGO_RO_PASSWORD` to `.env`; Claude ran
+  `db/mongo/run.ps1 005_create_reader_user.js` (owner's OK) → user `nilegate_reader`, role `read` on
+  `ports_logistics`. `Stage2_tools_check.py` Phase 0 ✅ with the reader (authenticates as itself, role read only,
+  reads `ais_positions`, 3 / 3 writes refused with Unauthorized), pending none, files changed 0. `Tools_check.py`
+  8 / 8 ✅ (+3b). Fix during the run: pymongo refuses attribute access to a `_`-prefixed collection → `mdb["…"]`.
+- **Next: S2 `sea_route`** (`tools/routes.py`, `STAGE2["sea_route"]`, Phase 1 of the check: §6a's route cases).
+  The owner commits S1 + the plan / ROADMAP edits of 2026-10-27 first (git is his).
+
+### SESSION HANDOFF (2026-10-27, Phase 9 S1 in progress)
+
+- The owner created the Stage 2 branch from `master` (2026-10-27). **S1 code done:** `tools/context.py`
+  (`RunContext.as_of`, default `DATA_AS_OF` = 2026-09-13T00:00Z, must be timezone-aware and ≤ the data;
+  `as_of_of(runtime)`; resources `PORTS`, `AIS_TRACKS`), `tools/registry.py` (`STAGE2` empty, filled per step),
+  `tools/mongo.py` (read-only client on `MONGO_RO_USER`), `db/mongo/005_create_reader_user.js` (role `read`),
+  `db/mongo/run.ps1` (passes `RO_USER` / `RO_PWD`), `.env.example`, `common.SECRET_KEYS` (`MONGO_RO_PASSWORD`),
+  `pipelines/scripts/agents/Stage2_tools_check.py` Phase 0 (clock + registry ✅; MongoDB reader pending).
+- **Deviations:** D-P9-1 `Stage2_tools_check.py` starts with a Phase 0 (foundation, S1) that §6a did not list — the
+  reader's refused write lives there instead of Phase 5; D-P9-2 `db/mongo/run.ps1` changed (not in §6a's file list) to
+  pass the reader's credentials without values on the command line.
+- **Open in S1:** the owner adds `MONGO_RO_USER` / `MONGO_RO_PASSWORD` to `.env`, then (his OK) Claude runs
+  `run.ps1 005_create_reader_user.js` and re-runs the check (Phase 0 must pass with the reader). `Tools_check.py`
+  regression after the `RunContext` change: 8 / 8 ✅ + 3b, pending none, files changed 0 (2026-10-27, 126 s).
+
+### SESSION HANDOFF (2026-10-27, Phase 9 design APPROVED)
+
+- **§6a approved by the owner on 2026-10-27, as written** ("موافق على تصميم §6a زي ما هو"). Next: the owner creates the
+  Stage 2 branch from `master` and says so; then **S1** (`RunContext.as_of`, `registry.STAGE2`, the read-only Mongo
+  user — its script shown and the owner's OK before it runs). The uncommitted plan / ROADMAP edits of 2026-10-27
+  go with the first Stage 2 commit.
+
+### SESSION HANDOFF (2026-10-27, Phase 9 design PROPOSED)
+
+- **Phase 9's concrete design is written** in §6a "Concrete design (PROPOSED 2026-10-27)": verified facts F1–F6
+  (read-only probes: `searoute` restrictions work — Singapore ↔ Rotterdam 8,383 / 11,871 nm, +1 % vs published;
+  **Port Said ↔ Rotterdam never uses the canal** (F1a), so §6's example question changes; the route geometry rebuilds
+  to `route_nm` for 498 / 498; `arrival_ts` and `ais_vessels.eta_raw` = the ETA answer key; Open-Meteo past dates +
+  wind in kn verified), tools `sea_route`, `vessel_params`, `voyage_status`, `marine_weather`, `RunContext.as_of`,
+  migration 020 (`vessel_performance`, `bunker_prices`), a read-only Mongo user, `Stage2_tools_check.py` 6 phases,
+  order S1…S9.
+- **Waiting for the owner:** decisions P9-5…P9-8 answered 2026-10-27 (all recommended); his approval of §6a as a
+  whole is still open. No code yet.
+  The owner creates the Stage 2 branch from `master` before S1 (git is his).
+- Nothing changed outside this plan and ROADMAP; the probe scripts live in the session scratchpad only.
+
+### SESSION HANDOFF (2026-10-27, STAGE 1 CHECKPOINT DONE → Stage 2 starts)
+
+- **Stage 1 is closed:** PR #1 (`feat/agents` → `master`) merged by the owner on 2026-10-27 (merge `5e49ad6`). Final
+  baseline `stage1_eval_2026-10-23_confirm.json` (D7 not met on planted findings only, accepted by C-2); a second run
+  of the same code `stage1_eval_2026-10-27_mytest.json` (false alarms 0). After the merge, uncommitted: this handoff,
+  §5 row S1 ✔, ROADMAP — the owner commits them with the first Stage 2 change.
+- **Live system:** the weekly pack fires every Monday 10:30 local (trigger in local time since D-P8-18); W08 (test,
+  rejected), W10–W12 published; Monday 2026-11-02 makes W13 and waits for the owner's approval.
+- **D-P8-20 — DECIDED 2026-10-29 by the owner (ADR-052 amendment 2):** run-to-run variance of narrative recall
+  (0.07) exceeds ADR-052's 0.03 margin → non-Writer changes are compared on a fixed deck set (the baseline's
+  published decks, re-scored), Writer changes on three runs per side; margin 0.03. The fixed-deck mode and `--runs 3`
+  in `Stage1_eval.py` are written before the next comparison.
+- **Next: Stage 2, Phase 9 (Stage 2 tools)** — decisions answered 2026-10-23 (§6a answers: P9-1 CSV + migration, P9-2
+  **no live AIS** (`vessel_live` out, D11 narrowed), P9-3 a dated VLSFO price → SDR, P9-4 `searoute` restrictions else
+  two corridors; §7: S2-D1 scheduled `voyage_watch`, S2-D2 rule-based ETA first, S2-D3 = P9-1 + P9-3, S2-D4
+  dropped, S2-D5 as proposed). First step: write the concrete Phase 9 design (§6a) as PROPOSED — tools `sea_route`,
+  `voyage_status`, `marine_weather`, the vessel parameter table (migration), `Stage2_tools_check.py` — verify the
+  facts it depends on first (`searoute` 1.6.0 restriction support, the MongoDB AIS / voyages fields, Open-Meteo
+  Marine fields), then the owner's approval before any code. Branch: the owner creates it from `master` (git is the
+  owner's).
+- `Notebooks/_scratch/` holds Stage 1 leftovers (F7 script, logs, decks, `pr_stage1.md`): the owner may empty it.
+
+### SESSION HANDOFF (2026-10-23, §5f DONE)
 
 - **§5f F1–F9 done.** F7: fallback `nvidia/nemotron-3.5-super-vl:free` (ADR-045 am. 2, D-P8-15). F8: final Stage 1
   baseline `stage1_eval_2026-10-23_confirm.json`, **D7 not met on `planted_all` only** (stopped packs → no deck);

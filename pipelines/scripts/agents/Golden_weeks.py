@@ -1,6 +1,6 @@
 """Golden weeks of the Stage 1 evaluation (Agents plan Phase 7, §5d step S1): chosen by stated rules before any run.
 
-Plan:    docs/plans/Agents_plan.md §5d (approved 2026-10-19); the acceptance rule that uses them = ADR-052.
+Plan:    docs/archive/2026-11-01_Agents_plan.md §5d (approved 2026-10-19); the acceptance rule that uses them = ADR-052.
 Run:     uv run python tools/run.py pipelines/scripts/agents/Golden_weeks.py  (from the project root)
 
 Reads:   PostgreSQL read-only (PG_RO_USER): finance.kpi_weekly, finance.invoice_audit, the answer key's test weeks

@@ -22,6 +22,7 @@ import sys
 import time
 import unicodedata
 from dataclasses import asdict, dataclass, field
+from typing import Any, cast
 
 import pandas as pd
 
@@ -75,7 +76,8 @@ class ValidationReport:
         if not self.accepted:
             head = f"'{self.filename}' was not accepted ({len(self.reasons)} problem(s)):"
             return "\n".join([head] + [f"- [{r.code}] {r.where}: {r.message}" for r in self.reasons])
-        lines = [f"'{self.filename}' accepted: {self.document['title']} ({self.document['document_code']}), "
+        doc = cast(dict, self.document)                         # accepted => the document is set
+        lines = [f"'{self.filename}' accepted: {doc['title']} ({doc['document_code']}), "
                  f"{len(self.chunks)} chunks, usable in this conversation only."]
         lines += [f"- removed {r.where}: {r.message}" for r in self.removed]
         return "\n".join(lines)
@@ -338,7 +340,7 @@ def to_frame(rows: list[dict]) -> pd.DataFrame:
     """Upload chunks as a DataFrame with the corpus dtypes, so `chunks.check` and a concat with the corpus hold."""
     df = pd.DataFrame(rows, columns=chunks.COLUMNS)
     for c in ("page", "char_count", "sensitivity_level"):
-        df[c] = pd.array(df[c], dtype="Int64")
+        df[c] = pd.array(cast(Any, df[c]), dtype="Int64")
     for c in chunks.COLUMNS:
         if c not in ("page", "char_count", "sensitivity_level", "sub_chunk"):
             df[c] = df[c].astype("string")

@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "9a5e07b911093a45927b",
   "position": {
     "x": 980,
     "y": 340,
-    "z": 4,
+    "z": 4000,
     "height": 310,
     "width": 920,
-    "tabOrder": 4
+    "tabOrder": 4000
   },
   "visual": {
     "visualType": "lineChart",
@@ -96,37 +96,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "465437f270c230719b72",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Weekly KPIs"
-              }
-            },
-            "Property": "Trend DSO Days"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "6c4a028c26a6196ec39a",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Weekly Trend"
-              }
-            },
-            "Property": "trend_week_label"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
   }
 }

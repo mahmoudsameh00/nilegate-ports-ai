@@ -802,7 +802,6 @@ print(fbl_text)
 #
 # The parser also validates that all top-level clauses from 1 to 19 are detected in the expected order.
 
-import re
 
 def parse_fbl_logical_units(fbl_text):
 
@@ -1897,7 +1896,7 @@ extracted_path.write_text(
 
 cleaned_path = cleaned_dir / "FBL_template_logical_units.json"
 
-with open(cleaned_path, "w", encoding="utf-8") as f:
+with open(cleaned_path, "w", encoding="utf-8", newline="\n") as f:
     json.dump(
         fbl_units,
         f,

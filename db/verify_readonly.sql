@@ -347,4 +347,31 @@ SELECT (SELECT count(*) FROM finance.invoice_audit) AS live_findings,
                    EXCEPT SELECT band_order, rate_sdr_per_ton FROM toll_rate_bands
                      WHERE vessel_category = 'Crude Oil Tankers' AND laden_ballast = 'Ballast') AS chemical_eq_crude;
 
+\echo '### 24. VESSEL PERFORMANCE + BUNKER PRICE (migration 020, Agents plan §6a S4)'
+-- expected: 39 | 13 | 0 | 0 | 0 | 0 | 1 | 691.24 | t | f
+-- rows | categories | categories without 3 bands | gaps between bands (band k max <> band k+1 min, or band 1 min <> 0)
+-- | vessels in no band or in two | derived per-day values <> the IMO figures | price rows | SDR per tonne of the latest
+-- price | ports_readonly can read both tables | finance_bi can read vessel_performance
+SELECT (SELECT count(*) FROM vessel_performance) AS performance_rows,
+       (SELECT count(DISTINCT vessel_type) FROM vessel_performance) AS categories,
+       (SELECT count(*) FROM (SELECT vessel_type FROM vessel_performance GROUP BY vessel_type
+                              HAVING array_agg(size_band ORDER BY size_band) <> '{1,2,3}') x) AS incomplete_categories,
+       (SELECT count(*) FROM vessel_performance a
+          LEFT JOIN vessel_performance b ON b.vessel_type = a.vessel_type AND b.size_band = a.size_band + 1
+          WHERE (a.size_band < 3 AND a.scnt_max IS DISTINCT FROM b.scnt_min)
+             OR (a.size_band = 1 AND a.scnt_min <> 0)) AS band_gaps,
+       (SELECT count(*) FROM vessels v
+          WHERE (SELECT count(*) FROM vessel_performance p WHERE p.vessel_type = v.vessel_type
+                   AND v.scnt_tons >= p.scnt_min AND (p.scnt_max IS NULL OR v.scnt_tons < p.scnt_max)) <> 1)
+         AS vessels_not_in_one_band,
+       (SELECT count(*) FROM vessel_performance
+          WHERE main_t_per_day <> round(imo_main_kt * 1000 / imo_days_at_sea, 1)
+             OR aux_t_per_day <> round(imo_aux_kt * 1000 / 365, 1)) AS derived_mismatch,
+       (SELECT count(*) FROM bunker_prices) AS price_rows,
+       (SELECT round(price_usd_per_t / usd_per_sdr, 2) FROM bunker_prices ORDER BY price_date DESC LIMIT 1)
+         AS latest_sdr_per_t,
+       has_table_privilege('ports_readonly', 'public.vessel_performance', 'SELECT')
+         AND has_table_privilege('ports_readonly', 'public.bunker_prices', 'SELECT') AS readonly_select,
+       has_table_privilege('finance_bi', 'public.vessel_performance', 'SELECT') AS finance_bi_select;
+
 \echo '### END'

@@ -58,3 +58,55 @@ rule ADR-052).
   run's only two alarms were such true sentences. Fixed by rule (the original named beside its flagged duplicate is
   not called wrong) with two Phase 2 cases (`duplicate_with_original`, `duplicate_with_other`); the results file is
   kept as scored.
+
+## The qa scope (D-P12-7, 2026-10-30)
+- **Why:** the owner changed the Stage 1 skill `finance-qa` in Phase 12 (the supervisor's partial-answer exception),
+  so by ADR-052 it is a Stage 1 change. It reaches only the Q&A agent, so running the 11 packs again would cost
+  hundreds of requests to measure nothing that changed.
+- **What:** `EVAL_SCOPE=qa` skips the packs; a run is complete with its 42 answers; its gates are the ones the Q&A
+  can fail (`traceability_100`, `rbac_leakage_0`, `abstention_recall_100`), its primaries `qa_completeness_en` /
+  `qa_completeness_ar`; D7 is not judged (it needs the packs). `adr052()` compares only the gates and primaries the
+  candidate measured. The default `all` behaves as before.
+- **Proof at 0 calls:** a setup step on `stage1_eval_2026-10-23_confirm.json`: its own Q&A view = a tie, EN completeness
+  0.90 = reject, a leak = `rbac_leakage_0` regressed, AR 1.0 = keep (better). Phases 1–4 re-run ✅, 0 files changed.
+- **The run:** `EVAL_REAL_MODELS=1 EVAL_SCOPE=qa EVAL_TAG=dp127 EVAL_BASELINE=stage1_eval_2026-10-23_confirm.json`
+  (fresh caches `llm_cache/eval_dp127_r1|r2/`), scheduled for 2026-10-31 09:30 local.
+- **Result 1 (`stage1_eval_2026-10-31_dp127.json`, 162 calls): reject** — run 2's a01 ("week 12 of 2024") answered
+  with 2025-W12's billing, so `rbac_leakage_0` (a refusal with a number) and `abstention_recall_100` regressed; a01
+  had passed all 12 earlier runs.
+- **Fix (D-P12-12, owner):** `finance_qa.check_answer` refuses a bound `finance_kpi` / `invoice_audit` figure when the
+  question names a year other than 2025 (Western or Arabic digits; the supervisor passes the user's own question as
+  `asked`); Phase 2 gained the cases (2024 and ٢٠٢٤ refused, 2025 passes); `Supervisor_check.py` a finance 2024 answer
+  refused, a Suez 2024 answer passes.
+- **Result 2 (`stage1_eval_2026-10-31_dp127b.json`, 160 calls): keep (better)** — no gate regressed, completeness EN /
+  AR 1.0 in both runs; a01 in run 2 took one rewrite (3 calls) after the guard refused the 2025 figure.
+
+## Candidate c4 — the planted findings reach the deck (2026-10-30, coded; compared 2026-11-01)
+- **Why:** in the final baseline the code found every planted error, but 2 / 6 · 3 / 6 reached a deck: a pack whose
+  Writer failed its two rewrites stopped with no deck (slide 8's code audit table lost with it), and the budget miss
+  depended on the Writer saying it.
+- **What (ADR-051 amendment 3):** the pack's code `fallback` replaces only the failing texts and validates again
+  (`degraded` shown to the approver); slide 5 gets a code budget-miss table (M9a: budget ≥ 1 M SDR, ≤ −25 %).
+- **Harness:** `EVAL_SCOPE=packs` (pack gates `deck_numbers_100`, `planted_all`, `false_alarms_le_5pct`,
+  `claims_100`, `traceability_100`; primary narrative recall), `EVAL_C4=0` = the before side (`use_fallback=False`, no
+  table); the scorer also finds a planted budget miss in slide 5's `tbl:budget_miss`.
+- **Phase 3c (0 calls):** a fake Writer that never passes (a typed wrong number, patches that change nothing, no
+  budget-miss sentence): with c4 11 / 11 decks, every one degraded with summary bullet 0 replaced, planted 6 / 6
+  (t36-b from the table), deck numbers / claims 100 %, false alarms 0; before c4 0 / 11, 0 / 6. The rule names a
+  category only in test week 36 (LNG) across the 11 golden weeks.
+- **The live comparison:** 3 runs `base3` (before) + 3 runs `c4`, packs only, one provider day (2026-11-01).
+- **Result (task "NileGate Stage1 c4 eval (once)", 09:30, exit 0):** `stage1_eval_2026-11-01_base3.json` — published
+  8 / 11 in each run (2–3 `validation_failed`, 1 `output_invalid`), planted 2 / 6 · 3 / 6 · 0 / 6, narrative recall
+  0.7471, false alarms 0; `stage1_eval_2026-11-01_c4.json` — published 11 · 10 · 11 / 11 (the one miss
+  `output_invalid`, which the fallback does not cover), **planted 6 / 6 in all three runs**, narrative recall 0.9655
+  (+0.2184), deck numbers / claims / traceability 100 %. As scored: ADR-052 **reject** — `false_alarms_le_5pct`
+  regressed in run 1 (0.25: live week 15).
+- **A scorer false positive, again (D-C4-1):** that one sentence — "The flagged duplicate invoice under Chemical
+  Tankers & Other Liquid Bulk Tankers matched original invoice INV-0000491." — is **true** (INV-0000925 duplicates
+  INV-0000491, both Chemical Tankers, 73,950.26 SDR; golden finding l15-a). D-P8-16's rule exempted the original only
+  when the duplicate's own number was in the sentence; here the duplicate was only described. Hand-checked: **real
+  false alarms 0 in all six runs** → no gate regressed; owner (2026-11-01): **c4 accepted** on the hand-check, the
+  results files kept as scored (not re-scored, as D-P8-16). Fix: `false_alarms()` also exempts the original of a
+  flagged duplicate when the sentence calls it the original (`ORIGINAL_WORDS`: "original", "الأصل"); Phase 2 gains
+  `original_named_as_original` (0) and `original_called_duplicate` (an original called a duplicate is still 1) →
+  Phases 1–4 + 3c ✅, 0 files changed.

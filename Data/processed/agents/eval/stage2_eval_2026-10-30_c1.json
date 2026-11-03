@@ -1,0 +1,3810 @@
+{
+ "plan": "Agents plan §6d S5; the done-when fixed 2026-10-29",
+ "date": "2026-10-30",
+ "tag": "c1",
+ "inputs_sha256": {
+  "supervisor_qa_golden.jsonl": "722f3ca3b7bf86f743ff236f977a98f9e426298bcd8caab0f81ce06826dbdd4d",
+  "route_cases.json": "a0fd402d3017489fd70d10f195937e77e3752a00918e8fd306fbbb122cc8e3c0",
+  "watch_run": "3164190cbbfa106fdafb7a36e887dc3dda2211ed549dcae02fe5748cecc30240"
+ },
+ "models": {
+  "insight": [
+   "gemini/gemini-3.5-flash-lite",
+   "openrouter/nvidia/nemotron-3.5-super-vl:free"
+  ],
+  "writer": [
+   "gemini/gemini-3.5-flash-lite",
+   "openrouter/nvidia/nemotron-3.5-super-vl:free"
+  ],
+  "tools": [
+   "gemini/gemini-3.5-flash-lite",
+   "groq/openai/gpt-oss-20b"
+  ]
+ },
+ "runs": [
+  {
+   "repeat": 1,
+   "cache": "Data\\processed\\agents\\eval\\llm_cache\\s2eval_c1_r1",
+   "scores": [
+    {
+     "id": "o01",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Special Voyager 001 is currently in transit at latitude 32.26546, longitude 30.55058, with a speed of 9.1 kn as of 2026-09-13T00:00:00Z, and its next port is BEANR.",
+     "routed": [
+      "voyage_status",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 4,
+      "fresh_calls": 0,
+      "cached_calls": 4,
+      "tokens": 10637,
+      "max_call_tokens": 3594,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 23618.9
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 0.4
+    },
+    {
+     "id": "o02",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Vessel 2 still has to sail 444.3 nm to its destination.",
+     "routed": [
+      "voyage_status",
+      "sea_route",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 0,
+      "cached_calls": 2,
+      "tokens": 4777,
+      "max_call_tokens": 3146,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 12797.8
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 0.1
+    },
+    {
+     "id": "o03",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Petroleum Voyager 003 is not moving right now; its status at last fix is Anchored with a speed of 0.0 kn.",
+     "routed": [
+      "voyage_status",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 3,
+      "fresh_calls": 0,
+      "cached_calls": 3,
+      "tokens": 6917,
+      "max_call_tokens": 3047,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 14862.7
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 0.3
+    },
+    {
+     "id": "o04",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Yes, vessel 7 has finished its voyage and arrived at destination CDBNW on 2026-09-08T12:56:22Z.",
+     "routed": [
+      "voyage_status",
+      "voyage_eta",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 3,
+      "fresh_calls": 0,
+      "cached_calls": 3,
+      "tokens": 7798,
+      "max_call_tokens": 3281,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 15681.0
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 0.1
+    },
+    {
+     "id": "o05",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Crude Voyager 005 is expected to arrive at Sandakan on 2026-09-15T13:17Z, which is 61.3 h from now.",
+     "routed": [
+      "voyage_eta",
+      "voyage_status",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 4,
+      "fresh_calls": 0,
+      "cached_calls": 4,
+      "tokens": 9891,
+      "max_call_tokens": 3142,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 17196.5
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 0.2
+    },
+    {
+     "id": "o06",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Vessel 6 is expected to arrive at DOCAU on 2026-09-24T08:21Z (272.4 h from now).",
+     "routed": [
+      "voyage_eta",
+      "voyage_status",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 3,
+      "fresh_calls": 0,
+      "cached_calls": 3,
+      "tokens": 7434,
+      "max_call_tokens": 3147,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 9247.0
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 0.1
+    },
+    {
+     "id": "o07",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Petroleum Voyager 010 will reach its destination in 101.6 h.",
+     "routed": [
+      "voyage_eta",
+      "voyage_status",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 3,
+      "fresh_calls": 0,
+      "cached_calls": 3,
+      "tokens": 7112,
+      "max_call_tokens": 3020,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 15211.5
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 0.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 0.2
+    },
+    {
+     "id": "o08",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Vessel 12 is sailing at a speed of 11.8 kn for its ETA, and it still has to go 2,349.6 nm.",
+     "routed": [
+      "voyage_status",
+      "sea_route",
+      "voyage_eta",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 0,
+      "cached_calls": 2,
+      "tokens": 5407,
+      "max_call_tokens": 3638,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 9584.1
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 0.1
+    },
+    {
+     "id": "o09",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Vessel 21 should go via Suez. The Suez route is cheaper, with total costs of 0.48 M SDR compared to 0.55 M SDR via the Cape, saving +68.1 k SDR.",
+     "routed": [
+      "route_advice",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 0,
+      "cached_calls": 2,
+      "tokens": 5525,
+      "max_call_tokens": 3884,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2922.2
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 0.2
+    },
+    {
+     "id": "o10",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Vessel 36 needs +8.7 days more sea days from Singapore to Rotterdam if it avoids Suez (taking 29.7 days via the Cape compared to 21.0 days via Suez).",
+     "routed": [
+      "route_advice",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 0,
+      "cached_calls": 2,
+      "tokens": 5603,
+      "max_call_tokens": 3970,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 8553.8
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 0.2
+    },
+    {
+     "id": "o11",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Vessel 43 would pay 132,330.83 SDR in Suez Canal dues from Rotterdam to Singapore.",
+     "routed": [
+      "compute_toll",
+      "route_advice",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 0,
+      "cached_calls": 2,
+      "tokens": 5169,
+      "max_call_tokens": 3194,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2719.3
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 0.2
+    },
+    {
+     "id": "o12",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "For vessel 6 sailing SGSIN → NLRTM at 12 knots, the Cape route costs less in total (0.92 M SDR) than the Suez route (1.02 M SDR). The Cape route saves −0.10 M SDR in total cost compared to Suez.",
+     "routed": [
+      "route_advice",
+      "voyage_status",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 0,
+      "cached_calls": 2,
+      "tokens": 5800,
+      "max_call_tokens": 4043,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 3119.0
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 0.2
+    },
+    {
+     "id": "o13",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "In the latest voyage watch, the vessels with a high weather alert are Cruise Voyager 234 (alert 234/weather), Petroleum Voyager 339 (alert 339/weather), and Containerships Voyager 420 (alert 420/weather).",
+     "routed": [
+      "watch_alerts",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 3,
+      "fresh_calls": 0,
+      "cached_calls": 3,
+      "tokens": 9737,
+      "max_call_tokens": 4306,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 15140.4
+     },
+     "completeness": 1.0,
+     "elements_met": 3,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 0.0
+    },
+    {
+     "id": "o14",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "The waves on the next leg of Petroleum Voyager 339 are forecast to reach a maximum height of 6.3 m, under a high severity weather alert as of 2026-09-15.",
+     "routed": [
+      "watch_alerts",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 4,
+      "fresh_calls": 0,
+      "cached_calls": 4,
+      "tokens": 10376,
+      "max_call_tokens": 3549,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 17850.1
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 0.0
+    },
+    {
+     "id": "o15",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "In the latest voyage watch, Suez Canal traffic shows a change of +2.7 % compared with a year earlier.",
+     "routed": [
+      "watch_alerts",
+      "suez_transits"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 0,
+      "cached_calls": 2,
+      "tokens": 7372,
+      "max_call_tokens": 5900,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 4686.2
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 0.0
+    },
+    {
+     "id": "o16",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "At 14 knots, vessel 21 burns 28.5 t/day tonnes of fuel per day, at a cost of 19,700.31 per day.",
+     "routed": [
+      "vessel_params",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 0,
+      "cached_calls": 2,
+      "tokens": 4835,
+      "max_call_tokens": 3239,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 12267.2
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 0.0
+    },
+    {
+     "id": "o17",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "The daily fuel consumption of a containership of 60,000 SCNT at 18 knots is 101.3 t/day tonnes per day, comprising 94.7 t/day tonnes of main engine consumption and 6.6 t/day tonnes of auxiliary engine consumption.",
+     "routed": [
+      "vessel_params"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 0,
+      "cached_calls": 2,
+      "tokens": 4502,
+      "max_call_tokens": 3076,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 7559.5
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 0.0
+    },
+    {
+     "id": "o18",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "The sea route from Singapore to Rotterdam around the Cape of Good Hope is 11,876.7 nm long.",
+     "routed": [
+      "route_advice",
+      "voyage_status",
+      "sea_route"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 0,
+      "cached_calls": 2,
+      "tokens": 5786,
+      "max_call_tokens": 3958,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 5122.4
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 0.1
+    },
+    {
+     "id": "a01",
+     "lang": "en",
+     "expected": "not_in_data",
+     "status": "not_in_data",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Vessel 9999 was not found in the NileGate data.",
+     "routed": [
+      "voyage_status",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 0,
+      "cached_calls": 2,
+      "tokens": 3805,
+      "max_call_tokens": 2473,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 11286.3
+     },
+     "abstention_ok": true,
+     "leak": false,
+     "seconds": 0.0
+    },
+    {
+     "id": "a02",
+     "lang": "en",
+     "expected": "not_in_data",
+     "status": "not_in_data",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "NileGate does not track live AIS positions of real third-party vessels such as the Ever Given.",
+     "routed": [
+      "voyage_status"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 6,
+      "fresh_calls": 0,
+      "cached_calls": 6,
+      "tokens": 18497,
+      "max_call_tokens": 4941,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 52049.4
+     },
+     "abstention_ok": true,
+     "leak": false,
+     "seconds": 0.1
+    },
+    {
+     "id": "a03",
+     "lang": "en",
+     "expected": "not_in_data",
+     "status": "not_in_data",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "The Suez transit data for December 2026 is currently unavailable in the system. Therefore, the number of ships transiting the Suez Canal cannot be determined for that period.",
+     "routed": [
+      "suez_transits",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 1,
+      "cached_calls": 1,
+      "tokens": 2937,
+      "max_call_tokens": 1554,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 8633.9
+     },
+     "abstention_ok": true,
+     "leak": false,
+     "seconds": 13.3
+    },
+    {
+     "id": "c01",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "The top 5 customers by billing over the 13 weeks to week 52 of 2025 are Belanor Tankers (13.1 % share), Korilis Cruises (6.9 % share), Thalomar Shipping (6.8 % share), Kororia Shipping Agency (6.5 % share), and Ostanor Lines (4.4 % share). In the latest voyage watch as of 2026-09-13, their vessels with alerts are: Cruise Voyager 234 (high severity alert 234/weather), Liquefied Voyager 084 (moderate severity alert 84/weather), Cruise Voyager 198 (moderate severity alert 198/weather), Cruise Voyager 315 (moderate severity alert 315/weather), Cruise Voyager 401 (moderate severity alert 401/weathe",
+     "routed": [
+      "finance_kpi",
+      "fleet_customers",
+      "watch_alerts"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 6,
+      "fresh_calls": 0,
+      "cached_calls": 6,
+      "tokens": 73465,
+      "max_call_tokens": 17463,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 36547.5
+     },
+     "completeness": 1.0,
+     "elements_met": 6,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 0.2
+    },
+    {
+     "id": "c02",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Yes, one of the 5 largest overdue invoices at the end of week 49 of 2025 belongs to a vessel with an alert in the latest voyage watch. Invoice INV-0000005 (Cyravia Lines) belongs to Containerships Voyager 420 (vessel ID 420), which has a high severity weather alert in the voyage watch (420/weather).",
+     "routed": [
+      "finance_kpi",
+      "fleet_customers",
+      "watch_alerts"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 4,
+      "fresh_calls": 0,
+      "cached_calls": 4,
+      "tokens": 22797,
+      "max_call_tokens": 7569,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 31536.1
+     },
+     "completeness": 1.0,
+     "elements_met": 3,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 0.1
+    },
+    {
+     "id": "c03",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "The vessel of the largest overdue invoice at the end of week 49 of 2025 (invoice INV-0000723 for customer Levavia Tankers) is Liquefied Voyager 165 (vessel id 165), which is currently At Port at port ILASH with a last fix speed of 0.0 kn as of 2026-09-13T00:00:00Z.",
+     "routed": [
+      "finance_kpi",
+      "fleet_customers",
+      "voyage_status"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 4,
+      "fresh_calls": 0,
+      "cached_calls": 4,
+      "tokens": 21407,
+      "max_call_tokens": 7126,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 29474.0
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 0.1
+    },
+    {
+     "id": "c04",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "At the end of week 52 of 2025, three of the vessels behind the 10 largest overdue invoices are at sea: Containerships Voyager 271 is expected at KMYVA on 2026-09-29T04:09Z, Crude Voyager 274 is expected at USPME on 2026-09-22T22:24Z, and Chemical Voyager 238 is expected at IDSRG on 2026-09-16T22:53Z.",
+     "routed": [
+      "finance_kpi",
+      "voyage_status",
+      "voyage_eta",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 4,
+      "fresh_calls": 0,
+      "cached_calls": 4,
+      "tokens": 34520,
+      "max_call_tokens": 13029,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 30207.1
+     },
+     "completeness": 1.0,
+     "elements_met": 6,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 0.7
+    },
+    {
+     "id": "c05",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Cruise Voyager 234 is owned by Korilis Cruises (customer ID 34). At the end of week 52 of 2025, that customer owed us an accounts receivable balance of 1.64 M SDR, with 0.00 M SDR overdue.",
+     "routed": [
+      "finance_kpi",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 3,
+      "fresh_calls": 0,
+      "cached_calls": 3,
+      "tokens": 13467,
+      "max_call_tokens": 6794,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 22973.7
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 0.2
+    },
+    {
+     "id": "c06",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Vessel 420 would pay a Suez Canal toll of 622,758.68 SDR as a Laden Containership. At the end of week 49 of 2025, its overdue invoice INV-0000005 for Containerships Voyager 420 is 31 days past due (amounting to 622,758.68 SDR).",
+     "routed": [
+      "finance_kpi",
+      "compute_toll",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 0,
+      "cached_calls": 2,
+      "tokens": 12782,
+      "max_call_tokens": 10664,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 15933.7
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 0.1
+    },
+    {
+     "id": "c07",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "For vessel 21 from Singapore to Rotterdam, the Suez route is cheaper, saving +0.07 M SDR compared to the Cape route. Over the 13 weeks to week 52 of 2025, that vessel's customer (Thalomar Shipping) billed 4.56 M SDR.",
+     "routed": [
+      "finance_kpi",
+      "route_advice",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 5,
+      "fresh_calls": 4,
+      "cached_calls": 1,
+      "tokens": 43892,
+      "max_call_tokens": 16439,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 10240.7
+     },
+     "completeness": 1.0,
+     "elements_met": 4,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 5.0
+    },
+    {
+     "id": "c08",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Chemical Voyager 238 has an overdue invoice (INV-0000254) that is 2 days past due at the end of week 52 of 2025, and the vessel is expected to arrive at its destination on 2026-09-16T22:53Z (94.9 h from now).",
+     "routed": [
+      "finance_kpi",
+      "voyage_eta",
+      "voyage_status",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 3,
+      "fresh_calls": 0,
+      "cached_calls": 3,
+      "tokens": 17586,
+      "max_call_tokens": 8053,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 23705.7
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 0.1
+    },
+    {
+     "id": "c09",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "In the latest voyage watch, Korilis Cruises (customer id 34) has the most vessels with an alert, with 4 vessels (1 high severity and 3 moderate severity alerts). At the end of week 52 of 2025, its overdue receivables were 0.0 k SDR.",
+     "routed": [
+      "finance_kpi",
+      "fleet_customers",
+      "watch_alerts"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 0,
+      "cached_calls": 2,
+      "tokens": 12264,
+      "max_call_tokens": 10249,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 12196.0
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 0.2
+    },
+    {
+     "id": "c10",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Billing went down in week 52 of 2025 compared to week 51, with billed revenue changing by down 44.5 %. Currently, 219 of our vessels are in transit.",
+     "routed": [
+      "finance_kpi",
+      "watch_alerts",
+      "suez_transits",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 0,
+      "cached_calls": 2,
+      "tokens": 11354,
+      "max_call_tokens": 9214,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 15184.8
+     },
+     "completeness": 1.0,
+     "elements_met": 3,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 0.1
+    },
+    {
+     "id": "c01_ops",
+     "lang": "en",
+     "expected": "partial",
+     "status": "partial",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Your role has no access to NileGate's finance data (billing, customers). However, the latest voyage watch lists the following vessels with alerts: Cruise Voyager 234, Petroleum Voyager 339, and Containerships Voyager 420 have high alerts (severity: high), while Special Voyager 077, Liquefied Voyager 084, Cruise Voyager 198, Cruise Voyager 315, Chemical Voyager 399, Cruise Voyager 401, Petroleum Voyager 403, Petroleum Voyager 423, and Roll-On/Roll-Off Voyager 467 have moderate alerts (severity: moderate).",
+     "routed": [
+      "fleet_customers",
+      "watch_alerts"
+     ],
+     "refused": [
+      "finance_kpi"
+     ],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 3,
+      "fresh_calls": 0,
+      "cached_calls": 3,
+      "tokens": 10255,
+      "max_call_tokens": 6099,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 26796.300000000003
+     },
+     "completeness": 1.0,
+     "elements_met": 0,
+     "relevance": 0.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "refused_ok": true,
+     "leak": false,
+     "seconds": 0.0
+    },
+    {
+     "id": "c02_ops",
+     "lang": "en",
+     "expected": "partial",
+     "status": "partial",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Your role has no access to the receivables and invoices (Finance data). However, regarding the latest voyage watch as of now (2026-09-13), vessels with alerts include Cruise Voyager 234, Petroleum Voyager 339, Containerships Voyager 420, Special Voyager 077, Liquefied Voyager 084, Cruise Voyager 198, Cruise Voyager 315, Chemical Voyager 399, Cruise Voyager 401, Petroleum Voyager 403, Petroleum Voyager 423, and Roll-On/Roll-Off Voyager 467.",
+     "routed": [
+      "fleet_customers",
+      "watch_alerts"
+     ],
+     "refused": [
+      "finance_kpi"
+     ],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 3,
+      "fresh_calls": 0,
+      "cached_calls": 3,
+      "tokens": 10285,
+      "max_call_tokens": 6105,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 24746.6
+     },
+     "completeness": 1.0,
+     "elements_met": 0,
+     "relevance": 0.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "refused_ok": true,
+     "leak": false,
+     "seconds": 0.0
+    },
+    {
+     "id": "c03_ops",
+     "lang": "en",
+     "expected": "partial",
+     "status": "partial",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Your role has no access to the receivables and invoices (Finance data).",
+     "routed": [
+      "fleet_customers",
+      "voyage_status"
+     ],
+     "refused": [
+      "finance_kpi"
+     ],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 5,
+      "fresh_calls": 0,
+      "cached_calls": 5,
+      "tokens": 13029,
+      "max_call_tokens": 3193,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 42288.700000000004
+     },
+     "completeness": 1.0,
+     "elements_met": 0,
+     "relevance": 0.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "refused_ok": true,
+     "leak": false,
+     "seconds": 0.0
+    },
+    {
+     "id": "c04_ops",
+     "lang": "en",
+     "expected": "partial",
+     "status": "partial",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Your role has no access to the receivables and invoices (Finance data).",
+     "routed": [
+      "voyage_status",
+      "voyage_eta",
+      "fleet_customers"
+     ],
+     "refused": [
+      "finance_kpi"
+     ],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 0,
+      "cached_calls": 2,
+      "tokens": 4014,
+      "max_call_tokens": 2536,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 16943.800000000003
+     },
+     "completeness": 1.0,
+     "elements_met": 0,
+     "relevance": 0.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "refused_ok": true,
+     "leak": false,
+     "seconds": 0.0
+    },
+    {
+     "id": "c05_ops",
+     "lang": "en",
+     "expected": "partial",
+     "status": "partial",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Cruise Voyager 234 is owned by customer id 34. Your role has no access to the receivables and invoices (Finance data).",
+     "routed": [
+      "fleet_customers"
+     ],
+     "refused": [
+      "finance_kpi"
+     ],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 3,
+      "fresh_calls": 0,
+      "cached_calls": 3,
+      "tokens": 6098,
+      "max_call_tokens": 2526,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 15294.5
+     },
+     "completeness": 1.0,
+     "elements_met": 0,
+     "relevance": 0.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "refused_ok": true,
+     "leak": false,
+     "seconds": 0.0
+    },
+    {
+     "id": "c06_ops",
+     "lang": "en",
+     "expected": "partial",
+     "status": "partial",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Vessel 420 would pay a Suez Canal toll of 622,758.68 SDR. Your role has no access to the invoices (Finance data).",
+     "routed": [
+      "compute_toll",
+      "fleet_customers"
+     ],
+     "refused": [
+      "finance_kpi"
+     ],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 3,
+      "fresh_calls": 0,
+      "cached_calls": 3,
+      "tokens": 7159,
+      "max_call_tokens": 3303,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 24819.699999999997
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 0.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "refused_ok": true,
+     "leak": false,
+     "seconds": 0.0
+    },
+    {
+     "id": "c07_ops",
+     "lang": "en",
+     "expected": "partial",
+     "status": "partial",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "For vessel 21 from Singapore to Rotterdam, the Suez route is cheaper, saving +0.07 M SDR compared to the Cape route. Your role has no access to the customer bill and finance data.",
+     "routed": [
+      "route_advice",
+      "fleet_customers"
+     ],
+     "refused": [
+      "finance_kpi"
+     ],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 0,
+      "cached_calls": 2,
+      "tokens": 5792,
+      "max_call_tokens": 4084,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 9738.8
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 0.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "refused_ok": true,
+     "leak": false,
+     "seconds": 0.2
+    },
+    {
+     "id": "c08_ops",
+     "lang": "en",
+     "expected": "partial",
+     "status": "partial",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Vessel 238 is expected to arrive at IDSRG (next port IDJKT) on 2026-09-16T22:53Z (94.9 h from now). Your role has no access to the receivables and invoices (Finance data).",
+     "routed": [
+      "voyage_eta",
+      "voyage_status",
+      "fleet_customers"
+     ],
+     "refused": [
+      "finance_kpi"
+     ],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 4,
+      "fresh_calls": 3,
+      "cached_calls": 1,
+      "tokens": 10179,
+      "max_call_tokens": 3236,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 14644.6
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 0.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "refused_ok": true,
+     "leak": false,
+     "seconds": 2.5
+    },
+    {
+     "id": "c09_ops",
+     "lang": "en",
+     "expected": "partial",
+     "status": "partial",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Customer customer/34 has 4 vessels with an alert in the latest voyage watch (1 high alert, 4 total alerts). Your role has no access to the receivables and invoices (Finance data).",
+     "routed": [
+      "fleet_customers",
+      "watch_alerts"
+     ],
+     "refused": [
+      "finance_kpi"
+     ],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7640,
+      "max_call_tokens": 6065,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1566.7
+     },
+     "completeness": 1.0,
+     "elements_met": 0,
+     "relevance": 0.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "refused_ok": true,
+     "leak": false,
+     "seconds": 1.6
+    },
+    {
+     "id": "c10_ops",
+     "lang": "en",
+     "expected": "partial",
+     "status": "partial",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Your role has no access to the NileGate's finance data (billing, receivables, overdue invoices, customers). Currently, there are 219 vessels in transit.",
+     "routed": [
+      "watch_alerts",
+      "suez_transits",
+      "fleet_customers"
+     ],
+     "refused": [
+      "finance_kpi"
+     ],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7846,
+      "max_call_tokens": 6141,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1988.5
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 0.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "refused_ok": true,
+     "leak": false,
+     "seconds": 52.2
+    },
+    {
+     "id": "o01_fe",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Special Voyager 001 is currently in transit at latitude 32.26546, longitude 30.55058, with a speed of 9.1 kn as of 2026-09-13T00:00:00Z, and its next port is BEANR.",
+     "routed": [
+      "voyage_status",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 4,
+      "fresh_calls": 0,
+      "cached_calls": 4,
+      "tokens": 10637,
+      "max_call_tokens": 3594,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 23618.9
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 0.1
+    },
+    {
+     "id": "o05_fe",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Crude Voyager 005 is expected to arrive at Sandakan on 2026-09-15T13:17Z, which is 61.3 h from now.",
+     "routed": [
+      "voyage_eta",
+      "voyage_status",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 4,
+      "fresh_calls": 0,
+      "cached_calls": 4,
+      "tokens": 9891,
+      "max_call_tokens": 3142,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 17196.5
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 0.1
+    },
+    {
+     "id": "o09_fe",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Vessel 21 should go via Suez. The Suez route is cheaper, with total costs of 0.48 M SDR compared to 0.55 M SDR via the Cape, saving +68.1 k SDR.",
+     "routed": [
+      "route_advice",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 1,
+      "cached_calls": 1,
+      "tokens": 5525,
+      "max_call_tokens": 3884,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 3024.6
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 1.5
+    },
+    {
+     "id": "o13_fe",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "In the latest voyage watch, the vessels with a high weather alert are Cruise Voyager 234 (alert 234/weather), Petroleum Voyager 339 (alert 339/weather), and Containerships Voyager 420 (alert 420/weather).",
+     "routed": [
+      "watch_alerts",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 3,
+      "fresh_calls": 0,
+      "cached_calls": 3,
+      "tokens": 9737,
+      "max_call_tokens": 4306,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 15140.4
+     },
+     "completeness": 1.0,
+     "elements_met": 3,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 0.0
+    },
+    {
+     "id": "o16_fe",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "At 14 knots, vessel 21 burns 28.5 t/day tonnes of fuel per day, at a cost of 19,700.31 per day.",
+     "routed": [
+      "vessel_params",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 0,
+      "cached_calls": 2,
+      "tokens": 4835,
+      "max_call_tokens": 3239,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 12267.2
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 0.0
+    },
+    {
+     "id": "c06_ceo",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Vessel 420 would pay a Suez Canal toll of 622,758.68 SDR as a Laden Containership. At the end of week 49 of 2025, its overdue invoice INV-0000005 for Containerships Voyager 420 is 31 days past due (amounting to 622,758.68 SDR).",
+     "routed": [
+      "finance_kpi",
+      "compute_toll",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 0,
+      "cached_calls": 2,
+      "tokens": 12782,
+      "max_call_tokens": 10664,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 15933.7
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 0.1
+    },
+    {
+     "id": "o01_ar",
+     "lang": "ar",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "السفينة Special Voyager 001 موجودة حالياً عند خط عرض 32.26546 وخط طول 30.55058 بسرعة 9.1 kn، والميناء الجاي بتاعها هو BEANR.",
+     "routed": [
+      "voyage_status",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 4,
+      "fresh_calls": 4,
+      "cached_calls": 0,
+      "tokens": 10540,
+      "max_call_tokens": 3493,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 3388.4
+     },
+     "completeness": 0.5,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 4.6
+    },
+    {
+     "id": "o02_ar",
+     "lang": "ar",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "السفينة 2 لسه فاضلها 444.3 nm لحد ما توصل ميناء الوصول.",
+     "routed": [
+      "voyage_status",
+      "sea_route",
+      "voyage_eta",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 3937,
+      "max_call_tokens": 2217,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2369.8
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 2.4
+    },
+    {
+     "id": "o05_ar",
+     "lang": "ar",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "سفينة Crude Voyager 005 هتوصل Sandakan، Sabah يوم 2026-09-15T13:17Z، يعني بعد حوالي 61.3 h من دلوقتي.",
+     "routed": [
+      "voyage_status",
+      "voyage_eta",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 4,
+      "fresh_calls": 4,
+      "cached_calls": 0,
+      "tokens": 10503,
+      "max_call_tokens": 3337,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 3995.8
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 53.8
+    },
+    {
+     "id": "o09_ar",
+     "lang": "ar",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "طريق السويس هو الأرخص للسفينة 21 في رحلتها من سنغافورة لروتردام بتكلفة إجمالية 0.48 M SDR مقارنة بطريق الرجاء الصالح الذي تكلف 0.55 M SDR، وبفرق وفورات قدره +68.1 k SDR لصالح السويس.",
+     "routed": [
+      "route_advice",
+      "voyage_status",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 5801,
+      "max_call_tokens": 4037,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2939.1
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 3.1
+    },
+    {
+     "id": "o13_ar",
+     "lang": "ar",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "السفن التي عليها إنذار طقس عالي في آخر متابعة للرحلات هي Cruise Voyager 234 بموجة ارتفاع 7.6 m ووقوع إنذارات لعالي في كل من Petroleum Voyager 339 وContainerships Voyager 420.",
+     "routed": [
+      "watch_alerts",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 5445,
+      "max_call_tokens": 3902,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2104.0
+     },
+     "completeness": 1.0,
+     "elements_met": 3,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 2.1
+    },
+    {
+     "id": "o16_ar",
+     "lang": "ar",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "السفينة 21 بتحرق حوالي 28.5 t/day طن وقود في اليوم على سرعة 14 عقدة، وتكلفته حوالي 19,700.31 SDR في اليوم.",
+     "routed": [
+      "voyage_status",
+      "vessel_params",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 5075,
+      "max_call_tokens": 3362,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1833.1
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 2.4
+    },
+    {
+     "id": "c02_ar",
+     "lang": "ar",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "نعم، من ضمن أكبر 5 فواتير متأخرة في أسبوع 49 من 2025 توجد الفاتورة INV-0000005 الخاصة بالعميل Cyravia Lines ومبلغها 0.62 M SDR، والتي تعود للسفينة Containerships Voyager 420؛ وهذه السفينة عليها إنذار عالي (الإنذار 420/weather) في آخر متابعة للرحلات بموج ارتفاعه 6.8 m.",
+     "routed": [
+      "finance_kpi",
+      "fleet_customers",
+      "voyage_status",
+      "watch_alerts"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 3,
+      "fresh_calls": 3,
+      "cached_calls": 0,
+      "tokens": 22344,
+      "max_call_tokens": 10381,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 3311.0
+     },
+     "completeness": 1.0,
+     "elements_met": 3,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 52.2
+    },
+    {
+     "id": "c06_ar",
+     "lang": "ar",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "رسوم قناة السويس للسفينة 420 (Containerships Voyager 420) هتبقى 622,758.68 SDR، وفاتورتها المتأخرة INV-0000005 متأخرة بقalها 31 days في آخر الأسبوع 49 من 2025.",
+     "routed": [
+      "finance_kpi",
+      "compute_toll",
+      "voyage_status",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 11770,
+      "max_call_tokens": 9529,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1893.1999999999998
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 2.9
+    },
+    {
+     "id": "c07_ar",
+     "lang": "ar",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "طريق السويس أرخص للسفينة 21 من سنغافورة لروتردام بإجمالي 0.48 M SDR (ويوفر +0.07 M SDR مقارنة بطريق الرجاء الصالح الذي يبلغ 0.55 M SDR)، ويحتاج 28.7 days في البحر مقابل 40.6 days للرجاء الصالح. والعميل المالك لها (Thalomar Shipping) فوتر 4.56 M SDR في الـ 13 أسبوع لحد الأسبوع 52 من 2025 (بحصة 6.8 %).",
+     "routed": [
+      "finance_kpi",
+      "fleet_customers",
+      "route_advice",
+      "voyage_status",
+      "sea_route"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 3,
+      "fresh_calls": 3,
+      "cached_calls": 0,
+      "tokens": 29992,
+      "max_call_tokens": 14084,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 3548.9
+     },
+     "completeness": 1.0,
+     "elements_met": 4,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 4.2
+    },
+    {
+     "id": "c10_ar",
+     "lang": "ar",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "الفوترة في الأسبوع 52 من 2025 قلّت مقارنة بالأسبوع 51، حيث بلغت 3.46 M SDR بتغير نسبته انخفض 44.5 % عن الأسبوع السابق. وبخصوص العمليات، يوجد 219 سفينة في الطريق دلوقتي من إجمالي سفن الأسطول.",
+     "routed": [
+      "finance_kpi",
+      "voyage_status",
+      "watch_alerts",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 11342,
+      "max_call_tokens": 9229,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1786.5
+     },
+     "completeness": 1.0,
+     "elements_met": 3,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 1.9
+    }
+   ],
+   "complete": true,
+   "aggregate": {
+    "completeness_en": 1.0,
+    "completeness_ar": 0.95,
+    "relevance_en": 0.9706,
+    "relevance_ar": 1.0,
+    "status_ok": 1.0,
+    "twins_ok": 1.0,
+    "twins_completeness": 1.0,
+    "abstention": 1.0,
+    "numbers": 1.0,
+    "traceability": 1.0,
+    "rbac_leakage": 0,
+    "typed_from_text": 0,
+    "usage": {
+     "calls": 164,
+     "fresh_calls": 39,
+     "cached_calls": 125,
+     "tokens": 665904,
+     "fallbacks": 0,
+     "failed_calls": 0
+    },
+    "max_call_tokens": 17463,
+    "not_ok": [
+     "o01_ar"
+    ]
+   },
+   "gates": {
+    "rbac_leakage_0": true,
+    "twins_100": true,
+    "abstention_100": true,
+    "numbers_100": true,
+    "traceability_100": true,
+    "completeness_en_ge_0_85": true,
+    "arabic_ge_en_minus_0_10": true
+   }
+  },
+  {
+   "repeat": 2,
+   "cache": "Data\\processed\\agents\\eval\\llm_cache\\s2eval_c1_r2",
+   "scores": [
+    {
+     "id": "o01",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Special Voyager 001 is currently at latitude 32.26546 and longitude 30.55058 (as of 2026-09-13T00:00:00Z), and its next port is BEANR.",
+     "routed": [
+      "voyage_status",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 4,
+      "fresh_calls": 4,
+      "cached_calls": 0,
+      "tokens": 10476,
+      "max_call_tokens": 3474,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 3581.0
+     },
+     "completeness": 0.5,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 53.3
+    },
+    {
+     "id": "o02",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Vessel 2 still has to sail 444.3 nm to its destination.",
+     "routed": [
+      "voyage_status",
+      "sea_route",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 4777,
+      "max_call_tokens": 3146,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1759.5
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 3.4
+    },
+    {
+     "id": "o03",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Petroleum Voyager 003 is not moving right now as its status is Anchored with a speed of 0.0 kn.",
+     "routed": [
+      "voyage_status",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 3,
+      "fresh_calls": 3,
+      "cached_calls": 0,
+      "tokens": 6903,
+      "max_call_tokens": 3033,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1799.7
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 2.9
+    },
+    {
+     "id": "o04",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Vessel 7 has finished its voyage, and it arrived at 2026-09-08T12:56:22Z.",
+     "routed": [
+      "voyage_status",
+      "voyage_eta",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 3,
+      "fresh_calls": 3,
+      "cached_calls": 0,
+      "tokens": 7792,
+      "max_call_tokens": 3276,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 3169.8
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 51.8
+    },
+    {
+     "id": "o05",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Crude Voyager 005 is expected to arrive at Sandakan on 2026-09-15T13:17Z (61.3 h from now).",
+     "routed": [
+      "voyage_eta",
+      "voyage_status",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 5,
+      "fresh_calls": 5,
+      "cached_calls": 0,
+      "tokens": 13278,
+      "max_call_tokens": 3393,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 4066.5
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 7.3
+    },
+    {
+     "id": "o06",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Vessel 6 is expected to arrive at its destination (DOCAU) on 2026-09-24T08:21Z (272.4 h from now).",
+     "routed": [
+      "voyage_eta",
+      "voyage_status",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 3,
+      "fresh_calls": 3,
+      "cached_calls": 0,
+      "tokens": 7376,
+      "max_call_tokens": 3099,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2696.7
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 4.3
+    },
+    {
+     "id": "o07",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Petroleum Voyager 010 will reach its destination in 101.6 h (at a recent speed of 13.1 kn).",
+     "routed": [
+      "voyage_eta",
+      "voyage_status",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 3,
+      "fresh_calls": 3,
+      "cached_calls": 0,
+      "tokens": 7150,
+      "max_call_tokens": 3058,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2293.7
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 0.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 50.8
+    },
+    {
+     "id": "o08",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Vessel 12 is sailing at a speed of 11.8 kn for its ETA, and it still has to go a distance of 2,349.6 nm.",
+     "routed": [
+      "voyage_status",
+      "sea_route",
+      "voyage_eta",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 5410,
+      "max_call_tokens": 3641,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1452.1
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 2.6
+    },
+    {
+     "id": "o09",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Vessel 21 should go via Suez. Suez is cheaper than the Cape by +0.07 M SDR (+68,064.92 SDR).",
+     "routed": [
+      "route_advice",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 5537,
+      "max_call_tokens": 3896,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1588.4
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 5.6
+    },
+    {
+     "id": "o10",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Vessel 36 needs +8.7 days more sea days from Singapore to Rotterdam if it avoids Suez.",
+     "routed": [
+      "route_advice",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 5505,
+      "max_call_tokens": 3872,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1558.9
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 3.9
+    },
+    {
+     "id": "o11",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Vessel 43 would pay 132,330.83 SDR in Suez Canal dues for a voyage from Rotterdam to Singapore.",
+     "routed": [
+      "compute_toll",
+      "route_advice",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 3,
+      "fresh_calls": 3,
+      "cached_calls": 0,
+      "tokens": 8687,
+      "max_call_tokens": 3505,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2595.2
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 51.7
+    },
+    {
+     "id": "o12",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "For vessel 6 sailing SGSIN → NLRTM at 12 knots, the Cape route costs less in total at 0.92 M SDR compared to the Suez route total of 1.02 M SDR, saving −0.10 M SDR down 102,115.63 SDR.",
+     "routed": [
+      "route_advice",
+      "voyage_status",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 5871,
+      "max_call_tokens": 4114,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2108.0
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 7.3
+    },
+    {
+     "id": "o13",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "In the latest voyage watch, three vessels have a high weather alert: Cruise Voyager 234 (alert 234/weather), Petroleum Voyager 339 (alert 339/weather), and Containerships Voyager 420 (alert 420/weather).",
+     "routed": [
+      "watch_alerts",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 4,
+      "fresh_calls": 4,
+      "cached_calls": 0,
+      "tokens": 12273,
+      "max_call_tokens": 4308,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2699.5
+     },
+     "completeness": 1.0,
+     "elements_met": 3,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 49.6
+    },
+    {
+     "id": "o14",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "On the next leg of Petroleum Voyager 339, the waves are forecast to reach a maximum height of 6.3 m with a high severity alert.",
+     "routed": [
+      "watch_alerts",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 3,
+      "fresh_calls": 3,
+      "cached_calls": 0,
+      "tokens": 7829,
+      "max_call_tokens": 3546,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2255.8
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 4.3
+    },
+    {
+     "id": "o15",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "In the latest voyage watch, Suez Canal traffic shows a change of +2.7 % compared to a year earlier.",
+     "routed": [
+      "watch_alerts",
+      "suez_transits"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7372,
+      "max_call_tokens": 5900,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1382.5
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 5.6
+    },
+    {
+     "id": "o16",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Vessel 21 burns 28.5 t/day tonnes of fuel per day at 14 knots, which costs 19,700.31.",
+     "routed": [
+      "vessel_params",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 4828,
+      "max_call_tokens": 3232,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1753.6999999999998
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 2.3
+    },
+    {
+     "id": "o17",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "The daily fuel consumption of a containership of 60,000 SCNT at 18 knots is 101.3 t/day tonnes per day.",
+     "routed": [
+      "vessel_params"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 4448,
+      "max_call_tokens": 3022,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1479.6
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 1.5
+    },
+    {
+     "id": "o18",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "The sea route from Singapore to Rotterdam around the Cape of Good Hope is 11,876.7 nm long.",
+     "routed": [
+      "route_advice",
+      "voyage_status",
+      "sea_route"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 5786,
+      "max_call_tokens": 3958,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1721.7
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 49.4
+    },
+    {
+     "id": "a01",
+     "lang": "en",
+     "expected": "not_in_data",
+     "status": "not_in_data",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "The data does not hold vessel 9999 as there is no record of this vessel in the system.",
+     "routed": [
+      "voyage_status",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 3812,
+      "max_call_tokens": 2480,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1617.6999999999998
+     },
+     "abstention_ok": true,
+     "leak": false,
+     "seconds": 2.1
+    },
+    {
+     "id": "a02",
+     "lang": "en",
+     "expected": "not_in_data",
+     "status": "not_in_data",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "The system does not hold live AIS positions for real vessels such as the Ever Given.",
+     "routed": [
+      "voyage_status"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 6,
+      "fresh_calls": 6,
+      "cached_calls": 0,
+      "tokens": 18493,
+      "max_call_tokens": 4937,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 4200.3
+     },
+     "abstention_ok": true,
+     "leak": false,
+     "seconds": 9.5
+    },
+    {
+     "id": "a03",
+     "lang": "en",
+     "expected": "not_in_data",
+     "status": "not_in_data",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "The Suez transit data for December 2026 is not available in the data source as it cannot forecast past the public AIS-based transit estimates limit.",
+     "routed": [
+      "suez_transits",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 3,
+      "fresh_calls": 3,
+      "cached_calls": 0,
+      "tokens": 5470,
+      "max_call_tokens": 2592,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2634.0
+     },
+     "abstention_ok": true,
+     "leak": false,
+     "seconds": 59.0
+    },
+    {
+     "id": "c01",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "In week 52 of 2025, NileGate's top 5 customers by billing over the 13 weeks are Belanor Tankers (customer ID 9), Korilis Cruises (customer ID 34), Thalomar Shipping (customer ID 10), Kororia Shipping Agency (customer ID 37), and Ostanor Lines (customer ID 1). In the latest voyage watch as of now (2026-09-13), the vessels belonging to these top 5 customers with an alert are Liquefied Voyager 084 (Belanor Tankers, moderate alert 4.0 m max wave height), Cruise Voyager 234 (high alert 7.6 m max wave height), Cruise Voyager 198 (moderate alert 4.2 m max wave height), Cruise Voyager 315 (moderate al",
+     "routed": [
+      "finance_kpi",
+      "fleet_customers",
+      "watch_alerts"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 4,
+      "fresh_calls": 4,
+      "cached_calls": 0,
+      "tokens": 36647,
+      "max_call_tokens": 16783,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 4787.0
+     },
+     "completeness": 1.0,
+     "elements_met": 6,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 4.9
+    },
+    {
+     "id": "c02",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Yes, invoice INV-0000005 (amount 0.62 M SDR, due on 2025-11-06) belongs to Containerships Voyager 420, which has a high severity weather alert in the latest voyage watch.",
+     "routed": [
+      "finance_kpi",
+      "fleet_customers",
+      "watch_alerts"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 4,
+      "fresh_calls": 4,
+      "cached_calls": 0,
+      "tokens": 22768,
+      "max_call_tokens": 7550,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 4328.6
+     },
+     "completeness": 1.0,
+     "elements_met": 3,
+     "relevance": 0.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 44.5
+    },
+    {
+     "id": "c03",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "At the end of week 49 of 2025, the largest overdue invoice was INV-0000723, belonging to Levavia Tankers (0.67 M SDR). Its vessel, Liquefied Voyager 165, is currently At Port at ILASH as of 2026-09-13T00:00:00Z.",
+     "routed": [
+      "finance_kpi",
+      "fleet_customers",
+      "voyage_status"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 4,
+      "fresh_calls": 4,
+      "cached_calls": 0,
+      "tokens": 21564,
+      "max_call_tokens": 7284,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 5678.1
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 16.2
+    },
+    {
+     "id": "c04",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "At the end of week 52 of 2025, three of the vessels behind the 10 largest overdue invoices are currently at sea: Containerships Voyager 271 (associated with invoice INV-0000343) is in transit with an estimated arrival at KMYVA on 2026-09-29T04:09Z, Crude Voyager 274 (associated with invoice INV-0000434) is in transit with an estimated arrival at USPME on 2026-09-22T22:24Z, and Chemical Voyager 238 (associated with invoice INV-0000254) is in transit with an estimated arrival at IDSRG on 2026-09-16T22:53Z.",
+     "routed": [
+      "finance_kpi",
+      "voyage_status",
+      "voyage_eta",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 4,
+      "fresh_calls": 4,
+      "cached_calls": 0,
+      "tokens": 35100,
+      "max_call_tokens": 13490,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 5813.0
+     },
+     "completeness": 1.0,
+     "elements_met": 6,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 6.4
+    },
+    {
+     "id": "c05",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Cruise Voyager 234 is owned by Korilis Cruises (customer ID 34). At the end of week 52 of 2025, that customer owed us an accounts receivable balance of 1.64 M SDR, of which 0.00 M SDR was overdue.",
+     "routed": [
+      "finance_kpi",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 3,
+      "fresh_calls": 3,
+      "cached_calls": 0,
+      "tokens": 14994,
+      "max_call_tokens": 8321,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2865.8
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 49.4
+    },
+    {
+     "id": "c06",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Vessel 420 would pay a Suez Canal toll of 622,758.68 SDR. At the end of week 49 of 2025, its overdue invoice INV-0000005 is 31 days past due.",
+     "routed": [
+      "finance_kpi",
+      "compute_toll",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 3,
+      "fresh_calls": 3,
+      "cached_calls": 0,
+      "tokens": 21283,
+      "max_call_tokens": 9774,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 3047.3
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 5.6
+    },
+    {
+     "id": "c07",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Sailing from Singapore to Rotterdam via Suez costs 0.48 M SDR including canal dues, which is cheaper than the Cape route at 0.55 M SDR. Vessel 21's customer, Thalomar Shipping, billed 4.56 M SDR over the 13 weeks to week 52 of 2025.",
+     "routed": [
+      "finance_kpi",
+      "route_advice",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 3,
+      "fresh_calls": 3,
+      "cached_calls": 0,
+      "tokens": 15885,
+      "max_call_tokens": 8383,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2510.5
+     },
+     "completeness": 0.75,
+     "elements_met": 3,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 4.9
+    },
+    {
+     "id": "c08",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "At the end of week 52 of 2025, the overdue invoice INV-0000254 for Chemical Voyager 238 is 2 days past due. The vessel is expected to arrive at IDSRG on 2026-09-16T22:53Z (94.9 h from now).",
+     "routed": [
+      "finance_kpi",
+      "voyage_eta",
+      "voyage_status",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 3,
+      "fresh_calls": 3,
+      "cached_calls": 0,
+      "tokens": 28225,
+      "max_call_tokens": 13390,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 3224.8
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 40.0
+    },
+    {
+     "id": "c09",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "In the latest voyage watch, Korilis Cruises (customer ID 34) has the most vessels with an alert, with four vessels showing alerts (one high and three moderate). At the end of week 52 of 2025, its overdue receivables were 0.00 M SDR (total AR of 1.64 M SDR).",
+     "routed": [
+      "finance_kpi",
+      "fleet_customers",
+      "watch_alerts"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 3,
+      "fresh_calls": 3,
+      "cached_calls": 0,
+      "tokens": 22650,
+      "max_call_tokens": 12193,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2937.5
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 13.7
+    },
+    {
+     "id": "c10",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "NileGate's billing went down in week 52 of 2025 compared to week 51, with billed revenue changing by down 44.5 % week over week. Currently, 219 of our vessels are in transit.",
+     "routed": [
+      "finance_kpi",
+      "watch_alerts",
+      "suez_transits",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 11364,
+      "max_call_tokens": 9224,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1936.0
+     },
+     "completeness": 1.0,
+     "elements_met": 3,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 3.5
+    },
+    {
+     "id": "c01_ops",
+     "lang": "en",
+     "expected": "partial",
+     "status": "partial",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Your role has no access to NileGate's finance data (billing, customers). However, the latest voyage watch contains alerts for vessels belonging to customers with alerts, including Cruise Voyager 234 (high severity), Cruise Voyager 198 (moderate severity), Cruise Voyager 315 (moderate severity), and Cruise Voyager 401 (moderate severity) under customer 34; Petroleum Voyager 339 (high severity), Chemical Voyager 399 (moderate severity), and Petroleum Voyager 403 (moderate severity) under customer 11; Containerships Voyager 420 (high severity) under customer 3; Liquefied Voyager 084 (moderate sev",
+     "routed": [
+      "fleet_customers",
+      "watch_alerts"
+     ],
+     "refused": [
+      "finance_kpi"
+     ],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 4,
+      "fresh_calls": 4,
+      "cached_calls": 0,
+      "tokens": 18060,
+      "max_call_tokens": 7525,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 5532.700000000001
+     },
+     "completeness": 1.0,
+     "elements_met": 0,
+     "relevance": 0.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "refused_ok": true,
+     "leak": false,
+     "seconds": 8.4
+    },
+    {
+     "id": "c02_ops",
+     "lang": "en",
+     "expected": "partial",
+     "status": "partial",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Your role has no access to the receivables and invoices (Finance data). However, regarding the latest voyage watch, vessels such as Cruise Voyager 234 (7.6 m max wave height) have a high severity weather alert, and Petroleum Voyager 339 (6.3 m max wave height) also have high severity weather alerts.",
+     "routed": [
+      "fleet_customers",
+      "watch_alerts"
+     ],
+     "refused": [
+      "finance_kpi"
+     ],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 3,
+      "fresh_calls": 3,
+      "cached_calls": 0,
+      "tokens": 10262,
+      "max_call_tokens": 6082,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 3022.9
+     },
+     "completeness": 1.0,
+     "elements_met": 0,
+     "relevance": 0.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "refused_ok": true,
+     "leak": false,
+     "seconds": 46.9
+    },
+    {
+     "id": "c03_ops",
+     "lang": "en",
+     "expected": "partial",
+     "status": "not_permitted",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Your role has no access to the receivables and invoices (Finance data).",
+     "routed": [
+      "fleet_customers",
+      "voyage_status"
+     ],
+     "refused": [
+      "finance_kpi"
+     ],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 6,
+      "fresh_calls": 6,
+      "cached_calls": 0,
+      "tokens": 15958,
+      "max_call_tokens": 3167,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 4361.9
+     },
+     "completeness": 1.0,
+     "elements_met": 0,
+     "relevance": 0.0,
+     "numbers_ok": false,
+     "traceable": true,
+     "refused_ok": true,
+     "leak": false,
+     "seconds": 11.4
+    },
+    {
+     "id": "c04_ops",
+     "lang": "en",
+     "expected": "partial",
+     "status": "not_permitted",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Your role has no access to the receivables and invoices (Finance data).",
+     "routed": [
+      "voyage_status",
+      "voyage_eta",
+      "fleet_customers"
+     ],
+     "refused": [
+      "finance_kpi"
+     ],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 4016,
+      "max_call_tokens": 2538,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1644.7
+     },
+     "completeness": 1.0,
+     "elements_met": 0,
+     "relevance": 0.0,
+     "numbers_ok": false,
+     "traceable": true,
+     "refused_ok": true,
+     "leak": false,
+     "seconds": 38.5
+    },
+    {
+     "id": "c05_ops",
+     "lang": "en",
+     "expected": "partial",
+     "status": "partial",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Cruise Voyager 234 is owned by customer 34. Your role has no access to the customer name and receivables (Finance data).",
+     "routed": [
+      "fleet_customers"
+     ],
+     "refused": [
+      "finance_kpi"
+     ],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 3810,
+      "max_call_tokens": 2524,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1690.4
+     },
+     "completeness": 1.0,
+     "elements_met": 0,
+     "relevance": 0.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "refused_ok": true,
+     "leak": false,
+     "seconds": 11.5
+    },
+    {
+     "id": "c06_ops",
+     "lang": "en",
+     "expected": "partial",
+     "status": "partial",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Vessel 420 would pay a Suez Canal toll of 622,758.68 SDR. Your role has no access to the receivables and invoices (Finance data).",
+     "routed": [
+      "compute_toll",
+      "fleet_customers"
+     ],
+     "refused": [
+      "finance_kpi"
+     ],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 3,
+      "fresh_calls": 3,
+      "cached_calls": 0,
+      "tokens": 7161,
+      "max_call_tokens": 3305,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2855.1
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 0.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "refused_ok": true,
+     "leak": false,
+     "seconds": 5.5
+    },
+    {
+     "id": "c07_ops",
+     "lang": "en",
+     "expected": "partial",
+     "status": "partial",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "For vessel 21 from Singapore to Rotterdam, the Suez route is cheaper, costing 0.48 M SDR total (saving +0.07 M SDR against the Cape). Your role has no access to the customer billing and finance data.",
+     "routed": [
+      "route_advice",
+      "fleet_customers"
+     ],
+     "refused": [
+      "finance_kpi"
+     ],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 5856,
+      "max_call_tokens": 4148,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1571.3000000000002
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 0.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "refused_ok": true,
+     "leak": false,
+     "seconds": 3.2
+    },
+    {
+     "id": "c08_ops",
+     "lang": "en",
+     "expected": "partial",
+     "status": "partial",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Vessel 238 is expected to arrive at IDSRG on 2026-09-16T22:53Z (94.9 h from now). Your role has no access to the receivables and invoices (Finance data).",
+     "routed": [
+      "voyage_eta",
+      "voyage_status",
+      "fleet_customers"
+     ],
+     "refused": [
+      "finance_kpi"
+     ],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 4,
+      "fresh_calls": 4,
+      "cached_calls": 0,
+      "tokens": 10207,
+      "max_call_tokens": 3262,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 4558.3
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 0.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "refused_ok": true,
+     "leak": false,
+     "seconds": 52.1
+    },
+    {
+     "id": "c09_ops",
+     "lang": "en",
+     "expected": "partial",
+     "status": "partial",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "In the latest voyage watch, customer 34 has the most vessels with an alert (four vessels, with one high severity alert and three moderate alerts). Your role has no access to the receivables and invoices (Finance data).",
+     "routed": [
+      "fleet_customers",
+      "watch_alerts"
+     ],
+     "refused": [
+      "finance_kpi"
+     ],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7580,
+      "max_call_tokens": 6005,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1521.4
+     },
+     "completeness": 1.0,
+     "elements_met": 0,
+     "relevance": 0.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "refused_ok": true,
+     "leak": false,
+     "seconds": 2.6
+    },
+    {
+     "id": "c10_ops",
+     "lang": "en",
+     "expected": "partial",
+     "status": "partial",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Your role has no access to the NileGate finance data (billing, receivables, overdue invoices, customers). Currently, there are 219 vessels in transit.",
+     "routed": [
+      "watch_alerts",
+      "suez_transits",
+      "fleet_customers"
+     ],
+     "refused": [
+      "finance_kpi"
+     ],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 7844,
+      "max_call_tokens": 6139,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1884.0
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 0.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "refused_ok": true,
+     "leak": false,
+     "seconds": 3.0
+    },
+    {
+     "id": "o01_fe",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Special Voyager 001 is currently at latitude 32.26546 and longitude 30.55058 (as of 2026-09-13T00:00:00Z), and its next port is BEANR.",
+     "routed": [
+      "voyage_status",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 4,
+      "fresh_calls": 0,
+      "cached_calls": 4,
+      "tokens": 10476,
+      "max_call_tokens": 3474,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 3581.0
+     },
+     "completeness": 0.5,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 0.1
+    },
+    {
+     "id": "o05_fe",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Crude Voyager 005 is expected to arrive at Sandakan on 2026-09-15T13:17Z (61.3 h from now).",
+     "routed": [
+      "voyage_eta",
+      "voyage_status",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 5,
+      "fresh_calls": 0,
+      "cached_calls": 5,
+      "tokens": 13278,
+      "max_call_tokens": 3393,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 4066.5
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 0.1
+    },
+    {
+     "id": "o09_fe",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Vessel 21 should go via Suez from Singapore to Rotterdam. The Suez route is cheaper and saves +68.1 k SDR compared to the Cape route.",
+     "routed": [
+      "route_advice",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 1,
+      "cached_calls": 1,
+      "tokens": 5523,
+      "max_call_tokens": 3882,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1667.5
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 1.0
+    },
+    {
+     "id": "o13_fe",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "In the latest voyage watch, three vessels have a high weather alert: Cruise Voyager 234 (alert 234/weather), Petroleum Voyager 339 (alert 339/weather), and Containerships Voyager 420 (alert 420/weather).",
+     "routed": [
+      "watch_alerts",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 4,
+      "fresh_calls": 0,
+      "cached_calls": 4,
+      "tokens": 12273,
+      "max_call_tokens": 4308,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2699.5
+     },
+     "completeness": 1.0,
+     "elements_met": 3,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 0.0
+    },
+    {
+     "id": "o16_fe",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Vessel 21 burns 28.5 t/day tonnes of fuel per day at 14 knots, which costs 19,700.31.",
+     "routed": [
+      "vessel_params",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 0,
+      "cached_calls": 2,
+      "tokens": 4828,
+      "max_call_tokens": 3232,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1753.6999999999998
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 0.0
+    },
+    {
+     "id": "c06_ceo",
+     "lang": "en",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "Vessel 420 would pay a Suez Canal toll of 622,758.68 SDR. At the end of week 49 of 2025, its overdue invoice INV-0000005 is 31 days past due.",
+     "routed": [
+      "finance_kpi",
+      "compute_toll",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 3,
+      "fresh_calls": 0,
+      "cached_calls": 3,
+      "tokens": 21283,
+      "max_call_tokens": 9774,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 3047.3
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 0.0
+    },
+    {
+     "id": "o01_ar",
+     "lang": "ar",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "سفينة Special Voyager 001 موجودة حالياً عند خط عرض 32.26546 وخط طول 30.55058 بسرعة 9.1 kn، والميناء الجاي ليها هو BEANR.",
+     "routed": [
+      "voyage_status",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 4,
+      "fresh_calls": 4,
+      "cached_calls": 0,
+      "tokens": 10516,
+      "max_call_tokens": 3475,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 3442.3
+     },
+     "completeness": 0.5,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 43.2
+    },
+    {
+     "id": "o02_ar",
+     "lang": "ar",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "السفينة 2 لسه فاضلها 444.3 nm لحد ما توصل ميناء CRMOB.",
+     "routed": [
+      "voyage_status",
+      "sea_route",
+      "voyage_eta",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 3,
+      "fresh_calls": 3,
+      "cached_calls": 0,
+      "tokens": 6414,
+      "max_call_tokens": 2460,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2005.1
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 12.8
+    },
+    {
+     "id": "o05_ar",
+     "lang": "ar",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "سفينة Crude Voyager 005 هتوصل Sandakan يوم 2026-09-15T13:17Z بتوقيت UTC، يعني بعد 61.3 h تقريبا من دلوقتي.",
+     "routed": [
+      "voyage_status",
+      "voyage_eta",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 4,
+      "fresh_calls": 4,
+      "cached_calls": 0,
+      "tokens": 10550,
+      "max_call_tokens": 3373,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 3161.3
+     },
+     "completeness": 1.0,
+     "elements_met": 1,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 6.5
+    },
+    {
+     "id": "o09_ar",
+     "lang": "ar",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "طريق قناة السويس هو الأرخص للسفينة 21 من سنغافورة لروتردام بتكلفة 0.48 M SDR مقابل 0.55 M SDR عن طريق الرجاء الصالح، بفرق وفورات إجمالي قدره +68.1 k SDR لصالح السويس.",
+     "routed": [
+      "route_advice",
+      "voyage_status",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 5833,
+      "max_call_tokens": 4069,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1729.9
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 4.8
+    },
+    {
+     "id": "o13_ar",
+     "lang": "ar",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "في آخر متابعة للرحلات، السفن اللي عليها إنذار طقس عالي هي: Cruise Voyager 234 (بارتفاع موج 7.6 m وموجات هواء 53.3 kn), Petroleum Voyager 339 (بارتفاع موج 6.3 m وموجات هواء 42.8 kn), وContainerships Voyager 420 (بارتفاع موج 6.8 m وموجات هواء 43.3 kn).",
+     "routed": [
+      "watch_alerts",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 5606,
+      "max_call_tokens": 4063,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2457.6
+     },
+     "completeness": 1.0,
+     "elements_met": 3,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 48.1
+    },
+    {
+     "id": "o16_ar",
+     "lang": "ar",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "السفينة 21 بتحرق 28.5 t/day على سرعة 14 عقدة، وتكلفة الوقود دي بتكون 19,700.31 في اليوم.",
+     "routed": [
+      "voyage_status",
+      "vessel_params",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 5076,
+      "max_call_tokens": 3363,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 1734.1999999999998
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 1.8
+    },
+    {
+     "id": "c02_ar",
+     "lang": "ar",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "أيوه، الفاتورة INV-0000005 (بقيمة 0.62 M SDR) من ضمن أكبر 5 فواتير متأخرة في أسبوع 49 لسنة 2025 تابعة لسفينة Containerships Voyager 420 (برقم 420) اللي عليها إنذار عالي (severity: high) في آخر متابعة للرحلات.",
+     "routed": [
+      "finance_kpi",
+      "fleet_customers",
+      "voyage_status",
+      "watch_alerts"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 3,
+      "fresh_calls": 3,
+      "cached_calls": 0,
+      "tokens": 22175,
+      "max_call_tokens": 10244,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 3007.0
+     },
+     "completeness": 1.0,
+     "elements_met": 3,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 5.1
+    },
+    {
+     "id": "c06_ar",
+     "lang": "ar",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "رسوم قناة السويس للسفينة 420 (Containerships Voyager 420) تبلغ 622,758.68 SDR. أما فاتورتها المتأخرة INV-0000005 في آخر الأسبوع 49 من 2025 فمتأخرة بقالها 31 days.",
+     "routed": [
+      "finance_kpi",
+      "compute_toll",
+      "voyage_status",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 11772,
+      "max_call_tokens": 9531,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2164.7
+     },
+     "completeness": 1.0,
+     "elements_met": 2,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 3.8
+    },
+    {
+     "id": "c07_ar",
+     "lang": "ar",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "طريق السويس أرخص للسفينة 21 في رحلتها من سنغافورة لروتردام بتكلفة إجمالية 0.48 M SDR مقارنة بـ 0.55 M SDR عبر الرجاء الصالح، مع توفير +0.07 M SDR ووقت أقصر بـ +11.9 days. والعميل المالك للسفينة (Thalomar Shipping) فوتر بمبلغ 4.56 M SDR في الـ 13 أسبوع لحد الأسبوع 52 من 2025.",
+     "routed": [
+      "finance_kpi",
+      "fleet_customers",
+      "route_advice",
+      "voyage_status",
+      "sea_route"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 12972,
+      "max_call_tokens": 10411,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2545.8
+     },
+     "completeness": 1.0,
+     "elements_met": 4,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 39.7
+    },
+    {
+     "id": "c10_ar",
+     "lang": "ar",
+     "expected": "answered",
+     "status": "answered",
+     "status_ok": true,
+     "problems": [],
+     "rendered": "الفوترة في الأسبوع 52 من 2025 قلّت مقارنة بالأسبوع 51 بنسبة انخفض 44.5 %، وعدد السفن في الطريق دلوقتي هو 219 سفينة.",
+     "routed": [
+      "finance_kpi",
+      "voyage_status",
+      "watch_alerts",
+      "fleet_customers"
+     ],
+     "refused": [],
+     "typed_from_text": 0,
+     "usage": {
+      "calls": 2,
+      "fresh_calls": 2,
+      "cached_calls": 0,
+      "tokens": 10138,
+      "max_call_tokens": 8046,
+      "fallbacks": 0,
+      "failed_calls": 0,
+      "latency_ms": 2104.5
+     },
+     "completeness": 1.0,
+     "elements_met": 3,
+     "relevance": 1.0,
+     "numbers_ok": true,
+     "traceable": true,
+     "seconds": 11.9
+    }
+   ],
+   "complete": true,
+   "aggregate": {
+    "completeness_en": 0.9632,
+    "completeness_ar": 0.95,
+    "relevance_en": 0.9412,
+    "relevance_ar": 1.0,
+    "status_ok": 1.0,
+    "twins_ok": 1.0,
+    "twins_completeness": 1.0,
+    "abstention": 1.0,
+    "numbers": 1.0,
+    "traceability": 1.0,
+    "rbac_leakage": 0,
+    "typed_from_text": 0,
+    "usage": {
+     "calls": 169,
+     "fresh_calls": 150,
+     "cached_calls": 19,
+     "tokens": 649020,
+     "fallbacks": 0,
+     "failed_calls": 0
+    },
+    "max_call_tokens": 16783,
+    "not_ok": [
+     "o01",
+     "c07",
+     "o01_fe",
+     "o01_ar"
+    ]
+   },
+   "gates": {
+    "rbac_leakage_0": true,
+    "twins_100": true,
+    "abstention_100": true,
+    "numbers_100": true,
+    "traceability_100": true,
+    "completeness_en_ge_0_85": true,
+    "arabic_ge_en_minus_0_10": true
+   }
+  }
+ ],
+ "stopped": null,
+ "primaries_mean": {
+  "completeness_en": 0.9816,
+  "completeness_ar": 0.95
+ },
+ "gates_all_runs": {
+  "rbac_leakage_0": true,
+  "twins_100": true,
+  "abstention_100": true,
+  "numbers_100": true,
+  "traceability_100": true,
+  "completeness_en_ge_0_85": true,
+  "arabic_ge_en_minus_0_10": true
+ },
+ "done_when_met": true,
+ "adr052_vs": {
+  "baseline": "stage2_eval_2026-10-29.json",
+  "gates_regressed": [],
+  "primary_change": {
+   "completeness_en": 0.2194,
+   "completeness_ar": 0.0625
+  },
+  "kept": true,
+  "verdict": "keep (better)"
+ }
+}

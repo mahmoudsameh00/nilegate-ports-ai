@@ -1,0 +1,113 @@
+{
+ "rule": "case k = lowest-id vessel of category k (alphabetical) in band 1 (k even) / 3 (k odd); cases 2i, 2i+1 sail pair i",
+ "cases": [
+  {
+   "case": 1,
+   "vessel_id": 21,
+   "vessel_type": "Chemical Tankers & Other Liquid Bulk Tankers",
+   "size_band": 1,
+   "origin": "SGSIN",
+   "destination": "NLRTM",
+   "speed_kn": null
+  },
+  {
+   "case": 2,
+   "vessel_id": 36,
+   "vessel_type": "Containerships",
+   "size_band": 3,
+   "origin": "SGSIN",
+   "destination": "NLRTM",
+   "speed_kn": null
+  },
+  {
+   "case": 3,
+   "vessel_id": 43,
+   "vessel_type": "Crude Oil Tankers",
+   "size_band": 1,
+   "origin": "NLRTM",
+   "destination": "SGSIN",
+   "speed_kn": null
+  },
+  {
+   "case": 4,
+   "vessel_id": 15,
+   "vessel_type": "Cruise Ships",
+   "size_band": 3,
+   "origin": "NLRTM",
+   "destination": "SGSIN",
+   "speed_kn": null
+  },
+  {
+   "case": 5,
+   "vessel_id": 37,
+   "vessel_type": "Dry Bulk Vessels",
+   "size_band": 1,
+   "origin": "SAJED",
+   "destination": "NLRTM",
+   "speed_kn": null
+  },
+  {
+   "case": 6,
+   "vessel_id": 17,
+   "vessel_type": "General Cargo / Multi-Purpose / Heavy Lift Vessels",
+   "size_band": 3,
+   "origin": "SAJED",
+   "destination": "NLRTM",
+   "speed_kn": null
+  },
+  {
+   "case": 7,
+   "vessel_id": 66,
+   "vessel_type": "Liquefied Natural Gas (LNG) Carriers",
+   "size_band": 1,
+   "origin": "SGSIN",
+   "destination": "NLRTM",
+   "speed_kn": 12.0
+  },
+  {
+   "case": 8,
+   "vessel_id": 6,
+   "vessel_type": "Liquefied Petroleum Gas (LPG) Carriers",
+   "size_band": 3,
+   "origin": "SGSIN",
+   "destination": "NLRTM",
+   "speed_kn": 12.0
+  },
+  {
+   "case": 9,
+   "vessel_id": 9,
+   "vessel_type": "Other Vessels",
+   "size_band": 1,
+   "origin": "EGPSD",
+   "destination": "NLRTM",
+   "speed_kn": null
+  },
+  {
+   "case": 10,
+   "vessel_id": 2,
+   "vessel_type": "Petroleum Product Tankers",
+   "size_band": 3,
+   "origin": "EGPSD",
+   "destination": "NLRTM",
+   "speed_kn": null
+  },
+  {
+   "case": 11,
+   "vessel_id": 39,
+   "vessel_type": "Roll-On/Roll-Off (Ro/Ro) Vessels",
+   "size_band": 1,
+   "origin": "EGSOK",
+   "destination": "NLRTM",
+   "speed_kn": null
+  },
+  {
+   "case": 12,
+   "vessel_id": 149,
+   "vessel_type": "Special Floating Units",
+   "size_band": 3,
+   "origin": "EGSOK",
+   "destination": "NLRTM",
+   "speed_kn": null
+  }
+ ]
+}

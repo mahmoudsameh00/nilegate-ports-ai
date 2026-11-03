@@ -652,9 +652,9 @@ for qid, key, sec, en, ar in QUESTIONS:
     qrows.append({"qid": f"{qid}_ar", "lang": "ar", "question": ar, "document": key, "section": sec,
                   "expected": expected})
 (OUT / "upload_questions.jsonl").write_text("\n".join(json.dumps(r, ensure_ascii=False) for r in qrows) + "\n",
-                                            encoding="utf-8")
+                                            encoding="utf-8", newline="\n")
 (OUT / "expected.json").write_text(json.dumps(EXPECTED, indent=1, ensure_ascii=False, sort_keys=True),
-                                   encoding="utf-8")
+                                   encoding="utf-8", newline="\n")
 
 
 # %% Phase 4 — Validation

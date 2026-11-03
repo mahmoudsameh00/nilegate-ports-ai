@@ -3,7 +3,7 @@
 **What it proves:** the finance Q&A agent, rebuilt on LangChain `create_agent` (owner decision D-P7-6), keeps the
 contract of the Phase 7 graph — the llm.py cache / quota / fallback on every call (through `RoleChatModel`), the
 run context in the tools (RBAC, ADR-006 / ADR-049), the `QaAnswer` with number slots, the code check
-`check_answer` and one patch — and the operator CLI `Finance_qa.py` (plan §5f K6). Fake models only; the real
+`check_answer` and one patch — and the operator CLI `Finance_qa.py` (plan §5f K6; removed 2026-10-29 — `Ask.py` replaced it, and this check's Phase 6 moved to `Supervisor_check.py` Phase 5, Agents plan Phase 12 S4). Fake models only; the real
 Stage 1 tools.
 
 | Phase | Step | Result (2026-10-22) |

@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "1ce4dd964c1c7540a973",
   "position": {
     "x": 20,
     "y": 280,
-    "z": 3,
+    "z": 3000,
     "height": 440,
     "width": 1180,
-    "tabOrder": 3
+    "tabOrder": 3000
   },
   "visual": {
     "visualType": "clusteredBarChart",
@@ -124,20 +124,6 @@
   },
   "filterConfig": {
     "filters": [
-      {
-        "name": "459382d88730a3b0f9e5",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Weekly KPIs"
-              }
-            },
-            "Property": "Billed 13w SDR"
-          }
-        },
-        "type": "Advanced"
-      },
       {
         "name": "006adadd9714f996d9ba",
         "field": {

@@ -10,6 +10,7 @@ returned as a float, whose shortest repr is the view's value (8394785.98 stays 8
 import atexit
 import os
 from decimal import Decimal
+from typing import Any, cast
 
 from psycopg.conninfo import make_conninfo
 from psycopg.rows import dict_row
@@ -51,5 +52,5 @@ def _plain(v):
 def fetch(sql: str, params: tuple | dict = (), exact: bool = False) -> list[dict]:
     """Rows of one parameterized SELECT as dicts (NUMERIC → float; `exact=True` keeps Decimal for arithmetic)."""
     with pool().connection() as conn:
-        rows = conn.execute(sql, params).fetchall()
+        rows = cast(list[dict], conn.execute(cast(Any, sql), params).fetchall())   # dict_row factory
     return rows if exact else [{k: _plain(v) for k, v in row.items()} for row in rows]

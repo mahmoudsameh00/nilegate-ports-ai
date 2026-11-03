@@ -101,7 +101,7 @@ def main() -> None:
         with connect_db(read_only=False) as conn:
             insert_port_connections(conn, flows)
         print(f"inserted {len(flows)} rows into port_connections")
-    flows.drop(columns="geom").to_csv(OUT_FILE, index=False)
+    flows.drop(columns="geom").to_csv(OUT_FILE, index=False, lineterminator="\n")
     print(f"✅ port connections validation passed: {len(flows)} rows written to "
           f"{OUT_FILE.relative_to(PROJECT_ROOT).as_posix()}")
 

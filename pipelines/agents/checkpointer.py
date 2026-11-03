@@ -10,6 +10,7 @@
 """
 import atexit
 import os
+from typing import Any, cast
 
 from langgraph.checkpoint.postgres import PostgresSaver
 from psycopg.conninfo import make_conninfo
@@ -57,8 +58,8 @@ def close() -> None:
 
 def saver() -> PostgresSaver:
     with pool().connection() as conn:
-        missing = conn.execute(f"SELECT to_regclass('{SCHEMA}.checkpoints') IS NULL AS missing").fetchone()["missing"]
+        missing = cast(Any, conn.execute(f"SELECT to_regclass('{SCHEMA}.checkpoints') IS NULL AS missing").fetchone())["missing"]
     if missing:
         raise NotSetUp(f"{SCHEMA}.checkpoints does not exist: run "
                        "`uv run python pipelines/scripts/agents/Checkpointer_setup.py` (owner account) first")
-    return PostgresSaver(pool())
+    return PostgresSaver(cast(Any, pool()))               # a pool works as the connection

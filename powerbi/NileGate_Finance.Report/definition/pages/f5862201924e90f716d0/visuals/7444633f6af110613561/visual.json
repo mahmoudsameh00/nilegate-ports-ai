@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "7444633f6af110613561",
   "position": {
-    "x": 980,
-    "y": 280,
-    "z": 4,
-    "height": 350,
-    "width": 920,
-    "tabOrder": 4
+    "x": 980.36220838608,
+    "y": 280.35859146924327,
+    "z": 4000,
+    "height": 439.28798408556594,
+    "width": 919.64760895961967,
+    "tabOrder": 4000
   },
   "visual": {
     "visualType": "lineChart",
@@ -95,51 +95,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "1a9e12e75f54d6b84414",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Weekly KPIs"
-              }
-            },
-            "Property": "Trend Billed SDR"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "e7c5ed1fd952084126aa",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Weekly KPIs"
-              }
-            },
-            "Property": "Trend Budget SDR"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "42ede7861c88b6f1cd88",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Weekly Trend"
-              }
-            },
-            "Property": "trend_week_label"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
   }
 }

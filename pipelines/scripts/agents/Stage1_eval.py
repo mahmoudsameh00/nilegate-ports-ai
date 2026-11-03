@@ -1,12 +1,16 @@
 """Stage 1 evaluation (Agents plan Phase 7, §5d step S5–S6): golden weeks + finance Q&A, the D7 gates, ADR-052.
 
-Plan:    docs/plans/Agents_plan.md §5d (approved 2026-10-19), §8 / §8a (G1–G6), D7; acceptance rule ADR-052.
+Plan:    docs/archive/2026-11-01_Agents_plan.md §5d (approved 2026-10-19), §8 / §8a (G1–G6), D7; acceptance rule ADR-052.
 Run:     uv run python tools/run.py pipelines/scripts/agents/Stage1_eval.py              (Phases 1–4: 0 model calls)
          $env:EVAL_REAL_MODELS = '1'; uv run python tools/run.py pipelines/scripts/agents/Stage1_eval.py   (+ Phase 5)
          EVAL_REPEATS (default 2, ADR-052) — repeat 1 uses the llm.py reply cache, repeat k a cache folder of its own
          (Data/processed/agents/llm_cache/eval_r<k>/), so every repeat is a fresh set of calls; the daily quota state is
          shared. A run stopped by the quota resumes from the caches the next day.
          EVAL_TRACE=1 (+ LANGSMITH_API_KEY): each pack and question traced in LangSmith (Phase 8; off by default).
+         EVAL_SCOPE=qa: the finance Q&A alone, no packs (D-P12-7: a change that reaches only the Q&A agent); its
+         gates and primaries are the Q&A ones, ADR-052 compares those with the baseline, D7 is not judged.
+         EVAL_SCOPE=packs: the 11 golden weeks alone (c4: a change of the pack only); the pack gates and narrative
+         recall. EVAL_C4=0: the before-c4 side (no fallback draft, no slide-5 budget-miss table); default 1.
 
 Reads:   the frozen inputs in Data/processed/agents/eval/ (golden_weeks.json, golden_weeks_expected.json,
          golden_findings.json, finance_qa_golden.jsonl — hashes asserted); PostgreSQL read-only through the tools;
@@ -45,7 +49,7 @@ from pptx import Presentation
 ROOT = next(p for p in [Path.cwd(), *Path.cwd().parents] if (p / "pyproject.toml").exists() and (p / "Data").is_dir())
 sys.path.insert(0, str(ROOT))
 from pipelines.agents import llm, roles, tracing  # noqa: E402
-from pipelines.agents.deck import sample, slots  # noqa: E402
+from pipelines.agents.deck import render, sample, slots  # noqa: E402
 from pipelines.agents.graphs import finance_qa as qa  # noqa: E402
 from pipelines.agents.graphs import models as m  # noqa: E402
 from pipelines.agents.graphs import weekly_pack as wp  # noqa: E402
@@ -68,6 +72,21 @@ REPEATS = int(os.environ.get("EVAL_REPEATS", "2"))
 TAG = os.environ.get("EVAL_TAG", "")
 BASELINE = os.environ.get("EVAL_BASELINE", "")
 TRACE = os.environ.get("EVAL_TRACE") == "1"     # LangSmith for the real runs (Phase 8, P8-4); off by default
+# D-P12-7: EVAL_SCOPE=qa runs the finance Q&A alone (no packs) — a change that reaches only the Q&A agent is compared
+# with the baseline on the Q&A primaries and the gates the Q&A can fail; c4: EVAL_SCOPE=packs runs the 11 golden
+# weeks alone (a change of the pack only); the default `all` is the full evaluation
+SCOPE = os.environ.get("EVAL_SCOPE", "all")
+assert SCOPE in ("all", "qa", "packs"), f"EVAL_SCOPE must be all, qa or packs, not {SCOPE!r}"
+QA_PRIMARIES = ("qa_completeness_en", "qa_completeness_ar")
+QA_GATES = ("traceability_100", "rbac_leakage_0", "abstention_recall_100")
+PACK_PRIMARIES = ("narrative_recall",)
+PACK_GATES = ("deck_numbers_100", "planted_all", "false_alarms_le_5pct", "claims_100", "traceability_100")
+SCOPE_PRIMARIES = {"all": PACK_PRIMARIES + QA_PRIMARIES, "qa": QA_PRIMARIES, "packs": PACK_PRIMARIES}[SCOPE]
+SCOPE_GATES = {"all": None, "qa": QA_GATES, "packs": PACK_GATES}[SCOPE]      # None = every gate
+# c4: EVAL_C4=0 measures the code as it was before c4 (no fallback draft, no slide-5 budget-miss table), the
+# before side of the c4 comparison (ADR-052 amendment 2: three runs per side, the same day); default 1
+C4 = os.environ.get("EVAL_C4", "1") == "1"
+render.DRAW_BUDGET_MISS = C4
 
 # %% Phase 1 — The frozen inputs and the people
 # Every input was frozen before any run (§5d): a changed file stops here, so no result is scored against an answer
@@ -93,6 +112,9 @@ print(f"✅ Phase 1 validation passed: the four frozen inputs unchanged (hashes)
 # %% Scorers (pure functions: the state of a finished run in, the metrics out)
 ERROR_WORDS = re.compile(r"duplicat|error|wrong|mismatch|flagged|overbill|underbill|overcharg|undercharg|"
                          r"exception|mispric|incorrect", re.I)
+ORIGINAL_WORDS = re.compile(r"\boriginal\b|الأصل", re.I)
+EARLIER_WORDS = re.compile(r"\b(?:year[- ]to[- ]date|YTD|so far this year|this year|earlier|prior|previous|past"
+                           r"|historical|still open|before)\b", re.I)
 BELOW_WORDS = re.compile(r"below (its |the )?budget|under (its |the )?budget|missed (its |the )?budget|"
                          r"short of (its |the )?budget|budget miss", re.I)
 STRONG_WORDS = re.compile(r"\b(surg|soar|plung|jump|slump|collaps|spik|tumbl|crash|skyrocket)\w*", re.I)
@@ -144,6 +166,15 @@ def pptx_slide_text(path: Path, slide_no: int) -> str:
     return "\n".join(texts)
 
 
+def pptx_table_rows(path: Path, slide_no: int, name: str) -> list[list[str]]:
+    """The cell texts of the table shape `name` on a slide ([] when the slide has none: c4's code table)."""
+    deck = Presentation(str(path))
+    for shape in deck.slides[slide_no - 1].shapes:
+        if shape.name == name and getattr(shape, "has_table", False) and shape.has_table:
+            return [[c.text for c in row.cells] for row in shape.table.rows]
+    return []
+
+
 def _slot_hits(bullets, eid: str, fields: list[str] | None = None, row: str | None = None) -> bool:
     for b in bullets:
         for x in b["bound"]:
@@ -179,8 +210,15 @@ def false_alarms(narrative: list[dict], ev: dict) -> tuple[int, int, list[str]]:
     """(false alarms, findings reported, the false sentences): invoices called wrong that the audit did not flag;
     categories called below budget whose variance is ≥ 0 (a category must be named; the week total is not a claim).
     The original of a flagged duplicate, named in the same sentence ("INV-9000292 duplicates INV-0000292"), is not
-    called wrong (§5f F8: the confirmation run's only two "false alarms" were such sentences)."""
+    called wrong (§5f F8: the confirmation run's only two "false alarms" were such sentences); nor is it when the
+    sentence calls it the original ("The flagged duplicate … matched original invoice INV-0000491": c4 run 1, live
+    week 15, the only scored false alarm of the c4 comparison, true by hand) — named as a duplicate, it still is.
+    Nor is a finding of an earlier week (`audit.ytd`, weekly-pack plan W-R4) told as such — with its own week or a
+    year-to-date word (D-C5-1: 9 of c5's 11 scored false alarms were such true sentences, by hand); told as this
+    week's, it still counts."""
     flagged = {r["invoice_number"] for r in ev["audit.week"]["rows"]}
+    earlier = {r["invoice_number"]: r["report_week"] for r in (ev.get("audit.ytd") or {}).get("rows") or []
+               if r["invoice_number"] not in flagged}
     original_of = {r["invoice_number"]: r.get("duplicate_of") for r in ev["audit.week"]["rows"]}
     variance = {r["vessel_category"]: r["budget_variance_sdr"] for r in ev["kpi.category"]["rows"]}
     fa, ok, bad = 0, 0, []
@@ -188,7 +226,12 @@ def false_alarms(narrative: list[dict], ev: dict) -> tuple[int, int, list[str]]:
         if ERROR_WORDS.search(b["text"]):
             named = set(re.findall(r"INV-\d{7}", b["text"]))
             originals = {original_of[i] for i in named & flagged if original_of[i]}
+            if ORIGINAL_WORDS.search(b["text"]):
+                originals |= named & set(original_of.values())
+            weeks = {int(x) for x in re.findall(r"(?i)\b(?:weeks?|W)\s*(\d{1,2})\b", b["text"])}
             for inv in named - originals:
+                if inv in earlier and (earlier[inv] in weeks or EARLIER_WORDS.search(b["text"])):
+                    continue                     # an earlier week's finding, told as one
                 if inv in flagged:
                     ok += 1
                 else:
@@ -232,6 +275,17 @@ def claims(narrative: list[dict], ev: dict) -> tuple[int, int, list[str]]:
     return n, wrong, bad
 
 
+def holds_frozen(run, frozen) -> bool:
+    """Every frozen value is in the run's evidence, unchanged: the same results, rows (same order and count) and
+    fields with the same values. Fields and results added later (migration 021's columns and `audit.ytd`, weekly-pack
+    plan Phase B / C, D-D-1) are allowed — the frozen numbers are what the pack must have seen."""
+    if isinstance(frozen, dict):
+        return isinstance(run, dict) and all(k in run and holds_frozen(run[k], v) for k, v in frozen.items())
+    if isinstance(frozen, list):
+        return isinstance(run, list) and len(run) == len(frozen) and all(map(holds_frozen, run, frozen))
+    return run == frozen
+
+
 def score_pack(key: str, st: dict, pptx: Path | None) -> dict:
     """One golden week's finished run → its metrics (numbers, planted, findings, false alarms, claims, traceability,
     style, cost)."""
@@ -242,7 +296,7 @@ def score_pack(key: str, st: dict, pptx: Path | None) -> dict:
     bullets = _rendered_bullets(draft, ev) if draft else []
     narrative = [b for b in bullets if b["slide"] in NARRATIVE_SLIDES]
     context_b = [b for b in bullets if b["slide"] == 9]
-    ev_same = all(ev.get(k) == v for k, v in exp.items())
+    ev_same = holds_frozen(ev, exp)
     n_bound = sum(len(b["bound"]) for b in bullets)
     slot_errors = sum(len(b["errors"]) for b in bullets)
     numbers_ok = published and ev_same and slot_errors == 0 and bool((st.get("verdict") or {}).get("passed"))
@@ -251,10 +305,13 @@ def score_pack(key: str, st: dict, pptx: Path | None) -> dict:
     planted_tab = [f for f in fl if f["kind"] == "invoice_error" and f["where"] == "table"]
     planted_miss = [f for f in fl if f["kind"] == "budget_miss" and f.get("planted")]
     planted = planted_tab + planted_miss
-    table = pptx_slide_text(pptx, 8) if (published and pptx and pptx.exists()) else ""
+    has_deck = bool(published and pptx and pptx.exists())
+    table = pptx_slide_text(pptx, 8) if has_deck else ""
+    # c4: a budget miss is also found in slide 5's code table (the categories the code rule calls a miss)
+    miss_rows = {r[0] for r in pptx_table_rows(pptx, 5, "tbl:budget_miss")[1:]} if has_deck else set()
     planted_found = ([f["id"] for f in planted_tab if f["row"] in table]
-                     + [f["id"] for f in planted_miss if published and any(
-                         BELOW_WORDS.search(b["text"]) and f["row"].lower() in b["text"].lower() for b in narrative)])
+                     + [f["id"] for f in planted_miss if published and (f["row"] in miss_rows or any(
+                         BELOW_WORDS.search(b["text"]) and f["row"].lower() in b["text"].lower() for b in narrative))])
     recall_items = [f for f in fl if f["where"] == "narrative" and not f.get("planted")
                     and f["kind"] not in ("no_exception", "no_false_miss")]
     met = [f["id"] for f in recall_items if published and finding_met(f, narrative, context_b, ev)]
@@ -390,6 +447,15 @@ def fake_state(key: str, draft: dict | None = None, **over) -> dict:
             "verdict": {"passed": True}, "rewrites": 0, "llm_usage": [], **over}
 
 
+def ytd_state(key: str) -> dict:
+    """A fake state whose evidence carries `audit.ytd` (the golden evidence was frozen before it): live week 10's
+    reviewed duplicate INV-0000626, the c5 sentences' finding."""
+    st = fake_state(key)
+    st["evidence"]["audit.ytd"] = {"rows": [{"invoice_number": "INV-0000626", "report_week": 10,
+                                             "check_code": "duplicate_charge", "difference_sdr": 81837.02}]}
+    return st
+
+
 def with_bullet(st: dict, slide: int, text: str, ids: list[str]) -> dict:
     d = json.loads(json.dumps(st["draft"]))
     d["bullets"].append({"slide": slide, "text": text, "evidence_ids": ids})
@@ -414,6 +480,19 @@ cases = {
     "duplicate_with_other": score_pack("test:23", with_bullet(
         fake_state("test:23"), 2, "INV-9000292 and INV-0000001 were flagged as duplicates", ["audit.week"]),
         None)["false_alarms"],
+    # c4 run 1 (live 15): the original named as the original, the duplicate only described — no alarm; the original
+    # called a duplicate is still one
+    "original_named_as_original": score_pack("test:23", with_bullet(
+        fake_state("test:23"), 2, "The flagged duplicate invoice matched original invoice INV-0000292", ["audit.week"]),
+        None)["false_alarms"],
+    "original_called_duplicate": score_pack("test:23", with_bullet(
+        fake_state("test:23"), 2, "INV-0000292 is a duplicate charge", ["audit.week"]), None)["false_alarms"],
+    # c5 (D-C5-1): an earlier week's finding (audit.ytd) told with its week or as year to date — no alarm; told as
+    # this week's, still one
+    "ytd_with_week": score_pack("live:47", with_bullet(ytd_state("live:47"), 8,
+        "INV-0000626 was flagged as a duplicate charge in week 10", ["audit.ytd"]), None)["false_alarms"],
+    "ytd_as_this_week": score_pack("live:47", with_bullet(ytd_state("live:47"), 8,
+        "The audit flagged INV-0000626 as a duplicate charge", ["audit.ytd"]), None)["false_alarms"],
     # week 36 of the copy: Special Floating Units is above budget (+25.53 %), LNG is the planted miss (−33.33 %)
     "false_miss": score_pack("test:36", with_bullet(fake_state("test:36"), 5,
                                                     "Special Floating Units billed below budget",
@@ -482,7 +561,8 @@ qa_cases = {
 }
 actual = {"pack": cases, "qa": qa_cases}
 expected_cases = {"pack": {"good": (True, 0, 0, True), "evidence_tampered": False, "false_invoice": 1,
-                           "duplicate_with_original": (0, 1), "duplicate_with_other": 1, "false_miss": 1, "planted_miss_found": True, "planted_miss_silent": False,
+                           "duplicate_with_original": (0, 1), "duplicate_with_other": 1,
+                           "original_named_as_original": 0, "original_called_duplicate": 1, "ytd_with_week": 0, "ytd_as_this_week": 1, "false_miss": 1, "planted_miss_found": True, "planted_miss_silent": False,
                            "wrong_direction": 1, "non_driver": 1, "untraced": True,
                            "budget_miss_named": True, "flat_week_strong": False, "not_published": []},
                   "qa": {"good_complete": 1.0, "good_relevant": 1.0, "wrong_week_value": 0.0, "refusal_ok": True,
@@ -502,6 +582,15 @@ typed = qa.check_answer({"status": "answered", "evidence_ids": ["insight.c1"],
                          "answer": "INV-0000723 of Liquefied Voyager 165: 673,471.35 SDR."}, od,
                         "Largest overdue in week 49?")[2]
 assert name_ok == [] and len(typed) == 1 and "673471.35" in typed[0], (name_ok, typed)
+# the year rule (D-P12-12, dp127 run 2 a01): a finance figure for a question about another year is refused, in
+# Western or Arabic digits; the same answer to a 2025 question passes
+slot_answer = {"status": "answered", "evidence_ids": ["insight.c1"],
+               "answer": "INV-0000723: {insight.c1[INV-0000723]:amount_sdr}."}
+year_cases = {q: qa.check_answer(slot_answer, od, q)[2] for q in
+              ("Largest overdue in week 49 of 2024?", "أكبر متأخرات في الأسبوع 49 من ٢٠٢٤؟",
+               "Largest overdue in week 49 of 2025?")}
+assert [len(p) for p in year_cases.values()] == [1, 1, 0] and all("2024" in p[0] for p in list(year_cases.values())[:2]), \
+    year_cases
 print(f"Phase 2: {actual}")
 print("✅ Phase 2 validation passed: every scorer passes its good case and catches its failure (tampered evidence, "
       "false invoice, false budget miss, wrong direction, non-driver, untraced number, strong word on a flat week, "
@@ -562,6 +651,20 @@ class FakePack:
             for b in d["bullets"]:
                 if b["slide"] == 5:
                     b["text"] = b["text"].replace(", budget ", ", below its budget of ")
+        return m.DeckDraft.model_validate(d)
+
+
+class FakeFailingPack(FakePack):
+    """c4: a Writer that never passes — its first summary bullet types a wrong literal number, its rewrites change
+    nothing, and it never names the week-36 budget miss."""
+
+    def __call__(self, role, msgs, tools, schema):
+        if schema is m.DeckPatch:
+            return m.DeckPatch(fixes=[])
+        if schema is not m.DeckDraft:
+            return super().__call__(role, msgs, tools, schema)
+        d = sample.slot_draft(int(self.key.split(":")[1]), self.ev)
+        d["bullets"][0] = {**d["bullets"][0], "text": "Billed 999.99 M this week"}
         return m.DeckDraft.model_validate(d)
 
 
@@ -631,6 +734,44 @@ print(f"✅ Phase 3 validation passed: 11 / 11 golden weeks published with fake 
       "traceability 100 %; 0 model calls")
 
 
+# %% Phase 3c — c4: a Writer that never passes (0 calls)
+# Before c4 such a pack published nothing and its planted findings were lost with it (the 2026-10-23 baseline: 2 / 6
+# and 3 / 6). With c4 the fallback replaces the failing text by code's, the deck reaches the approver marked degraded,
+# slide 8 keeps its audit table and slide 5 its code budget-miss table — which names a category only in test week 36.
+miss_weeks = {k: [r["vessel_category"] for r in render.budget_misses(v)] for k, v in expected.items()}
+assert {k: v for k, v in miss_weeks.items() if v} == {"test:36": ["Liquefied Natural Gas (LNG) Carriers"]}, miss_weeks
+ff = FakeFailingPack()
+side = {}
+for use in (True, False):
+    render.DRAW_BUDGET_MISS = use
+    reports = Path(tempfile.mkdtemp(prefix="stage1_eval_c4_"))
+    g = wp.build_graph(roles.FakeRoles(ff), checkpointer=InMemorySaver(), reports_dir=reports, use_fallback=use)
+    packs_c4, degraded = [], []
+    for wk in weeks:
+        key = f"{wk['dataset']}:{wk['week']}"
+        ff.key, ff.ev = key, expected[key]
+        st, pptx = run_pack(g, key, reports)
+        packs_c4.append(score_pack(key, st, pptx))
+        degraded.append(st.get("degraded"))
+    shutil.rmtree(reports, ignore_errors=True)
+    side[use] = (aggregate(packs_c4, []), degraded, packs_c4)
+render.DRAW_BUDGET_MISS = C4
+on, off = side[True][0], side[False][0]
+print("Phase 3c: with c4", {k: on[k] for k in ("packs_published", "planted_found", "deck_numbers", "claim_accuracy",
+                                              "false_alarm_rate")},
+      "| before c4", {k: off[k] for k in ("packs_published", "planted_found")})
+assert on["packs_published"] == "11 / 11" and on["planted_found"] == f"{PLANTED} / {PLANTED}", on
+assert on["deck_numbers"] == 1.0 and on["claim_accuracy"] == 1.0 and on["false_alarm_rate"] == 0.0, on
+assert all(d and d["replaced_bullets"] == [0] and not d["dropped_bullets"] for d in side[True][1]), side[True][1][:2]
+assert off["packs_published"] == "0 / 11" and off["planted_found"] == f"0 / {PLANTED}", off
+assert next(p for p in side[True][2] if p["week"] == "test:36")["planted_found"] == ["t36-a", "t36-b"]
+assert on["usage"]["fresh_calls"] == 0 and off["usage"]["fresh_calls"] == 0
+print(f"✅ Phase 3c validation passed: a Writer that never passes — with c4 11 / 11 decks reach the approver "
+      f"(summary bullet 0 replaced by code, marked degraded), planted {PLANTED} / {PLANTED} (t36-b from slide 5's "
+      "code table, which names only test week 36's LNG), deck numbers / claims 100 %; before c4 0 / 11 and 0 planted; "
+      "0 model calls")
+
+
 # %% Phase 4 — The finance Q&A with fake answers (0 calls)
 fq = FakeQa()
 g_qa_fake = qa.build_graph(roles.FakeRoles(fq))
@@ -658,6 +799,8 @@ print(f"✅ Phase 4 validation passed: {len(fake_answers)} questions through the
 # ADR-052: REPEATS runs; repeat 1 on the main reply cache, repeat k on its own cache folder (a fresh set of calls),
 # one shared daily quota state. A quota stop (llm.Exhausted) ends the run: its partial results go to the scratch
 # folder and a re-run resumes from the caches. The results file is written only for complete runs.
+# EVAL_SCOPE=qa (D-P12-7): the packs are skipped, a run's gates are QA_GATES and its primaries QA_PRIMARIES, and
+# ADR-052 compares only what the candidate measured.
 results_path = EVAL / f"stage1_eval_{date.today().isoformat()}{'_' + TAG if TAG else ''}.json"
 
 
@@ -666,13 +809,33 @@ def adr052(base: dict, cand: dict) -> dict:
     improve, D-P7-10), no primary's mean falls by more than 0.03; a tie keeps the simpler / cheaper setup."""
     renamed = {"planted_5_of_5": "planted_all"}          # results files before findings v3 (D-P7-1)
     base_g = {renamed.get(g, g): ok for g, ok in base["gates_all_runs"].items()}
+    base_g = {g: ok for g, ok in base_g.items() if g in cand["gates_all_runs"]}     # a qa-scope candidate: its gates
     regressed = [g for g, ok in base_g.items() if ok and not cand["gates_all_runs"][g]]
-    drops = {k: round(cand["primaries_mean"][k] - base["primaries_mean"][k], 4) for k in base["primaries_mean"]}
+    drops = {k: round(cand["primaries_mean"][k] - base["primaries_mean"][k], 4) for k in cand["primaries_mean"]}
     keep = not regressed and all(d >= -0.03 for d in drops.values())
     better = keep and (any(d > 0.03 for d in drops.values())
                        or sum(cand["gates_all_runs"].values()) > sum(base_g.values()))
     return {"gates_regressed": regressed, "primary_change": drops, "kept": keep,
             "verdict": "keep (better)" if better else ("tie: keep the simpler / cheaper" if keep else "reject")}
+
+
+def qa_view(res: dict) -> dict:
+    """A results file seen as a qa-scope one: its Q&A primaries and Q&A gates only."""
+    return {"primaries_mean": {k: res["primaries_mean"][k] for k in QA_PRIMARIES},
+            "gates_all_runs": {g: res["gates_all_runs"][g] for g in QA_GATES}}
+
+
+# the qa-scope comparison proven on the Stage 1 baseline (0 calls): equal = tie, a lower completeness or a failed
+# Q&A gate = reject, a higher completeness = keep (better); the pack gates the baseline fails are not compared
+_base = json.loads((EVAL / "stage1_eval_2026-10-23_confirm.json").read_text(encoding="utf-8"))
+_same = qa_view(_base)
+_worse = {**_same, "primaries_mean": {**_same["primaries_mean"], "qa_completeness_en": 0.90}}
+_leak = {**_same, "gates_all_runs": {**_same["gates_all_runs"], "rbac_leakage_0": False}}
+_better = {**_same, "primaries_mean": {**_same["primaries_mean"], "qa_completeness_ar": 1.0}}
+assert adr052(_base, _same)["verdict"].startswith("tie") and adr052(_base, _same)["gates_regressed"] == []
+assert adr052(_base, _worse)["verdict"] == "reject" and adr052(_base, _leak)["gates_regressed"] == ["rbac_leakage_0"]
+assert adr052(_base, _better)["verdict"] == "keep (better)"
+print(f"Phase 5 setup: the qa-scope ADR-052 rule proven on {_base['tag']} (tie / reject / keep better); scope {SCOPE}")
 if not REAL:
     print("Phase 5: skipped (set EVAL_REAL_MODELS=1 to run the real models)")
 else:
@@ -694,11 +857,11 @@ else:
                  llm.CACHE_DIR if r == 1 else llm.CACHE_DIR / f"eval_r{r}")
         real = roles.Roles(cache_dir=cache, quota=quota)
         reports = Path(tempfile.mkdtemp(prefix=f"stage1_eval_r{r}_"))
-        g_pack = wp.build_graph(real, checkpointer=InMemorySaver(), reports_dir=reports)
+        g_pack = wp.build_graph(real, checkpointer=InMemorySaver(), reports_dir=reports, use_fallback=C4)
         g_qa = qa.build_graph(real)
         packs, answers = [], []
         try:
-            for wk in weeks:
+            for wk in (weeks if SCOPE != "qa" else []):
                 key = f"{wk['dataset']}:{wk['week']}"
                 t0 = time.time()
                 main_models_ok()
@@ -712,7 +875,7 @@ else:
                 print(f"  r{r} {key}: {p['status']}, findings {len(p['findings_met'])}/{len(p['findings'])}, "
                       f"planted {len(p['planted_found'])}/{len(p['planted'])}, FA {p['false_alarms']}, "
                       f"calls {p['usage']['fresh_calls']} fresh, {p['seconds']} s")
-            for item in golden_qa:
+            for item in (golden_qa if SCOPE != "packs" else []):
                 main_models_ok()
                 st_q = run_qa(g_qa, item)
                 main_models_ok()
@@ -720,31 +883,34 @@ else:
                 answers.append(a)
                 print(f"  r{r} {item['id']}: {a['status']} (expected {a['expected']})"
                       + (f", completeness {a['completeness']:.2f}" if "completeness" in a else "")
-                      + (f", LEAK" if a.get("leak") else ""))
+                      + (", LEAK" if a.get("leak") else ""))
         except llm.Exhausted as exc:
             stopped = f"repeat {r}: {str(exc)[:300]}"
         finally:
             shutil.rmtree(reports, ignore_errors=True)
         run = {"repeat": r, "cache": str(cache.relative_to(ROOT)), "packs": packs, "answers": answers,
-               "complete": len(packs) == len(weeks) and len(answers) == len(golden_qa)}
+               "complete": len(packs) == (len(weeks) if SCOPE != "qa" else 0)
+               and len(answers) == (len(golden_qa) if SCOPE != "packs" else 0)}
         if run["complete"]:
             run["aggregate"] = aggregate(packs, answers)
-            run["gates"] = gates(run["aggregate"])
+            run["gates"] = {g: ok for g, ok in gates(run["aggregate"]).items()
+                            if SCOPE_GATES is None or g in SCOPE_GATES}
         runs.append(run)
         if stopped:
             break
     out = {"plan": "Agents plan §5d; ADR-052 (two runs, hard gates, primaries −0.03)", "date": date.today().isoformat(),
-           "tag": TAG or "baseline",
+           "tag": TAG or "baseline", "scope": SCOPE, "c4": C4,
            "inputs_sha256": sha, "models": {k: [c.name for c in v] for k, v in roles.ROLES.items()},
            "runs": runs, "stopped": stopped}
     complete = [x for x in runs if x["complete"]]
     if len(complete) == REPEATS:
         primaries = {k: round(sum(x["aggregate"][k] for x in complete) / len(complete), 4)
-                     for k in ("narrative_recall", "qa_completeness_en", "qa_completeness_ar")}
+                     for k in SCOPE_PRIMARIES}
         out["primaries_mean"] = primaries
         out["gates_all_runs"] = {g: all(x["gates"][g] for x in complete) for g in complete[0]["gates"]}
-        out["g2_arabic_threshold"] = (primaries["qa_completeness_ar"] >= primaries["qa_completeness_en"] - 0.10)
-        out["d7_met"] = all(out["gates_all_runs"].values())
+        out["g2_arabic_threshold"] = (primaries["qa_completeness_ar"] >= primaries["qa_completeness_en"] - 0.10
+                                      if SCOPE != "packs" else None)
+        out["d7_met"] = all(out["gates_all_runs"].values()) if SCOPE == "all" else None   # D7 needs packs and Q&A
         if BASELINE:
             base = json.loads((EVAL / BASELINE).read_text(encoding="utf-8"))
             out["adr052_vs"] = {"baseline": BASELINE, **adr052(base, out)}
@@ -757,7 +923,8 @@ else:
                                                      ensure_ascii=False))
             print(f"run {x['repeat']} gates:", x["gates"])
         print("primaries (mean of the runs):", primaries, "| G2 AR ≥ EN − 0.10:", out["g2_arabic_threshold"])
-        print(f"D7 verdict: {'MET' if out['d7_met'] else 'NOT MET'} — results file {results_path.name}")
+        print(f"D7 verdict: {f'n/a ({SCOPE} scope)' if out['d7_met'] is None else 'MET' if out['d7_met'] else 'NOT MET'}"
+              f" — results file {results_path.name}")
         print("✅ Phase 5 validation passed: every run complete and scored; results file written (the baseline)")
     else:
         partial = SCRATCH / "stage1_eval_partial.json"

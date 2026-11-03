@@ -384,7 +384,7 @@ report = {"date": dt.date.today().isoformat(), "rules": {"hit3_min": HIT3_MIN, "
           "m2_floor": {"floor": floor, "golden_inclusion": inclusion, "golden_max_median": float(np.median(gmax))},
           "m3_with_floor": m_floor, "floor_table": floor_table, "m1_baseline": m1, "m4_isolation": checks, "m5_latency": latency}
 out = UP / f"upload_eval_{dt.date.today().isoformat()}.json"
-out.write_text(json.dumps(report, indent=1, ensure_ascii=False, default=float), encoding="utf-8")
+out.write_text(json.dumps(report, indent=1, ensure_ascii=False, default=float), encoding="utf-8", newline="\n")
 assert latency["session_lane_ms_p95"] < 1_000 and latency["upload_D1_pdf_ms_p50"] < 30_000
 print("✅ Phase 7 validation passed.")
 

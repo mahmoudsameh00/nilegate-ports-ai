@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "63e3ab60b546566eb646",
+  "position": {
+    "x": 20,
+    "y": 312,
+    "z": 4000,
+    "height": 95,
+    "width": 1880,
+    "tabOrder": 5000
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Weekly KPIs"
+                    }
+                  },
+                  "Property": "Audit Week Status"
+                }
+              },
+              "queryRef": "Weekly KPIs.Audit Week Status",
+              "nativeQueryRef": "Audit Week Status"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

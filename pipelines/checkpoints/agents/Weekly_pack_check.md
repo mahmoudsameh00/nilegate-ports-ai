@@ -65,3 +65,11 @@ after a days slot), max 12.4K tokens per call.
   waited safely at its checkpoint). The preview is now named by its content, so an edit writes a new file; Phase 2
   locks the preview with Windows share mode 0 (as PowerPoint does), edits, and expects the approval again with a new
   preview and a clean `_drafts` after the approve.
+
+## c4 update (2026-10-30, ADR-051 amendment 3 / ADR-050 amendment 1)
+- Phase 3's `always_wrong` (a typed wrong number the patches keep) no longer stops: after the two rewrites the code
+  `fallback` replaces the failing bullet, the Validator runs a fourth time and passes, the pack waits at the approval
+  with `degraded` (one bullet replaced or dropped). `always_wrong_no_fallback` (`use_fallback=False`) keeps the old
+  expectation (`validation_failed`, the wrong token, no next node). 6 / 7 ✅ (Phase 5 = real models), 0 files changed.
+- `Scheduler_check.py` tests the scheduler's handling of a stopped pack, which c4 makes rarer but not impossible (V8,
+  a failing fallback): its graph is built with `use_fallback=False`; its report gained `degraded`. 6 / 6 ✅.
